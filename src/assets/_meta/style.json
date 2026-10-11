@@ -1,50 +1,7 @@
 {
   "$comment": "P1 Style Lock record (art_pipeline_v1 §2.4). The approved image is reference #1 for every later generation; the palette is what every asset is quantised to. Status flips to 'locked' only when the user says 'that's the look'.",
-  "status": "candidates round 2 — awaiting P1 audit",
+  "status": "LOCKED — P1 approved by user 2026-10-12 (candidate D)",
   "date": "2026-10-12",
-  "candidates": {
-    "A": {
-      "file": "style/candidate_A_gemini.png",
-      "palette": "style/candidate_A.gpl",
-      "tool": "Figma AI generate_image",
-      "model": "gemini-3.1-flash-image",
-      "seed": null,
-      "size": "1264x848",
-      "plan": "user's personal Figma team (not the employer org)",
-      "verdict": "rejected at round 1 (isometric lean)"
-    },
-    "B": {
-      "file": "style/candidate_B_gpt.png",
-      "palette": "style/candidate_B.gpl",
-      "tool": "Figma AI generate_image",
-      "model": "gpt-image-2.5-sunburst",
-      "seed": null,
-      "size": "1536x1024",
-      "plan": "user's personal Figma team (not the employer org)",
-      "verdict": "rendering approved, camera rejected (side-on) — its model is reused for C/D"
-    },
-    "C": {
-      "file": "style/candidate_C_gpt_rpgmaker.png",
-      "palette": "style/candidate_C.gpl",
-      "tool": "Figma AI generate_image",
-      "model": "gpt-image-2.5-sunburst",
-      "seed": null,
-      "size": "1536x1024",
-      "plan": "user's personal Figma team",
-      "promptVariant": "RPG Maker MV map phrasing; camera block: A screenshot of an RPG Maker MV game map, 2D top-down overworld exactly like Pokémon FireRed / LeafGreen or Stardew Valley town: the camera looks straight down at the ground from above, ORTHOGRAPHIC, no perspective, no vanishing point, no isometric diagonals, no horizon, no sky. Buildings are drawn the way 2D RPG tilesets draw them: a flat rooftop seen from above at the top, and the building's front facade (doors, windows, shop signs) drawn as a flat vertical strip directly beneath the roof, facing the player. The street runs horizontally left-to-right across the bottom third of the frame. Everything sits on a visible 32-pixel square tile grid; crisp square pixels, 16-bit pixel art, no anti-aliasing, no blur, clean 1px dark outlines."
-    },
-    "D": {
-      "file": "style/candidate_D_gpt_leafgreen.png",
-      "palette": "style/candidate_D.gpl",
-      "tool": "Figma AI generate_image",
-      "model": "gpt-image-2.5-sunburst",
-      "seed": null,
-      "size": "1536x1024",
-      "plan": "user's personal Figma team",
-      "promptVariant": "Pokémon FireRed/LeafGreen GBA overworld phrasing, 'flat roofs seen from above with front walls as a flat band under the roof, the way Pallet Town houses are drawn'; same scene and palette block as C"
-    }
-  },
-  "prompt": "Pixel art game screenshot, 16-bit style, top-down 3/4 perspective like an RPG Maker or Stardew Valley town street, crisp square pixels, no anti-aliasing, no blur, no dithering, clean 1-pixel dark outlines on every object. Scene: a real Bangalore, India residential lane at morning. Left: a narrow 3-storey independent house, exposed red brick and cream plaster, iron grille balconies, a black Sintex water tank on the flat roof, a tangle of overhead electric cables. Centre: a small \"Darshini\" standing eatery with a steel counter, a painted red-and-yellow signboard reading HOTEL DARSHINI, steel tumblers and an idli steamer, two plastic stools. Right: a provision store with sachets hanging in strips and a blue plastic drum. Foreground: a tar road with patch repairs and a white speed breaker, a black-and-yellow auto rickshaw parked, a broken paver-block footpath, a rain tree with leaf litter, a green BBMP dustbin, a stray dog. Characters: two Indian pedestrians in chibi proportions (big head, small body, about 1 tile wide and 1.5 tiles tall), a young man in a light-blue formal shirt with a backpack and a young woman in a kurti with a sling bag, both with clean 1px dark outlines, wheatish skin. Palette: warm, slightly desaturated earth tones — brick red, cream, ochre, tar grey, rain-tree green, auto yellow — soft warm shadows, morning haze, a limited palette of about 48 colours. Everything grid-aligned to 32-pixel tiles. No text except the Darshini board, no real brand logos, no watermark, no UI.",
   "userReferences": {
     "$comment": "Ten reference images supplied by the user on 2026-10-12 (third-party art; kept out of the repo for licence reasons). What was taken from them:",
     "characters": "chibi proportions — big head, ~1:1.5 head-to-body, 2-3 px eyes, clean dark outline (sprite sheet of 49 townsfolk; base body × attire layer sheet with 4-dir × 3-frame walk; 4×4 blond walk sheet)",
@@ -56,10 +13,30 @@
     "AI output is pixel-STYLED, not grid-aligned (1px run lengths dominate); it locks look, palette and outline weight — real 32px tiles and 32x48 sheets come from the pipeline (P2+), quantised to this .gpl",
     "Candidate A's buildings lean slightly isometric; game maps stay orthogonal 3/4 — the reference governs materials and colour, not projection"
   ],
-  "nextStep": "User picks C or D (or corrects). On approval: copy winner → style/style_sheet.png, its .gpl → palette.gpl, status 'locked', remove other candidates, AUDIT_LOG entry, then P2.",
   "promptRules": [
     "State the camera explicitly AND negatively (orthographic, straight down, no perspective/vanishing point/isometric/horizon).",
     "Describe buildings as 'flat roof on top + facade as a flat band beneath' — image models otherwise invent a side wall.",
     "Street runs left→right on a 32px grid; name a real game (RPG Maker MV, FireRed/LeafGreen, Stardew) as the camera anchor."
+  ],
+  "locked": {
+    "styleSheet": "style/style_sheet.png",
+    "quantisedPreview": "style/style_sheet.quantised.png",
+    "palette": "palette.gpl",
+    "swatch": "style/palette.swatch.png",
+    "model": "gpt-image-2.5-sunburst",
+    "tool": "Figma AI generate_image (user's personal team plan)",
+    "promptVariant": "Pokémon FireRed/LeafGreen GBA overworld phrasing, 'flat roofs seen from above with front walls as a flat band under the roof, the way Pallet Town houses are drawn'; same scene and palette block as C",
+    "fullPrompt": "Pixel art game screenshot, 16-bit style, top-down 3/4 perspective like an RPG Maker or Stardew Valley town street, crisp square pixels, no anti-aliasing, no blur, no dithering, clean 1-pixel dark outlines on every object. Scene: a real Bangalore, India residential lane at morning. Left: a narrow 3-storey independent house, exposed red brick and cream plaster, iron grille balconies, a black Sintex water tank on the flat roof, a tangle of overhead electric cables. Centre: a small \"Darshini\" standing eatery with a steel counter, a painted red-and-yellow signboard reading HOTEL DARSHINI, steel tumblers and an idli steamer, two plastic stools. Right: a provision store with sachets hanging in strips and a blue plastic drum. Foreground: a tar road with patch repairs and a white speed breaker, a black-and-yellow auto rickshaw parked, a broken paver-block footpath, a rain tree with leaf litter, a green BBMP dustbin, a stray dog. Characters: two Indian pedestrians in chibi proportions (big head, small body, about 1 tile wide and 1.5 tiles tall), a young man in a light-blue formal shirt with a backpack and a young woman in a kurti with a sling bag, both with clean 1px dark outlines, wheatish skin. Palette: warm, slightly desaturated earth tones — brick red, cream, ochre, tar grey, rain-tree green, auto yellow — soft warm shadows, morning haze, a limited palette of about 48 colours. Everything grid-aligned to 32-pixel tiles. No text except the Darshini board, no real brand logos, no watermark, no UI."
+  },
+  "rejected": {
+    "A": "rejected at round 1 (isometric lean)",
+    "B": "rendering approved, camera rejected (side-on) — its model is reused for C/D",
+    "C": "round 2, not chosen"
+  },
+  "usage": [
+    "REFERENCE ONLY — never loaded by the game, never cut up into tiles or sprites.",
+    "Reference #1 for every later generation (tilesets, props, UI, characters) — prompts cite it for palette/outline/camera.",
+    "Characters are a SEPARATE layer: 32x48 sprite sheets generated by the pipeline and quantised to palette.gpl; the pedestrians in the sheet are not game sprites.",
+    "Tilesets and placed objects are generated as their own 32px sheets, quantised to palette.gpl; never traced from this image."
   ]
 }

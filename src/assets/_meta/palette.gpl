@@ -1,7 +1,7 @@
 GIMP Palette
 Name: Bangalore Times (48 colours)
 Columns: 8
-# Extracted from candidate_D_gpt_leafgreen.png by scripts/extract-palette.mjs — the P1 style lock. Every later asset is quantised to this.
+# LOCKED 2026-10-12 (P1). Extracted from style/style_sheet.png by scripts/extract-palette.mjs — the P1 style lock. Every later asset is quantised to this.
  34  42  34	#222a22 (115754 px)
  65  55  47	#41372f (85212 px)
  59  75  52	#3b4b34 (88569 px)
