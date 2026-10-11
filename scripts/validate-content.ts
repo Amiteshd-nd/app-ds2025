@@ -16,7 +16,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES } from '../src/utils/constants.ts';
+import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT } from '../src/utils/constants.ts';
 import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -365,6 +365,157 @@ export function validateContent(
   return problems;
 }
 
+// ── World: districts × maps ──────────────────────────────────────────────
+export interface WorldInputs {
+  /** maps.manifest.json */
+  manifest: { maps: Record<string, Json>; layerOrder?: string[] };
+  /** Parsed .tmj per manifest key. */
+  maps: Record<string, Json>;
+  /** Sprite-sheet basenames on disk (src/assets/sprites/*.png). */
+  sprites: string[];
+  /** Where a run starts; every district must be reachable from it. */
+  startDistrict?: string;
+}
+
+export interface WorldReport {
+  problems: string[];
+  warnings: string[];
+}
+
+/** ADR-40: at least one interactable per ~10×10-tile screen, or the world feels empty. */
+const SCREEN_TILES = 100;
+
+const objectNames = (tmj: Json | undefined, layerName: string | undefined): Set<string> => {
+  const layer = (tmj?.layers ?? []).find((l: Json) => l.name === layerName);
+  return new Set(((layer?.objects ?? []) as Json[]).map((o) => o.name).filter(Boolean));
+};
+
+/**
+ * Cross-check every reference a district makes into its map — and every exit
+ * into its destination's map — plus the two world-level rules that no single
+ * file can express: every district is reachable from the start, and no
+ * district is an empty screen.
+ *
+ * This is the "dead-end class of bug" check from technical architecture §3:
+ * a spawn that was renamed in Tiled, an exit whose landing spawn is missing,
+ * a district nobody can walk to — all silent at runtime, all build errors here.
+ */
+export function validateWorld(districts: Json[], world: WorldInputs): WorldReport {
+  const problems: string[] = [];
+  const warnings: string[] = [];
+  const where = 'districts.json';
+  const add = (msg: string) => problems.push(`${where}: ${msg}`);
+  const warn = (msg: string) => warnings.push(`${where}: ${msg}`);
+
+  const byId = new Map<string, Json>(districts.filter((d) => d.id).map((d) => [d.id, d]));
+  const sprites = new Set(world.sprites);
+
+  for (const district of districts) {
+    if (!district.id) continue;
+    const d = `district "${district.id}"`;
+    const def = world.manifest.maps[district.map];
+    if (!def) {
+      add(`${d} names map "${district.map}", which is not in maps.manifest.json (have: ${Object.keys(world.manifest.maps).join(', ')})`);
+      continue;
+    }
+    const tmj = world.maps[district.map];
+    if (!tmj) {
+      add(`${d} map "${district.map}" could not be read`);
+      continue;
+    }
+    const spawns = objectNames(tmj, def.spawnLayer);
+    const pulse = objectNames(tmj, def.pulseLayer);
+    const spawnList = () => [...spawns].join(', ') || 'none';
+
+    const need = (name: string | undefined, what: string) => {
+      if (name && !spawns.has(name)) {
+        add(`${d} ${what} "${name}" is not an object in "${def.spawnLayer}" of ${def.file} (has: ${spawnList()})`);
+      }
+    };
+
+    need(district.defaultSpawn, 'defaultSpawn');
+    for (const ref of district.npcs ?? []) need(ref.spawn, `NPC "${ref.id}" spawn`);
+    for (const ref of district.objects ?? []) need(ref.at, `object "${ref.id}" spawn`);
+    for (const trigger of district.triggers ?? []) need(trigger.zone, 'trigger zone');
+
+    for (const exit of district.exits ?? []) {
+      need(exit.zone, 'exit zone');
+      const target = byId.get(exit.to);
+      if (!target) continue; // validateContent already reports the dead end
+      const targetDef = world.manifest.maps[target.map];
+      const landing = objectNames(world.maps[target.map], targetDef?.spawnLayer);
+      if (exit.spawn && !landing.has(exit.spawn)) {
+        add(`${d} exit "${exit.zone}" lands on spawn "${exit.spawn}" in "${exit.to}", which is not in that map (has: ${[...landing].join(', ') || 'none'})`);
+      }
+    }
+
+    if (district.ambient) {
+      for (const sheet of district.ambient.base ?? []) {
+        if (!sprites.has(sheet)) {
+          add(`${d} ambient sheet "${sheet}" has no src/assets/sprites/${sheet}.png`);
+        }
+      }
+      if (district.ambient.area) {
+        const layer = (tmj.layers ?? []).find((l: Json) => l.name === def.spawnLayer);
+        const area = ((layer?.objects ?? []) as Json[]).find((o) => o.name === district.ambient.area);
+        if (!area) need(district.ambient.area, 'ambient area');
+        else if (!area.width || !area.height) {
+          add(`${d} ambient area "${district.ambient.area}" is a point — draw it as a rectangle in Tiled`);
+        }
+      }
+    }
+
+    for (const slot of district.pulse_slots ?? []) {
+      if (!def.pulseLayer) {
+        add(`${d} offers City Pulse slot "${slot}" but map "${district.map}" declares no pulseLayer`);
+      } else if (!pulse.has(slot)) {
+        add(`${d} City Pulse slot "${slot}" is not an object in "${def.pulseLayer}" of ${def.file}`);
+      }
+    }
+
+    // Density: a screen with nothing to do is a design bug (ADR-40), not a crash.
+    const tiles = (tmj.width ?? 0) * (tmj.height ?? 0);
+    if (tiles > 0) {
+      const objectLayer = (tmj.layers ?? []).find((l: Json) => l.name === def.objectLayer);
+      const interactables =
+        (district.npcs?.length ?? 0) +
+        (district.objects?.length ?? 0) +
+        (district.exits?.length ?? 0) +
+        (district.triggers?.length ?? 0) +
+        (district.pulse_slots?.length ?? 0) +
+        ((objectLayer?.objects ?? []) as Json[]).length;
+      const screens = tiles / SCREEN_TILES;
+      if (interactables < screens) {
+        warn(`${d} has ${interactables} interactables over ~${Math.round(screens)} screens — ADR-40 wants ≥1 per 10×10-tile screen`);
+      }
+    }
+  }
+
+  // Reachability: walk exits from the start. Anything not reached is content
+  // the player can never see — usually a missing exit, sometimes a typo in `to`.
+  const start = world.startDistrict ?? START_DISTRICT;
+  if (byId.size && !byId.has(start)) {
+    add(`start district "${start}" does not exist`);
+  } else if (byId.size) {
+    const reached = new Set<string>([start]);
+    const queue = [start];
+    while (queue.length) {
+      const current = byId.get(queue.shift()!);
+      for (const exit of current?.exits ?? []) {
+        if (byId.has(exit.to) && !reached.has(exit.to)) {
+          reached.add(exit.to);
+          queue.push(exit.to);
+        }
+      }
+    }
+    for (const id of byId.keys()) {
+      if (!reached.has(id)) add(`district "${id}" is unreachable from "${start}" — no chain of exits leads there`);
+    }
+  }
+
+  return { problems, warnings };
+}
+
 function validateRequirement(file: string, where: string, requires: Json): string[] {
   const out: string[] = [];
   if (!SKILL_BRANCHES.includes(requires.skill)) {
@@ -443,6 +594,21 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     ) as { ids: Record<string, number> }
   ).ids;
   const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds);
+
+  const assetsDir = resolve(here, '../src/assets');
+  const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
+  const maps: Record<string, Json> = {};
+  for (const [key, def] of Object.entries(manifest.maps as Record<string, Json>)) {
+    const path = join(assetsDir, 'tilemaps', def.file);
+    if (existsSync(path)) maps[key] = JSON.parse(readFileSync(path, 'utf8'));
+  }
+  const spritesDir = join(assetsDir, 'sprites');
+  const sprites = existsSync(spritesDir)
+    ? readdirSync(spritesDir).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, ''))
+    : [];
+  const world = validateWorld(districts, { manifest, maps, sprites });
+  problems.push(...world.problems);
+  for (const w of world.warnings) console.warn(`  ⚠ ${w}`);
 
   if (problems.length) {
     console.error(`\n✗ Content validation failed (${problems.length} problem${problems.length > 1 ? 's' : ''}):\n`);

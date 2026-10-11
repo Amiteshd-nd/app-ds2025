@@ -17,6 +17,34 @@ const assetsDir = resolve(here, '../src/assets');
 const mapsDir = join(assetsDir, 'tilemaps');
 const tilesetsDir = join(assetsDir, 'tilesets');
 
+/** Kinds of City Pulse slot an event can switch on (city_pulse_v1 §3). */
+export const PULSE_SLOT_TYPES = ['wall', 'corner', 'shopfront', 'crowd'];
+
+/** Door = 1 tile wide × 1.5 tall, so the player (32×48) fits the frame (design system §2). */
+export const DOOR_WIDTH = 32;
+export const DOOR_HEIGHT = 48;
+
+/**
+ * Non-fatal findings for one map. Pure, like validateMap. Warnings print but
+ * do not fail the build: a mis-sized door is a visual nit to fix in Tiled,
+ * not a map the engine cannot load.
+ */
+export function mapWarnings(mapKey, def, tmj) {
+  const warnings = [];
+  const spawns = (tmj.layers ?? []).find((l) => l.name === def.spawnLayer);
+  for (const obj of spawns?.objects ?? []) {
+    const isDoor = obj.type === 'door' || (obj.name ?? '').startsWith('door_');
+    if (!isDoor) continue;
+    if (obj.width !== DOOR_WIDTH || obj.height !== DOOR_HEIGHT) {
+      warnings.push(
+        `door "${obj.name || obj.id}" is ${obj.width ?? 0}x${obj.height ?? 0}, expected ${DOOR_WIDTH}x${DOOR_HEIGHT} ` +
+          '— player height is door height',
+      );
+    }
+  }
+  return warnings.map((w) => `${mapKey}: ${w}`);
+}
+
 /** Collect problems for one map. Pure, so tests can drive it directly. */
 export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layerOrder = []) {
   const problems = [];
@@ -52,7 +80,7 @@ export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layer
   // A layer named outside the taxonomy is a typo or a drift — either way the
   // game will never draw it, and silently ignoring it is how maps rot.
   if (layerOrder.length) {
-    const known = new Set([...layerOrder, def.spawnLayer, def.objectLayer].filter(Boolean));
+    const known = new Set([...layerOrder, def.spawnLayer, def.objectLayer, def.pulseLayer].filter(Boolean));
     for (const layer of tmj.layers ?? []) {
       if (!known.has(layer.name)) {
         problems.push(
@@ -117,6 +145,30 @@ export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layer
     }
   }
 
+  if (def.pulseLayer) {
+    const layer = (tmj.layers ?? []).find((l) => l.name === def.pulseLayer);
+    if (!layer) {
+      problems.push(`missing City Pulse object layer "${def.pulseLayer}"`);
+    } else if (layer.type !== 'objectgroup') {
+      problems.push(`"${def.pulseLayer}" is a ${layer.type}, expected an object layer`);
+    } else {
+      const seen = new Set();
+      for (const slot of layer.objects ?? []) {
+        if (!slot.name) {
+          problems.push(`City Pulse slot ${slot.id} in "${def.pulseLayer}" has no name`);
+          continue;
+        }
+        if (seen.has(slot.name)) problems.push(`City Pulse slot "${slot.name}" is declared twice`);
+        seen.add(slot.name);
+        if (!PULSE_SLOT_TYPES.includes(slot.type)) {
+          problems.push(
+            `City Pulse slot "${slot.name}" has type "${slot.type ?? ''}", expected one of ${PULSE_SLOT_TYPES.join(', ')}`,
+          );
+        }
+      }
+    }
+  }
+
   for (const ts of tmj.tilesets ?? []) {
     if (ts.source) {
       problems.push(
@@ -167,10 +219,26 @@ export function runValidation({ manifest, mapsDir: md, tilesetsDir: td }) {
   return problems;
 }
 
+export function runWarnings({ manifest, mapsDir: md }) {
+  const warnings = [];
+  for (const [mapKey, def] of Object.entries(manifest.maps ?? {})) {
+    const path = join(md, def.file);
+    if (!existsSync(path)) continue; // runValidation already reports it
+    try {
+      warnings.push(...mapWarnings(mapKey, def, JSON.parse(readFileSync(path, 'utf8'))));
+    } catch {
+      // invalid JSON is a problem, reported by runValidation
+    }
+  }
+  return warnings;
+}
+
 // Only run when invoked directly, so tests can import the functions above.
 if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
   const problems = runValidation({ manifest, mapsDir, tilesetsDir });
+  const warnings = runWarnings({ manifest, mapsDir });
+  for (const w of warnings) console.warn(`  ⚠ ${w}`);
 
   if (problems.length) {
     console.error(`\n✗ Tilemap validation failed (${problems.length} problem${problems.length > 1 ? 's' : ''}):\n`);

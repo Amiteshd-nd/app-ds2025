@@ -175,6 +175,8 @@ export interface DistrictDef {
   triggers?: DistrictTrigger[];
   /** Behaviour molecules by name — see src/world/behaviours. */
   behaviours?: string[];
+  /** City Pulse slot names this district offers; each is an object in the map's pulse layer. */
+  pulse_slots?: string[];
 }
 
 // --- NPCs ------------------------------------------------------------------

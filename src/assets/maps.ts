@@ -20,6 +20,8 @@ export interface MapDefinition {
   spawnLayer?: string;
   /** Object layer holding placed world objects, each typed by an ObjectDef id. */
   objectLayer?: string;
+  /** Object layer of City Pulse slots: named, typed anchors events switch on. */
+  pulseLayer?: string;
   /** Spawn object names the scene code depends on. */
   requiredSpawns: string[];
 }
@@ -30,6 +32,7 @@ interface ManifestMap {
   collisionLayer?: string;
   spawnLayer?: string;
   objectLayer?: string;
+  pulseLayer?: string;
   requiredSpawns?: string[];
 }
 
@@ -68,6 +71,7 @@ const build = (): Record<string, MapDefinition> => {
           collisionLayer: def.collisionLayer,
           spawnLayer: def.spawnLayer,
           objectLayer: def.objectLayer,
+          pulseLayer: def.pulseLayer,
           requiredSpawns: def.requiredSpawns ?? [],
         } satisfies MapDefinition,
       ];

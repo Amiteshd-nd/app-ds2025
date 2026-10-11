@@ -40,12 +40,16 @@ src/
 scripts/           validate-maps.mjs · validate-content.ts · generate-art.mjs · generate-street-map.mjs · art/
 ```
 
+## Validation (`pnpm validate`, runs before every build)
+- `scripts/validate-maps.mjs` — tile size/orientation, layer taxonomy + order, hidden collision stencil, spawn + object layers, tileset images, City Pulse slot layer (named, unique, typed). **Warnings** (printed, non-fatal): doors not 32×48.
+- `scripts/validate-content.ts` — `validateContent` (dialogue graphs, quests, items, NPCs, objects, district schema + references) and `validateWorld` (district ↔ map: every spawn/zone/area/pulse slot exists, exit landing spawns exist in the destination map, ambient sheets on disk, every district reachable from `START_DISTRICT`). **Warnings**: ADR-40 density (< 1 interactable per 10×10-tile screen).
+- Tests drive both validators on the real data and on synthetic breakages (`validate-*.test.ts`).
+
 ## Rendering
 640×360 native, `Scale.FIT`, `pixelArt` + `roundPixels`, integer upscale. Tiles 32, characters 32×48 (feet body 20×12 at offset 6,35). Layer depth from `LAYER_DEPTH[name]`; entities sort inside the ENTITIES band by bottom edge.
 
 ## Known debt
 - Stat model is the old port (energy/stress/money ₹5,000, 4 educational backgrounds); the profile doc's model (ADR-15/17) lands in P2 (T-006/T-007).
 - Quest types and reputation tier names are the old 10-type / Outsider→Important Player sets; T-015 migrates to ADR-18/22/26.
-- Validator does not yet cross-check districts against maps (spawn/zone names, manifest keys) or reachability — P0.3 (T-003).
 - No `src/platform/` yet; `SaveManager` talks to `localStorage` directly — P0.4 (T-004).
 - Reference tilesets (`airport*.png`) are continuous-tone with unresolved provenance — placeholders until P1.

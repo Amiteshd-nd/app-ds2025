@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 // @ts-expect-error — plain .mjs script, no types
-import { validateMap, runValidation } from '../../scripts/validate-maps.mjs';
+import { validateMap, runValidation, mapWarnings, runWarnings } from '../../scripts/validate-maps.mjs';
 
 const assetsDir = join(__dirname, '..', 'assets');
 const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
@@ -104,5 +104,54 @@ describe('tilemap validator', () => {
       m.layers.find((l) => l.name === 'Spawns')!.type = 'tilelayer';
     });
     expect(problems[0]).toContain('expected an object layer');
+  });
+});
+
+describe('tilemap validator — doors and City Pulse slots', () => {
+  it('the real maps raise no warnings', () => {
+    expect(runWarnings({ manifest, mapsDir: join(assetsDir, 'tilemaps') })).toEqual([]);
+  });
+
+  it('warns on a door that is not 32x48 — player height is door height', () => {
+    const map = goodMap();
+    map.layers.find((l) => l.name === 'Spawns')!.objects!.push({ name: 'door_pg', x: 0, y: 0, width: 32, height: 32 } as never);
+    const warnings = mapWarnings('test_map', AIRPORT, map);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toContain('expected 32x48');
+  });
+
+  it('accepts a 32x48 door, by name or by type', () => {
+    const map = goodMap();
+    map.layers.find((l) => l.name === 'Spawns')!.objects!.push(
+      { name: 'door_pg', x: 0, y: 0, width: 32, height: 48 } as never,
+      { name: 'front', type: 'door', x: 0, y: 0, width: 32, height: 48 } as never,
+    );
+    expect(mapWarnings('test_map', AIRPORT, map)).toEqual([]);
+  });
+
+  const withPulse = (objects: Array<Record<string, unknown>>) => {
+    const map = goodMap();
+    map.layers.push({ name: 'Pulse Slots', type: 'objectgroup', visible: true, objects } as never);
+    return validateMap('test_map', { ...AIRPORT, pulseLayer: 'Pulse Slots' }, map, TILESETS, 32, manifest.layerOrder);
+  };
+
+  it('accepts named, typed, unique City Pulse slots', () => {
+    expect(withPulse([{ name: 'wall_1', type: 'wall' }, { name: 'corner_1', type: 'corner' }])).toEqual([]);
+  });
+
+  it('catches an unnamed slot, a duplicate slot and an unknown slot type', () => {
+    const problems = withPulse([
+      { type: 'wall' },
+      { name: 'wall_1', type: 'wall' }, { name: 'wall_1', type: 'wall' },
+      { name: 'x', type: 'billboard' },
+    ]);
+    expect(problems.some((p: string) => p.includes('has no name'))).toBe(true);
+    expect(problems.some((p: string) => p.includes('declared twice'))).toBe(true);
+    expect(problems.some((p: string) => p.includes('type "billboard"'))).toBe(true);
+  });
+
+  it('catches a manifest pulseLayer the map does not have', () => {
+    const problems = validateMap('test_map', { ...AIRPORT, pulseLayer: 'Pulse Slots' }, goodMap(), TILESETS, 32);
+    expect(problems.some((p: string) => p.includes('missing City Pulse object layer'))).toBe(true);
   });
 });
