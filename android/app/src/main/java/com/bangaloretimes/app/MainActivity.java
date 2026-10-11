@@ -1,4 +1,4 @@
-package com.nammaquest.app;
+package com.bangaloretimes.app;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -65,7 +65,7 @@ export class TitleScene extends Phaser.Scene {
 
   private createTitleText(): void {
     this.add
-      .text(GAME_WIDTH / 2, 50, 'NAMMA QUEST', {
+      .text(GAME_WIDTH / 2, 50, 'BANGALORE TIMES', {
         font: 'bold 24px monospace',
         color: '#f8fafc',
         align: 'center',

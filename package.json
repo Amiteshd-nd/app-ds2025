@@ -1,8 +1,8 @@
 {
-  "name": "namma-quest",
+  "name": "bangalore-times",
   "private": true,
   "version": "0.0.0",
-  "description": "Namma Quest — a top-down pixel RPG set in Bengaluru. Phaser 3 + React, shipped as an installable PWA.",
+  "description": "Bangalore Times — a top-down pixel RPG set in Bengaluru. Phaser 3 + React, shipped as an installable PWA.",
   "type": "module",
   "packageManager": "pnpm@11.25.0",
   "scripts": {

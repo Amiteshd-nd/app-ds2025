@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Namma Quest</string>
-    <string name="title_activity_main">Namma Quest</string>
-    <string name="package_name">com.nammaquest.app</string>
-    <string name="custom_url_scheme">com.nammaquest.app</string>
+    <string name="app_name">Bangalore Times</string>
+    <string name="title_activity_main">Bangalore Times</string>
+    <string name="package_name">com.bangaloretimes.app</string>
+    <string name="custom_url_scheme">com.bangaloretimes.app</string>
 </resources>

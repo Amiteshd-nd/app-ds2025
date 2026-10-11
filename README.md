@@ -1,4 +1,4 @@
-# Namma Quest
+# Bangalore Times
 
 A top-down pixel RPG set in Bengaluru. Phaser 3 for the game canvas, a thin React
 shell around it, shipped as an installable PWA.
@@ -9,7 +9,7 @@ corepack pnpm dev        # http://localhost:6174
 corepack pnpm cap:sync   # same dist/ into the Android + iOS shells (Capacitor)
 ```
 
-Working title: **NAMMA OUTBREAK** — you come to Bangalore to make a life, then you
+**Bangalore Times** — you come to Bangalore to make a life, then you
 have to survive it. Built phase by phase with an audit after each one.
 
 | Document | What is in it |

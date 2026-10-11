@@ -1,5 +1,5 @@
 # Memory
-Updated: 2026-10-11
+Updated: 2026-10-12
 Facts about the project and the user that fit nowhere else. Design in `docs/design/`; the founder model is `docs/design/bangalore_rpg_founder_profile_and_vision.md`.
 
 ## About the user
@@ -15,6 +15,11 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - `corepack pnpm`, not npm — the repo has its own lockfile. Port 6174 only (never 4xxx/5xxx).
 - Tests green before and after every change (117 at P0 start); `pnpm validate` + `pnpm typecheck` are part of "green".
 - Commit after each P0 sub-task; attribution line `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
+
+## Art generation
+- Figma MCP `generate_image` is the image generator available here (paid, Figma AI credits). Use the user's **personal** plan `team::1113684943164685803`, never the Netradyne org. Retro Diffusion / PixelLab (the docs' tools) need API keys the user has not provided.
+- AI "pixel art" is pixel-styled, not grid-aligned; it is a style/palette reference only. Real tiles/sheets are quantised to `palette.gpl` by the pipeline.
+- User's taste from the P1 references: chibi big-head characters, chunky 1px outlines, dense props, saturated-but-muted colour, storefront faces visible; poster register = dark blue + warm lamp light.
 
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).

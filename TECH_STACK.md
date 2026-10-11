@@ -1,4 +1,4 @@
-# Namma Quest — tech stack
+# Bangalore Times — tech stack
 
 Aligned with the `v1.0` branch of [`cityhunter-x-y-z/bt`](https://github.com/cityhunter-x-y-z/bt)
 (commit `19899fd`, 2026-07-13). That commit added `TECH_STACK.md` and

@@ -1,7 +1,7 @@
 import type { Insets, Platform, SavePayload } from './Platform';
 
 /** Prefix so a save slot can never collide with a settings key. */
-const SLOT_PREFIX = 'namma-quest:slot:';
+const SLOT_PREFIX = 'bangalore-times:slot:';
 
 /**
  * Browser implementation. Deliberately plain: localStorage behind the

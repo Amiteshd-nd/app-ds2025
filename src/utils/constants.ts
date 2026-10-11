@@ -1,4 +1,4 @@
-// Game-wide constants. Ported from the Namma Quest v1.0 spec (docs/AI_CONTEXT.md,
+// Game-wide constants. Ported from the Bangalore Times v1.0 spec (docs/AI_CONTEXT.md,
 // TECH_STACK.md) so this package and the reference repo agree on the numbers.
 
 // --- Rendering -------------------------------------------------------------
@@ -185,4 +185,4 @@ export const LEGACY_SCENE_DISTRICTS: Record<string, string> = {
   AirportScene: 'airport',
   WhitefieldScene: 'whitefield_street',
 };
-export const SAVE_KEY = 'namma-quest:save';
+export const SAVE_KEY = 'bangalore-times:save';

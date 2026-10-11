@@ -1,5 +1,5 @@
 # Architecture (current state)
-Updated: 2026-10-11 — after P0.2 (WorldScene refactor). Places are data; no scene per place.
+Updated: 2026-10-12 — after P0 + P1 candidates. Places are data; no scene per place.
 
 ## Scenes (`src/scenes/`)
 | Scene | Role | Status |
@@ -37,7 +37,8 @@ src/
 ├── ui/            DialogueBox.ts
 ├── utils/         constants.ts (SCENE_KEYS, LAYER_DEPTH, START_DISTRICT, FADE_MS…), types.ts, placeholders.ts, hue.ts
 ├── store.ts · PhaserGame.tsx · BangaloreTimes.tsx (HUD) · main.tsx · index.ts (library entry)
-scripts/           validate-maps.mjs · validate-content.ts · generate-art.mjs · generate-street-map.mjs · art/
+│   └── _meta/     platform.json · style.json (P1 lock record) · style/ (candidates, .gpl palettes, swatches)
+scripts/           validate-*.{mjs,ts} · generate-art.mjs · generate-street-map.mjs · extract-palette.mjs · art/ (canvas, palette, tiles, character, quantize)
 ```
 
 ## Platform (`src/platform/`, ADR-64)

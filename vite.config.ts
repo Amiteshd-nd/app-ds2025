@@ -16,8 +16,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.png'],
       manifest: {
-        name: 'Namma Quest',
-        short_name: 'Namma Quest',
+        name: 'Bangalore Times',
+        short_name: 'Bangalore Times',
         description: 'A top-down pixel RPG set in Bengaluru.',
         theme_color: '#0e0f13',
         background_color: '#0e0f13',

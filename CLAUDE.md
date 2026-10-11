@@ -1,4 +1,4 @@
-# NAMMA OUTBREAK (repo: Namma Quest) — Claude entry point. Read this FIRST.
+# BANGALORE TIMES — Claude entry point. Read this FIRST.
 Updated: 2026-10-11
 
 A 32-bit, Zelter-angle (3/4 top-down) pixel-art survival RPG set in a real, lived-in
