@@ -6,7 +6,7 @@
  * the repo), it is editable (change the palette once, every tile follows), and
  * it cannot drift off-palette. Run it with:
  *
- *   corepack pnpm --filter @cloud-march/game art
+ *   corepack pnpm art
  */
 import sharp from 'sharp';
 import { mkdirSync, writeFileSync } from 'node:fs';

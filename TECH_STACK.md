@@ -221,7 +221,7 @@ scripts/generate-art.mjs   writes tilesets/ and sprites/, plus street.tiles.json
 scripts/generate-street-map.mjs  composes a 30x20 street block as a .tmj
 ```
 
-Run with `corepack pnpm --filter @cloud-march/game art`.
+Run with `corepack pnpm art`.
 
 Three reasons this beats hand-managed PNGs at this stage: it is reproducible
 (identical output every run, so a rerun never dirties the repo), editable
@@ -290,10 +290,10 @@ the lists cannot drift apart.
 ## Commands
 
 ```bash
-corepack pnpm --filter @cloud-march/game dev             # http://localhost:6174
-corepack pnpm --filter @cloud-march/game test            # vitest
-corepack pnpm --filter @cloud-march/game validate        # maps + content
-corepack pnpm --filter @cloud-march/game build           # validate → typecheck → build
+corepack pnpm dev             # http://localhost:6174
+corepack pnpm test            # vitest
+corepack pnpm validate        # maps + content
+corepack pnpm build           # validate → typecheck → build
 ```
 
 Port 6174 is fixed with `strictPort` per the repo's no-4xxx/5xxx guardrail.

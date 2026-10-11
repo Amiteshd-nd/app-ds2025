@@ -31,7 +31,7 @@ scripts/generate-art.mjs    writes tilesets/, sprites/, street.tiles.json
 scripts/generate-street-map.mjs   composes a 30x20 street block as a .tmj
 ```
 
-`corepack pnpm --filter @cloud-march/game art` runs the lot. Output is
+`corepack pnpm art` runs the lot. Output is
 deterministic — reruns are byte-identical, so regenerating never dirties the
 tree.
 
