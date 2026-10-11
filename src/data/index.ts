@@ -62,9 +62,12 @@ export const DISTRICTS: Record<string, DistrictDef> = byId(
 /** NPC definitions, so populating a district is authoring rather than coding. */
 export const NPCS: Record<string, NpcDef> = byId(load<NpcDef[]>(npcModules).flat(), 'npc');
 
-/** NPCs belonging to one district, in declaration order. */
+/**
+ * NPCs placed in one district, in placement order. The district references
+ * NPC ids; the definitions live once in npcs/*.json (atomic rule: no inline copies).
+ */
 export const npcsInDistrict = (districtId: string): NpcDef[] =>
-  Object.values(NPCS).filter((npc) => npc.district === districtId);
+  (DISTRICTS[districtId]?.npcs ?? []).map((ref) => getNpc(ref.id));
 
 /** Quests belonging to one district. */
 export const questsInDistrict = (districtId: string): QuestFile[] =>

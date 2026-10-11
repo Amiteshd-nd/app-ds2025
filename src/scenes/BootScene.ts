@@ -87,13 +87,15 @@ export class BootScene extends Phaser.Scene {
     this.createPlaceholderTextures();
     this.createCharacterAnimations();
 
-    // Which scene follows is set by PhaserGame via the registry, so a host can
-    // drop straight into a scene (e.g. the Whitefield sandbox) without editing
-    // the scene list. Falls back to the title screen.
+    // Where to go next is set by PhaserGame via the registry. A host can drop
+    // straight into a district (the Whitefield sandbox, a scene under audit)
+    // or name a scene; the default is the title screen.
+    const startDistrict = this.registry.get('startDistrict') as string | undefined;
     const next = (this.registry.get('startScene') as string | undefined) ?? SCENE_KEYS.TITLE;
 
     this.time.delayedCall(300, () => {
-      this.scene.start(next);
+      if (startDistrict) this.scene.start(SCENE_KEYS.WORLD, { districtId: startDistrict });
+      else this.scene.start(next);
     });
   }
 

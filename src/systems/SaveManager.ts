@@ -2,12 +2,14 @@ import { useGameStore } from '../store';
 import {
   DEFAULT_DIRECTION,
   DEFAULT_HOME_STATE,
+  DEFAULT_PLAYER_SHEET,
+  LEGACY_SCENE_DISTRICTS,
   MIGRATABLE_SAVE_VERSIONS,
   SAVE_KEY,
   SAVE_VERSION,
-  SCENE_KEYS,
+  START_DISTRICT,
 } from '../utils/constants';
-import type { SaveData } from '../utils/types';
+import type { SaveData, WorldPosition } from '../utils/types';
 
 /**
  * SaveManager — localStorage serialization of the run.
@@ -28,7 +30,12 @@ export class SaveManager {
     SaveManager.instance = null;
   }
 
-  save(sceneKey: string = SCENE_KEYS.WHITEFIELD, x = 0, y = 0): boolean {
+  /**
+   * Persist the run at a world position. The position is a district id plus
+   * pixels — never a scene class name, so a save stays valid when the code
+   * that renders a place changes (ADR-69).
+   */
+  save(position: WorldPosition = { districtId: START_DISTRICT, x: 0, y: 0 }): boolean {
     const state = useGameStore.getState();
 
     const data: SaveData = {
@@ -38,7 +45,8 @@ export class SaveManager {
         name: state.playerName,
         background: 'engineering',
         homeState: DEFAULT_HOME_STATE,
-        position: { scene: sceneKey, x, y },
+        appearance: state.appearance,
+        position,
         direction: DEFAULT_DIRECTION,
       },
       stats: state.stats,
@@ -85,9 +93,23 @@ export class SaveManager {
 
   /** Fill in fields added since an older format and stamp the new version. */
   private static migrate(data: SaveData): SaveData {
+    // Pre-1.2.0 saves recorded the scene class that was on screen. Map it to
+    // the district that scene rendered; anything unrecognised restarts at the
+    // airport rather than refusing the whole run.
+    const legacy = data.player.position as unknown as { scene?: string; x?: number; y?: number };
+    const districtId =
+      data.player.position.districtId ??
+      (legacy.scene ? LEGACY_SCENE_DISTRICTS[legacy.scene] : undefined) ??
+      START_DISTRICT;
+
     return {
       ...data,
       version: SAVE_VERSION,
+      player: {
+        ...data.player,
+        appearance: data.player.appearance ?? { sheet: DEFAULT_PLAYER_SHEET },
+        position: { districtId, x: legacy.x ?? 0, y: legacy.y ?? 0 },
+      },
       reputation: data.reputation ?? { total: 0, byDistrict: {} },
       inventory: data.inventory ?? [],
       quests: data.quests ?? { active: {}, completed: [] },
@@ -102,6 +124,7 @@ export class SaveManager {
 
     useGameStore.getState().hydrate({
       playerName: data.player.name,
+      appearance: data.player.appearance,
       stats: data.stats,
       skills: data.skills,
       reputation: data.reputation,

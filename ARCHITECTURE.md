@@ -1,43 +1,51 @@
 # Architecture (current state)
-Updated: 2026-10-11 — state at the START of P0.2. Rewritten when the WorldScene refactor lands.
+Updated: 2026-10-11 — after P0.2 (WorldScene refactor). Places are data; no scene per place.
 
 ## Scenes (`src/scenes/`)
-| Scene | Role | Lines | Status |
-|---|---|---|---|
-| `BootScene` | loads every sprite sheet / tileset / tilemap by glob, registers `<sheet>-walk/idle-<dir>` anims, placeholder textures, starts `registry.startScene` | 231 | keep |
-| `TitleScene` | New Game / Continue / Settings menu | 202 | keep |
-| `CharacterSelectScene` | name entry + 4 educational-background cards → `AirportScene` | 333 | keep → trim in P2 |
-| `AirportScene` | hand-wired airport: NPCs from `npcs/airport.json`, dialogue, `zone_exit` (dead end) | 221 | **rebuild into data (P0.2)** |
-| `WhitefieldScene` | hand-wired street: placed objects, 40 wander bots, no NPCs/exits | 253 | **rebuild into data (P0.2)** |
+| Scene | Role | Status |
+|---|---|---|
+| `BootScene` | loads every sprite sheet / tileset / tilemap by glob, registers `<sheet>-walk/idle-<dir>` anims, placeholder textures; starts `registry.startDistrict` (→ World) or `registry.startScene` (default Title) | keep |
+| `TitleScene` | New Game (resets store → CharacterSelect) · Continue (restores save → `WorldScene{districtId,x,y}`) · Settings (stub) | keep |
+| `CharacterSelectScene` | name + background cards → `WorldScene{districtId: START_DISTRICT}` | trim in P2 |
+| **`WorldScene`** | the ONE place renderer: `create({districtId, spawnId?, x?, y?, fromDistrict?})` reads `districts.json` + `maps.manifest.json`; layers in `layerOrder`; Populate / Exits / Triggers / behaviours; dialogue + E-interact; autosave on entry and shutdown. **No district-specific branches.** | new |
+| `TransitScene` | fade-to-black between places; ride card ("Vayu Vajra KIA-8 → Whitefield") for bus/metro/cab/scooter, plain fade for walk; lands `WorldScene{to, spawn}` | new (minimal) |
 
 ## Data flow
-`src/data/index.ts` globs `dialogue/ quests/ items/ npcs/ objects/` + `districts.json` → managers in `src/systems/` (Stats, Inventory, Quest, Dialogue, Reputation, Save — singletons, rules only) → `src/store.ts` (Zustand, single source of truth, same shape as `SaveData`) → Phaser scenes + React HUD (`BangaloreTimes.tsx`).
-Scenes emit facts on `src/core/events.ts` (`dialogue:ended`, `item:added`, `zone:reached`, `entity:interacted`); `QuestManager` draws conclusions. No scene calls a quest method.
+`src/data/index.ts` globs `dialogue/ quests/ items/ npcs/ objects/` + `districts.json` → managers in `src/systems/` (Stats, Inventory, Quest, Dialogue, Reputation, Save — singletons, rules only) → `src/store.ts` (Zustand; same shape as `SaveData`; `activeDistrict`, `appearance`) → WorldScene + React HUD (`BangaloreTimes.tsx`, shown only in `WorldScene`).
+World modules emit facts on `src/core/events.ts` — `zone:reached {zoneId, districtId}`, `district:entered`, `entity:interacted`, `dialogue:ended`, `item:added` — and `QuestManager` draws conclusions. Exits emit `zone:reached` *before* checking `ReputationManager.canEnter(to)`, so a quest whose last objective is "reach the exit" completes and opens the gate in the same step.
+
+## District entry (`src/data/districts.json`, type `DistrictDef`)
+`id · name · map (manifest key) · defaultSpawn · fadeMs? · unlock?{quest, reputation, flags} · quests?[] (started on entry) · npcs?[{id, spawn}] · objects?[{id, at, requires?}] · ambient?{base[], count, area?} · exits?[{zone, to, spawn, transit, card?}] · triggers?[{zone, once?}] · behaviours?[]`
+NPC definitions live once in `npcs/*.json` (`id, name, tier, dialogue?, sheet?, tint?`); a district only says who stands where. Zones/spawns are objects in the map's `Spawns` layer (rect → its bounds; point → 3×3 tiles).
+
+## Save (`SaveManager`, v1.2.0)
+`player.position = {districtId, x, y}` — never a scene class. Migrations: 1.0.0/1.1.0 map `position.scene` via `LEGACY_SCENE_DISTRICTS` (unknown → airport). Only `TitleScene.continueGame` restores; `WorldScene` never hydrates from disk, so New Game cannot inherit an old run.
 
 ## Folder map
 ```
 src/
-├── assets/        maps.manifest.json (layerOrder contract), maps.ts, index.ts (glob → URLs)
-│   ├── tilemaps/  airport_interior.tmj (hand), whitefield_street.tmj (generated)
+├── assets/        maps.manifest.json (layerOrder + per-map layers/spawns), maps.ts (MAPS, LAYER_ORDER), index.ts (glob → URLs)
+│   ├── tilemaps/  airport_interior.tmj (hand), whitefield_street.tmj (GENERATED — edit scripts/generate-street-map.mjs)
 │   ├── tilesets/  airport*.png (reference, placeholder), street.png (+ street.tiles.json)
 │   └── sprites/   player.png (reference), citizen*.png (generated rig × 8 palettes)
-├── core/          events.ts (typed bus), depth.ts (zY → depth, computed never authored)
-├── data/          districts.json · dialogue/ quests/ items/ npcs/ objects/
-├── entities/      Player.ts (WASD/arrows, SHIFT run, E interact), PlacedObject.ts
-├── scenes/        Boot · Title · CharacterSelect · Airport · Whitefield
+├── core/          events.ts (typed bus), depth.ts (zY → depth)
+├── data/          districts.json · dialogue/ quests/ items/ npcs/ objects/   (scenes/ arrives in P3)
+├── entities/      Player.ts, PlacedObject.ts
+├── scenes/        Boot · Title · CharacterSelect · World · Transit
 ├── systems/       Stats · Inventory · Quest · Dialogue · Reputation · Save
+├── world/         Zones.ts (findObject, zoneFromObject, EntryWatcher) · Populate.ts (npcs/objects/wander) · Exits.ts · Triggers.ts · behaviours/{index,names}.ts
 ├── ui/            DialogueBox.ts
-├── utils/         constants.ts, types.ts, placeholders.ts, hue.ts
+├── utils/         constants.ts (SCENE_KEYS, LAYER_DEPTH, START_DISTRICT, FADE_MS…), types.ts, placeholders.ts, hue.ts
 ├── store.ts · PhaserGame.tsx · BangaloreTimes.tsx (HUD) · main.tsx · index.ts (library entry)
 scripts/           validate-maps.mjs · validate-content.ts · generate-art.mjs · generate-street-map.mjs · art/
 ```
 
 ## Rendering
-640×360 native, `Scale.FIT`, `pixelArt` + `roundPixels`, integer upscale. Tiles 32, characters 32×48 (feet body 20×12 at offset 6,35). Depth bands: `DEPTH.{GROUND,WALLS,OBJECTS,ENTITIES,ABOVE_PLAYER,UI,DIALOGUE}`; entities sort inside the ENTITIES band by bottom edge.
+640×360 native, `Scale.FIT`, `pixelArt` + `roundPixels`, integer upscale. Tiles 32, characters 32×48 (feet body 20×12 at offset 6,35). Layer depth from `LAYER_DEPTH[name]`; entities sort inside the ENTITIES band by bottom edge.
 
-## Known debt (what P0.2 removes)
-- `AirportScene` / `WhitefieldScene` duplicate `create()`; layer names hard-coded in both.
-- `districts.json` is the old 5-entry schema (`scene`, `unlocked_by_quest`, `reputation_required`); `PGScene` referenced but absent → airport `zone_exit` is a dead end.
-- `SaveData.player.position.scene` persists a scene class name.
-- `SCENE_KEYS` declares `PG`, `NEIGHBORHOOD`, `INTERVIEW` with no scenes.
-- Stat model is the old port (energy/stress/money ₹5,000); the profile doc's model (ADR-17 ₹35,000) lands in P2 (T-007).
+## Known debt
+- Stat model is the old port (energy/stress/money ₹5,000, 4 educational backgrounds); the profile doc's model (ADR-15/17) lands in P2 (T-006/T-007).
+- Quest types and reputation tier names are the old 10-type / Outsider→Important Player sets; T-015 migrates to ADR-18/22/26.
+- Validator does not yet cross-check districts against maps (spawn/zone names, manifest keys) or reachability — P0.3 (T-003).
+- No `src/platform/` yet; `SaveManager` talks to `localStorage` directly — P0.4 (T-004).
+- Reference tilesets (`airport*.png`) are continuous-tone with unresolved provenance — placeholders until P1.

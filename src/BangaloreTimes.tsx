@@ -13,15 +13,17 @@ export interface BangaloreTimesProps {
   backSlot?: ReactNode;
   /** Scene to enter after loading. Defaults to the title screen. */
   startScene?: string;
+  /** District to drop straight into, e.g. "whitefield_street" for the sandbox. */
+  startDistrict?: string;
 }
 
 // Scenes where the player is walking around and the stat HUD is meaningful.
-// Menus and the loading screen get a bare canvas instead.
-const GAMEPLAY_SCENES = new Set<string>([SCENE_KEYS.AIRPORT, SCENE_KEYS.WHITEFIELD]);
+// Menus, transit cards and the loading screen get a bare canvas instead.
+const GAMEPLAY_SCENES = new Set<string>([SCENE_KEYS.WORLD]);
 
 // Self-contained game screen. Portable across hosts: it takes no router or
 // theme dependency.
-const BangaloreTimes = ({ backSlot, startScene }: BangaloreTimesProps) => {
+const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesProps) => {
   const botCount = useGameStore((s) => s.botCount);
   const reputation = useGameStore((s) => s.reputation);
   const stats = useGameStore((s) => s.stats);
@@ -48,7 +50,7 @@ const BangaloreTimes = ({ backSlot, startScene }: BangaloreTimesProps) => {
   return (
     <div className="nq-root">
       {/* Game canvas fills the viewport */}
-      <PhaserGame startScene={startScene} />
+      <PhaserGame startScene={startScene} startDistrict={startDistrict} />
 
       {/* HUD overlay. The back pill stays available everywhere so the player is
           never stranded in a menu; the rest is gameplay-only. */}

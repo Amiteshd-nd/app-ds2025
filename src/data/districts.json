@@ -2,33 +2,41 @@
   {
     "id": "airport",
     "name": "Kempegowda International",
-    "phase": 1,
-    "scene": "AirportScene"
+    "map": "airport_map",
+    "defaultSpawn": "player_spawn",
+    "fadeMs": 400,
+    "quests": ["arrival"],
+    "npcs": [
+      { "id": "receptionist", "spawn": "receptionist" },
+      { "id": "airport_helper", "spawn": "helper" },
+      { "id": "security_guard", "spawn": "gaurd" },
+      { "id": "shopkeeper_kiosk", "spawn": "shopkeeper_1" },
+      { "id": "shopkeeper_food", "spawn": "shopkeeper_2" }
+    ],
+    "exits": [
+      {
+        "zone": "zone_exit",
+        "to": "whitefield_street",
+        "spawn": "bus_stop",
+        "transit": "bus",
+        "card": "Vayu Vajra KIA-8 → Whitefield"
+      }
+    ]
   },
   {
-    "id": "airport_road",
-    "name": "Airport Road",
-    "phase": 1,
-    "unlocked_by_quest": "arrival"
-  },
-  {
-    "id": "starter_neighborhood",
-    "name": "Byrasandra",
-    "phase": 1,
-    "scene": "PGScene",
-    "unlocked_by_quest": "arrival"
-  },
-  {
-    "id": "small_market",
-    "name": "Gandhi Bazaar Lane",
-    "phase": 1,
-    "reputation_required": 50
-  },
-  {
-    "id": "whitefield",
+    "id": "whitefield_street",
     "name": "Whitefield",
-    "phase": 2,
-    "scene": "WhitefieldScene",
-    "reputation_required": 150
+    "map": "whitefield_street",
+    "defaultSpawn": "player_spawn",
+    "fadeMs": 400,
+    "unlock": { "quest": "arrival" },
+    "ambient": {
+      "base": [
+        "citizen", "citizen_teal", "citizen_ochre", "citizen_maroon",
+        "citizen_olive", "citizen_slate", "citizen_violet", "citizen_sand"
+      ],
+      "count": 40,
+      "area": "ambient_area"
+    }
   }
 ]

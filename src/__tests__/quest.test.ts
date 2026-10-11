@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { gameEvents } from '../core/events';
 import { DialogueManager } from '../systems/DialogueManager';
 import { InventoryManager } from '../systems/InventoryManager';
-import { QuestManager, sceneUnlockedFlag } from '../systems/QuestManager';
+import { QuestManager } from '../systems/QuestManager';
+import { ReputationManager } from '../systems/ReputationManager';
 import { SaveManager } from '../systems/SaveManager';
 import { StatsManager } from '../systems/StatsManager';
 import { useGameStore } from '../store';
@@ -20,6 +21,7 @@ const installLocalStorage = () => {
 beforeEach(() => {
   gameEvents.clear();
   QuestManager.resetInstance();
+  ReputationManager.resetInstance();
   DialogueManager.resetInstance();
   InventoryManager.resetInstance();
   StatsManager.resetInstance();
@@ -61,7 +63,7 @@ describe('QuestManager', () => {
     const qm = new QuestManager(graph);
     expect(qm.start('second')).toBe(false); // first not completed
     qm.start('first');
-    gameEvents.emit('zone:reached', { zoneId: 'z', sceneKey: 'X' }); // completes first
+    gameEvents.emit('zone:reached', { zoneId: 'z', districtId: 'x' }); // completes first
     expect(qm.isCompleted('first')).toBe(true);
     expect(qm.start('second')).toBe(true);
     qm.dispose();
@@ -104,7 +106,7 @@ describe('QuestManager', () => {
     d.end();
 
     // Objective 3: reach the exit.
-    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', sceneKey: 'AirportScene' });
+    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', districtId: 'airport' });
 
     const state = useGameStore.getState();
     expect(state.quests.completed).toEqual(['arrival']);
@@ -116,8 +118,8 @@ describe('QuestManager', () => {
     expect(state.skills.city_survival.xp).toBe(50);
     expect(InventoryManager.getInstance().has('degree_certificate')).toBe(true);
 
-    // Scene unlock recorded as a flag.
-    expect(state.flags[sceneUnlockedFlag('PGScene')]).toBe(true);
+    // Whitefield is gated on this quest, so the exit is now open.
+    expect(ReputationManager.getInstance().canEnter('whitefield_street')).toBe(true);
 
     // And the shop transaction really happened.
     expect(state.stats.money).toBe(4980);
@@ -129,7 +131,7 @@ describe('QuestManager', () => {
     qm.start('arrival');
     const d = DialogueManager.getInstance();
     d.start('receptionist'); d.choose(1); d.end();
-    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', sceneKey: 'AirportScene' });
+    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', districtId: 'airport' });
     expect(qm.isCompleted('arrival')).toBe(true);
     expect(qm.start('arrival')).toBe(false);
   });
@@ -140,7 +142,7 @@ describe('QuestManager', () => {
     const d = DialogueManager.getInstance();
     d.start('receptionist'); d.choose(1); d.end();
 
-    expect(SaveManager.getInstance().save('AirportScene', 1, 2)).toBe(true);
+    expect(SaveManager.getInstance().save({ districtId: 'airport', x: 1, y: 2 })).toBe(true);
     useGameStore.getState().reset();
     expect(useGameStore.getState().inventory).toEqual([]);
 
@@ -155,7 +157,7 @@ describe('QuestManager', () => {
   it('resetInstance unsubscribes — a dead manager reacts to nothing', () => {
     QuestManager.getInstance().start('arrival');
     QuestManager.resetInstance();
-    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', sceneKey: 'AirportScene' });
+    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', districtId: 'airport' });
     // Objective untouched: the store still has the quest active and empty.
     expect(quests().active.arrival).toEqual([]);
   });

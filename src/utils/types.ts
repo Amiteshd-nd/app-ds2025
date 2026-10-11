@@ -32,15 +32,24 @@ export interface PlayerSkills {
 
 export type SkillBranchName = keyof PlayerSkills;
 
+/** How the player is drawn: a sprite-sheet key. P2 widens this to base × attire × skin. */
+export interface PlayerAppearance {
+  sheet: string;
+}
+
+/** Where the player is: a district id, never a scene class name (ADR-69). */
+export interface WorldPosition {
+  districtId: string;
+  x: number;
+  y: number;
+}
+
 export interface PlayerData {
   name: string;
   background: PlayerBackground;
   homeState: string;
-  position: {
-    scene: string;
-    x: number;
-    y: number;
-  };
+  appearance: PlayerAppearance;
+  position: WorldPosition;
   direction: Direction;
 }
 
@@ -86,22 +95,86 @@ export interface DialogueFile {
 }
 
 // --- Districts -------------------------------------------------------------
+export type TransitKind = 'walk' | 'bus' | 'metro' | 'scooter' | 'cab';
+
+/** What must be true before the player may enter a district. */
+export interface DistrictUnlock {
+  /** Quest that must be completed. */
+  quest?: string;
+  /** Minimum total reputation. */
+  reputation?: number;
+  /** Flags that must all be set. */
+  flags?: string[];
+}
+
+/** An NPC placed in a district: the definition is referenced by id, never copied. */
+export interface DistrictNpcRef {
+  id: string;
+  /** Object name in the map's spawn layer. */
+  spawn: string;
+}
+
+/** A placed object positioned by data rather than in Tiled. */
+export interface DistrictObjectRef {
+  /** ObjectDef id. */
+  id: string;
+  /** Spawn object name to place it at. */
+  at: string;
+  /** Item the player must hold for the object to exist — a delivered table, say. */
+  requires?: string;
+}
+
+/** Ambient crowd: random-walk bots drawn from a pool of sprite sheets. */
+export interface DistrictAmbient {
+  base: string[];
+  count: number;
+  /** Rectangle object in the spawn layer that bounds the crowd; whole map when absent. */
+  area?: string;
+}
+
+/** A zone that leads somewhere else. Always goes through TransitScene. */
+export interface DistrictExit {
+  /** Zone object name in the spawn layer. */
+  zone: string;
+  /** Destination district id. */
+  to: string;
+  /** Spawn object name in the destination map. */
+  spawn: string;
+  transit: TransitKind;
+  /** Card text shown during the ride; defaults to "<transit> → <district name>". */
+  card?: string;
+}
+
+/** A zone that announces itself on the bus (`zone:reached`) so quests can react. */
+export interface DistrictTrigger {
+  zone: string;
+  /** Fire on first entry only (default true). */
+  once?: boolean;
+}
+
 /**
- * A district is the unit of world expansion: a believable RPG interpretation
- * of a Bangalore area, not a 1:1 recreation. Adding one should require data —
- * map, tiles, NPCs, quests, dialogue — and no core code.
+ * A district is the unit of world expansion and the ONLY way a place exists:
+ * one WorldScene reads an entry and builds the place from it. Adding a
+ * district is adding an entry plus a map — no scene class, ever (ADR-15/60).
  */
 export interface DistrictDef {
   id: string;
   name: string;
-  /** Rollout phase, so content can ship district by district. */
-  phase: number;
-  /** Scene that renders it, from SCENE_KEYS. Absent until the scene is built. */
-  scene?: string;
-  /** Quest that opens it. */
-  unlocked_by_quest?: string;
-  /** Minimum total reputation required to enter. */
-  reputation_required?: number;
+  /** Key in maps.manifest.json. */
+  map: string;
+  /** Spawn object used when no spawn is named by the exit that led here. */
+  defaultSpawn: string;
+  fadeMs?: number;
+  unlock?: DistrictUnlock;
+  /** Quests started on entry; QuestManager.start is idempotent. */
+  quests?: string[];
+  npcs?: DistrictNpcRef[];
+  objects?: DistrictObjectRef[];
+  ambient?: DistrictAmbient;
+  exits?: DistrictExit[];
+  triggers?: DistrictTrigger[];
+  /** Behaviour molecules by name — see src/world/behaviours. */
+  behaviours?: string[];
 }
 
 // --- NPCs ------------------------------------------------------------------
@@ -115,11 +188,10 @@ export interface NpcDef {
   id: string;
   name: string;
   tier: NpcTier;
-  district: string;
   /** Dialogue id. Required for tier 2 and 3; ambient NPCs have none. */
   dialogue?: string;
-  /** Object name in the Tiled spawn layer that places this NPC. */
-  spawn?: string;
+  /** Sprite-sheet key. Falls back to the placeholder silhouette until art lands. */
+  sheet?: string;
   /** Placeholder tint until real portraits and sprites land. */
   tint?: number;
 }
@@ -193,7 +265,8 @@ export interface QuestFile {
   objectives: QuestObjective[];
   rewards: QuestRewards;
   on_complete?: {
-    unlock_scene?: string;
+    /** Flags to set — districts and dialogue gate on these. */
+    set_flags?: string[];
     trigger_dialogue?: string;
     trigger_cutscene?: string;
   };

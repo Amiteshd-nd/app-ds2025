@@ -25,6 +25,9 @@ export class ReputationManager {
     ReputationManager.instance = null;
   }
 
+  /** `districts` is injectable so tests can drive synthetic unlock rules. */
+  constructor(private districts: Record<string, DistrictDef> = DISTRICTS) {}
+
   get total(): number {
     return useGameStore.getState().reputation.total;
   }
@@ -83,24 +86,24 @@ export class ReputationManager {
   }
 
   /**
-   * Whether a district is enterable: its unlocking quest done and its
-   * reputation bar met. Districts with neither requirement are always open.
+   * Whether a district is enterable: its `unlock` rule satisfied — quest done,
+   * flags set, reputation bar met. A district with no rule is always open.
    */
   canEnter(districtId: string): boolean {
-    const district = DISTRICTS[districtId];
+    const district = this.districts[districtId];
     if (!district) return false;
 
-    const { quests } = useGameStore.getState();
-    if (district.unlocked_by_quest && !quests.completed.includes(district.unlocked_by_quest)) {
-      return false;
-    }
-    return this.total >= (district.reputation_required ?? 0);
+    const unlock = district.unlock;
+    if (!unlock) return true;
+
+    const { quests, flags } = useGameStore.getState();
+    if (unlock.quest && !quests.completed.includes(unlock.quest)) return false;
+    if (unlock.flags?.some((flag) => !flags[flag])) return false;
+    return this.total >= (unlock.reputation ?? 0);
   }
 
-  /** Every district the player can currently reach, in phase order. */
+  /** Every district the player can currently reach, in declaration order. */
   availableDistricts(): DistrictDef[] {
-    return Object.values(DISTRICTS)
-      .filter((d) => this.canEnter(d.id))
-      .sort((a, b) => a.phase - b.phase);
+    return Object.values(this.districts).filter((d) => this.canEnter(d.id));
   }
 }

@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 import type { PlayerBackground } from '../utils/constants';
-import { GAME_WIDTH, PLAYER_BACKGROUNDS, SCENE_KEYS } from '../utils/constants';
+import { GAME_WIDTH, PLAYER_BACKGROUNDS, SCENE_KEYS, START_DISTRICT } from '../utils/constants';
 import { useGameStore } from '../store';
+import type { WorldSceneData } from './WorldScene';
 
 type BackgroundData = (typeof PLAYER_BACKGROUNDS)[PlayerBackground];
 
@@ -311,7 +312,7 @@ export class CharacterSelectScene extends Phaser.Scene {
     this.time.delayedCall(600, () => {
       this.cameras.main.fadeOut(800, 0, 0, 0);
       this.cameras.main.once('camerafadeoutcomplete', () => {
-        this.scene.start(SCENE_KEYS.AIRPORT);
+        this.scene.start(SCENE_KEYS.WORLD, { districtId: START_DISTRICT } satisfies WorldSceneData);
       });
     });
   }

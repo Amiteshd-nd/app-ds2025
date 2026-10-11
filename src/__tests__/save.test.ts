@@ -62,7 +62,7 @@ describe('StatsManager', () => {
 describe('SaveManager', () => {
   it('round-trips stats and skills through a reset', () => {
     StatsManager.getInstance().applyEffect({ money: -350, xp: 120, xp_branch: 'city_survival' });
-    expect(SaveManager.getInstance().save('AirportScene', 128, 256)).toBe(true);
+    expect(SaveManager.getInstance().save({ districtId: 'airport', x: 128, y: 256 })).toBe(true);
 
     useGameStore.getState().reset();
     expect(useGameStore.getState().stats.money).toBe(5000);
@@ -73,11 +73,20 @@ describe('SaveManager', () => {
     expect(s.skills.city_survival.level).toBe(1);
   });
 
-  it('records the scene and position it was saved at', () => {
-    SaveManager.getInstance().save('AirportScene', 128, 256);
+  it('records the district and position it was saved at — never a scene class', () => {
+    SaveManager.getInstance().save({ districtId: 'airport', x: 128, y: 256 });
     expect(SaveManager.getInstance().load()!.player.position).toEqual({
-      scene: 'AirportScene', x: 128, y: 256,
+      districtId: 'airport', x: 128, y: 256,
     });
+  });
+
+  it('round-trips the player appearance', () => {
+    useGameStore.getState().setAppearance({ sheet: 'citizen_teal' });
+    SaveManager.getInstance().save();
+    useGameStore.getState().reset();
+    expect(useGameStore.getState().appearance.sheet).toBe('player');
+    SaveManager.getInstance().restore();
+    expect(useGameStore.getState().appearance.sheet).toBe('citizen_teal');
   });
 
   it('refuses a save written by a different format version', () => {

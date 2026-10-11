@@ -35,7 +35,7 @@ const quests = () => [
   },
 ];
 
-const districts = () => [{ id: 'airport', name: 'Airport', phase: 1 }];
+const districts = () => [{ id: 'airport', name: 'Airport', map: 'airport_map', defaultSpawn: 'player_spawn' }];
 
 const dialogue = (nodes: Record<string, unknown>) => [
   { file: 'dialogue/npc.json', basename: 'npc', json: { id: 'npc', speaker: 'S', portrait: 'p', nodes } },
@@ -121,14 +121,14 @@ describe('content validator', () => {
     expect(validateContent([], cyclic, items(), districts(), []).some((p) => p.includes('prerequisite cycle'))).toBe(true);
   });
 
-  it('catches an unknown reward item and a bad unlock scene', () => {
+  it('catches an unknown reward item and the retired unlock_scene field', () => {
     const bad = [{
       file: 'quests/x.json', basename: 'x',
-      json: { id: 'x', district: 'airport', type: 'search', objectives: [{ id: 'o' }], rewards: { items: ['nope'] }, on_complete: { unlock_scene: 'NopeScene' } },
+      json: { id: 'x', district: 'airport', type: 'search', objectives: [{ id: 'o' }], rewards: { items: ['nope'] }, on_complete: { unlock_scene: 'PGScene' } },
     }];
     const p = validateContent([], bad, items(), districts(), []);
     expect(p.some((x) => x.includes('reward item "nope"'))).toBe(true);
-    expect(p.some((x) => x.includes('not in SCENE_KEYS'))).toBe(true);
+    expect(p.some((x) => x.includes('unlock_scene is gone'))).toBe(true);
   });
 
   it('catches stackable/max_stack incoherence', () => {
@@ -155,42 +155,73 @@ describe('content validator', () => {
 
   it('catches a tier 2 NPC with no dialogue', () => {
     const bad = [{ file: 'npcs/a.json', basename: 'a',
-      json: [{ id: 'x', name: 'X', tier: 2, district: 'airport' }] }];
+      json: [{ id: 'x', name: 'X', tier: 2 }] }];
     const p = validateContent([], [], items(), districts(), bad);
     expect(p.some((m) => m.includes('is tier 2 but has no dialogue'))).toBe(true);
   });
 
   it('allows a tier 1 ambient NPC with no dialogue', () => {
     const ambient = [{ file: 'npcs/a.json', basename: 'a',
-      json: [{ id: 'x', name: 'X', tier: 1, district: 'airport' }] }];
+      json: [{ id: 'x', name: 'X', tier: 1 }] }];
     expect(validateContent([], [], items(), districts(), ambient)).toEqual([]);
   });
 
   it('catches an invalid NPC tier', () => {
     const bad = [{ file: 'npcs/a.json', basename: 'a',
-      json: [{ id: 'x', name: 'X', tier: 7, district: 'airport', dialogue: 'npc' }] }];
+      json: [{ id: 'x', name: 'X', tier: 7, dialogue: 'npc' }] }];
     const p = validateContent(dialogue({ start: { text: 'a' } }), [], items(), districts(), bad);
     expect(p.some((m) => m.includes('has tier 7'))).toBe(true);
   });
 
-  it('catches two NPCs claiming one spawn point', () => {
-    const clash = [{ file: 'npcs/a.json', basename: 'a', json: [
-      { id: 'a1', name: 'A', tier: 1, district: 'airport', spawn: 'desk' },
-      { id: 'a2', name: 'B', tier: 1, district: 'airport', spawn: 'desk' },
+  it('catches two NPCs claiming one spawn point in a district', () => {
+    const npcs = [{ file: 'npcs/a.json', basename: 'a', json: [
+      { id: 'a1', name: 'A', tier: 1 }, { id: 'a2', name: 'B', tier: 1 },
     ] }];
-    const p = validateContent([], [], items(), districts(), clash);
+    const clash = [{ ...districts()[0], npcs: [{ id: 'a1', spawn: 'desk' }, { id: 'a2', spawn: 'desk' }] }];
+    const p = validateContent([], [], items(), clash, npcs);
     expect(p.some((m) => m.includes('both claim spawn "desk"'))).toBe(true);
   });
 
-  it('catches a district unlocked by a quest that does not exist', () => {
-    const bad = [{ id: 'x', name: 'X', phase: 1, unlocked_by_quest: 'ghost' }];
+  it('catches a district placing an NPC that does not exist', () => {
+    const bad = [{ ...districts()[0], npcs: [{ id: 'ghost', spawn: 'desk' }] }];
     const p = validateContent([], [], items(), bad, []);
-    expect(p.some((m) => m.includes('unlocked by "ghost"'))).toBe(true);
+    expect(p.some((m) => m.includes('places NPC "ghost"'))).toBe(true);
   });
 
-  it('catches a district naming a scene outside SCENE_KEYS', () => {
-    const bad = [{ id: 'x', name: 'X', phase: 1, scene: 'NopeScene' }];
+  it('catches a district unlocked by a quest that does not exist', () => {
+    const bad = [{ ...districts()[0], id: 'x', unlock: { quest: 'ghost' } }];
     const p = validateContent([], [], items(), bad, []);
-    expect(p.some((m) => m.includes('not in SCENE_KEYS'))).toBe(true);
+    expect(p.some((m) => m.includes('unlocked by quest "ghost"'))).toBe(true);
+  });
+
+  it('catches a district with no map or defaultSpawn', () => {
+    const bad = [{ id: 'x', name: 'X' }];
+    const p = validateContent([], [], items(), bad, []);
+    expect(p.some((m) => m.includes('has no map key'))).toBe(true);
+    expect(p.some((m) => m.includes('has no defaultSpawn'))).toBe(true);
+  });
+
+  it('catches an exit that leads to a district that does not exist — the dead-end class of bug', () => {
+    const bad = [{ ...districts()[0], exits: [{ zone: 'z', to: 'pg_scene', spawn: 's', transit: 'bus' }] }];
+    const p = validateContent([], [], items(), bad, []);
+    expect(p.some((m) => m.includes('exits to "pg_scene"') && m.includes('dead end'))).toBe(true);
+  });
+
+  it('catches an exit with an unknown transit kind', () => {
+    const bad = [{ ...districts()[0], exits: [{ zone: 'z', to: 'airport', spawn: 's', transit: 'teleport' }] }];
+    const p = validateContent([], [], items(), bad, []);
+    expect(p.some((m) => m.includes('transit "teleport"'))).toBe(true);
+  });
+
+  it('catches a district starting a quest that does not exist', () => {
+    const bad = [{ ...districts()[0], quests: ['ghost'] }];
+    const p = validateContent([], [], items(), bad, []);
+    expect(p.some((m) => m.includes('starts quest "ghost"'))).toBe(true);
+  });
+
+  it('catches an unregistered behaviour name', () => {
+    const bad = [{ ...districts()[0], behaviours: ['teleporter'] }];
+    const p = validateContent([], [], items(), bad, []);
+    expect(p.some((m) => m.includes('behaviour "teleporter"'))).toBe(true);
   });
 });

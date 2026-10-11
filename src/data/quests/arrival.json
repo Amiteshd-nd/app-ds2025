@@ -33,8 +33,5 @@
       "degree_certificate"
     ],
     "reputation": 10
-  },
-  "on_complete": {
-    "unlock_scene": "PGScene"
   }
 }

@@ -190,6 +190,10 @@ const map = {
         { id: 1, name: 'player_spawn', point: true, rotation: 0, type: '', visible: true, x: 15 * T, y: 10.5 * T, width: 0, height: 0 },
         { id: 2, name: 'vendor', point: true, rotation: 0, type: '', visible: true, x: 7 * T + 16, y: TOP_WALK[1] * T + 24, width: 0, height: 0 },
         { id: 3, name: 'auto_driver', point: true, rotation: 0, type: '', visible: true, x: 20 * T + 16, y: BOTTOM_WALK[0] * T + 24, width: 0, height: 0 },
+        // Where the airport bus drops you: left end of the top pavement.
+        { id: 4, name: 'bus_stop', point: true, rotation: 0, type: '', visible: true, x: 2 * T + 16, y: TOP_WALK[1] * T + 8, width: 0, height: 0 },
+        // The walkable band (pavement, kerb, road) that ambient citizens stay inside.
+        { id: 5, name: 'ambient_area', rotation: 0, type: '', visible: true, x: T, y: TOP_WALK[0] * T, width: (W - 2) * T, height: (BOTTOM_WALK[1] - TOP_WALK[0] + 1) * T },
       ],
       opacity: 1,
       type: 'objectgroup',
@@ -229,5 +233,5 @@ writeFileSync(join(assets, 'tilemaps/whitefield_street.tmj'), `${JSON.stringify(
 const solid = collision.filter(Boolean).length;
 console.log(
   `✓ whitefield_street.tmj — ${W}x${H} tiles, ${solid} solid tiles, ` +
-    `${placed.length} placed objects, 3 spawns`,
+    `${placed.length} placed objects, 5 spawn objects`,
 );

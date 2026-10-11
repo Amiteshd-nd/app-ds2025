@@ -35,6 +35,12 @@ interface ManifestMap {
 
 export const TILE_SIZE_FROM_MANIFEST: number = manifest.tileSize;
 
+/**
+ * Canonical tile-layer draw order, back to front. WorldScene walks this list
+ * and creates whichever layers a map has — it never names a layer itself.
+ */
+export const LAYER_ORDER: readonly string[] = manifest.layerOrder;
+
 const build = (): Record<string, MapDefinition> => {
   const entries = Object.entries(manifest.maps as Record<string, ManifestMap>);
 
@@ -71,5 +77,3 @@ const build = (): Record<string, MapDefinition> => {
 
 /** Every map the game knows about, keyed by Phaser cache key. */
 export const MAPS: Record<string, MapDefinition> = build();
-
-export const AIRPORT_MAP = MAPS.airport_map;

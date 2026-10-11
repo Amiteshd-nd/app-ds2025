@@ -7,8 +7,10 @@ import {
   STARTING_MONEY,
   STARTING_STRESS,
   DEFAULT_PLAYER_NAME,
+  DEFAULT_PLAYER_SHEET,
 } from './utils/constants';
 import type {
+  PlayerAppearance,
   PlayerSkills,
   PlayerStats,
   ReputationState,
@@ -53,9 +55,12 @@ export interface GameState {
    */
   totalEarned: number;
   playerName: string;
+  appearance: PlayerAppearance;
   botCount: number;
   /** Key of the scene currently on screen — drives what the React HUD shows. */
   activeScene: string | null;
+  /** District WorldScene is rendering, or null outside the world. */
+  activeDistrict: string | null;
   stats: PlayerStats;
   skills: PlayerSkills;
   reputation: ReputationState;
@@ -66,7 +71,9 @@ export interface GameState {
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
+  setAppearance: (appearance: PlayerAppearance) => void;
   setActiveScene: (activeScene: string | null) => void;
+  setActiveDistrict: (activeDistrict: string | null) => void;
 
   adjustEnergy: (delta: number) => void;
   adjustStress: (delta: number) => void;
@@ -93,11 +100,15 @@ const initialQuests = (): QuestState => ({ active: {}, completed: [] });
 
 const initialReputation = (): ReputationState => ({ total: 0, byDistrict: {} });
 
+const initialAppearance = (): PlayerAppearance => ({ sheet: DEFAULT_PLAYER_SHEET });
+
 export const useGameStore = create<GameState>((set) => ({
   totalEarned: 0,
   playerName: DEFAULT_PLAYER_NAME,
+  appearance: initialAppearance(),
   botCount: 0,
   activeScene: null,
+  activeDistrict: null,
   stats: initialStats(),
   skills: emptySkills(),
   reputation: initialReputation(),
@@ -107,7 +118,9 @@ export const useGameStore = create<GameState>((set) => ({
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
+  setAppearance: (appearance) => set({ appearance }),
   setActiveScene: (activeScene) => set({ activeScene }),
+  setActiveDistrict: (activeDistrict) => set({ activeDistrict }),
 
   adjustEnergy: (delta) =>
     set((state) => ({
@@ -145,6 +158,7 @@ export const useGameStore = create<GameState>((set) => ({
   reset: () =>
     set({
       totalEarned: 0,
+      appearance: initialAppearance(),
       stats: initialStats(),
       skills: emptySkills(),
       reputation: initialReputation(),

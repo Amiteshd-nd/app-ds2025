@@ -1,7 +1,7 @@
 /**
  * Typed event bus — the seam between gameplay systems.
  *
- * Scenes announce what happened; systems react. AirportScene does not know the
+ * Scenes announce what happened; systems react. WorldScene does not know the
  * quest system exists, and QuestManager has never heard of Phaser. That is what
  * keeps a new system (achievements, analytics, the future ghost recorder or
  * multiplayer relay) a subscriber rather than another web of direct calls —
@@ -18,7 +18,8 @@ export interface GameEvents {
   'item:added': { itemId: string; count: number };
   'item:removed': { itemId: string; count: number };
   'entity:interacted': { entityId: string };
-  'zone:reached': { zoneId: string; sceneKey: string };
+  'zone:reached': { zoneId: string; districtId: string };
+  'district:entered': { districtId: string; fromDistrict?: string };
   'quest:started': { questId: string };
   'quest:objective': { questId: string; objectiveId: string };
   'quest:completed': { questId: string };

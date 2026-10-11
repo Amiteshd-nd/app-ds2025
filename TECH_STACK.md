@@ -50,18 +50,21 @@ src/
 ## Scene flow
 
 ```
-BootScene ──► TitleScene ──► CharacterSelectScene ──► AirportScene
-                  │                                        │
-                  └── Continue (restores a save) ───────────┘
-
-WhitefieldScene — MVP-1 bot sandbox, reachable via the startScene prop
+BootScene ──► TitleScene ──► CharacterSelectScene ──► WorldScene{airport}
+                  │                                        │ exit zone
+                  └── Continue (restores a save) ──► WorldScene{districtId,x,y}
+                                                           ▼
+                                        TransitScene (ride card) ──► WorldScene{whitefield_street}
 ```
 
-BootScene always runs first: it owns every asset and animation, so no later
-transition ever stalls on a fetch. It then starts whichever scene the
-`startScene` registry key names (default `TitleScene`), which is how
-`<BangaloreTimes startScene="WhitefieldScene" />` drops straight into the
-sandbox without a separate scene list.
+Places are not scenes (ADR-69): one `WorldScene` renders whichever district
+it is handed, and every area edge goes through `TransitScene`. BootScene
+always runs first: it owns every asset and animation, so no later transition
+ever stalls on a fetch. It then starts whichever scene the `startScene`
+registry key names (default `TitleScene`) — or, when `startDistrict` is set,
+drops straight into that district, which is how
+`<BangaloreTimes startDistrict="whitefield_street" />` opens the sandbox.
+See `ARCHITECTURE.md` for the current shape.
 
 One deliberate divergence: the reference has no React, so its managers own
 state directly. Here the managers delegate to the zustand store, so Phaser and

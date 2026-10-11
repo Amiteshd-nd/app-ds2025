@@ -6,36 +6,33 @@
  * whose `next` points at a node that no longer exists type-checks perfectly and
  * soft-locks the conversation at runtime. Everything here is the class of bug
  * the compiler cannot see: dangling references, unreachable nodes, unknown item
- * and quest ids, prerequisite cycles.
+ * and quest ids, prerequisite cycles, a district whose exit leads nowhere.
  *
- * Node runs this .ts file directly (24+ strips types), so SCENE_KEYS is
- * imported from constants rather than duplicated here.
+ * Node runs this .ts file directly (24+ strips types), so shared lists are
+ * imported from src rather than duplicated here.
  *
  * Exit 0 = content is sound. 1 = at least one problem.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-  NPC_TIERS,
-  QUEST_TYPES,
-  SCENE_KEYS,
-  SKILL_TIER_NAMES,
-} from '../src/utils/constants.ts';
+import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES } from '../src/utils/constants.ts';
+import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, '../src/data');
 
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
+const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab'];
 const SKILL_BRANCHES = Object.keys(SKILL_TIER_NAMES);
-const SCENES: string[] = Object.values(SCENE_KEYS);
 const QUEST_TYPE_LIST: string[] = [...QUEST_TYPES];
 const NPC_TIER_LIST: number[] = [...NPC_TIERS];
 
 type Json = Record<string, any>;
+type JsonFile = { file: string; basename: string; json: Json };
 
-const readJsonDir = (dir: string): Array<{ file: string; basename: string; json: Json }> => {
+const readJsonDir = (dir: string): JsonFile[] => {
   const path = join(dataDir, dir);
   if (!existsSync(path)) return [];
   return readdirSync(path)
@@ -48,12 +45,12 @@ const readJsonDir = (dir: string): Array<{ file: string; basename: string; json:
 };
 
 export function validateContent(
-  dialogueFiles: Array<{ file: string; basename: string; json: Json }>,
-  questFiles: Array<{ file: string; basename: string; json: Json }>,
-  itemFiles: Array<{ file: string; basename: string; json: Json }>,
+  dialogueFiles: JsonFile[],
+  questFiles: JsonFile[],
+  itemFiles: JsonFile[],
   districts: Json[] = [],
-  npcFiles: Array<{ file: string; basename: string; json: Json }> = [],
-  objectFiles: Array<{ file: string; basename: string; json: Json }> = [],
+  npcFiles: JsonFile[] = [],
+  objectFiles: JsonFile[] = [],
   tileIds: Record<string, number> = {},
 ): string[] {
   const problems: string[] = [];
@@ -84,25 +81,116 @@ export function validateContent(
     }
   }
 
-  // ── Districts ────────────────────────────────────────────────────────────
-  const districtIds = new Set<string>();
-  for (const district of districts) {
-    if (!district.id) { add('districts.json', 'a district has no id'); continue; }
-    if (districtIds.has(district.id)) add('districts.json', `duplicate district id "${district.id}"`);
-    districtIds.add(district.id);
+  const questIds = new Set(questFiles.map((q) => q.json.id).filter(Boolean));
+  const dialogueIds = new Set(dialogueFiles.map((d) => d.json.id).filter(Boolean));
 
-    if (typeof district.phase !== 'number') {
-      add('districts.json', `district "${district.id}" has no numeric phase`);
+  // ── NPCs ─────────────────────────────────────────────────────────────────
+  const npcIds = new Set<string>();
+  for (const { file, json } of npcFiles) {
+    if (!Array.isArray(json)) { add(file, 'expected an array of NPCs'); continue; }
+
+    for (const npc of json) {
+      if (!npc.id) { add(file, 'an NPC has no id'); continue; }
+      if (npcIds.has(npc.id)) add(file, `duplicate NPC id "${npc.id}"`);
+      npcIds.add(npc.id);
+
+      if (!NPC_TIER_LIST.includes(npc.tier)) {
+        add(file, `NPC "${npc.id}" has tier ${npc.tier}, expected one of ${NPC_TIER_LIST.join(', ')}`);
+      }
+      if (npc.dialogue && !dialogueIds.has(npc.dialogue)) {
+        add(file, `NPC "${npc.id}" points at dialogue "${npc.dialogue}", which does not exist`);
+      }
+      // Tier 1 is atmosphere; tiers 2 and 3 exist to be talked to.
+      if (npc.tier !== 1 && !npc.dialogue) {
+        add(file, `NPC "${npc.id}" is tier ${npc.tier} but has no dialogue`);
+      }
     }
-    if (district.scene && !SCENES.includes(district.scene)) {
-      add('districts.json', `district "${district.id}" names scene "${district.scene}", which is not in SCENE_KEYS`);
+  }
+
+  // ── Districts ────────────────────────────────────────────────────────────
+  // The unit of world expansion. Every reference a district makes — NPC, quest,
+  // exit target, behaviour — must resolve, because WorldScene builds the place
+  // from this entry and nothing else.
+  const districtIds = new Set<string>(districts.map((d) => d.id).filter(Boolean));
+  for (const district of districts) {
+    const where = 'districts.json';
+    if (!district.id) { add(where, 'a district has no id'); continue; }
+    const d = `district "${district.id}"`;
+    if (districts.filter((other) => other.id === district.id).length > 1) {
+      add(where, `duplicate district id "${district.id}"`);
+    }
+    if (typeof district.name !== 'string' || !district.name) add(where, `${d} has no name`);
+    if (typeof district.map !== 'string' || !district.map) add(where, `${d} has no map key`);
+    if (typeof district.defaultSpawn !== 'string' || !district.defaultSpawn) {
+      add(where, `${d} has no defaultSpawn`);
+    }
+
+    const unlock = district.unlock ?? {};
+    if (unlock.quest && !questIds.has(unlock.quest)) {
+      add(where, `${d} is unlocked by quest "${unlock.quest}", which does not exist`);
+    }
+    if (unlock.reputation !== undefined && typeof unlock.reputation !== 'number') {
+      add(where, `${d} unlock.reputation must be a number`);
+    }
+    if (unlock.flags !== undefined && !Array.isArray(unlock.flags)) {
+      add(where, `${d} unlock.flags must be an array`);
+    }
+
+    for (const questId of district.quests ?? []) {
+      if (!questIds.has(questId)) add(where, `${d} starts quest "${questId}", which does not exist`);
+    }
+
+    // Two NPCs on one spawn point means one of them silently never appears.
+    const claimed = new Map<string, string>();
+    for (const ref of district.npcs ?? []) {
+      if (!ref.id || !ref.spawn) {
+        add(where, `${d} has an NPC entry without id or spawn`);
+        continue;
+      }
+      if (!npcIds.has(ref.id)) add(where, `${d} places NPC "${ref.id}", which does not exist`);
+      const other = claimed.get(ref.spawn);
+      if (other) add(where, `${d}: NPC "${ref.id}" and "${other}" both claim spawn "${ref.spawn}"`);
+      else claimed.set(ref.spawn, ref.id);
+    }
+
+    for (const ref of district.objects ?? []) {
+      if (!ref.id || !ref.at) add(where, `${d} has an object entry without id or at`);
+      if (ref.requires && !itemIds.has(ref.requires)) {
+        add(where, `${d} object "${ref.id}" requires unknown item "${ref.requires}"`);
+      }
+    }
+
+    if (district.ambient) {
+      const { base, count } = district.ambient;
+      if (!Array.isArray(base) || base.length === 0) add(where, `${d} ambient.base must list at least one sheet`);
+      if (!Number.isInteger(count) || count < 0) add(where, `${d} ambient.count must be a non-negative integer`);
+    }
+
+    for (const exit of district.exits ?? []) {
+      if (!exit.zone || !exit.to || !exit.spawn) {
+        add(where, `${d} has an exit without zone, to or spawn`);
+        continue;
+      }
+      if (!districtIds.has(exit.to)) {
+        add(where, `${d} exits to "${exit.to}", which is not a district — a dead end`);
+      }
+      if (!TRANSIT_KINDS.includes(exit.transit)) {
+        add(where, `${d} exit "${exit.zone}" has transit "${exit.transit}", expected one of ${TRANSIT_KINDS.join(', ')}`);
+      }
+    }
+
+    for (const trigger of district.triggers ?? []) {
+      if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
+    }
+
+    for (const name of district.behaviours ?? []) {
+      if (!BEHAVIOUR_NAMES.includes(name)) {
+        add(where, `${d} lists behaviour "${name}", which is not registered (${BEHAVIOUR_NAMES.join(', ') || 'none yet'})`);
+      }
     }
   }
 
   // ── Quests ───────────────────────────────────────────────────────────────
-  const questIds = new Set(questFiles.map((q) => q.json.id).filter(Boolean));
-  const dialogueIds = new Set(dialogueFiles.map((d) => d.json.id).filter(Boolean));
-
   for (const { file, basename, json } of questFiles) {
     if (json.id !== basename) add(file, `id "${json.id}" does not match filename "${basename}"`);
 
@@ -136,54 +224,14 @@ export function validateContent(
     }
 
     const onComplete = json.on_complete ?? {};
-    if (onComplete.unlock_scene && !SCENES.includes(onComplete.unlock_scene)) {
-      add(file, `on_complete.unlock_scene "${onComplete.unlock_scene}" is not in SCENE_KEYS`);
+    if (onComplete.unlock_scene) {
+      add(file, 'on_complete.unlock_scene is gone — places are districts; gate them with unlock.quest or set_flags');
+    }
+    if (onComplete.set_flags !== undefined && !Array.isArray(onComplete.set_flags)) {
+      add(file, 'on_complete.set_flags must be an array of flag names');
     }
     if (onComplete.trigger_dialogue && !dialogueIds.has(onComplete.trigger_dialogue)) {
       add(file, `on_complete.trigger_dialogue "${onComplete.trigger_dialogue}" does not exist`);
-    }
-  }
-
-  for (const district of districts) {
-    if (district.unlocked_by_quest && !questIds.has(district.unlocked_by_quest)) {
-      add('districts.json', `district "${district.id}" is unlocked by "${district.unlocked_by_quest}", which does not exist`);
-    }
-  }
-
-  // ── NPCs ─────────────────────────────────────────────────────────────────
-  const npcIds = new Set<string>();
-  const seenSpawns = new Map<string, string>();
-  for (const { file, json } of npcFiles) {
-    if (!Array.isArray(json)) { add(file, 'expected an array of NPCs'); continue; }
-
-    for (const npc of json) {
-      if (!npc.id) { add(file, 'an NPC has no id'); continue; }
-      if (npcIds.has(npc.id)) add(file, `duplicate NPC id "${npc.id}"`);
-      npcIds.add(npc.id);
-
-      if (!NPC_TIER_LIST.includes(npc.tier)) {
-        add(file, `NPC "${npc.id}" has tier ${npc.tier}, expected one of ${NPC_TIER_LIST.join(', ')}`);
-      }
-      if (districts.length && !districtIds.has(npc.district)) {
-        add(file, `NPC "${npc.id}" is in district "${npc.district}", which is not in districts.json`);
-      }
-      if (npc.dialogue && !dialogueIds.has(npc.dialogue)) {
-        add(file, `NPC "${npc.id}" points at dialogue "${npc.dialogue}", which does not exist`);
-      }
-      // Tier 1 is atmosphere; tiers 2 and 3 exist to be talked to.
-      if (npc.tier !== 1 && !npc.dialogue) {
-        add(file, `NPC "${npc.id}" is tier ${npc.tier} but has no dialogue`);
-      }
-      // Two NPCs on one spawn point means one of them silently never appears.
-      if (npc.spawn) {
-        const key = `${npc.district}/${npc.spawn}`;
-        const claimed = seenSpawns.get(key);
-        if (claimed) {
-          add(file, `NPC "${npc.id}" and "${claimed}" both claim spawn "${npc.spawn}" in "${npc.district}"`);
-        } else {
-          seenSpawns.set(key, npc.id);
-        }
-      }
     }
   }
 
@@ -234,6 +282,17 @@ export function validateContent(
               add(file, `object "${obj.id}" variant "${variant}" uses unknown tile "${name}"`);
             }
           }
+        }
+      }
+    }
+  }
+
+  // District-placed objects can only be checked once object ids are known.
+  if (objectFiles.length) {
+    for (const district of districts) {
+      for (const ref of district.objects ?? []) {
+        if (ref.id && !objectIds.has(ref.id)) {
+          add('districts.json', `district "${district.id}" places object "${ref.id}", which has no manifest`);
         }
       }
     }
@@ -345,9 +404,7 @@ function validateEffect(
   return out;
 }
 
-function detectPrerequisiteCycles(
-  questFiles: Array<{ file: string; json: Json }>,
-): string[] {
+function detectPrerequisiteCycles(questFiles: Array<{ file: string; json: Json }>): string[] {
   const graph = new Map<string, string[]>();
   for (const { json } of questFiles) {
     if (json.id) graph.set(json.id, json.prerequisite_quests ?? []);

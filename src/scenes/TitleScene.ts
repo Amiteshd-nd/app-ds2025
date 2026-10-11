@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import { SaveManager } from '../systems/SaveManager';
 import { useGameStore } from '../store';
+import type { WorldSceneData } from './WorldScene';
 
 /**
  * TitleScene — main menu over a Bengaluru skyline silhouette.
@@ -185,17 +186,21 @@ export class TitleScene extends Phaser.Scene {
       return;
     }
 
+    // The save is the only thing that hydrates the store: WorldScene never
+    // restores on its own, so a fresh run cannot inherit an old one.
     SaveManager.getInstance().restore();
-    this.fadeToScene(save.player.position.scene || SCENE_KEYS.AIRPORT);
+    const { districtId, x, y } = save.player.position;
+    this.fadeToScene(SCENE_KEYS.WORLD, { districtId, x, y } satisfies WorldSceneData);
   }
 
   private startNewGame(): void {
+    useGameStore.getState().reset();
     this.fadeToScene(SCENE_KEYS.CHARACTER_SELECT);
   }
 
-  private fadeToScene(key: string): void {
+  private fadeToScene(key: string, data?: object): void {
     this.cameras.main.fadeOut(500, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start(key));
+    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start(key, data));
   }
 }
 

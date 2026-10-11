@@ -6,9 +6,6 @@ import { StatsManager } from './StatsManager';
 import { useGameStore } from '../store';
 import type { QuestFile } from '../utils/types';
 
-/** Flag key set when a quest unlocks a scene, e.g. "scene_unlocked:PGScene". */
-export const sceneUnlockedFlag = (sceneKey: string): string => `scene_unlocked:${sceneKey}`;
-
 /**
  * QuestManager — objective tracking driven entirely by the event bus.
  *
@@ -153,9 +150,9 @@ export class QuestManager {
       InventoryManager.getInstance().add(itemId);
     }
 
-    if (quest.on_complete?.unlock_scene) {
-      state.setFlag(sceneUnlockedFlag(quest.on_complete.unlock_scene), true);
-    }
+    // Flags are the generic unlock currency: districts, dialogue and later
+    // phone apps gate on them, so a quest never names a scene (ADR-15).
+    for (const flag of quest.on_complete?.set_flags ?? []) state.setFlag(flag, true);
 
     gameEvents.emit('quest:completed', { questId });
   }

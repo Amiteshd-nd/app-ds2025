@@ -9,6 +9,7 @@ import { StatsManager } from '../systems/StatsManager';
 import { useGameStore } from '../store';
 import { DISTRICTS, NPCS, npcsInDistrict, questsInDistrict, getDistrict, getNpc } from '../data';
 import { REPUTATION_TIER_NAMES, SAVE_KEY, SAVE_VERSION } from '../utils/constants';
+import type { DistrictDef } from '../utils/types';
 
 const installLocalStorage = () => {
   const mem = new Map<string, string>();
@@ -67,7 +68,7 @@ describe('ReputationManager', () => {
     rep().add(30, 'airport');
     expect(rep().total).toBe(30);
     expect(rep().standingIn('airport')).toBe(30);
-    expect(rep().standingIn('whitefield')).toBe(0);
+    expect(rep().standingIn('whitefield_street')).toBe(0);
   });
 
   it('emits reputation:changed, and reputation:tier only on a promotion', () => {
@@ -93,32 +94,52 @@ describe('ReputationManager', () => {
 });
 
 describe('district access', () => {
-  it('opens districts with no requirements', () => {
+  // Synthetic districts so each rule is tested on its own.
+  const district = (id: string, unlock?: DistrictDef['unlock']): DistrictDef => ({
+    id, name: id, map: 'm', defaultSpawn: 's', ...(unlock ? { unlock } : {}),
+  });
+  const gated = () => new ReputationManager({
+    open: district('open'),
+    by_quest: district('by_quest', { quest: 'arrival' }),
+    by_rep: district('by_rep', { reputation: 50 }),
+    by_flag: district('by_flag', { flags: ['pg_signed'] }),
+  });
+
+  it('opens districts with no unlock rule', () => {
     expect(rep().canEnter('airport')).toBe(true);
+    expect(gated().canEnter('open')).toBe(true);
   });
 
   it('gates a district behind its unlocking quest', () => {
-    expect(rep().canEnter('starter_neighborhood')).toBe(false);
+    expect(rep().canEnter('whitefield_street')).toBe(false); // the real airport → Whitefield gate
+    expect(gated().canEnter('by_quest')).toBe(false);
     useGameStore.getState().setQuests({ active: {}, completed: ['arrival'] });
-    expect(rep().canEnter('starter_neighborhood')).toBe(true);
+    expect(rep().canEnter('whitefield_street')).toBe(true);
+    expect(gated().canEnter('by_quest')).toBe(true);
   });
 
   it('gates a district behind reputation', () => {
-    expect(rep().canEnter('small_market')).toBe(false); // needs 50
-    rep().add(50);
-    expect(rep().canEnter('small_market')).toBe(true);
+    const r = gated();
+    expect(r.canEnter('by_rep')).toBe(false); // needs 50
+    r.add(50);
+    expect(r.canEnter('by_rep')).toBe(true);
+  });
+
+  it('gates a district behind a flag', () => {
+    const r = gated();
+    expect(r.canEnter('by_flag')).toBe(false);
+    useGameStore.getState().setFlag('pg_signed', true);
+    expect(r.canEnter('by_flag')).toBe(true);
   });
 
   it('refuses an unknown district instead of letting it through', () => {
     expect(rep().canEnter('atlantis')).toBe(false);
   });
 
-  it('lists available districts in phase order', () => {
-    rep().add(200);
+  it('lists available districts in declaration order', () => {
+    expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport']);
     useGameStore.getState().setQuests({ active: {}, completed: ['arrival'] });
-    const phases = rep().availableDistricts().map((d) => d.phase);
-    expect(phases).toEqual([...phases].sort((a, b) => a - b));
-    expect(rep().availableDistricts().map((d) => d.id)).toContain('whitefield');
+    expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport', 'whitefield_street']);
   });
 });
 
@@ -132,7 +153,7 @@ describe('district + NPC registries', () => {
 
   it('queries content by district — the unit of world expansion', () => {
     expect(npcsInDistrict('airport')).toHaveLength(5);
-    expect(npcsInDistrict('whitefield')).toEqual([]);
+    expect(npcsInDistrict('whitefield_street')).toEqual([]);
     expect(questsInDistrict('airport').map((q) => q.id)).toEqual(['arrival']);
   });
 
@@ -147,7 +168,7 @@ describe('reputation in the quest loop', () => {
     QuestManager.getInstance().start('arrival');
     const d = DialogueManager.getInstance();
     d.start('receptionist'); d.choose(1); d.end();
-    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', sceneKey: 'AirportScene' });
+    gameEvents.emit('zone:reached', { zoneId: 'zone_exit', districtId: 'airport' });
 
     expect(rep().total).toBe(10);
     expect(rep().standingIn('airport')).toBe(10);
@@ -199,12 +220,28 @@ describe('save migration', () => {
     expect(loaded).not.toBeNull();
     expect(loaded!.version).toBe(SAVE_VERSION);
     expect(loaded!.reputation).toEqual({ total: 0, byDistrict: {} });
+    // The scene class the old save named becomes the district it rendered.
+    expect(loaded!.player.position).toEqual({ districtId: 'airport', x: 1, y: 2 });
+    expect(loaded!.player.appearance).toEqual({ sheet: 'player' });
 
     expect(SaveManager.getInstance().restore()).toBe(true);
     const state = useGameStore.getState();
     expect(state.stats.money).toBe(1234);          // the old run survives
     expect(state.inventory).toEqual(['water_bottle']);
     expect(state.quests.completed).toEqual(['arrival']);
+  });
+
+  it('sends a legacy save whose scene is unknown back to the airport', () => {
+    mem.set(SAVE_KEY, JSON.stringify({
+      version: '1.1.0', timestamp: 1,
+      player: { name: 'Old', background: 'engineering', homeState: 'Other',
+        position: { scene: 'PGScene', x: 9, y: 9 }, direction: 'down' },
+      stats: { energy: 1, stress: 1, money: 1 },
+      skills: { technical: { xp: 0, level: 0 }, soft_skills: { xp: 0, level: 0 }, city_survival: { xp: 0, level: 0 } },
+      reputation: { total: 0, byDistrict: {} }, inventory: [], quests: { active: {}, completed: [] }, flags: {},
+      playtime_seconds: 0,
+    }));
+    expect(SaveManager.getInstance().load()!.player.position.districtId).toBe('airport');
   });
 
   it('still refuses a version it has no migration for', () => {

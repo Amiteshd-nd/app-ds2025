@@ -1,0 +1,50 @@
+import Phaser from 'phaser';
+import { gameEvents } from '../core/events';
+import { ReputationManager } from '../systems/ReputationManager';
+import type { DistrictDef, DistrictExit } from '../utils/types';
+import { EntryWatcher, findObject, zoneFromObject } from './Zones';
+
+export interface BoundExits {
+  update(): void;
+}
+
+/**
+ * Bind a district's exits to zones in its map.
+ *
+ * An exit is a zone first: stepping into it is a fact quests may be waiting on
+ * (the arrival quest's last objective is "reach zone_exit"), so `zone:reached`
+ * goes out *before* the gate is checked. Then, if the destination is open, the
+ * scene is handed the exit and transitions; if not, nothing happens and the
+ * watcher re-arms when the player steps out — a locked door, not a dead end.
+ */
+export function bind(
+  scene: Phaser.Scene,
+  district: DistrictDef,
+  map: Phaser.Tilemaps.Tilemap,
+  spawnLayer: string | undefined,
+  player: Phaser.Types.Physics.Arcade.ArcadeColliderType,
+  go: (exit: DistrictExit) => void,
+): BoundExits {
+  const watchers: EntryWatcher[] = [];
+
+  for (const exit of district.exits ?? []) {
+    const obj = findObject(map, spawnLayer, exit.zone);
+    if (!obj) {
+      // The validator checks this at build time; at runtime it means data and
+      // build have diverged, which deserves a loud message, not a silent wall.
+      console.error(`[Exits] district "${district.id}" exit zone "${exit.zone}" is not in its map`);
+      continue;
+    }
+
+    const zone = zoneFromObject(scene, obj, map.tileWidth);
+    watchers.push(
+      new EntryWatcher(scene, player, zone, () => {
+        gameEvents.emit('zone:reached', { zoneId: exit.zone, districtId: district.id });
+        if (!ReputationManager.getInstance().canEnter(exit.to)) return;
+        go(exit);
+      }),
+    );
+  }
+
+  return { update: () => watchers.forEach((w) => w.update()) };
+}
