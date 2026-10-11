@@ -17,3 +17,8 @@ Updated: 2026-10-12
 - Correction: ADR-75 (Capacitor appId / SPM / plugins) was not understandable as written.
 - Rule going forward: proposed ADRs shown at an audit get a one-line plain-English "what this means for you" before the technical text; purely technical calls with no product impact are decided, not asked.
 - Mobile smoke: **sync OK, not booted** (no Xcode / Android SDK on this Mac — T-018).
+
+### [P1 Style Lock — round 1] — 2026-10-12
+- Correction: candidate B's **rendering** (GPT image model: rich, slightly muted colour, detailed facades) is the register the user wants; candidate A rejected. But neither matched the **camera** of the references: the game must read as Pokémon LeafGreen / RPG Maker top-down.
+- Rule going forward: every environment prompt states the camera explicitly and negatively — "orthographic, straight down, no perspective, no vanishing point, no isometric, no horizon; flat roof on top with the front facade as a flat band beneath; street runs left→right on a 32px grid". "3/4 top-down" alone is not enough — image models read it as isometric.
+- Rule going forward: when picking between candidates, judge camera/projection first, rendering second — projection is what the tile pipeline cannot fix afterwards.
