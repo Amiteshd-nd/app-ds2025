@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import { SaveManager } from '../systems/SaveManager';
 import { useGameStore } from '../store';
+import { platform } from '../platform';
 import type { WorldSceneData } from './WorldScene';
 
 /**
@@ -163,6 +164,10 @@ export class TitleScene extends Phaser.Scene {
   }
 
   private confirmSelection(): void {
+    // The first confirm on the title screen is the user gesture that unlocks
+    // audio on iOS/Android (mobile foundation rule 8); nothing plays before it.
+    void platform.audio.unlock();
+
     switch (this.menuOptions[this.selectedIndex]) {
       case 'New Game':
         this.startNewGame();

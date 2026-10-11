@@ -40,8 +40,13 @@ src/
 scripts/           validate-maps.mjs · validate-content.ts · generate-art.mjs · generate-street-map.mjs · art/
 ```
 
+## Platform (`src/platform/`, ADR-64)
+`Platform.ts` = the interface (storage, saves, lifecycle, haptics, display, network, share, audio). `web.ts` implements it for browsers; `native.ts` spreads `web.ts` and overrides nothing yet (molecules arrive with their phases). `index.ts` picks one at boot via `Capacitor.isNativePlatform()`. Game code imports `{ platform }` from `src/platform` and nothing else — `scripts/validate-platform.mjs` fails the build otherwise. Used today: `platform.audio.unlock()` on the Title confirm (rule 8).
+Native shells: `capacitor.config.ts` (webDir `dist`) → `android/` (Gradle) and `ios/` (Xcode, SPM). `pnpm cap:sync` = build + copy `dist/` into both. Icon/splash sources and feature flags: `src/assets/_meta/platform.json`.
+
 ## Validation (`pnpm validate`, runs before every build)
 - `scripts/validate-maps.mjs` — tile size/orientation, layer taxonomy + order, hidden collision stencil, spawn + object layers, tileset images, City Pulse slot layer (named, unique, typed). **Warnings** (printed, non-fatal): doors not 32×48.
+- `scripts/validate-platform.mjs` — no device/browser API outside `src/platform/` (ADR-76).
 - `scripts/validate-content.ts` — `validateContent` (dialogue graphs, quests, items, NPCs, objects, district schema + references) and `validateWorld` (district ↔ map: every spawn/zone/area/pulse slot exists, exit landing spawns exist in the destination map, ambient sheets on disk, every district reachable from `START_DISTRICT`). **Warnings**: ADR-40 density (< 1 interactable per 10×10-tile screen).
 - Tests drive both validators on the real data and on synthetic breakages (`validate-*.test.ts`).
 
@@ -51,5 +56,6 @@ scripts/           validate-maps.mjs · validate-content.ts · generate-art.mjs 
 ## Known debt
 - Stat model is the old port (energy/stress/money ₹5,000, 4 educational backgrounds); the profile doc's model (ADR-15/17) lands in P2 (T-006/T-007).
 - Quest types and reputation tier names are the old 10-type / Outsider→Important Player sets; T-015 migrates to ADR-18/22/26.
-- No `src/platform/` yet; `SaveManager` talks to `localStorage` directly — P0.4 (T-004).
+- `SaveManager` still talks to `localStorage` directly (allowlisted) — moves to `platform.saves` with the slot system (T-011).
+- Native shells are generated and synced but unbuilt: no Xcode/Android SDK on this machine (T-018).
 - Reference tilesets (`airport*.png`) are continuous-tone with unresolved provenance — placeholders until P1.

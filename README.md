@@ -6,6 +6,7 @@ shell around it, shipped as an installable PWA.
 ```bash
 corepack pnpm install
 corepack pnpm dev        # http://localhost:6174
+corepack pnpm cap:sync   # same dist/ into the Android + iOS shells (Capacitor)
 ```
 
 Working title: **NAMMA OUTBREAK** — you come to Bangalore to make a life, then you

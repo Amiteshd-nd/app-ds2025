@@ -1,0 +1,16 @@
+{
+  "$comment": "Mobile foundation §3: where native icons/splashes are generated from and the OS floors we test against. Regenerate native assets with @capacitor/assets when the P1 style lock replaces the placeholder icon.",
+  "icon": "public/pwa-512x512.png",
+  "iconMaskable": "public/maskable-512x512.png",
+  "splash": { "background": "#0e0f13", "logo": "public/pwa-512x512.png" },
+  "minOs": { "android": "Capacitor 8 default (API 23+)", "ios": "Capacitor 8 default (iOS 14+)" },
+  "orientation": "landscape",
+  "featureFlags": {
+    "$comment": "Turning a platform feature off is one atom here (mobile foundation §4).",
+    "haptics": true,
+    "share": true,
+    "iap": false,
+    "notifications": false,
+    "analytics": false
+  }
+}

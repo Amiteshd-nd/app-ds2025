@@ -6,9 +6,10 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`
 - [x] T-002 P0.2 `WorldScene` refactor (tech §7 steps 1–4): Populate/Exits/Triggers, `districts.json` v2, `TransitScene` card airport→whitefield_street, delete Airport/Whitefield scenes, saves persist `districtId+spawnId`
 - [x] T-003 P0.3 Extend validators: district reachability from `airport` via exits, spawn/zone/npc/`to` references, door objects 32×48 (warn), City Pulse slot checks
-- [ ] T-004 P0.4 Platform shell: `src/platform/` interface + `web.ts` + `native.ts`, Capacitor config, `android/` + `ios/` generated from one `dist/`, Title boots on web (Android emulator + iOS simulator need Xcode/Android Studio — see MEMORY)
+- [x] T-004 P0.4 Platform shell: `src/platform/` interface + `web.ts` + `native.ts`, Capacitor config, `android/` + `ios/` generated from one `dist/`, Title boots on web (Android emulator + iOS simulator need Xcode/Android Studio — see MEMORY)
 
 ## Next
+- [ ] T-019 **P0 AUDIT GATE** — user reviews P0.1–P0.4 + decides ADR-66/67/68/75 (proposed); corrections → AUDIT_LOG.md
 - [ ] T-005 P1 Style Lock — ASK USER for 6–9 Bangalore photos + UI reference first (ADR-30); 1 reference image + `palette.gpl` + `style.json`
 - [ ] T-006 P2 Character creation form (name/gender/age/hometown/college/degree → `player.profile`) + M/F sprites × 5 skin tones; trim CharacterSelectScene
 - [ ] T-007 P2 Stat model per profile doc §2 (health/wallet ₹35,000 ADR-17/social/stamina/food/stress/battery) + `spend()`/`canAfford()` wired; retune tests

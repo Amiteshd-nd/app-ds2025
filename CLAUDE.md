@@ -26,10 +26,12 @@ Phaser 3.90 · TypeScript 5.9 strict (`tsc --noEmit` before Vite) · Zustand 5 �
 ```bash
 corepack pnpm dev        # http://localhost:6174
 corepack pnpm test       # vitest
-corepack pnpm validate   # maps + content
+corepack pnpm validate   # maps + content + platform boundary
 corepack pnpm typecheck  # tsc --noEmit
 corepack pnpm build      # validate → typecheck → vite build (+ PWA)
 corepack pnpm art        # regenerate sprites, tiles, street map
+corepack pnpm cap:sync   # build, then copy dist/ into android/ and ios/
+corepack pnpm cap:android | cap:ios   # …and open the native project
 ```
 
 ## 3. Read order

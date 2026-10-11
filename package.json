@@ -7,23 +7,32 @@
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/validate-maps.mjs && node scripts/validate-content.ts && tsc --noEmit && vite build",
+    "build": "node scripts/validate-maps.mjs && node scripts/validate-content.ts && node scripts/validate-platform.mjs && tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "validate:maps": "node scripts/validate-maps.mjs",
     "preview": "vite preview",
     "validate:content": "node scripts/validate-content.ts",
-    "validate": "node scripts/validate-maps.mjs && node scripts/validate-content.ts",
-    "art": "node scripts/generate-art.mjs && node scripts/generate-street-map.mjs"
+    "validate": "node scripts/validate-maps.mjs && node scripts/validate-content.ts && node scripts/validate-platform.mjs",
+    "art": "node scripts/generate-art.mjs && node scripts/generate-street-map.mjs",
+    "validate:platform": "node scripts/validate-platform.mjs",
+    "build:web": "pnpm build",
+    "cap:sync": "pnpm build && cap sync",
+    "cap:android": "pnpm cap:sync && cap open android",
+    "cap:ios": "pnpm cap:sync && cap open ios"
   },
   "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/core": "8.5.3",
+    "@capacitor/ios": "8.5.3",
     "phaser": "^3.90.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@capacitor/cli": "8.5.3",
     "@types/node": "^24.9.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
