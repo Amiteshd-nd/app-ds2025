@@ -1,0 +1,10 @@
+# Decisions (ADR log, append-only)
+Updated: 2026-10-11
+ADR-01..64 live in `docs/design/bangalore_rpg_design_decisions_v1.md` (the "why" of the whole design). This file continues the numbering with decisions made **in the repo** during the build. Supersede, don't delete: add a new row "ADR-xx supersedes ADR-yy". Rows marked *(proposed)* await the user's yes/no at the next audit.
+
+| ID | Date | Decision | Why | Rejected alternative |
+|---|---|---|---|---|
+| ADR-65 | 2026-10-11 | Design docs copied verbatim into `docs/design/`; root holds only the 5 working docs + `AUDIT_LOG.md` | `project_docs_convention.md`: reference, don't copy; settled docs are never rewritten | Pasting design content into root docs |
+| ADR-66 *(proposed)* | 2026-10-11 | Content and assets stay under `src/` (`src/data/**`, `src/assets/{tilemaps,tilesets,sprites}`), discovered by `import.meta.glob`. The design docs' root paths (`data/`, `maps/`, `assets/`) map 1:1 onto these | Bundler-resolved URLs work standalone and when the game is consumed as a library; validators and loaders already wired; zero churn before P1 art | Moving to root `data/`+`maps/` (breaks `?url` imports, large rename for no runtime gain) |
+| ADR-67 *(proposed)* | 2026-10-11 | Tiled layer taxonomy stays `Ground → Walls → Objects → Collision → Above Player → Effects → Foreground` (`maps.manifest.json#layerOrder`), plus object layers `Spawns`, `Objects Layer`. Design-doc names map onto it: ground=Ground, ground_detail+props_below=Walls/Objects, props_above=Above Player, npc_spawn=Spawns; `pulse_slots` added as an object layer when City Pulse lands | `WorldScene` reads `layerOrder` from the manifest, so a rename is a data edit later, not a code change; both existing maps + generator + validator already use this | Renaming now, before P1 replaces the maps anyway |
+| ADR-68 *(proposed)* | 2026-10-11 | Package/app name stays `Namma Quest` until the title decision (unfinished_business "Game title"); docs use the working title NAMMA OUTBREAK | Renaming package, PWA manifest, save key and HUD twice is waste | Renaming to Namma Outbreak now |

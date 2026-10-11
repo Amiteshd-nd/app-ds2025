@@ -1,5 +1,7 @@
 # Scaling-strategy coverage
 
+> **Superseded (2026-10-11).** The genre question below is resolved: the game is the slow-burn outbreak story in `docs/design/bangalore_rpg_story_script_v1.md` (ADR-03, ADR-10), not a crime thriller. Kept for the history of what the original port covered.
+
 Audit of `bangalore_rpg_low_cost_scaling_strategy.md` against this package.
 Section numbers refer to that document.
 
