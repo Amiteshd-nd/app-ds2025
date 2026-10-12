@@ -1,0 +1,7 @@
+{
+  "id": "shanthamma",
+  "contact": "Shanthamma (PG)",
+  "messages": [
+    { "id": "shanthamma_1", "from": "them", "text": "Shanthamma here. Gate closes 10 PM sharp. No outside non-veg in the room.", "after": "pg_signed", "critical": true }
+  ]
+}

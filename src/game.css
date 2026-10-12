@@ -176,6 +176,16 @@
   cursor: pointer;
 }
 
+/* Settings → Controls → joystick on the right: the stick and A swap sides. */
+.nq-touch-right .nq-stick {
+  left: auto;
+  right: calc(1.5rem + env(safe-area-inset-right));
+}
+.nq-touch-right .nq-action {
+  right: auto;
+  left: calc(1.5rem + env(safe-area-inset-left));
+}
+
 .nq-action:active {
   background: rgba(232, 172, 25, 1);
 }

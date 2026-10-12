@@ -50,6 +50,9 @@ scripts/           validate-*.{mjs,ts} · generate-art.mjs · generate-street-ma
 ## Behaviours (ADR-93)
 `src/world/behaviours/`: `index.ts` registry + `names.ts` (validator list). `hotelNightTimer` is the worked example. Triggers: `setFlags`, `dialogue`, `action: 'sleep'`. Quest objectives: `interact | dialogue | collect | reach | flag`.
 
+## Saves, settings, phone (P6 systems, ADR-110/111/112)
+`SaveManager`: slots `autosave|slot1|slot2|slot3` via `platform.saves`, read once at boot (`init()`), cached, written through; format 1.6.0; `summaries()` for the Load menu; autosave on area change, sleep, purchase, quest step. `SettingsManager` (`useSettings`): `data/settings.defaults.json`, persisted via `platform.storage`, live (difficulty → food drain, DND → buzzes, joystick side → TouchControls). `PhoneManager`: apps (`data/phone/apps.json`, flag-unlocked), chats (`data/phone/chats/*.json`, delivered on flags + district entry, toasts), UPI (`store.transactions`, labelled by spend/earn callers), Maps (district `realworld` + objective `destination`). UI (PhoneScene, minimap, menus) pending references.
+
 ## Negotiation (P5, ADR-95)
 `src/data/negotiations/<id>.json` (`NegotiationDef`: terms ask/floor, counters reason|compare|lowball, lines, on_deal flags/counters) → `NEGOTIATIONS` → `systems/NegotiationManager.ts` (`Negotiation` session: options, choose → null | 'deal' | 'walk'; `TEMPERAMENTS` table in constants). A dialogue node `negotiate: {id, deal, walk}` runs it inside `DialogueManager` (view gains `ledger`); `DialogueBox` sizes itself to the line + bill + up to 6 choices. Progress persists as counters `neg.<id>.<term>` and flags `neg.<id>.used.<counter>`. Emits `negotiation:ended`.
 

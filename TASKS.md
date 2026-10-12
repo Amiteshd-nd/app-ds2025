@@ -2,7 +2,7 @@
 Updated: 2026-10-12
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — Airport, Test Playground, title screen (awaiting audit) → P6
+## Now — P6 Phone + minimap + Settings + Save/Load
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`
 - [x] T-002 P0.2 `WorldScene` refactor (tech §7 steps 1–4): Populate/Exits/Triggers, `districts.json` v2, `TransitScene` card airport→whitefield_street, delete Airport/Whitefield scenes, saves persist `districtId+spawnId`
 - [x] T-003 P0.3 Extend validators: district reachability from `airport` via exits, spawn/zone/npc/`to` references, door objects 32×48 (warn), City Pulse slot checks
@@ -20,10 +20,10 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 - [x] T-025 Shanthamma's voice approved as drafted; ADR-97 food drain and the HiveNest retune confirmed (P5 audit round 1)
 - [x] T-026 P5 audit round 1 fixes: generated crowd, pixel-precise collision + occluders (ADR-99), interiors at character scale on black (ADR-100) — approved
 - [ ] T-029 Idle breathing — **parked, switched off** (user, 2026-10-12). Baked upper-body pipeline + controller kept (ADR-107); breath lines await approval; seated characters never breathe
-- [ ] T-030 Test Playground (ADR-104/105/108) — **built, awaiting audit**: tree, prerequisite builder, quiet inspector, presets, deep links, isolated saves, export-with-confirm, light/dark, resizable panels, phone-in-landscape thumbs simulation
-- [ ] T-031 Brand-new airport (ADR-109): generated arrivals hall + kerb, moving luggage carousel, generated sprites for every airport character — **built, awaiting audit**
-- [ ] T-028 Living title screen (ADR-101/102) — **built, awaiting audit**; then P6 (ask for phone/HUD/font references first, ADR-30)
-- [ ] T-011 P6 Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
+- [x] T-030 Test Playground (ADR-104/105/108) — approved 2026-10-13: tree, prerequisite builder, quiet inspector, presets, deep links, isolated saves, export-with-confirm, light/dark, resizable panels, phone-in-landscape thumbs simulation
+- [x] T-031 Brand-new airport (ADR-109) — approved 2026-10-13
+- [x] T-028 Living title screen (ADR-101/102) — approved 2026-10-13
+- [ ] T-011 P6 — systems done (ADR-110/111/112: slots via platform.saves, settings, phone rules, UPI ledger, Maps data, autosave triggers); **UI waits for the user's references** (phone screen, HUD/minimap, menus, pixel font) · Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
 - [ ] T-015 Quest taxonomy → `help|social|deliver|investigate|collect|chase|combat-lite` (ADR-18/22) and rep tiers → Hosa/Gothu/Namma (ADR-26); migrate existing content ids to prefix convention (`npc_`, `q_`, `dlg_`…)
 - [ ] T-016 M1 Android release · T-017 M2 iOS release (after web slice public)
 - [ ] T-024 Landscape lock + "rotate your phone" panel in portrait; safe-area insets on HUD pills; **the HUD + quest panel cover ~⅓ of an iPhone-size screen** (playground phone simulation, 2026-10-13) — compact phone HUD (mobile foundation rules 4–5)

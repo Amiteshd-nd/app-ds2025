@@ -3,6 +3,7 @@ import { gameEvents } from './core/events';
 import PhaserGame from './PhaserGame';
 import TouchControls from './TouchControls';
 import { useGameStore } from './store';
+import { useSettings } from './systems/SettingsManager';
 import { QUESTS } from './data';
 import { REPUTATION_THRESHOLDS, REPUTATION_TIER_NAMES, SCENE_KEYS, SKILL_TIER_NAMES } from './utils/constants';
 import './game.css';
@@ -33,6 +34,7 @@ const clockLabel = (day: number, minute: number): string =>
 
 const BangaloreTimes = ({ backSlot, startScene, startDistrict, touchControls = 'auto' }: BangaloreTimesProps) => {
   const botCount = useGameStore((s) => s.botCount);
+  const joystickSide = useSettings((s) => s.settings.controls.joystickSide) as 'left' | 'right';
   const clock = useGameStore((s) => s.clock);
   const hotelNights = useGameStore((s) => s.counters.hotel_nights_left);
   const [toasts, setToasts] = useState<Array<{ id: number; text: string }>>([]);
@@ -161,7 +163,7 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict, touchControls = '
           </div>
 
           {/* Joystick + A on touch devices; nothing on a desktop. */}
-          <TouchControls always={touchControls === 'always'} />
+          <TouchControls always={touchControls === 'always'} side={joystickSide} />
         </>
       )}
     </div>

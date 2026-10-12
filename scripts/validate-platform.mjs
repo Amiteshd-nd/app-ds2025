@@ -32,7 +32,7 @@ export const FORBIDDEN = [
  * removes it. Shrinks, never grows, without a DECISIONS row.
  */
 export const ALLOWLIST = {
-  'systems/SaveManager.ts': 'T-011 — moves to platform.saves with the 3-slot system (ADR-63)',
+  // Empty since T-011: SaveManager now goes through platform.saves.
 };
 
 // `playground` is dev-only tooling (ADR-104): it never ships to web, PWA,

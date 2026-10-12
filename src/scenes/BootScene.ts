@@ -12,7 +12,10 @@ import { motion } from '../ui/tokens';
 import { STREET_FRAMES_KEY } from '../entities/PlacedObject';
 import { MAPS } from '../assets/maps';
 import { useGameStore } from '../store';
+import { SaveManager } from '../systems/SaveManager';
+import { useSettings } from '../systems/SettingsManager';
 import { QuestManager } from '../systems/QuestManager';
+import { PhoneManager } from '../systems/PhoneManager';
 
 /**
  * BootScene — preloads every shared asset behind a loading bar, registers the
@@ -98,6 +101,7 @@ export class BootScene extends Phaser.Scene {
     // The quest system reacts to bus events; instantiate it before any scene
     // can emit one, or the first objective of a run could be missed.
     QuestManager.getInstance();
+    PhoneManager.getInstance();
 
     this.setAllTexturesNearest();
     this.createPlaceholderTextures();
@@ -109,9 +113,17 @@ export class BootScene extends Phaser.Scene {
     const startDistrict = this.registry.get('startDistrict') as string | undefined;
     const next = (this.registry.get('startScene') as string | undefined) ?? SCENE_KEYS.TITLE;
 
+    // Save slots are read once from disk (platform.saves) before anything can
+    // Continue or autosave; a failed read leaves them empty, never stuck.
+    const savesReady = Promise.all([
+      SaveManager.getInstance().init().catch((err) => console.warn('[BootScene] save slots unreadable:', err)),
+      useSettings.getState().load(),
+    ]);
     this.time.delayedCall(300, () => {
-      if (startDistrict) this.scene.start(SCENE_KEYS.WORLD, { districtId: startDistrict });
-      else this.scene.start(next);
+      void savesReady.then(() => {
+        if (startDistrict) this.scene.start(SCENE_KEYS.WORLD, { districtId: startDistrict });
+        else this.scene.start(next);
+      });
     });
   }
 

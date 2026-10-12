@@ -1,6 +1,7 @@
 import { gameEvents } from '../core/events';
 import { useGameStore, type GameClock } from '../store';
 import { StatsManager } from './StatsManager';
+import { survivalRate } from './SettingsManager';
 import {
   FOOD_MINUTES_PER_POINT,
   GAME_MINUTE_MS,
@@ -75,8 +76,9 @@ export class TimeManager {
    * Crossing into hunger says so once; walking slows while it lasts (Player).
    */
   private drainFood(minutes: number): void {
-    this.foodCarry += minutes;
-    const points = Math.floor(this.foodCarry / FOOD_MINUTES_PER_POINT);
+    // Relaxed difficulty halves survival ticks (ADR-16, Settings → Gameplay).
+    this.foodCarry += minutes * survivalRate();
+    const points = Math.floor(this.foodCarry / FOOD_MINUTES_PER_POINT + 1e-9);
     if (points <= 0) return;
     this.foodCarry -= points * FOOD_MINUTES_PER_POINT;
     const before = useGameStore.getState().stats.food;

@@ -80,7 +80,7 @@ describe('save 1.3.0 — profile', () => {
     expect(s.playerName).toBe('Ravi');
   });
 
-  it('upgrades a 1.2.0 save: keeps the name, defaults the rest, re-derives the sprite', () => {
+  it('upgrades a 1.2.0 save: keeps the name, defaults the rest, re-derives the sprite', async () => {
     mem.set(SAVE_KEY, JSON.stringify({
       version: '1.2.0', timestamp: 1,
       player: { name: 'Old', background: 'engineering', homeState: 'Kerala', appearance: { sheet: 'player' },
@@ -90,6 +90,7 @@ describe('save 1.3.0 — profile', () => {
       reputation: { total: 0, byDistrict: {} }, inventory: [], quests: { active: {}, completed: [] }, flags: {},
       playtime_seconds: 0,
     }));
+    await SaveManager.getInstance().init();
     const loaded = SaveManager.getInstance().load()!;
     expect(loaded.version).toBe(SAVE_VERSION);
     expect(loaded.player.profile).toMatchObject({ name: 'Old', gender: 'M', age: 22, skin: 3, hometown: { state: 'Kerala' } });

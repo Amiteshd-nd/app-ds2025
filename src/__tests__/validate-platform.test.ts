@@ -28,8 +28,8 @@ describe('platform boundary (ADR-64)', () => {
     expect(checkSource('x.ts', '// never call localStorage here')).toEqual([]);
   });
 
-  it('lets an allowlisted file through, and the allowlist names the task that removes it', () => {
-    expect(checkSource('systems/SaveManager.ts', 'localStorage.getItem("k")')).toEqual([]);
-    for (const reason of Object.values(ALLOWLIST) as string[]) expect(reason).toMatch(/T-\d{3}/);
+  it('has an empty allowlist since T-011: SaveManager is held to the rule like any file', () => {
+    expect(Object.keys(ALLOWLIST)).toEqual([]);
+    expect(checkSource('systems/SaveManager.ts', 'localStorage.getItem("k")')).toHaveLength(1);
   });
 });

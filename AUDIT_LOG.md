@@ -85,3 +85,7 @@ Updated: 2026-10-12
 - Built: generated arrivals hall + kerb (`kempegowda_arrivals`, same pipeline and rules as the lane: pixel collision at ground lines, occluders, people solid), moving luggage carousel (`beh_carousel`), all six airport placeholders replaced with generated sheets; the old reference-project tilesets of unknown provenance are deleted.
 - Rule going forward: when a generated render draws a doorway shut, open it with a reproducible spec `patch` (copy part of the same render), never by hand-painting the raw.
 - Mobile smoke: joystick drives the player in the airport inside the playground's iPhone 15 frame. Finding from the simulation: at a real iPhone size the HUD + quest panel cover about a third of the screen (T-024).
+
+### [Airport, Test Playground, title screen — approved] — 2026-10-13
+- Decision: "approved, go for P6" — covers the new airport (ADR-109), the Test Playground (ADR-104/105/108) and the living title screen (ADR-101/102). ADR-101 (title keeps its own 64-colour palette) stands — not superseded.
+- Breathing stays parked (T-029).

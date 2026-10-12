@@ -1,0 +1,8 @@
+{
+  "id": "pg_deals",
+  "contact": "PG Deals Bengaluru",
+  "messages": [
+    { "id": "pg_deals_1", "from": "them", "text": "Sir/Madam!! PG available Whitefield ₹5,999 with food + WiFi. Only 2 beds left, call fast!!", "after": "pg_lane_found" },
+    { "id": "pg_deals_2", "from": "them", "text": "Booking token ₹999 only. Refundable 100%.", "after": "pg_token_quoted" }
+  ]
+}

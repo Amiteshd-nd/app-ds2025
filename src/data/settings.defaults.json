@@ -1,0 +1,9 @@
+{
+  "$comment": "Settings atoms (settings_and_saveload §1). Defaults only — the player's choices persist through platform.storage and apply live (SettingsManager).",
+  "audio": { "master": 80, "music": 70, "sfx": 80, "ambience": 70, "muted": false },
+  "display": { "fullscreen": false, "pixelScale": "auto", "screenShake": true, "reduceFlashes": false },
+  "gameplay": { "difficulty": "normal", "doNotDisturb": false, "minimap": true, "tutorialHints": true, "dialogueSpeed": "normal", "autoRun": false },
+  "controls": { "joystickSide": "left", "joystickSize": "medium", "haptics": true },
+  "language": { "ui": "en" },
+  "accessibility": { "colourblindIcons": false, "largerText": false, "holdToRun": true }
+}

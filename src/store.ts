@@ -89,6 +89,10 @@ export interface GameState {
   clock: GameClock;
   /** Generic numeric state for behaviours (hotel nights left, …). Saved. */
   counters: Record<string, number>;
+  /** The UPI app's ledger: every rupee in and out, newest last. Saved. */
+  transactions: Transaction[];
+  /** Phone state: chat message ids delivered and read. Saved. */
+  phone: PhoneState;
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -114,6 +118,9 @@ export interface GameState {
   /** Wholesale replacement — InventoryManager/QuestManager own the rules. */
   setInventory: (inventory: string[]) => void;
   setQuests: (quests: QuestState) => void;
+  /** Append to the UPI ledger (StatsManager does this on every spend/earn). */
+  addTransaction: (tx: Transaction) => void;
+  setPhone: (phone: PhoneState) => void;
 
   hydrate: (partial: Partial<GameState>) => void;
   reset: () => void;
@@ -138,6 +145,25 @@ export const initialClock = (): GameClock => ({ day: 1, minute: 6 * 60 + 10 });
 
 const initialAppearance = (): PlayerAppearance => ({ sheet: DEFAULT_PLAYER_SHEET });
 
+/** One UPI ledger line. `amount` < 0 is money out. */
+export interface Transaction {
+  amount: number;
+  /** Who/what: "Chai Anna", "Vayu Vajra", "Shanthamma (PG)". */
+  label: string;
+  /** spend()/earn() reason code, for analytics. */
+  reason: string;
+  day: number;
+  minute: number;
+  balance: number;
+}
+
+export interface PhoneState {
+  delivered: string[];
+  read: string[];
+}
+
+const initialPhone = (): PhoneState => ({ delivered: [], read: [] });
+
 export const useGameStore = create<GameState>((set, get) => ({
   totalEarned: 0,
   playerName: DEFAULT_PLAYER_NAME,
@@ -155,6 +181,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   met: [],
   clock: initialClock(),
   counters: {},
+  transactions: [],
+  phone: initialPhone(),
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -209,6 +237,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   setInventory: (inventory) => set({ inventory }),
   setQuests: (quests) => set({ quests }),
+  addTransaction: (tx) => set((state) => ({ transactions: [...state.transactions, tx] })),
+  setPhone: (phone) => set({ phone }),
 
   hydrate: (partial) => set(partial),
 
@@ -227,5 +257,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       met: [],
       clock: initialClock(),
       counters: {},
+      transactions: [],
+      phone: initialPhone(),
     }),
 }));

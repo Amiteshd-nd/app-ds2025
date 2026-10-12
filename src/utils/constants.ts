@@ -207,14 +207,15 @@ export const DEFAULT_PLAYER_SHEET = 'player_m_3';
 // 1.3.0: player.profile replaces name/background/homeState (P2 character creation).
 // 1.4.0: stats are health/wallet/social/stamina/food/stress/battery; `met` ledger added.
 // 1.5.0: clock + counters (TimeSystem, behaviours).
-export const SAVE_VERSION = '1.5.0';
+// 1.6.0: UPI ledger (transactions), phone delivered/read, real playtime; slots via platform.saves.
+export const SAVE_VERSION = '1.6.0';
 
 /**
  * Older formats that can be upgraded forward rather than discarded. Refusing a
  * save is correct when its shape is unknown; throwing away a player's run
  * because a field was added is not.
  */
-export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0', '1.3.0', '1.4.0'] as const;
+export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0', '1.3.0', '1.4.0', '1.5.0'] as const;
 
 /** Scene class names that pre-1.2.0 saves recorded, mapped to the district they meant. */
 export const LEGACY_SCENE_DISTRICTS: Record<string, string> = {
@@ -222,3 +223,5 @@ export const LEGACY_SCENE_DISTRICTS: Record<string, string> = {
   WhitefieldScene: 'whitefield_street',
 };
 export const SAVE_KEY = 'bangalore-times:save';
+/** Save slots (settings_and_saveload §2): one autosave + three manual. */
+export const SAVE_SLOTS = ['autosave', 'slot1', 'slot2', 'slot3'] as const;

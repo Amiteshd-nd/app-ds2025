@@ -13,19 +13,22 @@
       "id": "check_in",
       "text": "Check in at reception",
       "type": "flag",
-      "target": "hotel_checked_in"
+      "target": "hotel_checked_in",
+      "destination": "whitefield_hotel"
     },
     {
       "id": "divya",
       "text": "Take Divya's call in the room",
       "type": "flag",
-      "target": "divya_called"
+      "target": "divya_called",
+      "destination": "whitefield_hotel"
     },
     {
       "id": "sleep",
       "text": "Sleep (the first of three nights)",
       "type": "flag",
-      "target": "hotel_slept_once"
+      "target": "hotel_slept_once",
+      "destination": "whitefield_hotel"
     }
   ],
   "rewards": {

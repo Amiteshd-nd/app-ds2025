@@ -204,7 +204,7 @@ describe('save migration', () => {
     expect(rep().standingIn('airport')).toBe(75);
   });
 
-  it('upgrades a 1.0.0 save forward instead of discarding the run', () => {
+  it('upgrades a 1.0.0 save forward instead of discarding the run', async () => {
     mem.set(SAVE_KEY, JSON.stringify({
       version: '1.0.0',
       timestamp: 1,
@@ -218,6 +218,7 @@ describe('save migration', () => {
       flags: {},
       playtime_seconds: 0,
     }));
+    await SaveManager.getInstance().init();
 
     const loaded = SaveManager.getInstance().load();
     expect(loaded).not.toBeNull();
@@ -236,7 +237,7 @@ describe('save migration', () => {
     expect(state.quests.completed).toEqual(['q_act0_arrival']);
   });
 
-  it('sends a legacy save whose scene is unknown back to the airport', () => {
+  it('sends a legacy save whose scene is unknown back to the airport', async () => {
     mem.set(SAVE_KEY, JSON.stringify({
       version: '1.1.0', timestamp: 1,
       player: { name: 'Old', background: 'engineering', homeState: 'Other',
@@ -246,11 +247,13 @@ describe('save migration', () => {
       reputation: { total: 0, byDistrict: {} }, inventory: [], quests: { active: {}, completed: [] }, flags: {},
       playtime_seconds: 0,
     }));
+    await SaveManager.getInstance().init();
     expect(SaveManager.getInstance().load()!.player.position.districtId).toBe('airport');
   });
 
-  it('still refuses a version it has no migration for', () => {
+  it('still refuses a version it has no migration for', async () => {
     mem.set(SAVE_KEY, JSON.stringify({ version: '0.5.0', stats: {} }));
+    await SaveManager.getInstance().init();
     expect(SaveManager.getInstance().load()).toBeNull();
   });
 });

@@ -48,7 +48,9 @@ export function bind(
           return;
         }
         // The fare is the first real money sink (game_components §7).
-        if (exit.fare && !StatsManager.getInstance().spend(exit.fare, `fare:${exit.transit}`)) return;
+        // Ledger label: the ride's name from its card ("Vayu Vajra KIA-8 → Whitefield · ₹250").
+        const label = exit.card?.split('·')[0].trim() ?? `${exit.transit} fare`;
+        if (exit.fare && !StatsManager.getInstance().spend(exit.fare, `fare:${exit.transit}`, label)) return;
         go(exit);
       }),
     );

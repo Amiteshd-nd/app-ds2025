@@ -178,6 +178,19 @@ export class WorldScene extends Phaser.Scene {
       fromDistrict: data.fromDistrict,
     });
 
+    // Autosave also on a purchase and on a quest step (settings_and_saveload §2),
+    // batched: a burst of events (pay → objective → quest done) writes once.
+    let pending: Phaser.Time.TimerEvent | null = null;
+    const soon = () => {
+      pending?.remove();
+      pending = this.time.delayedCall(400, () => { pending = null; if (!this.leaving) this.persist(); });
+    };
+    this.teardowns.push(
+      gameEvents.on('wallet:spent', soon),
+      gameEvents.on('quest:objective', soon),
+      gameEvents.on('quest:completed', soon),
+    );
+
     // Autosave on arrival as well as on leaving (ADR-63: area transition).
     // Without this, closing the game during a transit card would resume the
     // player standing on the exit zone they just used.
@@ -356,6 +369,7 @@ export class WorldScene extends Phaser.Scene {
     this.crowd.update(time);
     // The day only ages while the player is in the world and free to act.
     if (!this.dialogueBox.isOpen && !this.leaving && !this.sleeping) TimeManager.getInstance().tick(delta);
+    SaveManager.getInstance().tick(delta);
     // Zones are not checked while asleep: the fade must finish before the bed
     // (or a door) can fire again.
     if (!this.leaving && !this.sleeping) {

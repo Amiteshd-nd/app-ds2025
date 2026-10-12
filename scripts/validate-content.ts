@@ -59,6 +59,7 @@ export function validateContent(
   tileIds: Record<string, number> = {},
   sceneFiles: JsonFile[] = [],
   negotiationFiles: JsonFile[] = [],
+  phone: { apps?: Json[]; chats?: JsonFile[] } = {},
 ): string[] {
   const problems: string[] = [];
   const add = (file: string, msg: string) => problems.push(`${file}: ${msg}`);
@@ -208,6 +209,13 @@ export function validateContent(
       }
     }
 
+    if (district.realworld !== undefined) {
+      const rw = district.realworld;
+      const coords = typeof rw.lat === 'number' && typeof rw.lng === 'number' && Math.abs(rw.lat) <= 90 && Math.abs(rw.lng) <= 180;
+      const parent = typeof rw.parent === 'string' && districtIds.has(rw.parent) && rw.parent !== district.id;
+      if (!coords && !parent) add(where, `${d} realworld needs lat/lng or a parent district`);
+    }
+
     for (const name of district.behaviours ?? []) {
       if (!BEHAVIOUR_NAMES.includes(name)) {
         add(where, `${d} lists behaviour "${name}", which is not registered (${BEHAVIOUR_NAMES.join(', ') || 'none yet'})`);
@@ -230,6 +238,9 @@ export function validateContent(
     for (const obj of json.objectives ?? []) {
       if (objectiveIds.has(obj.id)) add(file, `duplicate objective id "${obj.id}"`);
       objectiveIds.add(obj.id);
+      if (obj.destination !== undefined && districts.length && !districtIds.has(obj.destination)) {
+        add(file, `objective "${obj.id}" destination "${obj.destination}" is not a district`);
+      }
     }
     if (!json.objectives?.length) add(file, 'has no objectives');
 
@@ -417,6 +428,28 @@ export function validateContent(
       if (!termIds.has(termId as string)) add(file, `on_deal.counters names unknown term "${termId}"`);
     }
     if (n.on_deal?.flags !== undefined && !Array.isArray(n.on_deal.flags)) add(file, 'on_deal.flags must be an array');
+  }
+
+  // ── Phone (P6) ───────────────────────────────────────────────────────────
+  const appIds = new Set<string>();
+  for (const app of phone.apps ?? []) {
+    if (!app.id || !app.name || !Number.isInteger(app.order)) add('phone/apps.json', `every app needs id, name and an integer order`);
+    if (appIds.has(app.id)) add('phone/apps.json', `duplicate app "${app.id}"`);
+    appIds.add(app.id);
+    if (app.unlock !== undefined && (typeof app.unlock !== 'string' || !app.unlock)) add('phone/apps.json', `app "${app.id}" unlock must be a flag name`);
+  }
+  const messageIds = new Set<string>();
+  for (const { file, basename, json } of phone.chats ?? []) {
+    if (json.id !== basename) add(file, `id "${json.id}" does not match filename "${basename}"`);
+    if (!json.contact) add(file, 'needs a contact name');
+    if (!Array.isArray(json.messages) || !json.messages.length) add(file, 'needs at least one message');
+    for (const m of json.messages ?? []) {
+      if (!m.id || !m.text) add(file, 'every message needs id and text');
+      if (messageIds.has(m.id)) add(file, `message id "${m.id}" is used twice — ids are global (they are saved)`);
+      messageIds.add(m.id);
+      if (m.from !== 'them' && m.from !== 'me') add(file, `message "${m.id}" from must be "them" or "me"`);
+      if (m.after !== undefined && (typeof m.after !== 'string' || !m.after)) add(file, `message "${m.id}" after must be a flag name`);
+    }
   }
 
   // ── Dialogue ─────────────────────────────────────────────────────────────
@@ -745,13 +778,15 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const objects = readJsonDir('objects');
   const scenes = readJsonDir('scenes');
   const negotiations = readJsonDir('negotiations');
+  const phoneApps = JSON.parse(readFileSync(join(dataDir, 'phone/apps.json'), 'utf8')) as Json[];
+  const chats = readJsonDir('phone/chats');
   const districts = JSON.parse(readFileSync(join(dataDir, 'districts.json'), 'utf8')) as Json[];
   const tileIds = (
     JSON.parse(
       readFileSync(resolve(here, '../src/assets/tilesets/street.tiles.json'), 'utf8'),
     ) as { ids: Record<string, number> }
   ).ids;
-  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations);
+  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations, { apps: phoneApps, chats });
 
   const assetsDir = resolve(here, '../src/assets');
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
@@ -781,6 +816,6 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     `✓ content valid — ${districts.length} districts, ${count(npcs)} NPCs, ` +
       `${count(objects)} objects, ${dialogue.length} dialogue, ` +
       `${quests.length} quest, ${count(items)} items, ${scenes.length} scene component${scenes.length === 1 ? '' : 's'}, ` +
-      `${negotiations.length} negotiation${negotiations.length === 1 ? '' : 's'}`,
+      `${negotiations.length} negotiation${negotiations.length === 1 ? '' : 's'}, ${phoneApps.length} phone apps, ${chats.length} chat threads`,
   );
 }

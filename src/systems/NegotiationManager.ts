@@ -1,5 +1,5 @@
 import { gameEvents } from '../core/events';
-import { NEGOTIATIONS } from '../data';
+import { NEGOTIATIONS, NPCS } from '../data';
 import { useGameStore } from '../store';
 import {
   NEGOTIATION_REP_CAP,
@@ -163,7 +163,7 @@ export class Negotiation {
 
   private accept(): NegotiationOutcome {
     const total = this.total;
-    if (!StatsManager.getInstance().spend(total, this.def.reason ?? `negotiation:${this.def.id}`)) {
+    if (!StatsManager.getInstance().spend(total, this.def.reason ?? `negotiation:${this.def.id}`, NPCS[this.def.npc]?.name)) {
       throw new Error(`Negotiation "${this.def.id}": cannot afford ${rupees(total)}`);
     }
     const store = useGameStore.getState();

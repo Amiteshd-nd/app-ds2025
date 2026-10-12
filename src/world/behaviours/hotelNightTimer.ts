@@ -40,7 +40,7 @@ export const hotelNightTimer: Behaviour = {
         // Past checkout and still here: the receptionist's ₹1,800 rate. Never
         // a lock — if the wallet is short, the night is let go (fail-forward).
         if (store().flags.pg_signed) return;
-        const paid = StatsManager.getInstance().spend(HOTEL_EXTRA_NIGHT, 'hotel_extra_night');
+        const paid = StatsManager.getInstance().spend(HOTEL_EXTRA_NIGHT, 'hotel_extra_night', 'Hotel Sri Lakshmi');
         gameEvents.emit('ui:toast', {
           text: paid
             ? `Hotel charged ₹${HOTEL_EXTRA_NIGHT.toLocaleString('en-IN')} for the night. Find a PG.`

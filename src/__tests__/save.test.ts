@@ -107,29 +107,109 @@ describe('SaveManager', () => {
     expect(useGameStore.getState().appearance.sheet).toBe('citizen_teal');
   });
 
-  it('refuses a save written by a different format version', () => {
+  it('refuses a save written by a different format version', async () => {
     mem.set(SAVE_KEY, JSON.stringify({ version: '0.9.0', stats: {} }));
+    await SaveManager.getInstance().init();
     expect(SaveManager.getInstance().load()).toBeNull();
   });
 
-  it('refuses corrupt JSON instead of throwing', () => {
+  it('refuses corrupt JSON instead of throwing', async () => {
     mem.set(SAVE_KEY, '{not json');
+    await SaveManager.getInstance().init();
     expect(() => SaveManager.getInstance().load()).not.toThrow();
     expect(SaveManager.getInstance().load()).toBeNull();
   });
 
-  it('reports failure rather than throwing when storage is unavailable', () => {
+  it('keeps playing when storage is unavailable: nothing throws, the run lives in memory', async () => {
     (globalThis as Record<string, unknown>).localStorage = {
       getItem: () => { throw new Error('SecurityError'); },
       setItem: () => { throw new Error('QuotaExceededError'); },
       removeItem: () => { throw new Error('SecurityError'); },
     };
-    expect(SaveManager.getInstance().save()).toBe(false);
+    await expect(SaveManager.getInstance().init()).resolves.toBeUndefined();
     expect(SaveManager.getInstance().load()).toBeNull();
-    expect(SaveManager.getInstance().restore()).toBe(false);
+    expect(() => SaveManager.getInstance().save()).not.toThrow();
+    expect(SaveManager.getInstance().restore()).toBe(true);
   });
 
   it('restore() is a no-op when there is nothing saved', () => {
     expect(SaveManager.getInstance().restore()).toBe(false);
+  });
+});
+
+describe('save slots (settings_and_saveload §2)', () => {
+  const memoryBackend = () => {
+    const disk = new Map<string, Record<string, unknown>>();
+    return {
+      disk,
+      backend: {
+        read: async (slot: string) => disk.get(slot) ?? null,
+        write: async (slot: string, payload: Record<string, unknown>) => void disk.set(slot, payload),
+        remove: async (slot: string) => void disk.delete(slot),
+      },
+    };
+  };
+
+  it('keeps an autosave and three manual slots apart', async () => {
+    const { disk, backend } = memoryBackend();
+    const sm = SaveManager.getInstance();
+    sm.useBackend(backend);
+    await sm.init();
+    StatsManager.getInstance().spend(1000, 'test');
+    sm.save({ districtId: 'airport', x: 1, y: 1 }, 'slot2');
+    StatsManager.getInstance().spend(500, 'test');
+    sm.save({ districtId: 'whitefield_street', x: 2, y: 2 });
+    await Promise.resolve();
+    expect([...disk.keys()].sort()).toEqual(['autosave', 'slot2']);
+    const s = sm.summaries();
+    expect(s.map((x) => x.slot)).toEqual(['autosave', 'slot1', 'slot2', 'slot3']);
+    expect(s[0]).toMatchObject({ empty: false, place: 'Whitefield', wallet: 33_500, day: 1 });
+    expect(s[1].empty).toBe(true);
+    expect(s[2]).toMatchObject({ empty: false, place: 'Kempegowda International', wallet: 34_000 });
+    sm.restore('slot2');
+    expect(useGameStore.getState().stats.wallet).toBe(34_000);
+  });
+
+  it('reads the disk once at boot, so a fresh session finds the slots', async () => {
+    const { backend } = memoryBackend();
+    const first = SaveManager.getInstance();
+    first.useBackend(backend);
+    await first.init();
+    first.save({ districtId: 'airport', x: 5, y: 5 }, 'slot3');
+    await Promise.resolve();
+    SaveManager.resetInstance();
+    const second = SaveManager.getInstance();
+    second.useBackend(backend);
+    expect(second.load('slot3')).toBeNull(); // not read yet
+    await second.init();
+    expect(second.load('slot3')!.player.position).toEqual({ districtId: 'airport', x: 5, y: 5 });
+  });
+
+  it('saves the UPI ledger, the phone and real play time', async () => {
+    const { backend } = memoryBackend();
+    const sm = SaveManager.getInstance();
+    sm.useBackend(backend);
+    await sm.init();
+    StatsManager.getInstance().spend(20, 'chai', 'Chai Anna');
+    useGameStore.getState().setPhone({ delivered: ['amma_1'], read: [] });
+    sm.tick(65_000);
+    sm.save();
+    useGameStore.getState().reset();
+    sm.startNewRun();
+    sm.restore();
+    const st = useGameStore.getState();
+    expect(st.transactions).toMatchObject([{ amount: -20, label: 'Chai Anna', reason: 'chai', balance: 34_980 }]);
+    expect(st.phone.delivered).toEqual(['amma_1']);
+    expect(sm.summaries()[0].playtimeSeconds).toBe(65);
+  });
+
+  it('clears a slot', async () => {
+    const { backend } = memoryBackend();
+    const sm = SaveManager.getInstance();
+    sm.useBackend(backend);
+    await sm.init();
+    sm.save(undefined, 'slot1');
+    sm.clear('slot1');
+    expect(sm.load('slot1')).toBeNull();
   });
 });

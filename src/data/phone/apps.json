@@ -1,0 +1,8 @@
+[
+  { "id": "chats", "name": "Chats", "order": 1 },
+  { "id": "upi", "name": "UPI", "order": 2 },
+  { "id": "maps", "name": "Maps", "order": 3, "unlock": "divya_called", "hint": "Divya will point you somewhere first." },
+  { "id": "call", "name": "Calls", "order": 4, "unlock": "divya_called", "hint": "Nobody has called yet." },
+  { "id": "reels", "name": "Reels", "order": 5, "unlock": "reels_taught", "hint": "Not yet." },
+  { "id": "news", "name": "News", "order": 6, "unlock": "news_taught", "hint": "Not yet." }
+]

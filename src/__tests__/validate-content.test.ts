@@ -329,3 +329,28 @@ describe('negotiations (ADR-95)', () => {
     expect(bad[0]).toContain('opens at "nowhere"');
   });
 });
+
+describe('phone data (P6)', () => {
+  const chat = (json: Record<string, unknown>) => [{ file: 'phone/chats/x.json', basename: 'x', json }];
+  it('accepts a well-formed app list and thread', () => {
+    expect(validateContent([], [], items(), districts(), [], [], {}, [], [], {
+      apps: [{ id: 'chats', name: 'Chats', order: 1 }, { id: 'maps', name: 'Maps', order: 2, unlock: 'f' }],
+      chats: chat({ id: 'x', contact: 'X', messages: [{ id: 'x1', from: 'them', text: 'hi' }, { id: 'x2', from: 'me', text: 'yo', after: 'f' }] }),
+    })).toEqual([]);
+  });
+
+  it('catches duplicate message ids, a bad sender and a duplicate app', () => {
+    const p = validateContent([], [], items(), districts(), [], [], {}, [], [], {
+      apps: [{ id: 'chats', name: 'Chats', order: 1 }, { id: 'chats', name: 'Again', order: 2 }],
+      chats: chat({ id: 'x', contact: 'X', messages: [{ id: 'x1', from: 'them', text: 'a' }, { id: 'x1', from: 'bot', text: 'b' }] }),
+    });
+    expect(p.some((x) => x.includes('duplicate app'))).toBe(true);
+    expect(p.some((x) => x.includes('used twice'))).toBe(true);
+    expect(p.some((x) => x.includes('from must be'))).toBe(true);
+  });
+
+  it('checks real-world anchors and objective destinations', () => {
+    const bad = [{ id: 'airport', name: 'A', map: 'airport_map', defaultSpawn: 'player_spawn', realworld: { parent: 'nowhere' } }];
+    expect(validateContent([], [], items(), bad, [])[0]).toContain('realworld');
+  });
+});

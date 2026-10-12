@@ -50,19 +50,34 @@ export class StatsManager {
    * caller shows "can't afford", never a negative balance. `reason` is for
    * feedback and analytics ("chai", "bus_fare").
    */
-  spend(cost: number, reason = ''): boolean {
+  spend(cost: number, reason = '', label?: string): boolean {
     if (cost < 0) throw new Error(`spend() takes a positive cost, got ${cost}`);
     if (!this.canAfford(cost)) return false;
     useGameStore.getState().adjustWallet(-cost);
+    this.record(-cost, reason, label);
     gameEvents.emit('wallet:spent', { amount: cost, reason, balance: this.stats.wallet });
     return true;
   }
 
   /** Income: salary, a quest reward, a sold item. */
-  earn(amount: number, reason = ''): void {
+  earn(amount: number, reason = '', label?: string): void {
     if (amount <= 0) return;
     useGameStore.getState().adjustWallet(amount);
+    this.record(amount, reason, label);
     gameEvents.emit('wallet:earned', { amount, reason, balance: this.stats.wallet });
+  }
+
+  /** Every rupee in or out is a UPI ledger line (the phone's UPI app reads it). */
+  private record(amount: number, reason: string, label?: string): void {
+    const store = useGameStore.getState();
+    store.addTransaction({
+      amount,
+      label: label ?? (amount > 0 ? 'Received' : 'Payment'),
+      reason,
+      day: store.clock.day,
+      minute: store.clock.minute,
+      balance: store.stats.wallet,
+    });
   }
 
   /**
@@ -81,15 +96,15 @@ export class StatsManager {
    * that need to refuse before the effect (dialogue choices) ask canAfford()
    * first, so a refusal here only means the content and the gate disagree.
    */
-  applyEffect(effect: StatEffect): void {
+  applyEffect(effect: StatEffect, label?: string): void {
     if (effect.health) this.adjust('health', effect.health);
     if (effect.food) this.adjust('food', effect.food);
     if (effect.stress) this.adjust('stress', effect.stress);
     if (effect.stamina) this.adjust('stamina', effect.stamina);
     if (effect.battery) this.adjust('battery', effect.battery);
     if (effect.wallet) {
-      if (effect.wallet > 0) this.earn(effect.wallet, 'effect');
-      else if (!this.spend(-effect.wallet, 'effect')) {
+      if (effect.wallet > 0) this.earn(effect.wallet, 'effect', label);
+      else if (!this.spend(-effect.wallet, 'effect', label)) {
         console.warn(`[StatsManager] could not spend ₹${-effect.wallet} (wallet ₹${this.stats.wallet})`);
       }
     }

@@ -341,6 +341,7 @@ export class TitleScene extends Phaser.Scene {
 
   private startNewGame(): void {
     useGameStore.getState().reset();
+    SaveManager.getInstance().startNewRun();
     this.fadeToScene(SCENE_KEYS.CHARACTER_SELECT);
   }
 

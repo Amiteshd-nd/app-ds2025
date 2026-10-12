@@ -10,20 +10,23 @@
       "id": "talk_anna",
       "text": "Talk to Chai Anna",
       "type": "dialogue",
-      "target": "dlg_chai_anna"
+      "target": "dlg_chai_anna",
+      "destination": "airport"
     },
     {
       "id": "buy_chai",
       "text": "Buy a chai (₹20)",
       "type": "collect",
       "target": "cutting_chai",
-      "optional": true
+      "optional": true,
+      "destination": "airport"
     },
     {
       "id": "reach_stop",
       "text": "Find the Vayu Vajra stop outside gate 4",
       "type": "reach",
-      "target": "zone_exit"
+      "target": "zone_exit",
+      "destination": "airport"
     }
   ],
   "rewards": {

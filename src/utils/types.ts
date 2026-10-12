@@ -315,6 +315,11 @@ export interface DistrictDef {
   behaviours?: string[];
   /** City Pulse slot names this district offers; each is an object in the map's pulse layer. */
   pulse_slots?: string[];
+  /**
+   * Where it is in real Bengaluru (map_navigation §1–2): a pin for the phone's
+   * Maps app. Interiors name their `parent` pocket instead of coordinates.
+   */
+  realworld?: { lat: number; lng: number; label?: string } | { parent: string };
 }
 
 // --- Scene components (SCENE_TEMPLATE §B) ----------------------------------
@@ -417,6 +422,8 @@ export interface QuestObjective {
   target: string; // entity, NPC, item or zone ID
   count?: number;
   optional?: boolean;
+  /** District this objective happens in — the Maps destination pin while it is open. */
+  destination?: string;
 }
 
 export interface QuestRewards {
@@ -487,5 +494,36 @@ export interface SaveData {
   met: string[];
   clock: { day: number; minute: number };
   counters: Record<string, number>;
+  /** UPI ledger (1.6.0). */
+  transactions: Array<{ amount: number; label: string; reason: string; day: number; minute: number; balance: number }>;
+  /** Chat messages delivered / read (1.6.0). */
+  phone: { delivered: string[]; read: string[] };
   playtime_seconds: number;
+}
+
+// --- Phone (P6, game_components §3) ----------------------------------------
+export interface PhoneApp {
+  id: string;
+  name: string;
+  order: number;
+  /** Flag that teaches it (ADR-39); greyed until set. */
+  unlock?: string;
+  /** Shown on the greyed icon. */
+  hint?: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  from: 'them' | 'me';
+  text: string;
+  /** Delivered once this flag is set (and every earlier message in the thread). */
+  after?: string;
+  /** Buzzes even under Do Not Disturb (story-critical). */
+  critical?: boolean;
+}
+
+export interface ChatThread {
+  id: string;
+  contact: string;
+  messages: ChatMessage[];
 }

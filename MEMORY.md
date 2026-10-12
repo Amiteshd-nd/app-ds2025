@@ -40,6 +40,8 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 
 - Test Playground: `corepack pnpm playground` → /playground.html (dev only). Deep link `?node=<sceneId>&beat=<id>&preset=<id>&device=iphone15`. It installs `window.__nqDev` (src/dev/devApi.ts) and saves under `bangalore-times:save:playground`. Phaser inside a CSS-scaled frame needs parent/centre measured from layout sizes (patched in Playground.tsx only).
 
+- Saves are async under the hood (platform.saves) but sync to the game: BootScene awaits `SaveManager.init()`; tests seed a backend (`useBackend`) or seed legacy localStorage then `await init()`.
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
 - `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` — keep it free of Vite-only syntax.

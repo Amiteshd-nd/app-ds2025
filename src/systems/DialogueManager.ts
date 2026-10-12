@@ -227,7 +227,8 @@ export class DialogueManager {
   }
 
   private applyEffects(source: DialogueNode | DialogueChoice): void {
-    if (source.effect) StatsManager.getInstance().applyEffect(source.effect);
+    // The speaker is who the money went to on the UPI ledger ("Chai Anna").
+    if (source.effect) StatsManager.getInstance().applyEffect(source.effect, this.file?.speaker);
     if (source.quest_trigger && !this.questTriggers.includes(source.quest_trigger)) {
       this.questTriggers.push(source.quest_trigger);
     }

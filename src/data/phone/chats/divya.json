@@ -1,0 +1,8 @@
+{
+  "id": "divya",
+  "contact": "Divya (Team Lead)",
+  "messages": [
+    { "id": "divya_1", "from": "them", "text": "Hi! Saved your number. Monday 9:30, Whitefield office. Bring the offer letter and degree certificate.", "after": "divya_called", "critical": true },
+    { "id": "divya_2", "from": "me", "text": "Noted, thanks! See you Monday.", "after": "divya_called" }
+  ]
+}

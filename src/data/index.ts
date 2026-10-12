@@ -1,4 +1,5 @@
 import districtsJson from './districts.json';
+import phoneApps from './phone/apps.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
   DialogueFile,
@@ -7,7 +8,9 @@ import type {
   NpcDef,
   ObjectDef,
   QuestFile,
+  ChatThread,
   NegotiationDef,
+  PhoneApp,
   SceneComponent,
 } from '../utils/types';
 
@@ -34,6 +37,7 @@ const npcModules = import.meta.glob('./npcs/*.json', { eager: true, import: 'def
 const objectModules = import.meta.glob('./objects/*.json', { eager: true, import: 'default' });
 const sceneModules = import.meta.glob('./scenes/*.json', { eager: true, import: 'default' });
 const negotiationModules = import.meta.glob('./negotiations/*.json', { eager: true, import: 'default' });
+const chatModules = import.meta.glob('./phone/chats/*.json', { eager: true, import: 'default' });
 
 const byId = <T extends { id: string }>(entries: T[], kind: string): Record<string, T> => {
   const out: Record<string, T> = {};
@@ -90,6 +94,12 @@ export const OBJECTS: Record<string, ObjectDef> = byId(
  * the same references. Acts 2–4 ship as stubs (status "STUB").
  */
 export const SCENES: Record<string, SceneComponent> = byId(load<SceneComponent>(sceneModules), 'scene');
+
+/** Phone apps in home-screen order (P6). */
+export const PHONE_APPS: PhoneApp[] = [...(phoneApps as PhoneApp[])].sort((a, b) => a.order - b.order);
+
+/** Chat threads by id (data/phone/chats). */
+export const CHATS: Record<string, ChatThread> = byId(load<ChatThread>(chatModules), 'chat thread');
 
 /** Negotiations (ADR-95): one file per haggle, run by systems/NegotiationManager. */
 export const NEGOTIATIONS: Record<string, NegotiationDef> = byId(
