@@ -1,57 +1,51 @@
 # HANDOFF — resume here (read right after CLAUDE.md)
-Updated: 2026-10-12, end of the P5 build session. Purpose: a new chat picks up exactly where this one stopped.
+Updated: 2026-10-13, end of the long P5→P6 session (last commit `870ade9`). A new chat picks up exactly here.
 
 ## 0. Where we are — in one breath
-Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P5 approved**, plus the title screen, Test Playground and new airport. **P6 in progress:** systems done (ADR-110/111/112 — save slots on platform.saves, settings, phone rules, UPI ledger, Maps data); **UI waits for the user's reference images** (phone screen, HUD/minimap, menus, pixel font — ADR-30). Breathing parked (T-029). Nothing is pushed since the first push — push only when the user asks. Dev server: `corepack pnpm dev` → http://localhost:6174. 208 tests, typecheck, validators, `pnpm build` all green.
+Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P5 approved**, plus the living title screen, the Test Playground and the brand-new airport (all approved 2026-10-13). **P6 is half built:** the systems are done and committed (save slots on `platform.saves`, settings, phone rules: chats / UPI ledger / Maps data — ADR-110/111/112). **The P6 UI is blocked on the user's reference images** (CLAUDE.md rule 2 / ADR-30): phone screen, HUD + minimap, Pause/Settings/Load menus, and a pixel font (downloading a font file needs the user's OK). **Breathing is parked and switched off** (T-029). Nothing pushed since the first push — push only when asked. 271 tests, typecheck, validators, `pnpm build` (+ dist check) all green.
 
-## 1. Phase ledger
-| Phase | State | Audit |
-|---|---|---|
-| P0 docs / WorldScene / validators / platform shell | done | approved; title → **Bangalore Times** |
-| P1 Style lock | done — `src/assets/_meta/style/style_sheet.png` + `palette.gpl` (48 colours), candidate D | approved |
-| P2 Character creation + sprites | done — offer-letter form, generated+imported M/F × 5 skins, 3-frame sheet contract | approved after 3 rounds |
-| P3 M0 loop (airport → Chai Anna → fare → Whitefield) + stat model + touch controls | done | approved |
-| P4 Hotel (3 nights, TimeSystem, `hotelNightTimer`, generated interior) | done | approved ("proceed") |
-| **P5 PG Hunt (Prashanth Layout, negotiation ADR-95, NPC memory ADR-96, food drain ADR-97, lane cast ADR-98)** | done (round-1 fixes ADR-99/100) | approved |
-| **Title screen (living golden-hour Bengaluru, ADR-101/102)** | **built** | **awaiting audit** |
-| P6 Phone overlay (Maps, Chats, UPI) + minimap + Settings + Save/Load | next | — |
+## 1. Phase / task ledger
+| Item | State |
+|---|---|
+| P0–P5 (docs, style lock, characters, M0 airport loop, hotel, PG hunt + negotiation) | approved |
+| P5 round-1 fixes: generated crowd, pixel collision + occluders (ADR-99), interiors at character scale on black (ADR-100) | approved |
+| Title screen — golden-hour Bengaluru, traffic, metro, petals, chai-tumbler cursor (ADR-101/102; own 64-colour palette kept) | approved |
+| Look wording: "16-bit era on 32px tiles" (ADR-103) | decided by user |
+| Test Playground `/playground.html` (ADR-104/105/108) | approved |
+| New airport `kempegowda_arrivals`, moving luggage carousel, all airport NPC sprites (ADR-109) | approved |
+| Breathing (T-029): baked upper-body frames pipeline (ADR-107) | **parked, OFF** — lines in `_raw/characters/breath.json` await approval (`"approved": false`) |
+| **P6 systems** (ADR-110/111/112) | **built** |
+| **P6 UI** (PhoneScene + Maps/Chats/UPI, minimap, Pause/Settings/Load, pixel font) | **waiting for references** |
 
 ## 2. Resume protocol
-1. Read `CLAUDE.md` §0 rules, then `TASKS.md` "Now", `DECISIONS.md` last rows (ADR-95..98), `MEMORY.md`, `AUDIT_LOG.md` (every correction is a standing rule).
-2. If the user has sent P6 references, build the UI (PhoneScene + Maps/Chats/UPI panels, minimap, Pause/Settings/Load menus, pixel font) on the existing systems; otherwise ask for them. Come back to breathing (T-029) when they have time. (Old note: (warmth, motion, menu legibility) and to keep or supersede **ADR-101** (title keeps its own 64-colour palette, conflicts with ADR-61). Then ask for **P6 references** (phone screen, HUD restyle, pixel font — ADR-30) before any P6 visual work. Path to show: on the Whitefield street walk off the **east end of the top pavement** → Prashanth Layout. Green gate (token scam; pay or refuse) → Leela Aunty (warns before / consoles after) → HiveNest co-living (haggle; still unaffordable) → Shanthamma at the blue gate (haggle ₹18,000 → ≈ ₹14,300) → darshini/provisions on the **bottom pavement** (reach it down the main-road strip at the left edge) → blue gate → room → cot (Amma's call, then sleep).
-3. Already answered at round 1: Shanthamma's voice, ADR-97 food drain and the HiveNest retune are approved — do not re-ask.
-4. Record corrections in `AUDIT_LOG.md` as reusable rules, fix, commit, then start **P6** (ask for UI reference images first — ADR-30: phone, HUD restyle, pixel font).
+1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-95…112), `MEMORY.md`, `AUDIT_LOG.md` (every correction is a standing rule).
+2. If the user sent P6 references: build the UI on the existing systems (below), audit-ready, then STOP for audit (+ mobile smoke in the playground's phone frame). If not: ask for 2–4 references (phone, HUD/minimap, menus) + font choice (Silkscreen / Pixelify Sans / m5x7 suggested, all free-licence; download needs OK).
+3. The user also wants the chat lines (4 threads, drafts) checked for voice. Shanthamma's voice, food drain (ADR-97), HiveNest retune: already approved — do not re-ask.
+4. Come back to breathing only when the user asks (seated characters never breathe).
 
-## 3. P5 — what was built (for fixes)
-- Content: `src/data/{negotiations,dialogue,npcs,quests,scenes}` — `neg_shanthamma` (warm), `neg_pg_token` (firm), `neg_coliving` (slick); `dlg_shanthamma`, `dlg_pg_token`, `dlg_neighbour_leela`, `dlg_coliving`, `dlg_darshini`, `dlg_provision`, `dlg_amma_call`; `q_act0_pg_hunt` (started by Divya's call or on entering the lane); `act0_pg_hunt` scene component with acceptance list.
-- Maps: `_raw/maps/prashanth_layout.{png,spec.json}` (36×24; lane rows 10–14; bottom shops served from rows 22–23 via col 0) and `shanthamma_pg.{png,spec.json}` (24×16). Street exit `lane_zone` at the east end of the top pavement (generator).
-- Engine: `systems/NegotiationManager.ts`; DialogueManager negotiate nodes + `enter` branches; DialogueBox auto-sizes (≤ 6 choices + bill line); Populate/WorldScene `unlessFlag` NPCs; Triggers `unlessFlag`; Exits `lockedText`; StatEffect `reputation`; TimeManager food drain; Player hunger slow; hotel ₹1,800 extra nights; HUD two quests + controls hint bottom-right.
-- Verified in the browser pane: full lane loop (token paid → owner fades → Leela lesson; HiveNest floor ₹43,000 locked; locked-gate toast; Shanthamma deal ₹14,300; idli +40 food; room → Amma once → sleep → quest complete, rep 5). Mobile viewport: joystick moves, A talks to Leela.
-
-## 3b. Round-1 fixes (for further fixes)
-- `scripts/import-map.mjs` v2: specs in source px (`units: "px"`) — `blocks`, feet-point `spawns`, `zones`, `occluders` (key + seeds or rect). Debug: render blocks + occluders over the darkened map (see `_raw/maps/README.md`), then walk every route in the browser with `__tpf(fx, fy)` (teleport by feet) and held arrow keys.
-- `world/Shapes.ts` builds the `Shapes` layer; NPC feet bodies in `Populate.npcs`; crowd collides with the player; `WorldScene.frameCamera` centres small rooms on black.
-- Interiors are 10×7 tiles now; crowd = 8 `crowd_*` sheets; receptionist generated. Still placeholder: cab tout, lanyard man, legacy airport four (T-022). Airport + street have no occluders yet (T-027).
+## 3. P6 — what exists, where the UI plugs in
+- **Saves** `systems/SaveManager.ts`: slots `autosave|slot1|slot2|slot3` via `platform.saves`; `init()` once at boot (BootScene awaits it with settings load); `save(position, slot)`, `load(slot)`, `restore(slot)`, `clear(slot)`, `summaries()` (name, place, day, ₹, playtime, timestamp — thumbnail TBD with the menu art); format 1.6.0; autosave on area change, sleep, purchase, quest step (batched 400 ms in WorldScene). Legacy single-key save auto-migrates.
+- **Settings** `systems/SettingsManager.ts` (`useSettings`, `settings()`, `survivalRate()`), defaults `src/data/settings.defaults.json`, persisted via `platform.storage`. Live today: Relaxed difficulty (food drain ×0.5), Do Not Disturb (non-critical buzzes muted), joystick side (`.nq-touch-right`). Others (volumes, minimap, dialogue speed, text size…) await their UI/features.
+- **Phone** `systems/PhoneManager.ts`: `apps()` (from `src/data/phone/apps.json`, unlocked by flag — maps/calls on `divya_called`), `threadsView()` / `unreadCount()` / `markRead(id)` (chats in `src/data/phone/chats/*.json`, delivered in order on flags + on district entry; buzz = `ui:toast`), `upi()` (balance + ledger from `store.transactions`; every `spend/earn(cost, reason, label)` writes a line), `maps()` (pins from districts' `realworld` lat/lng — interiors fold into `parent` — states here/open/locked, plus the active objective's `destination`).
+- **To build (UI):** `PhoneScene` overlay (open with a key / HUD button / touch), app grid with greyed apps, Chats list + thread, UPI balance + ledger, Maps (project lat/lng onto a stylised Bengaluru, pins + destination; no real map tiles — map_navigation §5); HUD minimap from the current tilemap + spawn/exit/NPC markers (respect `settings.gameplay.minimap`); Pause menu (Resume · Settings · Save · Load · Map · Quit) pausing WorldScene; Settings menu over `useSettings`; Load/Save over `SaveManager.summaries()`; Title "Settings" + "Continue/Load". Compact phone HUD needed: at iPhone size the HUD + quest panel cover ~⅓ of the screen (T-024, seen in the playground phone simulation).
 
 ## 4. Pipelines (exact commands)
-- Art: `corepack pnpm art` — regenerates tokens.json, citizen rig sheets, **imports every `src/assets/_raw/characters/*.png`** (3×4 magenta sheets → 96×192, player_* get 5 skins) and **every `src/assets/_raw/maps/*.spec.json`** (render → unique-tile tileset + .tmj), street map.
-- New character: prompt from `src/assets/_raw/characters/prompt-template.md` (say which leg is forward per cell), save raw as `_raw/characters/<id>.png`, run art, set `"sheet": "<id>"` on the NPC. Review at 4× (sharp nearest) next to the reference before showing the user.
-- New interior: prompt notes in `src/assets/_raw/maps/README.md`; make a grid overlay (sharp + svg, see MEMORY), author `<name>.spec.json` (solid rects, spawns, zones in tile coords), add a `maps.manifest.json` entry + district, run art. **Keep spawns off exit zones** (the player's feet box is rows y+11..y+23 of the 48px frame).
-- Image generation: Figma MCP `generate_image`, model `gpt-image-2.5-sunburst`, **planKey `team::1113684943164685803`** (user's personal team — never the Netradyne org). Each call costs credits; max 3 rerolls per asset.
-- Checks: `corepack pnpm typecheck && corepack pnpm test && corepack pnpm validate` (maps + content + world + platform boundary). `pnpm build` runs them all before Vite.
+- `corepack pnpm dev` → http://localhost:6174 · `corepack pnpm playground` → /playground.html (dev only) · `corepack pnpm build` = validate → typecheck → vite → `scripts/check-dist.mjs`.
+- `corepack pnpm art`: tokens (colour + motion + dev-UI), every `_raw/characters/*.png` (3×4 magenta sheets → 96×192; `player_*` × 5 skins), props (`_raw/props`, `import-props.mjs`), breath frames (only if breath.json `"approved": true`), every `_raw/maps/*.spec.json` (`import-map.mjs` v2: `units:"px"`, `blocks`, feet-point `spawns`, `zones`, `occluders`, `patches`), title (`import-title.mjs`), street map.
+- Image generation: Figma MCP `generate_image`, model `gpt-image-2.5-sunburst`, **planKey `team::1113684943164685803`** (user's personal team, never the Netradyne org); ≤ 3 rerolls per asset. Prompts + provenance in each `_raw/*/README.md`.
+- Generated-map QA: debug preview (blocks + occluders over the darkened map — pattern in MEMORY.md), then walk every route in the browser.
 
-## 5. Verifying in the browser pane (the tricks that cost time to learn)
-- Dev handles: `window.__nqGame`, `window.__nqStore`. Scenes: Boot → Title → CharacterSelect → World → Transit.
-- The pane's key presses lack `keyCode`; dispatch `KeyboardEvent`s with `keyCode` (E=69, Enter=13, arrows 37–40). Text fields: set `input[aria-label]`'s value and dispatch `input`.
-- When the pane is hidden Phaser's RAF stops: step with `game.step(t += 16, 16)` (pattern `window.__tick(n)` in MEMORY.md) and wait for `activeScene === 'TitleScene'` before `scene.start`.
-- After creating a **new** tilemap file, restart the preview server (Vite's glob did not see it; the console shows stale "not in src/assets/tilemaps" errors).
-- Mobile: `resize_window mobile` then **reload** (the coarse-pointer overlay mounts on load); joystick = pointer events on `.nq-stick`, A = `.nq-action`.
+## 5. Verifying in the browser pane
+- Prefer the playground: `?node=<sceneId>&beat=<id>&preset=<id>&device=iphone15`; `window.__nqDev` (loadNode/applyState/getState/speed/pause/step/showZones/showCollision). Playground saves go to the `playground:` namespace.
+- Dev handles: `window.__nqGame`, `window.__nqStore`. Key events need `keyCode` (E=69, Enter=13, arrows 37–40). Teleport by feet: `p.setPosition(fx, fy - 17); p.body.reset(p.x, p.y)`.
+- Hidden pane stalls RAF; tweens use the real clock — step in real time (`game.step(performance.now(), 16.67)` every 16 ms).
+- The user's own game may be open in the pane's first tab — test in a new tab.
 
-## 6. Open items the user still owns
-- ADR-30 reference images: given (10 refs, described in `_meta/style.json`); ask again before any **UI** (phone, HUD restyle, pixel font).
-- T-018: Xcode / Android Studio or cloud macOS CI (no Xcode, CocoaPods, Android SDK or Java on this Mac → shells generated, synced, never booted).
-- Unfinished business (docs/design/bangalore_rpg_unfinished_business.md): names, endings, co-op, monetization, trailer honesty (ADR-53), fall-order amendment.
-- Model: user asked whether to switch to Opus 5.5; answer given (their call, switch between phases). Commit attribution line comes from the session's system reminder.
+## 6. Open items the user owns
+- P6 references + font choice (blocking the UI). Chat-line voice review.
+- Breathing lines approval (T-029), when they want to return to it.
+- T-018: Xcode / Android Studio or cloud CI (native shells never booted on this Mac).
+- Unfinished business doc: names, endings, co-op, monetization, trailer honesty.
 
-## 7. Debt the next phases must not forget
-P5: lane NPCs done, but the hotel receptionist, cab tout, lanyard man and legacy airport NPCs are still tinted placeholders (T-022) · ambient citizens are still rig sheets · portrait phones letterbox the canvas (T-024) · T-021 street tiles + airport tileset off-palette (validator warns) · T-022 citizens + remaining NPC sheets through the pipeline (cab tout, lanyard man, receptionist ×2, helper, guard, kiosk are tinted blocks) · T-023 airport interior regenerated · T-024 landscape lock + rotate panel + safe-area HUD · T-015 quest taxonomy + rep tiers (ADR-18/22/26) · T-011 SaveManager → `platform.saves` (allowlisted) · toasts stack when several arrive within 3 s · food drains now (ADR-97); health/stress ticks still none.
+## 7. Debt not to forget
+T-024 compact phone HUD + landscape lock + safe areas · T-027 occluders/pixel collision for the procedural Whitefield street · T-021 street tiles off-palette · T-015 quest taxonomy + rep tiers · toasts stack when several arrive at once · health/stress ticks not yet · dialogue typewriter (Settings: dialogue speed) not yet · no audio yet (Settings volumes inert).
