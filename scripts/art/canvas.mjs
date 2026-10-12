@@ -32,6 +32,22 @@ export class Canvas {
     for (let dy = 0; dy < h; dy++) { this.set(x, y + dy, color); this.set(x + w - 1, y + dy, color); }
   }
 
+  /**
+   * Filled rectangle with its four corner pixels knocked out and an outline
+   * that follows the chamfer — the rounded-square silhouette every head and
+   * body in the reference sheets has. At 32x48 one missing pixel per corner
+   * is the whole difference between a box and a face.
+   */
+  roundRect(x, y, w, h, fill, outline) {
+    this.rect(x + 1, y, w - 2, h, fill);
+    this.rect(x, y + 1, w, h - 2, fill);
+    if (outline === undefined) return;
+    this.hline(x + 1, y, w - 2, outline);
+    this.hline(x + 1, y + h - 1, w - 2, outline);
+    this.vline(x, y + 1, h - 2, outline);
+    this.vline(x + w - 1, y + 1, h - 2, outline);
+  }
+
   hline(x, y, w, color) { for (let dx = 0; dx < w; dx++) this.set(x + dx, y, color); }
   vline(x, y, h, color) { for (let dy = 0; dy < h; dy++) this.set(x, y + dy, color); }
 

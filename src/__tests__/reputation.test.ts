@@ -222,7 +222,7 @@ describe('save migration', () => {
     expect(loaded!.reputation).toEqual({ total: 0, byDistrict: {} });
     // The scene class the old save named becomes the district it rendered.
     expect(loaded!.player.position).toEqual({ districtId: 'airport', x: 1, y: 2 });
-    expect(loaded!.player.appearance).toEqual({ sheet: 'player' });
+    expect(loaded!.player.appearance).toEqual({ sheet: 'player_m_3a' }); // re-derived from the migrated profile
 
     expect(SaveManager.getInstance().restore()).toBe(true);
     const state = useGameStore.getState();

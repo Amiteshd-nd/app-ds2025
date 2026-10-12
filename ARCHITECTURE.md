@@ -6,7 +6,7 @@ Updated: 2026-10-12 — after P0 + P1 candidates. Places are data; no scene per 
 |---|---|---|
 | `BootScene` | loads every sprite sheet / tileset / tilemap by glob, registers `<sheet>-walk/idle-<dir>` anims, placeholder textures; starts `registry.startDistrict` (→ World) or `registry.startScene` (default Title) | keep |
 | `TitleScene` | New Game (resets store → CharacterSelect) · Continue (restores save → `WorldScene{districtId,x,y}`) · Settings (stub) | keep |
-| `CharacterSelectScene` | name + background cards → `WorldScene{districtId: START_DISTRICT}` | trim in P2 |
+| `CharacterSelectScene` | character creation: offer-letter form (name, gender, age, home state/town, college, degree, skin) → `store.setProfile` (derives sprite) → 4-direction walk preview on test tiles → `WorldScene{airport}`. Hidden DOM `<input>` for text (mobile keyboard) | P2 |
 | **`WorldScene`** | the ONE place renderer: `create({districtId, spawnId?, x?, y?, fromDistrict?})` reads `districts.json` + `maps.manifest.json`; layers in `layerOrder`; Populate / Exits / Triggers / behaviours; dialogue + E-interact; autosave on entry and shutdown. **No district-specific branches.** | new |
 | `TransitScene` | fade-to-black between places; ride card ("Vayu Vajra KIA-8 → Whitefield") for bus/metro/cab/scooter, plain fade for walk; lands `WorldScene{to, spawn}` | new (minimal) |
 
@@ -40,6 +40,12 @@ src/
 │   └── _meta/     platform.json · style.json (P1 lock record) · style/ (candidates, .gpl palettes, swatches)
 scripts/           validate-*.{mjs,ts} · generate-art.mjs · generate-street-map.mjs · extract-palette.mjs · art/ (canvas, palette, tiles, character, quantize)
 ```
+
+## Profile & sprites (P2)
+`PlayerProfile` (`src/utils/types.ts`) + pure helpers in `src/utils/profile.ts` (`validateProfile`, `sheetForProfile`, `ALL_PLAYER_SHEETS`, states/degrees). Sheet key = `player_<m|f>_<skin><a|b>`; `pnpm art` generates all 20 + 8 citizen looks from `scripts/art/character.mjs` (rig v2, chibi, tokens only). Save 1.3.0 persists `player.profile`; older saves migrate name/homeState into a default profile.
+
+## Design tokens
+`src/assets/_meta/palette.gpl` (48 colours, P1 lock) + `scripts/art/tokens.mjs` → generated `_meta/tokens.json` → `src/ui/tokens.ts` (`hex`, `color`, `PALETTE`, `GRID`=8). Scenes use tokens, never raw hex. `validate-maps` fails any sprite sheet off-palette or not 128×192; tilesets warn until T-021.
 
 ## Platform (`src/platform/`, ADR-64)
 `Platform.ts` = the interface (storage, saves, lifecycle, haptics, display, network, share, audio). `web.ts` implements it for browsers; `native.ts` spreads `web.ts` and overrides nothing yet (molecules arrive with their phases). `index.ts` picks one at boot via `Capacitor.isNativePlatform()`. Game code imports `{ platform }` from `src/platform` and nothing else — `scripts/validate-platform.mjs` fails the build otherwise. Used today: `platform.audio.unlock()` on the Title confirm (rule 8).

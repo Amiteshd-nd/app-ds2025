@@ -11,11 +11,61 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
+import { readGpl } from './art/quantize.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const assetsDir = resolve(here, '../src/assets');
 const mapsDir = join(assetsDir, 'tilemaps');
 const tilesetsDir = join(assetsDir, 'tilesets');
+const spritesDir = join(assetsDir, 'sprites');
+const palettePath = join(assetsDir, '_meta', 'palette.gpl');
+
+/** Character sheet contract: 4 columns × 4 rows of 32×48 frames. */
+export const SHEET_WIDTH = 128;
+export const SHEET_HEIGHT = 192;
+
+/**
+ * Palette conformance (design system §10, ADR-61): every opaque pixel of a
+ * sprite sheet must be one of the locked colours. Tilesets get the same check
+ * as a warning until the pre-lock street set is regenerated (T-021) and the
+ * reference airport art is replaced (P3 batch).
+ *
+ * Pure over a raw RGBA buffer so tests can feed synthetic images.
+ */
+export function offPaletteColours(rgba, palette) {
+  const allowed = new Set(palette.map(([r, g, b]) => (r << 16) | (g << 8) | b));
+  const off = new Set();
+  for (let i = 0; i < rgba.length; i += 4) {
+    if (rgba[i + 3] === 0) continue; // transparent pixels carry no colour
+    const key = (rgba[i] << 16) | (rgba[i + 1] << 8) | rgba[i + 2];
+    if (!allowed.has(key)) off.add(key);
+  }
+  return [...off].map((k) => `#${k.toString(16).padStart(6, '0')}`);
+}
+
+/**
+ * Check every PNG in a directory: size (sprites only) and palette. Returns
+ * { problems, warnings }; `strict` decides which list a palette miss lands in.
+ */
+export async function validateImages({ dir, palette, label, expectSize, strict }) {
+  const problems = [];
+  const warnings = [];
+  if (!existsSync(dir)) return { problems, warnings };
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.png')).sort()) {
+    const image = sharp(join(dir, file)).ensureAlpha();
+    const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
+    if (expectSize && (info.width !== expectSize[0] || info.height !== expectSize[1])) {
+      problems.push(`${label}/${file}: is ${info.width}x${info.height}, expected ${expectSize[0]}x${expectSize[1]} (4x4 grid of 32x48 frames)`);
+    }
+    const off = offPaletteColours(data, palette);
+    if (off.length) {
+      const msg = `${label}/${file}: ${off.length} colour${off.length > 1 ? 's' : ''} outside palette.gpl (e.g. ${off.slice(0, 3).join(', ')}) — quantise it`;
+      (strict ? problems : warnings).push(msg);
+    }
+  }
+  return { problems, warnings };
+}
 
 /** Kinds of City Pulse slot an event can switch on (city_pulse_v1 §3). */
 export const PULSE_SLOT_TYPES = ['wall', 'corner', 'shopfront', 'crowd'];
@@ -238,6 +288,12 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
   const problems = runValidation({ manifest, mapsDir, tilesetsDir });
   const warnings = runWarnings({ manifest, mapsDir });
+
+  const palette = readGpl(readFileSync(palettePath, 'utf8'));
+  const sprites = await validateImages({ dir: spritesDir, palette, label: 'sprites', expectSize: [SHEET_WIDTH, SHEET_HEIGHT], strict: true });
+  const tilesets = await validateImages({ dir: tilesetsDir, palette, label: 'tilesets', strict: false });
+  problems.push(...sprites.problems, ...tilesets.problems);
+  warnings.push(...sprites.warnings, ...tilesets.warnings);
   for (const w of warnings) console.warn(`  ⚠ ${w}`);
 
   if (problems.length) {
@@ -248,5 +304,6 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   }
 
   const count = Object.keys(manifest.maps ?? {}).length;
-  console.log(`✓ ${count} tilemap${count === 1 ? '' : 's'} valid`);
+  const sheets = existsSync(spritesDir) ? readdirSync(spritesDir).filter((f) => f.endsWith('.png')).length : 0;
+  console.log(`✓ ${count} tilemap${count === 1 ? '' : 's'} valid, ${sheets} sprite sheets on palette`);
 }

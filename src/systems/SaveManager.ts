@@ -1,8 +1,8 @@
 import { useGameStore } from '../store';
+import { defaultProfile, sheetForProfile } from '../utils/profile';
 import {
   DEFAULT_DIRECTION,
-  DEFAULT_HOME_STATE,
-  DEFAULT_PLAYER_SHEET,
+  DEFAULT_PLAYER_NAME,
   LEGACY_SCENE_DISTRICTS,
   MIGRATABLE_SAVE_VERSIONS,
   SAVE_KEY,
@@ -42,9 +42,7 @@ export class SaveManager {
       version: SAVE_VERSION,
       timestamp: Date.now(),
       player: {
-        name: state.playerName,
-        background: 'engineering',
-        homeState: DEFAULT_HOME_STATE,
+        profile: state.profile,
         appearance: state.appearance,
         position,
         direction: DEFAULT_DIRECTION,
@@ -102,13 +100,24 @@ export class SaveManager {
       (legacy.scene ? LEGACY_SCENE_DISTRICTS[legacy.scene] : undefined) ??
       START_DISTRICT;
 
+    // Pre-1.3.0 saves had a name and an educational background instead of a
+    // profile. Keep the name; everything else takes the default profile, and
+    // the sprite is re-derived so an old run gets a real sheet, not 'player'.
+    const old = data.player as unknown as { name?: string; homeState?: string };
+    const profile = data.player.profile ?? {
+      ...defaultProfile(),
+      name: old.name ?? '',
+      hometown: { state: old.homeState && old.homeState !== 'Other' ? old.homeState : 'Karnataka', town: '' },
+    };
+
     return {
       ...data,
       version: SAVE_VERSION,
       player: {
-        ...data.player,
-        appearance: data.player.appearance ?? { sheet: DEFAULT_PLAYER_SHEET },
+        profile,
+        appearance: data.player.profile ? data.player.appearance : { sheet: sheetForProfile(profile) },
         position: { districtId, x: legacy.x ?? 0, y: legacy.y ?? 0 },
+        direction: data.player.direction ?? DEFAULT_DIRECTION,
       },
       reputation: data.reputation ?? { total: 0, byDistrict: {} },
       inventory: data.inventory ?? [],
@@ -123,7 +132,8 @@ export class SaveManager {
     if (!data) return false;
 
     useGameStore.getState().hydrate({
-      playerName: data.player.name,
+      playerName: data.player.profile.name.trim() || DEFAULT_PLAYER_NAME,
+      profile: data.player.profile,
       appearance: data.player.appearance,
       stats: data.stats,
       skills: data.skills,

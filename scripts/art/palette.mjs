@@ -60,6 +60,35 @@ export const P = {
   ink: '#1e2128',
 };
 
+// ── The LOCKED palette (P1) ────────────────────────────────────────────────
+// Everything new is drawn in tokens that resolve to src/assets/_meta/palette.gpl.
+// The legacy `P` colours above pre-date the lock and are kept only until the
+// street tileset is regenerated (T-021); `snap()` pulls any of them onto the
+// nearest locked colour so no sheet written today leaves the palette.
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { nearest, readGpl, toHex } from './quantize.mjs';
+import { TOKEN_INDEX } from './tokens.mjs';
+
+const here = dirname(fileURLToPath(import.meta.url));
+export const LOCKED = readGpl(readFileSync(resolve(here, '../../src/assets/_meta/palette.gpl'), 'utf8'));
+
+/** Token name → '#rrggbb' from the locked palette. Throws on an unknown token. */
+export const T = new Proxy({}, {
+  get(_, name) {
+    const index = TOKEN_INDEX[name];
+    if (index === undefined) throw new Error(`Unknown colour token "${String(name)}" — add it to scripts/art/tokens.mjs`);
+    return toHex(LOCKED[index]);
+  },
+});
+
+/** Nearest locked colour to any '#rrggbb'. */
+export const snap = (hex) => {
+  const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+  return toHex(LOCKED[nearest(LOCKED, r, g, b)]);
+};
+
 /** '#rrggbb' -> [r,g,b,255] */
 export const rgba = (hex) => [
   parseInt(hex.slice(1, 3), 16),

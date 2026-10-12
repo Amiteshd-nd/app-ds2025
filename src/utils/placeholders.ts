@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { SPRITE_HEIGHT, SPRITE_WIDTH, TILE_SIZE } from './constants';
+import { SPRITE_HEIGHT, TILE_SIZE } from './constants';
 
 /**
  * Runtime placeholder textures.
@@ -31,11 +31,6 @@ export function ensurePlaceholderTexture(
   g.fillRect(Math.floor(width / 2) - 2, 3, 4, 4);
   g.generateTexture(key, width, height);
   g.destroy();
-}
-
-/** Player placeholder: one tile wide, one and a half tall. */
-export function ensurePlayerTexture(scene: Phaser.Scene): void {
-  ensurePlaceholderTexture(scene, 'player', SPRITE_WIDTH, SPRITE_HEIGHT, 0xff5a5f, 0xffffff);
 }
 
 /** Bot placeholder: a slightly smaller silhouette in the ambient blue. */

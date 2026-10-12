@@ -12,10 +12,14 @@ import sharp from 'sharp';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 import { Canvas } from './art/canvas.mjs';
-import { P } from './art/palette.mjs';
+import { T as TOK } from './art/palette.mjs';
 import { T, TILES } from './art/tiles.mjs';
 import { CH, CW, buildCharacterSheet } from './art/character.mjs';
+
+// Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
+execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'generate-tokens.mjs')], { stdio: 'inherit' });
 
 const here = dirname(fileURLToPath(import.meta.url));
 const assets = resolve(here, '../src/assets');
@@ -45,29 +49,41 @@ TILES.forEach(([, draw], i) => {
 await write(sheet, join(assets, 'tilesets/street.png'));
 
 // ── Characters ─────────────────────────────────────────────────────────────
-// One rig, recoloured. Cheap variety: a crowd of visibly different people
-// without a second sprite sheet to draw or maintain.
+// One rig, many looks (P1_P2 §2.2): base body (gender) × skin tone × attire ×
+// bag. The player gets every gender × skin × age combination so character
+// creation can *assign* a sheet rather than customise one; `sheetForProfile`
+// in src/utils/profile.ts must produce exactly these keys.
 //
-// A whole-sprite hue rotation is the tempting shortcut here, and it is wrong
-// for characters: it rotates skin and hair along with clothing, which at 300
-// degrees turns a brown-skinned character magenta. Because the rig stores
-// semantic cells rather than colours, an explicit palette costs one entry and
-// keeps skin, hair and clothing independent. Hue rotation is still used, but
-// only for objects the manifest marks colorEditable — fabric and painted
-// metal, never skin.
-const VARIANTS = {
-  citizen: {},
-  citizen_teal: { shirt: '#2f8a7a', shirtShade: '#1f6357', skin: '#b87c50' },
-  citizen_ochre: { shirt: '#c98a2f', shirtShade: '#9c6a1f', hair: '#3a2f28' },
-  citizen_maroon: { shirt: '#9c3f4f', shirtShade: '#732c39', skin: '#c98d62' },
-  citizen_olive: { shirt: '#6b7a3a', shirtShade: '#4d5a28', hair: '#1f1a17' },
-  citizen_slate: { shirt: '#55606e', shirtShade: '#3d4650', skin: '#a86f45' },
-  citizen_violet: { shirt: '#6a4f9c', shirtShade: '#4d3873', skin: '#e0b183', hair: '#3a2f28' },
-  citizen_sand: { shirt: '#c9b07a', shirtShade: '#9c8757', skin: '#8f5f3a', hair: '#1f1a17' },
-};
+// Citizens reuse the rig with other attire — a visibly mixed crowd for no
+// extra drawing. Every colour is a token on palette.gpl.
+const rm = (bag) => ({ gender: 'M', bag });
+const rf = (bag) => ({ gender: 'F', bag });
+const LOOKS = {};
+for (const skin of [1, 2, 3, 4, 5]) {
+  LOOKS[`player_m_${skin}a`] = { ...rm('backpack'), skin };           // fresher: shirt + backpack
+  LOOKS[`player_m_${skin}b`] = { ...rm('laptop'), skin };             // 24+: laptop bag
+  LOOKS[`player_f_${skin}a`] = { ...rf('sling'), skin,
+    top: TOK['cloth.kurti.red'], topShade: TOK['cloth.kurti.red.shade'],
+    bottom: TOK['cloth.legging'], bottomShade: TOK['cloth.legging'] };
+  LOOKS[`player_f_${skin}b`] = { ...rf('tote'), skin,
+    top: TOK['cloth.kurti.green'], topShade: TOK['cloth.kurti.green.shade'],
+    bottom: TOK['cloth.legging'], bottomShade: TOK['cloth.legging'] };
+}
+const tee = (c) => ({ top: TOK[`cloth.tee.${c}`], topShade: TOK[`cloth.tee.${c}.shade`] });
+const kurti = (c) => ({ top: TOK[`cloth.kurti.${c}`], topShade: TOK[`cloth.kurti.${c}.shade`], bottom: TOK['cloth.legging'], bottomShade: TOK['cloth.legging'] });
+Object.assign(LOOKS, {
+  citizen:        { gender: 'M', skin: 3, bag: 'none', ...tee('olive') },
+  citizen_teal:   { gender: 'F', skin: 2, bag: 'sling', ...kurti('green') },
+  citizen_ochre:  { gender: 'M', skin: 4, bag: 'none', top: TOK['cloth.shirt.white'], topShade: TOK['cloth.shirt.white.shade'], hair: 'brown' },
+  citizen_maroon: { gender: 'F', skin: 3, bag: 'none', ...kurti('red') },
+  citizen_olive:  { gender: 'M', skin: 2, bag: 'laptop', ...tee('rust') },
+  citizen_slate:  { gender: 'M', skin: 5, bag: 'backpack' },
+  citizen_violet: { gender: 'F', skin: 1, bag: 'tote', ...kurti('mustard'), hair: 'brown' },
+  citizen_sand:   { gender: 'F', skin: 5, bag: 'none', ...kurti('green') },
+});
 
-for (const [name, palette] of Object.entries(VARIANTS)) {
-  await write(buildCharacterSheet(palette), join(assets, `sprites/${name}.png`));
+for (const [name, look] of Object.entries(LOOKS)) {
+  await write(buildCharacterSheet(look), join(assets, `sprites/${name}.png`));
 }
 
 // ── Tile id manifest ───────────────────────────────────────────────────────
@@ -92,5 +108,5 @@ writeFileSync(
 console.log(
   `✓ street.png — ${TILES.length} tiles (${COLS}x${rows} @ ${T}px = ${COLS * T}x${rows * T})`,
 );
-console.log(`✓ ${Object.keys(VARIANTS).length} character sheets (${CW}x${CH} frames, 4x4)`);
+console.log(`✓ ${Object.keys(LOOKS).length} character sheets (${CW}x${CH} frames, 4x4)`);
 console.log(`✓ street.tiles.json — ${Object.keys(ids).length} named tile ids`);

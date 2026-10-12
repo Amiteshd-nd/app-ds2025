@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import type { Direction } from '../utils/types';
 import { DEPTH, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
-import { ensurePlayerTexture } from '../utils/placeholders';
+import { ensurePlaceholderTexture } from '../utils/placeholders';
 
 /**
  * Player — the controllable character.
@@ -24,8 +24,13 @@ export class Player extends Phaser.GameObjects.Sprite {
   private interactionCallback: (() => void) | null = null;
 
   /** `textureKey` also selects the animation set, `<key>-walk-<dir>` etc. */
-  constructor(scene: Phaser.Scene, x: number, y: number, private textureKey = 'player') {
-    if (textureKey === 'player') ensurePlayerTexture(scene);
+  constructor(scene: Phaser.Scene, x: number, y: number, private textureKey: string) {
+    // A sheet that failed to load (or a key from a save made before it
+    // existed) must not crash the scene: stand in with the silhouette.
+    if (!scene.textures.exists(textureKey)) {
+      console.error(`[Player] sprite sheet "${textureKey}" is not loaded; using placeholder`);
+      ensurePlaceholderTexture(scene, textureKey, 32, 48, 0xff5a5f, 0xffffff);
+    }
     super(scene, x, y, textureKey);
 
     scene.add.existing(this);

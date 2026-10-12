@@ -9,7 +9,8 @@ unpleasant, so every asset in this package is accounted for below.
 | Asset | Source | Licence |
 | --- | --- | --- |
 | `src/assets/tilesets/street.png` | `scripts/generate-art.mjs` | Same as this repository |
-| `src/assets/sprites/citizen*.png` | `scripts/generate-art.mjs` | Same as this repository |
+| `src/assets/sprites/player_*.png`, `citizen*.png` | `scripts/generate-art.mjs` (rig v2, tokens on `_meta/palette.gpl`) | Same as this repository |
+| `src/assets/_meta/style/style_sheet.png`, `palette.gpl`, `tokens.json` | P1 style lock: Figma AI image generation (gpt-image-2.5-sunburst) from the prompt in `_meta/style.json`; palette by `scripts/extract-palette.mjs`. Reference only — never loaded by the game | Generated output, used as reference |
 | `src/assets/tilemaps/whitefield_street.tmj` | `scripts/generate-street-map.mjs` | Same as this repository |
 | `public/pwa-*.png`, `public/favicon.png` | `scripts/generate-art.mjs` lineage | Same as this repository |
 
@@ -24,12 +25,12 @@ Ported from the `v1.0` branch of
 
 | Asset | Notes |
 | --- | --- |
-| `src/assets/sprites/player.png` | 128x192 character sheet |
 | `src/assets/tilesets/airport.png` and 7 others | Airport interior tilesets |
 | `src/assets/tilemaps/airport_interior.tmj` | Tiled map referencing the above |
 
-**Provenance unresolved.** That repository ships no `CREDITS.md` and no licence
-file, and the tilesets' colour statistics — around 254,000 unique colours, with
+**Provenance unresolved.** (`player.png` from the same source was removed in
+P2 — the generated rig replaces it.) That repository ships no `CREDITS.md`
+and no licence file, and the tilesets' colour statistics — around 254,000 unique colours, with
 roughly 1,000 inside a single 32x32 tile — indicate continuous-tone imagery
 rather than hand-drawn pixel art. They were most likely generated or derived
 rather than authored.

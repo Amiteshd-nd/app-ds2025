@@ -11,11 +11,13 @@ import {
 } from './utils/constants';
 import type {
   PlayerAppearance,
+  PlayerProfile,
   PlayerSkills,
   PlayerStats,
   ReputationState,
   SkillBranchName,
 } from './utils/types';
+import { defaultProfile, sheetForProfile } from './utils/profile';
 
 // Central game state shared between Phaser scenes and the React HUD.
 //
@@ -54,7 +56,9 @@ export interface GameState {
    * cumulative figure a leaderboard would rank on.
    */
   totalEarned: number;
+  /** Display name; kept in sync with profile.name. */
   playerName: string;
+  profile: PlayerProfile;
   appearance: PlayerAppearance;
   botCount: number;
   /** Key of the scene currently on screen — drives what the React HUD shows. */
@@ -71,6 +75,8 @@ export interface GameState {
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
+  /** Store the profile and derive the sprite from it (age + gender + skin). */
+  setProfile: (profile: PlayerProfile) => void;
   setAppearance: (appearance: PlayerAppearance) => void;
   setActiveScene: (activeScene: string | null) => void;
   setActiveDistrict: (activeDistrict: string | null) => void;
@@ -105,6 +111,7 @@ const initialAppearance = (): PlayerAppearance => ({ sheet: DEFAULT_PLAYER_SHEET
 export const useGameStore = create<GameState>((set) => ({
   totalEarned: 0,
   playerName: DEFAULT_PLAYER_NAME,
+  profile: defaultProfile(),
   appearance: initialAppearance(),
   botCount: 0,
   activeScene: null,
@@ -118,6 +125,12 @@ export const useGameStore = create<GameState>((set) => ({
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
+  setProfile: (profile) =>
+    set({
+      profile,
+      playerName: profile.name.trim() || DEFAULT_PLAYER_NAME,
+      appearance: { sheet: sheetForProfile(profile) },
+    }),
   setAppearance: (appearance) => set({ appearance }),
   setActiveScene: (activeScene) => set({ activeScene }),
   setActiveDistrict: (activeDistrict) => set({ activeDistrict }),
@@ -158,6 +171,8 @@ export const useGameStore = create<GameState>((set) => ({
   reset: () =>
     set({
       totalEarned: 0,
+      playerName: DEFAULT_PLAYER_NAME,
+      profile: defaultProfile(),
       appearance: initialAppearance(),
       stats: initialStats(),
       skills: emptySkills(),

@@ -109,32 +109,6 @@ export const SCENE_KEYS = Object.freeze({
   TRANSIT: 'TransitScene',
 });
 
-// --- Player backgrounds ----------------------------------------------------
-export const PLAYER_BACKGROUNDS = {
-  architecture: {
-    label: 'Architecture Graduate',
-    description: 'Trained in spatial design and visual thinking',
-    statBonuses: { creativity: 2, spatial_awareness: 1 },
-  },
-  engineering: {
-    label: 'Engineering/Tech Graduate',
-    description: 'Strong in problem-solving and logic',
-    statBonuses: { technical: 2, logic: 1 },
-  },
-  design: {
-    label: 'Design/Creative Graduate',
-    description: 'Expert in visual communication',
-    statBonuses: { creativity: 2, communication: 1 },
-  },
-  commerce: {
-    label: 'Commerce/Business Graduate',
-    description: 'Skilled in negotiation and finance',
-    statBonuses: { negotiation: 2, finance: 1 },
-  },
-} as const;
-
-export type PlayerBackground = keyof typeof PLAYER_BACKGROUNDS;
-
 // --- Depth layers ----------------------------------------------------------
 export const DEPTH = {
   GROUND: 0,
@@ -164,21 +138,21 @@ export const LAYER_DEPTH: Record<string, number> = {
 
 // --- Defaults --------------------------------------------------------------
 export const DEFAULT_PLAYER_NAME = 'You';
-export const DEFAULT_HOME_STATE = 'Other';
 export const DEFAULT_DIRECTION = 'down';
-/** Sprite sheet a fresh run is drawn with until P2 assigns one from the profile. */
-export const DEFAULT_PLAYER_SHEET = 'player';
+/** Sheet used before character creation has run (= defaultProfile()). */
+export const DEFAULT_PLAYER_SHEET = 'player_m_3a';
 
 // Save format version, bumped when SaveData changes shape.
 // 1.2.0: position is a district id + x/y, not a scene class name; appearance added.
-export const SAVE_VERSION = '1.2.0';
+// 1.3.0: player.profile replaces name/background/homeState (P2 character creation).
+export const SAVE_VERSION = '1.3.0';
 
 /**
  * Older formats that can be upgraded forward rather than discarded. Refusing a
  * save is correct when its shape is unknown; throwing away a player's run
  * because a field was added is not.
  */
-export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0'] as const;
+export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0'] as const;
 
 /** Scene class names that pre-1.2.0 saves recorded, mapped to the district they meant. */
 export const LEGACY_SCENE_DISTRICTS: Record<string, string> = {

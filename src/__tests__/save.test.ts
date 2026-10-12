@@ -84,7 +84,7 @@ describe('SaveManager', () => {
     useGameStore.getState().setAppearance({ sheet: 'citizen_teal' });
     SaveManager.getInstance().save();
     useGameStore.getState().reset();
-    expect(useGameStore.getState().appearance.sheet).toBe('player');
+    expect(useGameStore.getState().appearance.sheet).toBe('player_m_3a');
     SaveManager.getInstance().restore();
     expect(useGameStore.getState().appearance.sheet).toBe('citizen_teal');
   });

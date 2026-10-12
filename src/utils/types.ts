@@ -1,4 +1,5 @@
-import type { NPC_TIERS, PlayerBackground, QUEST_TYPES } from './constants';
+import type { NPC_TIERS, QUEST_TYPES } from './constants';
+import type { Degree, Gender, SkinTone } from './profile';
 
 // Direction for player movement and NPC facing.
 export type Direction = 'down' | 'left' | 'right' | 'up';
@@ -44,10 +45,22 @@ export interface WorldPosition {
   y: number;
 }
 
-export interface PlayerData {
+/**
+ * Character creation output (profile doc §1). Gates flavour only — every
+ * profile can play every scene (ADR-15). `skin` is identity, not cosmetics.
+ */
+export interface PlayerProfile {
   name: string;
-  background: PlayerBackground;
-  homeState: string;
+  gender: Gender;
+  age: number;
+  hometown: { state: string; town: string };
+  college: string;
+  degree: Degree;
+  skin: SkinTone;
+}
+
+export interface PlayerData {
+  profile: PlayerProfile;
   appearance: PlayerAppearance;
   position: WorldPosition;
   direction: Direction;
