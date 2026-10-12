@@ -5,13 +5,38 @@
     "map": "airport_map",
     "defaultSpawn": "player_spawn",
     "fadeMs": 400,
-    "quests": ["arrival"],
+    "quests": [
+      "q_act0_arrival"
+    ],
     "npcs": [
-      { "id": "receptionist", "spawn": "receptionist" },
-      { "id": "airport_helper", "spawn": "helper" },
-      { "id": "security_guard", "spawn": "gaurd" },
-      { "id": "shopkeeper_kiosk", "spawn": "shopkeeper_1" },
-      { "id": "shopkeeper_food", "spawn": "shopkeeper_2" }
+      {
+        "id": "receptionist",
+        "spawn": "receptionist"
+      },
+      {
+        "id": "airport_helper",
+        "spawn": "helper"
+      },
+      {
+        "id": "security_guard",
+        "spawn": "gaurd"
+      },
+      {
+        "id": "shopkeeper_kiosk",
+        "spawn": "shopkeeper_1"
+      },
+      {
+        "id": "npc_chai_anna",
+        "spawn": "chai_stall"
+      },
+      {
+        "id": "npc_cab_tout_1",
+        "spawn": "cab_tout"
+      },
+      {
+        "id": "ambient_hivr_lanyard",
+        "spawn": "hivr_corner"
+      }
     ],
     "exits": [
       {
@@ -19,7 +44,16 @@
         "to": "whitefield_street",
         "spawn": "bus_stop",
         "transit": "bus",
-        "card": "Vayu Vajra KIA-8 → Whitefield"
+        "card": "Vayu Vajra KIA-8 → Whitefield · ₹250",
+        "fare": 250
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "hivr_zone",
+        "setFlags": [
+          "seen_hivr_lanyard"
+        ]
       }
     ]
   },
@@ -29,11 +63,19 @@
     "map": "whitefield_street",
     "defaultSpawn": "player_spawn",
     "fadeMs": 400,
-    "unlock": { "quest": "arrival" },
+    "unlock": {
+      "quest": "q_act0_arrival"
+    },
     "ambient": {
       "base": [
-        "citizen", "citizen_teal", "citizen_ochre", "citizen_maroon",
-        "citizen_olive", "citizen_slate", "citizen_violet", "citizen_sand"
+        "citizen",
+        "citizen_teal",
+        "citizen_ochre",
+        "citizen_maroon",
+        "citizen_olive",
+        "citizen_slate",
+        "citizen_violet",
+        "citizen_sand"
       ],
       "count": 40,
       "area": "ambient_area"

@@ -7,6 +7,7 @@ import type {
   NpcDef,
   ObjectDef,
   QuestFile,
+  SceneComponent,
 } from '../utils/types';
 
 /**
@@ -30,6 +31,7 @@ const questModules = import.meta.glob('./quests/*.json', { eager: true, import: 
 const itemModules = import.meta.glob('./items/*.json', { eager: true, import: 'default' });
 const npcModules = import.meta.glob('./npcs/*.json', { eager: true, import: 'default' });
 const objectModules = import.meta.glob('./objects/*.json', { eager: true, import: 'default' });
+const sceneModules = import.meta.glob('./scenes/*.json', { eager: true, import: 'default' });
 
 const byId = <T extends { id: string }>(entries: T[], kind: string): Record<string, T> => {
   const out: Record<string, T> = {};
@@ -78,6 +80,14 @@ export const OBJECTS: Record<string, ObjectDef> = byId(
   load<ObjectDef[]>(objectModules).flat(),
   'object',
 );
+
+/**
+ * Scene components (SCENE_TEMPLATE): the story as data, one per scene. The
+ * engine does not read these at runtime yet — they are the authored source
+ * districts/quests/dialogue are built from, and the validator holds them to
+ * the same references. Acts 2–4 ship as stubs (status "STUB").
+ */
+export const SCENES: Record<string, SceneComponent> = byId(load<SceneComponent>(sceneModules), 'scene');
 
 /** Tile name -> 0-based frame index in street.png, generated with the art. */
 export const STREET_TILE_IDS: Record<string, number> = tileIds.ids;

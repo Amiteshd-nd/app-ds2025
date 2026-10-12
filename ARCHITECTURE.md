@@ -5,6 +5,7 @@ Updated: 2026-10-12 — after P0 + P1 candidates. Places are data; no scene per 
 | Scene | Role | Status |
 |---|---|---|
 | `BootScene` | loads every sprite sheet / tileset / tilemap by glob, registers `<sheet>-walk/idle-<dir>` anims, placeholder textures; starts `registry.startDistrict` (→ World) or `registry.startScene` (default Title) | keep |
+| `WorldScene` (M0 content) | airport: 7 NPCs incl. `npc_chai_anna` (generated sheet), cab tout, HIVR lanyard man; `hivr_zone` trigger sets `seen_hivr_lanyard`; exit `zone_exit` fare ₹250 → `whitefield_street` | P3 |
 | `TitleScene` | New Game (resets store → CharacterSelect) · Continue (restores save → `WorldScene{districtId,x,y}`) · Settings (stub) | keep |
 | `CharacterSelectScene` | character creation: offer-letter form (name, gender, age, home state/town, college, degree, skin) → `store.setProfile` (derives sprite) → 4-direction walk preview on test tiles → `WorldScene{airport}`. Hidden DOM `<input>` for text (mobile keyboard) | P2 |
 | **`WorldScene`** | the ONE place renderer: `create({districtId, spawnId?, x?, y?, fromDistrict?})` reads `districts.json` + `maps.manifest.json`; layers in `layerOrder`; Populate / Exits / Triggers / behaviours; dialogue + E-interact; autosave on entry and shutdown. **No district-specific branches.** | new |
@@ -40,6 +41,15 @@ src/
 │   └── _meta/     platform.json · style.json (P1 lock record) · style/ (candidates, .gpl palettes, swatches)
 scripts/           validate-*.{mjs,ts} · generate-art.mjs · generate-street-map.mjs · extract-palette.mjs · art/ (canvas, palette, tiles, character, quantize)
 ```
+
+## Stats & economy (P3, ADR-87)
+`PlayerStats` = health · wallet · social · stamina · food · stress · battery (`STAT_BOUNDS` clamps). `StatsManager.spend(cost, reason)` → `wallet:spent` or refusal; `earn()` → `wallet:earned`; `meet(npcId)` → social +1 once (`met` ledger). `applyEffect` routes negative `wallet` through `spend`. `DialogueManager` locks unaffordable choices with "Needs ₹N". Exits with `fare` spend on boarding. Save 1.4.0.
+
+## Input (ADR-88)
+`src/input/InputMap.ts` — axis/run/interact written by `TouchControls.tsx` (joystick + A, coarse-pointer only, safe-area CSS) and merged with keyboard inside `Player.update()`.
+
+## Scene components (ADR-89)
+`src/data/scenes/*.json` per SCENE_TEMPLATE → `SCENES`; validated against districts/quests/NPCs/pacing. `act0_arrivals` is the worked M0 example. Triggers may `setFlags`; exits may charge `fare`.
 
 ## Profile & sprites (P2)
 `PlayerProfile` (`src/utils/types.ts`) + pure helpers in `src/utils/profile.ts` (`validateProfile`, `sheetForProfile`, `ALL_PLAYER_SHEETS`, states/degrees). Sheet key = `player_<m|f>_<skin>`; `pnpm art` imports `src/assets/_raw/characters/player_{m,f}.png` (generated 3×4 sheets) through `scripts/import-sheet.mjs` into 10 on-palette 3×4 sheets (96×192, [stride, idle, opposite]), and still draws the 8 citizen looks with `scripts/art/character.mjs` (to be replaced, T-022). Save 1.3.0 persists `player.profile`; older saves migrate name/homeState into a default profile.

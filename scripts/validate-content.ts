@@ -54,6 +54,7 @@ export function validateContent(
   npcFiles: JsonFile[] = [],
   objectFiles: JsonFile[] = [],
   tileIds: Record<string, number> = {},
+  sceneFiles: JsonFile[] = [],
 ): string[] {
   const problems: string[] = [];
   const add = (file: string, msg: string) => problems.push(`${file}: ${msg}`);
@@ -179,10 +180,16 @@ export function validateContent(
       if (!TRANSIT_KINDS.includes(exit.transit)) {
         add(where, `${d} exit "${exit.zone}" has transit "${exit.transit}", expected one of ${TRANSIT_KINDS.join(', ')}`);
       }
+      if (exit.fare !== undefined && (!Number.isInteger(exit.fare) || exit.fare < 0)) {
+        add(where, `${d} exit "${exit.zone}" fare must be a non-negative integer`);
+      }
     }
 
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
+      if (trigger.setFlags !== undefined && !Array.isArray(trigger.setFlags)) {
+        add(where, `${d} trigger "${trigger.zone}" setFlags must be an array`);
+      }
     }
 
     for (const name of district.behaviours ?? []) {
@@ -299,6 +306,51 @@ export function validateContent(
         }
       }
     }
+  }
+
+  // ── Scene components (SCENE_TEMPLATE §B) ─────────────────────────────────
+  // A worked scene must resolve every reference; a STUB only needs an id,
+  // district, act and title — its TODOs are the point.
+  const PACING = ['Calm', 'Curious', 'Engaged', 'Tense', 'Reward'];
+  for (const { file, basename, json } of sceneFiles) {
+    if (json.id !== basename) add(file, `id "${json.id}" does not match filename "${basename}"`);
+    const stub = json.status === 'STUB';
+    if (!Number.isInteger(json.act) || json.act < 0 || json.act > 4) add(file, `act must be 0–4, got ${json.act}`);
+    if (!json.title) add(file, 'has no title');
+    if (!stub && districts.length && !districtIds.has(json.district)) {
+      add(file, `district "${json.district}" is not in districts.json`);
+    }
+    if (stub) continue;
+
+    if (!json.player_goal) add(file, 'has no player_goal');
+    if (!json.design_goal) add(file, 'has no design_goal');
+    for (const tag of json.pacing ?? []) {
+      if (!PACING.includes(tag)) add(file, `pacing tag "${tag}" is not one of ${PACING.join(', ')}`);
+    }
+    for (const q of json.quests ?? []) if (!questIds.has(q)) add(file, `quest "${q}" does not exist`);
+    const district = districts.find((d) => d.id === json.district);
+    const placed = new Set((district?.npcs ?? []).map((n: Json) => n.id));
+    for (const member of json.cast ?? []) {
+      if (!member.npc) { add(file, 'a cast entry has no npc'); continue; }
+      if (!npcIds.has(member.npc)) add(file, `cast member "${member.npc}" is not an NPC`);
+      else if (district && !placed.has(member.npc)) {
+        add(file, `cast member "${member.npc}" is not placed in district "${json.district}" — add it to districts.json npcs`);
+      }
+    }
+    for (const beat of json.beats ?? []) {
+      if (typeof beat !== 'object') continue;
+      if (!beat.id || !beat.what) add(file, `beat ${beat.id ?? '?'} needs id and what`);
+      if (beat.pacing && !PACING.includes(beat.pacing)) add(file, `beat ${beat.id} pacing "${beat.pacing}" is not one of ${PACING.join(', ')}`);
+    }
+    // Two Tense beats in a row without a Calm is the fatigue ADR-24 forbids.
+    const pacingSeq = (json.beats ?? []).map((b: Json) => (typeof b === 'object' ? b.pacing : undefined)).filter(Boolean);
+    for (let i = 1; i < pacingSeq.length; i++) {
+      if (pacingSeq[i] === 'Tense' && pacingSeq[i - 1] === 'Tense') add(file, `beats run Tense → Tense without a Calm between (ADR-24)`);
+    }
+    for (const exit of json.exits ?? []) {
+      if (typeof exit === 'object' && exit.to && !districtIds.has(exit.to)) add(file, `exit to "${exit.to}" is not a district`);
+    }
+    if (!json.acceptance?.length) add(file, 'has no acceptance list — the audit gate needs one');
   }
 
   problems.push(...detectPrerequisiteCycles(questFiles));
@@ -596,13 +648,14 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const items = readJsonDir('items');
   const npcs = readJsonDir('npcs');
   const objects = readJsonDir('objects');
+  const scenes = readJsonDir('scenes');
   const districts = JSON.parse(readFileSync(join(dataDir, 'districts.json'), 'utf8')) as Json[];
   const tileIds = (
     JSON.parse(
       readFileSync(resolve(here, '../src/assets/tilesets/street.tiles.json'), 'utf8'),
     ) as { ids: Record<string, number> }
   ).ids;
-  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds);
+  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes);
 
   const assetsDir = resolve(here, '../src/assets');
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
@@ -631,6 +684,6 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   console.log(
     `✓ content valid — ${districts.length} districts, ${count(npcs)} NPCs, ` +
       `${count(objects)} objects, ${dialogue.length} dialogue, ` +
-      `${quests.length} quest, ${count(items)} items`,
+      `${quests.length} quest, ${count(items)} items, ${scenes.length} scene component${scenes.length === 1 ? '' : 's'}`,
   );
 }

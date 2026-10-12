@@ -225,3 +225,50 @@ describe('content validator', () => {
     expect(p.some((m) => m.includes('behaviour "teleporter"'))).toBe(true);
   });
 });
+
+describe('scene components (SCENE_TEMPLATE)', () => {
+  const realDistricts = () => JSON.parse(readFileSync(join(dataDir, 'districts.json'), 'utf8'));
+  const scene = (over: Record<string, unknown> = {}) => [{
+    file: 'scenes/act0_arrivals.json', basename: 'act0_arrivals',
+    json: {
+      id: 'act0_arrivals', district: 'airport', act: 0, title: 'Arrivals',
+      player_goal: 'g', design_goal: 'd', pacing: ['Calm', 'Reward'],
+      cast: [{ npc: 'npc_chai_anna', tier: 2 }], quests: ['q_act0_arrival'],
+      beats: [{ id: 'F1', pacing: 'Calm', what: 'x' }], acceptance: ['done'],
+      ...over,
+    },
+  }];
+  const run = (over: Record<string, unknown> = {}) =>
+    validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, scene(over));
+
+  it('passes the real act0_arrivals component', () => {
+    expect(validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, readDir('scenes'))).toEqual([]);
+  });
+
+  it('accepts a well-formed scene', () => {
+    expect(run()).toEqual([]);
+  });
+
+  it('catches a cast member that exists but is not placed in the district', () => {
+    const p = run({ cast: [{ npc: 'receptionist', tier: 2 }, { npc: 'ghost', tier: 1 }] });
+    expect(p.some((m) => m.includes('"ghost" is not an NPC'))).toBe(true);
+    expect(p).not.toContainEqual(expect.stringContaining('"receptionist" is not placed'));
+  });
+
+  it('catches an unknown quest and a bad pacing tag', () => {
+    const p = run({ quests: ['q_nope'], pacing: ['Bored'] });
+    expect(p.some((m) => m.includes('quest "q_nope"'))).toBe(true);
+    expect(p.some((m) => m.includes('pacing tag "Bored"'))).toBe(true);
+  });
+
+  it('catches Tense → Tense without a Calm (ADR-24)', () => {
+    const p = run({ beats: [{ id: 'a', pacing: 'Tense', what: 'x' }, { id: 'b', pacing: 'Tense', what: 'y' }] });
+    expect(p.some((m) => m.includes('Tense → Tense'))).toBe(true);
+  });
+
+  it('lets a STUB through with only id/district/act/title', () => {
+    const stub = [{ file: 'scenes/act2_salary_scooter.json', basename: 'act2_salary_scooter',
+      json: { id: 'act2_salary_scooter', district: 'TODO', act: 2, title: 'Salary & the Scooter', status: 'STUB', cast: ['TODO'] } }];
+    expect(validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, stub)).toEqual([]);
+  });
+});

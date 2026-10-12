@@ -1,0 +1,51 @@
+{
+  "id": "dlg_chai_anna",
+  "speaker": "Chai Anna",
+  "portrait": "npc_chai_anna",
+  "nodes": {
+    "start": {
+      "text": "Chai, boss? Twenty rupees. Fresh — kettle just now boiled. You are coming from outside, no? I can hear it in the hello.",
+      "choices": [
+        {
+          "text": "One chai. (₹20, UPI)",
+          "next": "paid",
+          "effect": {
+            "wallet": -20,
+            "item_add": "cutting_chai",
+            "stress": -2
+          }
+        },
+        {
+          "text": "Where do I get a bus to Whitefield?",
+          "next": "directions"
+        },
+        {
+          "text": "Not now, Anna.",
+          "next": "decline"
+        }
+      ]
+    },
+    "paid": {
+      "text": "Scan, scan… ting! See, money gone already — Bengaluru welcomes you. Whitefield, you said? Don't go with those taxi fellows outside. Vayu Vajra bus, gate 4, two-fifty. Air-conditioned also.",
+      "effect": {
+        "xp": 15,
+        "xp_branch": "city_survival"
+      },
+      "next": "farewell"
+    },
+    "directions": {
+      "text": "Vayu Vajra, right outside gate 4. Blue bus, says KIA-8. Two hundred fifty rupees, UPI works. Taxi fellows will say eighteen hundred — walk past them like you know the place.",
+      "effect": {
+        "xp": 10,
+        "xp_branch": "city_survival"
+      },
+      "next": "farewell"
+    },
+    "decline": {
+      "text": "Okay okay. Bus is outside gate 4 anyway — Vayu Vajra, two-fifty. Next time, chai."
+    },
+    "farewell": {
+      "text": "Go, go. The bus doesn't wait and the city doesn't either."
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "act0_arrivals",
+  "district": "airport",
+  "act": 0,
+  "title": "Arrivals",
+  "status": "M0",
+  "time": "06:10 morning_haze",
+  "player_goal": "Get a chai, don't get fleeced, find the Vayu Vajra bus to Whitefield.",
+  "design_goal": "Teach move/interact/dialogue + first UPI spend (reveal #1-4). Plant the HIVR lanyard man.",
+  "pacing": ["Calm", "Curious", "Engaged", "Reward"],
+  "entry": { "from": "CharacterSelectScene", "spawn": "player_spawn" },
+  "cast": [
+    { "npc": "npc_chai_anna", "tier": 2, "spawn": "chai_stall", "role": "first UPI sink; points to the bus; comments on accent" },
+    { "npc": "npc_cab_tout_1", "tier": 2, "spawn": "cab_tout", "role": "₹1,800 scam; +stress if argued with" },
+    { "npc": "ambient_hivr_lanyard", "tier": 1, "spawn": "hivr_corner", "role": "silent; walking into his corner sets seen_hivr_lanyard" },
+    { "npc": "receptionist", "tier": 2, "spawn": "receptionist", "role": "directions (legacy port NPC)" },
+    { "npc": "airport_helper", "tier": 2, "spawn": "helper", "role": "lost-tourist flavour (legacy port NPC)" },
+    { "npc": "security_guard", "tier": 2, "spawn": "gaurd", "role": "unease line — two flights held (legacy port NPC)" },
+    { "npc": "shopkeeper_kiosk", "tier": 2, "spawn": "shopkeeper_1", "role": "water / SIM money sinks (legacy port NPC)" }
+  ],
+  "objects": [],
+  "quests": ["q_act0_arrival"],
+  "beats": [
+    { "id": "F1", "pacing": "Calm", "what": "Fade in at arrivals. Walk, read the hall.", "interact": "move", "reroute": "-" },
+    { "id": "F2", "pacing": "Curious", "what": "Chai Anna offers chai ₹20 and points to gate 4", "interact": "E/A/tap", "reward": "+chai, -2 stress, +15 xp, +1 social", "economy": "spend 20", "reroute": "decline → he still gives directions" },
+    { "id": "F3", "pacing": "Engaged", "what": "Cab tout wants ₹1,800; arguing costs stress", "interact": "E/A/tap", "reroute": "walk away — nothing lost" },
+    { "id": "F4", "pacing": "Curious", "what": "Background: man in a lanyard by the belt corner (silent)", "interact": "walk through", "flag": "seen_hivr_lanyard" },
+    { "id": "F5", "pacing": "Reward", "what": "Exit doors = Vayu Vajra stop → fare ₹250 → ride card → whitefield_street", "interact": "walk", "economy": "spend 250", "reroute": "-" }
+  ],
+  "economy": [
+    { "trigger": "chai", "spend": 20, "canAfford": true },
+    { "trigger": "bus_fare", "spend": 250, "canAfford": true }
+  ],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [ { "zone": "zone_exit", "to": "whitefield_street", "spawn": "bus_stop", "transit": "bus" } ],
+  "save_flags": ["seen_hivr_lanyard", "act0_arrived"],
+  "assets_needed": ["airport_interior_tiles (reference art, to be replaced)", "npc_chai_anna (done)", "npc_cab_tout_1", "ambient_hivr_lanyard", "vayu_vajra_bus card art"],
+  "acceptance": [
+    "player reaches the exit",
+    "≥1 UPI spend fired through spend() (chai and/or fare)",
+    "seen_hivr_lanyard set when the corner is walked through",
+    "transit card plays",
+    "lands at whitefield_street with +1 social"
+  ]
+}

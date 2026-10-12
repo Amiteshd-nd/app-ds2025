@@ -2,15 +2,18 @@ import Phaser from 'phaser';
 import type { Direction } from '../utils/types';
 import { DEPTH, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
 import { ensurePlaceholderTexture } from '../utils/placeholders';
+import { consumeInteract, input } from '../input/InputMap';
 
 /**
  * Player — the controllable character.
  *
- * Ported from the v1.0 reference entity: arrow keys or WASD to move, SHIFT to
- * run, E to interact, and a freeze switch for dialogue. Animation playback is
- * guarded by anims.exists() so the entity runs on a placeholder texture today
- * and starts animating the moment real spritesheets are loaded under the same
- * `player-walk-<dir>` / `player-idle-<dir>` keys.
+ * Arrow keys or WASD to move, SHIFT to run, E to interact — and the same
+ * four actions from the shared InputMap (on-screen joystick + A button, later
+ * a gamepad), merged here so no scene ever asks what device it is on (mobile
+ * foundation §5 rule 1). A freeze switch holds the player during dialogue.
+ * Animation playback is guarded by anims.exists() so the entity runs on a
+ * placeholder texture and starts animating the moment a sheet is loaded under
+ * `<sheet>-walk-<dir>` / `<sheet>-idle-<dir>` keys.
  */
 export class Player extends Phaser.GameObjects.Sprite {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -66,18 +69,19 @@ export class Player extends Phaser.GameObjects.Sprite {
   update(): void {
     if (!this.interactionEnabled) {
       this.stopMoving();
-      // Drain buffered E presses so the keystroke that closed a dialogue does
-      // not immediately re-trigger an interaction on unfreeze.
+      // Drain buffered presses so the input that closed a dialogue does not
+      // immediately re-trigger an interaction on unfreeze.
       Phaser.Input.Keyboard.JustDown(this.eKey);
+      consumeInteract();
       return;
     }
 
-    const left = this.cursors.left.isDown || this.wasdKeys.A.isDown;
-    const right = this.cursors.right.isDown || this.wasdKeys.D.isDown;
-    const up = this.cursors.up.isDown || this.wasdKeys.W.isDown;
-    const down = this.cursors.down.isDown || this.wasdKeys.S.isDown;
+    const left = this.cursors.left.isDown || this.wasdKeys.A.isDown || input.axisX < 0;
+    const right = this.cursors.right.isDown || this.wasdKeys.D.isDown || input.axisX > 0;
+    const up = this.cursors.up.isDown || this.wasdKeys.W.isDown || input.axisY < 0;
+    const down = this.cursors.down.isDown || this.wasdKeys.S.isDown || input.axisY > 0;
 
-    const speed = this.shiftKey.isDown ? PLAYER_RUN_SPEED : PLAYER_SPEED;
+    const speed = this.shiftKey.isDown || input.run ? PLAYER_RUN_SPEED : PLAYER_SPEED;
 
     let velX = 0;
     let velY = 0;
@@ -111,9 +115,10 @@ export class Player extends Phaser.GameObjects.Sprite {
     if (this.isMoving) this.playWalkAnim();
     else this.playIdleAnim();
 
-    if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-      this.interactionCallback?.();
-    }
+    // `||` would short-circuit and leave a touch press buffered; read both.
+    const keyPressed = Phaser.Input.Keyboard.JustDown(this.eKey);
+    const touchPressed = consumeInteract();
+    if (keyPressed || touchPressed) this.interactionCallback?.();
   }
 
   private playAnimIfPresent(key: string): void {

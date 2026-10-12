@@ -13,9 +13,9 @@ beforeEach(() => {
 describe('content registry', () => {
   it('loads authored content by id', () => {
     expect(Object.keys(DIALOGUE).sort()).toEqual([
-      'airport_helper', 'receptionist', 'security_guard', 'shopkeeper',
+      'airport_helper', 'dlg_cab_tout', 'dlg_chai_anna', 'receptionist', 'security_guard', 'shopkeeper',
     ]);
-    expect(Object.keys(QUESTS)).toContain('arrival');
+    expect(Object.keys(QUESTS)).toContain('q_act0_arrival');
     expect(Object.keys(ITEMS)).toContain('water_bottle');
   });
 

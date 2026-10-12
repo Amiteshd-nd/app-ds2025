@@ -1,0 +1,30 @@
+{
+  "id": "dlg_cab_tout",
+  "speaker": "Cab Tout",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Taxi, sir-madam! Whitefield? AC car, direct, no stopping. Eighteen hundred only.",
+      "choices": [
+        {
+          "text": "Eighteen hundred?! The bus is two-fifty.",
+          "next": "counter"
+        },
+        {
+          "text": "No thanks.",
+          "next": "farewell"
+        }
+      ]
+    },
+    "counter": {
+      "text": "Bus will take two hours, boss, three hours in traffic. Okay okay — prepaid counter is nine hundred. Nine hundred and you sit in comfort.",
+      "effect": {
+        "stress": 3
+      },
+      "next": "farewell"
+    },
+    "farewell": {
+      "text": "Fine, fine. Go in the bus. When you are tired of Bengaluru buses, you will come find me."
+    }
+  }
+}

@@ -169,6 +169,8 @@ export interface DistrictExit {
   /** Spawn object name in the destination map. */
   spawn: string;
   transit: TransitKind;
+  /** ₹ taken by spend() on boarding; the exit refuses if the wallet is short. */
+  fare?: number;
   /** Card text shown during the ride; defaults to "<transit> → <district name>". */
   card?: string;
 }
@@ -178,6 +180,8 @@ export interface DistrictTrigger {
   zone: string;
   /** Fire on first entry only (default true). */
   once?: boolean;
+  /** Flags set on entry — a silent breadcrumb (the HIVR lanyard man). */
+  setFlags?: string[];
 }
 
 /**
@@ -205,6 +209,43 @@ export interface DistrictDef {
   behaviours?: string[];
   /** City Pulse slot names this district offers; each is an object in the map's pulse layer. */
   pulse_slots?: string[];
+}
+
+// --- Scene components (SCENE_TEMPLATE §B) ----------------------------------
+export interface SceneBeat {
+  id: string;
+  pacing: string;
+  what: string;
+  interact?: string;
+  reward?: string;
+  flag?: string;
+  economy?: string;
+  reroute?: string;
+}
+
+export interface SceneComponent {
+  id: string;
+  district: string;
+  act: number;
+  title: string;
+  /** "STUB" for Acts 2–4 until co-authored; anything else is a worked scene. */
+  status?: string;
+  time?: string;
+  player_goal: string;
+  design_goal: string;
+  pacing: string[];
+  entry?: { from: string; spawn: string };
+  cast: Array<{ npc: string; tier: number; spawn?: string; schedule?: string; role?: string }>;
+  objects?: Array<{ id: string; at: string; requires?: string | null }>;
+  quests: string[];
+  beats: SceneBeat[] | string[];
+  economy?: Array<{ trigger: string; spend: number | string; canAfford?: boolean }>;
+  conditions?: string[];
+  pulse_slots?: string[];
+  exits?: DistrictExit[] | string[];
+  save_flags?: string[];
+  assets_needed?: string[];
+  acceptance?: string[];
 }
 
 // --- NPCs ------------------------------------------------------------------

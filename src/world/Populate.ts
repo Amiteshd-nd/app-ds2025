@@ -57,6 +57,7 @@ export function npcs(
 
     sprite.setData('npcId', npc.id);
     sprite.setData('dialogueId', npc.dialogue);
+    sprite.setData('tier', npc.tier);
     sprites.push(sprite);
   }
 

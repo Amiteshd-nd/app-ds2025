@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
+import { useGameStore } from '../store';
 import type { DistrictDef } from '../utils/types';
 import { EntryWatcher, findObject, zoneFromObject } from './Zones';
 
@@ -34,6 +35,7 @@ export function bind(
       new EntryWatcher(scene, player, zone, () => {
         if (fired && trigger.once !== false) return;
         fired = true;
+        for (const flag of trigger.setFlags ?? []) useGameStore.getState().setFlag(flag, true);
         gameEvents.emit('zone:reached', { zoneId: trigger.zone, districtId: district.id });
       }),
     );

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
 import { ReputationManager } from '../systems/ReputationManager';
+import { StatsManager } from '../systems/StatsManager';
 import type { DistrictDef, DistrictExit } from '../utils/types';
 import { EntryWatcher, findObject, zoneFromObject } from './Zones';
 
@@ -13,9 +14,10 @@ export interface BoundExits {
  *
  * An exit is a zone first: stepping into it is a fact quests may be waiting on
  * (the arrival quest's last objective is "reach zone_exit"), so `zone:reached`
- * goes out *before* the gate is checked. Then, if the destination is open, the
- * scene is handed the exit and transitions; if not, nothing happens and the
- * watcher re-arms when the player steps out — a locked door, not a dead end.
+ * goes out *before* the gate is checked. Then, if the destination is open and
+ * the fare (if any) is paid through spend(), the scene is handed the exit and
+ * transitions; if not, nothing happens and the watcher re-arms when the player
+ * steps out — a locked door, not a dead end.
  */
 export function bind(
   scene: Phaser.Scene,
@@ -41,6 +43,8 @@ export function bind(
       new EntryWatcher(scene, player, zone, () => {
         gameEvents.emit('zone:reached', { zoneId: exit.zone, districtId: district.id });
         if (!ReputationManager.getInstance().canEnter(exit.to)) return;
+        // The fare is the first real money sink (game_components §7).
+        if (exit.fare && !StatsManager.getInstance().spend(exit.fare, `fare:${exit.transit}`)) return;
         go(exit);
       }),
     );

@@ -3163,6 +3163,53 @@
      "width": 0,
      "x": 806.666666666667,
      "y": 158.666666666667
+    },
+    {
+     "id": 11,
+     "name": "chai_stall",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 930,
+     "y": 584,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 12,
+     "name": "hivr_corner",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 140,
+     "y": 600,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 13,
+     "name": "hivr_zone",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 64,
+     "y": 544,
+     "width": 160,
+     "height": 112
+    },
+    {
+     "id": 14,
+     "name": "cab_tout",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 700,
+     "y": 236,
+     "width": 0,
+     "height": 0
     }
    ],
    "opacity": 1,
@@ -3173,7 +3220,7 @@
   }
  ],
  "nextlayerid": 12,
- "nextobjectid": 10,
+ "nextobjectid": 15,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.12.0",

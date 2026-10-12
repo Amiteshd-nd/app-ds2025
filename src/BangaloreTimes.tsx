@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import PhaserGame from './PhaserGame';
+import TouchControls from './TouchControls';
 import { useGameStore } from './store';
 import { QUESTS } from './data';
 import { REPUTATION_THRESHOLDS, REPUTATION_TIER_NAMES, SCENE_KEYS, SKILL_TIER_NAMES } from './utils/constants';
@@ -119,6 +120,9 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesP
               Move with WASD or arrow keys · SHIFT to run · E to interact
             </span>
           </div>
+
+          {/* Joystick + A on touch devices; nothing on a desktop. */}
+          <TouchControls />
         </>
       )}
     </div>

@@ -80,10 +80,12 @@ for (const [name, look] of Object.entries(LOOKS)) {
 // style; import-sheet keys, snaps and quantises it into the 4×4 contract and
 // writes the five skin tones. Regenerating from the raws is what keeps
 // `pnpm art` reproducible for these too.
+// Player bases get the five skin tones; an NPC is one person, one sheet.
 const rawDir = join(assets, '_raw/characters');
 const imported = [];
 for (const file of readdirSync(rawDir).filter((f) => f.endsWith('.png')).sort()) {
-  imported.push(...(await importSheet(join(rawDir, file), file.replace(/\.png$/, ''), { skins: true })));
+  const name = file.replace(/\.png$/, '');
+  imported.push(...(await importSheet(join(rawDir, file), name, { skins: name.startsWith('player_') })));
 }
 
 // ── Tile id manifest ───────────────────────────────────────────────────────

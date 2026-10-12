@@ -27,10 +27,23 @@
     "tint": 16095515
   },
   {
-    "id": "shopkeeper_food",
-    "name": "Food Kiosk Vendor",
+    "id": "npc_chai_anna",
+    "name": "Chai Anna",
     "tier": 2,
-    "dialogue": "shopkeeper",
-    "tint": 16095515
+    "dialogue": "dlg_chai_anna",
+    "sheet": "npc_chai_anna"
+  },
+  {
+    "id": "npc_cab_tout_1",
+    "name": "Cab Tout",
+    "tier": 2,
+    "dialogue": "dlg_cab_tout",
+    "tint": 11184810
+  },
+  {
+    "id": "ambient_hivr_lanyard",
+    "name": "Man in a lanyard",
+    "tier": 1,
+    "tint": 5592405
   }
 ]

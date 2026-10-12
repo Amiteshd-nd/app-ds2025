@@ -100,7 +100,7 @@ describe('district access', () => {
   });
   const gated = () => new ReputationManager({
     open: district('open'),
-    by_quest: district('by_quest', { quest: 'arrival' }),
+    by_quest: district('by_quest', { quest: 'q_act0_arrival' }),
     by_rep: district('by_rep', { reputation: 50 }),
     by_flag: district('by_flag', { flags: ['pg_signed'] }),
   });
@@ -113,7 +113,7 @@ describe('district access', () => {
   it('gates a district behind its unlocking quest', () => {
     expect(rep().canEnter('whitefield_street')).toBe(false); // the real airport → Whitefield gate
     expect(gated().canEnter('by_quest')).toBe(false);
-    useGameStore.getState().setQuests({ active: {}, completed: ['arrival'] });
+    useGameStore.getState().setQuests({ active: {}, completed: ['q_act0_arrival'] });
     expect(rep().canEnter('whitefield_street')).toBe(true);
     expect(gated().canEnter('by_quest')).toBe(true);
   });
@@ -138,7 +138,7 @@ describe('district access', () => {
 
   it('lists available districts in declaration order', () => {
     expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport']);
-    useGameStore.getState().setQuests({ active: {}, completed: ['arrival'] });
+    useGameStore.getState().setQuests({ active: {}, completed: ['q_act0_arrival'] });
     expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport', 'whitefield_street']);
   });
 });
@@ -152,9 +152,9 @@ describe('district + NPC registries', () => {
   });
 
   it('queries content by district — the unit of world expansion', () => {
-    expect(npcsInDistrict('airport')).toHaveLength(5);
+    expect(npcsInDistrict('airport')).toHaveLength(7);
     expect(npcsInDistrict('whitefield_street')).toEqual([]);
-    expect(questsInDistrict('airport').map((q) => q.id)).toEqual(['arrival']);
+    expect(questsInDistrict('airport').map((q) => q.id)).toEqual(['q_act0_arrival']);
   });
 
   it('fails loudly on unknown ids', () => {
@@ -165,9 +165,9 @@ describe('district + NPC registries', () => {
 
 describe('reputation in the quest loop', () => {
   it('completing arrival grants reputation globally and to its district', () => {
-    QuestManager.getInstance().start('arrival');
+    QuestManager.getInstance().start('q_act0_arrival');
     const d = DialogueManager.getInstance();
-    d.start('receptionist'); d.choose(1); d.end();
+    d.start('dlg_chai_anna'); d.choose(2); d.end();
     gameEvents.emit('zone:reached', { zoneId: 'zone_exit', districtId: 'airport' });
 
     expect(rep().total).toBe(10);
@@ -211,7 +211,7 @@ describe('save migration', () => {
       skills: { technical: { xp: 0, level: 0 }, soft_skills: { xp: 0, level: 0 },
         city_survival: { xp: 120, level: 1 } },
       inventory: ['water_bottle'],
-      quests: { active: {}, completed: ['arrival'] },
+      quests: { active: {}, completed: ['q_act0_arrival'] },
       flags: {},
       playtime_seconds: 0,
     }));
@@ -230,7 +230,7 @@ describe('save migration', () => {
     expect(state.stats.food).toBe(40);             // energy → food
     expect(state.stats.social).toBe(0);
     expect(state.inventory).toEqual(['water_bottle']);
-    expect(state.quests.completed).toEqual(['arrival']);
+    expect(state.quests.completed).toEqual(['q_act0_arrival']);
   });
 
   it('sends a legacy save whose scene is unknown back to the airport', () => {

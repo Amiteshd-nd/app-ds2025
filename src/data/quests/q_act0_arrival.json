@@ -1,0 +1,39 @@
+{
+  "id": "q_act0_arrival",
+  "title": "Touchdown",
+  "description": "Bengaluru, 06:10. You've landed with a backpack, ₹35,000 and an offer letter. Get a chai, don't get fleeced, find the Vayu Vajra bus to Whitefield.",
+  "chapter": 0,
+  "district": "airport",
+  "type": "search",
+  "objectives": [
+    {
+      "id": "talk_anna",
+      "text": "Talk to Chai Anna",
+      "type": "dialogue",
+      "target": "dlg_chai_anna"
+    },
+    {
+      "id": "buy_chai",
+      "text": "Buy a chai (₹20)",
+      "type": "collect",
+      "target": "cutting_chai",
+      "optional": true
+    },
+    {
+      "id": "reach_stop",
+      "text": "Find the Vayu Vajra stop outside gate 4",
+      "type": "reach",
+      "target": "zone_exit"
+    }
+  ],
+  "rewards": {
+    "xp": 50,
+    "xp_branch": "city_survival",
+    "reputation": 10
+  },
+  "on_complete": {
+    "set_flags": [
+      "act0_arrived"
+    ]
+  }
+}

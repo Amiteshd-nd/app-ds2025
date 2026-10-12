@@ -23,6 +23,9 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 
 - Sprites: generate a 3×4 magenta-background sheet with `src/assets/_raw/characters/prompt-template.md`, drop the raw in `_raw/characters/`, run `pnpm art` (import-sheet does key/snap/quantise/skins). Review at 4× next to the reference before the audit. The code rig is for citizens/placeholders only.
 
+- Money: never touch `stats.wallet` directly — `StatsManager.spend()` / `earn()`. Content effects use `wallet`, `food` (not `money`, `energy`; the validator rejects those).
+- NPC sheets: drop a raw named `npc_<id>.png` in `_raw/characters/` (template prompt) → `pnpm art` imports it as one sheet; set `"sheet": "npc_<id>"` on the NPC.
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
 - `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` — keep it free of Vite-only syntax.

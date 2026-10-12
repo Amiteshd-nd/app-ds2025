@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { Player } from '../entities/Player';
 import { SaveManager } from '../systems/SaveManager';
 import { QuestManager } from '../systems/QuestManager';
+import { StatsManager } from '../systems/StatsManager';
 import { useGameStore } from '../store';
 import { TILESET_URLS } from '../assets';
 import { MAPS, LAYER_ORDER } from '../assets/maps';
@@ -230,7 +231,10 @@ export class WorldScene extends Phaser.Scene {
 
     // Reported either way: an ambient NPC with no dialogue can still satisfy an
     // `interact` objective.
-    gameEvents.emit('entity:interacted', { entityId: nearest.getData('npcId') as string });
+    const npcId = nearest.getData('npcId') as string;
+    gameEvents.emit('entity:interacted', { entityId: npcId });
+    // A named NPC (tier 2+) met for the first time: social +1. The crowd never counts.
+    if ((nearest.getData('tier') as number) >= 2) StatsManager.getInstance().meet(npcId);
 
     const dialogueId = nearest.getData('dialogueId') as string | undefined;
     if (!dialogueId) return; // tier 1 ambient — atmosphere only

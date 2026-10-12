@@ -81,6 +81,74 @@
   pointer-events: none;
 }
 
+/* Touch controls (mobile foundation §5): joystick bottom-left, A bottom-right.
+   Only rendered on coarse-pointer devices. Sized on the 8px grid, every
+   target ≥ 48px, kept clear of the notch/gesture bar by the safe-area insets. */
+.nq-touch {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  padding: calc(1rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right))
+    calc(1.5rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
+}
+
+.nq-stick {
+  position: absolute;
+  left: calc(1.5rem + env(safe-area-inset-left));
+  bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  width: 112px;
+  height: 112px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.nq-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+.nq-action {
+  position: absolute;
+  right: calc(1.5rem + env(safe-area-inset-right));
+  bottom: calc(5rem + env(safe-area-inset-bottom));
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  background: rgba(241, 189, 54, 0.85);
+  border: 2px solid rgba(34, 42, 34, 0.9);
+  color: #222a22;
+  font: 700 1.25rem/1 ui-monospace, Menlo, monospace;
+  pointer-events: auto;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+.nq-action:active {
+  background: rgba(232, 172, 25, 1);
+}
+
+/* On a phone the keyboard hint is noise. */
+@media (pointer: coarse) {
+  .nq-controls {
+    display: none;
+  }
+}
+
 /* The Phaser canvas is a fixed 640×360 surface scaled up by Scale.FIT. The host
    centres it and keeps the upscale nearest-neighbour, so no CSS smoothing
    creeps back in after the renderer has done its work. */
