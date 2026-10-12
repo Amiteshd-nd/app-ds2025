@@ -42,7 +42,11 @@ export function bind(
     watchers.push(
       new EntryWatcher(scene, player, zone, () => {
         gameEvents.emit('zone:reached', { zoneId: exit.zone, districtId: district.id });
-        if (!ReputationManager.getInstance().canEnter(exit.to)) return;
+        if (!ReputationManager.getInstance().canEnter(exit.to)) {
+          // A locked door says why, once per approach (the watcher re-arms on step-out).
+          if (exit.lockedText) gameEvents.emit('ui:toast', { text: exit.lockedText });
+          return;
+        }
         // The fare is the first real money sink (game_components §7).
         if (exit.fare && !StatsManager.getInstance().spend(exit.fare, `fare:${exit.transit}`)) return;
         go(exit);

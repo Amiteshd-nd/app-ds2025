@@ -1,6 +1,7 @@
 import { gameEvents } from '../core/events';
 import { DIALOGUE_ENTRY_NODE, getDialogue } from '../data';
 import { StatsManager } from './StatsManager';
+import { NegotiationManager, type Negotiation } from './NegotiationManager';
 import { useGameStore } from '../store';
 import { SKILL_TIER_NAMES } from '../utils/constants';
 import type {
@@ -32,6 +33,8 @@ export interface DialogueView {
   canAdvance: boolean;
   /** True when this node ends the conversation. */
   isEnd: boolean;
+  /** The bill under negotiation ("Deposit ₹10,000 + Rent ₹8,000 = ₹18,000"), drawn apart from the line. */
+  ledger?: string;
 }
 
 const SKILL_LABELS: Record<string, string> = {
@@ -61,6 +64,8 @@ export class DialogueManager {
   private file: DialogueFile | null = null;
   private nodeId: string | null = null;
   private questTriggers: string[] = [];
+  /** A haggle running inside the current node (ADR-95). */
+  private negotiation: Negotiation | null = null;
 
   get isActive(): boolean {
     return this.file !== null;
@@ -75,13 +80,18 @@ export class DialogueManager {
   start(dialogueId: string): DialogueView {
     this.file = getDialogue(dialogueId);
     this.questTriggers = [];
+    this.negotiation = null;
 
-    const entry = this.file.nodes[DIALOGUE_ENTRY_NODE];
+    // NPCs remember: the first `enter` branch whose flag is set picks the
+    // opening node (the owner who already took your token, ADR-96).
+    const { flags } = useGameStore.getState();
+    const entryId = this.file.enter?.find((b) => flags[b.flag])?.node ?? DIALOGUE_ENTRY_NODE;
+    const entry = this.file.nodes[entryId];
     if (!entry) {
-      throw new Error(`Dialogue "${dialogueId}" has no "${DIALOGUE_ENTRY_NODE}" node`);
+      throw new Error(`Dialogue "${dialogueId}" has no "${entryId}" node`);
     }
 
-    this.nodeId = DIALOGUE_ENTRY_NODE;
+    this.nodeId = entryId;
     gameEvents.emit('dialogue:started', { dialogueId });
     this.applyNode(entry);
     return this.view();
@@ -93,6 +103,17 @@ export class DialogueManager {
    */
   choose(index: number): DialogueView {
     const node = this.requireNode();
+
+    if (this.negotiation) {
+      const option = this.negotiation.options()[index];
+      if (!option) throw new Error(`Negotiation option ${index} does not exist`);
+      if (!option.enabled) throw new Error(`Negotiation option ${index} is locked`);
+      const outcome = this.negotiation.choose(index);
+      if (!outcome) return this.view();
+      this.negotiation = null;
+      return this.goTo(outcome === 'deal' ? node.negotiate!.deal : node.negotiate!.walk);
+    }
+
     const choice = node.choices?.[index];
     if (!choice) throw new Error(`Choice ${index} does not exist on node "${this.nodeId}"`);
 
@@ -124,6 +145,7 @@ export class DialogueManager {
     this.file = null;
     this.nodeId = null;
     this.questTriggers = [];
+    this.negotiation = null;
     gameEvents.emit('dialogue:ended', result);
     return result;
   }
@@ -132,6 +154,27 @@ export class DialogueManager {
   view(): DialogueView {
     const file = this.requireFile();
     const node = this.requireNode();
+
+    if (this.negotiation) {
+      const neg = this.negotiation;
+      return {
+        dialogueId: file.id,
+        nodeId: this.nodeId!,
+        speaker: file.speaker,
+        portrait: file.portrait,
+        portraitExpression: node.portrait_expression ?? 0,
+        text: neg.line ?? node.text,
+        choices: neg.options().map((o, index) => ({
+          index,
+          text: o.text,
+          enabled: o.enabled,
+          ...(o.lockedReason ? { lockedReason: o.lockedReason } : {}),
+        })),
+        canAdvance: false,
+        isEnd: false,
+        ledger: neg.ledger,
+      };
+    }
 
     const choices = (node.choices ?? []).map((choice, index) => {
       // A choice can be locked by a skill tier or by the wallet. Both are
@@ -180,6 +223,7 @@ export class DialogueManager {
 
   private applyNode(node: DialogueNode): void {
     this.applyEffects(node);
+    if (node.negotiate) this.negotiation = NegotiationManager.begin(node.negotiate.id);
   }
 
   private applyEffects(source: DialogueNode | DialogueChoice): void {

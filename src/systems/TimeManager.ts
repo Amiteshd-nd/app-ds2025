@@ -2,7 +2,9 @@ import { gameEvents } from '../core/events';
 import { useGameStore, type GameClock } from '../store';
 import { StatsManager } from './StatsManager';
 import {
+  FOOD_MINUTES_PER_POINT,
   GAME_MINUTE_MS,
+  HUNGRY_AT,
   MINUTES_PER_DAY,
   SLEEP_FOOD_RESET,
   SLEEP_HEALTH,
@@ -33,6 +35,8 @@ export class TimeManager {
   }
 
   private carryMs = 0;
+  /** Waking minutes not yet turned into a food point. */
+  private foodCarry = 0;
 
   get clock(): GameClock {
     return useGameStore.getState().clock;
@@ -62,7 +66,25 @@ export class TimeManager {
     const total = minute + minutes;
     const next = { day: day + Math.floor(total / MINUTES_PER_DAY), minute: total % MINUTES_PER_DAY };
     useGameStore.getState().setClock(next);
+    this.drainFood(minutes);
     gameEvents.emit('time:advanced', { ...next, deltaMinutes: minutes });
+  }
+
+  /**
+   * Awake time costs food: one point per FOOD_MINUTES_PER_POINT (ADR-97).
+   * Crossing into hunger says so once; walking slows while it lasts (Player).
+   */
+  private drainFood(minutes: number): void {
+    this.foodCarry += minutes;
+    const points = Math.floor(this.foodCarry / FOOD_MINUTES_PER_POINT);
+    if (points <= 0) return;
+    this.foodCarry -= points * FOOD_MINUTES_PER_POINT;
+    const before = useGameStore.getState().stats.food;
+    StatsManager.getInstance().adjust('food', -points);
+    const after = useGameStore.getState().stats.food;
+    if (before >= HUNGRY_AT && after < HUNGRY_AT) {
+      gameEvents.emit('ui:toast', { text: 'Hungry. Walking slower — find a darshini.' });
+    }
   }
 
   /**
@@ -75,6 +97,7 @@ export class TimeManager {
     const { day } = this.clock;
     const next = { day: day + 1, minute: WAKE_MINUTE };
     useGameStore.getState().setClock(next);
+    this.foodCarry = 0;
 
     const stats = StatsManager.getInstance();
     stats.adjust('health', SLEEP_HEALTH);

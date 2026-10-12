@@ -45,3 +45,7 @@ Updated: 2026-10-12
 ### [P3 M0 minimal loop — approved] — 2026-10-12
 - Decision: approved ("go for P4"). No corrections raised.
 - Mobile smoke: joystick + A verified on a phone viewport (stepped loop; pane hidden); sync OK, not booted (T-018).
+
+### [P4 Hotel — approved] — 2026-10-12
+- Decision: approved ("proceed"). No corrections raised.
+- Mobile smoke: unchanged since P3 (no new input surface); sync OK, not booted (T-018).

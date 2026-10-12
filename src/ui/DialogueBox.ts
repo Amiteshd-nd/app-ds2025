@@ -2,8 +2,11 @@ import Phaser from 'phaser';
 import { DialogueManager, type DialogueView } from '../systems/DialogueManager';
 import { DEPTH, GAME_HEIGHT, GAME_WIDTH } from '../utils/constants';
 
-const PANEL_HEIGHT = 104;
+const MIN_PANEL_HEIGHT = 104;
 const PAD = 10;
+/** Enough for a negotiation: three counter-offers, agree, walk away — and one spare. */
+const MAX_CHOICES = 6;
+const CHOICE_GAP = 2;
 
 export interface DialogueBoxCallbacks {
   onClose?: (result: { dialogueId: string; triggeredQuests: string[] }) => void;
@@ -26,6 +29,8 @@ export class DialogueBox {
   private bodyText!: Phaser.GameObjects.Text;
   private choiceTexts: Phaser.GameObjects.Text[] = [];
   private hintText!: Phaser.GameObjects.Text;
+  private ledgerText!: Phaser.GameObjects.Text;
+  private panel!: Phaser.GameObjects.Rectangle;
 
   private view: DialogueView | null = null;
   private selected = 0;
@@ -55,37 +60,37 @@ export class DialogueBox {
   }
 
   private build(): void {
-    const top = GAME_HEIGHT - PANEL_HEIGHT - 6;
+    // Positions are laid out in render(): the panel grows with the line, the
+    // bill under negotiation and however many choices the node offers.
+    this.panel = this.scene.add.rectangle(0, 0, GAME_WIDTH - 12, MIN_PANEL_HEIGHT, 0x0f172a, 0.94).setOrigin(0, 0);
+    this.panel.setStrokeStyle(1, 0x3b82f6);
 
-    const panel = this.scene.add.rectangle(
-      GAME_WIDTH / 2, top + PANEL_HEIGHT / 2,
-      GAME_WIDTH - 12, PANEL_HEIGHT,
-      0x0f172a, 0.94,
-    );
-    panel.setStrokeStyle(1, 0x3b82f6);
-
-    this.speakerText = this.scene.add.text(PAD + 6, top + 7, '', {
+    this.speakerText = this.scene.add.text(0, 0, '', {
       font: 'bold 8px monospace', color: '#93c5fd',
     });
-    this.bodyText = this.scene.add.text(PAD + 6, top + 21, '', {
+    this.bodyText = this.scene.add.text(0, 0, '', {
       font: '8px monospace', color: '#f8fafc',
       wordWrap: { width: GAME_WIDTH - 2 * PAD - 16 },
       lineSpacing: 3,
     });
+    this.ledgerText = this.scene.add.text(0, 0, '', {
+      font: 'bold 8px monospace', color: '#fbbf24',
+    });
     this.hintText = this.scene.add
-      .text(GAME_WIDTH - PAD - 8, top + PANEL_HEIGHT - 12, '', {
+      .text(0, 0, '', {
         font: '7px monospace', color: '#64748b',
       })
       .setOrigin(1, 0.5);
 
-    this.choiceTexts = [0, 1, 2].map((i) =>
-      this.scene.add.text(PAD + 14, top + PANEL_HEIGHT - 46 + i * 13, '', {
+    this.choiceTexts = Array.from({ length: MAX_CHOICES }, () =>
+      this.scene.add.text(0, 0, '', {
         font: '8px monospace', color: '#94a3b8',
+        wordWrap: { width: GAME_WIDTH - 2 * PAD - 30 },
       }),
     );
 
     this.container = this.scene.add.container(0, 0, [
-      panel, this.speakerText, this.bodyText, this.hintText, ...this.choiceTexts,
+      this.panel, this.speakerText, this.bodyText, this.ledgerText, this.hintText, ...this.choiceTexts,
     ]);
     this.container.setDepth(DEPTH.DIALOGUE);
     // Pin to the camera, not the world. Scroll factor is per-child for
@@ -155,6 +160,7 @@ export class DialogueBox {
     if (!this.view) return;
     this.speakerText.setText(this.view.speaker.toUpperCase());
     this.bodyText.setText(this.view.text);
+    this.ledgerText.setText(this.view.ledger ?? '');
 
     this.choiceTexts.forEach((text, i) => {
       const choice = this.view!.choices[i];
@@ -174,6 +180,33 @@ export class DialogueBox {
 
     if (this.view.choices.length > 0) this.hintText.setText('↑↓ choose · E confirm');
     else this.hintText.setText(this.view.canAdvance ? 'E to continue ▸' : 'E to close ■');
+
+    this.layout();
+  }
+
+  /** Stack line → bill → choices, then size the panel to fit, anchored to the bottom. */
+  private layout(): void {
+    const count = this.view?.choices.length ?? 0;
+    let y = 21;
+    const bodyY = y;
+    y += this.bodyText.height + 6;
+    const ledgerY = y;
+    if (this.view?.ledger) y += this.ledgerText.height + 6;
+    const choiceYs: number[] = [];
+    for (let i = 0; i < count; i++) {
+      choiceYs.push(y);
+      y += this.choiceTexts[i].height + CHOICE_GAP;
+    }
+    const height = Math.max(MIN_PANEL_HEIGHT, y + 16);
+    const top = GAME_HEIGHT - height - 6;
+
+    this.panel.setPosition(6, top).setSize(GAME_WIDTH - 12, height);
+    this.panel.setStrokeStyle(1, 0x3b82f6);
+    this.speakerText.setPosition(PAD + 6, top + 7);
+    this.bodyText.setPosition(PAD + 6, top + bodyY);
+    this.ledgerText.setPosition(PAD + 6, top + ledgerY);
+    this.choiceTexts.forEach((text, i) => text.setPosition(PAD + 14, top + (choiceYs[i] ?? 0)));
+    this.hintText.setPosition(GAME_WIDTH - PAD - 8, top + height - 9);
   }
 
   private teardown(): void {

@@ -30,7 +30,10 @@ export function npcs(
 ): Phaser.GameObjects.Sprite[] {
   const sprites: Phaser.GameObjects.Sprite[] = [];
 
+  const { flags } = useGameStore.getState();
   for (const ref of district.npcs ?? []) {
+    // Gone for good once their flag is set (ADR-96) — the token man does not come back.
+    if (ref.unlessFlag && flags[ref.unlessFlag]) continue;
     const npc = NPCS[ref.id];
     const obj = findObject(map, spawnLayer, ref.spawn);
 
@@ -58,6 +61,7 @@ export function npcs(
     sprite.setData('npcId', npc.id);
     sprite.setData('dialogueId', npc.dialogue);
     sprite.setData('tier', npc.tier);
+    if (ref.unlessFlag) sprite.setData('unlessFlag', ref.unlessFlag);
     sprites.push(sprite);
   }
 

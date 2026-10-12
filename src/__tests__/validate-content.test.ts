@@ -52,7 +52,7 @@ describe('content validator', () => {
     expect(
       validateContent(
         readDir('dialogue'), readDir('quests'), readDir('items'),
-        realDistricts, readDir('npcs'),
+        realDistricts, readDir('npcs'), [], {}, [], readDir('negotiations'),
       ),
     ).toEqual([]);
   });
@@ -239,10 +239,10 @@ describe('scene components (SCENE_TEMPLATE)', () => {
     },
   }];
   const run = (over: Record<string, unknown> = {}) =>
-    validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, scene(over));
+    validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, scene(over), readDir('negotiations'));
 
   it('passes the real act0_arrivals component', () => {
-    expect(validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, readDir('scenes'))).toEqual([]);
+    expect(validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, readDir('scenes'), readDir('negotiations'))).toEqual([]);
   });
 
   it('accepts a well-formed scene', () => {
@@ -269,6 +269,63 @@ describe('scene components (SCENE_TEMPLATE)', () => {
   it('lets a STUB through with only id/district/act/title', () => {
     const stub = [{ file: 'scenes/act2_salary_scooter.json', basename: 'act2_salary_scooter',
       json: { id: 'act2_salary_scooter', district: 'TODO', act: 2, title: 'Salary & the Scooter', status: 'STUB', cast: ['TODO'] } }];
-    expect(validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, stub)).toEqual([]);
+    expect(validateContent(readDir('dialogue'), readDir('quests'), readDir('items'), realDistricts(), readDir('npcs'), [], {}, stub, readDir('negotiations'))).toEqual([]);
+  });
+});
+
+describe('negotiations (ADR-95)', () => {
+  const npcs = [{ file: 'npcs/x.json', basename: 'x', json: [{ id: 'owner', name: 'Owner', tier: 2, dialogue: 'd' }] }];
+  const neg = (over: Record<string, unknown> = {}) => [{
+    file: 'negotiations/neg_x.json', basename: 'neg_x',
+    json: {
+      id: 'neg_x', npc: 'owner', temperament: 'warm', patience: 2,
+      terms: [{ id: 'rent', label: 'Rent', ask: 8000, floor: 7000 }],
+      counters: [{ id: 'c', text: 'Less?', term: 'rent', offer: 6000, tactic: 'reason' }],
+      lines: { concede: 'ok', hold: 'no', offended: 'hmph', final: 'final' },
+      ...over,
+    },
+  }];
+  const tree = (nodes: Record<string, unknown>) => [{ file: 'dialogue/d.json', basename: 'd', json: { id: 'd', speaker: 'S', portrait: 'p', nodes } }];
+  const check = (negs = neg(), nodes: Record<string, unknown> = { start: { text: 'a' } }) =>
+    validateContent(tree(nodes), [], items(), districts(), npcs, [], {}, [], negs);
+
+  it('accepts a well-formed negotiation and a node that runs it', () => {
+    expect(check(neg(), {
+      start: { text: 'Price?', negotiate: { id: 'neg_x', deal: 'yes', walk: 'no' } },
+      yes: { text: 'Done' }, no: { text: 'Bye' },
+    })).toEqual([]);
+  });
+
+  it('rejects a floor above the ask, an unknown term and an unknown temperament', () => {
+    const p = check(neg({
+      temperament: 'grumpy',
+      terms: [{ id: 'rent', label: 'Rent', ask: 7000, floor: 8000 }],
+      counters: [{ id: 'c', text: 'x', term: 'deposit', offer: 1, tactic: 'reason' }],
+    }));
+    expect(p.some((x) => x.includes('temperament "grumpy"'))).toBe(true);
+    expect(p.some((x) => x.includes('0 ≤ floor ≤ ask'))).toBe(true);
+    expect(p.some((x) => x.includes('unknown term "deposit"'))).toBe(true);
+  });
+
+  it('requires a callback line for temperaments that call you back', () => {
+    expect(check(neg({ temperament: 'firm' })).some((x) => x.includes('lines.callback'))).toBe(true);
+  });
+
+  it('catches a negotiate node pointing at missing nodes or an unknown negotiation', () => {
+    const p = check(neg(), { start: { text: 'a', negotiate: { id: 'neg_missing', deal: 'gone', walk: 'start' } } });
+    expect(p.some((x) => x.includes('negotiates "neg_missing"'))).toBe(true);
+    expect(p.some((x) => x.includes('negotiate.deal "gone"'))).toBe(true);
+  });
+
+  it('counts deal/walk targets and entry branches as reachable', () => {
+    const p = validateContent([{ file: 'dialogue/d.json', basename: 'd', json: {
+      id: 'd', speaker: 'S', portrait: 'p', enter: [{ flag: 'f', node: 'later' }],
+      nodes: { start: { text: 'a' }, later: { text: 'b' } },
+    } }], [], items(), districts(), npcs, [], {}, [], neg());
+    expect(p).toEqual([]);
+    const bad = validateContent([{ file: 'dialogue/d.json', basename: 'd', json: {
+      id: 'd', speaker: 'S', portrait: 'p', enter: [{ flag: 'f', node: 'nowhere' }], nodes: { start: { text: 'a' } },
+    } }], [], items(), districts(), npcs, [], {}, [], neg());
+    expect(bad[0]).toContain('opens at "nowhere"');
   });
 });

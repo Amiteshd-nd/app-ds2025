@@ -16,7 +16,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT } from '../src/utils/constants.ts';
+import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT, TEMPERAMENTS } from '../src/utils/constants.ts';
 import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -25,11 +25,14 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags'];
+const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab'];
 const SKILL_BRANCHES = Object.keys(SKILL_TIER_NAMES);
 const QUEST_TYPE_LIST: string[] = [...QUEST_TYPES];
 const NPC_TIER_LIST: number[] = [...NPC_TIERS];
+const TEMPERAMENT_LIST = Object.keys(TEMPERAMENTS);
+const TACTICS = ['reason', 'compare', 'lowball'];
+const NEGOTIATION_LINES = ['concede', 'hold', 'offended', 'final'];
 
 type Json = Record<string, any>;
 type JsonFile = { file: string; basename: string; json: Json };
@@ -55,6 +58,7 @@ export function validateContent(
   objectFiles: JsonFile[] = [],
   tileIds: Record<string, number> = {},
   sceneFiles: JsonFile[] = [],
+  negotiationFiles: JsonFile[] = [],
 ): string[] {
   const problems: string[] = [];
   const add = (file: string, msg: string) => problems.push(`${file}: ${msg}`);
@@ -151,6 +155,9 @@ export function validateContent(
         continue;
       }
       if (!npcIds.has(ref.id)) add(where, `${d} places NPC "${ref.id}", which does not exist`);
+      if (ref.unlessFlag !== undefined && (typeof ref.unlessFlag !== 'string' || !ref.unlessFlag)) {
+        add(where, `${d} NPC "${ref.id}" unlessFlag must be a flag name`);
+      }
       const other = claimed.get(ref.spawn);
       if (other) add(where, `${d}: NPC "${ref.id}" and "${other}" both claim spawn "${ref.spawn}"`);
       else claimed.set(ref.spawn, ref.id);
@@ -183,10 +190,16 @@ export function validateContent(
       if (exit.fare !== undefined && (!Number.isInteger(exit.fare) || exit.fare < 0)) {
         add(where, `${d} exit "${exit.zone}" fare must be a non-negative integer`);
       }
+      if (exit.lockedText !== undefined && typeof exit.lockedText !== 'string') {
+        add(where, `${d} exit "${exit.zone}" lockedText must be a string`);
+      }
     }
 
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
+      if (trigger.unlessFlag !== undefined && (typeof trigger.unlessFlag !== 'string' || !trigger.unlessFlag)) {
+        add(where, `${d} trigger "${trigger.zone}" unlessFlag must be a flag name`);
+      }
       if (trigger.setFlags !== undefined && !Array.isArray(trigger.setFlags)) {
         add(where, `${d} trigger "${trigger.zone}" setFlags must be an array`);
       }
@@ -355,6 +368,48 @@ export function validateContent(
 
   problems.push(...detectPrerequisiteCycles(questFiles));
 
+  // ── Negotiations (ADR-95) ────────────────────────────────────────────────
+  const negotiationIds = new Set<string>();
+  for (const { file, basename, json } of negotiationFiles) {
+    const n = json;
+    if (n.id !== basename) add(file, `id "${n.id}" does not match filename "${basename}"`);
+    negotiationIds.add(n.id);
+    if (!npcIds.has(n.npc)) add(file, `npc "${n.npc}" does not exist`);
+    if (!TEMPERAMENT_LIST.includes(n.temperament)) {
+      add(file, `temperament "${n.temperament}" is not one of ${TEMPERAMENT_LIST.join(', ')}`);
+    }
+    if (!Number.isInteger(n.patience) || n.patience < 1) add(file, 'patience must be a positive integer');
+    const termIds = new Set<string>();
+    if (!Array.isArray(n.terms) || n.terms.length === 0) add(file, 'needs at least one term');
+    for (const t of n.terms ?? []) {
+      if (!t.id || !t.label) add(file, 'every term needs id and label');
+      if (termIds.has(t.id)) add(file, `duplicate term "${t.id}"`);
+      termIds.add(t.id);
+      if (!Number.isInteger(t.ask) || !Number.isInteger(t.floor) || t.ask <= 0 || t.floor < 0 || t.floor > t.ask) {
+        add(file, `term "${t.id}" needs integers ask > 0 and 0 ≤ floor ≤ ask (a fee can be waived)`);
+      }
+    }
+    const counterIds = new Set<string>();
+    for (const c of n.counters ?? []) {
+      if (!c.id || !c.text) add(file, 'every counter needs id and text');
+      if (counterIds.has(c.id)) add(file, `duplicate counter "${c.id}"`);
+      counterIds.add(c.id);
+      if (!termIds.has(c.term)) add(file, `counter "${c.id}" argues about unknown term "${c.term}"`);
+      if (!TACTICS.includes(c.tactic)) add(file, `counter "${c.id}" tactic "${c.tactic}" is not one of ${TACTICS.join(', ')}`);
+      if (!Number.isInteger(c.offer) || c.offer < 0) add(file, `counter "${c.id}" offer must be a non-negative integer`);
+    }
+    for (const key of NEGOTIATION_LINES) {
+      if (typeof n.lines?.[key] !== 'string' || !n.lines[key]) add(file, `lines.${key} is required`);
+    }
+    if (TEMPERAMENTS[n.temperament as keyof typeof TEMPERAMENTS]?.walk !== 'stay' && !n.lines?.callback) {
+      add(file, `a ${n.temperament} NPC calls the player back on walk — lines.callback is required`);
+    }
+    for (const termId of Object.values(n.on_deal?.counters ?? {})) {
+      if (!termIds.has(termId as string)) add(file, `on_deal.counters names unknown term "${termId}"`);
+    }
+    if (n.on_deal?.flags !== undefined && !Array.isArray(n.on_deal.flags)) add(file, 'on_deal.flags must be an array');
+  }
+
   // ── Dialogue ─────────────────────────────────────────────────────────────
   for (const { file, basename, json } of dialogueFiles) {
     if (json.id !== basename) add(file, `id "${json.id}" does not match filename "${basename}"`);
@@ -375,6 +430,14 @@ export function validateContent(
       }
       if (node.next && node.choices?.length) {
         add(file, `node "${nodeId}" has both choices and next; next would be unreachable`);
+      }
+      if (node.negotiate) {
+        const neg = node.negotiate;
+        if (!negotiationIds.has(neg.id)) add(file, `node "${nodeId}" negotiates "${neg.id}", which does not exist`);
+        for (const key of ['deal', 'walk']) {
+          if (!neg[key] || !nodes[neg[key]]) add(file, `node "${nodeId}" negotiate.${key} "${neg[key]}" is not a node — this soft-locks the conversation`);
+        }
+        if (node.next || node.choices?.length) add(file, `node "${nodeId}" negotiates — it cannot also have next or choices`);
       }
 
       node.choices?.forEach((choice: Json, i: number) => {
@@ -398,13 +461,27 @@ export function validateContent(
       }
     }
 
+    // Entry branches (ADR-96): NPCs that remember open on another node.
+    const entries = [ENTRY_NODE];
+    if (json.enter !== undefined && !Array.isArray(json.enter)) add(file, 'enter must be an array');
+    for (const branch of Array.isArray(json.enter) ? json.enter : []) {
+      if (typeof branch.flag !== 'string' || !branch.flag) add(file, 'every enter branch needs a flag');
+      if (!nodes[branch.node]) add(file, `enter branch on "${branch.flag}" opens at "${branch.node}", which does not exist`);
+      else entries.push(branch.node);
+    }
+
     // Unreachable nodes are dead content — usually a rename that missed a link.
-    const reachable = new Set<string>([ENTRY_NODE]);
-    const queue = [ENTRY_NODE];
+    const reachable = new Set<string>(entries);
+    const queue = [...entries];
     while (queue.length) {
       const current = nodes[queue.shift()!];
       if (!current) continue;
-      const targets = [current.next, ...(current.choices ?? []).map((c: Json) => c.next)];
+      const targets = [
+        current.next,
+        ...(current.choices ?? []).map((c: Json) => c.next),
+        current.negotiate?.deal,
+        current.negotiate?.walk,
+      ];
       for (const target of targets) {
         if (target && nodes[target] && !reachable.has(target)) {
           reachable.add(target);
@@ -658,13 +735,14 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const npcs = readJsonDir('npcs');
   const objects = readJsonDir('objects');
   const scenes = readJsonDir('scenes');
+  const negotiations = readJsonDir('negotiations');
   const districts = JSON.parse(readFileSync(join(dataDir, 'districts.json'), 'utf8')) as Json[];
   const tileIds = (
     JSON.parse(
       readFileSync(resolve(here, '../src/assets/tilesets/street.tiles.json'), 'utf8'),
     ) as { ids: Record<string, number> }
   ).ids;
-  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes);
+  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations);
 
   const assetsDir = resolve(here, '../src/assets');
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
@@ -693,6 +771,7 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   console.log(
     `✓ content valid — ${districts.length} districts, ${count(npcs)} NPCs, ` +
       `${count(objects)} objects, ${dialogue.length} dialogue, ` +
-      `${quests.length} quest, ${count(items)} items, ${scenes.length} scene component${scenes.length === 1 ? '' : 's'}`,
+      `${quests.length} quest, ${count(items)} items, ${scenes.length} scene component${scenes.length === 1 ? '' : 's'}, ` +
+      `${negotiations.length} negotiation${negotiations.length === 1 ? '' : 's'}`,
   );
 }

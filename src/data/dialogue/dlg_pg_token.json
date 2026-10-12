@@ -1,0 +1,54 @@
+{
+  "id": "dlg_pg_token",
+  "speaker": "PG Owner",
+  "portrait": "npc_placeholder",
+  "enter": [{ "flag": "pg_token_refused", "node": "again" }],
+  "nodes": {
+    "start": {
+      "text": "Room? Full, full. But one boy is vacating Sunday. Rent ₹6,000 with food — cheapest in the lane. Pay token, I'll hold the bed for you.",
+      "effect": { "flags": { "pg_token_quoted": true } },
+      "choices": [
+        { "text": "Can I see the room first?", "next": "no_see" },
+        { "text": "How much is the token?", "next": "token" },
+        { "text": "No, thanks.", "next": "bye" }
+      ]
+    },
+    "no_see": {
+      "text": "Room is locked, boy is sleeping — night shift. Token first, then see. Everybody does like this only.",
+      "choices": [
+        { "text": "Okay. How much token?", "next": "token" },
+        { "text": "No room, no token.", "next": "refused" }
+      ]
+    },
+    "token": {
+      "text": "Thousand rupees. Refundable. Fully refundable, I'm telling you.",
+      "negotiate": { "id": "neg_pg_token", "deal": "paid", "walk": "refused" }
+    },
+    "paid": {
+      "text": "Super. Sunday evening, come with luggage, I'll call you. Now I have to go — wife is calling."
+    },
+    "refused": {
+      "text": "Your wish. Bed will go by evening, don't cry later.",
+      "effect": {
+        "flags": { "pg_token_refused": true },
+        "reputation": 2,
+        "xp": 15,
+        "xp_branch": "city_survival"
+      }
+    },
+    "again": {
+      "text": "You again? Still full. Token first, then we talk.",
+      "choices": [
+        { "text": "How much token, again?", "next": "token_again" },
+        { "text": "Never mind.", "next": "bye" }
+      ]
+    },
+    "token_again": {
+      "text": "Same thousand. Price doesn't change because you came twice.",
+      "negotiate": { "id": "neg_pg_token", "deal": "paid", "walk": "bye" }
+    },
+    "bye": {
+      "text": "Okay, okay. Bed will go by evening."
+    }
+  }
+}

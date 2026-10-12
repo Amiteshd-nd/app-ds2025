@@ -1,0 +1,36 @@
+{
+  "id": "neg_pg_token",
+  "npc": "npc_gate_owner",
+  "temperament": "firm",
+  "patience": 2,
+  "terms": [
+    { "id": "token", "label": "Token", "ask": 1000, "floor": 500 }
+  ],
+  "counters": [
+    {
+      "id": "others",
+      "text": "Other PGs take only ₹500 token.",
+      "term": "token",
+      "offer": 500,
+      "tactic": "compare"
+    },
+    {
+      "id": "landed",
+      "text": "Sir, I just landed yesterday. ₹500?",
+      "term": "token",
+      "offer": 500,
+      "tactic": "reason"
+    }
+  ],
+  "lines": {
+    "concede": "Okay, okay. {amount}. Only for you.",
+    "hold": "Token is token. Fixed rate.",
+    "offended": "Ha! You think this is a flea market?",
+    "final": "{total}, last. Bed will go by evening.",
+    "callback": "Arre, wait, wait! {amount}, final. Sunday you can move in, promise."
+  },
+  "acceptText": "Pay the token — {total}",
+  "walkText": "I'll pay after I see the room",
+  "reason": "pg_token",
+  "on_deal": { "flags": ["pg_token_paid"] }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "dlg_amma_call",
+  "speaker": "Amma (phone)",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Hello? Reached the new place? … Veg-only aunty? Good, good. At least somebody will make you eat properly.",
+      "next": "tired"
+    },
+    "tired": {
+      "text": "You sound tired. Did you eat? … Don't lie, I can hear it in your voice.",
+      "next": "monday"
+    },
+    "monday": {
+      "text": "Appa is asking about Monday. Iron your clothes tonight itself, don't do it in the morning and go late.",
+      "next": "sleep"
+    },
+    "sleep": {
+      "text": "Okay, okay, sleep now. Eat properly. Call tomorrow.",
+      "next": "quiet"
+    },
+    "quiet": {
+      "text": "(The call ends. Somewhere down the lane a pressure cooker whistles. The fan turns. The pillow smells of somebody else's coconut oil.)",
+      "effect": { "flags": { "amma_called": true } }
+    }
+  }
+}

@@ -17,7 +17,7 @@
       ]
     },
     "tip": {
-      "text": "Prashanth Layout, behind the office — every second house is a PG. Don't pay a token before you see the room. Okay, I'm in a meeting, bye bye!",
+      "text": "Prashanth Layout — walk to the end of this main road, every second house is a PG. Don't pay a token before you see the room. Okay, I'm in a meeting, bye bye!",
       "effect": {
         "xp": 10,
         "xp_branch": "city_survival"
@@ -30,7 +30,8 @@
         "flags": {
           "divya_called": true
         }
-      }
+      },
+      "quest_trigger": "q_act0_pg_hunt"
     }
   }
 }

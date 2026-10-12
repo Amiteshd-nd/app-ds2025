@@ -1,0 +1,42 @@
+{
+  "id": "dlg_neighbour_leela",
+  "speaker": "Leela Aunty",
+  "portrait": "npc_placeholder",
+  "enter": [
+    { "flag": "pg_token_scammed", "node": "after" },
+    { "flag": "pg_token_paid", "node": "scammed" }
+  ],
+  "nodes": {
+    "start": {
+      "text": "New face! PG hunting, ah? Careful with that green-gate fellow. He says 'full' to everybody and takes token. There is no room — his brother-in-law's family stays there.",
+      "effect": { "flags": { "pg_warned": true } },
+      "choices": [
+        { "text": "Thanks for telling me, Aunty.", "next": "bye" },
+        { "text": "Where should I look, then?", "next": "tip" }
+      ]
+    },
+    "tip": {
+      "text": "Shanthamma, the blue gate, number ten. Strict — veg only, gate locks at ten — but honest. Talk nicely, she'll come down a little.",
+      "effect": { "flags": { "shanthamma_tip": true }, "xp": 5, "xp_branch": "city_survival" }
+    },
+    "bye": {
+      "text": "Eat something. You look like you came straight from the airport."
+    },
+    "scammed": {
+      "text": "You paid him?! Aiyo. How much? … He's gone to his native, phone switched off. Every month, same drama.",
+      "next": "lesson"
+    },
+    "lesson": {
+      "text": "Never pay token without seeing the room. Go to Shanthamma, the blue gate. She takes full deposit — but she gives you a real room.",
+      "effect": {
+        "flags": { "pg_token_scammed": true },
+        "stress": 5,
+        "xp": 15,
+        "xp_branch": "city_survival"
+      }
+    },
+    "after": {
+      "text": "Blue gate, number ten. Go, go, before somebody else takes the cot."
+    }
+  }
+}

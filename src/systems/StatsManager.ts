@@ -1,6 +1,7 @@
 import { gameEvents } from '../core/events';
 import { useGameStore } from '../store';
 import { InventoryManager } from './InventoryManager';
+import { ReputationManager } from './ReputationManager';
 import type { AdjustableStat, PlayerStats, SkillBranchName, StatEffect } from '../utils/types';
 
 /**
@@ -94,6 +95,10 @@ export class StatsManager {
     }
     if (effect.xp && effect.xp_branch) this.addXp(effect.xp_branch, effect.xp);
     for (const [flag, value] of Object.entries(effect.flags ?? {})) useGameStore.getState().setFlag(flag, value);
+    if (effect.reputation) {
+      const district = useGameStore.getState().activeDistrict ?? undefined;
+      ReputationManager.getInstance().add(effect.reputation, district);
+    }
 
     if (effect.item_add) {
       const added = InventoryManager.getInstance().add(effect.item_add);

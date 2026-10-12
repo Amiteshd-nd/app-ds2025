@@ -50,10 +50,13 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesP
   const activeScene = useGameStore((s) => s.activeScene);
   const quests = useGameStore((s) => s.quests);
 
-  // Track the first active quest — enough until multiple quests can run.
-  const activeQuestId = Object.keys(quests.active)[0] ?? null;
-  const activeQuest = activeQuestId ? QUESTS[activeQuestId] : null;
-  const doneObjectives = activeQuestId ? quests.active[activeQuestId] : [];
+  // The two oldest active quests: the hotel's last objective and the PG hunt
+  // run side by side. The phone's quest list (P6) will show the rest.
+  const activeQuests = Object.keys(quests.active)
+    .filter((id) => QUESTS[id])
+    .slice(0, 2)
+    .map((id) => ({ quest: QUESTS[id], done: quests.active[id] }));
+  const pgSigned = useGameStore((s) => Boolean(s.flags.pg_signed));
 
   const inGameplay = activeScene !== null && GAMEPLAY_SCENES.has(activeScene);
   const survivalTier = SKILL_TIER_NAMES.city_survival[survival.level];
@@ -86,7 +89,7 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesP
                 : `Reputation ${reputation.total}/${repNext}`}
               {botCount > 0 && ` · ${botCount} online`}
             </span>
-            {hotelNights !== undefined && (
+            {hotelNights !== undefined && !pgSigned && (
               <span className={hotelNights === 0 ? 'nq-sub nq-timer nq-timer-out' : 'nq-sub nq-timer'}>
                 {hotelNights === 0 ? 'Hotel: checkout today' : `Hotel: ${hotelNights} night${hotelNights === 1 ? '' : 's'} left`}
               </span>
@@ -101,18 +104,22 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesP
         </div>
       )}
 
-      {inGameplay && activeQuest && (
+      {inGameplay && activeQuests.length > 0 && (
         <div className="nq-quest">
-          <span className="nq-quest-title">{activeQuest.title}</span>
-          {activeQuest.objectives.map((objective) => {
-            const done = doneObjectives.includes(objective.id);
-            return (
-              <span key={objective.id} className={done ? 'nq-obj nq-obj-done' : 'nq-obj'}>
-                {done ? '✓' : '○'} {objective.text}
-                {objective.optional ? ' (optional)' : ''}
-              </span>
-            );
-          })}
+          {activeQuests.map(({ quest, done: doneObjectives }) => (
+            <div key={quest.id} className="nq-quest-block">
+              <span className="nq-quest-title">{quest.title}</span>
+              {quest.objectives.map((objective) => {
+                const done = doneObjectives.includes(objective.id);
+                return (
+                  <span key={objective.id} className={done ? 'nq-obj nq-obj-done' : 'nq-obj'}>
+                    {done ? '✓' : '○'} {objective.text}
+                    {objective.optional ? ' (optional)' : ''}
+                  </span>
+                );
+              })}
+            </div>
+          ))}
         </div>
       )}
 

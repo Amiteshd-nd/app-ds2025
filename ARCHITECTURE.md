@@ -7,6 +7,7 @@ Updated: 2026-10-12 — after P0 + P1 candidates. Places are data; no scene per 
 | `BootScene` | loads every sprite sheet / tileset / tilemap by glob, registers `<sheet>-walk/idle-<dir>` anims, placeholder textures; starts `registry.startDistrict` (→ World) or `registry.startScene` (default Title) | keep |
 | `WorldScene` (M0 content) | airport: 7 NPCs incl. `npc_chai_anna` (generated sheet), cab tout, HIVR lanyard man; `hivr_zone` trigger sets `seen_hivr_lanyard`; exit `zone_exit` fare ₹250 → `whitefield_street` | P3 |
 | `WorldScene` (hotel) | `whitefield_hotel`: reception NPC (check-in sets `hotel_checked_in` → countdown), `room` trigger → Divya's call, `bed` trigger → sleep (fade, next 07:00), `exit` → street `hotel_door`; `hotelNightTimer` behaviour | P4 |
+| `WorldScene` (PG lane, P5) | `prashanth_layout`: six NPCs (gate owner `unlessFlag pg_token_paid`, Leela, Shanthamma, Rhea, Raju, Basavaraj), `lane_arrival` trigger, exits `main_road` → street `lane_return` and `gate10` → `shanthamma_pg` (locked until `pg_signed`, `lockedText`). `shanthamma_pg`: `doorway` sets `pg_moved_in`, `bed` = Amma's call once (`unlessFlag amma_called`) + sleep | P5 |
 | `TitleScene` | New Game (resets store → CharacterSelect) · Continue (restores save → `WorldScene{districtId,x,y}`) · Settings (stub) | keep |
 | `CharacterSelectScene` | character creation: offer-letter form (name, gender, age, home state/town, college, degree, skin) → `store.setProfile` (derives sprite) → 4-direction walk preview on test tiles → `WorldScene{airport}`. Hidden DOM `<input>` for text (mobile keyboard) | P2 |
 | **`WorldScene`** | the ONE place renderer: `create({districtId, spawnId?, x?, y?, fromDistrict?})` reads `districts.json` + `maps.manifest.json`; layers in `layerOrder`; Populate / Exits / Triggers / behaviours; dialogue + E-interact; autosave on entry and shutdown. **No district-specific branches.** | new |
@@ -49,8 +50,17 @@ scripts/           validate-*.{mjs,ts} · generate-art.mjs · generate-street-ma
 ## Behaviours (ADR-93)
 `src/world/behaviours/`: `index.ts` registry + `names.ts` (validator list). `hotelNightTimer` is the worked example. Triggers: `setFlags`, `dialogue`, `action: 'sleep'`. Quest objectives: `interact | dialogue | collect | reach | flag`.
 
+## Negotiation (P5, ADR-95)
+`src/data/negotiations/<id>.json` (`NegotiationDef`: terms ask/floor, counters reason|compare|lowball, lines, on_deal flags/counters) → `NEGOTIATIONS` → `systems/NegotiationManager.ts` (`Negotiation` session: options, choose → null | 'deal' | 'walk'; `TEMPERAMENTS` table in constants). A dialogue node `negotiate: {id, deal, walk}` runs it inside `DialogueManager` (view gains `ledger`); `DialogueBox` sizes itself to the line + bill + up to 6 choices. Progress persists as counters `neg.<id>.<term>` and flags `neg.<id>.used.<counter>`. Emits `negotiation:ended`.
+
+## Memory of the world (ADR-96)
+Dialogue `enter: [{flag, node}]` · district NPC `unlessFlag` (WorldScene fades them after the dialogue that set it) · trigger `unlessFlag` · exit `lockedText` · effect `reputation`.
+
+## Food (ADR-97)
+`TimeManager.advance` drains food 1 per `FOOD_MINUTES_PER_POINT` (6) awake minutes; below `HUNGRY_AT` the Player walks at `HUNGRY_SPEED`. Sleep resets the carry.
+
 ## Maps (ADR-92)
-`src/assets/_raw/maps/<name>.png` + `<name>.spec.json` → `scripts/import-map.mjs` → `tilesets/<name>.png` + `tilemaps/<name>.tmj` (unique tiles). `whitefield_hotel` is the first. Streets still use the procedural `street.png` (T-021).
+`src/assets/_raw/maps/<name>.png` + `<name>.spec.json` → `scripts/import-map.mjs` → `tilesets/<name>.png` + `tilemaps/<name>.tmj` (unique tiles). `whitefield_hotel` was the first; P5 added `prashanth_layout` (outdoor lane, 36×24) and `shanthamma_pg`. Streets still use the procedural `street.png` (T-021).
 
 ## Stats & economy (P3, ADR-87)
 `PlayerStats` = health · wallet · social · stamina · food · stress · battery (`STAT_BOUNDS` clamps). `StatsManager.spend(cost, reason)` → `wallet:spent` or refusal; `earn()` → `wallet:earned`; `meet(npcId)` → social +1 once (`met` ledger). `applyEffect` routes negative `wallet` through `spend`. `DialogueManager` locks unaffordable choices with "Needs ₹N". Exits with `fare` spend on boarding. Save 1.4.0.

@@ -12,6 +12,7 @@ unpleasant, so every asset in this package is accounted for below.
 | `src/assets/sprites/player_*.png`, `citizen*.png` | `scripts/generate-art.mjs` (rig v2, tokens on `_meta/palette.gpl`) | Same as this repository |
 | `src/assets/_meta/style/style_sheet.png`, `palette.gpl`, `tokens.json` | P1 style lock: Figma AI image generation (gpt-image-2.5-sunburst) from the prompt in `_meta/style.json`; palette by `scripts/extract-palette.mjs`. Reference only — never loaded by the game | Generated output, used as reference |
 | `src/assets/tilemaps/whitefield_street.tmj` | `scripts/generate-street-map.mjs` | Same as this repository |
+| `src/assets/sprites/npc_*.png` (Chai Anna; P5: Shanthamma, gate owner, Leela, Rhea, Raju, Basavaraj), `tilesets/` + `tilemaps/` `whitefield_hotel`, `prashanth_layout`, `shanthamma_pg` | Figma AI image generation (gpt-image-2.5-sunburst, user's personal plan) → raws in `src/assets/_raw/{characters,maps}/` (prompts in their READMEs) → `scripts/import-sheet.mjs` / `import-map.mjs` (quantised to `palette.gpl`) | Generated output |
 | `public/pwa-*.png`, `public/favicon.png` | `scripts/generate-art.mjs` lineage | Same as this repository |
 
 These are reproducible: rerunning `pnpm art` regenerates them byte-identically.

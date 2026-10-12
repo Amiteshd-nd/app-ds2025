@@ -1,6 +1,7 @@
 import { gameEvents } from '../../core/events';
 import { useGameStore } from '../../store';
-import { HOTEL_NIGHTS } from '../../utils/constants';
+import { HOTEL_EXTRA_NIGHT, HOTEL_NIGHTS } from '../../utils/constants';
+import { StatsManager } from '../../systems/StatsManager';
 import type { Behaviour } from './index';
 
 /** Counter the HUD shows while the hotel is paying; absent = not checked in. */
@@ -34,7 +35,19 @@ export const hotelNightTimer: Behaviour = {
 
     const onSlept = () => {
       const left = store().counters[HOTEL_NIGHTS_LEFT];
-      if (left === undefined || left <= 0) return;
+      if (left === undefined) return;
+      if (left <= 0) {
+        // Past checkout and still here: the receptionist's ₹1,800 rate. Never
+        // a lock — if the wallet is short, the night is let go (fail-forward).
+        if (store().flags.pg_signed) return;
+        const paid = StatsManager.getInstance().spend(HOTEL_EXTRA_NIGHT, 'hotel_extra_night');
+        gameEvents.emit('ui:toast', {
+          text: paid
+            ? `Hotel charged ₹${HOTEL_EXTRA_NIGHT.toLocaleString('en-IN')} for the night. Find a PG.`
+            : 'Reception let the night go — "only once, ah". Find a PG.',
+        });
+        return;
+      }
       const next = left - 1;
       store().setCounter(HOTEL_NIGHTS_LEFT, next);
       store().setFlag(FLAG_SLEPT_ONCE, true);

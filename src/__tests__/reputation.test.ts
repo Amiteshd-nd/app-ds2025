@@ -139,7 +139,10 @@ describe('district access', () => {
   it('lists available districts in declaration order', () => {
     expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport']);
     useGameStore.getState().setQuests({ active: {}, completed: ['q_act0_arrival'] });
-    expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport', 'whitefield_street', 'whitefield_hotel']);
+    expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport', 'whitefield_street', 'whitefield_hotel', 'prashanth_layout']);
+    // Shanthamma's room opens only once the deal is paid.
+    useGameStore.getState().setFlag('pg_signed', true);
+    expect(rep().availableDistricts().map((d) => d.id)).toContain('shanthamma_pg');
   });
 });
 

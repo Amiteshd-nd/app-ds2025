@@ -7,6 +7,7 @@ import type {
   NpcDef,
   ObjectDef,
   QuestFile,
+  NegotiationDef,
   SceneComponent,
 } from '../utils/types';
 
@@ -32,6 +33,7 @@ const itemModules = import.meta.glob('./items/*.json', { eager: true, import: 'd
 const npcModules = import.meta.glob('./npcs/*.json', { eager: true, import: 'default' });
 const objectModules = import.meta.glob('./objects/*.json', { eager: true, import: 'default' });
 const sceneModules = import.meta.glob('./scenes/*.json', { eager: true, import: 'default' });
+const negotiationModules = import.meta.glob('./negotiations/*.json', { eager: true, import: 'default' });
 
 const byId = <T extends { id: string }>(entries: T[], kind: string): Record<string, T> => {
   const out: Record<string, T> = {};
@@ -88,6 +90,12 @@ export const OBJECTS: Record<string, ObjectDef> = byId(
  * the same references. Acts 2–4 ship as stubs (status "STUB").
  */
 export const SCENES: Record<string, SceneComponent> = byId(load<SceneComponent>(sceneModules), 'scene');
+
+/** Negotiations (ADR-95): one file per haggle, run by systems/NegotiationManager. */
+export const NEGOTIATIONS: Record<string, NegotiationDef> = byId(
+  load<NegotiationDef>(negotiationModules),
+  'negotiation',
+);
 
 /** Tile name -> 0-based frame index in street.png, generated with the art. */
 export const STREET_TILE_IDS: Record<string, number> = tileIds.ids;

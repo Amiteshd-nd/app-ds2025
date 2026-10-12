@@ -33,7 +33,9 @@
       "collisionLayer": "Collision",
       "spawnLayer": "Spawns",
       "requiredSpawns": [
-        "player_spawn"
+        "player_spawn",
+        "lane_zone",
+        "lane_return"
       ],
       "optionalLayers": [
         "Effects",
@@ -62,6 +64,51 @@
       "optionalLayers": [
         "Effects",
         "Foreground"
+      ]
+    },
+    "prashanth_layout": {
+      "file": "prashanth_layout.tmj",
+      "requiredLayers": [
+        "Ground",
+        "Walls",
+        "Objects",
+        "Collision",
+        "Above Player"
+      ],
+      "collisionLayer": "Collision",
+      "spawnLayer": "Spawns",
+      "optionalLayers": [
+        "Effects",
+        "Foreground"
+      ],
+      "requiredSpawns": [
+        "lane_mouth",
+        "gate10_out",
+        "gate10",
+        "main_road",
+        "lane_arrival"
+      ]
+    },
+    "shanthamma_pg": {
+      "file": "shanthamma_pg.tmj",
+      "requiredLayers": [
+        "Ground",
+        "Walls",
+        "Objects",
+        "Collision",
+        "Above Player"
+      ],
+      "collisionLayer": "Collision",
+      "spawnLayer": "Spawns",
+      "optionalLayers": [
+        "Effects",
+        "Foreground"
+      ],
+      "requiredSpawns": [
+        "door",
+        "exit",
+        "bed",
+        "doorway"
       ]
     }
   },

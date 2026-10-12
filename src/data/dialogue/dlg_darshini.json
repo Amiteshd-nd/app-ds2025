@@ -1,0 +1,20 @@
+{
+  "id": "dlg_darshini",
+  "speaker": "Raju · Darshini",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Banni, banni! Idli-vada ₹60, masala dosa ₹80, filter coffee ₹20. Token at the counter, eat standing.",
+      "choices": [
+        { "text": "Idli-vada, one plate (₹60)", "next": "idli", "effect": { "wallet": -60, "food": 40, "flags": { "lane_food": true } } },
+        { "text": "Masala dosa (₹80)", "next": "dosa", "effect": { "wallet": -80, "food": 50, "flags": { "lane_food": true } } },
+        { "text": "Filter coffee (₹20)", "next": "coffee", "effect": { "wallet": -20, "food": 5, "stress": -5 } },
+        { "text": "Not now.", "next": "bye" }
+      ]
+    },
+    "idli": { "text": "Hot hot. Chutney free, sambar refill free. Eat, eat." },
+    "dosa": { "text": "Crispy one for you. Butter is ₹10 extra — free today, new face." },
+    "coffee": { "text": "Strong, ah? Decoction is from five o'clock morning." },
+    "bye": { "text": "Okay. Come for breakfast — seven o'clock idli is the best idli." }
+  }
+}

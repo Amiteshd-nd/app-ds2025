@@ -29,6 +29,9 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - Interiors: generate one top-down render (prompt notes in `_raw/maps/README.md`), drop `<name>.png` + author `<name>.spec.json` on a 32px grid overlay (sharp + svg grid), `pnpm art` imports. Verify collision in-engine by teleporting the player.
 - Verifying in the browser pane while it is hidden: Phaser's RAF stalls — step the loop with `game.step(t, 16)` (see `window.__tick` pattern) and wait for `activeScene === 'TitleScene'` before starting scenes.
 
+- Negotiations: tune by reading numbers — `NegotiationManager` is deterministic (share of the gap × temperament + rep, ₹100 steps, floor). The tests in `src/__tests__/negotiation.test.ts` pin the Shanthamma/token/HiveNest paths; change content → update the numbers there.
+- Browser-pane driving recipe (P5): helpers `__tp(tx,ty)` (teleport via `player.setPosition` + `body.reset`), `__press(69)`, and setting `ws.dialogueBox.selected = i` before E to pick a choice; read `ws.dialogueBox.view`. New tilemaps/sprites were picked up by a page reload this time (no server restart needed).
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
 - `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` — keep it free of Vite-only syntax.

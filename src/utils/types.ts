@@ -92,6 +92,8 @@ export interface StatEffect {
   item_remove?: string;
   /** Flags to set (true) or clear (false) — e.g. hotel_checked_in on the receptionist's line. */
   flags?: Record<string, boolean>;
+  /** Reputation earned here, credited to the current district and the total (refusing the token scam). */
+  reputation?: number;
 }
 
 export interface SkillRequirement {
@@ -107,8 +109,23 @@ export interface DialogueChoice {
   quest_trigger?: string;
 }
 
+/**
+ * A node that hands the conversation to the negotiation mini-system (ADR-22,
+ * ADR-95). The node's text is the opening line; the haggle runs inside the
+ * same dialogue box and lands on `deal` or `walk` when it resolves.
+ */
+export interface DialogueNegotiate {
+  /** Negotiation id (src/data/negotiations). */
+  id: string;
+  /** Node to continue at once the deal is paid. */
+  deal: string;
+  /** Node to continue at when the player walks away. */
+  walk: string;
+}
+
 export interface DialogueNode {
   text: string;
+  negotiate?: DialogueNegotiate;
   portrait_expression?: number; // 0=neutral, 1=angry, 2=happy, …
   choices?: DialogueChoice[];
   next?: string; // auto-advance when there are no choices
@@ -117,11 +134,88 @@ export interface DialogueNode {
   requires?: SkillRequirement;
 }
 
+/** Where a conversation opens when a flag is set — NPCs remember (ADR-96). */
+export interface DialogueEntryBranch {
+  flag: string;
+  node: string;
+}
+
 export interface DialogueFile {
   id: string;
   speaker: string;
   portrait: string; // spritesheet key
+  /** Checked in order before `start`; the first set flag picks the entry node. */
+  enter?: DialogueEntryBranch[];
   nodes: Record<string, DialogueNode>;
+}
+
+// --- Negotiation (ADR-22, ADR-95) ------------------------------------------
+/** How an NPC haggles. One table in constants.ts drives all three. */
+export type Temperament = 'warm' | 'firm' | 'slick';
+/** What kind of argument a counter-offer makes. */
+export type Tactic = 'reason' | 'compare' | 'lowball';
+
+export interface NegotiationTerm {
+  id: string;
+  /** "Deposit", "Rent (first month)". */
+  label: string;
+  /** Opening price, ₹. */
+  ask: number;
+  /** The lowest the NPC will ever go, ₹. Never shown to the player. */
+  floor: number;
+}
+
+export interface NegotiationCounter {
+  id: string;
+  /** What the player says, amount included ("Deposit ₹5,000? I join Monday…"). */
+  text: string;
+  /** Term it argues about. */
+  term: string;
+  /** Price the player proposes for that term, ₹. */
+  offer: number;
+  tactic: Tactic;
+  /** Only offered once this flag is set — knowledge the player earned elsewhere. */
+  requiresFlag?: string;
+}
+
+/**
+ * NPC lines. Placeholders: {term} label, {amount} new price of the term,
+ * {total} the whole bill — all formatted as ₹ with Indian grouping.
+ */
+export interface NegotiationLines {
+  /** Price came down. */
+  concede: string;
+  /** Already at their floor, or the argument did not move them. */
+  hold: string;
+  /** A lowball to a temperament that takes offence. */
+  offended: string;
+  /** Patience is out: take it or leave it. */
+  final: string;
+  /** Firm/slick NPCs call you back once when you walk. */
+  callback?: string;
+}
+
+export interface NegotiationDef {
+  id: string;
+  /** NPC who haggles — for the validator and analytics. */
+  npc: string;
+  temperament: Temperament;
+  /** Counter-offers allowed per visit before the final offer. */
+  patience: number;
+  terms: NegotiationTerm[];
+  counters: NegotiationCounter[];
+  lines: NegotiationLines;
+  /** Text of the accept choice; {total} is filled in. Default "Agree — pay {total}". */
+  acceptText?: string;
+  /** Text of the walk-away choice. Default "Walk away". */
+  walkText?: string;
+  /** spend() reason, e.g. "pg_deposit". */
+  reason?: string;
+  on_deal?: {
+    flags?: string[];
+    /** Store counters to set from agreed term prices: counter name → term id. */
+    counters?: Record<string, string>;
+  };
 }
 
 // --- Districts -------------------------------------------------------------
@@ -142,6 +236,8 @@ export interface DistrictNpcRef {
   id: string;
   /** Object name in the map's spawn layer. */
   spawn: string;
+  /** The NPC is gone once this flag is set — the owner who took your token (ADR-96). */
+  unlessFlag?: string;
 }
 
 /** A placed object positioned by data rather than in Tiled. */
@@ -175,13 +271,17 @@ export interface DistrictExit {
   fare?: number;
   /** Card text shown during the ride; defaults to "<transit> → <district name>". */
   card?: string;
+  /** Toast shown when the destination is still locked ("Gate is locked…"). */
+  lockedText?: string;
 }
 
 /** A zone that announces itself on the bus (`zone:reached`) so quests can react. */
 export interface DistrictTrigger {
   zone: string;
-  /** Fire on first entry only (default true). */
+  /** Fire on first entry only (default true) — per visit; use unlessFlag for "ever". */
   once?: boolean;
+  /** Never fires once this flag is set — a phone call that must not ring twice. */
+  unlessFlag?: string;
   /** Flags set on entry — a silent breadcrumb (the HIVR lanyard man). */
   setFlags?: string[];
   /** Dialogue opened on entry — a phone call in the room, a thought at a window. */

@@ -1,0 +1,54 @@
+{
+  "id": "neg_shanthamma",
+  "npc": "npc_shanthamma",
+  "temperament": "warm",
+  "patience": 3,
+  "terms": [
+    { "id": "deposit", "label": "Deposit", "ask": 10000, "floor": 5000 },
+    { "id": "rent", "label": "Rent", "ask": 8000, "floor": 7000 }
+  ],
+  "counters": [
+    {
+      "id": "monday",
+      "text": "Aunty, I join Monday — salary comes on the 1st. Deposit ₹5,000 now?",
+      "term": "deposit",
+      "offer": 5000,
+      "tactic": "reason"
+    },
+    {
+      "id": "corner_pg",
+      "text": "The green-gate PG said ₹6,000 rent with food.",
+      "term": "rent",
+      "offer": 6000,
+      "tactic": "compare",
+      "requiresFlag": "pg_token_quoted"
+    },
+    {
+      "id": "amma",
+      "text": "My amma will ask if I'm eating properly. Rent ₹6,500, and I'll eat whatever you cook.",
+      "term": "rent",
+      "offer": 6500,
+      "tactic": "reason"
+    },
+    {
+      "id": "lowball",
+      "text": "₹2,000 deposit. Final.",
+      "term": "deposit",
+      "offer": 2000,
+      "tactic": "lowball"
+    }
+  ],
+  "lines": {
+    "concede": "Hmm. {term} {amount}, okay. Only because you asked nicely.",
+    "hold": "No, no. That is already the lowest — ask anybody in the lane.",
+    "offended": "Two thousand?! Am I selling vegetables? Shanthamma's house is not a sabzi market, ah.",
+    "final": "That's it — {total}, final. Swalpa adjust maadi."
+  },
+  "acceptText": "Okay, Aunty — pay {total}",
+  "walkText": "Let me see the other places first",
+  "reason": "pg_move_in",
+  "on_deal": {
+    "flags": ["pg_signed"],
+    "counters": { "pg_rent": "rent", "pg_deposit": "deposit" }
+  }
+}

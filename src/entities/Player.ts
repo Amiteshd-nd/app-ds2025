@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import type { Direction } from '../utils/types';
-import { DEPTH, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
+import { DEPTH, HUNGRY_AT, HUNGRY_SPEED, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
+import { useGameStore } from '../store';
 import { ensurePlaceholderTexture } from '../utils/placeholders';
 import { consumeInteract, input } from '../input/InputMap';
 
@@ -81,7 +82,9 @@ export class Player extends Phaser.GameObjects.Sprite {
     const up = this.cursors.up.isDown || this.wasdKeys.W.isDown || input.axisY < 0;
     const down = this.cursors.down.isDown || this.wasdKeys.S.isDown || input.axisY > 0;
 
-    const speed = this.shiftKey.isDown || input.run ? PLAYER_RUN_SPEED : PLAYER_SPEED;
+    // Low food = slower walk (components §7) — felt, not fatal, in Acts 0–3.
+    const hungry = useGameStore.getState().stats.food < HUNGRY_AT ? HUNGRY_SPEED : 1;
+    const speed = (this.shiftKey.isDown || input.run ? PLAYER_RUN_SPEED : PLAYER_SPEED) * hungry;
 
     let velX = 0;
     let velY = 0;

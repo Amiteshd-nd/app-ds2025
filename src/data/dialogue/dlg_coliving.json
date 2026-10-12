@@ -1,0 +1,29 @@
+{
+  "id": "dlg_coliving",
+  "speaker": "Rhea · HiveNest Co-living",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Hi! Welcome to HiveNest Whitefield! Fully furnished, gym, café, community nights — everything's on the app! Shall I walk you through pricing?",
+      "choices": [
+        { "text": "Sure.", "next": "price" },
+        { "text": "Just looking.", "next": "look" }
+      ]
+    },
+    "price": {
+      "text": "Single room, ₹15,000 a month. Three months' deposit, plus a small ₹2,000 onboarding fee. Super transparent!",
+      "negotiate": { "id": "neg_coliving", "deal": "signed", "walk": "walked" }
+    },
+    "signed": {
+      "text": "Welcome to the Hive! Your app invite is on its way."
+    },
+    "walked": {
+      "text": "No worries! I'll message you the brochure. The offer's valid till Sunday!",
+      "effect": { "flags": { "coliving_seen": true }, "xp": 10, "xp_branch": "city_survival" }
+    },
+    "look": {
+      "text": "Sure! Grab a cold brew on your way out — oh, it's ₹240. Ha.",
+      "effect": { "flags": { "coliving_seen": true } }
+    }
+  }
+}

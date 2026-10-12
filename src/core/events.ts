@@ -32,6 +32,7 @@ export interface GameEvents {
   'social:met': { npcId: string; social: number };
   'reputation:changed': { total: number; districtId?: string; tier: number };
   'reputation:tier': { tier: number; tierName: string };
+  'negotiation:ended': { negotiationId: string; outcome: 'deal' | 'walk'; total: number };
 }
 
 type Handler<T> = (payload: T) => void;

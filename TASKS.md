@@ -2,7 +2,7 @@
 Updated: 2026-10-12
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — P4 Hotel (3-night timer)
+## Now — P5 PG Hunt (awaiting audit)
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`
 - [x] T-002 P0.2 `WorldScene` refactor (tech §7 steps 1–4): Populate/Exits/Triggers, `districts.json` v2, `TransitScene` card airport→whitefield_street, delete Airport/Whitefield scenes, saves persist `districtId+spawnId`
 - [x] T-003 P0.3 Extend validators: district reachability from `airport` via exits, spawn/zone/npc/`to` references, door objects 32×48 (warn), City Pulse slot checks
@@ -15,13 +15,15 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 - [x] T-008 P3 M0 minimal loop — approved 2026-10-12
 
 ## Later
-- [ ] T-009 P4 Hotel: `whitefield_hotel` (generated interior, ADR-92), TimeSystem (ADR-91), `hotelNightTimer` (ADR-93), check-in quest, Divya call — **built, awaiting P4 audit**
-- [ ] T-010 P5 PG hunt (negotiation) · T-011 P6 Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
+- [x] T-009 P4 Hotel: `whitefield_hotel` (generated interior, ADR-92), TimeSystem (ADR-91), `hotelNightTimer` (ADR-93), check-in quest, Divya call — approved 2026-10-12
+- [ ] T-010 P5 PG hunt: Prashanth Layout + Shanthamma's PG room (generated), negotiation mini-system (ADR-95), NPCs remember (ADR-96), food drain (ADR-97), lane cast generated (ADR-98) — **built, awaiting P5 audit**
+- [ ] T-025 Co-author Shanthamma's lines with the user (drafted at P5: warm-but-firm auntie, light Kannada) and confirm ADR-97's food-drain rate vs the profile doc
+- [ ] T-011 P6 Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
 - [ ] T-015 Quest taxonomy → `help|social|deliver|investigate|collect|chase|combat-lite` (ADR-18/22) and rep tiers → Hosa/Gothu/Namma (ADR-26); migrate existing content ids to prefix convention (`npc_`, `q_`, `dlg_`…)
 - [ ] T-016 M1 Android release · T-017 M2 iOS release (after web slice public)
 - [ ] T-024 Landscape lock + "rotate your phone" panel in portrait; safe-area insets on HUD pills (mobile foundation rules 4–5; seen at the P3 phone check)
 - [ ] T-023 Airport interior tileset regenerated in the locked style (reference art replaced, provenance closed)
-- [ ] T-022 Citizens + remaining M0 NPCs (cab tout, lanyard man, legacy four) through the import pipeline (same template); attire layers so age/bag variants and NPC outfits composite from one base
+- [ ] T-022 Citizens + remaining M0 NPCs (cab tout, lanyard man, hotel receptionist, legacy four; the P5 lane cast is done) through the import pipeline (same template); attire layers so age/bag variants and NPC outfits composite from one base
 - [ ] T-021 Regenerate `street.png` + airport tilesets on `palette.gpl` (validator warns today); first pixel-font (OFL) for UI text
 - [ ] T-018 Decide: install Xcode + CocoaPods on this Mac, or cloud macOS CI, for iOS builds; install Android Studio for the emulator smoke test
 

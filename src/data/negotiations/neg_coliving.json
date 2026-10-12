@@ -1,0 +1,45 @@
+{
+  "id": "neg_coliving",
+  "npc": "npc_coliving_rhea",
+  "temperament": "slick",
+  "patience": 2,
+  "terms": [
+    { "id": "rent", "label": "Rent", "ask": 15000, "floor": 13000 },
+    { "id": "deposit", "label": "Deposit", "ask": 45000, "floor": 30000 },
+    { "id": "onboarding", "label": "Onboarding", "ask": 2000, "floor": 0 }
+  ],
+  "counters": [
+    {
+      "id": "lane_pgs",
+      "text": "PGs on this lane are ₹8,000 with food.",
+      "term": "rent",
+      "offer": 8000,
+      "tactic": "compare"
+    },
+    {
+      "id": "fresher",
+      "text": "I got my offer letter last week. One month deposit?",
+      "term": "deposit",
+      "offer": 15000,
+      "tactic": "reason"
+    },
+    {
+      "id": "fee",
+      "text": "Waive the onboarding fee?",
+      "term": "onboarding",
+      "offer": 0,
+      "tactic": "lowball"
+    }
+  ],
+  "lines": {
+    "concede": "Let me just check with my manager… okay! {term} at {amount}. Just for you!",
+    "hold": "Ah, that's already our launch price, sorry!",
+    "offended": "Haha, love the energy!",
+    "final": "Best I can do is {total}. Shall I send the payment link?",
+    "callback": "Wait, wait! I just unlocked a festive offer for you — {total} all-in. Valid till Sunday!"
+  },
+  "acceptText": "Sign up — pay {total}",
+  "walkText": "That's way over my budget",
+  "reason": "coliving_move_in",
+  "on_deal": { "flags": ["coliving_signed"] }
+}

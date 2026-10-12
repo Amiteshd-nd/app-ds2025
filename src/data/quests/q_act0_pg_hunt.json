@@ -1,0 +1,19 @@
+{
+  "id": "q_act0_pg_hunt",
+  "title": "PG Hunt",
+  "description": "Find a paying-guest room in Prashanth Layout before the company stops paying for the hotel. Three gates, three prices, one honest owner.",
+  "chapter": 0,
+  "district": "prashanth_layout",
+  "type": "negotiation",
+  "prerequisite_quests": ["q_act0_arrival"],
+  "objectives": [
+    { "id": "find_lane", "text": "Find Prashanth Layout (east end of the main road)", "type": "reach", "target": "lane_arrival" },
+    { "id": "ask_gate", "text": "Ask at the green-gate PG", "type": "dialogue", "target": "dlg_pg_token", "optional": true },
+    { "id": "see_coliving", "text": "Look at the co-living", "type": "dialogue", "target": "dlg_coliving", "optional": true },
+    { "id": "sign", "text": "Sign a PG (blue gate, no. 10)", "type": "flag", "target": "pg_signed" },
+    { "id": "food", "text": "Buy food on the lane", "type": "flag", "target": "lane_food" },
+    { "id": "move_in", "text": "Move in — your cot is under the window", "type": "flag", "target": "amma_called" }
+  ],
+  "rewards": { "xp": 40, "xp_branch": "city_survival", "reputation": 5 },
+  "on_complete": { "set_flags": ["act0_pg_done"] }
+}

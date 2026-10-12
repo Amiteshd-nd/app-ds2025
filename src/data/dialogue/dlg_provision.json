@@ -1,0 +1,18 @@
+{
+  "id": "dlg_provision",
+  "speaker": "Basavaraj · Provisions",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Biscuits, chips, Maggi, bread, milk — what you want?",
+      "choices": [
+        { "text": "Night snacks — noodles, biscuits, banana chips (₹120)", "next": "snacks", "effect": { "wallet": -120, "food": 15, "flags": { "lane_food": true } } },
+        { "text": "A water bottle (₹20)", "next": "water", "effect": { "wallet": -20 } },
+        { "text": "Nothing.", "next": "bye" }
+      ]
+    },
+    "snacks": { "text": "Good. PG food finishes by nine, then hunger comes at eleven. Keep this." },
+    "water": { "text": "Cold one is ₹22. Okay, okay — ₹20 for you." },
+    "bye": { "text": "Okay. I'm open till eleven." }
+  }
+}

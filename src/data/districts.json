@@ -86,6 +86,12 @@
         "to": "whitefield_hotel",
         "spawn": "door",
         "transit": "walk"
+      },
+      {
+        "zone": "lane_zone",
+        "to": "prashanth_layout",
+        "spawn": "lane_mouth",
+        "transit": "walk"
       }
     ]
   },
@@ -110,7 +116,8 @@
     "triggers": [
       {
         "zone": "room",
-        "dialogue": "dlg_divya_call"
+        "dialogue": "dlg_divya_call",
+        "unlessFlag": "divya_called"
       },
       {
         "zone": "bed",
@@ -128,6 +135,117 @@
     ],
     "behaviours": [
       "hotelNightTimer"
+    ]
+  },
+  {
+    "id": "prashanth_layout",
+    "name": "Prashanth Layout",
+    "map": "prashanth_layout",
+    "defaultSpawn": "lane_mouth",
+    "fadeMs": 400,
+    "unlock": {
+      "quest": "q_act0_arrival"
+    },
+    "quests": [
+      "q_act0_pg_hunt"
+    ],
+    "npcs": [
+      {
+        "id": "npc_gate_owner",
+        "spawn": "gate_owner",
+        "unlessFlag": "pg_token_paid"
+      },
+      {
+        "id": "npc_neighbour_leela",
+        "spawn": "neighbour"
+      },
+      {
+        "id": "npc_shanthamma",
+        "spawn": "shanthamma"
+      },
+      {
+        "id": "npc_coliving_rhea",
+        "spawn": "coliving_desk"
+      },
+      {
+        "id": "npc_darshini_raju",
+        "spawn": "darshini"
+      },
+      {
+        "id": "npc_provision_basava",
+        "spawn": "provision"
+      }
+    ],
+    "ambient": {
+      "base": [
+        "citizen_teal",
+        "citizen_ochre",
+        "citizen_slate",
+        "citizen_sand"
+      ],
+      "count": 6,
+      "area": "ambient_area"
+    },
+    "triggers": [
+      {
+        "zone": "lane_arrival",
+        "setFlags": [
+          "pg_lane_found"
+        ]
+      }
+    ],
+    "exits": [
+      {
+        "zone": "main_road",
+        "to": "whitefield_street",
+        "spawn": "lane_return",
+        "transit": "walk"
+      },
+      {
+        "zone": "gate10",
+        "to": "shanthamma_pg",
+        "spawn": "door",
+        "transit": "walk",
+        "lockedText": "Shanthamma's gate is locked. Talk to her first."
+      }
+    ]
+  },
+  {
+    "id": "shanthamma_pg",
+    "name": "Shanthamma's PG",
+    "map": "shanthamma_pg",
+    "defaultSpawn": "door",
+    "fadeMs": 400,
+    "unlock": {
+      "flags": [
+        "pg_signed"
+      ]
+    },
+    "triggers": [
+      {
+        "zone": "doorway",
+        "setFlags": [
+          "pg_moved_in"
+        ]
+      },
+      {
+        "zone": "bed",
+        "dialogue": "dlg_amma_call",
+        "unlessFlag": "amma_called"
+      },
+      {
+        "zone": "bed",
+        "action": "sleep",
+        "once": false
+      }
+    ],
+    "exits": [
+      {
+        "zone": "exit",
+        "to": "prashanth_layout",
+        "spawn": "gate10_out",
+        "transit": "walk"
+      }
     ]
   }
 ]

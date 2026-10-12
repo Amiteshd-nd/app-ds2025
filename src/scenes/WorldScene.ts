@@ -129,6 +129,7 @@ export class WorldScene extends Phaser.Scene {
     this.dialogueBox = new DialogueBox(this, {
       onClose: () => {
         this.time.delayedCall(80, () => this.player.setInteractionEnabled(true));
+        this.dismissLeavers();
       },
     });
     this.player.onInteract(() => this.tryInteract());
@@ -245,6 +246,20 @@ export class WorldScene extends Phaser.Scene {
     const dialogueId = nearest.getData('dialogueId') as string | undefined;
     if (!dialogueId) return; // tier 1 ambient — atmosphere only
     this.openDialogue(dialogueId);
+  }
+
+  /**
+   * NPCs placed with `unlessFlag` leave once their flag is set — after the
+   * conversation that set it, so nobody vanishes mid-sentence (ADR-96).
+   */
+  private dismissLeavers(): void {
+    const { flags } = useGameStore.getState();
+    this.npcs = this.npcs.filter((npc) => {
+      const flag = npc.getData('unlessFlag') as string | undefined;
+      if (!flag || !flags[flag]) return true;
+      this.tweens.add({ targets: npc, alpha: 0, duration: 600, onComplete: () => npc.destroy() });
+      return false;
+    });
   }
 
   /** Freeze the player and run a conversation — from an NPC or a trigger (a phone call). */

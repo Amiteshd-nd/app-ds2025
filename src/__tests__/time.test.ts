@@ -113,6 +113,23 @@ describe('hotelNightTimer behaviour (story 0.2)', () => {
     off();
   });
 
+  it('after checkout, a night costs the receptionist rate — never a lock', () => {
+    const off = attach();
+    useGameStore.getState().setFlag('hotel_checked_in', true);
+    for (let i = 0; i < HOTEL_NIGHTS; i++) time().sleep();
+    const wallet = useGameStore.getState().stats.wallet;
+    time().sleep();
+    expect(useGameStore.getState().stats.wallet).toBe(wallet - 1800);
+    useGameStore.setState((st) => ({ stats: { ...st.stats, wallet: 100 } }));
+    time().sleep(); // short: the night is let go, nothing goes negative
+    expect(useGameStore.getState().stats.wallet).toBe(100);
+    useGameStore.setState((st) => ({ stats: { ...st.stats, wallet: 5000 } }));
+    useGameStore.getState().setFlag('pg_signed', true);
+    time().sleep(); // signed a PG: the hotel no longer charges
+    expect(useGameStore.getState().stats.wallet).toBe(5000);
+    off();
+  });
+
   it('sleeping before check-in spends nothing', () => {
     const off = attach();
     time().sleep();
@@ -152,5 +169,26 @@ describe('flag objectives + the hotel quest', () => {
   it('a dialogue effect can set flags', () => {
     StatsManager.getInstance().applyEffect({ flags: { hotel_checked_in: true } });
     expect(useGameStore.getState().flags.hotel_checked_in).toBe(true);
+  });
+});
+
+describe('food drain (ADR-97)', () => {
+  it('costs one food point per FOOD_MINUTES_PER_POINT awake, carrying remainders', async () => {
+    const { FOOD_MINUTES_PER_POINT } = await import('../utils/constants');
+    time().advance(FOOD_MINUTES_PER_POINT * 10);
+    expect(useGameStore.getState().stats.food).toBe(90);
+    time().advance(FOOD_MINUTES_PER_POINT - 1);
+    expect(useGameStore.getState().stats.food).toBe(90);
+    time().advance(1);
+    expect(useGameStore.getState().stats.food).toBe(89);
+  });
+
+  it('says so once when the player gets hungry', async () => {
+    const { FOOD_MINUTES_PER_POINT, HUNGRY_AT } = await import('../utils/constants');
+    const toasts: string[] = [];
+    gameEvents.on('ui:toast', ({ text }) => toasts.push(text));
+    time().advance(FOOD_MINUTES_PER_POINT * (100 - HUNGRY_AT + 1));
+    time().advance(FOOD_MINUTES_PER_POINT * 5);
+    expect(toasts.filter((t) => t.startsWith('Hungry'))).toHaveLength(1);
   });
 });

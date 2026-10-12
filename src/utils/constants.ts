@@ -72,6 +72,44 @@ export const SLEEP_HEALTH = 30;
 export const SLEEP_FOOD_RESET = 70;
 /** The company pays for this many hotel nights (story 0.2). */
 export const HOTEL_NIGHTS = 3;
+/** After the company's nights, the receptionist's rate (dlg_hotel_reception). */
+export const HOTEL_EXTRA_NIGHT = 1800;
+
+// --- Food (profile doc §2, components §7; ADR-97) --------------------------
+/**
+ * Game minutes per food point while awake. 6 → a full meter lasts ten game
+ * hours (~20 real minutes): two or three meals a day, like Stardew. The
+ * profile doc's "−1 per game-minute" would empty it in 3 real minutes at
+ * ADR-91's clock — see ADR-97.
+ */
+export const FOOD_MINUTES_PER_POINT = 6;
+/** Below this the player is hungry: a toast once, and walking slows. */
+export const HUNGRY_AT = 25;
+/** Walk/run speed multiplier while hungry ("low food = slower walk"). */
+export const HUNGRY_SPEED = 0.8;
+
+// --- Negotiation (ADR-22, ADR-95) ------------------------------------------
+/**
+ * How each temperament answers each kind of argument: the share of the gap
+ * between their price and your offer that they give up, and how much
+ * patience the argument costs. `walk` is what happens when you get up to
+ * leave. One table, every haggle in the game.
+ *
+ * - warm (Shanthamma): moved by a real reason, insulted by a lowball, lets you go.
+ * - firm (the gate owner, autos later): moves on comparisons, calls you back once.
+ * - slick (sales desks): starts high, drops fast, drops to the floor when you leave.
+ */
+export const TEMPERAMENTS = {
+  warm: { give: { reason: 0.6, compare: 0.3, lowball: 0 }, cost: { reason: 1, compare: 1, lowball: 2 }, walk: 'stay' },
+  firm: { give: { reason: 0.25, compare: 0.5, lowball: 0.15 }, cost: { reason: 1, compare: 1, lowball: 1 }, walk: 'callback' },
+  slick: { give: { reason: 0.15, compare: 0.4, lowball: 0.5 }, cost: { reason: 1, compare: 1, lowball: 1 }, walk: 'drop' },
+} as const;
+/** Local standing (reputation in the NPC's district) adds this much give per point… */
+export const NEGOTIATION_REP_GIVE = 0.015;
+/** …up to this cap. */
+export const NEGOTIATION_REP_CAP = 0.15;
+/** Prices move in steps of ₹100 — nobody says ₹6,437. */
+export const NEGOTIATION_STEP = 100;
 
 // --- Skill system ----------------------------------------------------------
 export const SKILL_XP_THRESHOLDS = [0, 100, 300, 600, 1000]; // 5 tiers (0-indexed)
