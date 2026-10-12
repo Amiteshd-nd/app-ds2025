@@ -1,7 +1,8 @@
 # BANGALORE TIMES — Claude entry point. Read this FIRST.
 Updated: 2026-10-11
 
-A 32-bit, Zelter-angle (3/4 top-down) pixel-art survival RPG set in a real, lived-in
+A pixel-art survival RPG with a **16-bit-era look on 32px tiles** (ADR-103: what the design docs call
+"32-bit"), LeafGreen-style top-down camera (AUDIT_LOG P1), set in a real, lived-in
 Bangalore. Phaser 3 canvas, thin React shell, PWA first, then Android + iOS from the
 SAME codebase via Capacitor (ADR-64). This file drives the whole build. Follow it top to bottom.
 
