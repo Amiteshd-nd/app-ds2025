@@ -8,6 +8,10 @@ export interface BehaviourContext {
   district: DistrictDef;
   map: Phaser.Tilemaps.Tilemap;
   player: Player;
+  /** Everyone drawn as a character right now: player, placed NPCs, crowd. */
+  characters(): Phaser.GameObjects.Sprite[];
+  /** The OS "reduce motion" setting (platform.display) — collapse motion, never hide. */
+  reducedMotion: boolean;
 }
 
 /**
@@ -23,8 +27,13 @@ export interface Behaviour {
 }
 
 import { hotelNightTimer } from './hotelNightTimer';
+import { beh_breathing } from './breathing';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
   hotelNightTimer,
+  beh_breathing,
 };
+
+/** Molecules every district gets without listing them. */
+export const CORE_BEHAVIOURS: readonly string[] = ['beh_breathing'];

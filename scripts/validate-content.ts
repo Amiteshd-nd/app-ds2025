@@ -108,6 +108,9 @@ export function validateContent(
         add(file, `NPC "${npc.id}" points at dialogue "${npc.dialogue}", which does not exist`);
       }
       // Tier 1 is atmosphere; tiers 2 and 3 exist to be talked to.
+      if (npc.breathing !== undefined && typeof npc.breathing !== 'boolean') {
+        add(file, `NPC "${npc.id}" breathing must be true or false`);
+      }
       if (npc.tier !== 1 && !npc.dialogue) {
         add(file, `NPC "${npc.id}" is tier ${npc.tier} but has no dialogue`);
       }

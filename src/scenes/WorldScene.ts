@@ -16,7 +16,8 @@ import * as Exits from '../world/Exits';
 import * as Triggers from '../world/Triggers';
 import * as Shapes from '../world/Shapes';
 import { findObject } from '../world/Zones';
-import { BEHAVIOURS } from '../world/behaviours';
+import { BEHAVIOURS, CORE_BEHAVIOURS } from '../world/behaviours';
+import { platform } from '../platform';
 import {
   CAMERA_DEADZONE_X,
   CAMERA_DEADZONE_Y,
@@ -156,7 +157,9 @@ export class WorldScene extends Phaser.Scene {
       sleep: () => this.sleep(),
     });
 
-    for (const name of this.district.behaviours ?? []) {
+    const behaviourNames = [...new Set([...CORE_BEHAVIOURS, ...(this.district.behaviours ?? [])])];
+    const reducedMotion = platform.display.prefersReducedMotion();
+    for (const name of behaviourNames) {
       const behaviour = BEHAVIOURS[name];
       if (!behaviour) {
         console.error(`[WorldScene] district "${this.district.id}" lists unknown behaviour "${name}"`);
@@ -164,6 +167,8 @@ export class WorldScene extends Phaser.Scene {
       }
       const teardown = behaviour.attach({
         scene: this, district: this.district, map: this.map, player: this.player,
+        characters: () => [this.player, ...this.npcs, ...this.crowd.citizens],
+        reducedMotion,
       });
       if (teardown) this.teardowns.push(teardown);
     }

@@ -371,6 +371,8 @@ export interface NpcDef {
   sheet?: string;
   /** Placeholder tint until real portraits and sprites land. */
   tint?: number;
+  /** Idle breathing (beh_breathing); default true. False for sleepers, statues, special poses. */
+  breathing?: boolean;
 }
 
 // --- Placeable objects -----------------------------------------------------

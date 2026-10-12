@@ -26,3 +26,13 @@ export const PALETTE: readonly string[] = generated.palette;
 
 /** UI spacing unit (design system §2): everything sits on multiples of this. */
 export const GRID = 8;
+
+export type MotionName = keyof typeof generated.motion;
+const MOTION = generated.motion as Record<string, number>;
+
+/** A motion token (px or ms), e.g. motion('m.breath.period'). Throws on a typo. */
+export const motion = (name: MotionName): number => {
+  const value = MOTION[name];
+  if (value === undefined) throw new Error(`Unknown motion token "${name}"`);
+  return value;
+};

@@ -103,3 +103,16 @@ export const TOKEN_INDEX = {
   'shoe': 0,
   'shadow': 3,
 };
+
+/**
+ * Motion tokens (design system §7: sprites snap, no easing). Numbers, not
+ * colours: px and ms. Runtime reads them through src/ui/tokens.ts `motion()`.
+ */
+export const MOTION_TOKENS = {
+  /** Idle breathing (beh_breathing): whole-pixel lift while standing still. */
+  'm.breath.amplitude': 1,
+  /** One full breath, ms: half at rest, half lifted. */
+  'm.breath.period': 2000,
+  /** Standing still this long, ms, before breathing resumes after a move. */
+  'm.breath.resume': 300,
+};

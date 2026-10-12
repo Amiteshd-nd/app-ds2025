@@ -63,6 +63,7 @@ export function npcs(
     sprite.setData('npcId', npc.id);
     sprite.setData('dialogueId', npc.dialogue);
     sprite.setData('tier', npc.tier);
+    if (npc.breathing === false) sprite.setData('breathing', false);
     if (ref.unlessFlag) sprite.setData('unlessFlag', ref.unlessFlag);
     if (bodies) {
       // Same feet box as the player (20×12 at 6,35): you bump into a person
