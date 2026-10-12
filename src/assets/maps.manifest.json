@@ -3,7 +3,7 @@
   "tileSize": 32,
   "maps": {
     "airport_map": {
-      "file": "airport_interior.tmj",
+      "file": "kempegowda_arrivals.tmj",
       "requiredLayers": [
         "Ground",
         "Walls",
@@ -14,12 +14,17 @@
       "collisionLayer": "Collision",
       "spawnLayer": "Spawns",
       "requiredSpawns": [
-        "player_spawn"
+        "player_spawn",
+        "zone_exit",
+        "hivr_zone",
+        "chai_stall",
+        "carousel_belt"
       ],
       "optionalLayers": [
         "Effects",
         "Foreground"
-      ]
+      ],
+      "shapeLayer": "Shapes"
     },
     "whitefield_street": {
       "file": "whitefield_street.tmj",

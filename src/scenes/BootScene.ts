@@ -7,7 +7,7 @@ import {
   SPRITE_WIDTH,
   TILE_SIZE,
 } from '../utils/constants';
-import { OVERLAY_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
+import { OVERLAY_URLS, PROP_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
 import { motion } from '../ui/tokens';
 import { STREET_FRAMES_KEY } from '../entities/PlacedObject';
 import { MAPS } from '../assets/maps';
@@ -63,6 +63,11 @@ export class BootScene extends Phaser.Scene {
     }
 
     for (const [key, url] of Object.entries(TILESET_URLS)) {
+      this.load.image(key, url);
+    }
+
+    // Behaviour props (luggage on the carousel).
+    for (const [key, url] of Object.entries(PROP_URLS)) {
       this.load.image(key, url);
     }
 

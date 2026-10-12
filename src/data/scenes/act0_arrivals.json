@@ -41,25 +41,25 @@
       "npc": "receptionist",
       "tier": 2,
       "spawn": "receptionist",
-      "role": "directions (legacy port NPC)"
+      "role": "directions"
     },
     {
       "npc": "airport_helper",
       "tier": 2,
       "spawn": "helper",
-      "role": "lost-tourist flavour (legacy port NPC)"
+      "role": "lost-tourist flavour"
     },
     {
       "npc": "security_guard",
       "tier": 2,
-      "spawn": "gaurd",
-      "role": "unease line — two flights held (legacy port NPC)"
+      "spawn": "guard",
+      "role": "unease line — two flights held"
     },
     {
       "npc": "shopkeeper_kiosk",
       "tier": 2,
       "spawn": "shopkeeper_1",
-      "role": "water / SIM money sinks (legacy port NPC)"
+      "role": "water / SIM money sinks"
     }
   ],
   "objects": [],
@@ -133,11 +133,9 @@
     "act0_arrived"
   ],
   "assets_needed": [
-    "airport_interior_tiles (reference art, to be replaced)",
-    "npc_chai_anna (done)",
-    "npc_cab_tout_1",
-    "ambient_hivr_lanyard",
-    "vayu_vajra_bus card art"
+    "kempegowda_arrivals hall + kerb (generated + imported, ADR-109)",
+    "luggage props on the carousel (beh_carousel)",
+    "every airport NPC sheet generated"
   ],
   "acceptance": [
     "player reaches the exit",

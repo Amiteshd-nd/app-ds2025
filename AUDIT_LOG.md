@@ -79,3 +79,9 @@ Updated: 2026-10-12
 - Rule going forward: seated characters (on a chair, bench) never breathe — `breathing: false` for any sitting pose when breathing returns.
 - Direction for the Test Playground (during the build): keep it simple — no wall of properties; a short read-only summary and the main actions, input fields only on request (closed "Edit…" folds); light mode by default with a dark toggle; left and right panel widths draggable; a phone-in-landscape simulation with thumbs and controls as its own item in the left panel, its settings on the right.
 - Request recorded for the next task: replace the demo airport (the user's early rudimentary version) with a brand-new airport in the current generated style, related to the next scenes — keep the luggage carousel and make it move with luggage on it; replace every placeholder airport character with generated sprites (T-031).
+
+### [Airport rebuild — built] — 2026-10-13
+- Request (user): "remove this one and make something relatable to the next scenes… keep the carousel, make the carousel move with the luggage moving on top… replace the rudimentary sprites in the airport scene."
+- Built: generated arrivals hall + kerb (`kempegowda_arrivals`, same pipeline and rules as the lane: pixel collision at ground lines, occluders, people solid), moving luggage carousel (`beh_carousel`), all six airport placeholders replaced with generated sheets; the old reference-project tilesets of unknown provenance are deleted.
+- Rule going forward: when a generated render draws a doorway shut, open it with a reproducible spec `patch` (copy part of the same render), never by hand-painting the raw.
+- Mobile smoke: joystick drives the player in the airport inside the playground's iPhone 15 frame. Finding from the simulation: at a real iPhone size the HUD + quest panel cover about a third of the screen (T-024).

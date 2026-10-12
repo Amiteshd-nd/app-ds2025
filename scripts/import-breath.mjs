@@ -31,6 +31,13 @@ export async function importBreath() {
   const palette = readGpl(readFileSync(join(assets, '_meta/palette.gpl'), 'utf8'));
   for (const f of readdirSync(sprites)) if (f.endsWith('__breath.png')) rmSync(join(sprites, f));
 
+  // The user approves breath lines before any batch bake (AUDIT_LOG, breathing
+  // round 1). Until breath.json says "approved": true nothing is baked.
+  if (lines.approved !== true) {
+    console.log('· breathing: lines not approved yet (breath.json "approved") — no __breath sheets baked');
+    return;
+  }
+
   const sheets = readdirSync(sprites).filter((f) => f.endsWith('.png') && !f.includes('__')).map((f) => f.replace(/\.png$/, ''));
   let made = 0, repaired = 0;
   const skipped = [];

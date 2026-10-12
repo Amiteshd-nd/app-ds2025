@@ -11,38 +11,18 @@ unpleasant, so every asset in this package is accounted for below.
 | `src/assets/tilesets/street.png` | `scripts/generate-art.mjs` | Same as this repository |
 | `src/assets/_meta/style/style_sheet.png`, `palette.gpl`, `tokens.json` | P1 style lock: Figma AI image generation (gpt-image-2.5-sunburst) from the prompt in `_meta/style.json`; palette by `scripts/extract-palette.mjs`. Reference only — never loaded by the game | Generated output, used as reference |
 | `src/assets/tilemaps/whitefield_street.tmj` | `scripts/generate-street-map.mjs` | Same as this repository |
-| `src/assets/sprites/player_*.png`, `npc_*.png`, `crowd_*.png`, `src/assets/overlays/*.png`, `tilesets/` + `tilemaps/` `whitefield_hotel`, `prashanth_layout`, `shanthamma_pg`, `src/assets/title/*.png` | Figma AI image generation (gpt-image-2.5-sunburst, user's personal plan) → raws in `src/assets/_raw/{characters,maps}/` (prompts in their READMEs) → `scripts/import-sheet.mjs` / `import-map.mjs` (quantised to `palette.gpl`) | Generated output |
+| `src/assets/sprites/player_*.png`, `npc_*.png`, `crowd_*.png`, `src/assets/overlays/*.png`, `src/assets/props/*.png`, `tilesets/` + `tilemaps/` `kempegowda_arrivals`, `whitefield_hotel`, `prashanth_layout`, `shanthamma_pg`, `src/assets/title/*.png` | Figma AI image generation (gpt-image-2.5-sunburst, user's personal plan) → raws in `src/assets/_raw/{characters,maps}/` (prompts in their READMEs) → `scripts/import-sheet.mjs` / `import-map.mjs` (quantised to `palette.gpl`) | Generated output |
 | `public/pwa-*.png`, `public/favicon.png` | `scripts/generate-art.mjs` lineage | Same as this repository |
 
 These are reproducible: rerunning `pnpm art` regenerates them byte-identically.
 The generator, not the PNG, is the source of truth.
 
-## Carried over from the reference project
+## Carried over from the reference project — removed
 
-Ported from the `v1.0` branch of
-[`cityhunter-x-y-z/bt`](https://github.com/cityhunter-x-y-z/bt) (commit
-`19899fd`), which is the earlier incarnation of this game:
-
-| Asset | Notes |
-| --- | --- |
-| `src/assets/tilesets/airport.png` and 7 others | Airport interior tilesets |
-| `src/assets/tilemaps/airport_interior.tmj` | Tiled map referencing the above |
-
-**Provenance unresolved.** (`player.png` from the same source was removed in
-P2 — the generated rig replaces it.) That repository ships no `CREDITS.md`
-and no licence file, and the tilesets' colour statistics — around 254,000 unique colours, with
-roughly 1,000 inside a single 32x32 tile — indicate continuous-tone imagery
-rather than hand-drawn pixel art. They were most likely generated or derived
-rather than authored.
-
-Two things follow, and both should be settled before any public release:
-
-1. **Establish the origin.** If these came from a purchased or free pack, name
-   it here with its licence and any required attribution. If they were
-   generated, say so and record the tool.
-2. **Treat them as placeholder until then.** The art pipeline was built so this
-   is cheap: tilesets are discovered by filename, and maps reference tilesets
-   by name, so replacing them is dropping in new PNGs and re-exporting the map.
+The airport tilesets and `airport_interior.tmj` ported from the earlier
+incarnation of this game (`cityhunter-x-y-z/bt`, provenance never resolved)
+were **deleted on 2026-10-13** (T-031, ADR-109). The airport is now the
+generated `kempegowda_arrivals` map above, so no asset of unknown origin ships.
 
 ## Third-party packs
 

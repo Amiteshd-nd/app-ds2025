@@ -317,6 +317,7 @@ export function validateBreath(lines, sheets) {
   const bases = [...new Set(characters.map((s) => (s.startsWith('player_') ? s.replace(/_[1-5]$/, '') : s)))];
   for (const base of bases) {
     const entry = lines[base];
+    if (base === 'approved') continue;
     if (!entry) { problems.push(`breath.json: no lines for character "${base}" — add head_y/waist_y per direction (or enabled:false)`); continue; }
     for (const dir of ['down', 'left', 'right', 'up']) {
       const d = entry[dir];

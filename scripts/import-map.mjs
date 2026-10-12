@@ -62,8 +62,23 @@ export async function importMap(specPath) {
   const X = (v) => Math.round(v * sx);
   const Y = (v) => Math.round(v * sy);
 
+  // Patches (source px): copy one part of the render over another before the
+  // downscale — e.g. carry the entrance mat through a glass wall the model drew
+  // closed. Reproducible, so the raw stays the untouched generator output.
+  let source = sharp(rawPath);
+  if (spec.patches?.length) {
+    const { data: rawData, info } = await sharp(rawPath).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+    for (const { from: [fx, fy, fw, fh], to: [tx, ty] } of spec.patches) {
+      for (let y = 0; y < fh; y++) {
+        const src = ((fy + y) * info.width + fx) * 3, dst = ((ty + y) * info.width + tx) * 3;
+        rawData.copy(rawData, dst, src, src + fw * 3);
+      }
+    }
+    source = sharp(rawData, { raw: { width: info.width, height: info.height, channels: 3 } });
+  }
+
   // Downscale with an area filter, then snap every pixel onto the locked palette.
-  const { data } = await sharp(rawPath)
+  const { data } = await source
     .resize(W, H, { kernel: 'lanczos3', fit: 'fill' })
     .removeAlpha().raw().toBuffer({ resolveWithObject: true });
   applyPalette(data, PALETTE);

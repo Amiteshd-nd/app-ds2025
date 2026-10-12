@@ -19,7 +19,7 @@
       },
       {
         "id": "security_guard",
-        "spawn": "gaurd"
+        "spawn": "guard"
       },
       {
         "id": "shopkeeper_kiosk",
@@ -55,7 +55,22 @@
           "seen_hivr_lanyard"
         ]
       }
-    ]
+    ],
+    "behaviours": [
+      "beh_carousel"
+    ],
+    "ambient": {
+      "base": [
+        "crowd_techie",
+        "crowd_student",
+        "crowd_officegoer",
+        "crowd_hoodie",
+        "crowd_elder",
+        "crowd_homemaker"
+      ],
+      "count": 5,
+      "area": "ambient_area"
+    }
   },
   {
     "id": "whitefield_street",

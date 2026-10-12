@@ -1,0 +1,66 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 render) → 32x21 tiles (a bench seat ≈ 1 tile next to 32x48 characters). Hall left of the glass wall (x 943-962); the patch carries the entrance mat through the wall so the exit is a real opening. Blocks trace footprints; counters are occluders so staff stand behind them. carousel_belt is the belt's stadium track for beh_carousel.",
+  "name": "kempegowda_arrivals",
+  "cols": 32,
+  "rows": 21,
+  "units": "px",
+  "patches": [
+    { "from": [868, 787, 47, 88], "to": [915, 787] }
+  ],
+  "blocks": [
+    [0, 0, 943, 150],
+    [5, 150, 65, 65], [375, 150, 65, 65], [850, 150, 60, 65],
+    [75, 228, 230, 87],
+    [650, 235, 195, 37],
+    [80, 360, 665, 225],
+    [792, 590, 85, 72], [735, 615, 47, 45], [887, 615, 48, 45],
+    [725, 687, 40, 98], [910, 687, 33, 98],
+    [10, 712, 245, 163], [5, 680, 60, 40],
+    [335, 795, 250, 35], [335, 912, 250, 36],
+    [615, 800, 65, 50], [615, 935, 65, 52], [890, 935, 53, 52],
+    [943, 0, 19, 787], [943, 875, 19, 149],
+    [962, 0, 478, 95],
+    [997, 120, 15, 32], [1177, 120, 15, 32], [1382, 120, 15, 32],
+    [1007, 262, 138, 75], [962, 250, 45, 42], [992, 345, 118, 27],
+    [1215, 262, 165, 63], [1210, 310, 12, 32], [1367, 310, 13, 32], [1382, 300, 43, 55],
+    [1325, 425, 20, 20], [1325, 532, 20, 20], [1325, 645, 20, 20], [1325, 755, 20, 20], [1325, 880, 20, 20],
+    [1217, 520, 85, 50], [1217, 712, 85, 55], [1217, 900, 85, 50],
+    [1430, 0, 106, 1024]
+  ],
+  "spawns": [
+    { "name": "player_spawn", "x": 420, "y": 690 },
+    { "name": "receptionist", "x": 205, "y": 262 },
+    { "name": "helper", "x": 470, "y": 700 },
+    { "name": "guard", "x": 835, "y": 618 },
+    { "name": "shopkeeper_1", "x": 130, "y": 905 },
+    { "name": "chai_stall", "x": 1160, "y": 330 },
+    { "name": "cab_tout", "x": 1180, "y": 600 },
+    { "name": "hivr_corner", "x": 895, "y": 290 }
+  ],
+  "zones": [
+    { "name": "zone_exit", "x": 1220, "y": 345, "w": 160, "h": 55 },
+    { "name": "hivr_zone", "x": 820, "y": 240, "w": 120, "h": 100 },
+    { "name": "carousel_belt", "x": 123, "y": 385, "w": 578, "h": 155 },
+    { "name": "ambient_area", "x": 90, "y": 600, "w": 560, "h": 110 }
+  ],
+  "occluders": [
+    { "name": "info_desk", "rect": [75, 240, 230, 75], "base": 315, "mode": "rect" },
+    { "name": "podium", "rect": [792, 585, 85, 77], "base": 662, "mode": "rect" },
+    { "name": "gate_header", "rect": [725, 660, 220, 30], "base": 785, "mode": "rect" },
+    { "name": "gate_post_left", "rect": [725, 687, 40, 98], "base": 785, "mode": "rect" },
+    { "name": "gate_post_right", "rect": [910, 687, 35, 98], "base": 785, "mode": "rect" },
+    { "name": "trolleys", "rect": [648, 185, 200, 90], "base": 272, "mode": "key",
+      "bg": [[300, 610, 300, 70]], "seeds": [[745, 230], [700, 250], [800, 250], [670, 200], [830, 200]] },
+    { "name": "bougainvillea_1", "rect": [1212, 430, 95, 140], "base": 570, "mode": "key",
+      "bg": [[1000, 420, 180, 100], [1000, 600, 180, 100]], "seeds": [[1258, 480], [1258, 545]] },
+    { "name": "bougainvillea_2", "rect": [1212, 622, 95, 145], "base": 767, "mode": "key",
+      "bg": [[1000, 420, 180, 100], [1000, 600, 180, 100]], "seeds": [[1258, 670], [1258, 740]] },
+    { "name": "bougainvillea_3", "rect": [1212, 812, 95, 140], "base": 950, "mode": "key",
+      "bg": [[1000, 420, 180, 100], [1000, 600, 180, 100]], "seeds": [[1258, 860], [1258, 925]] },
+    { "name": "bollard_1", "rect": [1320, 380, 30, 68], "base": 447, "mode": "key", "bg": [[1000, 420, 180, 100]], "seeds": [[1335, 415]] },
+    { "name": "bollard_2", "rect": [1320, 488, 30, 68], "base": 554, "mode": "key", "bg": [[1000, 420, 180, 100]], "seeds": [[1335, 520]] },
+    { "name": "bollard_3", "rect": [1320, 598, 30, 68], "base": 667, "mode": "key", "bg": [[1000, 420, 180, 100]], "seeds": [[1335, 630]] },
+    { "name": "bollard_4", "rect": [1320, 708, 30, 68], "base": 777, "mode": "key", "bg": [[1000, 420, 180, 100]], "seeds": [[1335, 740]] },
+    { "name": "bollard_5", "rect": [1320, 832, 30, 70], "base": 902, "mode": "key", "bg": [[1000, 420, 180, 100]], "seeds": [[1335, 865]] }
+  ]
+}

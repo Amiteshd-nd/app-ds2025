@@ -72,3 +72,13 @@ const titleModules = import.meta.glob('./title/*.png', {
 }) as Record<string, string>;
 
 export const TITLE_URLS: Record<string, string> = byBasename(titleModules);
+
+// Props placed and moved by behaviours (scripts/import-props.mjs): luggage on
+// the carousel. Keyed by basename, e.g. "luggage_03".
+const propModules = import.meta.glob('./props/*.png', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>;
+
+export const PROP_URLS: Record<string, string> = byBasename(propModules);

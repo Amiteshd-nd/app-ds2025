@@ -1,0 +1,62 @@
+/**
+ * Import small prop sheets (objects that move or are placed by behaviours —
+ * luggage on the carousel) from src/assets/_raw/props/<name>.png: a strict
+ * grid on magenta, one item per cell. Each cell is keyed, trimmed, scaled to
+ * the target height and snapped to palette.gpl, then written to
+ * src/assets/props/<name>_<nn>.png (loaded by BootScene, keyed by basename).
+ *
+ *   node scripts/import-props.mjs      (also runs inside `pnpm art`)
+ */
+import sharp from 'sharp';
+import { mkdirSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { applyPaletteRGBA, readGpl } from './art/quantize.mjs';
+
+const here = dirname(fileURLToPath(import.meta.url));
+const assets = resolve(here, '../src/assets');
+const RAW = join(assets, '_raw/props');
+const OUT = join(assets, 'props');
+
+/** Grid and target height (game px) per prop sheet. */
+export const SHEETS = {
+  luggage: { cols: 4, rows: 3, height: 18 },
+};
+
+const keyMagenta = (d) => {
+  for (let i = 0; i < d.length; i += 4) {
+    const dr = 255 - d[i], dg = d[i + 1], db = 255 - d[i + 2];
+    if (Math.sqrt(dr * dr + dg * dg + db * db) < 110) d[i + 3] = 0;
+  }
+};
+
+export async function importProps() {
+  const palette = readGpl(readFileSync(join(assets, '_meta/palette.gpl'), 'utf8'));
+  mkdirSync(OUT, { recursive: true });
+  let made = 0;
+  for (const [name, { cols, rows, height }] of Object.entries(SHEETS)) {
+    for (const f of readdirSync(OUT)) if (f.startsWith(`${name}_`)) rmSync(join(OUT, f));
+    const meta = await sharp(join(RAW, `${name}.png`)).metadata();
+    const cw = Math.floor(meta.width / cols), ch = Math.floor(meta.height / rows);
+    for (let i = 0; i < cols * rows; i++) {
+      const { data, info } = await sharp(join(RAW, `${name}.png`))
+        .extract({ left: (i % cols) * cw, top: Math.floor(i / cols) * ch, width: cw, height: ch })
+        .ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+      keyMagenta(data);
+      const trimmed = await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } }).png().toBuffer()
+        .then((b) => sharp(b).trim({ threshold: 0 }).toBuffer({ resolveWithObject: true }));
+      const w = Math.max(1, Math.round(trimmed.info.width * (height / trimmed.info.height)));
+      const small = await sharp(trimmed.data).resize(w, height, { kernel: 'lanczos3' }).ensureAlpha().raw().toBuffer();
+      for (let p = 3; p < small.length; p += 4) small[p] = small[p] >= 128 ? 255 : 0;
+      applyPaletteRGBA(small, palette);
+      await sharp(small, { raw: { width: w, height, channels: 4 } }).png({ compressionLevel: 9 })
+        .toFile(join(OUT, `${name}_${String(i + 1).padStart(2, '0')}.png`));
+      made++;
+    }
+  }
+  console.log(`✓ props: ${made} images (${Object.keys(SHEETS).join(', ')})`);
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
+  await importProps();
+}

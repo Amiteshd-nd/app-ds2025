@@ -1,30 +1,31 @@
 [
   {
     "id": "receptionist",
-    "name": "Airport Receptionist",
+    "name": "Information Desk",
     "tier": 2,
-    "dialogue": "receptionist"
+    "dialogue": "receptionist",
+    "sheet": "npc_airport_info"
   },
   {
     "id": "airport_helper",
-    "name": "Airport Helper",
+    "name": "Porter",
     "tier": 2,
     "dialogue": "airport_helper",
-    "tint": 2278750
+    "sheet": "npc_airport_porter"
   },
   {
     "id": "security_guard",
     "name": "Security Guard",
     "tier": 2,
     "dialogue": "security_guard",
-    "tint": 6579625
+    "sheet": "npc_security_guard"
   },
   {
     "id": "shopkeeper_kiosk",
     "name": "Kiosk Shopkeeper",
     "tier": 2,
     "dialogue": "shopkeeper",
-    "tint": 16095515
+    "sheet": "npc_kiosk_shopkeeper"
   },
   {
     "id": "npc_chai_anna",
@@ -38,12 +39,12 @@
     "name": "Cab Tout",
     "tier": 2,
     "dialogue": "dlg_cab_tout",
-    "tint": 11184810
+    "sheet": "npc_cab_tout"
   },
   {
     "id": "ambient_hivr_lanyard",
     "name": "Man in a lanyard",
     "tier": 1,
-    "tint": 5592405
+    "sheet": "npc_hivr_courier"
   }
 ]

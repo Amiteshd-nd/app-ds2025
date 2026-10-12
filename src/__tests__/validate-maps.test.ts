@@ -7,7 +7,15 @@ import { validateMap, runValidation, mapWarnings, runWarnings, validateBreath } 
 const assetsDir = join(__dirname, '..', 'assets');
 const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
 
-const AIRPORT = manifest.maps.airport_map;
+/** A fixed hand-authored-style definition — the validator's behaviour, not whichever map is the airport today. */
+const AIRPORT = {
+  file: 'test_map.tmj',
+  requiredLayers: ['Ground', 'Walls', 'Objects', 'Collision', 'Above Player'],
+  collisionLayer: 'Collision',
+  spawnLayer: 'Spawns',
+  requiredSpawns: ['player_spawn'],
+  optionalLayers: ['Effects', 'Foreground'],
+};
 const TILESETS = [
   'airport', 'wall', 'skirting', 'airport-exitgate',
   'tourist-info-desk', 'luggage-belt', 'objects', 'shops',
