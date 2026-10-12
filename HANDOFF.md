@@ -2,7 +2,7 @@
 Updated: 2026-10-12, end of the P5 build session. Purpose: a new chat picks up exactly where this one stopped.
 
 ## 0. Where we are — in one breath
-Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P4 approved; P5 (PG Hunt) is built and committed** on `main` and **awaiting the user's audit**. Nothing is pushed since the first push — push only when the user asks. Dev server: `corepack pnpm dev` → http://localhost:6174. 206 tests, typecheck, validators, `pnpm build` all green at the P5 commit.
+Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P4 approved; P5 (PG Hunt) audited once — round-1 corrections (crowd art, collision + occluders, interior scale) are fixed and committed** on `main`, **awaiting the user's re-check**. Nothing is pushed since the first push — push only when the user asks. Dev server: `corepack pnpm dev` → http://localhost:6174. 208 tests, typecheck, validators, `pnpm build` all green.
 
 ## 1. Phase ledger
 | Phase | State | Audit |
@@ -12,13 +12,13 @@ Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P4 appr
 | P2 Character creation + sprites | done — offer-letter form, generated+imported M/F × 5 skins, 3-frame sheet contract | approved after 3 rounds |
 | P3 M0 loop (airport → Chai Anna → fare → Whitefield) + stat model + touch controls | done | approved |
 | P4 Hotel (3 nights, TimeSystem, `hotelNightTimer`, generated interior) | done | approved ("proceed") |
-| **P5 PG Hunt (Prashanth Layout, negotiation ADR-95, NPC memory ADR-96, food drain ADR-97, lane cast ADR-98)** | **built** | **awaiting audit** |
+| **P5 PG Hunt (Prashanth Layout, negotiation ADR-95, NPC memory ADR-96, food drain ADR-97, lane cast ADR-98)** | **round 1 fixed (ADR-99/100)** | **awaiting re-check** |
 | P6 Phone overlay (Maps, Chats, UPI) + minimap + Settings + Save/Load | next | — |
 
 ## 2. Resume protocol
 1. Read `CLAUDE.md` §0 rules, then `TASKS.md` "Now", `DECISIONS.md` last rows (ADR-95..98), `MEMORY.md`, `AUDIT_LOG.md` (every correction is a standing rule).
-2. Ask the user for the **P5 audit** if they have not given it. Path to show: on the Whitefield street walk off the **east end of the top pavement** → Prashanth Layout. Green gate (token scam; pay or refuse) → Leela Aunty (warns before / consoles after) → HiveNest co-living (haggle; still unaffordable) → Shanthamma at the blue gate (haggle ₹18,000 → ≈ ₹14,300) → darshini/provisions on the **bottom pavement** (reach it down the main-road strip at the left edge) → blue gate → room → cot (Amma's call, then sleep).
-3. Open questions for that audit (ask as yes/no): (a) Shanthamma's voice as drafted (warm-but-firm auntie, light Kannada — CLAUDE.md §5 co-authoring, T-025); (b) ADR-97 food drain −1 per 6 game minutes, which conflicts with the profile doc's −1 per minute; (c) HiveNest retuned to ₹62,000 (floor ₹43,000).
+2. Ask the user to **re-check P5** (round 1 rules in AUDIT_LOG: crowd generated, collision at the art's ground lines, occluders, rooms at character scale on black). Path to show: on the Whitefield street walk off the **east end of the top pavement** → Prashanth Layout. Green gate (token scam; pay or refuse) → Leela Aunty (warns before / consoles after) → HiveNest co-living (haggle; still unaffordable) → Shanthamma at the blue gate (haggle ₹18,000 → ≈ ₹14,300) → darshini/provisions on the **bottom pavement** (reach it down the main-road strip at the left edge) → blue gate → room → cot (Amma's call, then sleep).
+3. Already answered at round 1: Shanthamma's voice, ADR-97 food drain and the HiveNest retune are approved — do not re-ask.
 4. Record corrections in `AUDIT_LOG.md` as reusable rules, fix, commit, then start **P6** (ask for UI reference images first — ADR-30: phone, HUD restyle, pixel font).
 
 ## 3. P5 — what was built (for fixes)
@@ -26,6 +26,11 @@ Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P4 appr
 - Maps: `_raw/maps/prashanth_layout.{png,spec.json}` (36×24; lane rows 10–14; bottom shops served from rows 22–23 via col 0) and `shanthamma_pg.{png,spec.json}` (24×16). Street exit `lane_zone` at the east end of the top pavement (generator).
 - Engine: `systems/NegotiationManager.ts`; DialogueManager negotiate nodes + `enter` branches; DialogueBox auto-sizes (≤ 6 choices + bill line); Populate/WorldScene `unlessFlag` NPCs; Triggers `unlessFlag`; Exits `lockedText`; StatEffect `reputation`; TimeManager food drain; Player hunger slow; hotel ₹1,800 extra nights; HUD two quests + controls hint bottom-right.
 - Verified in the browser pane: full lane loop (token paid → owner fades → Leela lesson; HiveNest floor ₹43,000 locked; locked-gate toast; Shanthamma deal ₹14,300; idli +40 food; room → Amma once → sleep → quest complete, rep 5). Mobile viewport: joystick moves, A talks to Leela.
+
+## 3b. Round-1 fixes (for further fixes)
+- `scripts/import-map.mjs` v2: specs in source px (`units: "px"`) — `blocks`, feet-point `spawns`, `zones`, `occluders` (key + seeds or rect). Debug: render blocks + occluders over the darkened map (see `_raw/maps/README.md`), then walk every route in the browser with `__tpf(fx, fy)` (teleport by feet) and held arrow keys.
+- `world/Shapes.ts` builds the `Shapes` layer; NPC feet bodies in `Populate.npcs`; crowd collides with the player; `WorldScene.frameCamera` centres small rooms on black.
+- Interiors are 10×7 tiles now; crowd = 8 `crowd_*` sheets; receptionist generated. Still placeholder: cab tout, lanyard man, legacy airport four (T-022). Airport + street have no occluders yet (T-027).
 
 ## 4. Pipelines (exact commands)
 - Art: `corepack pnpm art` — regenerates tokens.json, citizen rig sheets, **imports every `src/assets/_raw/characters/*.png`** (3×4 magenta sheets → 96×192, player_* get 5 skins) and **every `src/assets/_raw/maps/*.spec.json`** (render → unique-tile tileset + .tmj), street map.

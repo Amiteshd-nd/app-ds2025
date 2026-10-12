@@ -96,7 +96,7 @@ export function mapWarnings(mapKey, def, tmj) {
 }
 
 /** Collect problems for one map. Pure, so tests can drive it directly. */
-export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layerOrder = []) {
+export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layerOrder = [], overlays = null) {
   const problems = [];
   const layerNames = (tmj.layers ?? []).map((l) => l.name);
 
@@ -130,7 +130,7 @@ export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layer
   // A layer named outside the taxonomy is a typo or a drift — either way the
   // game will never draw it, and silently ignoring it is how maps rot.
   if (layerOrder.length) {
-    const known = new Set([...layerOrder, def.spawnLayer, def.objectLayer, def.pulseLayer].filter(Boolean));
+    const known = new Set([...layerOrder, def.spawnLayer, def.objectLayer, def.pulseLayer, def.shapeLayer].filter(Boolean));
     for (const layer of tmj.layers ?? []) {
       if (!known.has(layer.name)) {
         problems.push(
@@ -175,6 +175,26 @@ export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layer
           problems.push(
             `missing spawn object "${spawn}" in "${def.spawnLayer}" (has: ${names.join(', ') || 'none'})`,
           );
+        }
+      }
+    }
+  }
+
+  // Generated maps: `solid` blocks and `occluder` cut-outs (scripts/import-map.mjs).
+  if (def.shapeLayer) {
+    const layer = (tmj.layers ?? []).find((l) => l.name === def.shapeLayer);
+    if (!layer) {
+      problems.push(`missing object layer "${def.shapeLayer}"`);
+    } else {
+      for (const obj of layer.objects ?? []) {
+        if (obj.type !== 'solid' && obj.type !== 'occluder') {
+          problems.push(`shape ${obj.id} in "${def.shapeLayer}" has type "${obj.type}", expected solid or occluder`);
+        }
+        if (obj.type === 'occluder') {
+          const image = obj.properties?.find((p) => p.name === 'image')?.value;
+          const baseY = obj.properties?.find((p) => p.name === 'baseY')?.value;
+          if (!image || (overlays && !overlays.includes(image))) problems.push(`occluder "${obj.name}" image "${image}" is not in src/assets/overlays/`);
+          if (typeof baseY !== 'number') problems.push(`occluder "${obj.name}" has no numeric baseY`);
         }
       }
     }
@@ -245,6 +265,8 @@ export function runValidation({ manifest, mapsDir: md, tilesetsDir: td }) {
   const availableTilesets = existsSync(td)
     ? readdirSync(td).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, ''))
     : [];
+  const od = join(td, '..', 'overlays');
+  const overlays = existsSync(od) ? readdirSync(od).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, '')) : [];
 
   const problems = [];
   for (const [mapKey, def] of Object.entries(manifest.maps ?? {})) {
@@ -263,7 +285,7 @@ export function runValidation({ manifest, mapsDir: md, tilesetsDir: td }) {
     }
 
     problems.push(
-      ...validateMap(mapKey, def, tmj, availableTilesets, manifest.tileSize, manifest.layerOrder ?? []),
+      ...validateMap(mapKey, def, tmj, availableTilesets, manifest.tileSize, manifest.layerOrder ?? [], overlays),
     );
   }
   return problems;

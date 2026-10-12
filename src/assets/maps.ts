@@ -22,6 +22,8 @@ export interface MapDefinition {
   objectLayer?: string;
   /** Object layer of City Pulse slots: named, typed anchors events switch on. */
   pulseLayer?: string;
+  /** Object layer of `solid` blocks and `occluder` cut-outs (generated maps). */
+  shapeLayer?: string;
   /** Spawn object names the scene code depends on. */
   requiredSpawns: string[];
 }
@@ -33,6 +35,7 @@ interface ManifestMap {
   spawnLayer?: string;
   objectLayer?: string;
   pulseLayer?: string;
+  shapeLayer?: string;
   requiredSpawns?: string[];
 }
 
@@ -72,6 +75,7 @@ const build = (): Record<string, MapDefinition> => {
           spawnLayer: def.spawnLayer,
           objectLayer: def.objectLayer,
           pulseLayer: def.pulseLayer,
+          shapeLayer: def.shapeLayer,
           requiredSpawns: def.requiredSpawns ?? [],
         } satisfies MapDefinition,
       ];

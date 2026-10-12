@@ -64,7 +64,8 @@
       "optionalLayers": [
         "Effects",
         "Foreground"
-      ]
+      ],
+      "shapeLayer": "Shapes"
     },
     "prashanth_layout": {
       "file": "prashanth_layout.tmj",
@@ -87,7 +88,8 @@
         "gate10",
         "main_road",
         "lane_arrival"
-      ]
+      ],
+      "shapeLayer": "Shapes"
     },
     "shanthamma_pg": {
       "file": "shanthamma_pg.tmj",
@@ -109,7 +111,8 @@
         "exit",
         "bed",
         "doorway"
-      ]
+      ],
+      "shapeLayer": "Shapes"
     }
   },
   "layerOrder": [
@@ -124,5 +127,6 @@
   "$layerOrderComment": "Canonical draw order, back to front. Depth comes from layering rather than from bigger images. A map need not use every layer, but any layer it does use must be named from this list — an unlisted name is a typo or a taxonomy drift.",
   "$objectLayerComment": "Object layer holding placed world objects. Each object's `type` must name an ObjectDef in src/data/objects — the content validator enforces it.",
   "$pulseLayerComment": "Optional per-map `pulseLayer`: an object layer of City Pulse slots. Every slot is a named, uniquely named object with a `type` (wall, corner, shopfront, crowd). Districts list the slots they offer under pulse_slots and the validator checks they exist.",
-  "$doorComment": "Any spawn-layer object named door_* or typed `door` is a door and must be 32x48 (player height = door height, design system §2). The map validator warns otherwise."
+  "$doorComment": "Any spawn-layer object named door_* or typed `door` is a door and must be 32x48 (player height = door height, design system §2). The map validator warns otherwise.",
+  "$shapeLayerComment": "Optional per-map `shapeLayer` (generated maps): objects typed `solid` (pixel-precise blocks the feet cannot cross) and `occluder` (a cut-out drawn above whoever stands behind it; properties image + baseY). Written by scripts/import-map.mjs."
 }

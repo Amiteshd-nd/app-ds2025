@@ -155,3 +155,29 @@ describe('tilemap validator — doors and City Pulse slots', () => {
     expect(problems.some((p: string) => p.includes('missing City Pulse object layer'))).toBe(true);
   });
 });
+
+describe('shape layer (generated maps, AUDIT_LOG P5)', () => {
+  const def = { ...AIRPORT, shapeLayer: 'Shapes' };
+  const withShapes = (objects: unknown[]) => {
+    const map = goodMap();
+    (map.layers as unknown[]).push({ name: 'Shapes', type: 'objectgroup', visible: true, objects });
+    return validateMap('test_map', def, map, TILESETS, 32, [], ['test_map__pole']);
+  };
+
+  it('accepts solid blocks and occluders whose cut-out exists', () => {
+    expect(withShapes([
+      { id: 1, type: 'solid', x: 0, y: 0, width: 10, height: 10 },
+      { id: 2, name: 'pole', type: 'occluder', properties: [{ name: 'image', value: 'test_map__pole' }, { name: 'baseY', value: 40 }] },
+    ])).toEqual([]);
+  });
+
+  it('catches an unknown shape type, a missing cut-out and a missing baseY', () => {
+    const p = withShapes([
+      { id: 1, type: 'wall' },
+      { id: 2, name: 'tree', type: 'occluder', properties: [{ name: 'image', value: 'test_map__tree' }] },
+    ]);
+    expect(p.some((x: string) => x.includes('expected solid or occluder'))).toBe(true);
+    expect(p.some((x: string) => x.includes('not in src/assets/overlays'))).toBe(true);
+    expect(p.some((x: string) => x.includes('no numeric baseY'))).toBe(true);
+  });
+});

@@ -1,145 +1,147 @@
 {
-  "$comment": "Authored from the 24x16 tile grid over the generated interior. Tile coords, [x, y, w, h]. Back-wall bands rows 0-3; outer walls; divider at col 14 with a doorway rows 8-10; furniture as solid rects.",
+  "$comment": "Source-pixel spec (1536x1024 render). Output 10x7 tiles to match the 32x48 characters (AUDIT_LOG P5). Lobby left, guest room right, divider doorway at y 487-691. The counter is an occluder so the receptionist stands BEHIND it.",
   "name": "whitefield_hotel",
-  "cols": 24,
-  "rows": 16,
-  "solid": [
+  "cols": 10,
+  "rows": 7,
+  "units": "px",
+  "blocks": [
     [
       0,
       0,
-      24,
-      4
+      892,
+      292
+    ],
+    [
+      947,
+      0,
+      589,
+      282
     ],
     [
       0,
       0,
-      1,
-      16
+      26,
+      1024
     ],
     [
-      23,
+      1510,
       0,
-      1,
-      16
+      26,
+      1024
     ],
     [
+      892,
       0,
-      15,
-      24,
-      1
+      55,
+      487
     ],
     [
-      14,
-      0,
-      1,
-      8
-    ],
-    [
-      14,
-      11,
-      1,
-      5
-    ],
-    [
-      1,
-      4,
-      3,
-      1
-    ],
-    [
-      5,
-      4,
-      9,
-      3
+      892,
+      691,
+      55,
+      333
     ],
     [
       0,
-      5,
-      2,
-      4
+      963,
+      429,
+      61
     ],
     [
-      2,
-      7,
-      1,
-      2
+      704,
+      963,
+      832,
+      61
     ],
     [
-      0,
-      9,
-      3,
-      4
+      26,
+      292,
+      145,
+      662
     ],
     [
-      0,
-      12,
-      3,
-      3
+      326,
+      279,
+      557,
+      171
     ],
     [
-      15,
-      4,
-      2,
-      4
+      947,
+      282,
+      147,
+      313
     ],
     [
-      17,
-      4,
-      2,
-      2
+      1094,
+      282,
+      81,
+      100
     ],
     [
-      20,
-      4,
-      3,
-      2
+      1321,
+      282,
+      138,
+      74
     ],
     [
-      21,
-      7,
-      3,
-      3
+      1380,
+      474,
+      130,
+      181
     ],
     [
-      20,
-      10,
-      4,
-      6
+      1325,
+      672,
+      185,
+      300
     ]
   ],
   "spawns": [
     {
       "name": "door",
-      "x": 8,
-      "y": 12
+      "x": 566,
+      "y": 880
     },
     {
       "name": "reception",
-      "x": 9,
-      "y": 5
+      "x": 600,
+      "y": 330
     }
   ],
   "zones": [
     {
       "name": "exit",
-      "x": 7,
-      "y": 14,
-      "w": 4,
-      "h": 1
+      "x": 430,
+      "y": 930,
+      "w": 275,
+      "h": 94
     },
     {
       "name": "room",
-      "x": 14,
-      "y": 8,
-      "w": 1,
-      "h": 3
+      "x": 950,
+      "y": 500,
+      "w": 45,
+      "h": 180
     },
     {
       "name": "bed",
-      "x": 15,
-      "y": 8,
-      "w": 2,
-      "h": 1
+      "x": 960,
+      "y": 597,
+      "w": 130,
+      "h": 50
+    }
+  ],
+  "occluders": [
+    {
+      "name": "counter",
+      "rect": [
+        326,
+        300,
+        557,
+        150
+      ],
+      "base": 450,
+      "mode": "rect"
     }
   ]
 }

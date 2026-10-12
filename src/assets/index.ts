@@ -31,6 +31,14 @@ const tilemapModules = import.meta.glob('./tilemaps/*.tmj', {
   import: 'default',
 }) as Record<string, string>;
 
+// Occluder cut-outs written by scripts/import-map.mjs: the parts of a generated
+// map that stand in front of a character behind them (poles, canopies, roofs).
+const overlayModules = import.meta.glob('./overlays/*.png', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>;
+
 /** "./tilesets/luggage-belt.png" -> "luggage-belt" */
 const basename = (path: string): string =>
   path.split('/').pop()!.replace(/\.[^.]+$/, '');
@@ -51,3 +59,6 @@ export const SPRITE_URLS: Record<string, string> = byBasename(spriteModules);
 
 /** Tilemap URLs keyed by file basename, e.g. "airport_interior". */
 export const TILEMAP_FILE_URLS: Record<string, string> = byBasename(tilemapModules);
+
+/** Occluder image URLs keyed by basename, e.g. "prashanth_layout__pole_west". */
+export const OVERLAY_URLS: Record<string, string> = byBasename(overlayModules);

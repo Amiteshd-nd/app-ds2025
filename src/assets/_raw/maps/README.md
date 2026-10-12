@@ -14,4 +14,6 @@ looking at the render on a 32px grid. `pnpm art` re-imports every spec.
 
 Outdoor lanes work the same way as interiors: shops whose open fronts face the viewer are served from the pavement BELOW them, so leave a walkable strip along the bottom edge and a way down to it.
 
+Since the P5 audit (ADR-99/100), specs are authored in **source pixels** (`"units": "px"`): blocks trace where things meet the ground, spawns are feet points, occluders are cut out of the render. Pick `cols`/`rows` for scale (interiors 10×7 from a 1536×1024 render: cot ≈ 2 tiles). Check with a debug preview (blocks + occluders over the darkened map) and walk every route in the browser before the audit.
+
 Rules that worked: say "walls as flat bands along the top of each room", list the rooms with their share of the width, name every prop, end with "fill the whole image edge to edge; no outside, no border".

@@ -16,7 +16,7 @@ import { execFileSync } from 'node:child_process';
 import { Canvas } from './art/canvas.mjs';
 import { T as TOK } from './art/palette.mjs';
 import { T, TILES } from './art/tiles.mjs';
-import { CH, CW, buildCharacterSheet } from './art/character.mjs';
+import { CH, CW } from './art/character.mjs';
 import { importSheet } from './import-sheet.mjs';
 import { importMap } from './import-map.mjs';
 
@@ -56,25 +56,10 @@ await write(sheet, join(assets, 'tilesets/street.png'));
 // creation can *assign* a sheet rather than customise one; `sheetForProfile`
 // in src/utils/profile.ts must produce exactly these keys.
 //
-// Citizens reuse the rig with other attire — a visibly mixed crowd for no
-// extra drawing. Every colour is a token on palette.gpl.
-const LOOKS = {};
-const tee = (c) => ({ top: TOK[`cloth.tee.${c}`], topShade: TOK[`cloth.tee.${c}.shade`] });
-const kurti = (c) => ({ top: TOK[`cloth.kurti.${c}`], topShade: TOK[`cloth.kurti.${c}.shade`], bottom: TOK['cloth.legging'], bottomShade: TOK['cloth.legging'] });
-Object.assign(LOOKS, {
-  citizen:        { gender: 'M', skin: 3, bag: 'none', ...tee('olive') },
-  citizen_teal:   { gender: 'F', skin: 2, bag: 'sling', ...kurti('green') },
-  citizen_ochre:  { gender: 'M', skin: 4, bag: 'none', top: TOK['cloth.shirt.white'], topShade: TOK['cloth.shirt.white.shade'], hair: 'brown' },
-  citizen_maroon: { gender: 'F', skin: 3, bag: 'none', ...kurti('red') },
-  citizen_olive:  { gender: 'M', skin: 2, bag: 'laptop', ...tee('rust') },
-  citizen_slate:  { gender: 'M', skin: 5, bag: 'backpack' },
-  citizen_violet: { gender: 'F', skin: 1, bag: 'tote', ...kurti('mustard'), hair: 'brown' },
-  citizen_sand:   { gender: 'F', skin: 5, bag: 'none', ...kurti('green') },
-});
-
-for (const [name, look] of Object.entries(LOOKS)) {
-  await write(buildCharacterSheet(look), join(assets, `sprites/${name}.png`));
-}
+// Citizens used to reuse this rig; the P5 audit found them off-style next to
+// the generated cast, so the crowd is now imported like every other
+// character (`_raw/characters/crowd_*.png`, AUDIT_LOG P5). The rig module
+// stays for placeholders only.
 
 // ── Player sheets: imported, not drawn (AUDIT_LOG P2 round 1) ──────────────
 // Each raw in _raw/characters/ is a generated 3×4 sheet in the reference
@@ -117,5 +102,5 @@ writeFileSync(
 console.log(
   `✓ street.png — ${TILES.length} tiles (${COLS}x${rows} @ ${T}px = ${COLS * T}x${rows * T})`,
 );
-console.log(`✓ ${Object.keys(LOOKS).length} citizen sheets drawn + ${imported.length} player sheets imported (${CW}x${CH} frames, 4x4)`);
+console.log(`✓ ${imported.length} character sheets imported (${CW}x${CH} frames)`);
 console.log(`✓ street.tiles.json — ${Object.keys(ids).length} named tile ids`);

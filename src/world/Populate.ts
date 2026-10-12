@@ -27,6 +27,8 @@ export function npcs(
   district: DistrictDef,
   map: Phaser.Tilemaps.Tilemap,
   spawnLayer: string | undefined,
+  /** Static group the NPCs' feet join: people are solid (AUDIT_LOG P5). */
+  bodies?: Phaser.Physics.Arcade.StaticGroup,
 ): Phaser.GameObjects.Sprite[] {
   const sprites: Phaser.GameObjects.Sprite[] = [];
 
@@ -62,6 +64,14 @@ export function npcs(
     sprite.setData('dialogueId', npc.dialogue);
     sprite.setData('tier', npc.tier);
     if (ref.unlessFlag) sprite.setData('unlessFlag', ref.unlessFlag);
+    if (bodies) {
+      // Same feet box as the player (20×12 at 6,35): you bump into a person
+      // at their feet, and can still stand close enough to talk.
+      bodies.add(sprite);
+      const body = sprite.body as Phaser.Physics.Arcade.StaticBody;
+      body.setSize(20, 12, false);
+      body.setOffset(6, 35);
+    }
     sprites.push(sprite);
   }
 
@@ -198,6 +208,8 @@ export function wander(
     body.setSize(20, 12);
     body.setOffset(6, 35);
     body.setCollideWorldBounds(true);
+    // Citizens hold their ground: the player stops against them, as against an NPC.
+    body.pushable = false;
     for (const collider of colliders) scene.physics.add.collider(citizen, collider);
 
     citizen.setDepth(DEPTH.ENTITIES);
@@ -233,7 +245,9 @@ export function wander(
       }
 
       // A citizen stopped by a wall should not keep playing a walk cycle.
-      if (body.blocked.left || body.blocked.right || body.blocked.up || body.blocked.down) {
+      const stopped = body.blocked.left || body.blocked.right || body.blocked.up || body.blocked.down
+        || body.touching.left || body.touching.right || body.touching.up || body.touching.down;
+      if (stopped && !body.velocity.equals(Phaser.Math.Vector2.ZERO)) {
         body.setVelocity(0);
         citizen.play(`${citizen.sheet}-idle-${citizen.facing}`, true);
         citizen.nextTurn = Math.min(citizen.nextTurn, time + 200);

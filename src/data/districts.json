@@ -68,14 +68,14 @@
     },
     "ambient": {
       "base": [
-        "citizen",
-        "citizen_teal",
-        "citizen_ochre",
-        "citizen_maroon",
-        "citizen_olive",
-        "citizen_slate",
-        "citizen_violet",
-        "citizen_sand"
+        "crowd_techie",
+        "crowd_student",
+        "crowd_delivery",
+        "crowd_homemaker",
+        "crowd_elder",
+        "crowd_officegoer",
+        "crowd_autodriver",
+        "crowd_hoodie"
       ],
       "count": 40,
       "area": "ambient_area"
@@ -178,10 +178,14 @@
     ],
     "ambient": {
       "base": [
-        "citizen_teal",
-        "citizen_ochre",
-        "citizen_slate",
-        "citizen_sand"
+        "crowd_techie",
+        "crowd_student",
+        "crowd_delivery",
+        "crowd_homemaker",
+        "crowd_elder",
+        "crowd_officegoer",
+        "crowd_autodriver",
+        "crowd_hoodie"
       ],
       "count": 6,
       "area": "ambient_area"

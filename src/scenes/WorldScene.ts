@@ -14,6 +14,7 @@ import { DialogueBox } from '../ui/DialogueBox';
 import * as Populate from '../world/Populate';
 import * as Exits from '../world/Exits';
 import * as Triggers from '../world/Triggers';
+import * as Shapes from '../world/Shapes';
 import { findObject } from '../world/Zones';
 import { BEHAVIOURS } from '../world/behaviours';
 import {
@@ -108,7 +109,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     this.cameras.main.setDeadzone(CAMERA_DEADZONE_X, CAMERA_DEADZONE_Y);
-    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    this.frameCamera();
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     const colliders: Phaser.Types.Physics.Arcade.ArcadeColliderType[] = [];
@@ -121,8 +122,17 @@ export class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, solids);
     colliders.push(solids);
 
-    this.npcs = Populate.npcs(this, this.district, this.map, def.spawnLayer);
+    // Generated maps: pixel-precise blocks + occluder cut-outs (AUDIT_LOG P5).
+    const shapes = Shapes.bind(this, this.map, def.shapeLayer);
+    this.physics.add.collider(this.player, shapes.blocks);
+    colliders.push(shapes.blocks);
+
+    const npcBodies = this.physics.add.staticGroup();
+    this.npcs = Populate.npcs(this, this.district, this.map, def.spawnLayer, npcBodies);
+    this.physics.add.collider(this.player, npcBodies);
+    colliders.push(npcBodies);
     this.crowd = Populate.wander(this, this.district, this.map, def.spawnLayer, colliders);
+    this.physics.add.collider(this.player, this.crowd.citizens);
 
     // The dialogue box freezes the player while open; closing unfreezes on a
     // short delay so the closing keystroke cannot double as movement/interact.
@@ -170,6 +180,20 @@ export class WorldScene extends Phaser.Scene {
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this.game.events.once(Phaser.Core.Events.DESTROY, this.persist, this);
+  }
+
+  /**
+   * Follow inside the map — and when a room is smaller than the screen, centre
+   * it on black, like a LeafGreen interior (AUDIT_LOG P5): the room is drawn at
+   * the characters' scale and nothing else exists around it.
+   */
+  private frameCamera(): void {
+    const cam = this.cameras.main;
+    cam.setBackgroundColor(0x000000);
+    const mapW = this.map.widthInPixels, mapH = this.map.heightInPixels;
+    const x = mapW < cam.width ? (mapW - cam.width) / 2 : 0;
+    const y = mapH < cam.height ? (mapH - cam.height) / 2 : 0;
+    cam.setBounds(x, y, Math.max(mapW, cam.width), Math.max(mapH, cam.height));
   }
 
   /**

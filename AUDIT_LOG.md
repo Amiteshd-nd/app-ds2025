@@ -49,3 +49,16 @@ Updated: 2026-10-12
 ### [P4 Hotel — approved] — 2026-10-12
 - Decision: approved ("proceed"). No corrections raised.
 - Mobile smoke: unchanged since P3 (no new input surface); sync OK, not booted (T-018).
+
+### [P5 PG Hunt — round 1] — 2026-10-12
+- Decisions: Shanthamma's voice approved as drafted (T-025); ADR-97 food drain (−1 per 6 game minutes) confirmed over the profile doc; HiveNest ₹62,000 retune confirmed.
+- Correction 1: the walking crowd was the old code-drawn rig — "not according to what we discussed, their art style is different". Static NPCs and the player were fine.
+- Rule going forward: **every character on screen — player, named NPC, walking crowd — comes through the generated-sprite pipeline.** No rig or tinted placeholder ships to an audit (extends ADR-98 to the crowd).
+- Correction 2: in the generated lane the lamppost did not cover the player walking behind it; the player walked over ground objects and static NPCs; some road was blocked for no visible reason; at the blue gate the player's feet went up onto the gate instead of stopping at its bottom edge.
+- Rule going forward: **collision follows the art, at pixel precision, where things meet the ground** — gate and wall bottoms, pole bases, bins, cart wheels, table legs, scooters, trunks. Air is never blocked (no blocking a canopy or the space above a pole); roads and pavements are open unless something visibly stands on them.
+- Rule going forward: **anything that stands up in front of a character behind it is an occluder** — lamp, poles, canopies, gate pillars, carts, counters — a transparent cut-out of the render depth-sorted by the line where it meets the ground. Low foliage at the edge of a path is an occluder, not a wall.
+- Rule going forward: **people are solid.** NPCs and the crowd have feet bodies the player cannot walk through.
+- Rule going forward: before showing a generated map, render the debug preview (blocks + occluders over the darkened map) and walk every route in the browser — road, lane, both pavements, every shop front, every door.
+- Correction 3: inside the PG room the player was tiny next to the table and chair, and the whole background looked enlarged.
+- Rule going forward: **interiors are imported at the characters' scale** — a cot about 2 tiles, a chair under 1 tile, art pixels close to sprite pixels. A room smaller than the screen sits centred on black, like Pokémon LeafGreen. Specs are authored in source pixels so the scale is one number (`cols`/`rows`).
+- Mobile smoke: joystick moves the player in the lane on a phone viewport; sync OK, not booted (T-018).
