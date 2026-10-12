@@ -180,7 +180,7 @@ export async function importMap(specPath) {
  * or (`key`) the pixels whose palette colour is rare in the ground sample,
  * kept only where 8-connected to a seed when seeds are given.
  */
-function occluderMask(data, W, H, { x0, y0, w, h }, occ, X, Y) {
+export function occluderMask(data, W, H, { x0, y0, w, h }, occ, X, Y) {
   const keep = new Uint8Array(w * h);
   if ((occ.mode ?? 'key') === 'rect') return keep.fill(1);
 

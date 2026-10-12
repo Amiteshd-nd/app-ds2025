@@ -62,3 +62,9 @@ Updated: 2026-10-12
 - Correction 3: inside the PG room the player was tiny next to the table and chair, and the whole background looked enlarged.
 - Rule going forward: **interiors are imported at the characters' scale** — a cot about 2 tiles, a chair under 1 tile, art pixels close to sprite pixels. A room smaller than the screen sits centred on black, like Pokémon LeafGreen. Specs are authored in source pixels so the scale is one number (`cols`/`rows`).
 - Mobile smoke: joystick moves the player in the lane on a phone viewport; sync OK, not booted (T-018).
+
+### [P5 PG Hunt — approved] — 2026-10-12
+- Decision: round-1 fixes approved ("approved, go for P6").
+- Request before P6: rebuild the opening title screen after a reference screenshot (a fan-made pixel title: big blocky logo top-centre, living landscape, short menu with a sprite cursor), "in our native style", with motion and warmth — "a cityscape with moving trees and cars along with actions to proceed".
+- Rule going forward: a reference image from the user is a **style and layout reference only** — nothing is copied from it (no characters, lettering or composition details); everything is generated in our own Bengaluru context.
+- Rule going forward: the title screen is the game's first promise — warm (golden hour), alive (traffic, metro, clouds, birds, falling petals, the newcomer walking in) and still fully legible with reduced motion (everything shown, nothing moving).

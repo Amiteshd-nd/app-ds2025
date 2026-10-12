@@ -62,3 +62,13 @@ export const TILEMAP_FILE_URLS: Record<string, string> = byBasename(tilemapModul
 
 /** Occluder image URLs keyed by basename, e.g. "prashanth_layout__pole_west". */
 export const OVERLAY_URLS: Record<string, string> = byBasename(overlayModules);
+
+// Title screen art (scripts/import-title.mjs, ADR-101): background, foreground
+// cut-out, logo and the moving props. Keyed by basename, e.g. "title_bus".
+const titleModules = import.meta.glob('./title/*.png', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>;
+
+export const TITLE_URLS: Record<string, string> = byBasename(titleModules);

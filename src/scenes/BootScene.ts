@@ -7,7 +7,7 @@ import {
   SPRITE_WIDTH,
   TILE_SIZE,
 } from '../utils/constants';
-import { OVERLAY_URLS, SPRITE_URLS, TILESET_URLS } from '../assets';
+import { OVERLAY_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
 import { STREET_FRAMES_KEY } from '../entities/PlacedObject';
 import { MAPS } from '../assets/maps';
 import { useGameStore } from '../store';
@@ -62,6 +62,11 @@ export class BootScene extends Phaser.Scene {
     }
 
     for (const [key, url] of Object.entries(TILESET_URLS)) {
+      this.load.image(key, url);
+    }
+
+    // Title screen art (ADR-101).
+    for (const [key, url] of Object.entries(TITLE_URLS)) {
       this.load.image(key, url);
     }
 

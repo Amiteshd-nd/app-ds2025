@@ -65,6 +65,8 @@ export interface Platform {
     safeArea(): Insets;
     lockLandscape(): Promise<void>;
     hideStatusBar(): void;
+    /** The OS "reduce motion" setting (CLAUDE.md rule 12): collapse motion, never hide. */
+    prefersReducedMotion(): boolean;
   };
 
   /** City Pulse bundle fetches check this first; offline = base city. */

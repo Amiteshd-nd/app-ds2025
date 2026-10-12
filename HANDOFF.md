@@ -2,7 +2,7 @@
 Updated: 2026-10-12, end of the P5 build session. Purpose: a new chat picks up exactly where this one stopped.
 
 ## 0. Where we are — in one breath
-Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P4 approved; P5 (PG Hunt) audited once — round-1 corrections (crowd art, collision + occluders, interior scale) are fixed and committed** on `main`, **awaiting the user's re-check**. Nothing is pushed since the first push — push only when the user asks. Dev server: `corepack pnpm dev` → http://localhost:6174. 208 tests, typecheck, validators, `pnpm build` all green.
+Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P5 approved.** Before P6 the user asked for a living title screen (ADR-101/102) — **built and committed, awaiting audit**. Then **P6** (phone overlay). Nothing is pushed since the first push — push only when the user asks. Dev server: `corepack pnpm dev` → http://localhost:6174. 208 tests, typecheck, validators, `pnpm build` all green.
 
 ## 1. Phase ledger
 | Phase | State | Audit |
@@ -12,12 +12,13 @@ Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P4 appr
 | P2 Character creation + sprites | done — offer-letter form, generated+imported M/F × 5 skins, 3-frame sheet contract | approved after 3 rounds |
 | P3 M0 loop (airport → Chai Anna → fare → Whitefield) + stat model + touch controls | done | approved |
 | P4 Hotel (3 nights, TimeSystem, `hotelNightTimer`, generated interior) | done | approved ("proceed") |
-| **P5 PG Hunt (Prashanth Layout, negotiation ADR-95, NPC memory ADR-96, food drain ADR-97, lane cast ADR-98)** | **round 1 fixed (ADR-99/100)** | **awaiting re-check** |
+| **P5 PG Hunt (Prashanth Layout, negotiation ADR-95, NPC memory ADR-96, food drain ADR-97, lane cast ADR-98)** | done (round-1 fixes ADR-99/100) | approved |
+| **Title screen (living golden-hour Bengaluru, ADR-101/102)** | **built** | **awaiting audit** |
 | P6 Phone overlay (Maps, Chats, UPI) + minimap + Settings + Save/Load | next | — |
 
 ## 2. Resume protocol
 1. Read `CLAUDE.md` §0 rules, then `TASKS.md` "Now", `DECISIONS.md` last rows (ADR-95..98), `MEMORY.md`, `AUDIT_LOG.md` (every correction is a standing rule).
-2. Ask the user to **re-check P5** (round 1 rules in AUDIT_LOG: crowd generated, collision at the art's ground lines, occluders, rooms at character scale on black). Path to show: on the Whitefield street walk off the **east end of the top pavement** → Prashanth Layout. Green gate (token scam; pay or refuse) → Leela Aunty (warns before / consoles after) → HiveNest co-living (haggle; still unaffordable) → Shanthamma at the blue gate (haggle ₹18,000 → ≈ ₹14,300) → darshini/provisions on the **bottom pavement** (reach it down the main-road strip at the left edge) → blue gate → room → cot (Amma's call, then sleep).
+2. Ask the user to **audit the title screen** (warmth, motion, menu legibility) and to keep or supersede **ADR-101** (title keeps its own 64-colour palette, conflicts with ADR-61). Then ask for **P6 references** (phone screen, HUD restyle, pixel font — ADR-30) before any P6 visual work. Path to show: on the Whitefield street walk off the **east end of the top pavement** → Prashanth Layout. Green gate (token scam; pay or refuse) → Leela Aunty (warns before / consoles after) → HiveNest co-living (haggle; still unaffordable) → Shanthamma at the blue gate (haggle ₹18,000 → ≈ ₹14,300) → darshini/provisions on the **bottom pavement** (reach it down the main-road strip at the left edge) → blue gate → room → cot (Amma's call, then sleep).
 3. Already answered at round 1: Shanthamma's voice, ADR-97 food drain and the HiveNest retune are approved — do not re-ask.
 4. Record corrections in `AUDIT_LOG.md` as reusable rules, fix, commit, then start **P6** (ask for UI reference images first — ADR-30: phone, HUD restyle, pixel font).
 

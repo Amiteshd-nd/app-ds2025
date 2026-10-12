@@ -19,6 +19,7 @@ import { T, TILES } from './art/tiles.mjs';
 import { CH, CW } from './art/character.mjs';
 import { importSheet } from './import-sheet.mjs';
 import { importMap } from './import-map.mjs';
+import { importTitle } from './import-title.mjs';
 
 // Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
 execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'generate-tokens.mjs')], { stdio: 'inherit' });
@@ -79,6 +80,9 @@ const mapRaw = join(assets, '_raw/maps');
 for (const file of readdirSync(mapRaw).filter((f) => f.endsWith('.spec.json')).sort()) {
   await importMap(join(mapRaw, file));
 }
+
+// ── Title screen: imported from _raw/title/ (ADR-101) ──────────────────────
+await importTitle();
 
 // ── Tile id manifest ───────────────────────────────────────────────────────
 // Named ids so map generation and scene code never hard-code a bare number.

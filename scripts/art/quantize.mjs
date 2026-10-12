@@ -83,3 +83,53 @@ export function readGpl(text) {
 
 export const toHex = ([r, g, b]) => `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
 export const luma = ([r, g, b]) => 0.299 * r + 0.587 * g + 0.114 * b;
+
+/**
+ * Median-cut palette of `n` colours from an RGB or RGBA buffer (alpha-0 pixels
+ * ignored). Deterministic. Used where a picture keeps its own palette (the
+ * title screen, ADR-101) — sharp's PNG palette mode rounds 64 colours down to 16.
+ */
+export function paletteFor(buf, channels, n) {
+  const px = [];
+  for (let i = 0; i < buf.length; i += channels) {
+    if (channels === 4 && buf[i + 3] === 0) continue;
+    px.push([buf[i], buf[i + 1], buf[i + 2]]);
+  }
+  if (px.length === 0) return [[0, 0, 0]];
+  let boxes = [px];
+  while (boxes.length < n) {
+    let best = -1, bestRange = 0, bestCh = 0;
+    boxes.forEach((box, b) => {
+      if (box.length < 2) return;
+      for (let c = 0; c < 3; c++) {
+        let lo = 255, hi = 0;
+        for (const p of box) { if (p[c] < lo) lo = p[c]; if (p[c] > hi) hi = p[c]; }
+        // Weight by population so big flat areas (the sky) get their share of colours.
+        const range = (hi - lo) * Math.sqrt(box.length);
+        if (range > bestRange) { bestRange = range; best = b; bestCh = c; }
+      }
+    });
+    if (best < 0) break;
+    const box = boxes[best].sort((a, b) => a[bestCh] - b[bestCh]);
+    const mid = box.length >> 1;
+    boxes.splice(best, 1, box.slice(0, mid), box.slice(mid));
+  }
+  return boxes.map((box) => {
+    const s = [0, 0, 0];
+    for (const p of box) { s[0] += p[0]; s[1] += p[1]; s[2] += p[2]; }
+    return s.map((v) => Math.round(v / box.length));
+  });
+}
+
+/** applyPalette for RGBA buffers: snaps opaque pixels, leaves transparent ones. */
+export function applyPaletteRGBA(rgba, palette) {
+  const cache = new Map();
+  for (let i = 0; i < rgba.length; i += 4) {
+    if (rgba[i + 3] === 0) continue;
+    const key = (rgba[i] << 16) | (rgba[i + 1] << 8) | rgba[i + 2];
+    let idx = cache.get(key);
+    if (idx === undefined) { idx = nearest(palette, rgba[i], rgba[i + 1], rgba[i + 2]); cache.set(key, idx); }
+    const [r, g, b] = palette[idx];
+    rgba[i] = r; rgba[i + 1] = g; rgba[i + 2] = b;
+  }
+}

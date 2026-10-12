@@ -2,7 +2,7 @@
 Updated: 2026-10-12
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — P5 PG Hunt (awaiting audit)
+## Now — Title screen (awaiting audit) → P6
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`
 - [x] T-002 P0.2 `WorldScene` refactor (tech §7 steps 1–4): Populate/Exits/Triggers, `districts.json` v2, `TransitScene` card airport→whitefield_street, delete Airport/Whitefield scenes, saves persist `districtId+spawnId`
 - [x] T-003 P0.3 Extend validators: district reachability from `airport` via exits, spawn/zone/npc/`to` references, door objects 32×48 (warn), City Pulse slot checks
@@ -16,9 +16,10 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Later
 - [x] T-009 P4 Hotel: `whitefield_hotel` (generated interior, ADR-92), TimeSystem (ADR-91), `hotelNightTimer` (ADR-93), check-in quest, Divya call — approved 2026-10-12
-- [ ] T-010 P5 PG hunt: Prashanth Layout + Shanthamma's PG room (generated), negotiation mini-system (ADR-95), NPCs remember (ADR-96), food drain (ADR-97), lane cast generated (ADR-98) — **built, awaiting P5 audit**
+- [x] T-010 P5 PG hunt (approved 2026-10-12): Prashanth Layout + Shanthamma's PG room (generated), negotiation mini-system (ADR-95), NPCs remember (ADR-96), food drain (ADR-97), lane cast generated (ADR-98) — **built, awaiting P5 audit**
 - [x] T-025 Shanthamma's voice approved as drafted; ADR-97 food drain and the HiveNest retune confirmed (P5 audit round 1)
-- [x] T-026 P5 audit round 1 fixes: generated crowd, pixel-precise collision + occluders (ADR-99), interiors at character scale on black (ADR-100) — **awaiting re-check**
+- [x] T-026 P5 audit round 1 fixes: generated crowd, pixel-precise collision + occluders (ADR-99), interiors at character scale on black (ADR-100) — approved
+- [ ] T-028 Living title screen (ADR-101/102) — **built, awaiting audit**; then P6 (ask for phone/HUD/font references first, ADR-30)
 - [ ] T-011 P6 Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
 - [ ] T-015 Quest taxonomy → `help|social|deliver|investigate|collect|chase|combat-lite` (ADR-18/22) and rep tiers → Hosa/Gothu/Namma (ADR-26); migrate existing content ids to prefix convention (`npc_`, `q_`, `dlg_`…)
 - [ ] T-016 M1 Android release · T-017 M2 iOS release (after web slice public)
