@@ -68,3 +68,8 @@ Updated: 2026-10-12
 - Request before P6: rebuild the opening title screen after a reference screenshot (a fan-made pixel title: big blocky logo top-centre, living landscape, short menu with a sprite cursor), "in our native style", with motion and warmth — "a cityscape with moving trees and cars along with actions to proceed".
 - Rule going forward: a reference image from the user is a **style and layout reference only** — nothing is copied from it (no characters, lettering or composition details); everything is generated in our own Bengaluru context.
 - Rule going forward: the title screen is the game's first promise — warm (golden hour), alive (traffic, metro, clouds, birds, falling petals, the newcomer walking in) and still fully legible with reduced motion (everything shown, nothing moving).
+
+### [Idle breathing — round 1] — 2026-10-12
+- Correction: "the whole body is moving up and down" — the whole-sprite 1px offset (ADR-106) lifted the feet off the ground; the character floated.
+- Rule going forward: **Breathing = upper body only, 1px DOWN at the waistline, feet planted, baked frames, never whole-sprite offset.** Head dips first, then head+torso (overlapping action); never shift up (it would open a gap at the waist).
+- Rule going forward: breath lines (`head_y`, `waist_y`) are per character and direction in `_raw/characters/breath.json`, proposed by detection + eye and approved by the user before any batch bake.

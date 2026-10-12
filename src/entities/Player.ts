@@ -136,6 +136,8 @@ export class Player extends Phaser.GameObjects.Sprite {
   }
 
   private playIdleAnim(): void {
+    // Breathing (beh_breathing) is a kind of idle: do not knock it back to the still frame.
+    if (this.anims.currentAnim?.key === `${this.textureKey}-breath-${this.currentDirection}`) return;
     this.playAnimIfPresent(`${this.textureKey}-idle-${this.currentDirection}`);
   }
 

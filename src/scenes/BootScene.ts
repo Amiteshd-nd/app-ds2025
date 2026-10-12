@@ -8,6 +8,7 @@ import {
   TILE_SIZE,
 } from '../utils/constants';
 import { OVERLAY_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
+import { motion } from '../ui/tokens';
 import { STREET_FRAMES_KEY } from '../entities/PlacedObject';
 import { MAPS } from '../assets/maps';
 import { useGameStore } from '../store';
@@ -215,6 +216,7 @@ export class BootScene extends Phaser.Scene {
     ];
 
     for (const sheet of Object.keys(SPRITE_URLS)) {
+      if (sheet.includes('__')) continue; // derived sheets (__breath) are frames, not characters
       if (!this.textures.exists(sheet)) continue; // load failed; already reported
 
       for (const { dir, start } of rows) {
@@ -234,6 +236,27 @@ export class BootScene extends Phaser.Scene {
             key: idleKey,
             frames: [{ key: sheet, frame: start + 1 }],
             frameRate: 1,
+          });
+        }
+
+        // Breathing (ADR-107): F0 is this sheet's idle; F1–F3 are baked into
+        // <sheet>__breath (same row, columns 0–2). Per-frame holds come from
+        // motion tokens; frameRate 1000 makes the base step ~1 ms so the
+        // holds are the timing.
+        const breath = `${sheet}__breath`;
+        const breathKey = `${sheet}-breath-${dir}`;
+        if (this.textures.exists(breath) && !this.anims.exists(breathKey)) {
+          const row = start / 3;
+          this.anims.create({
+            key: breathKey,
+            frames: [
+              { key: sheet, frame: start + 1, duration: motion('m.breath.f0') },
+              { key: breath, frame: row * 3, duration: motion('m.breath.f1') },
+              { key: breath, frame: row * 3 + 1, duration: motion('m.breath.f2') },
+              { key: breath, frame: row * 3 + 2, duration: motion('m.breath.f3') },
+            ],
+            frameRate: 1000,
+            repeat: -1,
           });
         }
       }

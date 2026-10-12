@@ -305,6 +305,33 @@ export function runWarnings({ manifest, mapsDir: md }) {
   return warnings;
 }
 
+/**
+ * Breath lines (ADR-107): every character base must have head_y/waist_y for
+ * all four directions; an enabled direction needs integers with
+ * 1 ≤ head_y < waist_y ≤ 46. Every <sheet>__breath must belong to a sheet.
+ * `sheets` = sprite basenames on disk.
+ */
+export function validateBreath(lines, sheets) {
+  const problems = [];
+  const characters = sheets.filter((s) => !s.includes('__'));
+  const bases = [...new Set(characters.map((s) => (s.startsWith('player_') ? s.replace(/_[1-5]$/, '') : s)))];
+  for (const base of bases) {
+    const entry = lines[base];
+    if (!entry) { problems.push(`breath.json: no lines for character "${base}" — add head_y/waist_y per direction (or enabled:false)`); continue; }
+    for (const dir of ['down', 'left', 'right', 'up']) {
+      const d = entry[dir];
+      if (!d) { problems.push(`breath.json: "${base}" has no "${dir}" entry`); continue; }
+      if (d.enabled === false) continue;
+      const ok = Number.isInteger(d.head_y) && Number.isInteger(d.waist_y) && d.head_y >= 1 && d.head_y < d.waist_y && d.waist_y <= 46;
+      if (!ok) problems.push(`breath.json: "${base}" ${dir} needs integers 1 ≤ head_y < waist_y ≤ 46 (got ${d.head_y}/${d.waist_y})`);
+    }
+  }
+  for (const s of sheets.filter((x) => x.endsWith('__breath'))) {
+    if (!characters.includes(s.replace(/__breath$/, ''))) problems.push(`sprites/${s}.png has no character sheet — stale breath frames`);
+  }
+  return problems;
+}
+
 // Only run when invoked directly, so tests can import the functions above.
 if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
@@ -315,6 +342,9 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const sprites = await validateImages({ dir: spritesDir, palette, label: 'sprites', expectSize: [SHEET_WIDTH, SHEET_HEIGHT], strict: true });
   const tilesets = await validateImages({ dir: tilesetsDir, palette, label: 'tilesets', strict: false });
   problems.push(...sprites.problems, ...tilesets.problems);
+  const breathPath = join(assetsDir, '_raw/characters/breath.json');
+  const spriteNames = existsSync(spritesDir) ? readdirSync(spritesDir).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, '')) : [];
+  problems.push(...validateBreath(existsSync(breathPath) ? JSON.parse(readFileSync(breathPath, 'utf8')) : {}, spriteNames));
   warnings.push(...sprites.warnings, ...tilesets.warnings);
   for (const w of warnings) console.warn(`  ⚠ ${w}`);
 

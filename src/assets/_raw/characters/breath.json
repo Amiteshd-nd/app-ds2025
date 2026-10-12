@@ -1,0 +1,399 @@
+{
+ "$comment": "Breath lines per character base and direction (rows of the 32x48 frame). head_y = first row below the chin (rows above it are the head); waist_y = first hip/belt row (it and everything below never move). Proposed at the P5+ breathing audit by detection + eye, from the front view; all four directions share one baseline. player_* apply to all five skins. Consumed by scripts/art/breath.mjs via pnpm art.",
+ "player_m": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": true
+  }
+ },
+ "player_f": {
+  "down": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  }
+ },
+ "npc_chai_anna": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  }
+ },
+ "npc_shanthamma": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  }
+ },
+ "npc_gate_owner": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  }
+ },
+ "npc_neighbour_leela": {
+  "down": {
+   "head_y": 20,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 20,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 20,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 20,
+   "waist_y": 29,
+   "enabled": true
+  }
+ },
+ "npc_coliving_rhea": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  }
+ },
+ "npc_darshini_raju": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  }
+ },
+ "npc_provision_basava": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  }
+ },
+ "npc_hotel_reception": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  }
+ },
+ "crowd_autodriver": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  }
+ },
+ "crowd_delivery": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 30,
+   "enabled": true
+  }
+ },
+ "crowd_elder": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 29,
+   "enabled": true
+  }
+ },
+ "crowd_homemaker": {
+  "down": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  }
+ },
+ "crowd_hoodie": {
+  "down": {
+   "head_y": 21,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 21,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 21,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 21,
+   "waist_y": 28,
+   "enabled": true
+  }
+ },
+ "crowd_officegoer": {
+  "down": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 22,
+   "waist_y": 28,
+   "enabled": true
+  }
+ },
+ "crowd_student": {
+  "down": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 21,
+   "waist_y": 29,
+   "enabled": true
+  }
+ },
+ "crowd_techie": {
+  "down": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "left": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "right": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  },
+  "up": {
+   "head_y": 23,
+   "waist_y": 30,
+   "enabled": true
+  }
+ }
+}

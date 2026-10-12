@@ -20,6 +20,7 @@ import { CH, CW } from './art/character.mjs';
 import { importSheet } from './import-sheet.mjs';
 import { importMap } from './import-map.mjs';
 import { importTitle } from './import-title.mjs';
+import { importBreath } from './import-breath.mjs';
 
 // Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
 execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'generate-tokens.mjs')], { stdio: 'inherit' });
@@ -74,6 +75,9 @@ for (const file of readdirSync(rawDir).filter((f) => f.endsWith('.png')).sort())
   const name = file.replace(/\.png$/, '');
   imported.push(...(await importSheet(join(rawDir, file), name, { skins: name.startsWith('player_') })));
 }
+
+// ── Breathing: derived F1–F3 from each sheet's idle (breath.json lines) ──
+await importBreath();
 
 // ── Generated maps: imported from _raw/maps/<name>.png + <name>.spec.json ──
 const mapRaw = join(assets, '_raw/maps');

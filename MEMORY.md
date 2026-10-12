@@ -35,7 +35,7 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - Generated-map QA (P5 audit): collision = where things meet the ground, pixel rects in source px; tall things are occluders cut from the render; check with the debug preview, then walk every route. sharp applies `resize` before `composite` in one pipeline — composite to a buffer first when making previews.
 
 - Motion tokens live beside colour tokens: `scripts/art/tokens.mjs` MOTION_TOKENS → `tokens.json.motion` → `motion('m.…')` in `src/ui/tokens.ts`.
-- Render-only offsets (breathing, future bobs): add in scene POST_UPDATE (after Arcade's postUpdate) and remove in PRE_UPDATE, so physics never sees them.
+- Breathing is baked frames (`<sheet>__breath.png`, ADR-107), never a sprite offset. Lines in `_raw/characters/breath.json`; review with `node scripts/preview-breath.mjs <outDir> player_m player_f` (6× F0–F3 + all-fronts contact sheet).
 - Phaser tweens time themselves off the real clock: when the browser pane is hidden, step the loop in real time (`g.step(performance.now(), 16.67)` every 16 ms), not in a fast loop.
 
 ## Gotchas

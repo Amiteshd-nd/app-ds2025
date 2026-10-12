@@ -2,132 +2,127 @@ import { motion } from '../../ui/tokens';
 import type { Behaviour } from './index';
 
 /**
- * beh_breathing — idle breathing for the player and every standing character.
+ * beh_breathing — idle breathing for the player and every standing character
+ * (ADR-107, supersedes ADR-106's whole-sprite offset).
  *
- * A 1px lift held for half a breath (design system §7: sprites snap, no
- * easing), only while a character stands still, resuming `m.breath.resume`
- * ms after it stops. Every character gets its own phase so a crowd never
- * breathes in step. Driven by motion tokens, not numbers in code.
+ * Breathing is a real animation of baked frames (scripts/import-breath.mjs):
+ * F0 idle → F1 head dips → F2 upper body down 1px → F3 recovering. The feet
+ * and legs never move, and nothing but frames changes, so bodies, collision
+ * and interaction zones are untouched by construction.
  *
- * Pixel and physics safe: the offset is added to the sprite after physics
- * has run (POST_UPDATE) and taken off again before the next step
- * (PRE_UPDATE), so bodies, collision and interaction reach never move — only
- * the drawn sprite does, by whole pixels. One shared tick for everyone;
- * off-screen characters are skipped.
+ * This molecule only decides WHEN: a character standing still for
+ * `m.breath.resume` ms on its idle frame starts `<sheet>-breath-<dir>`;
+ * moving plays the walk (the owner does that), which stops breathing at once.
+ * NPCs start on a random frame with a ±`m.breath.jitter` speed, so a crowd
+ * never breathes in step; the player always resumes from F0 at speed 1.
+ * `breathing: false` (sleepers, statues, poses) and reduced motion keep the
+ * still idle. Checks run on a 100 ms timer, not per frame.
  */
 
-export interface BreathTokens {
-  amplitude: number;
-  period: number;
-  resume: number;
+export const CHECK_MS = 100;
+
+export interface BreathCharacter {
+  active: boolean;
+  texture: { key: string };
+  body?: { velocity?: { x: number; y: number } } | null;
+  anims: { currentAnim?: { key: string } | null; timeScale: number };
+  getData(key: string): unknown;
+  play(config: { key: string; startFrame?: number; timeScale?: number }): unknown;
 }
 
-export const breathTokens = (): BreathTokens => ({
-  amplitude: motion('m.breath.amplitude'),
-  period: motion('m.breath.period'),
+export interface BreathAnimations {
+  exists(key: string): boolean;
+}
+
+export interface BreathTiming {
+  resume: number;
+  jitter: number;
+}
+
+export const breathTiming = (): BreathTiming => ({
   resume: motion('m.breath.resume'),
+  jitter: motion('m.breath.jitter'),
 });
 
-/** Lift at a moment in the breath: 0 (rest) or −amplitude (inhale), whole pixels only. */
-export function breathOffset(nowMs: number, phaseMs: number, t: BreathTokens): number {
-  const at = (((nowMs + phaseMs) % t.period) + t.period) % t.period;
-  return at < t.period / 2 ? 0 : -Math.round(t.amplitude);
-}
-
-export interface BreathState {
-  phase: number;
-  /** When the character last came to rest; null while moving. */
+interface State {
   stillSince: number | null;
+  started: boolean;
+  timeScale: number;
 }
 
-/** Advance one character: moving → 0 and reset; standing → wait `resume`, then breathe. */
-export function breathStep(state: BreathState, moving: boolean, nowMs: number, t: BreathTokens): number {
-  if (moving) {
+/** `<sheet>-idle-<dir>` → dir, or null for any other animation. */
+export const idleDirection = (sheet: string, animKey: string | undefined): string | null => {
+  const prefix = `${sheet}-idle-`;
+  return animKey?.startsWith(prefix) ? animKey.slice(prefix.length) : null;
+};
+
+/**
+ * One check for one character. Returns what to play, or null to leave it.
+ * Pure: `now`, randomness and animation lookups are passed in.
+ */
+export function breathDecision(
+  c: BreathCharacter,
+  state: State,
+  now: number,
+  t: BreathTiming,
+  anims: BreathAnimations,
+  isPlayer: boolean,
+  random: () => number,
+): { key: string; startFrame: number; timeScale: number } | null {
+  if (!c.active || c.getData('breathing') === false) return null;
+  const v = c.body?.velocity;
+  if (v && (v.x !== 0 || v.y !== 0)) {
     state.stillSince = null;
-    return 0;
+    return null;
   }
-  if (state.stillSince === null) state.stillSince = nowMs;
-  if (nowMs - state.stillSince < t.resume) return 0;
-  return breathOffset(nowMs, state.phase, t);
-}
+  if (state.stillSince === null) state.stillSince = now;
+  if (now - state.stillSince < t.resume) return null;
 
-/** What the molecule needs from a character — a Phaser sprite satisfies it. */
-export interface Breather {
-  x: number;
-  y: number;
-  active: boolean;
-  body?: { velocity?: { x: number; y: number } } | null;
-  getData(key: string): unknown;
+  const sheet = c.texture.key;
+  const dir = idleDirection(sheet, c.anims.currentAnim?.key);
+  if (!dir) return null; // already breathing, or in a special animation
+  const key = `${sheet}-breath-${dir}`;
+  if (!anims.exists(key)) return null;
+
+  // First breath of an NPC: random frame, so the crowd starts out of step.
+  const startFrame = !isPlayer && !state.started ? Math.floor(random() * 4) : 0;
+  state.started = true;
+  return { key, startFrame, timeScale: state.timeScale };
 }
 
 /** What the molecule needs from a scene — a Phaser scene satisfies it. */
 export interface BreathScene {
-  time: { now: number };
-  events: { on(event: string, fn: () => void): unknown; off(event: string, fn: () => void): unknown };
-  cameras: { main: { worldView: { contains(x: number, y: number): boolean } } };
+  time: { now: number; addEvent(config: { delay: number; loop: boolean; callback: () => void }): { remove(): void } };
+  anims: BreathAnimations;
 }
 
-/** Phaser scene event names (Phaser.Scenes.Events), kept as strings so this file runs in Node tests. */
-const PRE_UPDATE = 'preupdate';
-const POST_UPDATE = 'postupdate';
-/** Characters within this many px of the view still breathe (they may step in). */
-const MARGIN = 48;
-
-/**
- * Attach breathing to whatever `characters()` returns each frame. Returns the
- * teardown. `breathing: false` in a character's data (sleeping NPCs, statues,
- * special poses) opts it out; `still` (reduced motion) turns it all off.
- */
 export function attachBreathing(
   scene: BreathScene,
-  characters: () => Breather[],
-  options: { still?: boolean; random?: () => number; tokens?: BreathTokens } = {},
+  characters: () => BreathCharacter[],
+  player: BreathCharacter | null,
+  options: { still?: boolean; random?: () => number; timing?: BreathTiming } = {},
 ): () => void {
   if (options.still) return () => {};
-  const t = options.tokens ?? breathTokens();
+  const t = options.timing ?? breathTiming();
   const random = options.random ?? Math.random;
-  const states = new WeakMap<Breather, BreathState & { applied: number }>();
-  let lifted: Array<Breather> = [];
+  const states = new WeakMap<BreathCharacter, State>();
 
-  const settle = () => {
-    for (const c of lifted) {
-      const s = states.get(c);
-      if (s && s.applied) { c.y -= s.applied; s.applied = 0; }
-    }
-    lifted = [];
-  };
-
-  const breathe = () => {
+  const check = () => {
     const now = scene.time.now;
-    const view = scene.cameras.main.worldView;
     for (const c of characters()) {
-      if (!c.active || c.getData('breathing') === false) continue;
       let s = states.get(c);
       if (!s) {
-        s = { phase: Math.floor(random() * t.period), stillSince: null, applied: 0 };
+        const isPlayer = c === player;
+        s = { stillSince: null, started: false, timeScale: isPlayer ? 1 : 1 + (random() * 2 - 1) * t.jitter };
         states.set(c, s);
       }
-      const v = c.body?.velocity;
-      const moving = Boolean(v && (v.x !== 0 || v.y !== 0));
-      const near = view.contains(c.x, c.y)
-        || view.contains(c.x - MARGIN, c.y) || view.contains(c.x + MARGIN, c.y)
-        || view.contains(c.x, c.y - MARGIN) || view.contains(c.x, c.y + MARGIN);
-      const offset = near ? breathStep(s, moving, now, t) : 0;
-      if (offset) {
-        c.y += offset;
-        s.applied = offset;
-        lifted.push(c);
-      }
+      const play = breathDecision(c, s, now, t, scene.anims, c === player, random);
+      if (play) c.play(play);
     }
   };
 
-  scene.events.on(PRE_UPDATE, settle);
-  scene.events.on(POST_UPDATE, breathe);
-  return () => {
-    settle();
-    scene.events.off(PRE_UPDATE, settle);
-    scene.events.off(POST_UPDATE, breathe);
-  };
+  const timer = scene.time.addEvent({ delay: CHECK_MS, loop: true, callback: check });
+  return () => timer.remove();
 }
 
 /**
@@ -136,6 +131,11 @@ export function attachBreathing(
  */
 export const beh_breathing: Behaviour = {
   attach(ctx) {
-    return attachBreathing(ctx.scene, () => ctx.characters() as unknown as Breather[], { still: ctx.reducedMotion });
+    return attachBreathing(
+      ctx.scene as unknown as BreathScene,
+      () => ctx.characters() as unknown as BreathCharacter[],
+      ctx.player as unknown as BreathCharacter,
+      { still: ctx.reducedMotion },
+    );
   },
 };

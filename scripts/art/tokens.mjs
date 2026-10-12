@@ -109,10 +109,13 @@ export const TOKEN_INDEX = {
  * colours: px and ms. Runtime reads them through src/ui/tokens.ts `motion()`.
  */
 export const MOTION_TOKENS = {
-  /** Idle breathing (beh_breathing): whole-pixel lift while standing still. */
-  'm.breath.amplitude': 1,
-  /** One full breath, ms: half at rest, half lifted. */
-  'm.breath.period': 2000,
+  /** Idle breathing (beh_breathing, baked frames F0–F3): how long each frame holds, ms. */
+  'm.breath.f0': 700, // rest
+  'm.breath.f1': 150, // head dips
+  'm.breath.f2': 800, // full exhale (upper body down 1px)
+  'm.breath.f3': 150, // recovering
   /** Standing still this long, ms, before breathing resumes after a move. */
   'm.breath.resume': 300,
+  /** ± share of speed each NPC's breath is jittered by, so a crowd never syncs. */
+  'm.breath.jitter': 0.1,
 };

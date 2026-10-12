@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 // @ts-expect-error — plain .mjs script, no types
-import { validateMap, runValidation, mapWarnings, runWarnings } from '../../scripts/validate-maps.mjs';
+import { validateMap, runValidation, mapWarnings, runWarnings, validateBreath } from '../../scripts/validate-maps.mjs';
 
 const assetsDir = join(__dirname, '..', 'assets');
 const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));
@@ -179,5 +179,25 @@ describe('shape layer (generated maps, AUDIT_LOG P5)', () => {
     expect(p.some((x: string) => x.includes('expected solid or occluder'))).toBe(true);
     expect(p.some((x: string) => x.includes('not in src/assets/overlays'))).toBe(true);
     expect(p.some((x: string) => x.includes('no numeric baseY'))).toBe(true);
+  });
+});
+
+describe('breath lines (ADR-107)', () => {
+  const all = (head_y: number, waist_y: number, enabled = true) =>
+    Object.fromEntries(['down', 'left', 'right', 'up'].map((d) => [d, { head_y, waist_y, enabled }]));
+
+  it('accepts lines for every base and breath sheets that belong to a character', () => {
+    expect(validateBreath({ player_m: all(24, 32), npc_x: all(22, 30) }, ['player_m_1', 'player_m_2', 'npc_x', 'npc_x__breath'])).toEqual([]);
+  });
+
+  it('fails a missing base, an out-of-range waist and a stale breath sheet', () => {
+    const p = validateBreath({ npc_x: all(30, 50) }, ['npc_x', 'npc_y', 'npc_z__breath']);
+    expect(p.some((x: string) => x.includes('no lines for character "npc_y"'))).toBe(true);
+    expect(p.some((x: string) => x.includes('"npc_x" down needs integers'))).toBe(true);
+    expect(p.some((x: string) => x.includes('npc_z__breath'))).toBe(true);
+  });
+
+  it('lets a disabled direction through without lines', () => {
+    expect(validateBreath({ npc_x: all(0, 0, false) }, ['npc_x'])).toEqual([]);
   });
 });
