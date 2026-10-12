@@ -27,3 +27,8 @@ Updated: 2026-10-12
 - Decision: **candidate D locked** as `src/assets/_meta/style/style_sheet.png`; its 48 colours are `src/assets/_meta/palette.gpl`. (C: richer facades but taller than a LeafGreen map draws them; A/B rejected in round 1.)
 - Correction: the style sheet is a reference, never game content. The people drawn in it are not sprites.
 - Rule going forward: nothing is ever cut out of a reference image. Tiles, placed objects and characters are each generated as their own sheets (tilesets → Tiled layers; objects → depth-sorted placed layer; characters → 32×48 sheets on the entity layer), all quantised to `palette.gpl`. Reference images are cited in prompts, not loaded by the game.
+
+### [P2 Character creation — round 1] — 2026-10-12
+- Correction: the code-drawn rig v2 sprites "are not at all like the screenshots" — the references have rounded heads, large eyes with whites and irises, hair with strands and highlights, 2–3 shade tones per material, soft coloured outlines. A rectangle rig cannot reach that.
+- Rule going forward: character and prop art is **generated in the reference style and imported** through the pipeline (art_pipeline_v1 §4–5: chroma-key → grid-snap → bottom-align → quantise to `palette.gpl` → pack), never drawn as rectangles in code. The procedural generator is for ground tiles and placeholders only.
+- Rule going forward: before showing any sprite to the user, put it side by side with the reference at the same zoom and ask "would this sit in the reference sheet?" — if not, don't ship it to the audit.

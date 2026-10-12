@@ -9,7 +9,7 @@
  *   corepack pnpm art
  */
 import sharp from 'sharp';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
@@ -17,6 +17,7 @@ import { Canvas } from './art/canvas.mjs';
 import { T as TOK } from './art/palette.mjs';
 import { T, TILES } from './art/tiles.mjs';
 import { CH, CW, buildCharacterSheet } from './art/character.mjs';
+import { importSheet } from './import-sheet.mjs';
 
 // Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
 execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'generate-tokens.mjs')], { stdio: 'inherit' });
@@ -56,19 +57,7 @@ await write(sheet, join(assets, 'tilesets/street.png'));
 //
 // Citizens reuse the rig with other attire — a visibly mixed crowd for no
 // extra drawing. Every colour is a token on palette.gpl.
-const rm = (bag) => ({ gender: 'M', bag });
-const rf = (bag) => ({ gender: 'F', bag });
 const LOOKS = {};
-for (const skin of [1, 2, 3, 4, 5]) {
-  LOOKS[`player_m_${skin}a`] = { ...rm('backpack'), skin };           // fresher: shirt + backpack
-  LOOKS[`player_m_${skin}b`] = { ...rm('laptop'), skin };             // 24+: laptop bag
-  LOOKS[`player_f_${skin}a`] = { ...rf('sling'), skin,
-    top: TOK['cloth.kurti.red'], topShade: TOK['cloth.kurti.red.shade'],
-    bottom: TOK['cloth.legging'], bottomShade: TOK['cloth.legging'] };
-  LOOKS[`player_f_${skin}b`] = { ...rf('tote'), skin,
-    top: TOK['cloth.kurti.green'], topShade: TOK['cloth.kurti.green.shade'],
-    bottom: TOK['cloth.legging'], bottomShade: TOK['cloth.legging'] };
-}
 const tee = (c) => ({ top: TOK[`cloth.tee.${c}`], topShade: TOK[`cloth.tee.${c}.shade`] });
 const kurti = (c) => ({ top: TOK[`cloth.kurti.${c}`], topShade: TOK[`cloth.kurti.${c}.shade`], bottom: TOK['cloth.legging'], bottomShade: TOK['cloth.legging'] });
 Object.assign(LOOKS, {
@@ -84,6 +73,17 @@ Object.assign(LOOKS, {
 
 for (const [name, look] of Object.entries(LOOKS)) {
   await write(buildCharacterSheet(look), join(assets, `sprites/${name}.png`));
+}
+
+// ── Player sheets: imported, not drawn (AUDIT_LOG P2 round 1) ──────────────
+// Each raw in _raw/characters/ is a generated 3×4 sheet in the reference
+// style; import-sheet keys, snaps and quantises it into the 4×4 contract and
+// writes the five skin tones. Regenerating from the raws is what keeps
+// `pnpm art` reproducible for these too.
+const rawDir = join(assets, '_raw/characters');
+const imported = [];
+for (const file of readdirSync(rawDir).filter((f) => f.endsWith('.png')).sort()) {
+  imported.push(...(await importSheet(join(rawDir, file), file.replace(/\.png$/, ''), { skins: true })));
 }
 
 // ── Tile id manifest ───────────────────────────────────────────────────────
@@ -108,5 +108,5 @@ writeFileSync(
 console.log(
   `✓ street.png — ${TILES.length} tiles (${COLS}x${rows} @ ${T}px = ${COLS * T}x${rows * T})`,
 );
-console.log(`✓ ${Object.keys(LOOKS).length} character sheets (${CW}x${CH} frames, 4x4)`);
+console.log(`✓ ${Object.keys(LOOKS).length} citizen sheets drawn + ${imported.length} player sheets imported (${CW}x${CH} frames, 4x4)`);
 console.log(`✓ street.tiles.json — ${Object.keys(ids).length} named tile ids`);

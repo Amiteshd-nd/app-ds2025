@@ -38,17 +38,17 @@ describe('player profile (ADR-15: gates flavour, never content)', () => {
     expect(validateProfile({ ...defaultProfile(), name: 'A'.repeat(15), age: 27 })).toHaveLength(2);
   });
 
-  it('assigns the sprite from gender + skin + age, never from anything else', () => {
+  it('assigns the sprite from gender + skin, never from anything else', () => {
     const p = { ...defaultProfile(), name: 'Amit' };
-    expect(sheetForProfile({ ...p, gender: 'M', skin: 3, age: 22 })).toBe('player_m_3a');
-    expect(sheetForProfile({ ...p, gender: 'M', skin: 3, age: 24 })).toBe('player_m_3b');
-    expect(sheetForProfile({ ...p, gender: 'F', skin: 5, age: 20 })).toBe('player_f_5a');
-    expect(sheetForProfile({ ...p, gender: 'F', skin: 1, age: 26, degree: 'MCA', college: 'x' })).toBe('player_f_1b');
+    expect(sheetForProfile({ ...p, gender: 'M', skin: 3, age: 22 })).toBe('player_m_3');
+    expect(sheetForProfile({ ...p, gender: 'M', skin: 3, age: 24 })).toBe('player_m_3'); // age does not change the sheet (T-022)
+    expect(sheetForProfile({ ...p, gender: 'F', skin: 5, age: 20 })).toBe('player_f_5');
+    expect(sheetForProfile({ ...p, gender: 'F', skin: 1, age: 26, degree: 'MCA', college: 'x' })).toBe('player_f_1');
     expect(DEFAULT_PLAYER_SHEET).toBe(sheetForProfile(defaultProfile()));
   });
 
   it('every assignable sheet exists on disk — pnpm art and profile.ts agree', () => {
-    expect(ALL_PLAYER_SHEETS).toHaveLength(2 * 5 * 2);
+    expect(ALL_PLAYER_SHEETS).toHaveLength(2 * 5);
     for (const sheet of ALL_PLAYER_SHEETS) {
       expect(existsSync(join(__dirname, '..', 'assets', 'sprites', `${sheet}.png`)), sheet).toBe(true);
     }
@@ -64,7 +64,7 @@ describe('player profile (ADR-15: gates flavour, never content)', () => {
     useGameStore.getState().setProfile({ ...defaultProfile(), name: ' Priya ', gender: 'F', skin: 2, age: 25 });
     const s = useGameStore.getState();
     expect(s.playerName).toBe('Priya');
-    expect(s.appearance.sheet).toBe('player_f_2b');
+    expect(s.appearance.sheet).toBe('player_f_2');
   });
 });
 
@@ -93,7 +93,7 @@ describe('save 1.3.0 — profile', () => {
     const loaded = SaveManager.getInstance().load()!;
     expect(loaded.version).toBe(SAVE_VERSION);
     expect(loaded.player.profile).toMatchObject({ name: 'Old', gender: 'M', age: 22, skin: 3, hometown: { state: 'Kerala' } });
-    expect(loaded.player.appearance.sheet).toBe('player_m_3a'); // never the retired 'player' sheet
+    expect(loaded.player.appearance.sheet).toBe('player_m_3'); // never the retired 'player' sheet
   });
 });
 

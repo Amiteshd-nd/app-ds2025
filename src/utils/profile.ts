@@ -10,8 +10,6 @@ export const NAME_MIN = 2;
 export const NAME_MAX = 14;
 export const AGE_MIN = 20;
 export const AGE_MAX = 26;
-/** Age at which the "fresher" look (backpack) gives way to the laptop/tote bag. */
-export const FRESHER_MAX_AGE = 23;
 
 export const GENDERS = ['M', 'F'] as const;
 export type Gender = (typeof GENDERS)[number];
@@ -60,14 +58,15 @@ export function validateProfile(profile: PlayerProfile): string[] {
 }
 
 /**
- * Age + gender assign the sprite (P1_P2 §2.1): no customisation beyond the
- * profile. Sheet keys match scripts/generate-art.mjs:
- * `player_<m|f>_<skin><a|b>` — a = fresher (backpack / sling bag), b = 24+.
+ * Gender + skin assign the sprite (P1_P2 §2.1): no customisation beyond the
+ * profile. Sheet keys match scripts/import-sheet.mjs: `player_<m|f>_<skin>`,
+ * imported from src/assets/_raw/characters/player_<m|f>.png with the skin
+ * remapped per tone. Age variants (bag/attire) wait for attire layers (T-022).
  */
 export const sheetForProfile = (profile: PlayerProfile): string =>
-  `player_${profile.gender.toLowerCase()}_${profile.skin}${profile.age <= FRESHER_MAX_AGE ? 'a' : 'b'}`;
+  `player_${profile.gender.toLowerCase()}_${profile.skin}`;
 
-/** Every sheet the generator must produce, so a validator can check the set. */
+/** Every sheet the pipeline must produce, so a validator can check the set. */
 export const ALL_PLAYER_SHEETS: readonly string[] = GENDERS.flatMap((g) =>
-  SKIN_TONES.flatMap((s) => ['a', 'b'].map((age) => `player_${g.toLowerCase()}_${s}${age}`)),
+  SKIN_TONES.map((s) => `player_${g.toLowerCase()}_${s}`),
 );

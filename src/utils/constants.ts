@@ -140,7 +140,7 @@ export const LAYER_DEPTH: Record<string, number> = {
 export const DEFAULT_PLAYER_NAME = 'You';
 export const DEFAULT_DIRECTION = 'down';
 /** Sheet used before character creation has run (= defaultProfile()). */
-export const DEFAULT_PLAYER_SHEET = 'player_m_3a';
+export const DEFAULT_PLAYER_SHEET = 'player_m_3';
 
 // Save format version, bumped when SaveData changes shape.
 // 1.2.0: position is a district id + x/y, not a scene class name; appearance added.

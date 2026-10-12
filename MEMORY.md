@@ -21,7 +21,7 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - AI "pixel art" is pixel-styled, not grid-aligned; it is a style/palette reference only. Real tiles/sheets are quantised to `palette.gpl` by the pipeline.
 - User's taste from the P1 references: chibi big-head characters, chunky 1px outlines, dense props, saturated-but-muted colour, storefront faces visible; poster register = dark blue + warm lamp light.
 
-- Sprites: `scripts/art/character.mjs` rig v2 — change the rig, run `pnpm art`, review with a 4× nearest-neighbour contact sheet (sharp) before asking the user. Colours only via `T['token']`.
+- Sprites: generate a 3×4 magenta-background sheet with `src/assets/_raw/characters/prompt-template.md`, drop the raw in `_raw/characters/`, run `pnpm art` (import-sheet does key/snap/quantise/skins). Review at 4× next to the reference before the audit. The code rig is for citizens/placeholders only.
 
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).

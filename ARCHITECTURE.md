@@ -42,7 +42,7 @@ scripts/           validate-*.{mjs,ts} · generate-art.mjs · generate-street-ma
 ```
 
 ## Profile & sprites (P2)
-`PlayerProfile` (`src/utils/types.ts`) + pure helpers in `src/utils/profile.ts` (`validateProfile`, `sheetForProfile`, `ALL_PLAYER_SHEETS`, states/degrees). Sheet key = `player_<m|f>_<skin><a|b>`; `pnpm art` generates all 20 + 8 citizen looks from `scripts/art/character.mjs` (rig v2, chibi, tokens only). Save 1.3.0 persists `player.profile`; older saves migrate name/homeState into a default profile.
+`PlayerProfile` (`src/utils/types.ts`) + pure helpers in `src/utils/profile.ts` (`validateProfile`, `sheetForProfile`, `ALL_PLAYER_SHEETS`, states/degrees). Sheet key = `player_<m|f>_<skin>`; `pnpm art` imports `src/assets/_raw/characters/player_{m,f}.png` (generated 3×4 sheets) through `scripts/import-sheet.mjs` into 10 on-palette 4×4 sheets, and still draws the 8 citizen looks with `scripts/art/character.mjs` (to be replaced, T-022). Save 1.3.0 persists `player.profile`; older saves migrate name/homeState into a default profile.
 
 ## Design tokens
 `src/assets/_meta/palette.gpl` (48 colours, P1 lock) + `scripts/art/tokens.mjs` → generated `_meta/tokens.json` → `src/ui/tokens.ts` (`hex`, `color`, `PALETTE`, `GRID`=8). Scenes use tokens, never raw hex. `validate-maps` fails any sprite sheet off-palette or not 128×192; tilesets warn until T-021.

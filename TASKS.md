@@ -10,7 +10,7 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Next
 
-- [ ] T-006 P2 Character creation form → `player.profile` + M/F × 5 skins × 2 ages sprites (rig v2) + walk preview — **built, awaiting P2 audit**
+- [ ] T-006 P2 Character creation form → `player.profile` + M/F × 5 skins sprites (generated + imported, ADR-84) + walk preview — **round 2, awaiting P2 audit**
 - [ ] T-007 P2 Stat model per profile doc §2 (health/wallet ₹35,000 ADR-17/social/stamina/food/stress/battery) + `spend()`/`canAfford()` wired; retune tests
 - [ ] T-008 P3 M0 minimal loop: airport → chai Anna (interact/dialogue/UPI spend) → Vayu Vajra stop → bus transit card → whitefield_street
 
@@ -18,6 +18,7 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 - [ ] T-009 P4 Hotel (3-night timer) · T-010 P5 PG hunt (negotiation) · T-011 P6 Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
 - [ ] T-015 Quest taxonomy → `help|social|deliver|investigate|collect|chase|combat-lite` (ADR-18/22) and rep tiers → Hosa/Gothu/Namma (ADR-26); migrate existing content ids to prefix convention (`npc_`, `q_`, `dlg_`…)
 - [ ] T-016 M1 Android release · T-017 M2 iOS release (after web slice public)
+- [ ] T-022 Citizens + hero NPCs through the import pipeline (same template); attire layers so age/bag variants and NPC outfits composite from one base
 - [ ] T-021 Regenerate `street.png` + airport tilesets on `palette.gpl` (validator warns today); first pixel-font (OFL) for UI text
 - [ ] T-018 Decide: install Xcode + CocoaPods on this Mac, or cloud macOS CI, for iOS builds; install Android Studio for the emulator smoke test
 
