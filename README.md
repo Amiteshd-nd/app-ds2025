@@ -15,6 +15,7 @@ have to survive it. Built phase by phase with an audit after each one.
 | Document | What is in it |
 | -------- | ------------- |
 | [CLAUDE.md](CLAUDE.md) | Driver file: golden rules, stack, commands, read order, execution order |
+| [HANDOFF.md](HANDOFF.md) | Session handoff: where the build stands, how to resume, pipeline + verification recipes |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | How the code is shaped right now |
 | [TASKS.md](TASKS.md) | What's next, in order (`T-###`) |
 | [DECISIONS.md](DECISIONS.md) | ADR log continuing `docs/design/…design_decisions_v1.md` |

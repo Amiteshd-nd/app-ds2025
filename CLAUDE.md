@@ -35,6 +35,7 @@ corepack pnpm cap:android | cap:ios   # …and open the native project
 ```
 
 ## 3. Read order
+**Resuming a session? Read `HANDOFF.md` first** — exact state, resume protocol, pipeline commands, browser-verification tricks.
 Working docs (root, keep current): `ARCHITECTURE.md` → `TASKS.md` → `DECISIONS.md` (last rows) → `MEMORY.md` → `AUDIT_LOG.md`.
 Design docs (`docs/design/`, settled — reference, never rewrite):
 1. `bangalore_rpg_phased_build_plan.md` — the phase checklist + audit rule.
