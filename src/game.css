@@ -81,6 +81,43 @@
   pointer-events: none;
 }
 
+.nq-timer {
+  color: #fbbf24;
+}
+
+.nq-timer-out {
+  color: #f87171;
+}
+
+/* Toasts: stacked above the stat pill, fade in, gone in ~3 s. */
+.nq-toasts {
+  position: absolute;
+  left: 50%;
+  bottom: 4rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  pointer-events: none;
+}
+
+.nq-toast {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e7e7ea;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  animation: nq-toast-in 0.25s ease-out;
+}
+
+@keyframes nq-toast-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Touch controls (mobile foundation §5): joystick bottom-left, A bottom-right.
    Only rendered on coarse-pointer devices. Sized on the 8px grid, every
    target ≥ 48px, kept clear of the notch/gesture bar by the safe-area insets. */

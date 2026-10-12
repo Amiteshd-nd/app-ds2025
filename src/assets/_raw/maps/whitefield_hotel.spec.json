@@ -1,0 +1,145 @@
+{
+  "$comment": "Authored from the 24x16 tile grid over the generated interior. Tile coords, [x, y, w, h]. Back-wall bands rows 0-3; outer walls; divider at col 14 with a doorway rows 8-10; furniture as solid rects.",
+  "name": "whitefield_hotel",
+  "cols": 24,
+  "rows": 16,
+  "solid": [
+    [
+      0,
+      0,
+      24,
+      4
+    ],
+    [
+      0,
+      0,
+      1,
+      16
+    ],
+    [
+      23,
+      0,
+      1,
+      16
+    ],
+    [
+      0,
+      15,
+      24,
+      1
+    ],
+    [
+      14,
+      0,
+      1,
+      8
+    ],
+    [
+      14,
+      11,
+      1,
+      5
+    ],
+    [
+      1,
+      4,
+      3,
+      1
+    ],
+    [
+      5,
+      4,
+      9,
+      3
+    ],
+    [
+      0,
+      5,
+      2,
+      4
+    ],
+    [
+      2,
+      7,
+      1,
+      2
+    ],
+    [
+      0,
+      9,
+      3,
+      4
+    ],
+    [
+      0,
+      12,
+      3,
+      3
+    ],
+    [
+      15,
+      4,
+      2,
+      4
+    ],
+    [
+      17,
+      4,
+      2,
+      2
+    ],
+    [
+      20,
+      4,
+      3,
+      2
+    ],
+    [
+      21,
+      7,
+      3,
+      3
+    ],
+    [
+      20,
+      10,
+      4,
+      6
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "door",
+      "x": 8,
+      "y": 12
+    },
+    {
+      "name": "reception",
+      "x": 9,
+      "y": 5
+    }
+  ],
+  "zones": [
+    {
+      "name": "exit",
+      "x": 7,
+      "y": 14,
+      "w": 4,
+      "h": 1
+    },
+    {
+      "name": "room",
+      "x": 14,
+      "y": 8,
+      "w": 1,
+      "h": 3
+    },
+    {
+      "name": "bed",
+      "x": 15,
+      "y": 8,
+      "w": 2,
+      "h": 1
+    }
+  ]
+}

@@ -41,3 +41,7 @@ Updated: 2026-10-12
 ### [P2 Character creation — approved] — 2026-10-12
 - Decision: round 3 approved ("yes looks better"). Player bases locked: `_raw/characters/player_m.png`, `player_f.png`; sheet contract 96×192 [stride, idle, opposite].
 - Mobile smoke: sync OK, not booted (T-018).
+
+### [P3 M0 minimal loop — approved] — 2026-10-12
+- Decision: approved ("go for P4"). No corrections raised.
+- Mobile smoke: joystick + A verified on a phone viewport (stepped loop; pane hidden); sync OK, not booted (T-018).

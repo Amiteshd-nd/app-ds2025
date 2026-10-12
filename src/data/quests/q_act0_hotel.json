@@ -1,0 +1,41 @@
+{
+  "id": "q_act0_hotel",
+  "title": "Three Nights",
+  "description": "The company has paid for three nights. Check in, call home, and sleep — the countdown starts the moment you sign the register.",
+  "chapter": 0,
+  "district": "whitefield_hotel",
+  "type": "search",
+  "prerequisite_quests": [
+    "q_act0_arrival"
+  ],
+  "objectives": [
+    {
+      "id": "check_in",
+      "text": "Check in at reception",
+      "type": "flag",
+      "target": "hotel_checked_in"
+    },
+    {
+      "id": "divya",
+      "text": "Take Divya's call in the room",
+      "type": "flag",
+      "target": "divya_called"
+    },
+    {
+      "id": "sleep",
+      "text": "Sleep (the first of three nights)",
+      "type": "flag",
+      "target": "hotel_slept_once"
+    }
+  ],
+  "rewards": {
+    "xp": 30,
+    "xp_branch": "city_survival",
+    "reputation": 5
+  },
+  "on_complete": {
+    "set_flags": [
+      "act0_hotel_done"
+    ]
+  }
+}

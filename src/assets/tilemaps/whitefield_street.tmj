@@ -3460,6 +3460,29 @@
      "height": 0
     },
     {
+     "id": 6,
+     "name": "hotel_door",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 336,
+     "y": 184,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 7,
+     "name": "hotel_zone",
+     "rotation": 0,
+     "type": "door",
+     "visible": true,
+     "x": 320,
+     "y": 136,
+     "width": 32,
+     "height": 48
+    },
+    {
      "id": 5,
      "name": "ambient_area",
      "rotation": 0,

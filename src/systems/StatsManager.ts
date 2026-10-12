@@ -93,6 +93,7 @@ export class StatsManager {
       }
     }
     if (effect.xp && effect.xp_branch) this.addXp(effect.xp_branch, effect.xp);
+    for (const [flag, value] of Object.entries(effect.flags ?? {})) useGameStore.getState().setFlag(flag, value);
 
     if (effect.item_add) {
       const added = InventoryManager.getInstance().add(effect.item_add);

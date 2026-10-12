@@ -1,0 +1,36 @@
+{
+  "id": "dlg_divya_call",
+  "speaker": "Divya (phone)",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Hi! Divya here, your team lead. Landed okay? Good. Listen — joining is Monday, 9:30, Whitefield office, bring the offer letter and the degree. And find a PG by then, the hotel won't extend, HR already asked me twice.",
+      "choices": [
+        {
+          "text": "Monday, 9:30. I'll find a PG.",
+          "next": "bye"
+        },
+        {
+          "text": "Any PG you'd suggest?",
+          "next": "tip"
+        }
+      ]
+    },
+    "tip": {
+      "text": "Prashanth Layout, behind the office — every second house is a PG. Don't pay a token before you see the room. Okay, I'm in a meeting, bye bye!",
+      "effect": {
+        "xp": 10,
+        "xp_branch": "city_survival"
+      },
+      "next": "bye"
+    },
+    "bye": {
+      "text": "See you Monday. Eat something, you sound tired.",
+      "effect": {
+        "flags": {
+          "divya_called": true
+        }
+      }
+    }
+  }
+}

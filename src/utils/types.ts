@@ -90,6 +90,8 @@ export interface StatEffect {
   xp_branch?: SkillBranchName;
   item_add?: string;
   item_remove?: string;
+  /** Flags to set (true) or clear (false) — e.g. hotel_checked_in on the receptionist's line. */
+  flags?: Record<string, boolean>;
 }
 
 export interface SkillRequirement {
@@ -182,6 +184,10 @@ export interface DistrictTrigger {
   once?: boolean;
   /** Flags set on entry — a silent breadcrumb (the HIVR lanyard man). */
   setFlags?: string[];
+  /** Dialogue opened on entry — a phone call in the room, a thought at a window. */
+  dialogue?: string;
+  /** Built-in action on entry. `sleep` = TimeManager.sleep() (bed zones). */
+  action?: 'sleep';
 }
 
 /**
@@ -301,7 +307,7 @@ export interface ObjectDef {
 export interface QuestObjective {
   id: string;
   text: string;
-  type: 'interact' | 'dialogue' | 'collect' | 'reach' | 'challenge';
+  type: 'interact' | 'dialogue' | 'collect' | 'reach' | 'flag' | 'challenge';
   target: string; // entity, NPC, item or zone ID
   count?: number;
   optional?: boolean;
@@ -373,5 +379,7 @@ export interface SaveData {
   flags: Record<string, boolean>; // generic flags for branching
   /** Named NPC ids the player has spoken to — the social stat's ledger. */
   met: string[];
+  clock: { day: number; minute: number };
+  counters: Record<string, number>;
   playtime_seconds: number;
 }

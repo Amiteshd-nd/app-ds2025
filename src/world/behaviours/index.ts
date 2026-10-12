@@ -22,5 +22,9 @@ export interface Behaviour {
   attach(ctx: BehaviourContext): (() => void) | void;
 }
 
-/** Registry by name. Empty until P4 (hotel timer) adds the first molecule. */
-export const BEHAVIOURS: Record<string, Behaviour> = {};
+import { hotelNightTimer } from './hotelNightTimer';
+
+/** Registry by name — add here AND in names.ts (a test keeps them equal). */
+export const BEHAVIOURS: Record<string, Behaviour> = {
+  hotelNightTimer,
+};

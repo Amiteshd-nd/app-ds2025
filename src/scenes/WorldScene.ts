@@ -3,6 +3,7 @@ import { Player } from '../entities/Player';
 import { SaveManager } from '../systems/SaveManager';
 import { QuestManager } from '../systems/QuestManager';
 import { StatsManager } from '../systems/StatsManager';
+import { TimeManager } from '../systems/TimeManager';
 import { useGameStore } from '../store';
 import { TILESET_URLS } from '../assets';
 import { MAPS, LAYER_ORDER } from '../assets/maps';
@@ -63,6 +64,7 @@ export class WorldScene extends Phaser.Scene {
   private dialogueBox!: DialogueBox;
   private teardowns: Array<() => void> = [];
   private leaving = false;
+  private sleeping = false;
 
   constructor() {
     super(WorldScene.KEY);
@@ -72,6 +74,7 @@ export class WorldScene extends Phaser.Scene {
     this.npcs = [];
     this.teardowns = [];
     this.leaving = false;
+    this.sleeping = false;
 
     // getDistrict throws on an unknown id — a content bug, not a soft state.
     this.district = getDistrict(data.districtId);
@@ -137,7 +140,10 @@ export class WorldScene extends Phaser.Scene {
     this.exits = Exits.bind(this, this.district, this.map, def.spawnLayer, this.player, (exit) =>
       this.leaveVia(exit),
     );
-    this.triggers = Triggers.bind(this, this.district, this.map, def.spawnLayer, this.player);
+    this.triggers = Triggers.bind(this, this.district, this.map, def.spawnLayer, this.player, {
+      openDialogue: (id) => this.openDialogue(id),
+      sleep: () => this.sleep(),
+    });
 
     for (const name of this.district.behaviours ?? []) {
       const behaviour = BEHAVIOURS[name];
@@ -238,9 +244,40 @@ export class WorldScene extends Phaser.Scene {
 
     const dialogueId = nearest.getData('dialogueId') as string | undefined;
     if (!dialogueId) return; // tier 1 ambient — atmosphere only
+    this.openDialogue(dialogueId);
+  }
 
+  /** Freeze the player and run a conversation — from an NPC or a trigger (a phone call). */
+  private openDialogue(dialogueId: string): void {
+    if (this.dialogueBox.isOpen) return;
     this.player.setInteractionEnabled(false);
     this.dialogueBox.open(dialogueId);
+  }
+
+  /**
+   * A bed: fade to black, the night passes (TimeManager restores health and
+   * food, the hotel timer counts), fade back in. Autosave on waking — sleep is
+   * an ADR-63 autosave trigger.
+   */
+  private sleep(): void {
+    if (this.leaving || this.sleeping || this.dialogueBox.isOpen) return;
+    this.sleeping = true;
+    this.player.setInteractionEnabled(false);
+    // Reset any fade still running (the previous night's fade-in): Phaser
+    // silently refuses a new fade while one is active, and the player would
+    // stay frozen on the bed forever.
+    this.cameras.main.fadeEffect.reset();
+    this.cameras.main.fadeOut(FADE_MS, 0, 0, 0);
+    this.cameras.main.once('camerafadeoutcomplete', () => {
+      TimeManager.getInstance().sleep();
+      this.persist();
+      this.cameras.main.fadeEffect.reset();
+      this.cameras.main.fadeIn(FADE_MS, 0, 0, 0);
+      this.cameras.main.once('camerafadeincomplete', () => {
+        this.sleeping = false;
+        this.player.setInteractionEnabled(true);
+      });
+    });
   }
 
   /** Hand over to TransitScene, which fades, shows the ride card and lands us. */
@@ -270,10 +307,14 @@ export class WorldScene extends Phaser.Scene {
     useGameStore.getState().setActiveDistrict(null);
   }
 
-  update(time: number): void {
+  update(time: number, delta: number): void {
     this.player.update();
     this.crowd.update(time);
-    if (!this.leaving) {
+    // The day only ages while the player is in the world and free to act.
+    if (!this.dialogueBox.isOpen && !this.leaving && !this.sleeping) TimeManager.getInstance().tick(delta);
+    // Zones are not checked while asleep: the fade must finish before the bed
+    // (or a door) can fire again.
+    if (!this.leaving && !this.sleeping) {
       this.exits.update();
       this.triggers.update();
     }

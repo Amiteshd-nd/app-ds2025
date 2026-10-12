@@ -45,6 +45,7 @@ export class QuestManager {
       gameEvents.on('item:added', ({ itemId }) => this.progress('collect', itemId)),
       gameEvents.on('zone:reached', ({ zoneId }) => this.progress('reach', zoneId)),
       gameEvents.on('entity:interacted', ({ entityId }) => this.progress('interact', entityId)),
+      gameEvents.on('flag:set', ({ flag, value }) => { if (value) this.progress('flag', flag); }),
     );
   }
 
@@ -83,6 +84,13 @@ export class QuestManager {
       completed,
     });
     gameEvents.emit('quest:started', { questId });
+
+    // A flag objective whose flag is already set completes immediately — a
+    // quest started after the fact must not wait for a change that happened.
+    const flags = useGameStore.getState().flags;
+    for (const objective of quest.objectives) {
+      if (objective.type === 'flag' && flags[objective.target]) this.progress('flag', objective.target);
+    }
     return true;
   }
 

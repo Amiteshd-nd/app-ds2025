@@ -18,6 +18,7 @@ import { T as TOK } from './art/palette.mjs';
 import { T, TILES } from './art/tiles.mjs';
 import { CH, CW, buildCharacterSheet } from './art/character.mjs';
 import { importSheet } from './import-sheet.mjs';
+import { importMap } from './import-map.mjs';
 
 // Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
 execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'generate-tokens.mjs')], { stdio: 'inherit' });
@@ -86,6 +87,12 @@ const imported = [];
 for (const file of readdirSync(rawDir).filter((f) => f.endsWith('.png')).sort()) {
   const name = file.replace(/\.png$/, '');
   imported.push(...(await importSheet(join(rawDir, file), name, { skins: name.startsWith('player_') })));
+}
+
+// ── Generated maps: imported from _raw/maps/<name>.png + <name>.spec.json ──
+const mapRaw = join(assets, '_raw/maps');
+for (const file of readdirSync(mapRaw).filter((f) => f.endsWith('.spec.json')).sort()) {
+  await importMap(join(mapRaw, file));
 }
 
 // ── Tile id manifest ───────────────────────────────────────────────────────

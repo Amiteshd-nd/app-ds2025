@@ -79,6 +79,55 @@
       ],
       "count": 40,
       "area": "ambient_area"
-    }
+    },
+    "exits": [
+      {
+        "zone": "hotel_zone",
+        "to": "whitefield_hotel",
+        "spawn": "door",
+        "transit": "walk"
+      }
+    ]
+  },
+  {
+    "id": "whitefield_hotel",
+    "name": "Hotel Sri Lakshmi Lodging & Boarding",
+    "map": "whitefield_hotel",
+    "defaultSpawn": "door",
+    "fadeMs": 400,
+    "unlock": {
+      "quest": "q_act0_arrival"
+    },
+    "quests": [
+      "q_act0_hotel"
+    ],
+    "npcs": [
+      {
+        "id": "npc_hotel_reception",
+        "spawn": "reception"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "room",
+        "dialogue": "dlg_divya_call"
+      },
+      {
+        "zone": "bed",
+        "action": "sleep",
+        "once": false
+      }
+    ],
+    "exits": [
+      {
+        "zone": "exit",
+        "to": "whitefield_street",
+        "spawn": "hotel_door",
+        "transit": "walk"
+      }
+    ],
+    "behaviours": [
+      "hotelNightTimer"
+    ]
   }
 ]

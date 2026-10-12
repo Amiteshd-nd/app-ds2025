@@ -28,8 +28,8 @@ export const FADE_MS = 400;
 export const TRANSIT_CARD_MS = 1800;
 /** A point zone in Tiled becomes a square this many tiles across. */
 export const ZONE_DEFAULT_TILES = 3;
-/** Reach for E-to-interact, in px — about 1.75 tiles. */
-export const INTERACT_RANGE_PX = 56;
+/** Reach for E-to-interact, in px — 2.25 tiles, enough to talk across a counter. */
+export const INTERACT_RANGE_PX = 72;
 
 // --- Whitefield sandbox (MVP 1) --------------------------------------------
 // Sized in tiles so the world stays on the 32px grid.
@@ -60,6 +60,18 @@ export const STAT_BOUNDS = {
   battery: [0, 100],
   stamina: [STARTING_STAMINA, STAMINA_MAX],
 } as const;
+
+// --- Time (game_components §11, profile doc §3) ---------------------------
+/** Real ms per in-game minute while walking around: an hour passes in 2 real minutes. */
+export const GAME_MINUTE_MS = 2000;
+export const MINUTES_PER_DAY = 24 * 60;
+/** Mornings start here after a sleep. */
+export const WAKE_MINUTE = 7 * 60;
+/** Sleep: +30 health, food back up to 70 (Acts 1–3 table). */
+export const SLEEP_HEALTH = 30;
+export const SLEEP_FOOD_RESET = 70;
+/** The company pays for this many hotel nights (story 0.2). */
+export const HOTEL_NIGHTS = 3;
 
 // --- Skill system ----------------------------------------------------------
 export const SKILL_XP_THRESHOLDS = [0, 100, 300, 600, 1000]; // 5 tiers (0-indexed)
@@ -156,14 +168,15 @@ export const DEFAULT_PLAYER_SHEET = 'player_m_3';
 // 1.2.0: position is a district id + x/y, not a scene class name; appearance added.
 // 1.3.0: player.profile replaces name/background/homeState (P2 character creation).
 // 1.4.0: stats are health/wallet/social/stamina/food/stress/battery; `met` ledger added.
-export const SAVE_VERSION = '1.4.0';
+// 1.5.0: clock + counters (TimeSystem, behaviours).
+export const SAVE_VERSION = '1.5.0';
 
 /**
  * Older formats that can be upgraded forward rather than discarded. Refusing a
  * save is correct when its shape is unknown; throwing away a player's run
  * because a field was added is not.
  */
-export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0', '1.3.0'] as const;
+export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0', '1.3.0', '1.4.0'] as const;
 
 /** Scene class names that pre-1.2.0 saves recorded, mapped to the district they meant. */
 export const LEGACY_SCENE_DISTRICTS: Record<string, string> = {

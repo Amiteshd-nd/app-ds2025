@@ -1,4 +1,4 @@
-import { useGameStore } from '../store';
+import { initialClock, useGameStore } from '../store';
 import { defaultProfile, sheetForProfile } from '../utils/profile';
 import {
   DEFAULT_DIRECTION,
@@ -60,6 +60,8 @@ export class SaveManager {
       quests: state.quests,
       flags: state.flags,
       met: state.met,
+      clock: state.clock,
+      counters: state.counters,
       playtime_seconds: 0,
     };
 
@@ -135,6 +137,8 @@ export class SaveManager {
       version: SAVE_VERSION,
       stats,
       met: data.met ?? [],
+      clock: data.clock ?? initialClock(),
+      counters: data.counters ?? {},
       player: {
         profile,
         appearance: data.player.profile ? data.player.appearance : { sheet: sheetForProfile(profile) },
@@ -164,6 +168,8 @@ export class SaveManager {
       quests: data.quests,
       flags: data.flags,
       met: data.met,
+      clock: data.clock,
+      counters: data.counters,
     });
     return true;
   }

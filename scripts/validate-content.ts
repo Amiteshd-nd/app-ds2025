@@ -25,7 +25,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove'];
+const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab'];
 const SKILL_BRANCHES = Object.keys(SKILL_TIER_NAMES);
 const QUEST_TYPE_LIST: string[] = [...QUEST_TYPES];
@@ -596,6 +596,15 @@ function validateEffect(
     if (!EFFECT_KEYS.includes(key)) {
       const hint = key === 'money' ? ' (now "wallet")' : key === 'energy' ? ' (now "food")' : '';
       out.push(`${file}: ${where} has unknown effect key "${key}"${hint}`);
+    }
+  }
+  if (effect.flags !== undefined) {
+    if (typeof effect.flags !== 'object' || Array.isArray(effect.flags)) {
+      out.push(`${file}: ${where} flags must be an object of flag → boolean`);
+    } else {
+      for (const [flag, value] of Object.entries(effect.flags)) {
+        if (typeof value !== 'boolean') out.push(`${file}: ${where} flag "${flag}" must be true or false`);
+      }
     }
   }
   if (effect.xp !== undefined && !effect.xp_branch) {

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { gameEvents } from './core/events';
 import {
   SKILL_XP_THRESHOLDS,
   STARTING_BATTERY,
@@ -47,6 +48,14 @@ const levelForXp = (xp: number): number => {
   return level;
 };
 
+/** In-game time (game_components §11): drives bus intervals, hotel nights, tints. */
+export interface GameClock {
+  /** 1-based day since landing. */
+  day: number;
+  /** Minutes since midnight, 0–1439. */
+  minute: number;
+}
+
 export interface QuestState {
   /** quest id -> ids of completed objectives. */
   active: Record<string, string[]>;
@@ -77,6 +86,9 @@ export interface GameState {
   flags: Record<string, boolean>;
   /** Named NPCs spoken to; drives `stats.social`. */
   met: string[];
+  clock: GameClock;
+  /** Generic numeric state for behaviours (hotel nights left, …). Saved. */
+  counters: Record<string, number>;
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -94,7 +106,10 @@ export interface GameState {
   markMet: (npcId: string) => boolean;
 
   addXp: (branch: SkillBranchName, amount: number) => void;
+  /** Set a flag; emits `flag:set` so quests can wait on one. */
   setFlag: (key: string, value: boolean) => void;
+  setClock: (clock: GameClock) => void;
+  setCounter: (key: string, value: number) => void;
 
   /** Wholesale replacement — InventoryManager/QuestManager own the rules. */
   setInventory: (inventory: string[]) => void;
@@ -118,6 +133,9 @@ const initialQuests = (): QuestState => ({ active: {}, completed: [] });
 
 const initialReputation = (): ReputationState => ({ total: 0, byDistrict: {} });
 
+/** Story 0.1: "Bengaluru. 06:10." */
+export const initialClock = (): GameClock => ({ day: 1, minute: 6 * 60 + 10 });
+
 const initialAppearance = (): PlayerAppearance => ({ sheet: DEFAULT_PLAYER_SHEET });
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -135,6 +153,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   quests: initialQuests(),
   flags: {},
   met: [],
+  clock: initialClock(),
+  counters: {},
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -178,8 +198,14 @@ export const useGameStore = create<GameState>((set, get) => ({
       };
     }),
 
-  setFlag: (key, value) =>
-    set((state) => ({ flags: { ...state.flags, [key]: value } })),
+  setFlag: (key, value) => {
+    const was = get().flags[key] ?? false;
+    set((state) => ({ flags: { ...state.flags, [key]: value } }));
+    if (was !== value) gameEvents.emit('flag:set', { flag: key, value });
+  },
+
+  setClock: (clock) => set({ clock }),
+  setCounter: (key, value) => set((state) => ({ counters: { ...state.counters, [key]: value } })),
 
   setInventory: (inventory) => set({ inventory }),
   setQuests: (quests) => set({ quests }),
@@ -199,5 +225,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       quests: initialQuests(),
       flags: {},
       met: [],
+      clock: initialClock(),
+      counters: {},
     }),
 }));

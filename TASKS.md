@@ -2,7 +2,7 @@
 Updated: 2026-10-12
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — P3 M0 minimal loop
+## Now — P4 Hotel (3-night timer)
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`
 - [x] T-002 P0.2 `WorldScene` refactor (tech §7 steps 1–4): Populate/Exits/Triggers, `districts.json` v2, `TransitScene` card airport→whitefield_street, delete Airport/Whitefield scenes, saves persist `districtId+spawnId`
 - [x] T-003 P0.3 Extend validators: district reachability from `airport` via exits, spawn/zone/npc/`to` references, door objects 32×48 (warn), City Pulse slot checks
@@ -12,10 +12,11 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 - [x] T-006 P2 Character creation form → profile, generated+imported M/F × 5 skins, walk preview — approved 2026-10-12
 - [x] T-007 P3 Stat model (health/wallet ₹35,000/social/stamina/food/stress/battery) + `spend()`/`earn()`/`meet()` (ADR-87)
-- [ ] T-008 P3 M0 minimal loop: airport → Chai Anna (₹20 via spend) → HIVR breadcrumb → Vayu Vajra exit (₹250 fare) → Whitefield; touch joystick + A; `act0_arrivals` scene component — **built, awaiting P3 audit**
+- [x] T-008 P3 M0 minimal loop — approved 2026-10-12
 
 ## Later
-- [ ] T-009 P4 Hotel (3-night timer) · T-010 P5 PG hunt (negotiation) · T-011 P6 Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
+- [ ] T-009 P4 Hotel: `whitefield_hotel` (generated interior, ADR-92), TimeSystem (ADR-91), `hotelNightTimer` (ADR-93), check-in quest, Divya call — **built, awaiting P4 audit**
+- [ ] T-010 P5 PG hunt (negotiation) · T-011 P6 Phone overlay + minimap + Settings + Save/Load slots · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
 - [ ] T-015 Quest taxonomy → `help|social|deliver|investigate|collect|chase|combat-lite` (ADR-18/22) and rep tiers → Hosa/Gothu/Namma (ADR-26); migrate existing content ids to prefix convention (`npc_`, `q_`, `dlg_`…)
 - [ ] T-016 M1 Android release · T-017 M2 iOS release (after web slice public)
 - [ ] T-024 Landscape lock + "rotate your phone" panel in portrait; safe-area insets on HUD pills (mobile foundation rules 4–5; seen at the P3 phone check)

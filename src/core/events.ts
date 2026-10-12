@@ -20,6 +20,10 @@ export interface GameEvents {
   'entity:interacted': { entityId: string };
   'zone:reached': { zoneId: string; districtId: string };
   'district:entered': { districtId: string; fromDistrict?: string };
+  'flag:set': { flag: string; value: boolean };
+  'ui:toast': { text: string };
+  'time:advanced': { day: number; minute: number; deltaMinutes: number };
+  'time:slept': { day: number; nights: number };
   'quest:started': { questId: string };
   'quest:objective': { questId: string; objectiveId: string };
   'quest:completed': { questId: string };

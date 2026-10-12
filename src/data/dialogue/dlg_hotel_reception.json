@@ -1,0 +1,42 @@
+{
+  "id": "dlg_hotel_reception",
+  "speaker": "Hotel Reception",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Welcome, welcome. Company booking? Name? … Yes, here. Three nights only, sir-madam — the company has paid for three. After that, room is ₹1,800 a night, or you find a PG like everybody else.",
+      "choices": [
+        {
+          "text": "Three nights. Understood.",
+          "next": "key",
+          "effect": {
+            "flags": {
+              "hotel_checked_in": true
+            }
+          }
+        },
+        {
+          "text": "Can the company extend it?",
+          "next": "no_extend"
+        }
+      ]
+    },
+    "no_extend": {
+      "text": "Sir-madam, in nine years nobody's company has extended. The room is on the right. Key is in the door.",
+      "effect": {
+        "flags": {
+          "hotel_checked_in": true
+        },
+        "stress": 2
+      },
+      "next": "key"
+    },
+    "key": {
+      "text": "Room is through the door on the right. Hot water six to nine only. Breakfast is idli, same every day. Welcome to Bengaluru.",
+      "effect": {
+        "xp": 10,
+        "xp_branch": "city_survival"
+      }
+    }
+  }
+}

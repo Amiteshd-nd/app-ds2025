@@ -8,6 +8,12 @@ export interface BoundTriggers {
   update(): void;
 }
 
+/** What a trigger may ask the scene to do beyond announcing itself. */
+export interface TriggerActions {
+  openDialogue(dialogueId: string): void;
+  sleep(): void;
+}
+
 /**
  * Bind a district's trigger zones. A trigger only announces `zone:reached`;
  * QuestManager decides what that means. That keeps quest logic out of the
@@ -19,6 +25,7 @@ export function bind(
   map: Phaser.Tilemaps.Tilemap,
   spawnLayer: string | undefined,
   player: Phaser.Types.Physics.Arcade.ArcadeColliderType,
+  actions: TriggerActions,
 ): BoundTriggers {
   const watchers: EntryWatcher[] = [];
 
@@ -37,6 +44,8 @@ export function bind(
         fired = true;
         for (const flag of trigger.setFlags ?? []) useGameStore.getState().setFlag(flag, true);
         gameEvents.emit('zone:reached', { zoneId: trigger.zone, districtId: district.id });
+        if (trigger.dialogue) actions.openDialogue(trigger.dialogue);
+        if (trigger.action === 'sleep') actions.sleep();
       }),
     );
   }

@@ -1,0 +1,86 @@
+{
+  "id": "act0_hotel",
+  "district": "whitefield_hotel",
+  "act": 0,
+  "title": "Three Nights",
+  "status": "P4",
+  "time": "08:30 morning",
+  "player_goal": "Check in, survive three days, find a PG before the company stops paying.",
+  "design_goal": "A safe base that expires — the first timer (reveal #5). Divya sets Monday.",
+  "pacing": [
+    "Calm",
+    "Curious",
+    "Engaged"
+  ],
+  "entry": {
+    "from": "whitefield_street",
+    "spawn": "door"
+  },
+  "cast": [
+    {
+      "npc": "npc_hotel_reception",
+      "tier": 2,
+      "spawn": "reception",
+      "role": "'three nights only' — sets hotel_checked_in, starts the countdown"
+    }
+  ],
+  "quests": [
+    "q_act0_hotel"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "Reception: company booking, three nights only. Countdown appears in the HUD.",
+      "interact": "E/A/tap",
+      "flag": "hotel_checked_in",
+      "reroute": "-"
+    },
+    {
+      "id": "F2",
+      "pacing": "Curious",
+      "what": "Room. Phone rings — Divya: join Monday 9:30, find a PG, the hotel won't extend.",
+      "interact": "walk in",
+      "flag": "divya_called",
+      "reroute": "-"
+    },
+    {
+      "id": "F3",
+      "pacing": "Engaged",
+      "what": "Bed: sleep → next morning 07:00, +30 health, food 70, one night spent. Autosave.",
+      "interact": "walk onto bed",
+      "flag": "hotel_slept_once",
+      "reroute": "three nights spent → checkout day; the PG hunt (P5) is the way out"
+    }
+  ],
+  "economy": [],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [
+    {
+      "zone": "exit",
+      "to": "whitefield_street",
+      "spawn": "hotel_door",
+      "transit": "walk"
+    }
+  ],
+  "save_flags": [
+    "hotel_checked_in",
+    "divya_called",
+    "hotel_slept_once",
+    "hotel_nights_done",
+    "act0_hotel_done"
+  ],
+  "assets_needed": [
+    "whitefield_hotel interior (generated + imported)",
+    "npc_hotel_reception sheet",
+    "phone ring cue (P6)"
+  ],
+  "acceptance": [
+    "checking in shows 'Hotel: 3 nights left' in the HUD",
+    "entering the room opens Divya's call once",
+    "walking onto the bed sleeps: clock jumps to next day 07:00, health +30, nights left 2",
+    "third sleep → 'Checkout day' and hotel_nights_done",
+    "exit returns to whitefield_street at hotel_door"
+  ]
+}

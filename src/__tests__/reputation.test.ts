@@ -139,7 +139,7 @@ describe('district access', () => {
   it('lists available districts in declaration order', () => {
     expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport']);
     useGameStore.getState().setQuests({ active: {}, completed: ['q_act0_arrival'] });
-    expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport', 'whitefield_street']);
+    expect(rep().availableDistricts().map((d) => d.id)).toEqual(['airport', 'whitefield_street', 'whitefield_hotel']);
   });
 });
 

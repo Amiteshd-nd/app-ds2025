@@ -26,6 +26,9 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - Money: never touch `stats.wallet` directly — `StatsManager.spend()` / `earn()`. Content effects use `wallet`, `food` (not `money`, `energy`; the validator rejects those).
 - NPC sheets: drop a raw named `npc_<id>.png` in `_raw/characters/` (template prompt) → `pnpm art` imports it as one sheet; set `"sheet": "npc_<id>"` on the NPC.
 
+- Interiors: generate one top-down render (prompt notes in `_raw/maps/README.md`), drop `<name>.png` + author `<name>.spec.json` on a 32px grid overlay (sharp + svg grid), `pnpm art` imports. Verify collision in-engine by teleporting the player.
+- Verifying in the browser pane while it is hidden: Phaser's RAF stalls — step the loop with `game.step(t, 16)` (see `window.__tick` pattern) and wait for `activeScene === 'TitleScene'` before starting scenes.
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
 - `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` — keep it free of Vite-only syntax.
