@@ -133,6 +133,16 @@ export const UI_TOKEN_INDEX = {
   'map.path': 1,
   'map.water': 10,
   'map.hill': 11,
+  'map.dim': 3,            // undiscovered dots, legend rules
+  'map.park': 'world:leaf.lit',
+  'map.commercial': 'world:plaster.cream',
+  'map.residential': 'world:brick.lit',
+  'map.it': 2,
+  'map.danger': 8,         // Act 4: skulls, red dither (stability < 40)
+  'map.star': 'world:ui.focus',
+  'map.metro.purple': 12,
+  'map.metro.green': 7,
+  'map.metro.yellow': 'world:ui.focus',
 };
 
 /**

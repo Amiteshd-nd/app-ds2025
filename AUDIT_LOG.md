@@ -100,3 +100,7 @@ Updated: 2026-10-12
 - Rule going forward: **UI text is the bitmap font, never browser-rendered** — Pixelify Sans sampled on its own grid, integer scales only, pixel bold; any glyph that reads wrong at 1× is hand-drawn in `scripts/import-font.mjs` OVERRIDES (so far ₹ 5 Z B ( ) , and UI marks), and every player-visible string must be drawable (validator).
 - Rule going forward: **touch zones ≥ 44 game px (≈ 48pt on an iPhone 15)** even when the drawing is smaller; nothing tappable in the bottom 19px (home indicator); motion stepped, reduced motion collapses it.
 - Rule going forward: no raw hex — UI colours come from `ui-palette.gpl` tokens (`phone.*`, `hud.*`, `map.*`), translucency via `rgba(token, a)`.
+
+### [P6a phone + font — approved] — 2026-10-13
+- Decision: "approved, go for P6b" — covers the bitmap font (incl. the hand-drawn ₹ 5 Z B ( ) , and keeping Pixelify's H tooth), the UI palette, the kit molecules and PhoneScene. No corrections raised.
+- Mobile smoke: phone opens by button tap and keys inside the playground's iPhone 15 frame; touch zones ≥ 48pt; dock clear of the home indicator; joystick + A hidden while open. Native: sync OK, not booted (T-018).

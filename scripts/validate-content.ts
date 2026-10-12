@@ -598,6 +598,87 @@ const objectNames = (tmj: Json | undefined, layerName: string | undefined): Set<
  * a spawn that was renamed in Tiled, an exit whose landing spawn is missing,
  * a district nobody can walk to — all silent at runtime, all build errors here.
  */
+/**
+ * The city behind the fullscreen map (P6b, ADR-115): everything inside the
+ * drawn bounds, ids unique, every reference resolves, every journey the
+ * player can make (an exit between two outdoor pockets) has a drawn path.
+ */
+export function validateCityMap(city: Json, districts: Json[], colourTokens: Set<string>): string[] {
+  const problems: string[] = [];
+  const add = (msg: string) => problems.push(`map/city.json: ${msg}`);
+  const b = city.bounds ?? {};
+  const inBounds = (p: unknown) => Array.isArray(p) && p.length === 2 && p[0] <= b.north && p[0] >= b.south && p[1] >= b.west && p[1] <= b.east;
+  if (!(city.pxPerKm > 0)) add('pxPerKm must be a positive number');
+  if (!(b.north > b.south && b.east > b.west)) add('bounds must have north > south and east > west');
+
+  const KINDS = ['park', 'lake', 'commercial', 'it', 'residential', 'hill'];
+  const ids = new Set<string>();
+  const unique = (id: string, what: string) => { if (ids.has(id)) add(`${what} id "${id}" is used twice`); ids.add(id); };
+  for (const r of city.regions ?? []) {
+    unique(r.id, 'region');
+    if (!KINDS.includes(r.kind)) add(`region "${r.id}" kind "${r.kind}" is not one of ${KINDS.join(', ')}`);
+    if (!Array.isArray(r.outline) || r.outline.length < 3) add(`region "${r.id}" needs an outline of 3+ points`);
+    else if (!r.outline.every(inBounds)) add(`region "${r.id}" leaves the map bounds`);
+  }
+
+  // Nodes: districts with coordinates, metro stations, teaser places.
+  const byId: Record<string, Json> = Object.fromEntries(districts.map((d) => [d.id, d]));
+  const anchor = (id: string): Json | undefined => {
+    let d = byId[id];
+    for (let i = 0; d?.realworld?.parent && i < 5; i++) d = byId[d.realworld.parent];
+    return d?.realworld && 'lat' in d.realworld ? d : undefined;
+  };
+  const nodes = new Set<string>(districts.filter((d) => d.realworld && 'lat' in d.realworld).map((d) => d.id));
+  for (const d of districts) if (d.realworld && 'lat' in d.realworld && !inBounds([d.realworld.lat, d.realworld.lng])) add(`district "${d.id}" sits outside the map bounds`);
+  const stationAt: Record<string, string> = {};
+  for (const line of city.metro ?? []) {
+    unique(line.id, 'metro line');
+    if (!colourTokens.has(line.colour)) add(`metro line "${line.id}" colour "${line.colour}" is not a colour token`);
+    if (!Array.isArray(line.stations) || line.stations.length < 2) add(`metro line "${line.id}" needs 2+ stations`);
+    for (const st of line.stations ?? []) {
+      if (!inBounds(st.at)) add(`station "${st.id}" sits outside the map bounds`);
+      const key = JSON.stringify(st.at);
+      if (stationAt[st.id] && stationAt[st.id] !== key) add(`station "${st.id}" appears on two lines at different places — an interchange shares one position`);
+      stationAt[st.id] = key;
+      nodes.add(st.id);
+    }
+  }
+  for (const p of city.places ?? []) {
+    unique(p.id, 'place');
+    if (!inBounds(p.at)) add(`place "${p.id}" sits outside the map bounds`);
+    if (p.districtId !== undefined && !byId[p.districtId]) add(`place "${p.id}" districtId "${p.districtId}" is not a district`);
+    nodes.add(p.id);
+  }
+  for (const d of districts) {
+    if (d.metroStation !== undefined && !stationAt[d.metroStation]) add(`district "${d.id}" metroStation "${d.metroStation}" is not a station`);
+  }
+
+  for (const path of city.paths ?? []) {
+    unique(path.id, 'path');
+    if (!['road', 'walk'].includes(path.kind)) add(`path "${path.id}" kind must be road or walk`);
+    if (!Array.isArray(path.points) || path.points.length < 2) add(`path "${path.id}" needs 2+ points`);
+    else if (!path.points.every(inBounds)) add(`path "${path.id}" leaves the map bounds`);
+    for (const n of path.connects ?? []) if (!nodes.has(n)) add(`path "${path.id}" connects unknown node "${n}"`);
+  }
+  // Every journey between two outdoor pockets is drawn.
+  for (const d of districts) {
+    const from = anchor(d.id);
+    for (const exit of d.exits ?? []) {
+      const to = anchor(exit.to);
+      if (!from || !to || from.id === to.id) continue;
+      const drawn = (city.paths ?? []).some((p: Json) => p.connects?.includes(from.id) && p.connects?.includes(to.id));
+      if (!drawn) add(`the journey ${from.id} → ${to.id} (exit "${exit.zone}" of ${d.id}) has no path with connects [${from.id}, ${to.id}]`);
+    }
+  }
+
+  const POI = ['chai', 'bus', 'home', 'uv', 'skull', 'rumour'];
+  for (const poi of city.pois ?? []) {
+    if (!POI.includes(poi.kind)) add(`poi kind "${poi.kind}" is not one of ${POI.join(', ')}`);
+    if (!nodes.has(poi.node)) add(`poi "${poi.kind}" sits beside unknown node "${poi.node}"`);
+  }
+  return problems;
+}
+
 export function validateWorld(districts: Json[], world: WorldInputs): WorldReport {
   const problems: string[] = [];
   const warnings: string[] = [];
@@ -825,6 +906,10 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const sprites = existsSync(spritesDir)
     ? readdirSync(spritesDir).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, ''))
     : [];
+  const city = JSON.parse(readFileSync(join(dataDir, 'map/city.json'), 'utf8'));
+  const colourTokens = new Set(Object.keys(JSON.parse(readFileSync(join(assetsDir, '_meta/tokens.json'), 'utf8')).tokens));
+  problems.push(...validateCityMap(city, districts, colourTokens));
+
   const world = validateWorld(districts, { manifest, maps, sprites });
   problems.push(...world.problems);
   for (const w of world.warnings) console.warn(`  ⚠ ${w}`);
@@ -842,6 +927,6 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     `✓ content valid — ${districts.length} districts, ${count(npcs)} NPCs, ` +
       `${count(objects)} objects, ${dialogue.length} dialogue, ` +
       `${quests.length} quest, ${count(items)} items, ${scenes.length} scene component${scenes.length === 1 ? '' : 's'}, ` +
-      `${negotiations.length} negotiation${negotiations.length === 1 ? '' : 's'}, ${phoneApps.length} phone apps, ${chats.length} chat threads`,
+      `${negotiations.length} negotiation${negotiations.length === 1 ? '' : 's'}, ${phoneApps.length} phone apps, ${chats.length} chat threads, city map (${city.regions.length} regions, ${city.paths.length} paths, ${city.metro.length} metro lines)`,
   );
 }

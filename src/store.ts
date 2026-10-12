@@ -94,7 +94,9 @@ export interface GameState {
   /** Phone state: chat message ids delivered and read. Saved. */
   phone: PhoneState;
   /** A full-screen overlay over the world (the phone; later the map and pause menu). Hides the HUD. Not saved. */
-  overlay: 'phone' | null;
+  overlay: 'phone' | 'map' | null;
+  /** A destination the player set on the map (district id); wins over the quest's. Not saved. */
+  mapDestination: string | null;
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -123,7 +125,8 @@ export interface GameState {
   /** Append to the UPI ledger (StatsManager does this on every spend/earn). */
   addTransaction: (tx: Transaction) => void;
   setPhone: (phone: PhoneState) => void;
-  setOverlay: (overlay: 'phone' | null) => void;
+  setOverlay: (overlay: 'phone' | 'map' | null) => void;
+  setMapDestination: (districtId: string | null) => void;
 
   hydrate: (partial: Partial<GameState>) => void;
   reset: () => void;
@@ -187,6 +190,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   transactions: [],
   phone: initialPhone(),
   overlay: null,
+  mapDestination: null,
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -244,6 +248,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   addTransaction: (tx) => set((state) => ({ transactions: [...state.transactions, tx] })),
   setPhone: (phone) => set({ phone }),
   setOverlay: (overlay) => set({ overlay }),
+  setMapDestination: (mapDestination) => set({ mapDestination }),
 
   hydrate: (partial) => set(partial),
 
@@ -265,5 +270,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       transactions: [],
       phone: initialPhone(),
       overlay: null,
+      mapDestination: null,
     }),
 }));

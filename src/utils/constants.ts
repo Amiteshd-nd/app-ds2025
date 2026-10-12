@@ -169,6 +169,8 @@ export const SCENE_KEYS = Object.freeze({
   TRANSIT: 'TransitScene',
   /** Runs above WorldScene: the closed phone button, and the phone overlay (ADR-114). */
   PHONE: 'PhoneScene',
+  /** The fullscreen map (ADR-113): M, the phone's Maps app, Pause → Map. */
+  MAP: 'MapScene',
 });
 
 // --- Depth layers ----------------------------------------------------------

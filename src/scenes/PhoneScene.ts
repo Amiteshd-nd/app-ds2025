@@ -15,6 +15,7 @@ import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, l
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
 import { BUBBLE, bubbleWindow, bubbles, chatRows, homeTiles, mapRows, statusBar, upiRows, type HomeTile } from '../ui/phone/viewModel';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
+import type { MapScene } from './MapScene';
 import type { WorldScene } from './WorldScene';
 
 type Route =
@@ -241,8 +242,27 @@ export class PhoneScene extends Phaser.Scene {
     if (id === 'home') this.go({ app: 'home' });
     else if (id === 'chats') this.go({ app: 'chats' });
     else if (id === 'upi') this.go({ app: 'upi' });
-    else if (id === 'maps') this.go({ app: 'maps' });
+    else if (id === 'maps') this.handToMap();
     else this.go({ app: 'stub', appId: id });
+  }
+
+  /**
+   * Maps opens the fullscreen map (ADR-113): the phone steps aside without
+   * resuming the world, and the map takes over the pause.
+   */
+  private handToMap(): void {
+    const map = this.scene.get(SCENE_KEYS.MAP) as MapScene | null;
+    if (!map || !this.scene.isActive(SCENE_KEYS.MAP)) { this.go({ app: 'maps' }); return; }
+    this.phase = 'closed';
+    this.root.setVisible(false).setY(GAME_HEIGHT);
+    this.dim.setVisible(false);
+    const world = this.world();
+    if (this.worldFx && world) world.cameras.main.postFX?.clear();
+    this.worldFx = null;
+    useGameStore.getState().setOverlay(null);
+    this.hint = null;
+    this.button.setVisible(true);
+    map.open(true);
   }
 
   private back(): void {

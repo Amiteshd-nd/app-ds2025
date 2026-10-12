@@ -24,6 +24,12 @@ incarnation of this game (`cityhunter-x-y-z/bt`, provenance never resolved)
 were **deleted on 2026-10-13** (T-031, ADR-109). The airport is now the
 generated `kempegowda_arrivals` map above, so no asset of unknown origin ships.
 
+## Map data
+
+| Asset | Source | Licence |
+| --- | --- | --- |
+| `src/data/map/city.json` (region outlines, road and metro traces, station positions) | Typed by hand in this repository from general knowledge of Bengaluru's geography; simplified and snapped to an 8px grid at draw time. No map tiles, screenshots or traced map images are used or shipped (map_navigation §5) | Same as this repository |
+
 ## Third-party fonts
 
 | Asset | Source | Licence |

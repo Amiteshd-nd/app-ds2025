@@ -322,6 +322,8 @@ export interface DistrictDef {
   realworld?: { lat: number; lng: number; label?: string } | { parent: string };
   /** Phone signal bars here, 0–4 (default 4). The Ambedkar Nagar hill is weak (ADR-114 status bar). */
   signal?: number;
+  /** Metro station (city.json id) this pocket sits on: makes it a fast-travel node once visited (ADR-115). */
+  metroStation?: string;
 }
 
 // --- Scene components (SCENE_TEMPLATE §B) ----------------------------------
@@ -532,4 +534,73 @@ export interface ChatThread {
   id: string;
   contact: string;
   messages: ChatMessage[];
+}
+
+// ── City map (P6b, ADR-113/114/115) ─────────────────────────────────────────
+
+export type LatLng = [lat: number, lng: number];
+
+/** Glyph-field kinds; each draws with its own `tile_mapglyph_*` atom. */
+export type MapRegionKind = 'park' | 'lake' | 'commercial' | 'it' | 'residential' | 'hill';
+
+export interface MapRegion {
+  id: string;
+  kind: MapRegionKind;
+  label: string;
+  /** Simplified outline, real coordinates (traced by eye; never map tiles — map_navigation §5). */
+  outline: LatLng[];
+}
+
+export interface MapPath {
+  id: string;
+  kind: 'road' | 'walk';
+  label: string;
+  points: LatLng[];
+  /** The two map nodes this path carries a journey between (district exits use it). */
+  connects?: [string, string];
+}
+
+export interface MetroStation {
+  id: string;
+  label: string;
+  at: LatLng;
+}
+
+export interface MetroLine {
+  id: string;
+  label: string;
+  /** UI token for the accent dash, e.g. "map.metro.purple". */
+  colour: string;
+  stations: MetroStation[];
+}
+
+/** A place on the map that is not (yet) a playable district: a teaser, shown locked. */
+export interface MapPlace {
+  id: string;
+  label: string;
+  at: LatLng;
+  /** Set once the place becomes a district. */
+  districtId?: string;
+}
+
+export type MapPoiKind = 'chai' | 'bus' | 'home' | 'uv' | 'skull' | 'rumour';
+
+export interface MapPoi {
+  kind: MapPoiKind;
+  /** Map node id (district, station or place) it sits beside. */
+  node: string;
+  showIf?: string;
+  hideIf?: string;
+}
+
+export interface CityMapData {
+  /** Map-px per km at 1× zoom. */
+  pxPerKm: number;
+  /** North-west and south-east corners of the drawn city. */
+  bounds: { north: number; west: number; south: number; east: number };
+  regions: MapRegion[];
+  paths: MapPath[];
+  metro: MetroLine[];
+  places: MapPlace[];
+  pois: MapPoi[];
 }

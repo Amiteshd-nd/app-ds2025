@@ -1,0 +1,12 @@
+{
+  "name": "Map: day 3, two journeys made",
+  "description": "P6b audit: landed at the airport, rode the Vayu Vajra to Whitefield, walked to Prashanth Layout and signed the PG. Opening the map (M) fills both journeys in, dotted → solid, the first time.",
+  "state": {
+    "clock": { "day": 3, "minute": 521 },
+    "flags": {
+      "hotel_checked_in": true, "divya_called": true, "pg_lane_found": true, "pg_signed": true,
+      "visited:airport": true, "visited:whitefield_street": true, "visited:prashanth_layout": true,
+      "travelled:vayu_vajra": true, "travelled:walk_prashanth": true
+    }
+  }
+}

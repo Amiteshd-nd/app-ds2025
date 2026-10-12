@@ -199,6 +199,8 @@ export class WorldScene extends Phaser.Scene {
     // The phone runs above the world (ADR-114): its button while closed, the overlay when open.
     this.scene.launch(SCENE_KEYS.PHONE);
     this.scene.bringToTop(SCENE_KEYS.PHONE);
+    this.scene.launch(SCENE_KEYS.MAP);
+    this.scene.bringToTop(SCENE_KEYS.MAP);
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this.game.events.once(Phaser.Core.Events.DESTROY, this.persist, this);
@@ -362,7 +364,16 @@ export class WorldScene extends Phaser.Scene {
 
   /** The phone (and later the map / pause menu) may open only while the player is free to act. */
   canOpenOverlay(): boolean {
-    return !this.dialogueBox.isOpen && !this.leaving && !this.sleeping;
+    return !this.dialogueBox.isOpen && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null;
+  }
+
+  /**
+   * Fast travel from the map (ADR-115): ride straight to a district's default
+   * spawn. The fare is already paid by the caller.
+   */
+  travelTo(districtId: string, transit: DistrictExit['transit']): void {
+    this.scene.resume();
+    this.leaveVia({ zone: '', to: districtId, spawn: getDistrict(districtId).defaultSpawn, transit });
   }
 
   /**
@@ -377,6 +388,7 @@ export class WorldScene extends Phaser.Scene {
 
   private shutdown(): void {
     this.scene.stop(SCENE_KEYS.PHONE);
+    this.scene.stop(SCENE_KEYS.MAP);
     this.dialogueBox.forceClose();
     for (const teardown of this.teardowns) teardown();
     this.teardowns = [];

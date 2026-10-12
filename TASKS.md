@@ -3,8 +3,8 @@ Updated: 2026-10-13
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Now — P6 Phone · fullscreen map · HUD · menus (style board, ADR-113/114)
-- [x] T-032 P6a — font pipeline (Pixelify Sans → bitmap `px`/`pxb`), UI palette + tokens, UI-kit molecules (5 states), PhoneScene: frame, status bar, home 4×3 + dock, Chats (list + thread), UPI, Maps (list), stubs; DND-aware buzz + unlock pop; playground preset `phone-day-3` — **built, awaiting P6a audit**
-- [ ] T-033 P6b — fullscreen symbolic map (glyph-field regions, 8px-grid paths, nodes, label cards, route + REROUTING, fast travel pill, legend); Maps app opens it
+- [x] T-032 P6a (approved 2026-10-13) — font pipeline (Pixelify Sans → bitmap `px`/`pxb`), UI palette + tokens, UI-kit molecules (5 states), PhoneScene: frame, status bar, home 4×3 + dock, Chats (list + thread), UPI, Maps (list), stubs; DND-aware buzz + unlock pop; playground preset `phone-day-3`
+- [x] T-033 P6b — fullscreen symbolic map (ADR-115): `city.json`, MapManager (visited/travelled/route/reroute/★/fast travel), glyph-field regions, 8px-grid paths dotted→solid, metro, nodes, label cards, yellow dashed route, legend, compass, 1×/2× zoom, M key + phone Maps; presets `map-day-3` — **built, awaiting P6b audit**
 - [ ] T-034 P6c — HUD rebuild in-canvas (objective, location card, clock, wallet tick, phone button top-right, context action, prompt bubble, toasts queue, autosave glyph, contextual meters, dialogue box) + 5 HUD presets; retires the DOM HUD (closes T-024)
 - [ ] T-035 P6d — Pause / Settings (HUD scale, objective auto-hide, meter visibility, About & credits) / Save / Load / confirm dialogs, full keyboard + gamepad nav
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`
@@ -44,3 +44,6 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Gates
 Audit after EVERY phase (`AUDIT_LOG.md`). Ask for references before visual work (ADR-30). Don't build ahead of an audit. Mobile smoke test at every gate. Tests green before and after every change.
+
+- [ ] T-036 Act 4 map overlay (red dither where stability < 40, green spread fog, ☠ rows) — needs district `stability` + `grade()` (ADR-105)
+- [ ] T-037 City Pulse `?` rumour icons on the map once rumours exist (shown only after the player has heard them)

@@ -16,6 +16,7 @@ import { SaveManager } from '../systems/SaveManager';
 import { useSettings } from '../systems/SettingsManager';
 import { QuestManager } from '../systems/QuestManager';
 import { PhoneManager } from '../systems/PhoneManager';
+import { MapManager } from '../systems/MapManager';
 
 /**
  * BootScene — preloads every shared asset behind a loading bar, registers the
@@ -105,6 +106,7 @@ export class BootScene extends Phaser.Scene {
     // can emit one, or the first objective of a run could be missed.
     QuestManager.getInstance();
     PhoneManager.getInstance();
+    MapManager.getInstance();
 
     this.setAllTexturesNearest();
     this.createPlaceholderTextures();

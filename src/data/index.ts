@@ -1,7 +1,9 @@
 import districtsJson from './districts.json';
 import phoneApps from './phone/apps.json';
+import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
+  CityMapData,
   DialogueFile,
   DistrictDef,
   ItemDef,
@@ -162,3 +164,6 @@ export const getNpc = (id: string): NpcDef => {
   if (!npc) throw new Error(`Unknown NPC "${id}" (have: ${Object.keys(NPCS).join(', ')})`);
   return npc;
 };
+
+/** The city behind the fullscreen map (P6b): regions, roads, metro, teaser places, icons. */
+export const CITY_MAP: CityMapData = cityMap as unknown as CityMapData;
