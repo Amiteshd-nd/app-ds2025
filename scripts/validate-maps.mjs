@@ -21,8 +21,8 @@ const tilesetsDir = join(assetsDir, 'tilesets');
 const spritesDir = join(assetsDir, 'sprites');
 const palettePath = join(assetsDir, '_meta', 'palette.gpl');
 
-/** Character sheet contract: 4 columns × 4 rows of 32×48 frames. */
-export const SHEET_WIDTH = 128;
+/** Character sheet contract: 3 columns × 4 rows of 32×48 frames (stride, idle, opposite stride). */
+export const SHEET_WIDTH = 96;
 export const SHEET_HEIGHT = 192;
 
 /**
@@ -56,7 +56,7 @@ export async function validateImages({ dir, palette, label, expectSize, strict }
     const image = sharp(join(dir, file)).ensureAlpha();
     const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
     if (expectSize && (info.width !== expectSize[0] || info.height !== expectSize[1])) {
-      problems.push(`${label}/${file}: is ${info.width}x${info.height}, expected ${expectSize[0]}x${expectSize[1]} (4x4 grid of 32x48 frames)`);
+      problems.push(`${label}/${file}: is ${info.width}x${info.height}, expected ${expectSize[0]}x${expectSize[1]} (3 columns x 4 rows of 32x48 frames)`);
     }
     const off = offPaletteColours(data, palette);
     if (off.length) {

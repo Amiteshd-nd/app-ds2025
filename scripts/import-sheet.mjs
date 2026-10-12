@@ -6,10 +6,16 @@
  *
  * Input: a 3-column × 4-row grid on a flat chroma background (magenta by
  * default — sampled from the corners), rows down / left / right / up, columns
- * [step, idle, step]. Output: src/assets/sprites/<name>.png, 128×192, rows
- * down/left/right/up, columns [stride, idle, opposite stride, idle], every
- * frame bottom-aligned so the shoes end at y=42 (the Player collision box),
- * every pixel one of the locked palette colours.
+ * [step, idle, step]. Output: src/assets/sprites/<name>.png, 96×192, rows
+ * down/left/right/up, columns [stride, idle, opposite stride] (one idle per
+ * row — AUDIT_LOG P2 round 2), every frame bottom-aligned so the shoes end
+ * at y=42 (the Player collision box), every pixel a locked palette colour.
+ *
+ * A walk must alternate. If a row's two strides come out near-identical (the
+ * generator tends to draw the same leg forward twice), the opposite stride is
+ * synthesised from the first: the leg band (below the hips) is mirrored about
+ * the figure's centre, so the near leg goes back and the far leg comes
+ * forward, while head and torso stay as drawn.
  *
  * --skins also writes <name>_1..5 with the character's skin remapped onto the
  * five `c.skin.N` ramps, so one generation yields all five tones (P1_P2 §2.2
@@ -38,7 +44,11 @@ export const BASELINE = 42;
 /** Figure height in the frame; leaves 2px of headroom above a 40px-tall chibi. */
 export const FIGURE_H = 40;
 const COLS = 3, ROWS = 4;
-const OUT_COLS = [0, 1, 2, 1]; // stride, idle, opposite stride, idle
+const OUT_COLS = [0, 1, 2]; // stride, idle, opposite stride
+/** Two strides closer than this (fraction of differing pixels) do not alternate. */
+const STRIDE_MIN_DIFF = 0.12;
+/** The leg band starts this far down the figure (hips), as a fraction of its height. */
+const HIP_FRACTION = 0.68;
 
 /** Skin ramps (lit, base, shade) as palette indices, per design-system tone. */
 export const SKIN_RAMPS = {
@@ -50,10 +60,30 @@ export const SKIN_RAMPS = {
 };
 const LIT = { 1: 'plaster.cream', 2: 'skin.1', 3: 'skin.2', 4: 'skin.3', 5: 'skin.4' };
 
-const isChroma = (r, g, b, key) => Math.abs(r - key[0]) < 60 && Math.abs(g - key[1]) < 60 && Math.abs(b - key[2]) < 60;
+/**
+ * Background pixel: near the sampled key colour, OR any magenta-hued pixel —
+ * the anti-aliased fringe between figure and background is darker magenta
+ * ([143,6,143]…) that a plain distance test keeps, and it then reads as a
+ * purple outline and, worse, as "not grey" around a shadow blob.
+ */
+const isChroma = (r, g, b, key) =>
+  (Math.abs(r - key[0]) < 60 && Math.abs(g - key[1]) < 60 && Math.abs(b - key[2]) < 60) ||
+  (r > 40 && b > 40 && g < Math.min(r, b) * 0.45 && Math.abs(r - b) < 70);
 
-/** Warm, mid-luminance, R > G > B: the AI's skin colours, before quantisation. */
-const isSkin = (r, g, b) => r > 150 && r > g + 15 && g > b + 10 && b > 40 && r - b < 150;
+/** Warm, R > G > B, not near-black: the AI's skin colours, before quantisation. */
+const isSkin = (r, g, b) => r > 110 && r > g + 12 && g > b + 8 && b > 25 && r - b < 160;
+
+/**
+ * A grey, low-saturation, mid-value pixel: the drop shadow generators add
+ * under the feet even when told not to. Shoes are darker (value < 0.28) and
+ * clothes are saturated, so neither trips this.
+ */
+const isShadow = (r, g, b) => {
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const sat = max === 0 ? 0 : (max - min) / max;
+  const val = max / 255;
+  return sat < 0.18 && val > 0.28 && val < 0.85;
+};
 
 export async function importSheet(rawPath, name, { skins = false } = {}) {
   const { data, info } = await sharp(rawPath).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -78,7 +108,55 @@ export async function importSheet(rawPath, name, { skins = false } = {}) {
         if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y;
       }
       if (maxX < minX) throw new Error(`cell r${r} c${c} is empty — is the grid 3×4 on a flat background?`);
-      cells.push({ r, c, buf, w: x1 - x0, h: y1 - y0, box: { x: minX - x0, y: minY - y0, w: maxX - minX + 1, h: maxY - minY + 1 } });
+
+      // Trim a drop shadow, two ways. (1) Detached: a low-saturation blob
+      // sitting below a fully transparent row inside the box — remove it
+      // whole. (2) Attached: trailing rows that are all shadow-grey. Either
+      // way the figure's shoes — not its shadow — land on the baseline.
+      const cw = x1 - x0;
+      const rowStats = (y) => {
+        let opaque = 0, grey = 0;
+        for (let x = minX; x <= maxX; x++) {
+          const o = ((y - y0) * cw + (x - x0)) * 4;
+          if (buf[o + 3] === 0) continue;
+          opaque++;
+          const R = buf[o], G = buf[o + 1], B = buf[o + 2];
+          const max = Math.max(R, G, B), min = Math.min(R, G, B);
+          // Achromatic: low saturation, or so dark that hue is noise — the
+          // generator's shadows are near-black with a magenta tinge.
+          if (max < 64 || (max - min) / max < 0.25) grey++;
+        }
+        return { opaque, grey };
+      };
+      let bottom = maxY;
+      // A shadow may itself contain a transparent row (soft edges), so keep
+      // removing detached achromatic blobs from the bottom until the lowest
+      // thing left is part of the figure.
+      for (let pass = 0; pass < 8; pass++) {
+        let gap = -1;
+        for (let y = bottom; y > minY; y--) if (rowStats(y).opaque === 0) { gap = y; break; }
+        if (gap < 0) break;
+        let opaque = 0, grey = 0;
+        for (let yy = gap + 1; yy <= bottom; yy++) { const st = rowStats(yy); opaque += st.opaque; grey += st.grey; }
+        if (opaque === 0 || grey / opaque <= 0.85) break;
+        for (let yy = gap + 1; yy <= bottom; yy++) for (let x = minX; x <= maxX; x++) buf[((yy - y0) * cw + (x - x0)) * 4 + 3] = 0;
+        bottom = gap - 1;
+        while (bottom > minY && rowStats(bottom).opaque === 0) bottom--;
+      }
+      while (bottom > minY) {
+        let opaque = 0, shadow = 0; // attached shadow: mid-grey trailing rows
+        for (let x = minX; x <= maxX; x++) {
+          const o = ((bottom - y0) * cw + (x - x0)) * 4;
+          if (buf[o + 3] === 0) continue;
+          opaque++;
+          if (isShadow(buf[o], buf[o + 1], buf[o + 2])) shadow++;
+        }
+        if (opaque === 0 || shadow / opaque < 0.9) break;
+        for (let x = minX; x <= maxX; x++) buf[((bottom - y0) * cw + (x - x0)) * 4 + 3] = 0;
+        bottom--;
+      }
+      maxY = bottom;
+      cells.push({ r, c, buf, w: cw, h: y1 - y0, box: { x: minX - x0, y: minY - y0, w: maxX - minX + 1, h: maxY - minY + 1 } });
     }
   }
 
@@ -86,6 +164,7 @@ export async function importSheet(rawPath, name, { skins = false } = {}) {
   // walk does not pulse in size; all rows share it too, so turning does not.
   const tallest = Math.max(...cells.map((c) => c.box.h));
   const scale = FIGURE_H / tallest;
+  const heights = cells.map((c) => c.box.h);
 
   const frames = [];
   for (const cell of cells) {
@@ -100,7 +179,7 @@ export async function importSheet(rawPath, name, { skins = false } = {}) {
 
   // Quantise + place. Skin pixels are tagged by band (lit/base/shade) BEFORE
   // quantisation so the tone variants can remap them cleanly afterwards.
-  const sheetW = FRAME_W * 4, sheetH = FRAME_H * 4;
+  const sheetW = FRAME_W * OUT_COLS.length, sheetH = FRAME_H * 4;
   const base = Buffer.alloc(sheetW * sheetH * 4);
   const skinTag = new Uint8Array(sheetW * sheetH); // 0 none, 1 lit, 2 base, 3 shade
   for (const f of frames) {
@@ -127,6 +206,37 @@ export async function importSheet(rawPath, name, { skins = false } = {}) {
     });
   }
 
+  // Stride alternation check per row; synthesise when the generator repeated itself.
+  const synthesised = [];
+  const frameAt = (col, row) => ({ x0: col * FRAME_W, y0: row * FRAME_H });
+  for (let row = 0; row < ROWS; row++) {
+    const a = frameAt(0, row), b = frameAt(2, row);
+    let differ = 0, opaque = 0;
+    for (let y = 0; y < FRAME_H; y++) for (let x = 0; x < FRAME_W; x++) {
+      const ia = ((a.y0 + y) * sheetW + a.x0 + x) * 4, ib = ((b.y0 + y) * sheetW + b.x0 + x) * 4;
+      const oa = base[ia + 3] > 0, ob = base[ib + 3] > 0;
+      if (oa || ob) opaque++;
+      if (oa !== ob || base[ia] !== base[ib] || base[ia + 1] !== base[ib + 1] || base[ia + 2] !== base[ib + 2]) differ++;
+    }
+    if (opaque === 0 || differ / opaque >= STRIDE_MIN_DIFF) continue;
+
+    // Copy stride A into C, then mirror its leg band about the figure centre.
+    let minX = FRAME_W, maxX = -1;
+    for (let y = 0; y < FRAME_H; y++) for (let x = 0; x < FRAME_W; x++) {
+      if (base[((a.y0 + y) * sheetW + a.x0 + x) * 4 + 3] > 0) { if (x < minX) minX = x; if (x > maxX) maxX = x; }
+    }
+    const hipY = BASELINE - Math.round(FIGURE_H * (1 - HIP_FRACTION));
+    for (let y = 0; y < FRAME_H; y++) for (let x = 0; x < FRAME_W; x++) {
+      const srcX = y >= hipY ? minX + maxX - x : x;
+      const ib = ((b.y0 + y) * sheetW + b.x0 + x) * 4;
+      if (srcX < 0 || srcX >= FRAME_W) { base[ib + 3] = 0; skinTag[(b.y0 + y) * sheetW + b.x0 + x] = 0; continue; }
+      const ia = ((a.y0 + y) * sheetW + a.x0 + srcX) * 4;
+      base.copy(base, ib, ia, ia + 4);
+      skinTag[(b.y0 + y) * sheetW + b.x0 + x] = skinTag[(a.y0 + y) * sheetW + a.x0 + srcX];
+    }
+    synthesised.push(['down', 'left', 'right', 'up'][row]);
+  }
+
   mkdirSync(join(assets, 'sprites'), { recursive: true });
   const write = (buf, file) =>
     sharp(buf, { raw: { width: sheetW, height: sheetH, channels: 4 } })
@@ -151,7 +261,10 @@ export async function importSheet(rawPath, name, { skins = false } = {}) {
     }
   }
   const skinPx = skinTag.reduce((n, t) => n + (t ? 1 : 0), 0);
-  console.log(`✓ ${written.join(', ')} — scale ${scale.toFixed(3)}, figure ${FIGURE_H}px, ${skinPx} skin px tagged`);
+  console.log(
+    `✓ ${written.join(', ')} — scale ${scale.toFixed(3)} (cell heights ${Math.min(...heights)}–${Math.max(...heights)}px), figure ${FIGURE_H}px, ${skinPx} skin px tagged` +
+      (synthesised.length ? `; opposite stride synthesised for: ${synthesised.join(', ')}` : '; both strides drawn'),
+  );
   return written;
 }
 

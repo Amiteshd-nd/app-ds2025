@@ -46,7 +46,7 @@ export class BootScene extends Phaser.Scene {
       console.error(`[BootScene] failed to load "${file.key}" from ${file.url}`);
     });
 
-    // Every character sheet: 128×192 = 4 columns × 4 rows of 32×48 frames.
+    // Every character sheet: 96×192 = 3 columns × 4 rows of 32×48 frames.
     for (const [key, url] of Object.entries(SPRITE_URLS)) {
       this.load.spritesheet(key, url, {
         frameWidth: SPRITE_WIDTH,
@@ -187,9 +187,10 @@ export class BootScene extends Phaser.Scene {
   /**
    * Walk and idle animations for every loaded character sheet.
    *
-   * Rows: 0 = down (frames 0-3), 1 = left (4-7), 2 = right (8-11), 3 = up
-   * (12-15). Each row runs [stride, idle, opposite stride, idle], so the
-   * middle frame doubles as that direction's idle pose.
+   * Rows: 0 = down (frames 0-2), 1 = left (3-5), 2 = right (6-8), 3 = up
+   * (9-11). Each row holds [stride, idle, opposite stride] — one idle per
+   * row, never duplicated (AUDIT_LOG P2 round 2); the walk cycle returns
+   * through the idle frame by playing 0,1,2,1.
    *
    * Keys are `<sheet>-walk-<dir>` and `<sheet>-idle-<dir>`, which is what
    * Player and the ambient citizens look up — so a new sheet is animated
@@ -198,9 +199,9 @@ export class BootScene extends Phaser.Scene {
   private createCharacterAnimations(): void {
     const rows: Array<{ dir: string; start: number }> = [
       { dir: 'down', start: 0 },
-      { dir: 'left', start: 4 },
-      { dir: 'right', start: 8 },
-      { dir: 'up', start: 12 },
+      { dir: 'left', start: 3 },
+      { dir: 'right', start: 6 },
+      { dir: 'up', start: 9 },
     ];
 
     for (const sheet of Object.keys(SPRITE_URLS)) {
@@ -211,7 +212,7 @@ export class BootScene extends Phaser.Scene {
         if (!this.anims.exists(walkKey)) {
           this.anims.create({
             key: walkKey,
-            frames: this.anims.generateFrameNumbers(sheet, { start, end: start + 3 }),
+            frames: [start, start + 1, start + 2, start + 1].map((frame) => ({ key: sheet, frame })),
             frameRate: 8,
             repeat: -1,
           });

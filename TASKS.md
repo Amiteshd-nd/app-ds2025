@@ -10,7 +10,7 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Next
 
-- [ ] T-006 P2 Character creation form → `player.profile` + M/F × 5 skins sprites (generated + imported, ADR-84) + walk preview — **round 2, awaiting P2 audit**
+- [ ] T-006 P2 Character creation form → `player.profile` + M/F × 5 skins sprites (generated + imported, ADR-84; 3-frame contract ADR-86) + walk preview — **round 3, awaiting P2 audit**
 - [ ] T-007 P2 Stat model per profile doc §2 (health/wallet ₹35,000 ADR-17/social/stamina/food/stress/battery) + `spend()`/`canAfford()` wired; retune tests
 - [ ] T-008 P3 M0 minimal loop: airport → chai Anna (interact/dialogue/UPI spend) → Vayu Vajra stop → bus transit card → whitefield_street
 

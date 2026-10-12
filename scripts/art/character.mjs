@@ -13,9 +13,9 @@ export const CH = 48; // frame height
  * Every colour is a design-system token resolved against palette.gpl, so a
  * sheet cannot leave the palette by construction.
  *
- * Sheet layout matches what BootScene expects: 4 columns x 4 rows, rows
- * ordered down, left, right, up, each row [stride, idle, opposite stride,
- * idle] so the middle frame doubles as that direction's idle pose.
+ * Sheet layout matches what BootScene expects: 3 columns x 4 rows, rows
+ * ordered down, left, right, up, each row [stride, idle, opposite stride];
+ * the walk animation plays 0,1,2,1 so the idle frame is never duplicated.
  *
  * Geometry is pinned to the collision box Player uses — a 20x12 body offset
  * (6, 35) — so the shoes end at y=42 and the character stands *in* the scene.
@@ -245,11 +245,11 @@ function drawFrame(c, dir, phase, look) {
 }
 
 const ROWS = ['down', 'left', 'right', 'up'];
-const PHASES = [0, 1, 2, 1]; // stride, idle, opposite stride, idle
+const PHASES = [0, 1, 2]; // stride, idle, opposite stride — one idle per row
 
-/** Build the 128x192 sheet for one look. */
+/** Build the 96x192 sheet for one look. */
 export function buildCharacterSheet(look = {}) {
-  const sheet = new Canvas(CW * 4, CH * 4);
+  const sheet = new Canvas(CW * 3, CH * 4);
   ROWS.forEach((dir, row) => {
     PHASES.forEach((phase, col) => {
       const frame = new Canvas(CW, CH);

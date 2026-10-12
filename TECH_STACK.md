@@ -248,7 +248,7 @@ shimmer. The generated art is what the renderer is actually configured for.
 
 ### Adding a character
 
-Drop a 128x192 sheet (4x4 grid of 32x48 frames, rows down/left/right/up) into
+Drop a 96x192 sheet (3 columns x 4 rows of 32x48 frames, rows down/left/right/up) into
 `src/assets/sprites/`. BootScene discovers it and registers
 `<name>-walk-<dir>` and `<name>-idle-<dir>` automatically; `Player` and the
 ambient citizens take a sheet name, so nothing else changes. The three citizen
