@@ -1,0 +1,5 @@
+{
+  "name": "Hungry and stressed",
+  "description": "Food under the hunger line (slower walk), stress showing in the HUD, late evening.",
+  "state": { "stats": { "food": 15, "stress": 60 }, "clock": { "minute": 1260 } }
+}

@@ -119,3 +119,21 @@ export const MOTION_TOKENS = {
   /** ± share of speed each NPC's breath is jittered by, so a crowd never syncs. */
   'm.breath.jitter': 0.1,
 };
+
+/**
+ * Dev-tool UI tokens (Test Playground only, ADR-108). Tooling chrome, not game
+ * art: the light theme needs whites the pixel palette does not have. Dark
+ * values point at palette tokens; light values are plain UI colours.
+ */
+export const DEV_UI_TOKENS = {
+  light: {
+    bg: '#ffffff', panel: '#f7f5f2', edge: '#e4dfd8', line: '#ece8e2',
+    text: '#2a2521', dim: '#7c7268', ink: '#2a2521', focus: '#e8ac19',
+    good: '#4f8a2a', warn: '#c98a0b', bad: '#c0442a', accent: '#3f749d', selected: '#fff3d1',
+  },
+  dark: {
+    bg: 'ui.bg', panel: 'ui.panel', edge: 'ui.panel.edge', line: 'ui.line',
+    text: 'ui.text', dim: 'ui.text.dim', ink: 'ui.text.ink', focus: 'ui.focus',
+    good: 'ui.good', warn: 'ui.warn', bad: 'ui.bad', accent: 'accent.metro', selected: 'ui.bg',
+  },
+};

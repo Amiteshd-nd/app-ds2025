@@ -35,7 +35,9 @@ export const ALLOWLIST = {
   'systems/SaveManager.ts': 'T-011 — moves to platform.saves with the 3-slot system (ADR-63)',
 };
 
-const SKIP_DIRS = new Set(['platform', '__tests__']);
+// `playground` is dev-only tooling (ADR-104): it never ships to web, PWA,
+// Android or iOS — scripts/check-dist.mjs proves the build is free of it.
+const SKIP_DIRS = new Set(['platform', '__tests__', 'playground']);
 
 export function walk(dir, out = []) {
   for (const entry of readdirSync(dir)) {

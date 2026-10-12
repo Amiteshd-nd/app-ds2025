@@ -37,6 +37,20 @@ export class SaveManager {
   }
 
   /**
+   * Save namespace. The Test Playground (dev only) switches to its own so its
+   * autosaves never touch the player's real slot; the game never calls this.
+   */
+  private static namespace = '';
+
+  static useNamespace(namespace: string): void {
+    SaveManager.namespace = namespace;
+  }
+
+  private get key(): string {
+    return SaveManager.namespace ? `${SAVE_KEY}:${SaveManager.namespace}` : SAVE_KEY;
+  }
+
+  /**
    * Persist the run at a world position. The position is a district id plus
    * pixels — never a scene class name, so a save stays valid when the code
    * that renders a place changes (ADR-69).
@@ -66,7 +80,7 @@ export class SaveManager {
     };
 
     try {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      localStorage.setItem(this.key, JSON.stringify(data));
       return true;
     } catch {
       // Private browsing or quota exceeded — saving is best-effort.
@@ -77,7 +91,7 @@ export class SaveManager {
   load(): SaveData | null {
     let raw: string | null = null;
     try {
-      raw = localStorage.getItem(SAVE_KEY);
+      raw = localStorage.getItem(this.key);
     } catch {
       return null;
     }
@@ -176,7 +190,7 @@ export class SaveManager {
 
   clear(): void {
     try {
-      localStorage.removeItem(SAVE_KEY);
+      localStorage.removeItem(this.key);
     } catch {
       // Nothing to do — the save was unreachable anyway.
     }

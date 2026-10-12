@@ -1,0 +1,319 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type Phaser from 'phaser';
+import BangaloreTimes from '../BangaloreTimes';
+import { NPCS, SCENES } from '../data';
+import { SPRITE_URLS } from '../assets';
+import { installDevApi, type DevApi, type DevNode } from '../dev/devApi';
+import type { PlaygroundState, StateOverride } from '../dev/prereq';
+import { devUi, type DevTheme } from '../ui/tokens';
+import { buildTree, filterTree, findNode, type TreeNode } from './tree';
+import { DEVICES, deviceById, type HandSize } from './ergonomics';
+import ThumbOverlay, { type Target } from './ThumbOverlay';
+import Inspector from './Inspector';
+
+export interface Preset {
+  id: string;
+  name: string;
+  description?: string;
+  state: StateOverride;
+}
+
+/** What the phone simulation shows over the game. */
+export interface SimOptions {
+  zones: boolean;
+  thumbs: boolean;
+  safe: boolean;
+  hand: HandSize;
+}
+
+const SPEEDS = [0.5, 1, 2, 4];
+
+/** Per-viewer conveniences (theme, panel widths) — browser storage, guarded. */
+const stored = <T,>(key: string, fallback: T): T => {
+  try { const v = localStorage.getItem(key); return v ? (JSON.parse(v) as T) : fallback; } catch { return fallback; }
+};
+const store = (key: string, value: unknown) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode */ } };
+
+export function applyTheme(theme: DevTheme): void {
+  for (const [k, v] of Object.entries(devUi(theme))) document.documentElement.style.setProperty(`--pg-${k}`, v);
+  document.documentElement.dataset.theme = theme;
+}
+
+/**
+ * Phaser sizes its canvas from its parent's getBoundingClientRect, which
+ * includes the playground's scale-to-fit transform — it would shrink twice.
+ * Measure the untransformed layout box instead (playground only).
+ */
+function measureUntransformed(game: Phaser.Game): void {
+  const sm = game.scale as unknown as { parent: HTMLElement | null; parentSize: { width: number; height: number; setSize(w: number, h: number): void }; getParentBounds(): boolean };
+  sm.getParentBounds = function getParentBounds() {
+    if (!this.parent) return false;
+    const w = this.parent.offsetWidth, h = this.parent.offsetHeight;
+    if (this.parentSize.width === w && this.parentSize.height === h) return false;
+    this.parentSize.setSize(w, h);
+    return true;
+  };
+  // Centring compares the canvas's on-screen box (scaled) with that unscaled
+  // parent size — use the canvas's layout size as well.
+  const center = game.scale as unknown as { canvas: HTMLCanvasElement; parentSize: { width: number; height: number }; autoCenter: number; updateCenter(): void };
+  center.updateCenter = function updateCenter() {
+    if (!this.autoCenter) return;
+    const w = this.canvas.offsetWidth, h = this.canvas.offsetHeight;
+    this.canvas.style.marginLeft = `${Math.floor((this.parentSize.width - w) / 2)}px`;
+    this.canvas.style.marginTop = `${Math.floor((this.parentSize.height - h) / 2)}px`;
+  };
+  game.scale.refresh();
+}
+
+/**
+ * Test Playground (dev only, ADR-104/105/108): content tree on the left, the
+ * real game in the middle, the selected node on the right. Jumping to a scene
+ * builds its prerequisite state; edits are runtime-only until an explicit,
+ * validated "Export changes". Quiet by default — fields open on request.
+ */
+export default function Playground() {
+  const [api, setApi] = useState<DevApi | null>(null);
+  const [game, setGame] = useState<Phaser.Game | null>(null);
+  const [problems, setProblems] = useState<string[]>([]);
+  const [presets, setPresets] = useState<Preset[]>([]);
+  const [query, setQuery] = useState('');
+  const [selectedId, setSelectedId] = useState<string>('scene:act0_pg_hunt');
+  const [open, setOpen] = useState<Record<string, boolean>>({ 'group:intro': true, 'group:chapters': true, 'act:0': true, 'group:devices': true });
+  const [override, setOverride] = useState<StateOverride>({});
+  const [lastNode, setLastNode] = useState<{ node: DevNode; override: StateOverride } | null>(null);
+  const [paused, setPaused] = useState(false);
+  const [speed, setSpeed] = useState(1);
+  const [collision, setCollision] = useState(false);
+  const [zones, setZones] = useState(false);
+  const [fps, setFps] = useState(0);
+  const [deviceId, setDeviceId] = useState('desktop');
+  const [sim, setSim] = useState<SimOptions>({ zones: true, thumbs: true, safe: true, hand: 'medium' });
+  const [theme, setTheme] = useState<DevTheme>(() => stored<DevTheme>('pg-theme', 'light'));
+  const [widths, setWidths] = useState(() => stored('pg-widths', { left: 240, right: 300 }));
+  const [status, setStatus] = useState('');
+  const stageRef = useRef<HTMLDivElement>(null);
+  const screenRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(0.5);
+  const device = deviceById(deviceId);
+
+  useEffect(() => { applyTheme(theme); store('pg-theme', theme); }, [theme]);
+  useEffect(() => { store('pg-widths', widths); }, [widths]);
+
+  // The game is the real one: wait for PhaserGame's dev handle, then install the dev API.
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const g = (window as unknown as { __nqGame?: Phaser.Game }).__nqGame;
+      if (g) {
+        window.clearInterval(timer);
+        measureUntransformed(g);
+        setGame(g);
+        setApi(installDevApi(g));
+      }
+    }, 100);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  // Scale the device's real viewport to fit the stage.
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const fit = () => {
+      const pad = device.id === 'desktop' ? 24 : 72;
+      setScale(Math.max(0.1, Math.min((el.clientWidth - pad) / device.width, (el.clientHeight - pad) / device.height)));
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [device]);
+  useEffect(() => { if (game) window.setTimeout(() => game.scale.refresh(), 0); }, [game, device, scale]);
+
+  const refreshValidation = useCallback(() => {
+    setStatus('Validating…');
+    fetch('/__pg/validate').then((r) => r.json()).then((j) => { setProblems(j.problems ?? []); setStatus(''); })
+      .catch(() => setStatus('Validator endpoint unavailable (dev server only).'));
+  }, []);
+  const refreshPresets = useCallback(() => {
+    fetch('/__pg/presets').then((r) => r.json()).then((j) => setPresets(j.presets ?? [])).catch(() => {});
+  }, []);
+  useEffect(() => { refreshValidation(); refreshPresets(); }, [refreshValidation, refreshPresets]);
+
+  useEffect(() => {
+    if (!api) return;
+    const timer = window.setInterval(() => setFps(Math.round(api.fps())), 500);
+    return () => window.clearInterval(timer);
+  }, [api]);
+
+  const tree = useMemo(
+    () => buildTree(Object.values(SCENES), Object.keys(SPRITE_URLS), Object.values(NPCS), problems),
+    [problems],
+  );
+  const visible = useMemo(() => filterTree(tree, query), [tree, query]);
+  const selected = findNode(tree, selectedId);
+
+  const play = useCallback((node: DevNode, extra: StateOverride = override) => {
+    if (!api) return;
+    api.loadNode(node, extra);
+    setLastNode({ node, override: extra });
+    if (paused) { api.resume(); setPaused(false); }
+  }, [api, override, paused]);
+
+  // Deep links: /playground.html?node=act0_pg_hunt&beat=F4&preset=act-0-broke-200&device=iphone15
+  useEffect(() => {
+    if (!api) return;
+    const params = new URLSearchParams(window.location.search);
+    const d = params.get('device');
+    if (d) setDeviceId(deviceById(d).id);
+    const sceneId = params.get('node');
+    if (!sceneId) return;
+    const beat = params.get('beat') ?? undefined;
+    const presetId = params.get('preset');
+    const apply = (list: Preset[]) => {
+      const extra = list.find((p) => p.id === presetId)?.state ?? {};
+      setOverride(extra);
+      setSelectedId(beat ? `beat:${sceneId}:${beat}` : `scene:${sceneId}`);
+      play({ kind: 'scene', sceneId, beatId: beat }, extra);
+    };
+    if (presetId) fetch('/__pg/presets').then((r) => r.json()).then((j) => apply(j.presets ?? [])).catch(() => apply([]));
+    else apply([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [api]);
+
+  const select = (n: TreeNode) => {
+    setSelectedId(n.id);
+    // The phone simulation item switches the stage to a phone, if it was a desktop.
+    if (n.kind === 'device' && deviceId === 'desktop') setDeviceId('iphone15');
+  };
+  const toggle = (id: string) => setOpen((o) => ({ ...o, [id]: !o[id] }));
+
+  /** Drag a panel edge to resize its width. */
+  const dragEdge = (side: 'left' | 'right') => (e: React.PointerEvent) => {
+    e.preventDefault();
+    const startX = e.clientX, start = widths[side];
+    const onMove = (ev: PointerEvent) => {
+      const dx = ev.clientX - startX;
+      const next = Math.min(560, Math.max(180, side === 'left' ? start + dx : start - dx));
+      setWidths((w: { left: number; right: number }) => ({ ...w, [side]: next }));
+    };
+    const onUp = () => { window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); document.body.classList.remove('pg-resizing'); };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    document.body.classList.add('pg-resizing');
+  };
+
+  const renderNode = (n: TreeNode, depth: number) => {
+    const hasKids = Boolean(n.children?.length);
+    const isOpen = query ? true : open[n.id] ?? false;
+    const icon = n.status === 'failing' ? '✗' : n.status === 'stub' ? '◌' : n.status === 'built' ? '●' : n.kind === 'device' ? '📱' : '';
+    return (
+      <div key={n.id}>
+        <div
+          className={`pg-node pg-${n.kind} ${n.status ? `pg-st-${n.status}` : ''} ${selectedId === n.id ? 'pg-selected' : ''}`}
+          style={{ paddingLeft: 8 + depth * 14 }}
+          onClick={() => { select(n); if (hasKids) toggle(n.id); }}
+          title={n.errors?.join('\n')}
+        >
+          <span className="pg-caret">{hasKids ? (isOpen ? '▾' : '▸') : ''}</span>
+          <span className="pg-icon">{icon}</span>
+          {n.label}
+          {n.errors?.length ? <span className="pg-badge">{n.errors.length}</span> : null}
+        </div>
+        {hasKids && isOpen && n.children!.map((c) => renderNode(c, depth + 1))}
+      </div>
+    );
+  };
+
+  const [targets, setTargets] = useState<Target[]>([]);
+  const simVisible = device.id !== 'desktop' && (selected?.kind === 'device' || sim.zones || sim.thumbs || sim.safe);
+
+  /** Touch controls' rectangles in the device viewport (CSS px), for the ergonomics checks. */
+  const measure = useCallback(() => {
+    const screen = screenRef.current;
+    if (!screen) return [];
+    const origin = screen.getBoundingClientRect();
+    return (['.nq-stick', '.nq-action'] as const).flatMap((sel) => {
+      const el = screen.querySelector(sel);
+      if (!el) return [];
+      const r = el.getBoundingClientRect();
+      return [{ name: sel === '.nq-stick' ? 'Joystick (left thumb)' : 'A button (right thumb)', rect: { x: (r.left - origin.left) / scale, y: (r.top - origin.top) / scale, w: r.width / scale, h: r.height / scale } }];
+    });
+  }, [scale]);
+  // Keep the thumbs pointed at the controls as layout settles.
+  useEffect(() => {
+    if (device.id === 'desktop') { setTargets([]); return; }
+    const tick = () => setTargets(measure());
+    tick();
+    const timer = window.setInterval(tick, 500);
+    return () => window.clearInterval(timer);
+  }, [device, measure]);
+
+  return (
+    <div className="pg-root" style={{ gridTemplateColumns: `${widths.left}px 6px 1fr 6px ${widths.right}px` }}>
+      <aside className="pg-left">
+        <div className="pg-head">
+          <strong>Test Playground</strong>
+          <button className="pg-theme" title="Light / dark" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>{theme === 'light' ? '☾ Dark' : '☀ Light'}</button>
+        </div>
+        <input className="pg-search" placeholder="Search…" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <div className="pg-tree">{visible.map((n) => renderNode(n, 0))}</div>
+        <div className="pg-foot">
+          <button onClick={refreshValidation}>Re-validate</button>
+          <span className="pg-dim">{problems.length ? `${problems.length} problem${problems.length > 1 ? 's' : ''}` : 'content valid'}</span>
+        </div>
+      </aside>
+      <div className="pg-handle" onPointerDown={dragEdge('left')} title="Drag to resize" />
+
+      <main className="pg-centre">
+        <div className="pg-toolbar">
+          <button disabled={!api} onClick={() => { if (!api) return; if (paused) api.resume(); else api.pause(); setPaused(!paused); }}>{paused ? '▶' : '❚❚'}</button>
+          <button disabled={!api || !lastNode} title="Restart node" onClick={() => lastNode && play(lastNode.node, lastNode.override)}>↻</button>
+          <button disabled={!api || !paused} title="Step one frame" onClick={() => api?.step(1)}>⏭</button>
+          <select title="Speed" value={speed} onChange={(e) => { const v = Number(e.target.value); setSpeed(v); api?.setSpeed(v); }}>
+            {SPEEDS.map((s) => <option key={s} value={s}>{s}×</option>)}
+          </select>
+          <select title="Device" value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+            {DEVICES.map((d) => <option key={d.id} value={d.id}>{d.label}</option>)}
+          </select>
+          <details className="pg-viewmenu">
+            <summary>View</summary>
+            <label><input type="checkbox" checked={collision} onChange={(e) => { setCollision(e.target.checked); api?.showCollision(e.target.checked); }} /> Collision</label>
+            <label><input type="checkbox" checked={zones} onChange={(e) => { setZones(e.target.checked); api?.showZones(e.target.checked); }} /> Trigger / exit zones</label>
+          </details>
+          <span className="pg-fps">{fps} fps</span>
+        </div>
+        <div className="pg-stage" ref={stageRef}>
+          <div className={`pg-frame ${device.id === 'desktop' ? 'pg-desktop' : 'pg-phoneframe'}`} style={{ width: device.width * scale, height: device.height * scale }}>
+            <div className="pg-screen" ref={screenRef} style={{ width: device.width, height: device.height, transform: `scale(${scale})` }}>
+              <BangaloreTimes startScene="TitleScene" touchControls={device.id === 'desktop' ? 'auto' : 'always'} />
+            </div>
+            {device.notch && <div className="pg-notch" />}
+            {simVisible && <ThumbOverlay device={device} scale={scale} options={sim} targets={targets} />}
+          </div>
+        </div>
+        {status && <div className="pg-status">{status}</div>}
+      </main>
+      <div className="pg-handle" onPointerDown={dragEdge('right')} title="Drag to resize" />
+
+      <aside className="pg-right">
+        {selected ? (
+          <Inspector
+            node={selected}
+            api={api}
+            override={override}
+            setOverride={setOverride}
+            presets={presets}
+            refreshPresets={refreshPresets}
+            refreshValidation={refreshValidation}
+            play={play}
+            current={(): PlaygroundState | null => api?.getState() ?? null}
+            device={device}
+            setDeviceId={setDeviceId}
+            sim={sim}
+            setSim={setSim}
+            targets={targets}
+          />
+        ) : <p className="pg-dim">Select something on the left.</p>}
+      </aside>
+    </div>
+  );
+}

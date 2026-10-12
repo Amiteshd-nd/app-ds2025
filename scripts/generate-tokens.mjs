@@ -10,7 +10,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readGpl, toHex } from './art/quantize.mjs';
-import { MOTION_TOKENS, TOKEN_INDEX } from './art/tokens.mjs';
+import { DEV_UI_TOKENS, MOTION_TOKENS, TOKEN_INDEX } from './art/tokens.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const meta = resolve(here, '../src/assets/_meta');
@@ -30,6 +30,10 @@ writeFileSync(
       palette: palette.map(toHex),
       tokens,
       motion: MOTION_TOKENS,
+      // Dev-tool themes: palette token names resolved to colours here.
+      devui: Object.fromEntries(Object.entries(DEV_UI_TOKENS).map(([theme, map]) => [
+        theme, Object.fromEntries(Object.entries(map).map(([k, v]) => [k, v.startsWith('#') ? v : tokens[v]])),
+      ])),
     },
     null,
     2,

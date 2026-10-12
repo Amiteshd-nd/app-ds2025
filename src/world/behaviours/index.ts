@@ -35,5 +35,10 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   beh_breathing,
 };
 
-/** Molecules every district gets without listing them. */
-export const CORE_BEHAVIOURS: readonly string[] = ['beh_breathing'];
+/**
+ * Molecules every district gets without listing them.
+ * `beh_breathing` is OFF (user, 2026-10-12: "switch the breathing off for now
+ * and proceed; we can come back to this") — the baked-frame pipeline stays
+ * (ADR-107, T-029). Re-enable by adding it back here.
+ */
+export const CORE_BEHAVIOURS: readonly string[] = [];

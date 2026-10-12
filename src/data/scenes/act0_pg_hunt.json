@@ -2,43 +2,166 @@
   "id": "act0_pg_hunt",
   "district": "prashanth_layout",
   "act": 0,
+  "seq": "0.3",
   "title": "PG Hunt",
   "status": "P5",
   "time": "Days 1–3, any hour",
   "player_goal": "Sign a PG before the hotel's three nights run out.",
   "design_goal": "Hurdles with Indian texture; teach negotiation (offer / counter / walk) on three temperaments; introduce the food meter; end on the first homesick beat.",
-  "pacing": ["Curious", "Engaged", "Tense", "Calm", "Engaged", "Calm"],
-  "entry": { "from": "whitefield_street", "spawn": "lane_mouth" },
-  "cast": [
-    { "npc": "npc_gate_owner", "tier": 2, "spawn": "gate_owner", "role": "'Full, full — pay token.' Firm haggler; takes the token and vanishes (unlessFlag pg_token_paid)" },
-    { "npc": "npc_neighbour_leela", "tier": 2, "spawn": "neighbour", "role": "Warns before, consoles after; points to Shanthamma" },
-    { "npc": "npc_shanthamma", "tier": 3, "spawn": "shanthamma", "role": "Veg-only, gate at ten, honest. Warm haggler: moved by reasons, insulted by lowballs" },
-    { "npc": "npc_coliving_rhea", "tier": 2, "spawn": "coliving_desk", "role": "Slick haggler: drops to the floor when you leave — and the floor is still out of reach" },
-    { "npc": "npc_darshini_raju", "tier": 2, "spawn": "darshini", "role": "Idli-vada ₹60 (food +40), dosa ₹80, coffee ₹20" },
-    { "npc": "npc_provision_basava", "tier": 2, "spawn": "provision", "role": "Night snacks ₹120 (food +15)" }
+  "pacing": [
+    "Curious",
+    "Engaged",
+    "Tense",
+    "Calm",
+    "Engaged",
+    "Calm"
   ],
-  "quests": ["q_act0_pg_hunt"],
+  "entry": {
+    "from": "whitefield_street",
+    "spawn": "lane_mouth"
+  },
+  "cast": [
+    {
+      "npc": "npc_gate_owner",
+      "tier": 2,
+      "spawn": "gate_owner",
+      "role": "'Full, full — pay token.' Firm haggler; takes the token and vanishes (unlessFlag pg_token_paid)"
+    },
+    {
+      "npc": "npc_neighbour_leela",
+      "tier": 2,
+      "spawn": "neighbour",
+      "role": "Warns before, consoles after; points to Shanthamma"
+    },
+    {
+      "npc": "npc_shanthamma",
+      "tier": 3,
+      "spawn": "shanthamma",
+      "role": "Veg-only, gate at ten, honest. Warm haggler: moved by reasons, insulted by lowballs"
+    },
+    {
+      "npc": "npc_coliving_rhea",
+      "tier": 2,
+      "spawn": "coliving_desk",
+      "role": "Slick haggler: drops to the floor when you leave — and the floor is still out of reach"
+    },
+    {
+      "npc": "npc_darshini_raju",
+      "tier": 2,
+      "spawn": "darshini",
+      "role": "Idli-vada ₹60 (food +40), dosa ₹80, coffee ₹20"
+    },
+    {
+      "npc": "npc_provision_basava",
+      "tier": 2,
+      "spawn": "provision",
+      "role": "Night snacks ₹120 (food +15)"
+    }
+  ],
+  "quests": [
+    "q_act0_pg_hunt"
+  ],
   "beats": [
-    { "id": "F1", "pacing": "Curious", "what": "Walk off the east end of the Whitefield street into Prashanth Layout. Divya's call already pointed here.", "interact": "walk", "flag": "pg_lane_found" },
-    { "id": "F2", "pacing": "Engaged", "what": "Green gate: 'full, pay ₹1,000 token'. Haggle (firm) or refuse. Paying = he leaves for good; Leela Aunty explains the scam (−₹500–1,000, +lesson XP). Refusing = +2 local reputation.", "interact": "dialogue + negotiation", "flag": "pg_token_paid | pg_token_refused", "economy": "token ₹500–1,000", "reroute": "scammed → Leela points to Shanthamma" },
-    { "id": "F3", "pacing": "Tense", "what": "HiveNest co-living: ₹62,000 to move in. Every counter-offer works and it is still unaffordable — even the 'festive offer' floor (₹43,000).", "interact": "negotiation", "flag": "coliving_seen" },
-    { "id": "F4", "pacing": "Calm", "what": "Shanthamma, blue gate no. 10: ₹10,000 deposit + ₹8,000 rent. Reasons move her, the green-gate quote helps, a lowball offends. Deal ≈ ₹14,000.", "interact": "negotiation", "flag": "pg_signed", "economy": "₹13,000–18,000", "reroute": "walk away → price kept, come back any time" },
-    { "id": "F5", "pacing": "Engaged", "what": "Darshini or provision store: buy food. The food meter now drains while awake.", "interact": "dialogue", "flag": "lane_food", "economy": "₹60 / ₹80 / ₹120" },
-    { "id": "F6", "pacing": "Calm", "what": "Room: cot under the window. Amma calls — 'Eat properly.' No choice, 15 seconds. Then sleep.", "interact": "walk onto the cot", "flag": "amma_called" }
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "Walk off the east end of the Whitefield street into Prashanth Layout. Divya's call already pointed here.",
+      "interact": "walk",
+      "flag": "pg_lane_found"
+    },
+    {
+      "id": "F2",
+      "pacing": "Engaged",
+      "what": "Green gate: 'full, pay ₹1,000 token'. Haggle (firm) or refuse. Paying = he leaves for good; Leela Aunty explains the scam (−₹500–1,000, +lesson XP). Refusing = +2 local reputation.",
+      "interact": "dialogue + negotiation",
+      "flag": "pg_token_paid | pg_token_refused",
+      "economy": "token ₹500–1,000",
+      "reroute": "scammed → Leela points to Shanthamma"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "HiveNest co-living: ₹62,000 to move in. Every counter-offer works and it is still unaffordable — even the 'festive offer' floor (₹43,000).",
+      "interact": "negotiation",
+      "flag": "coliving_seen"
+    },
+    {
+      "id": "F4",
+      "pacing": "Calm",
+      "what": "Shanthamma, blue gate no. 10: ₹10,000 deposit + ₹8,000 rent. Reasons move her, the green-gate quote helps, a lowball offends. Deal ≈ ₹14,000.",
+      "interact": "negotiation",
+      "flag": "pg_signed",
+      "economy": "₹13,000–18,000",
+      "reroute": "walk away → price kept, come back any time"
+    },
+    {
+      "id": "F5",
+      "pacing": "Engaged",
+      "what": "Darshini or provision store: buy food. The food meter now drains while awake.",
+      "interact": "dialogue",
+      "flag": "lane_food",
+      "economy": "₹60 / ₹80 / ₹120"
+    },
+    {
+      "id": "F6",
+      "pacing": "Calm",
+      "what": "Room: cot under the window. Amma calls — 'Eat properly.' No choice, 15 seconds. Then sleep.",
+      "interact": "walk onto the cot",
+      "flag": "amma_called"
+    }
   ],
   "economy": [
-    { "trigger": "green-gate token", "spend": "500–1000", "canAfford": true },
-    { "trigger": "Shanthamma move-in", "spend": "13000–18000", "canAfford": true },
-    { "trigger": "HiveNest move-in", "spend": "43000–62000", "canAfford": false },
-    { "trigger": "darshini / provisions", "spend": "20–120", "canAfford": true }
+    {
+      "trigger": "green-gate token",
+      "spend": "500–1000",
+      "canAfford": true
+    },
+    {
+      "trigger": "Shanthamma move-in",
+      "spend": "13000–18000",
+      "canAfford": true
+    },
+    {
+      "trigger": "HiveNest move-in",
+      "spend": "43000–62000",
+      "canAfford": false
+    },
+    {
+      "trigger": "darshini / provisions",
+      "spend": "20–120",
+      "canAfford": true
+    }
   ],
   "conditions": [],
   "pulse_slots": [],
   "exits": [
-    { "zone": "main_road", "to": "whitefield_street", "spawn": "lane_return", "transit": "walk" },
-    { "zone": "gate10", "to": "shanthamma_pg", "spawn": "door", "transit": "walk" }
+    {
+      "zone": "main_road",
+      "to": "whitefield_street",
+      "spawn": "lane_return",
+      "transit": "walk"
+    },
+    {
+      "zone": "gate10",
+      "to": "shanthamma_pg",
+      "spawn": "door",
+      "transit": "walk"
+    }
   ],
-  "save_flags": ["pg_lane_found", "pg_token_quoted", "pg_token_paid", "pg_token_refused", "pg_token_scammed", "coliving_seen", "pg_room_seen", "pg_signed", "lane_food", "pg_moved_in", "amma_called", "act0_pg_done"],
+  "save_flags": [
+    "pg_lane_found",
+    "pg_token_quoted",
+    "pg_token_paid",
+    "pg_token_refused",
+    "pg_token_scammed",
+    "coliving_seen",
+    "pg_room_seen",
+    "pg_signed",
+    "lane_food",
+    "pg_moved_in",
+    "amma_called",
+    "act0_pg_done"
+  ],
   "assets_needed": [
     "prashanth_layout lane render (generated + imported)",
     "shanthamma_pg room render (generated + imported)",

@@ -333,6 +333,10 @@ export interface SceneComponent {
   id: string;
   district: string;
   act: number;
+  /** Story order, "act.scene" ("0.2") — the playground's prerequisite builder walks it (ADR-105). */
+  seq?: string;
+  /** Optional arc grouping; the playground tree shows an Arc level once scenes carry one. */
+  arc?: string;
   title: string;
   /** "STUB" for Acts 2–4 until co-authored; anything else is a worked scene. */
   status?: string;

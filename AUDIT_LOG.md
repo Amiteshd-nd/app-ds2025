@@ -73,3 +73,9 @@ Updated: 2026-10-12
 - Correction: "the whole body is moving up and down" — the whole-sprite 1px offset (ADR-106) lifted the feet off the ground; the character floated.
 - Rule going forward: **Breathing = upper body only, 1px DOWN at the waistline, feet planted, baked frames, never whole-sprite offset.** Head dips first, then head+torso (overlapping action); never shift up (it would open a gap at the waist).
 - Rule going forward: breath lines (`head_y`, `waist_y`) are per character and direction in `_raw/characters/breath.json`, proposed by detection + eye and approved by the user before any batch bake.
+
+### [Breathing parked + playground direction] — 2026-10-12
+- Decision: breathing switched OFF for now ("still the whole body is moving… switch it off and proceed; we can come back to this"). `CORE_BEHAVIOURS` is empty; the baked-frame pipeline (ADR-107) stays for later (T-029).
+- Rule going forward: seated characters (on a chair, bench) never breathe — `breathing: false` for any sitting pose when breathing returns.
+- Direction for the Test Playground (during the build): keep it simple — no wall of properties; a short read-only summary and the main actions, input fields only on request (closed "Edit…" folds); light mode by default with a dark toggle; left and right panel widths draggable; a phone-in-landscape simulation with thumbs and controls as its own item in the left panel, its settings on the right.
+- Request recorded for the next task: replace the demo airport (the user's early rudimentary version) with a brand-new airport in the current generated style, related to the next scenes — keep the luggage carousel and make it move with luggage on it; replace every placeholder airport character with generated sprites (T-031).

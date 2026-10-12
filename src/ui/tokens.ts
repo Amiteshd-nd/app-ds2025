@@ -36,3 +36,7 @@ export const motion = (name: MotionName): number => {
   if (value === undefined) throw new Error(`Unknown motion token "${name}"`);
   return value;
 };
+
+export type DevTheme = keyof typeof generated.devui;
+/** Test Playground chrome colours for a theme (ADR-108) — dev tooling only. */
+export const devUi = (theme: DevTheme): Record<string, string> => ({ ...(generated.devui[theme] as Record<string, string>) });

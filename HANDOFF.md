@@ -2,7 +2,7 @@
 Updated: 2026-10-12, end of the P5 build session. Purpose: a new chat picks up exactly where this one stopped.
 
 ## 0. Where we are — in one breath
-Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P5 approved.** Before P6 the user asked for a living title screen (ADR-101/102) — **built and committed, awaiting audit**. Then **P6** (phone overlay). Nothing is pushed since the first push — push only when the user asks. Dev server: `corepack pnpm dev` → http://localhost:6174. 208 tests, typecheck, validators, `pnpm build` all green.
+Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P5 approved.** Pre-P6 work built and awaiting audit: living title screen (ADR-101/102) and the **Test Playground** (ADR-104/105/108, `corepack pnpm playground`). Breathing is **switched off** (T-029, parked). Next task: **brand-new airport** (T-031), then **P6** (phone overlay). Nothing is pushed since the first push — push only when the user asks. Dev server: `corepack pnpm dev` → http://localhost:6174. 208 tests, typecheck, validators, `pnpm build` all green.
 
 ## 1. Phase ledger
 | Phase | State | Audit |
@@ -18,7 +18,7 @@ Bangalore Times (working title in docs: NAMMA OUTBREAK). Phases **P0 → P5 appr
 
 ## 2. Resume protocol
 1. Read `CLAUDE.md` §0 rules, then `TASKS.md` "Now", `DECISIONS.md` last rows (ADR-95..98), `MEMORY.md`, `AUDIT_LOG.md` (every correction is a standing rule).
-2. Ask the user to **audit the title screen** (warmth, motion, menu legibility) and to keep or supersede **ADR-101** (title keeps its own 64-colour palette, conflicts with ADR-61). Then ask for **P6 references** (phone screen, HUD restyle, pixel font — ADR-30) before any P6 visual work. Path to show: on the Whitefield street walk off the **east end of the top pavement** → Prashanth Layout. Green gate (token scam; pay or refuse) → Leela Aunty (warns before / consoles after) → HiveNest co-living (haggle; still unaffordable) → Shanthamma at the blue gate (haggle ₹18,000 → ≈ ₹14,300) → darshini/provisions on the **bottom pavement** (reach it down the main-road strip at the left edge) → blue gate → room → cot (Amma's call, then sleep).
+2. **Remind the user to audit the Test Playground** (they asked to be reminded) and to come back to breathing (T-029) when they have time. Then ask to **audit the title screen** (warmth, motion, menu legibility) and to keep or supersede **ADR-101** (title keeps its own 64-colour palette, conflicts with ADR-61). Then ask for **P6 references** (phone screen, HUD restyle, pixel font — ADR-30) before any P6 visual work. Path to show: on the Whitefield street walk off the **east end of the top pavement** → Prashanth Layout. Green gate (token scam; pay or refuse) → Leela Aunty (warns before / consoles after) → HiveNest co-living (haggle; still unaffordable) → Shanthamma at the blue gate (haggle ₹18,000 → ≈ ₹14,300) → darshini/provisions on the **bottom pavement** (reach it down the main-road strip at the left edge) → blue gate → room → cot (Amma's call, then sleep).
 3. Already answered at round 1: Shanthamma's voice, ADR-97 food drain and the HiveNest retune are approved — do not re-ask.
 4. Record corrections in `AUDIT_LOG.md` as reusable rules, fix, commit, then start **P6** (ask for UI reference images first — ADR-30: phone, HUD restyle, pixel font).
 

@@ -328,6 +328,7 @@ export function validateContent(
   // A worked scene must resolve every reference; a STUB only needs an id,
   // district, act and title — its TODOs are the point.
   const PACING = ['Calm', 'Curious', 'Engaged', 'Tense', 'Reward'];
+  const seqSeen = new Map<string, string>();
   for (const { file, basename, json } of sceneFiles) {
     if (json.id !== basename) add(file, `id "${json.id}" does not match filename "${basename}"`);
     const stub = json.status === 'STUB';
@@ -367,6 +368,11 @@ export function validateContent(
       if (typeof exit === 'object' && exit.to && !districtIds.has(exit.to)) add(file, `exit to "${exit.to}" is not a district`);
     }
     if (!json.acceptance?.length) add(file, 'has no acceptance list — the audit gate needs one');
+    if (json.seq !== undefined) {
+      if (typeof json.seq !== 'string' || !/^\d+\.\d+$/.test(json.seq)) add(file, `seq "${json.seq}" must look like "0.2" (act.scene)`);
+      else if (seqSeen.has(json.seq)) add(file, `seq "${json.seq}" is also used by ${seqSeen.get(json.seq)} — story order must be unique`);
+      else seqSeen.set(json.seq, file);
+    }
   }
 
   problems.push(...detectPrerequisiteCycles(questFiles));

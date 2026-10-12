@@ -16,8 +16,11 @@ const KNOB_RADIUS = 24;
 const coarsePointer = (): boolean =>
   typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches;
 
-const TouchControls = ({ side = 'left' as 'left' | 'right' }) => {
-  const [visible, setVisible] = useState(coarsePointer);
+const TouchControls = ({ side = 'left' as 'left' | 'right', always = false }) => {
+  const [coarse, setVisible] = useState(coarsePointer);
+  // `always`: show the joystick + A on any pointer (a desktop touchscreen, or a
+  // device simulation); otherwise only on coarse-pointer devices.
+  const visible = always || coarse;
   const baseRef = useRef<HTMLDivElement>(null);
   const [knob, setKnob] = useState({ x: 0, y: 0 });
   const activeId = useRef<number | null>(null);

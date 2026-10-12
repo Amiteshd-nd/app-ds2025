@@ -38,6 +38,8 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - Breathing is baked frames (`<sheet>__breath.png`, ADR-107), never a sprite offset. Lines in `_raw/characters/breath.json`; review with `node scripts/preview-breath.mjs <outDir> player_m player_f` (6× F0–F3 + all-fronts contact sheet).
 - Phaser tweens time themselves off the real clock: when the browser pane is hidden, step the loop in real time (`g.step(performance.now(), 16.67)` every 16 ms), not in a fast loop.
 
+- Test Playground: `corepack pnpm playground` → /playground.html (dev only). Deep link `?node=<sceneId>&beat=<id>&preset=<id>&device=iphone15`. It installs `window.__nqDev` (src/dev/devApi.ts) and saves under `bangalore-times:save:playground`. Phaser inside a CSS-scaled frame needs parent/centre measured from layout sizes (patched in Playground.tsx only).
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
 - `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` — keep it free of Vite-only syntax.

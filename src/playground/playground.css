@@ -1,0 +1,98 @@
+/* Test Playground (dev only). Colours come from design tokens via the CSS
+   variables main.tsx sets — no raw colours here. Spacing on the 8px grid. */
+html, body, #playground { margin: 0; height: 100%; background: var(--pg-bg); color: var(--pg-text); }
+body { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+button, select, input, textarea { font: inherit; color: var(--pg-text); background: var(--pg-bg); border: 1px solid var(--pg-edge); border-radius: 4px; padding: 2px 8px; }
+button { cursor: pointer; }
+button:disabled { opacity: .4; cursor: default; }
+button.pg-primary { background: var(--pg-focus); color: var(--pg-ink); border-color: var(--pg-focus); font-weight: 700; }
+label { display: inline-flex; gap: 4px; align-items: center; }
+
+.pg-root { display: grid; height: 100vh; } /* columns set inline: left | handle | centre | handle | right */
+.pg-left, .pg-right { background: var(--pg-panel); overflow: auto; }
+.pg-left { display: flex; flex-direction: column; }
+.pg-right { padding: 8px 16px 24px; }
+.pg-head { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 16px; }
+.pg-search { margin: 0 8px 8px; }
+.pg-tree { flex: 1; overflow: auto; }
+.pg-foot { display: flex; gap: 8px; align-items: center; padding: 8px; border-top: 1px solid var(--pg-edge); }
+.pg-dim { color: var(--pg-dim); }
+
+.pg-node { display: flex; gap: 4px; align-items: center; padding: 2px 8px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pg-node:hover { background: var(--pg-edge); }
+.pg-selected { background: var(--pg-bg); outline: 1px solid var(--pg-focus); }
+.pg-caret { width: 10px; color: var(--pg-dim); }
+.pg-icon { width: 12px; }
+.pg-st-built .pg-icon { color: var(--pg-good); }
+.pg-st-stub { color: var(--pg-dim); }
+.pg-st-failing .pg-icon, .pg-badge { color: var(--pg-bad); }
+.pg-badge { margin-left: auto; font-weight: 700; }
+.pg-group, .pg-act { font-weight: 700; }
+
+.pg-centre { display: flex; flex-direction: column; min-width: 0; }
+.pg-toolbar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 8px 16px; border-bottom: 1px solid var(--pg-edge); background: var(--pg-panel); }
+.pg-fps { margin-left: auto; color: var(--pg-focus); }
+.pg-status { padding: 4px 16px; color: var(--pg-warn); }
+.pg-stage { flex: 1; display: grid; place-items: center; min-height: 0; overflow: hidden; }
+
+/* Device frames. The game's root is position:fixed full-window; inside the
+   playground it is pinned to the frame instead (scoped here, game CSS untouched). */
+.pg-frame { position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 0 0 8px var(--pg-panel), 0 0 0 9px var(--pg-edge); }
+.pg-phoneframe { border-radius: 22px; box-shadow: 0 0 0 12px var(--pg-ink), 0 0 0 13px var(--pg-edge); }
+.pg-notch { position: absolute; left: 0; top: 32%; width: 10px; height: 36%; background: var(--pg-ink); border-radius: 0 10px 10px 0; z-index: 3; }
+.pg-thumbs { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 4; }
+.pg-screen { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; }
+.pg-screen .nq-root { position: absolute; }
+
+.pg-inspector h2 { font-size: 14px; margin: 8px 0; }
+.pg-inspector h3 { font-size: 12px; margin: 16px 0 8px; color: var(--pg-focus); }
+.pg-props { display: grid; grid-template-columns: 96px 1fr; gap: 2px 8px; margin: 0 0 8px; }
+.pg-props dt { color: var(--pg-dim); }
+.pg-props dd { margin: 0; }
+.pg-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+.pg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; }
+.pg-grid label { justify-content: space-between; }
+.pg-grid input { width: 96px; }
+.pg-wide { display: flex; flex-direction: column; align-items: stretch; margin: 4px 0; color: var(--pg-dim); }
+.pg-wide input, .pg-wide textarea { color: var(--pg-text); }
+.pg-sub { margin: 8px 0 4px; color: var(--pg-dim); }
+.pg-flags { display: flex; flex-direction: column; gap: 2px; }
+.pg-addflag { display: flex; gap: 4px; margin-top: 4px; }
+.pg-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.pg-chip { border: 1px solid var(--pg-edge); border-radius: 8px; padding: 0 8px; }
+.pg-notyet { color: var(--pg-dim); opacity: .55; font-style: italic; }
+.pg-errors { color: var(--pg-bad); margin-bottom: 8px; white-space: pre-wrap; }
+.pg-warnline { color: var(--pg-warn); }
+.pg-dirs { display: grid; grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); gap: 8px; }
+.pg-dirs figure { margin: 0; background: var(--pg-bg); border-radius: 4px; }
+.pg-dirs canvas { display: block; image-rendering: pixelated; }
+.pg-dirs figcaption { text-align: center; color: var(--pg-dim); }
+
+.pg-modal { position: fixed; inset: 0; background: color-mix(in srgb, var(--pg-bg) 80%, transparent); display: grid; place-items: center; z-index: 10; }
+.pg-modal-box { background: var(--pg-panel); border: 1px solid var(--pg-edge); border-radius: 8px; padding: 16px; width: min(720px, 90vw); max-height: 80vh; display: flex; flex-direction: column; }
+.pg-diff { overflow: auto; background: var(--pg-bg); padding: 8px; margin: 8px 0; flex: 1; }
+.pg-add { color: var(--pg-good); }
+.pg-del { color: var(--pg-bad); }
+
+/* Quiet by default: summaries, folds that open on request. */
+.pg-summary { color: var(--pg-dim); margin: 8px 0; }
+.pg-changed { color: var(--pg-focus); }
+.pg-fold { margin: 8px 0; border-top: 1px solid var(--pg-edge); padding-top: 8px; }
+.pg-fold > summary { cursor: pointer; color: var(--pg-dim); }
+.pg-fold[open] > summary { color: var(--pg-text); margin-bottom: 8px; }
+
+/* Resizable panels: drag the thin handles between columns. */
+.pg-handle { cursor: col-resize; background: var(--pg-edge); opacity: .5; }
+.pg-handle:hover { opacity: 1; background: var(--pg-focus); }
+body.pg-resizing { cursor: col-resize; user-select: none; }
+body.pg-resizing iframe, body.pg-resizing canvas { pointer-events: none; }
+
+.pg-theme { padding: 0 8px; }
+.pg-selected { background: var(--pg-selected); }
+.pg-viewmenu { position: relative; }
+.pg-viewmenu > summary { cursor: pointer; list-style: none; border: 1px solid var(--pg-edge); border-radius: 4px; padding: 2px 8px; }
+.pg-viewmenu[open] > label { display: flex; padding: 2px 8px; }
+.pg-viewmenu[open] { background: var(--pg-panel); border-radius: 4px; }
+.pg-check { border: 1px solid var(--pg-edge); border-radius: 6px; padding: 8px; margin: 8px 0; display: flex; flex-direction: column; gap: 2px; }
+.pg-ok { color: var(--pg-good); }
+.pg-bad { color: var(--pg-bad); }

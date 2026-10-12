@@ -1,0 +1,5 @@
+{
+  "name": "Act 0 broke (₹200)",
+  "description": "Almost out of money: every purchase above ₹200 shows 'Needs ₹…'.",
+  "state": { "stats": { "wallet": 200 } }
+}

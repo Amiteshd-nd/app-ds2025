@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+// Dev-only Test Playground endpoints (ADR-104); `apply: 'serve'` keeps it out of builds.
+import { playgroundPlugin } from './scripts/vite-playground.mjs';
 
 // Standalone build for the game. When consumed as a library, the host's bundler
 // (personal-doc's Vite) transpiles src/index.ts directly — this config isn't used.
@@ -9,6 +11,7 @@ export default defineConfig({
   server: { port: 6174, strictPort: true },
   plugins: [
     react(),
+    playgroundPlugin(),
     // Phase 1 of the v1.0 distribution plan: ship as an installable PWA before
     // any native wrapper. Workbox precaches the bundle and the sprite/tilemap
     // assets so a returning player gets an offline-capable launch.
@@ -48,5 +51,8 @@ export default defineConfig({
     // Pixel art must not be inlined as base64 — keep asset files addressable so
     // Workbox can precache them.
     assetsInlineLimit: 0,
+    // The game page only. playground.html is served by `vite dev` and is never
+    // an input here — scripts/check-dist.mjs fails the build if it leaks in.
+    rollupOptions: { input: 'index.html' },
   },
 });

@@ -2,12 +2,12 @@
   "name": "bangalore-times",
   "private": true,
   "version": "0.0.0",
-  "description": "Bangalore Times — a top-down pixel RPG set in Bengaluru. Phaser 3 + React, shipped as an installable PWA.",
+  "description": "Bangalore Times \u2014 a top-down pixel RPG set in Bengaluru. Phaser 3 + React, shipped as an installable PWA.",
   "type": "module",
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/validate-maps.mjs && node scripts/validate-content.ts && node scripts/validate-platform.mjs && tsc --noEmit && vite build",
+    "build": "node scripts/validate-maps.mjs && node scripts/validate-content.ts && node scripts/validate-platform.mjs && tsc --noEmit && vite build && node scripts/check-dist.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -20,7 +20,8 @@
     "build:web": "pnpm build",
     "cap:sync": "pnpm build && cap sync",
     "cap:android": "pnpm cap:sync && cap open android",
-    "cap:ios": "pnpm cap:sync && cap open ios"
+    "cap:ios": "pnpm cap:sync && cap open ios",
+    "playground": "vite --open /playground.html"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",

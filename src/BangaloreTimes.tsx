@@ -17,6 +17,8 @@ export interface BangaloreTimesProps {
   startScene?: string;
   /** District to drop straight into, e.g. "whitefield_street" for the sandbox. */
   startDistrict?: string;
+  /** Touch joystick + A: 'auto' (coarse pointers only, the default) or 'always'. */
+  touchControls?: 'auto' | 'always';
 }
 
 // Scenes where the player is walking around and the stat HUD is meaningful.
@@ -29,7 +31,7 @@ const GAMEPLAY_SCENES = new Set<string>([SCENE_KEYS.WORLD]);
 const clockLabel = (day: number, minute: number): string =>
   `Day ${day} · ${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
 
-const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesProps) => {
+const BangaloreTimes = ({ backSlot, startScene, startDistrict, touchControls = 'auto' }: BangaloreTimesProps) => {
   const botCount = useGameStore((s) => s.botCount);
   const clock = useGameStore((s) => s.clock);
   const hotelNights = useGameStore((s) => s.counters.hotel_nights_left);
@@ -159,7 +161,7 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesP
           </div>
 
           {/* Joystick + A on touch devices; nothing on a desktop. */}
-          <TouchControls />
+          <TouchControls always={touchControls === 'always'} />
         </>
       )}
     </div>
