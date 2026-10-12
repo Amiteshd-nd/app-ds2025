@@ -1,15 +1,18 @@
 import { create } from 'zustand';
 import {
-  MAX_ENERGY,
-  MAX_STRESS,
   SKILL_XP_THRESHOLDS,
-  STARTING_ENERGY,
-  STARTING_MONEY,
+  STARTING_BATTERY,
+  STARTING_FOOD,
+  STARTING_HEALTH,
+  STARTING_STAMINA,
   STARTING_STRESS,
+  STARTING_WALLET,
+  STAT_BOUNDS,
   DEFAULT_PLAYER_NAME,
   DEFAULT_PLAYER_SHEET,
 } from './utils/constants';
 import type {
+  AdjustableStat,
   PlayerAppearance,
   PlayerProfile,
   PlayerSkills,
@@ -72,6 +75,8 @@ export interface GameState {
   inventory: string[];
   quests: QuestState;
   flags: Record<string, boolean>;
+  /** Named NPCs spoken to; drives `stats.social`. */
+  met: string[];
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -81,9 +86,12 @@ export interface GameState {
   setActiveScene: (activeScene: string | null) => void;
   setActiveDistrict: (activeDistrict: string | null) => void;
 
-  adjustEnergy: (delta: number) => void;
-  adjustStress: (delta: number) => void;
-  adjustMoney: (delta: number) => void;
+  /** Move a bounded stat; clamped to STAT_BOUNDS. */
+  adjustStat: (stat: AdjustableStat, delta: number) => void;
+  /** Change the wallet; income accrues to totalEarned, balance never dips below 0. */
+  adjustWallet: (delta: number) => void;
+  /** Record a first conversation. Returns true when the NPC was new (social +1). */
+  markMet: (npcId: string) => boolean;
 
   addXp: (branch: SkillBranchName, amount: number) => void;
   setFlag: (key: string, value: boolean) => void;
@@ -97,9 +105,13 @@ export interface GameState {
 }
 
 const initialStats = (): PlayerStats => ({
-  energy: STARTING_ENERGY,
+  health: STARTING_HEALTH,
+  wallet: STARTING_WALLET,
+  social: 0,
+  stamina: STARTING_STAMINA,
+  food: STARTING_FOOD,
   stress: STARTING_STRESS,
-  money: STARTING_MONEY,
+  battery: STARTING_BATTERY,
 });
 
 const initialQuests = (): QuestState => ({ active: {}, completed: [] });
@@ -108,7 +120,7 @@ const initialReputation = (): ReputationState => ({ total: 0, byDistrict: {} });
 
 const initialAppearance = (): PlayerAppearance => ({ sheet: DEFAULT_PLAYER_SHEET });
 
-export const useGameStore = create<GameState>((set) => ({
+export const useGameStore = create<GameState>((set, get) => ({
   totalEarned: 0,
   playerName: DEFAULT_PLAYER_NAME,
   profile: defaultProfile(),
@@ -122,6 +134,7 @@ export const useGameStore = create<GameState>((set) => ({
   inventory: [],
   quests: initialQuests(),
   flags: {},
+  met: [],
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -135,22 +148,27 @@ export const useGameStore = create<GameState>((set) => ({
   setActiveScene: (activeScene) => set({ activeScene }),
   setActiveDistrict: (activeDistrict) => set({ activeDistrict }),
 
-  adjustEnergy: (delta) =>
-    set((state) => ({
-      stats: { ...state.stats, energy: clamp(state.stats.energy + delta, 0, MAX_ENERGY) },
-    })),
+  adjustStat: (stat, delta) =>
+    set((state) => {
+      const [min, max] = STAT_BOUNDS[stat];
+      return { stats: { ...state.stats, [stat]: clamp(state.stats[stat] + delta, min, max) } };
+    }),
 
-  adjustStress: (delta) =>
+  adjustWallet: (delta) =>
     set((state) => ({
-      stats: { ...state.stats, stress: clamp(state.stats.stress + delta, 0, MAX_STRESS) },
-    })),
-
-  adjustMoney: (delta) =>
-    set((state) => ({
-      stats: { ...state.stats, money: state.stats.money + delta },
+      stats: { ...state.stats, wallet: Math.max(0, state.stats.wallet + delta) },
       // Only income accumulates; spending must not inflate lifetime earnings.
       totalEarned: delta > 0 ? state.totalEarned + delta : state.totalEarned,
     })),
+
+  markMet: (npcId) => {
+    if (get().met.includes(npcId)) return false;
+    set((state) => ({
+      met: [...state.met, npcId],
+      stats: { ...state.stats, social: state.stats.social + 1 },
+    }));
+    return true;
+  },
 
   addXp: (branch, amount) =>
     set((state) => {
@@ -180,5 +198,6 @@ export const useGameStore = create<GameState>((set) => ({
       inventory: [],
       quests: initialQuests(),
       flags: {},
+      met: [],
     }),
 }));

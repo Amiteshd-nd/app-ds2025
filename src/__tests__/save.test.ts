@@ -27,24 +27,39 @@ beforeEach(() => {
 describe('StatsManager', () => {
   it('applies a compound effect in one pass', () => {
     StatsManager.getInstance().applyEffect({
-      money: -350, energy: -25, stress: 15, xp: 120, xp_branch: 'city_survival',
+      wallet: -350, food: -25, stress: 15, xp: 120, xp_branch: 'city_survival',
     });
     const s = useGameStore.getState();
-    expect(s.stats).toMatchObject({ energy: 45, stress: 35, money: 4650 });
+    expect(s.stats).toMatchObject({ food: 75, stress: 15, wallet: 34_650 });
     expect(s.skills.city_survival).toEqual({ xp: 120, level: 1 });
   });
 
-  it('clamps energy and stress to their bounds', () => {
+  it('clamps food, stress and stamina to their bounds', () => {
     const stats = StatsManager.getInstance();
-    stats.adjustEnergy(-999);
-    stats.adjustStress(999);
-    expect(useGameStore.getState().stats.energy).toBe(0);
+    stats.adjust('food', -999);
+    stats.adjust('stress', 999);
+    stats.adjust('stamina', 99);
+    expect(useGameStore.getState().stats.food).toBe(0);
     expect(useGameStore.getState().stats.stress).toBe(100);
+    expect(useGameStore.getState().stats.stamina).toBe(8);
   });
 
-  it('lets money go negative — debt is a survival mechanic, not a bug', () => {
-    StatsManager.getInstance().adjustMoney(-6000);
-    expect(useGameStore.getState().stats.money).toBe(-1000);
+  it('spend() is the only door out of the wallet and refuses what it cannot cover', () => {
+    const stats = StatsManager.getInstance();
+    expect(stats.canAfford(35_000)).toBe(true);
+    expect(stats.spend(36_000, 'scooter')).toBe(false);
+    expect(useGameStore.getState().stats.wallet).toBe(35_000); // nothing half-applied
+    expect(stats.spend(250, 'bus_fare')).toBe(true);
+    expect(useGameStore.getState().stats.wallet).toBe(34_750);
+    expect(() => stats.spend(-5)).toThrow();
+  });
+
+  it('social climbs once per named NPC, never twice', () => {
+    const stats = StatsManager.getInstance();
+    expect(stats.meet('npc_chai_anna')).toBe(true);
+    expect(stats.meet('npc_chai_anna')).toBe(false);
+    expect(stats.meet('npc_cab_tout_1')).toBe(true);
+    expect(useGameStore.getState().stats.social).toBe(2);
   });
 
   it('crosses skill tiers at the documented thresholds', () => {
@@ -61,15 +76,18 @@ describe('StatsManager', () => {
 
 describe('SaveManager', () => {
   it('round-trips stats and skills through a reset', () => {
-    StatsManager.getInstance().applyEffect({ money: -350, xp: 120, xp_branch: 'city_survival' });
+    StatsManager.getInstance().applyEffect({ wallet: -350, xp: 120, xp_branch: 'city_survival' });
+    StatsManager.getInstance().meet('npc_chai_anna');
     expect(SaveManager.getInstance().save({ districtId: 'airport', x: 128, y: 256 })).toBe(true);
 
     useGameStore.getState().reset();
-    expect(useGameStore.getState().stats.money).toBe(5000);
+    expect(useGameStore.getState().stats.wallet).toBe(35_000);
 
     expect(SaveManager.getInstance().restore()).toBe(true);
     const s = useGameStore.getState();
-    expect(s.stats.money).toBe(4650);
+    expect(s.stats.wallet).toBe(34_650);
+    expect(s.stats.social).toBe(1);
+    expect(s.met).toEqual(['npc_chai_anna']);
     expect(s.skills.city_survival.level).toBe(1);
   });
 

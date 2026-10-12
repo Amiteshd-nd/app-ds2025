@@ -143,12 +143,16 @@
   transition: width 0.25s ease;
 }
 
-.nq-energy {
+.nq-health {
+  background: #f87171;
+}
+
+.nq-food {
   background: #4ade80;
 }
 
 .nq-stress {
-  background: #f87171;
+  background: #fbbf24;
 }
 
 /* On a narrow screen the two HUD pills would collide — stack the hint above. */

@@ -55,11 +55,12 @@ describe('InventoryManager', () => {
   });
 
   it('using a consumable applies its effect and removes one unit', () => {
-    useGameStore.getState().adjustStress(20); // 20 -> 40
-    inv().add('cutting_chai'); // effect: energy +15, stress -5
+    useGameStore.getState().adjustStat('stress', 40); // 0 -> 40
+    useGameStore.getState().adjustStat('food', -30);  // 100 -> 70
+    inv().add('cutting_chai'); // effect: food +15, stress -5
     expect(inv().use('cutting_chai')).toBe(true);
     const stats = useGameStore.getState().stats;
-    expect(stats.energy).toBe(85);
+    expect(stats.food).toBe(85);
     expect(stats.stress).toBe(35);
     expect(inv().count('cutting_chai')).toBe(0);
   });
@@ -71,8 +72,8 @@ describe('InventoryManager', () => {
   });
 
   it('StatsManager routes item_add — the effect the old code silently dropped', () => {
-    StatsManager.getInstance().applyEffect({ money: -20, item_add: 'water_bottle' });
-    expect(useGameStore.getState().stats.money).toBe(4980);
+    StatsManager.getInstance().applyEffect({ wallet: -20, item_add: 'water_bottle' });
+    expect(useGameStore.getState().stats.wallet).toBe(34_980);
     expect(inv().count('water_bottle')).toBe(1);
   });
 

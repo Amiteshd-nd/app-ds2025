@@ -45,11 +45,11 @@ describe('DialogueManager', () => {
     expect(useGameStore.getState().skills.city_survival.xp).toBe(10);
   });
 
-  it('applies a choice effect — buying water costs money and grants the item', () => {
+  it('applies a choice effect — buying water spends from the wallet and grants the item', () => {
     const d = DialogueManager.getInstance();
     d.start('shopkeeper');
     d.choose(0);
-    expect(useGameStore.getState().stats.money).toBe(4980);
+    expect(useGameStore.getState().stats.wallet).toBe(34_980);
   });
 
   it('auto-advances a node that has next and no choices', () => {
@@ -114,6 +114,6 @@ describe('DialogueManager', () => {
     const d = DialogueManager.getInstance();
     d.start('security_guard');
     d.choose(0);
-    expect(useGameStore.getState().stats.stress).toBe(25); // 20 starting + 5
+    expect(useGameStore.getState().stats.stress).toBe(5); // 0 starting + 5
   });
 });

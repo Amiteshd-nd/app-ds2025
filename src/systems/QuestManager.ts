@@ -141,7 +141,7 @@ export class QuestManager {
     if (rewards.xp && rewards.xp_branch) {
       StatsManager.getInstance().addXp(rewards.xp_branch, rewards.xp);
     }
-    if (rewards.money) StatsManager.getInstance().adjustMoney(rewards.money);
+    if (rewards.wallet) StatsManager.getInstance().earn(rewards.wallet, `quest:${questId}`);
     if (rewards.reputation) {
       // Credited to the quest's district as well as the global total.
       ReputationManager.getInstance().add(rewards.reputation, quest.district);

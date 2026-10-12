@@ -96,7 +96,8 @@ export class DialogueManager {
     const choice = node.choices?.[index];
     if (!choice) throw new Error(`Choice ${index} does not exist on node "${this.nodeId}"`);
 
-    if (!this.meetsRequirement(choice.requires)) {
+    const cost = choice.effect?.wallet !== undefined && choice.effect.wallet < 0 ? -choice.effect.wallet : 0;
+    if (!this.meetsRequirement(choice.requires) || !StatsManager.getInstance().canAfford(cost)) {
       throw new Error(`Choice ${index} on node "${this.nodeId}" is locked`);
     }
 
@@ -133,12 +134,22 @@ export class DialogueManager {
     const node = this.requireNode();
 
     const choices = (node.choices ?? []).map((choice, index) => {
-      const enabled = this.meetsRequirement(choice.requires);
+      // A choice can be locked by a skill tier or by the wallet. Both are
+      // shown greyed with the reason — the player sees what they are missing.
+      const skillOk = this.meetsRequirement(choice.requires);
+      const cost = choice.effect?.wallet !== undefined && choice.effect.wallet < 0 ? -choice.effect.wallet : 0;
+      const walletOk = cost === 0 || StatsManager.getInstance().canAfford(cost);
+      const enabled = skillOk && walletOk;
+      const lockedReason = !skillOk
+        ? this.describeRequirement(choice.requires!)
+        : !walletOk
+          ? `Needs ₹${cost.toLocaleString('en-IN')}`
+          : undefined;
       return {
         index,
         text: choice.text,
         enabled,
-        ...(enabled ? {} : { lockedReason: this.describeRequirement(choice.requires!) }),
+        ...(enabled ? {} : { lockedReason }),
       } satisfies DialogueChoiceView;
     });
 

@@ -87,21 +87,30 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict }: BangaloreTimesP
 
       {inGameplay && (
         <>
-          {/* Stat readout — energy, stress and money from the v1.0 stat model */}
+          {/* Stat readout (design system §5): health, food, stress only when it
+              bites, wallet. A meter appears only when relevant. */}
           <div className="nq-stats">
             <span className="nq-stat">
-              <span className="nq-stat-label">Energy</span>
+              <span className="nq-stat-label">Health</span>
               <span className="nq-meter">
-                <span className="nq-meter-fill nq-energy" style={{ width: `${stats.energy}%` }} />
+                <span className="nq-meter-fill nq-health" style={{ width: `${stats.health}%` }} />
               </span>
             </span>
             <span className="nq-stat">
-              <span className="nq-stat-label">Stress</span>
+              <span className="nq-stat-label">Food</span>
               <span className="nq-meter">
-                <span className="nq-meter-fill nq-stress" style={{ width: `${stats.stress}%` }} />
+                <span className="nq-meter-fill nq-food" style={{ width: `${stats.food}%` }} />
               </span>
             </span>
-            <span className="nq-stat nq-stat-text">₹{stats.money.toLocaleString('en-IN')}</span>
+            {stats.stress > 0 && (
+              <span className="nq-stat">
+                <span className="nq-stat-label">Stress</span>
+                <span className="nq-meter">
+                  <span className="nq-meter-fill nq-stress" style={{ width: `${stats.stress}%` }} />
+                </span>
+              </span>
+            )}
+            <span className="nq-stat nq-stat-text">₹{stats.wallet.toLocaleString('en-IN')}</span>
             <span className="nq-stat nq-stat-text">{survivalTier}</span>
           </div>
 

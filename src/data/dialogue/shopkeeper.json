@@ -6,8 +6,8 @@
     "start": {
       "text": "Need anything for the road? Water, snacks, phone chargers. Bangalore traffic is no joke — stock up.",
       "choices": [
-        { "text": "One water bottle. (₹20)", "next": "bought_water", "effect": { "money": -20, "item_add": "water_bottle" } },
-        { "text": "A SIM card, please. (₹300)", "next": "bought_sim", "effect": { "money": -300, "item_add": "sim_card" } },
+        { "text": "One water bottle. (₹20)", "next": "bought_water", "effect": { "wallet": -20, "item_add": "water_bottle" } },
+        { "text": "A SIM card, please. (₹300)", "next": "bought_sim", "effect": { "wallet": -300, "item_add": "sim_card" } },
         { "text": "Just looking.", "next": "farewell" }
       ]
     },

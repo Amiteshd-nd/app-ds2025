@@ -122,7 +122,7 @@ describe('QuestManager', () => {
     expect(ReputationManager.getInstance().canEnter('whitefield_street')).toBe(true);
 
     // And the shop transaction really happened.
-    expect(state.stats.money).toBe(4980);
+    expect(state.stats.wallet).toBe(34_980);
     expect(InventoryManager.getInstance().has('water_bottle')).toBe(true);
   });
 

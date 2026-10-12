@@ -85,7 +85,7 @@ describe('save 1.3.0 — profile', () => {
       version: '1.2.0', timestamp: 1,
       player: { name: 'Old', background: 'engineering', homeState: 'Kerala', appearance: { sheet: 'player' },
         position: { districtId: 'airport', x: 1, y: 2 }, direction: 'down' },
-      stats: { energy: 1, stress: 1, money: 1 },
+      stats: { energy: 1, stress: 1, money: 1 }, // 1.2.0 shape, migrated below
       skills: { technical: { xp: 0, level: 0 }, soft_skills: { xp: 0, level: 0 }, city_survival: { xp: 0, level: 0 } },
       reputation: { total: 0, byDistrict: {} }, inventory: [], quests: { active: {}, completed: [] }, flags: {},
       playtime_seconds: 0,

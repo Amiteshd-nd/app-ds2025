@@ -23,6 +23,9 @@ export interface GameEvents {
   'quest:started': { questId: string };
   'quest:objective': { questId: string; objectiveId: string };
   'quest:completed': { questId: string };
+  'wallet:spent': { amount: number; reason: string; balance: number };
+  'wallet:earned': { amount: number; reason: string; balance: number };
+  'social:met': { npcId: string; social: number };
   'reputation:changed': { total: number; districtId?: string; tier: number };
   'reputation:tier': { tier: number; tierName: string };
 }

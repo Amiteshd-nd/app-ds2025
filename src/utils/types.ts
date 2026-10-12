@@ -4,12 +4,23 @@ import type { Degree, Gender, SkinTone } from './profile';
 // Direction for player movement and NPC facing.
 export type Direction = 'down' | 'left' | 'right' | 'up';
 
+/**
+ * Core stats (player_profile_and_stats_v1 §2). Each names its loop step:
+ * health = Feedback, wallet = Progress, social = Reward, stamina = Progress,
+ * food = Challenge, stress = Feedback, battery = Challenge.
+ */
 export interface PlayerStats {
-  energy: number; // 0-100
-  stress: number; // 0-100
-  money: number; // ₹ — the single currency; no second currency until the
-  // gameplay actually needs one.
+  health: number;  // 0-100
+  wallet: number;  // ₹ — the single currency; never below 0 (ADR-17)
+  social: number;  // named NPCs met; +1 on first conversation
+  stamina: number; // 3-8 energy pips, grows via gym/sports milestones
+  food: number;    // 0-100, drains while awake
+  stress: number;  // 0-100
+  battery: number; // 0-100, the phone
 }
+
+/** Stats that `adjust()` may move; wallet goes through spend()/earn(). */
+export type AdjustableStat = Exclude<keyof PlayerStats, 'wallet' | 'social'>;
 
 /**
  * Standing in the city. `total` drives the macro-loop tier; `byDistrict` is
@@ -68,9 +79,13 @@ export interface PlayerData {
 
 // --- Dialogue --------------------------------------------------------------
 export interface StatEffect {
-  energy?: number;
+  health?: number;
+  food?: number;
   stress?: number;
-  money?: number;
+  stamina?: number;
+  battery?: number;
+  /** Negative = a purchase: applied only through spend(), so it can be refused. */
+  wallet?: number;
   xp?: number;
   xp_branch?: SkillBranchName;
   item_add?: string;
@@ -254,7 +269,7 @@ export interface QuestObjective {
 export interface QuestRewards {
   xp: number;
   xp_branch?: SkillBranchName;
-  money?: number;
+  wallet?: number;
   /** Reputation gained — credited globally and to the quest's district. */
   reputation?: number;
   items?: string[];
@@ -315,5 +330,7 @@ export interface SaveData {
     completed: string[];
   };
   flags: Record<string, boolean>; // generic flags for branching
+  /** Named NPC ids the player has spoken to — the social stat's ledger. */
+  met: string[];
   playtime_seconds: number;
 }

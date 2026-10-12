@@ -1,13 +1,18 @@
+import { gameEvents } from '../core/events';
 import { useGameStore } from '../store';
 import { InventoryManager } from './InventoryManager';
-import type { PlayerStats, SkillBranchName, StatEffect } from '../utils/types';
+import type { AdjustableStat, PlayerStats, SkillBranchName, StatEffect } from '../utils/types';
 
 /**
- * StatsManager — energy, stress, money and skill XP.
+ * StatsManager — the survival stats (profile doc §2), the wallet and skill XP.
  *
- * Singleton via getInstance(), per the v1.0 architecture note. It holds no state
- * of its own: the zustand store is the single source of truth, so the React HUD
- * re-renders whenever a Phaser scene applies an effect.
+ * Singleton via getInstance(). It holds no state of its own: the zustand store
+ * is the single source of truth, so the React HUD re-renders whenever a Phaser
+ * scene applies an effect.
+ *
+ * Money leaves the wallet through exactly one door, `spend()`, which refuses
+ * when the player cannot afford it (game_components §7: "every purchase is a
+ * canAfford() call"). Income arrives through `earn()`.
  */
 export class StatsManager {
   private static instance: StatsManager | null = null;
@@ -26,16 +31,8 @@ export class StatsManager {
     return useGameStore.getState().stats;
   }
 
-  adjustEnergy(delta: number): void {
-    useGameStore.getState().adjustEnergy(delta);
-  }
-
-  adjustStress(delta: number): void {
-    useGameStore.getState().adjustStress(delta);
-  }
-
-  adjustMoney(delta: number): void {
-    useGameStore.getState().adjustMoney(delta);
+  adjust(stat: AdjustableStat, delta: number): void {
+    useGameStore.getState().adjustStat(stat, delta);
   }
 
   addXp(branch: SkillBranchName, amount: number): void {
@@ -44,14 +41,57 @@ export class StatsManager {
 
   /** True when the player can cover a cost. */
   canAfford(cost: number): boolean {
-    return this.stats.money >= cost;
+    return this.stats.wallet >= cost;
   }
 
-  /** Apply a dialogue/quest StatEffect in one go, items included. */
+  /**
+   * Pay. Refuses (false, nothing changes) when the wallet is short — the
+   * caller shows "can't afford", never a negative balance. `reason` is for
+   * feedback and analytics ("chai", "bus_fare").
+   */
+  spend(cost: number, reason = ''): boolean {
+    if (cost < 0) throw new Error(`spend() takes a positive cost, got ${cost}`);
+    if (!this.canAfford(cost)) return false;
+    useGameStore.getState().adjustWallet(-cost);
+    gameEvents.emit('wallet:spent', { amount: cost, reason, balance: this.stats.wallet });
+    return true;
+  }
+
+  /** Income: salary, a quest reward, a sold item. */
+  earn(amount: number, reason = ''): void {
+    if (amount <= 0) return;
+    useGameStore.getState().adjustWallet(amount);
+    gameEvents.emit('wallet:earned', { amount, reason, balance: this.stats.wallet });
+  }
+
+  /**
+   * First conversation with a named NPC: social +1 (profile doc §2, loop
+   * step Reward). Ambient crowd never counts. Returns true when it was new.
+   */
+  meet(npcId: string): boolean {
+    const isNew = useGameStore.getState().markMet(npcId);
+    if (isNew) gameEvents.emit('social:met', { npcId, social: this.stats.social });
+    return isNew;
+  }
+
+  /**
+   * Apply a dialogue/quest/item StatEffect in one go, items included. A
+   * negative wallet effect is a purchase and goes through spend(); callers
+   * that need to refuse before the effect (dialogue choices) ask canAfford()
+   * first, so a refusal here only means the content and the gate disagree.
+   */
   applyEffect(effect: StatEffect): void {
-    if (effect.energy) this.adjustEnergy(effect.energy);
-    if (effect.stress) this.adjustStress(effect.stress);
-    if (effect.money) this.adjustMoney(effect.money);
+    if (effect.health) this.adjust('health', effect.health);
+    if (effect.food) this.adjust('food', effect.food);
+    if (effect.stress) this.adjust('stress', effect.stress);
+    if (effect.stamina) this.adjust('stamina', effect.stamina);
+    if (effect.battery) this.adjust('battery', effect.battery);
+    if (effect.wallet) {
+      if (effect.wallet > 0) this.earn(effect.wallet, 'effect');
+      else if (!this.spend(-effect.wallet, 'effect')) {
+        console.warn(`[StatsManager] could not spend ₹${-effect.wallet} (wallet ₹${this.stats.wallet})`);
+      }
+    }
     if (effect.xp && effect.xp_branch) this.addXp(effect.xp_branch, effect.xp);
 
     if (effect.item_add) {

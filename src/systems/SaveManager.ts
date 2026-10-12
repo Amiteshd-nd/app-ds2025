@@ -8,8 +8,14 @@ import {
   SAVE_KEY,
   SAVE_VERSION,
   START_DISTRICT,
+  STARTING_BATTERY,
+  STARTING_FOOD,
+  STARTING_HEALTH,
+  STARTING_STAMINA,
+  STARTING_STRESS,
+  STARTING_WALLET,
 } from '../utils/constants';
-import type { SaveData, WorldPosition } from '../utils/types';
+import type { PlayerStats, SaveData, WorldPosition } from '../utils/types';
 
 /**
  * SaveManager — localStorage serialization of the run.
@@ -53,6 +59,7 @@ export class SaveManager {
       inventory: state.inventory,
       quests: state.quests,
       flags: state.flags,
+      met: state.met,
       playtime_seconds: 0,
     };
 
@@ -110,9 +117,24 @@ export class SaveManager {
       hometown: { state: old.homeState && old.homeState !== 'Other' ? old.homeState : 'Karnataka', town: '' },
     };
 
+    // Pre-1.4.0 stats were {energy, stress, money}: energy was the old name for
+    // food, money for the wallet; the new stats start at their defaults.
+    const oldStats = data.stats as unknown as Partial<PlayerStats> & { energy?: number; money?: number };
+    const stats: PlayerStats = {
+      health: oldStats.health ?? STARTING_HEALTH,
+      wallet: Math.max(0, oldStats.wallet ?? oldStats.money ?? STARTING_WALLET),
+      social: oldStats.social ?? 0,
+      stamina: oldStats.stamina ?? STARTING_STAMINA,
+      food: oldStats.food ?? oldStats.energy ?? STARTING_FOOD,
+      stress: oldStats.stress ?? STARTING_STRESS,
+      battery: oldStats.battery ?? STARTING_BATTERY,
+    };
+
     return {
       ...data,
       version: SAVE_VERSION,
+      stats,
+      met: data.met ?? [],
       player: {
         profile,
         appearance: data.player.profile ? data.player.appearance : { sheet: sheetForProfile(profile) },
@@ -141,6 +163,7 @@ export class SaveManager {
       inventory: data.inventory,
       quests: data.quests,
       flags: data.flags,
+      met: data.met,
     });
     return true;
   }

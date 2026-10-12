@@ -44,12 +44,22 @@ export const BOT_SPEED_MAX = 70;
 export const BOT_TURN_INTERVAL_MIN = 1000; // ms
 export const BOT_TURN_INTERVAL_MAX = 3000; // ms
 
-// --- Stats and resources ---------------------------------------------------
-export const MAX_ENERGY = 100;
-export const MAX_STRESS = 100;
-export const STARTING_MONEY = 5000; // ₹
-export const STARTING_ENERGY = 70;
-export const STARTING_STRESS = 20;
+// --- Stats and resources (profile doc §2, ADR-17) --------------------------
+export const STARTING_WALLET = 35_000; // ₹
+export const STARTING_HEALTH = 100;
+export const STARTING_FOOD = 100;
+export const STARTING_STRESS = 0;
+export const STARTING_BATTERY = 100;
+export const STARTING_STAMINA = 3;
+export const STAMINA_MAX = 8;
+/** Inclusive bounds every adjustable stat is clamped to. */
+export const STAT_BOUNDS = {
+  health: [0, 100],
+  food: [0, 100],
+  stress: [0, 100],
+  battery: [0, 100],
+  stamina: [STARTING_STAMINA, STAMINA_MAX],
+} as const;
 
 // --- Skill system ----------------------------------------------------------
 export const SKILL_XP_THRESHOLDS = [0, 100, 300, 600, 1000]; // 5 tiers (0-indexed)
@@ -145,14 +155,15 @@ export const DEFAULT_PLAYER_SHEET = 'player_m_3';
 // Save format version, bumped when SaveData changes shape.
 // 1.2.0: position is a district id + x/y, not a scene class name; appearance added.
 // 1.3.0: player.profile replaces name/background/homeState (P2 character creation).
-export const SAVE_VERSION = '1.3.0';
+// 1.4.0: stats are health/wallet/social/stamina/food/stress/battery; `met` ledger added.
+export const SAVE_VERSION = '1.4.0';
 
 /**
  * Older formats that can be upgraded forward rather than discarded. Refusing a
  * save is correct when its shape is unknown; throwing away a player's run
  * because a field was added is not.
  */
-export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0'] as const;
+export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0', '1.3.0'] as const;
 
 /** Scene class names that pre-1.2.0 saves recorded, mapped to the district they meant. */
 export const LEGACY_SCENE_DISTRICTS: Record<string, string> = {

@@ -2,7 +2,7 @@
 Updated: 2026-10-12
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — P2 Character creation + sprites
+## Now — P3 M0 minimal loop
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`
 - [x] T-002 P0.2 `WorldScene` refactor (tech §7 steps 1–4): Populate/Exits/Triggers, `districts.json` v2, `TransitScene` card airport→whitefield_street, delete Airport/Whitefield scenes, saves persist `districtId+spawnId`
 - [x] T-003 P0.3 Extend validators: district reachability from `airport` via exits, spawn/zone/npc/`to` references, door objects 32×48 (warn), City Pulse slot checks
@@ -10,8 +10,8 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Next
 
-- [ ] T-006 P2 Character creation form → `player.profile` + M/F × 5 skins sprites (generated + imported, ADR-84; 3-frame contract ADR-86) + walk preview — **round 3, awaiting P2 audit**
-- [ ] T-007 P2 Stat model per profile doc §2 (health/wallet ₹35,000 ADR-17/social/stamina/food/stress/battery) + `spend()`/`canAfford()` wired; retune tests
+- [x] T-006 P2 Character creation form → profile, generated+imported M/F × 5 skins, walk preview — approved 2026-10-12
+- [ ] T-007 P3 Stat model per profile doc §2 (health/wallet ₹35,000 ADR-17/social/stamina/food/stress/battery) + `spend()`/`canAfford()` wired; retune tests
 - [ ] T-008 P3 M0 minimal loop: airport → chai Anna (interact/dialogue/UPI spend) → Vayu Vajra stop → bus transit card → whitefield_street
 
 ## Later

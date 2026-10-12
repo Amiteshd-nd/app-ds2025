@@ -226,7 +226,9 @@ describe('save migration', () => {
 
     expect(SaveManager.getInstance().restore()).toBe(true);
     const state = useGameStore.getState();
-    expect(state.stats.money).toBe(1234);          // the old run survives
+    expect(state.stats.wallet).toBe(1234);         // the old run survives: money → wallet
+    expect(state.stats.food).toBe(40);             // energy → food
+    expect(state.stats.social).toBe(0);
     expect(state.inventory).toEqual(['water_bottle']);
     expect(state.quests.completed).toEqual(['arrival']);
   });
@@ -253,11 +255,11 @@ describe('save migration', () => {
 describe('single-currency economy', () => {
   it('tracks lifetime earnings without counting spending', () => {
     const stats = StatsManager.getInstance();
-    stats.adjustMoney(500);   // income
-    stats.adjustMoney(-200);  // spend
-    stats.adjustMoney(100);   // income
+    stats.earn(500);                  // income
+    expect(stats.spend(200)).toBe(true);
+    stats.earn(100);
     const state = useGameStore.getState();
-    expect(state.stats.money).toBe(5400);   // 5000 + 500 - 200 + 100
-    expect(state.totalEarned).toBe(600);    // income only
+    expect(state.stats.wallet).toBe(35_400);   // 35,000 + 500 - 200 + 100
+    expect(state.totalEarned).toBe(600);       // income only
   });
 });

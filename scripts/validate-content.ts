@@ -24,6 +24,8 @@ const dataDir = resolve(here, '../src/data');
 
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
+/** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
+const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab'];
 const SKILL_BRANCHES = Object.keys(SKILL_TIER_NAMES);
 const QUEST_TYPE_LIST: string[] = [...QUEST_TYPES];
@@ -216,6 +218,7 @@ export function validateContent(
     if (rewards.reputation !== undefined && typeof rewards.reputation !== 'number') {
       add(file, 'rewards.reputation must be a number');
     }
+    if (rewards.money !== undefined) add(file, 'rewards.money is now rewards.wallet');
     if (rewards.xp_branch && !SKILL_BRANCHES.includes(rewards.xp_branch)) {
       add(file, `rewards.xp_branch "${rewards.xp_branch}" is not a skill branch`);
     }
@@ -537,6 +540,12 @@ function validateEffect(
   itemsMayBeUnknown: boolean,
 ): string[] {
   const out: string[] = [];
+  for (const key of Object.keys(effect)) {
+    if (!EFFECT_KEYS.includes(key)) {
+      const hint = key === 'money' ? ' (now "wallet")' : key === 'energy' ? ' (now "food")' : '';
+      out.push(`${file}: ${where} has unknown effect key "${key}"${hint}`);
+    }
+  }
   if (effect.xp !== undefined && !effect.xp_branch) {
     out.push(`${file}: ${where} grants xp with no xp_branch`);
   }

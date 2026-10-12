@@ -5,7 +5,7 @@
     "description": "One litre, sealed. Worth more than it looks.",
     "icon": "item_placeholder",
     "type": "consumable",
-    "effect": { "energy": 10 },
+    "effect": { "food": 10 },
     "stackable": true,
     "max_stack": 6
   },
@@ -15,7 +15,7 @@
     "description": "Half a glass, twice the sugar. The city runs on it.",
     "icon": "item_placeholder",
     "type": "consumable",
-    "effect": { "energy": 15, "stress": -5 },
+    "effect": { "food": 15, "stress": -5 },
     "stackable": true,
     "max_stack": 4
   },
