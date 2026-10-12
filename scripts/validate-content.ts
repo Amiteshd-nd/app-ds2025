@@ -18,6 +18,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT, TEMPERAMENTS } from '../src/utils/constants.ts';
 import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
+import { ICON_NAMES } from '../src/ui/kit/icons.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, '../src/data');
@@ -60,9 +61,17 @@ export function validateContent(
   sceneFiles: JsonFile[] = [],
   negotiationFiles: JsonFile[] = [],
   phone: { apps?: Json[]; chats?: JsonFile[] } = {},
+  /** Characters the UI bitmap font can draw (src/assets/fonts/metrics.json). Omitted = not checked. */
+  glyphs?: Set<string>,
 ): string[] {
   const problems: string[] = [];
   const add = (file: string, msg: string) => problems.push(`${file}: ${msg}`);
+  /** Player-visible text must be drawable by the bitmap font (ADR-114); '?' would show instead. */
+  const drawable = (file: string, where: string, text: unknown) => {
+    if (!glyphs || typeof text !== 'string') return;
+    const missing = [...new Set([...text].filter((ch) => ch !== '\n' && !glyphs.has(ch)))];
+    if (missing.length) add(file, `${where}: the UI font cannot draw ${missing.map((c) => `"${c}"`).join(' ')} — rephrase, or add the glyph in scripts/import-font.mjs`);
+  };
 
   // ── Items ────────────────────────────────────────────────────────────────
   const itemIds = new Set<string>();
@@ -209,6 +218,9 @@ export function validateContent(
       }
     }
 
+    if (district.signal !== undefined && !(Number.isInteger(district.signal) && district.signal >= 0 && district.signal <= 4)) {
+      add(where, `${d} signal must be a whole number of bars, 0–4`);
+    }
     if (district.realworld !== undefined) {
       const rw = district.realworld;
       const coords = typeof rw.lat === 'number' && typeof rw.lng === 'number' && Math.abs(rw.lat) <= 90 && Math.abs(rw.lng) <= 180;
@@ -237,6 +249,7 @@ export function validateContent(
     const objectiveIds = new Set<string>();
     for (const obj of json.objectives ?? []) {
       if (objectiveIds.has(obj.id)) add(file, `duplicate objective id "${obj.id}"`);
+      drawable(file, `objective "${obj.id}"`, obj.text);
       objectiveIds.add(obj.id);
       if (obj.destination !== undefined && districts.length && !districtIds.has(obj.destination)) {
         add(file, `objective "${obj.id}" destination "${obj.destination}" is not a district`);
@@ -437,7 +450,15 @@ export function validateContent(
     if (appIds.has(app.id)) add('phone/apps.json', `duplicate app "${app.id}"`);
     appIds.add(app.id);
     if (app.unlock !== undefined && (typeof app.unlock !== 'string' || !app.unlock)) add('phone/apps.json', `app "${app.id}" unlock must be a flag name`);
+    if (!ICON_NAMES.includes(app.icon)) add('phone/apps.json', `app "${app.id}" icon "${app.icon}" is not in src/ui/kit/icons.ts (${ICON_NAMES.join(', ')})`);
+    if (app.dock !== undefined && typeof app.dock !== 'boolean') add('phone/apps.json', `app "${app.id}" dock must be true or false`);
+    drawable('phone/apps.json', `app "${app.id}" name`, app.name);
+    drawable('phone/apps.json', `app "${app.id}" hint`, app.hint);
   }
+  // Home screen: 4 dock slots, a 4×3 grid (ADR-114).
+  const docked = (phone.apps ?? []).filter((a) => a.dock).length;
+  if (docked > 4) add('phone/apps.json', `${docked} apps in the dock — it holds 4`);
+  if ((phone.apps ?? []).length - docked > 12) add('phone/apps.json', `${(phone.apps ?? []).length - docked} apps in the grid — it holds 12 (4×3)`);
   const messageIds = new Set<string>();
   for (const { file, basename, json } of phone.chats ?? []) {
     if (json.id !== basename) add(file, `id "${json.id}" does not match filename "${basename}"`);
@@ -445,6 +466,7 @@ export function validateContent(
     if (!Array.isArray(json.messages) || !json.messages.length) add(file, 'needs at least one message');
     for (const m of json.messages ?? []) {
       if (!m.id || !m.text) add(file, 'every message needs id and text');
+      drawable(file, `message "${m.id}"`, m.text);
       if (messageIds.has(m.id)) add(file, `message id "${m.id}" is used twice — ids are global (they are saved)`);
       messageIds.add(m.id);
       if (m.from !== 'them' && m.from !== 'me') add(file, `message "${m.id}" from must be "them" or "me"`);
@@ -466,6 +488,7 @@ export function validateContent(
 
     for (const [nodeId, node] of Object.entries(nodes)) {
       if (!node.text) add(file, `node "${nodeId}" has no text`);
+      drawable(file, `node "${nodeId}"`, node.text);
 
       if (node.next && !nodes[node.next]) {
         add(file, `node "${nodeId}" advances to "${node.next}", which does not exist — this soft-locks the conversation`);
@@ -484,6 +507,7 @@ export function validateContent(
 
       node.choices?.forEach((choice: Json, i: number) => {
         if (!choice.text) add(file, `node "${nodeId}" choice ${i} has no text`);
+        drawable(file, `node "${nodeId}" choice ${i}`, choice.text);
         if (!choice.next) {
           add(file, `node "${nodeId}" choice ${i} has no next`);
         } else if (!nodes[choice.next]) {
@@ -786,7 +810,9 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
       readFileSync(resolve(here, '../src/assets/tilesets/street.tiles.json'), 'utf8'),
     ) as { ids: Record<string, number> }
   ).ids;
-  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations, { apps: phoneApps, chats });
+  const fontMetrics = JSON.parse(readFileSync(resolve(here, '../src/assets/fonts/metrics.json'), 'utf8'));
+  const glyphs = new Set(Object.keys(fontMetrics.advance as Record<string, number>));
+  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations, { apps: phoneApps, chats }, glyphs);
 
   const assetsDir = resolve(here, '../src/assets');
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));

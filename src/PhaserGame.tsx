@@ -5,6 +5,7 @@ import TitleScene from './scenes/TitleScene';
 import CharacterSelectScene from './scenes/CharacterSelectScene';
 import WorldScene from './scenes/WorldScene';
 import TransitScene from './scenes/TransitScene';
+import PhoneScene from './scenes/PhoneScene';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from './utils/constants';
 
 export interface PhaserGameProps {
@@ -58,7 +59,7 @@ const PhaserGame = ({ startScene = SCENE_KEYS.TITLE, startDistrict }: PhaserGame
       },
       // BootScene is listed first, so it is the scene Phaser starts with.
       // Places are not scenes: every district renders through WorldScene.
-      scene: [BootScene, TitleScene, CharacterSelectScene, WorldScene, TransitScene],
+      scene: [BootScene, TitleScene, CharacterSelectScene, WorldScene, TransitScene, PhoneScene],
     });
 
     gameRef.current = game;

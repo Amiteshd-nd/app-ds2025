@@ -1,0 +1,9 @@
+{
+  "name": "Phone: day 3, chats waiting",
+  "description": "P6a audit: Divya has called (Maps + Calls unlocked), the PG brokers and Shanthamma have texted, 08:41 on day 3, battery 78%.",
+  "state": {
+    "clock": { "day": 3, "minute": 521 },
+    "stats": { "battery": 78 },
+    "flags": { "hotel_checked_in": true, "divya_called": true, "pg_lane_found": true, "pg_token_quoted": true, "pg_signed": true }
+  }
+}

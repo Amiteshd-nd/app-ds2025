@@ -33,6 +33,9 @@ export interface GameEvents {
   'reputation:changed': { total: number; districtId?: string; tier: number };
   'reputation:tier': { tier: number; tierName: string };
   'phone:message': { threadId: string; messageId: string; contact: string; text: string };
+  /** The phone buzzes: a message that passes Do Not Disturb, or an app unlocking. PhoneScene wiggles + haptics. */
+  'phone:buzz': { reason: 'message' | 'unlock'; threadId?: string; appId?: string };
+  'phone:app-unlocked': { appId: string; name: string };
   'negotiation:ended': { negotiationId: string; outcome: 'deal' | 'walk'; total: number };
 }
 

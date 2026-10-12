@@ -1,8 +1,16 @@
 [
-  { "id": "chats", "name": "Chats", "order": 1 },
-  { "id": "upi", "name": "UPI", "order": 2 },
-  { "id": "maps", "name": "Maps", "order": 3, "unlock": "divya_called", "hint": "Divya will point you somewhere first." },
-  { "id": "call", "name": "Calls", "order": 4, "unlock": "divya_called", "hint": "Nobody has called yet." },
-  { "id": "reels", "name": "Reels", "order": 5, "unlock": "reels_taught", "hint": "Not yet." },
-  { "id": "news", "name": "News", "order": 6, "unlock": "news_taught", "hint": "Not yet." }
+  { "id": "maps", "name": "Maps", "icon": "maps", "order": 1, "dock": true, "unlock": "divya_called", "hint": "Divya will point you somewhere first." },
+  { "id": "chats", "name": "Chats", "icon": "chats", "order": 2, "dock": true },
+  { "id": "upi", "name": "UPI", "icon": "upi", "order": 3, "dock": true },
+  { "id": "camera", "name": "Camera", "icon": "camera", "order": 4, "dock": true, "unlock": "city_moments_taught", "hint": "Some places are worth a photo. You'll know." },
+  { "id": "call", "name": "Calls", "icon": "call", "order": 5, "unlock": "divya_called", "hint": "Nobody has called yet." },
+  { "id": "contacts", "name": "Contacts", "icon": "contacts", "order": 6 },
+  { "id": "news", "name": "News", "icon": "news", "order": 7, "unlock": "news_taught", "hint": "Not yet." },
+  { "id": "reels", "name": "Reels", "icon": "reels", "order": 8, "unlock": "reels_taught", "hint": "Not yet." },
+  { "id": "jobs", "name": "Jobs", "icon": "jobs", "order": 9, "unlock": "jobs_taught", "hint": "You already have a job. For now." },
+  { "id": "calendar", "name": "Calendar", "icon": "calendar", "order": 10 },
+  { "id": "food", "name": "Food", "icon": "food", "order": 11, "unlock": "food_app_taught", "hint": "Find a darshini first." },
+  { "id": "dating", "name": "Dating", "icon": "dating", "order": 12, "unlock": "act2_started", "hint": "Settle in first." },
+  { "id": "notes", "name": "Notes", "icon": "notes", "order": 13 },
+  { "id": "settings", "name": "Settings", "icon": "settings", "order": 14 }
 ]

@@ -105,6 +105,37 @@ export const TOKEN_INDEX = {
 };
 
 /**
+ * UI tokens (ADR-114): phone, fullscreen map, HUD and menus. Indices refer to
+ * src/assets/_meta/ui-palette.gpl — a separate locked ramp of 12 colours, so
+ * the world art stays on its 48. A value `world:<token>` reuses a world
+ * colour instead (the HUD star is the auto yellow).
+ */
+export const UI_TOKEN_INDEX = {
+  // ── Phone (P6a) ──
+  'phone.bezel': 0,
+  'phone.bezel.edge': 3,
+  'phone.lcd.bg': 4,
+  'phone.lcd.mid': 5,
+  'phone.lcd.ink': 6,
+  'phone.accent.upi': 7,   // money in, the UPI glyph
+  'phone.accent.alert': 8, // money out, low battery, errors
+  'phone.accent.chat': 9,  // unread badge
+
+  // ── HUD + menus (P6c/P6d) ──
+  'hud.plate': 0,          // drawn at HUD_PLATE_ALPHA (85%)
+  'hud.border': 2,
+  'hud.text': 1,
+  'hud.shadow': 0,
+  'hud.star': 'world:ui.focus',
+
+  // ── Fullscreen map (P6b) ──
+  'map.bg': 0,
+  'map.path': 1,
+  'map.water': 10,
+  'map.hill': 11,
+};
+
+/**
  * Motion tokens (design system §7: sprites snap, no easing). Numbers, not
  * colours: px and ms. Runtime reads them through src/ui/tokens.ts `motion()`.
  */
@@ -118,6 +149,17 @@ export const MOTION_TOKENS = {
   'm.breath.resume': 300,
   /** ± share of speed each NPC's breath is jittered by, so a crowd never syncs. */
   'm.breath.jitter': 0.1,
+  /** Design system §7: area fade, dialogue typewriter. */
+  'm.fade': 400,
+  'm.typewriter': 30,
+  /** Phone (ADR-114): slides up in 4 stepped moves over 250 ms. */
+  'm.phone.open': 250,
+  'm.phone.open.steps': 4,
+  /** App unlocked: a stepped pop, 300 ms. */
+  'm.phone.pop': 300,
+  /** Buzz while closed: the corner phone icon wiggles ±1px, this many times, this fast. */
+  'm.phone.wiggle.count': 6,
+  'm.phone.wiggle.step': 70,
 };
 
 /**

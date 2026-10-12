@@ -40,3 +40,12 @@ export const motion = (name: MotionName): number => {
 export type DevTheme = keyof typeof generated.devui;
 /** Test Playground chrome colours for a theme (ADR-108) — dev tooling only. */
 export const devUi = (theme: DevTheme): Record<string, string> => ({ ...(generated.devui[theme] as Record<string, string>) });
+
+/** HUD and menu plates are `hud.plate` at this opacity (ADR-114): readable over a busy street. */
+export const HUD_PLATE_ALPHA = 0.85;
+
+/** 'rgba(r,g,b,a)' for a token — the only way UI code gets a translucent colour. */
+export const rgba = (name: TokenName, alpha: number): string => {
+  const n = color(name);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
+};

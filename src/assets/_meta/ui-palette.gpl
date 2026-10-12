@@ -1,0 +1,17 @@
+GIMP Palette
+Name: Bangalore Times UI (ADR-114)
+Columns: 6
+# Locked UI ramp for the phone, map, HUD and menus only. World art stays on palette.gpl.
+# Order is the index scripts/art/tokens.mjs#UI_TOKEN_INDEX refers to. Append, never reorder.
+  0   0   0	black
+255 255 255	white
+140 143 136	grey (hud/menu border)
+ 46  48  44	grey dark (bezel edge, buttons)
+195 197 143	lcd bg
+141 144  88	lcd mid
+ 54  58  28	lcd ink
+ 43 138  69	upi green
+200  48  47	alert red
+226 128  28	chat amber
+ 61 143 224	map water
+234 143  42	map hill

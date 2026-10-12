@@ -82,3 +82,22 @@ const propModules = import.meta.glob('./props/*.png', {
 }) as Record<string, string>;
 
 export const PROP_URLS: Record<string, string> = byBasename(propModules);
+
+// Bitmap fonts written by scripts/import-font.mjs (ADR-114): `px` regular and
+// `pxb` pixel bold, each a PNG atlas + AngelCode BMFont XML.
+const fontModules = import.meta.glob('./fonts/*.{png,xml}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>;
+
+/** { px: { png, xml }, pxb: { png, xml } } */
+export const FONT_URLS: Record<string, { png: string; xml: string }> = Object.entries(fontModules).reduce(
+  (acc, [path, url]) => {
+    const name = basename(path);
+    const ext = path.endsWith('.png') ? 'png' : 'xml';
+    acc[name] = { ...(acc[name] ?? { png: '', xml: '' }), [ext]: url };
+    return acc;
+  },
+  {} as Record<string, { png: string; xml: string }>,
+);

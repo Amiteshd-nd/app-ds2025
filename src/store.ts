@@ -93,6 +93,8 @@ export interface GameState {
   transactions: Transaction[];
   /** Phone state: chat message ids delivered and read. Saved. */
   phone: PhoneState;
+  /** A full-screen overlay over the world (the phone; later the map and pause menu). Hides the HUD. Not saved. */
+  overlay: 'phone' | null;
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -121,6 +123,7 @@ export interface GameState {
   /** Append to the UPI ledger (StatsManager does this on every spend/earn). */
   addTransaction: (tx: Transaction) => void;
   setPhone: (phone: PhoneState) => void;
+  setOverlay: (overlay: 'phone' | null) => void;
 
   hydrate: (partial: Partial<GameState>) => void;
   reset: () => void;
@@ -183,6 +186,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   counters: {},
   transactions: [],
   phone: initialPhone(),
+  overlay: null,
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -239,6 +243,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   setQuests: (quests) => set({ quests }),
   addTransaction: (tx) => set((state) => ({ transactions: [...state.transactions, tx] })),
   setPhone: (phone) => set({ phone }),
+  setOverlay: (overlay) => set({ overlay }),
 
   hydrate: (partial) => set(partial),
 
@@ -259,5 +264,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       counters: {},
       transactions: [],
       phone: initialPhone(),
+      overlay: null,
     }),
 }));

@@ -334,14 +334,26 @@ describe('phone data (P6)', () => {
   const chat = (json: Record<string, unknown>) => [{ file: 'phone/chats/x.json', basename: 'x', json }];
   it('accepts a well-formed app list and thread', () => {
     expect(validateContent([], [], items(), districts(), [], [], {}, [], [], {
-      apps: [{ id: 'chats', name: 'Chats', order: 1 }, { id: 'maps', name: 'Maps', order: 2, unlock: 'f' }],
+      apps: [{ id: 'chats', name: 'Chats', icon: 'chats', order: 1 }, { id: 'maps', name: 'Maps', icon: 'maps', order: 2, unlock: 'f' }],
       chats: chat({ id: 'x', contact: 'X', messages: [{ id: 'x1', from: 'them', text: 'hi' }, { id: 'x2', from: 'me', text: 'yo', after: 'f' }] }),
     })).toEqual([]);
   });
 
+  it('catches an unknown icon, an overfull dock and text the UI font cannot draw (ADR-114)', () => {
+    const apps = ['a', 'b', 'c', 'd', 'e'].map((id, i) => ({ id, name: id, icon: 'chats', order: i, dock: true }));
+    apps[0].icon = 'rocket';
+    const p = validateContent([], [], items(), districts(), [], [], {}, [], [], {
+      apps,
+      chats: chat({ id: 'x', contact: 'X', messages: [{ id: 'x1', from: 'them', text: 'Landed? 📱' }] }),
+    }, new Set([...'abcdeXLand ?']));
+    expect(p.some((x) => x.includes('icon "rocket"'))).toBe(true);
+    expect(p.some((x) => x.includes('in the dock'))).toBe(true);
+    expect(p.some((x) => x.includes('cannot draw "📱"'))).toBe(true);
+  });
+
   it('catches duplicate message ids, a bad sender and a duplicate app', () => {
     const p = validateContent([], [], items(), districts(), [], [], {}, [], [], {
-      apps: [{ id: 'chats', name: 'Chats', order: 1 }, { id: 'chats', name: 'Again', order: 2 }],
+      apps: [{ id: 'chats', name: 'Chats', icon: 'chats', order: 1 }, { id: 'chats', name: 'Again', icon: 'chats', order: 2 }],
       chats: chat({ id: 'x', contact: 'X', messages: [{ id: 'x1', from: 'them', text: 'a' }, { id: 'x1', from: 'bot', text: 'b' }] }),
     });
     expect(p.some((x) => x.includes('duplicate app'))).toBe(true);

@@ -32,7 +32,11 @@ export class PhoneManager {
 
   constructor(private threads: Record<string, ChatThread> = CHATS) {
     this.off.push(
-      gameEvents.on('flag:set', ({ value }) => { if (value) this.deliver(); }),
+      gameEvents.on('flag:set', ({ flag, value }) => {
+        if (!value) return;
+        this.announceUnlocks(flag);
+        this.deliver();
+      }),
       // Messages with no flag arrive on the first step into the world ("Landed? Call.").
       gameEvents.on('district:entered', () => this.deliver()),
     );
@@ -65,6 +69,7 @@ export class PhoneManager {
       gameEvents.emit('phone:message', { threadId: thread.id, messageId: message.id, contact: thread.contact, text: message.text });
       if (message.from === 'them' && !options.quiet && (!dnd || message.critical)) {
         gameEvents.emit('ui:toast', { text: `📱 ${thread.contact}: ${message.text}` });
+        gameEvents.emit('phone:buzz', { reason: 'message', threadId: thread.id });
       }
     }
     return fresh.map((f) => f.message);
@@ -96,6 +101,17 @@ export class PhoneManager {
   }
 
   // ── Apps ─────────────────────────────────────────────────────────────────
+
+  /** An app taught by this flag: toast "APP UNLOCKED: MAPS" + buzz (ADR-39: unlock pop). */
+  private announceUnlocks(flag: string): void {
+    for (const app of PHONE_APPS) {
+      if (app.unlock !== flag) continue;
+      gameEvents.emit('phone:app-unlocked', { appId: app.id, name: app.name });
+      // The toast is game feedback and always shows; the buzz is the phone's, so DND mutes it.
+      gameEvents.emit('ui:toast', { text: `APP UNLOCKED: ${app.name.toUpperCase()}` });
+      if (!settings().gameplay.doNotDisturb) gameEvents.emit('phone:buzz', { reason: 'unlock', appId: app.id });
+    }
+  }
 
   apps(): Array<PhoneApp & { unlocked: boolean }> {
     const { flags } = useGameStore.getState();

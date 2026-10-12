@@ -196,6 +196,10 @@ export class WorldScene extends Phaser.Scene {
     // player standing on the exit zone they just used.
     this.persist();
 
+    // The phone runs above the world (ADR-114): its button while closed, the overlay when open.
+    this.scene.launch(SCENE_KEYS.PHONE);
+    this.scene.bringToTop(SCENE_KEYS.PHONE);
+
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this.game.events.once(Phaser.Core.Events.DESTROY, this.persist, this);
   }
@@ -356,7 +360,23 @@ export class WorldScene extends Phaser.Scene {
     });
   }
 
+  /** The phone (and later the map / pause menu) may open only while the player is free to act. */
+  canOpenOverlay(): boolean {
+    return !this.dialogueBox.isOpen && !this.leaving && !this.sleeping;
+  }
+
+  /**
+   * An overlay closed: resume, and hold interaction for a beat so the closing
+   * keystroke (E / Enter) cannot double as an interact — same as the dialogue box.
+   */
+  overlayClosed(): void {
+    this.player.setInteractionEnabled(false);
+    this.scene.resume();
+    this.time.delayedCall(80, () => { if (!this.leaving && !this.sleeping) this.player.setInteractionEnabled(true); });
+  }
+
   private shutdown(): void {
+    this.scene.stop(SCENE_KEYS.PHONE);
     this.dialogueBox.forceClose();
     for (const teardown of this.teardowns) teardown();
     this.teardowns = [];

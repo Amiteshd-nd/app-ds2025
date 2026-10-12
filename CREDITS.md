@@ -24,6 +24,12 @@ incarnation of this game (`cityhunter-x-y-z/bt`, provenance never resolved)
 were **deleted on 2026-10-13** (T-031, ADR-109). The airport is now the
 generated `kempegowda_arrivals` map above, so no asset of unknown origin ships.
 
+## Third-party fonts
+
+| Asset | Source | Licence |
+| --- | --- | --- |
+| `src/assets/_raw/fonts/PixelifySans-wght.ttf` → `src/assets/fonts/px.*`, `pxb.*` (bitmap font "based on Pixelify Sans", modified: grid-sampled, pixel bold, hand-drawn ₹ 5 Z B ( ) , and UI marks) | Pixelify Sans by The Pixelify Sans Project Authors — <https://github.com/eifetx/Pixelify-Sans>, downloaded 2026-10-13 from the official <https://github.com/google/fonts/tree/main/ofl/pixelifysans> | SIL Open Font License 1.1 — `src/assets/_raw/fonts/OFL.txt`, shipped as `public/licenses/OFL-PixelifySans.txt`; no Reserved Font Name. OFL is allowed for font files only (ADR-114). Credited in Settings → About (P6d) |
+
 ## Third-party packs
 
 None yet. When one is added, record it here on the day it is downloaded, with:

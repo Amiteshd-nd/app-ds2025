@@ -62,7 +62,9 @@ const BangaloreTimes = ({ backSlot, startScene, startDistrict, touchControls = '
     .map((id) => ({ quest: QUESTS[id], done: quests.active[id] }));
   const pgSigned = useGameStore((s) => Boolean(s.flags.pg_signed));
 
-  const inGameplay = activeScene !== null && GAMEPLAY_SCENES.has(activeScene);
+  // The phone (and later the map / pause menu) hides the HUD while it is open (ADR-114).
+  const overlay = useGameStore((s) => s.overlay);
+  const inGameplay = activeScene !== null && GAMEPLAY_SCENES.has(activeScene) && overlay === null;
   const survivalTier = SKILL_TIER_NAMES.city_survival[survival.level];
 
   // Reputation tier drives the macro loop, so the HUD leads with it rather

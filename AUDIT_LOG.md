@@ -89,3 +89,14 @@ Updated: 2026-10-12
 ### [Airport, Test Playground, title screen — approved] — 2026-10-13
 - Decision: "approved, go for P6" — covers the new airport (ADR-109), the Test Playground (ADR-104/105/108) and the living title screen (ADR-101/102). ADR-101 (title keeps its own 64-colour palette) stands — not superseded.
 - Breathing stays parked (T-029).
+
+### [P6 style board + mocks — approved] — 2026-10-13
+- Brief (user): a full UI style board for P6 — phone, fullscreen map, HUD, menus, font — with 4 reference images (dark symbolic map; notched phone with pill lists; olive dot-matrix LCD app grid; colour party plates). Mocks approved: "OK, start P6a".
+- Decisions: ADR-113 (no minimap, fullscreen map only — the brief's "ADR-65") and ADR-114 (style board, Pixelify Sans, separate UI palette — the brief's "ADR-66"); renumbered because 65/66 were taken.
+- Correction (user, on image numbering): "use them as per requirement, think like an art director and take the best call."
+- Rule going forward: **when the user hands over art direction, decide, show it in the mock, and log the call in the ADR** — don't send the choice back as a question. Ask only where the brief conflicts with a logged decision.
+- Rule going forward: **reference images are style references only** — never trace their artwork, icons, wallpaper or real app names; draw our own in that style (and no real brands — `NAMMA NET`, `NAMMA PAY` are parodies).
+- Rule going forward: **one UI family**: map-style label cards (grey 2px border, open right edge, dotted trail), phone-style pills, block rows for every meter/slider; every piece is a UI-kit molecule with default / focus / pressed / disabled / locked.
+- Rule going forward: **UI text is the bitmap font, never browser-rendered** — Pixelify Sans sampled on its own grid, integer scales only, pixel bold; any glyph that reads wrong at 1× is hand-drawn in `scripts/import-font.mjs` OVERRIDES (so far ₹ 5 Z B ( ) , and UI marks), and every player-visible string must be drawable (validator).
+- Rule going forward: **touch zones ≥ 44 game px (≈ 48pt on an iPhone 15)** even when the drawing is smaller; nothing tappable in the bottom 19px (home indicator); motion stepped, reduced motion collapses it.
+- Rule going forward: no raw hex — UI colours come from `ui-palette.gpl` tokens (`phone.*`, `hud.*`, `map.*`), translucency via `rgba(token, a)`.

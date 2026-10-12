@@ -1,33 +1,31 @@
 # HANDOFF — resume here (read right after CLAUDE.md)
-Updated: 2026-10-13, end of the long P5→P6 session (last commit `870ade9`). A new chat picks up exactly here.
+Updated: 2026-10-13, P6a built (awaiting audit). A new chat picks up exactly here.
 
 ## 0. Where we are — in one breath
-Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P5 approved**, plus the living title screen, the Test Playground and the brand-new airport (all approved 2026-10-13). **P6 is half built:** the systems are done and committed (save slots on `platform.saves`, settings, phone rules: chats / UPI ledger / Maps data — ADR-110/111/112). **The P6 UI is blocked on the user's reference images** (CLAUDE.md rule 2 / ADR-30): phone screen, HUD + minimap, Pause/Settings/Load menus, and a pixel font (downloading a font file needs the user's OK). **Breathing is parked and switched off** (T-029). Nothing pushed since the first push — push only when asked. 271 tests, typecheck, validators, `pnpm build` (+ dist check) all green.
+Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P5 approved**, plus the living title screen, the Test Playground and the new airport. **P6 systems built** (saves, settings, phone rules — ADR-110/111/112). The user sent the **P6 style board + 4 references**; mocks approved ("OK, start P6a"); **ADR-113** (no minimap — fullscreen map only) and **ADR-114** (style board, Pixelify Sans bitmap font, 12-colour UI palette, art-director calls) logged. **P6a is built and awaits the user's audit**: font pipeline, UI tokens, UI-kit molecules, PhoneScene with Chats / UPI / Maps (list). Breathing parked + OFF (T-029). Push only when asked. 304 tests, typecheck, validators, `pnpm build` (+ dist check) all green.
 
 ## 1. Phase / task ledger
 | Item | State |
 |---|---|
-| P0–P5 (docs, style lock, characters, M0 airport loop, hotel, PG hunt + negotiation) | approved |
-| P5 round-1 fixes: generated crowd, pixel collision + occluders (ADR-99), interiors at character scale on black (ADR-100) | approved |
-| Title screen — golden-hour Bengaluru, traffic, metro, petals, chai-tumbler cursor (ADR-101/102; own 64-colour palette kept) | approved |
-| Look wording: "16-bit era on 32px tiles" (ADR-103) | decided by user |
-| Test Playground `/playground.html` (ADR-104/105/108) | approved |
-| New airport `kempegowda_arrivals`, moving luggage carousel, all airport NPC sprites (ADR-109) | approved |
-| Breathing (T-029): baked upper-body frames pipeline (ADR-107) | **parked, OFF** — lines in `_raw/characters/breath.json` await approval (`"approved": false`) |
-| **P6 systems** (ADR-110/111/112) | **built** |
-| **P6 UI** (PhoneScene + Maps/Chats/UPI, minimap, Pause/Settings/Load, pixel font) | **waiting for references** |
+| P0–P5, title screen, playground, new airport | approved |
+| P6 systems (ADR-110/111/112) | built |
+| P6 style board + mocks (ADR-113/114) | approved 2026-10-13 — mock board: https://claude.ai/artifact/MPtuoSmvoPVF2JwCVnLXYj |
+| **P6a** (T-032) font + tokens + molecules + PhoneScene | **built — awaiting audit** |
+| P6b fullscreen map (T-033) · P6c HUD (T-034) · P6d menus (T-035) | next, one at a time, audit after each |
+| Breathing (T-029) | parked, OFF |
 
 ## 2. Resume protocol
-1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-95…112), `MEMORY.md`, `AUDIT_LOG.md` (every correction is a standing rule).
-2. If the user sent P6 references: build the UI on the existing systems (below), audit-ready, then STOP for audit (+ mobile smoke in the playground's phone frame). If not: ask for 2–4 references (phone, HUD/minimap, menus) + font choice (Silkscreen / Pixelify Sans / m5x7 suggested, all free-licence; download needs OK).
-3. The user also wants the chat lines (4 threads, drafts) checked for voice. Shanthamma's voice, food drain (ADR-97), HiveNest retune: already approved — do not re-ask.
-4. Come back to breathing only when the user asks (seated characters never breathe).
+1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-95…114), `MEMORY.md`, `AUDIT_LOG.md` (the P6 style-board rules are standing rules).
+2. If the user has audited P6a: log corrections in AUDIT_LOG as rules, apply, then start P6b (T-033) per the style board §4 — STOP for audit after it. Build order inside P6 is fixed: P6a → P6b → P6c → P6d.
+3. Art direction is delegated ("think like an art director and take the best call"): decide, show, log in the ADR. Ask only on a conflict with a logged decision.
+4. Still open with the user: chat-line voice review (4 threads); the new app hints in `phone/apps.json` are new copy too.
 
-## 3. P6 — what exists, where the UI plugs in
-- **Saves** `systems/SaveManager.ts`: slots `autosave|slot1|slot2|slot3` via `platform.saves`; `init()` once at boot (BootScene awaits it with settings load); `save(position, slot)`, `load(slot)`, `restore(slot)`, `clear(slot)`, `summaries()` (name, place, day, ₹, playtime, timestamp — thumbnail TBD with the menu art); format 1.6.0; autosave on area change, sleep, purchase, quest step (batched 400 ms in WorldScene). Legacy single-key save auto-migrates.
-- **Settings** `systems/SettingsManager.ts` (`useSettings`, `settings()`, `survivalRate()`), defaults `src/data/settings.defaults.json`, persisted via `platform.storage`. Live today: Relaxed difficulty (food drain ×0.5), Do Not Disturb (non-critical buzzes muted), joystick side (`.nq-touch-right`). Others (volumes, minimap, dialogue speed, text size…) await their UI/features.
-- **Phone** `systems/PhoneManager.ts`: `apps()` (from `src/data/phone/apps.json`, unlocked by flag — maps/calls on `divya_called`), `threadsView()` / `unreadCount()` / `markRead(id)` (chats in `src/data/phone/chats/*.json`, delivered in order on flags + on district entry; buzz = `ui:toast`), `upi()` (balance + ledger from `store.transactions`; every `spend/earn(cost, reason, label)` writes a line), `maps()` (pins from districts' `realworld` lat/lng — interiors fold into `parent` — states here/open/locked, plus the active objective's `destination`).
-- **To build (UI):** `PhoneScene` overlay (open with a key / HUD button / touch), app grid with greyed apps, Chats list + thread, UPI balance + ledger, Maps (project lat/lng onto a stylised Bengaluru, pins + destination; no real map tiles — map_navigation §5); HUD minimap from the current tilemap + spawn/exit/NPC markers (respect `settings.gameplay.minimap`); Pause menu (Resume · Settings · Save · Load · Map · Quit) pausing WorldScene; Settings menu over `useSettings`; Load/Save over `SaveManager.summaries()`; Title "Settings" + "Continue/Load". Compact phone HUD needed: at iPhone size the HUD + quest panel cover ~⅓ of the screen (T-024, seen in the playground phone simulation).
+## 3. P6 — what exists, where the next steps plug in
+- **Style board** (user brief, 2026-10-13): phone = notched smartphone frame + olive 3-tone LCD; map = black symbolic glyph fields, white 8px-grid paths, hollow/filled/padlock nodes, label cards with ★ familiarity and ☠ danger (Act 4) rows, compass; HUD = minimal, contextual, black 85% plates with grey border, no minimap; menus = label cards, selected inverts with ▶. Full text lives in DECISIONS ADR-114 + AUDIT_LOG; the original brief is in the 2026-10-13 conversation.
+- **Kit** `src/ui/kit/`: `pixel` · `icons` · `text` (measure/wrap/truncate/rupees) · `molecules` (phonePill, appTile, badge, dockBar, hudPlate, labelCard, blockRow, tapZone; 5 states) · `focus` (nextFocus) · `phaser` (bake, pxText). P6b/c/d reuse these — add molecules here, with tests in `uikit.test.ts`.
+- **Font** `scripts/import-font.mjs` → `src/assets/fonts/px|pxb` + `metrics.json` (in `pnpm art`). Hand-drawn: ₹ 5 Z B ( ) , ▶▼▲★✓○•→←. OFL ships at `public/licenses/`. Settings → About must credit it (P6d).
+- **Phone** `src/ui/phone/{layout,viewModel,paint}.ts` + `scenes/PhoneScene.ts`. Closed button sits at the **right edge, y=150** for now — P6c moves it into the new HUD's top-right corner (the old DOM HUD is there today). Maps app is a list until P6b's fullscreen map. Unbuilt apps (Calls, Contacts, News, Reels, Calendar, Notes, Settings, Camera…) open a "Nothing here yet." stub; Settings app → P6d menu.
+- **Audit preset**: playground → 0.3 PG Hunt → preset "Phone: day 3, chats waiting" → Play → P (or tap the phone button). Add ledger lines via `__nqStore` to see UPI scroll.
 
 ## 4. Pipelines (exact commands)
 - `corepack pnpm dev` → http://localhost:6174 · `corepack pnpm playground` → /playground.html (dev only) · `corepack pnpm build` = validate → typecheck → vite → `scripts/check-dist.mjs`.
@@ -42,10 +40,10 @@ Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P5 approved**, p
 - The user's own game may be open in the pane's first tab — test in a new tab.
 
 ## 6. Open items the user owns
-- P6 references + font choice (blocking the UI). Chat-line voice review.
+- **P6a audit** (phone + font). Chat-line voice review; new app hints copy.
 - Breathing lines approval (T-029), when they want to return to it.
 - T-018: Xcode / Android Studio or cloud CI (native shells never booted on this Mac).
 - Unfinished business doc: names, endings, co-op, monetization, trailer honesty.
 
 ## 7. Debt not to forget
-T-024 compact phone HUD + landscape lock + safe areas · T-027 occluders/pixel collision for the procedural Whitefield street · T-021 street tiles off-palette · T-015 quest taxonomy + rep tiers · toasts stack when several arrive at once · health/stress ticks not yet · dialogue typewriter (Settings: dialogue speed) not yet · no audio yet (Settings volumes inert).
+T-024 compact phone HUD + landscape lock + safe areas (P6c retires the DOM HUD) · T-027 occluders/pixel collision for the procedural Whitefield street · T-021 street tiles off-palette · T-015 quest taxonomy + rep tiers · toasts stack when several arrive at once · health/stress ticks not yet · dialogue typewriter (Settings: dialogue speed) → P6c · no audio yet (Settings volumes inert) · phone has no gamepad input yet (P6d) · toasts are still the DOM toasts (P6c queues them in-canvas).

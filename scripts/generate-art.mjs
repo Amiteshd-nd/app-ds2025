@@ -22,9 +22,13 @@ import { importMap } from './import-map.mjs';
 import { importTitle } from './import-title.mjs';
 import { importBreath } from './import-breath.mjs';
 import { importProps } from './import-props.mjs';
+import { importFont } from './import-font.mjs';
 
 // Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
 execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'generate-tokens.mjs')], { stdio: 'inherit' });
+
+// UI font (ADR-114): Pixelify Sans outlines → bitmap font on its own pixel grid.
+await importFont();
 
 const here = dirname(fileURLToPath(import.meta.url));
 const assets = resolve(here, '../src/assets');

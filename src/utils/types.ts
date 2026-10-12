@@ -320,6 +320,8 @@ export interface DistrictDef {
    * Maps app. Interiors name their `parent` pocket instead of coordinates.
    */
   realworld?: { lat: number; lng: number; label?: string } | { parent: string };
+  /** Phone signal bars here, 0–4 (default 4). The Ambedkar Nagar hill is weak (ADR-114 status bar). */
+  signal?: number;
 }
 
 // --- Scene components (SCENE_TEMPLATE §B) ----------------------------------
@@ -505,7 +507,11 @@ export interface SaveData {
 export interface PhoneApp {
   id: string;
   name: string;
+  /** Glyph from src/ui/kit/icons.ts (validated). */
+  icon: string;
   order: number;
+  /** In the home screen's dock (max 4) instead of the grid. */
+  dock?: boolean;
   /** Flag that teaches it (ADR-39); greyed until set. */
   unlock?: string;
   /** Shown on the greyed icon. */

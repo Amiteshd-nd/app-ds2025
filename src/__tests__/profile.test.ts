@@ -99,9 +99,14 @@ describe('save 1.3.0 — profile', () => {
 });
 
 describe('design tokens (ADR-61: no raw hex)', () => {
-  it('every token resolves to one of the 48 locked colours', () => {
+  it('every world token resolves to one of the 48 locked colours; UI tokens to the UI ramp (ADR-114)', () => {
     expect(PALETTE).toHaveLength(48);
-    for (const [name, value] of Object.entries(tokens.tokens)) expect(PALETTE, name).toContain(value);
+    expect(tokens.uiPalette).toHaveLength(12);
+    const isUi = (name: string) => /^(phone|hud|map)\./.test(name);
+    for (const [name, value] of Object.entries(tokens.tokens)) {
+      if (isUi(name)) expect([...tokens.uiPalette, ...PALETTE], name).toContain(value);
+      else expect(PALETTE, name).toContain(value);
+    }
   });
 
   it('exposes hex and Phaser numbers, and fails loudly on a typo', () => {

@@ -36,10 +36,12 @@ describe('settings', () => {
   });
 
   it('merging keeps new defaults and ignores unknown or mistyped values', () => {
-    const s = mergeSettings({ audio: { master: 10, bogus: 1 }, gameplay: { minimap: 'yes' }, extra: { x: 1 } });
+    const s = mergeSettings({ audio: { master: 10, bogus: 1 }, gameplay: { doNotDisturb: 'yes', minimap: true }, extra: { x: 1 } });
     expect(s.audio.master).toBe(10);
     expect((s.audio as Record<string, unknown>).bogus).toBeUndefined();
-    expect(s.gameplay.minimap).toBe(true);
+    expect(s.gameplay.doNotDisturb).toBe(false);
+    // ADR-113: the minimap setting is gone; an old save's value is dropped.
+    expect((s.gameplay as Record<string, unknown>).minimap).toBeUndefined();
     expect((s as Record<string, unknown>).extra).toBeUndefined();
   });
 

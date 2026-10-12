@@ -1,5 +1,5 @@
 # Memory
-Updated: 2026-10-12
+Updated: 2026-10-13
 Facts about the project and the user that fit nowhere else. Design in `docs/design/`; the founder model is `docs/design/bangalore_rpg_founder_profile_and_vision.md`.
 
 ## About the user
@@ -42,9 +42,13 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 
 - Saves are async under the hood (platform.saves) but sync to the game: BootScene awaits `SaveManager.init()`; tests seed a backend (`useBackend`) or seed legacy localStorage then `await init()`.
 
+- UI font (ADR-114): Pixelify Sans is NOT a clean 5×7 font — its "pixels" alternate ~80/101 units with steps and nubs, so browsers smear it and some glyphs read wrong at 1× (5≈S, Z≈2, B≈G, parens≈braces). `scripts/import-font.mjs` samples outline centres on a 93-unit grid; legibility fixes go in its `OVERRIDES` (hand-drawn rows), never by switching to browser text. The H's 1px tooth above the crossbar is the font's own design — keep it.
+- UI text in Phaser: `pxText(scene, x, y, text, {bold, tint, k, align})` puts the CAPS at y (line box has 2 empty rows above). Measure with `measure()` from `src/ui/kit/text.ts` — it reads the same metrics as BitmapText.
+- Driving the phone in the playground: hide the side panels so the canvas is big (`.pg-root` children other than `.pg-centre` → display:none, then dispatch `resize`), then send keys with `code` (PhoneScene reads `ev.code`): `new KeyboardEvent('keydown', {code:'KeyP', key:'p', keyCode:80})`. Ledger lines for a UPI check: `__nqStore.getState().addTransaction({...})`.
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
-- `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` — keep it free of Vite-only syntax.
+- `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` and `src/ui/kit/icons.ts` — keep those free of Vite-only syntax and of JSON imports (Node needs `with { type: 'json' }`); the validator reads `fonts/metrics.json` with `readFileSync` instead.
 - This Mac has Command Line Tools only: no Xcode, no CocoaPods, no Android SDK/Java. `android/` + `ios/` (SPM) are generated and `cap sync` works; building/running them needs Xcode / Android Studio (T-018). Mobile smoke tests at gates are therefore "sync OK, not booted" until then.
 - Driving the game from the browser tool: its key presses lack `keyCode`, which Phaser reads — dispatch `KeyboardEvent`s with `keyCode` via `javascript_tool` instead. `window.__nqGame` / `window.__nqStore` are the dev handles.
 - The current reference tilesets (`airport.png` etc.) are continuous-tone, not pixel art, and have unresolved provenance — placeholders until P1.

@@ -7,7 +7,7 @@ import {
   SPRITE_WIDTH,
   TILE_SIZE,
 } from '../utils/constants';
-import { OVERLAY_URLS, PROP_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
+import { FONT_URLS, OVERLAY_URLS, PROP_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
 import { motion } from '../ui/tokens';
 import { STREET_FRAMES_KEY } from '../entities/PlacedObject';
 import { MAPS } from '../assets/maps';
@@ -83,6 +83,9 @@ export class BootScene extends Phaser.Scene {
     for (const [key, url] of Object.entries(OVERLAY_URLS)) {
       this.load.image(key, url);
     }
+
+    // UI bitmap fonts (ADR-114): Pixelify Sans on its own pixel grid.
+    for (const [key, { png, xml }] of Object.entries(FONT_URLS)) this.load.bitmapFont(key, png, xml);
 
     // The street tileset is loaded a second time as a spritesheet. Tilemap
     // layers index it by name through the image cache; placed objects index

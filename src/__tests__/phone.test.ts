@@ -51,8 +51,26 @@ describe('chats', () => {
     useGameStore.getState().setFlag('pg_lane_found', true); // broker spam: not critical
     expect(useGameStore.getState().phone.delivered).toContain('pg_deals_1');
     expect(t).toEqual([]);
+    const buzzes: string[] = [];
+    gameEvents.on('phone:buzz', ({ reason }) => buzzes.push(reason));
     useGameStore.getState().setFlag('divya_called', true); // Divya: critical
-    expect(t).toHaveLength(1);
+    expect(t.filter((x) => !x.startsWith('APP UNLOCKED'))).toHaveLength(1);
+    // Divya's message still buzzes; the Maps/Calls unlocks show their toasts but do not buzz under DND.
+    expect(buzzes).toEqual(['message']);
+  });
+
+  it('an app unlocking announces itself once: toast + buzz + pop event', () => {
+    phone(); // the manager listens from boot
+    const t = toasts();
+    const unlocked: string[] = [];
+    const buzzes: string[] = [];
+    gameEvents.on('phone:app-unlocked', ({ appId }) => unlocked.push(appId));
+    gameEvents.on('phone:buzz', ({ reason, appId }) => { if (reason === 'unlock') buzzes.push(appId!); });
+    useGameStore.getState().setFlag('divya_called', true);
+    useGameStore.getState().setFlag('divya_called', true); // no change, no second announcement
+    expect(unlocked).toEqual(['maps', 'call']);
+    expect(buzzes).toEqual(['maps', 'call']);
+    expect(t).toContain('APP UNLOCKED: MAPS');
   });
 
   it('counts unread, and opening a thread reads it', () => {
