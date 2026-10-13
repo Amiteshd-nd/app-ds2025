@@ -112,3 +112,6 @@ Updated: 2026-10-12
 - Rule going forward: **new pockets (P7+) are generated to follow their real streets** from the start (the lane's direction and junctions match the OSM extract); the Prashanth pocket is re-laid only if the user asks.
 - Rule going forward: map data from OpenStreetMap only (never copied from Google Maps); "© OpenStreetMap contributors" visible wherever OSM data is drawn.
 - Also: Test Playground moved to its own port 6175; mock boards live in the repo under `docs/mocks/` and run on 6176 (ADR-116).
+
+### [Map Area view — approved] — 2026-10-13
+- Decision: "approved, go for P6c" — the OpenStreetMap Area view (ADR-117) stands; P6c next.
