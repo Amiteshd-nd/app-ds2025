@@ -4,8 +4,35 @@
     {
       "name": "game",
       "runtimeExecutable": "corepack",
-      "runtimeArgs": ["pnpm", "dev"],
+      "runtimeArgs": [
+        "pnpm",
+        "dev"
+      ],
       "port": 6174
+    },
+    {
+      "name": "playground",
+      "runtimeExecutable": "corepack",
+      "runtimeArgs": [
+        "pnpm",
+        "playground"
+      ],
+      "port": 6175,
+      "url": "http://localhost:6175"
+    },
+    {
+      "name": "mocks",
+      "runtimeExecutable": "corepack",
+      "runtimeArgs": [
+        "pnpm",
+        "exec",
+        "vite",
+        "docs/mocks",
+        "--port",
+        "6176",
+        "--strictPort"
+      ],
+      "port": 6176
     }
   ]
 }

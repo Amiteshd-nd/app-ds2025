@@ -1,0 +1,476 @@
+<title>P6 UI Mock Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0e0f0d;
+    --panel: #161814;
+    --ink: #e9e6dc;
+    --dim: #9d9c8f;
+    --line: #2b2e27;
+    --lcd: #c3c58f;
+    --upi: #3fae5f;
+    --alert: #e05454;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.55 "Atkinson Hyperlegible", system-ui, sans-serif;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 64px; display: grid; gap: 48px; }
+  h1, h2, h3 { font-family: "Pixelify Sans", ui-monospace, monospace; font-weight: 700; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.05; }
+  h2 { font-size: 22px; letter-spacing: .02em; }
+  h3 { font-size: 16px; color: var(--lcd); letter-spacing: .06em; text-transform: uppercase; }
+  p { margin: 0; max-width: 68ch; }
+  .eyebrow { font-family: "Pixelify Sans", monospace; color: var(--lcd); letter-spacing: .12em; text-transform: uppercase; font-size: 13px; }
+  header { display: grid; gap: 12px; }
+  header p { color: var(--dim); }
+  section { display: grid; gap: 18px; }
+  .row { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+  figure { margin: 0; display: grid; gap: 10px; max-width: 100%; }
+  figcaption { color: var(--dim); font-size: 13px; max-width: 60ch; }
+  canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; max-width: 100%; height: auto; background: #000; }
+  .notes { flex: 1 1 280px; display: grid; gap: 14px; align-content: start; }
+  ul { margin: 0; padding-left: 18px; display: grid; gap: 7px; }
+  li::marker { color: var(--lcd); }
+  .calls { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .call { background: var(--panel); border: 2px solid var(--line); padding: 14px 16px; display: grid; gap: 6px; }
+  .call b { font-family: "Pixelify Sans", monospace; font-size: 15px; letter-spacing: .03em; }
+  .call span { color: var(--dim); font-size: 14px; }
+  .toggles { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+  .seg { display: inline-flex; border: 2px solid var(--line); }
+  .seg button { font: 13px "Pixelify Sans", monospace; letter-spacing: .06em; text-transform: uppercase; background: transparent; color: var(--dim); border: 0; padding: 7px 12px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: #000; }
+  .seg button:focus-visible { outline: 2px solid var(--lcd); outline-offset: 2px; }
+  .seglabel { font-size: 13px; color: var(--dim); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .sw { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: center; font-size: 13px; }
+  .sw i { width: 34px; height: 34px; border: 2px solid var(--line); }
+  .sw code { color: var(--dim); font-size: 12px; display: block; }
+  .scroll { overflow-x: auto; max-width: 100%; }
+  .plan { counter-reset: s; display: grid; gap: 10px; padding: 0; list-style: none; }
+  .plan li { background: var(--panel); border-left: 4px solid var(--lcd); padding: 10px 14px; }
+  .plan li b { font-family: "Pixelify Sans", monospace; }
+  .ask { background: var(--lcd); color: #1d200f; padding: 18px 20px; display: grid; gap: 8px; }
+  .ask h2 { color: #1d200f; }
+  @media (max-width: 560px) { .wrap { padding-inline: 16px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bangalore Times · P6 · before P6a</div>
+    <h1>P6 UI mock board</h1>
+    <p>Three zoomed mocks for your OK: the phone home screen, one app (UPI), and the Act 0 airport HUD. Everything is drawn at the game's real 640×360 resolution and scaled up with no smoothing, so each square is one game pixel. All text uses Pixelify Sans, snapped to whole pixels the way the bitmap font will be.</p>
+  </header>
+
+  <section>
+    <h2>Calls I made as art director</h2>
+    <div class="calls">
+      <div class="call"><b>Phone rises from the bottom, full height</b><span>At 90% height the 4-column grid gives 37pt tap targets on an iPhone 15. Making the phone 200px wide and letting its chin run off the bottom edge gives 46×62 game-px cells, which is 50×68pt. It also reads like the phone is being lifted into view.</span></div>
+      <div class="call"><b>Grid is 4×3, plus the dock</b><span>14 apps: dock (Maps, Chats, UPI, Camera) + Calls, Contacts, News, Reels, Calendar, Jobs, Food, Dating, Notes, Settings. Calls and Reels come from the existing apps.json. A 4th row comes back when Acts 2–4 add apps.</span></div>
+      <div class="call"><b>UPPERCASE for labels, mixed case for content</b><span>Uppercase Pixelify runs about 6.5px a letter, so ledger lines and dialogue stay mixed case to fit in 40 characters. Titles, app names, tags and buttons are uppercase.</span></div>
+      <div class="call"><b>Image 4 shapes the HUD plates</b><span>From the party-plates reference: chunky rounded plates with a 1px drop shadow, bold white text and speech-bubble tags for prompts. Fills stay black at 85% with a grey border, as your spec says. Colour only means something: the NEW tag, the wallet tick, the unread badge.</span></div>
+      <div class="call"><b>Drawings small, touch zones big</b><span>A choice pill is 18px tall on screen, but its touch zone is at least 44 game px (48pt). Same for the phone button and the ★. The game is letterboxed sideways in landscape, so only the bottom home-bar strip (about 20px) needs a margin.</span></div>
+      <div class="call"><b>A separate UI palette</b><span>12 locked UI colours in their own ui-palette.gpl, used through c.map.*, c.phone.* and c.hud.* tokens. The world art keeps its 48 colours, and the HUD star reuses the world's auto yellow.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Phone: home screen and UPI app</h2>
+    <div class="row">
+      <figure>
+        <canvas id="cvHome" width="206" height="358" style="width:412px"></canvas>
+        <figcaption>Home, Act 1 day 3. REELS, JOBS and DATING are locked: dotted outline, dithered glyph, no label. Chats has 2 unread.</figcaption>
+      </figure>
+      <figure>
+        <canvas id="cvUpi" width="206" height="358" style="width:412px"></canvas>
+        <figcaption>UPI app ("NAMMA PAY", a parody name): title pill, balance, ledger pills, dock with line-icon tabs. Green means money in, red means money out.</figcaption>
+      </figure>
+      <div class="notes">
+        <h3>What to look at</h3>
+        <ul>
+          <li>Three LCD tones plus a 1px dot grid. The wallpaper is a Bengaluru skyline: Vidhana Soudha dome, the metro viaduct and coconut palms. It changes per act.</li>
+          <li>Status bar: time, NAMMA NET, signal bars (fed by the hill's weak signal later) and battery %.</li>
+          <li>Icons are ours, 2px strokes.</li>
+          <li>The ledger shows real numbers from the game: chai ₹20, Vayu Vajra ₹250 (from Chai Anna's lines), three hotel nights, and Amma sending ₹500.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>HUD: Act 0, airport</h2>
+    <div class="toggles">
+      <span class="seglabel">Input</span>
+      <div class="seg" id="segInput"><button aria-pressed="true" data-v="touch">Touch</button><button aria-pressed="false" data-v="keys">Keyboard</button></div>
+      <span class="seglabel">Moment</span>
+      <div class="seg" id="segMoment"><button aria-pressed="true" data-v="walk">Walking</button><button aria-pressed="false" data-v="talk">Talking</button><button aria-pressed="false" data-v="paid">Paid ₹20</button></div>
+    </div>
+    <figure>
+      <div class="scroll"><canvas id="cvHud" width="640" height="360" style="width:1140px"></canvas></div>
+      <figcaption>Objective (★ + one line, collapses to ★ after 4s), location card with NEW, day and clock with a sunrise glyph, phone button with signal and unread dot. The prompt bubble bobs 1px. The wallet only appears after you pay.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Phone over the world</h2>
+    <figure>
+      <div class="scroll"><canvas id="cvCtx" width="640" height="360" style="width:960px"></canvas></div>
+      <figcaption>Actual size on a 640×360 screen. The world is dimmed and half-desaturated (c.state.desat50), and the HUD is hidden while the phone is open.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Font and UI palette</h2>
+    <div class="row">
+      <figure>
+        <canvas id="cvType" width="300" height="96" style="width:900px"></canvas>
+        <figcaption>Pixelify Sans as the game will draw it: every glyph snapped to the font's own pixel grid, regular and pixel-bold at 1× (7px caps), 2× for titles, and the custom ₹., title at 22px (2×), and the custom ₹.</figcaption>
+      </figure>
+    </div>
+    <div class="call"><b>Font finding: four glyphs redrawn</b><span>Pixelify Sans is designed with a 5 that looks like an S and a Z that looks like a 2. That's risky for prices and clocks (₹4,500 read as ₹4,S00). Its comma is thinner than one game pixel, so it shows as a full stop, and it has no ₹. The bitmap font keeps every other Pixelify glyph and swaps in hand-drawn 5, Z, comma and ₹, as you can see above. The OFL allows modified versions, and Pixelify Sans reserves no font name. I'll still label ours "based on Pixelify Sans" and ship it under the OFL.</span></div>
+    <div class="swatches" id="swatches"></div>
+  </section>
+
+  <section>
+    <h2>P6a plan, once you say OK</h2>
+    <ol class="plan">
+      <li><b>Log decisions.</b> ADR-113: no minimap; the map is a fullscreen overlay only, and the minimap setting is removed. ADR-114: UI style board, Pixelify Sans (OFL font file only), a 12-colour UI palette, plus the art-director calls above.</li>
+      <li><b>Font pipeline.</b> Add <code>scripts/import-font.mjs</code>: TTF → Phaser BitmapText at 11px (regular and bold) and 22px, a hand-drawn ₹, a threshold with no anti-aliasing, and integer scales only. Ship OFL.txt and a CREDITS line.</li>
+      <li><b>Tokens.</b> Add ui-palette.gpl, c.phone.*, c.map.* and c.hud.* tokens, plus a validator check that UI code uses no raw hex.</li>
+      <li><b>UI-kit molecules.</b> Plate, label card, pill, block row, app tile and badge, each with default, focus, pressed, disabled and locked states and unit tests.</li>
+      <li><b>PhoneScene.</b> Frame, status bar, home grid, dock, a 4-step slide-up over 250ms, haptic through platform, buzz-wiggle edge icon, P key, HUD button and touch.</li>
+      <li><b>Three apps.</b> Chats (list and thread, over PhoneManager), UPI (balance and ledger) and Maps (opens a placeholder for the P6b fullscreen map).</li>
+      <li><b>Verify.</b> Tests green, a playground preset, a phone-frame smoke test (safe areas, 48pt targets, landscape), then stop for your audit.</li>
+    </ol>
+    <div class="ask">
+      <h2>Your call</h2>
+      <p>Reply "OK" to start P6a, or tell me what to change, for example "LCD greener", "grid back to 4×4" or "plates in colour". I'll log every correction in AUDIT_LOG.md as a standing rule.</p>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
+<script>
+(() => {
+  // ── Proposed UI palette (becomes ui-palette.gpl → tokens) ──
+  const C = {
+    black: '#000000', white: '#ffffff', grey: '#8c8f88', greyDk: '#2e302c',
+    lcdBg: '#c3c58f', lcdMid: '#8d9058', lcdInk: '#363a1c',
+    upi: '#2b8a45', alert: '#c8302f', chat: '#e2801c',
+    mapBlue: '#3d8fe0', mapOrange: '#ea8f2a',
+    star: '#f1bd36', // world palette 'ui.focus' (auto yellow), reused
+  };
+  const PLATE = 'rgba(0,0,0,0.85)';
+  const SWATCHES = [
+    ['c.map.bg · ui.black', C.black], ['ui.white', C.white], ['c.hud.border', C.grey], ['c.phone.bezel.edge', C.greyDk],
+    ['c.phone.lcd.bg', C.lcdBg], ['c.phone.lcd.mid', C.lcdMid], ['c.phone.lcd.ink', C.lcdInk],
+    ['c.phone.accent.upi', C.upi], ['c.phone.accent.alert', C.alert], ['c.phone.accent.chat', C.chat],
+    ['c.map.water', C.mapBlue], ['c.map.hill', C.mapOrange], ['ui.focus (world palette)', C.star],
+  ];
+  document.getElementById('swatches').innerHTML = SWATCHES.map(([n, h]) =>
+    `<div class="sw"><i style="background:${h}"></i><div>${n}<code>${h}</code></div></div>`).join('');
+
+  // ── Pixel primitives ──
+  const px = (g, x, y, w, h, c) => { g.fillStyle = c; g.fillRect(x, y, w, h); };
+  function rr(g, x, y, w, h, r, c) {
+    g.fillStyle = c;
+    for (let i = 0; i < h; i++) {
+      let inset = 0;
+      const dy = i < r ? r - i - 0.5 : (i >= h - r ? i - (h - r) + 0.5 : -1);
+      if (dy >= 0) inset = Math.round(r - Math.sqrt(Math.max(0, r * r - dy * dy)));
+      g.fillRect(x + inset, y + i, w - 2 * inset, 1);
+    }
+  }
+  const tmp = document.createElement('canvas'); tmp.width = 700; tmp.height = 400;
+  const tg = tmp.getContext('2d');
+  function ring(g, x, y, w, h, r, s, c) {
+    tg.clearRect(0, 0, w + 4, h + 4);
+    tg.globalCompositeOperation = 'source-over'; rr(tg, 0, 0, w, h, r, c);
+    tg.globalCompositeOperation = 'destination-out'; rr(tg, s, s, w - 2 * s, h - 2 * s, Math.max(0, r - s), '#000');
+    tg.globalCompositeOperation = 'source-over';
+    g.drawImage(tmp, 0, 0, w, h, x, y, w, h);
+  }
+  function bmp(g, rows, x, y, c, k = 1, mask) {
+    g.fillStyle = c;
+    rows.forEach((row, j) => { for (let i = 0; i < row.length; i++) if (row[i] === '#' && (!mask || mask(i, j))) g.fillRect(x + i * k, y + j * k, k, k); });
+  }
+  const bw = rows => Math.max(...rows.map(r => r.length));
+
+  // ── Text: Pixelify Sans outlines snapped to its own pixel grid (93 font units = 1px) ──
+  // This is what scripts/import-font.mjs will do: per-glyph, no browser rasteriser,
+  // whole-pixel advances. Bold = the regular bitmap doubled 1px right (pixel bold).
+  const RUPEE = ['#####', '...#.', '#####', '...#.', '###..', '..#..', '...##'];
+  // Hand-drawn into the bitmap font: ₹ (missing), 5 and Z (designed to look like S and 2), comma (thinner than 1px).
+  const OVERRIDE = {
+    '₹': [RUPEE, -7, 6],
+    '5': [['#####', '#....', '####.', '....#', '....#', '#...#', '.###.'], -7, 6],
+    ',': [['.#', '.#', '#.'], -2, 3],
+    'Z': [['#####', '....#', '...#.', '..#..', '.#...', '#....', '#####'], -7, 6],
+  };
+  const UNIT = 93, ORIGIN_X = 60, ORIGIN_Y = -12;
+  let FONT = null; const cache = new Map();
+  const gc = document.createElement('canvas'); gc.width = 32; gc.height = 32;
+  const gg = gc.getContext('2d', { willReadFrequently: true });
+  function glyph(ch) {
+    if (cache.has(ch)) return cache.get(ch);
+    let out;
+    if (OVERRIDE[ch]) { const [rows, top, adv] = OVERRIDE[ch]; out = { px: rows.flatMap((r, y) => [...r].map((v, x) => v === '#' ? [x, y + top] : null).filter(Boolean)), adv }; }
+    else {
+      const gl = FONT.charToGlyph(ch);
+      const size = 1000 / UNIT, base = 20;
+      gg.clearRect(0, 0, 32, 32);
+      const path = gl.getPath(4 - ORIGIN_X / UNIT, base + ORIGIN_Y / UNIT, size);
+      path.fill = '#000'; path.draw(gg);
+      const d = gg.getImageData(0, 0, 32, 32).data, px = [];
+      for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) if (d[(y * 32 + x) * 4 + 3] >= 128) px.push([x - 4, y - base]);
+      out = { px, adv: Math.round(gl.advanceWidth / UNIT) };
+    }
+    cache.set(ch, out); return out;
+  }
+  function textW(s, { k = 1, bold = false } = {}) {
+    let w = 0; for (const ch of s) w += glyph(ch).adv + (bold ? 1 : 0);
+    return w * k;
+  }
+  // y = top of capitals; caps are 7k tall
+  function text(g, s, x, y, c, { k = 1, bold = false, align = 'left', shadow = null } = {}) {
+    if (align !== 'left') { const w = textW(s, { k, bold }); x = Math.round(align === 'center' ? x - w / 2 : x - w); }
+    if (shadow) text(g, s, x, y + 1, shadow, { k, bold });
+    g.fillStyle = c; let cx = x; const by = y + 7 * k;
+    for (const ch of s) {
+      const gl = glyph(ch);
+      for (const [px, py] of gl.px) { g.fillRect(cx + px * k, by + py * k, k, k); if (bold) g.fillRect(cx + (px + 1) * k, by + py * k, k, k); }
+      cx += (gl.adv + (bold ? 1 : 0)) * k;
+    }
+    return cx - x;
+  }
+
+  // ── Icons (ours, 2px strokes) ──
+  const I = {
+    maps: ['....######....', '...########...', '..###....###..', '..##......##..', '..##..##..##..', '..##..##..##..', '..##......##..', '..###....###..', '...###..###...', '....######....', '.....####.....', '......##......', '..............', '..##########..'],
+    chats: ['..############..', '.##############.', '.##..........##.', '.##..........##.', '.##.##.##.##.##.', '.##.##.##.##.##.', '.##..........##.', '.##..........##.', '.##############.', '..############..', '..###...........', '..##............', '..#.............'],
+    upi: ['############', '############', '.......####.', '........###.', '############', '############', '........###.', '.......###..', '#########...', '########....', '...####.....', '....####....', '.....####...', '......####..'],
+    camera: ['....######......', '################', '################', '##....####....##', '##...##..##...##', '##..##....##..##', '##..##....##..##', '##...##..##...##', '##....####....##', '##............##', '################', '################'],
+    calls: ['####............', '#####...........', '#####...........', '.####...........', '..##............', '..###...........', '...###..........', '....###.........', '.....###........', '......####......', '.......####.##..', '........#######.', '..........######', '...........#####', '............####'],
+    contacts: ['....######....', '...##....##...', '...##....##...', '...##....##...', '....######....', '..............', '..##########..', '.##........##.', '##..........##', '##..........##', '##############', '##############'],
+    news: ['##############', '##############', '##..........##', '##.#####.##.##', '##.#####....##', '##.#####.##.##', '##..........##', '##.########.##', '##..........##', '##.########.##', '##..........##', '##############', '##############'],
+    reels: ['##############', '##############', '##..........##', '##...#......##', '##...##.....##', '##...###....##', '##...####...##', '##...###....##', '##...##.....##', '##...#......##', '##..........##', '##############', '##############'],
+    calendar: ['..##......##..', '##############', '##############', '##############', '##..........##', '##.##.##.##.##', '##..........##', '##.##.##.##.##', '##..........##', '##.##.##....##', '##############', '##############'],
+    jobs: ['.....####.....', '....##..##....', '##############', '##############', '##..........##', '##..........##', '######..######', '##....##....##', '##..........##', '##..........##', '##############', '##############'],
+    food: ['...#..#..#....', '..#..#..#.....', '...#..#..#....', '..............', '##############', '##############', '.##........##.', '..##......##..', '...########...', '....######....', '...########...'],
+    dating: ['.####...####.', '##..##.##..##', '##...###...##', '##.........##', '.##.......##.', '..##.....##..', '...##...##...', '....##.##....', '.....###.....', '......#......'],
+    notes: ['############', '############', '##........##', '##.######.##', '##........##', '##.######.##', '##........##', '##.####...##', '##........##', '############', '############'],
+    settings: ['.....####.....', '..##.####.##..', '.############.', '..###....###..', '####......####', '####..##..####', '####..##..####', '####......####', '..###....###..', '.############.', '..##.####.##..', '.....####.....'],
+    home: ['......##......', '....######....', '..####..####..', '####......####', '.##........##.', '.##..####..##.', '.##..#..#..##.', '.##..#..#..##.', '.############.'],
+    scan: ['####....####', '####....####', '##........##', '##........##', '............', '....####....', '....####....', '............', '##........##', '##........##', '####....####', '####....####'],
+    list: ['##.##########', '##.##########', '.............', '##.##########', '##.##########', '.............', '##.##########', '##.##########'],
+    star: ['...#...', '...#...', '#######', '.#####.', '..###..', '.##.##.', '##...##'],
+    sunrise: ['....#....', '.#.....#.', '...###...', '..#####..', '#.#####.#', '.........', '#########'],
+    tap: ['..###..', '.#...#.', '#..#..#', '#.###.#', '#..#..#', '.#...#.', '..###..'],
+  };
+
+  // ── Phone ──
+  const PH = { w: 206, h: 358, sx: 11, sy: 8, sw: 184 };
+  function phoneFrame(g) {
+    px(g, 0, 0, PH.w, PH.h, 'rgba(0,0,0,0)');
+    // side buttons
+    px(g, 0, 62, 4, 18, C.greyDk); px(g, 0, 90, 4, 30, C.greyDk); px(g, 0, 124, 4, 30, C.greyDk);
+    px(g, PH.w - 4, 100, 4, 40, C.greyDk);
+    rr(g, 3, 0, 200, PH.h + 20, 20, C.greyDk);
+    rr(g, 4, 1, 198, PH.h + 20, 19, C.black);
+    rr(g, PH.sx, PH.sy, PH.sw, PH.h + 20, 12, C.lcdBg);
+    // dot grid ~15%
+    g.globalAlpha = 0.15;
+    for (let y = PH.sy + 2; y < PH.h; y += 3) for (let x = PH.sx + 4; x < PH.sx + PH.sw - 4; x += 3) px(g, x, y, 1, 1, C.lcdInk);
+    g.globalAlpha = 1;
+  }
+  function notchAndStatus(g, time = '08:41', carrier = true) {
+    const nx = PH.sx + 62;
+    px(g, nx, PH.sy, 60, 6, C.black); rr(g, nx, PH.sy, 60, 13, 5, C.black);
+    px(g, nx + 22, PH.sy + 4, 14, 2, C.greyDk); rr(g, nx + 40, PH.sy + 3, 4, 4, 2, C.greyDk);
+    const S = (x, y) => [PH.sx + x, PH.sy + y];
+    text(g, time, ...S(10, 3), C.lcdInk, { bold: true });
+    // signal bars (3 of 4)
+    [2, 4, 6, 8].forEach((h, i) => { const [x, y] = S(136 + i * 3, 2 + 8 - h); if (i < 3) px(g, x, y, 2, h, C.lcdInk); else { px(g, x, y, 2, 1, C.lcdInk); px(g, x, y + h - 1, 2, 1, C.lcdInk); } });
+    // battery 78%
+    const [bx, by] = S(152, 2); px(g, bx, by, 18, 9, C.lcdInk); px(g, bx + 1, by + 1, 16, 7, C.lcdBg); px(g, bx + 2, by + 2, 11, 5, C.lcdInk); px(g, bx + 18, by + 3, 2, 3, C.lcdInk);
+    if (carrier) text(g, 'NAMMA NET', PH.sx + PH.sw / 2, PH.sy + 17, C.lcdMid, { align: 'center' });
+  }
+  function appTile(g, x, y, key, { locked = false, label = null, badge = 0 } = {}) {
+    if (locked) {
+      for (let i = 0; i < 32; i += 2) { px(g, x + i, y, 1, 1, C.lcdMid); px(g, x + i, y + 31, 1, 1, C.lcdMid); px(g, x, y + i, 1, 1, C.lcdMid); px(g, x + 31, y + i, 1, 1, C.lcdMid); }
+      const r = I[key]; bmp(g, r, x + Math.floor((32 - bw(r)) / 2), y + Math.floor((32 - r.length) / 2), C.lcdMid, 1, (i, j) => (i + j) % 2 === 0);
+      return;
+    }
+    rr(g, x, y + 2, 32, 32, 6, C.lcdMid);
+    rr(g, x, y, 32, 32, 6, C.lcdInk); rr(g, x + 2, y + 2, 28, 28, 4, C.lcdBg);
+    const r = I[key]; bmp(g, r, x + Math.floor((32 - bw(r)) / 2), y + Math.ceil((32 - r.length) / 2), C.lcdInk);
+    if (label) text(g, label, x + 16, y + 39, C.lcdInk, { align: 'center' });
+    if (badge) { rr(g, x + 24, y - 4, 11, 12, 4, C.lcdBg); rr(g, x + 25, y - 3, 9, 10, 3, C.chat); text(g, String(badge), x + 30, y - 2, C.lcdBg, { align: 'center' }); }
+  }
+  function wallpaper(g, top) {
+    const L = PH.sx, R = PH.sx + PH.sw, c = C.lcdMid;
+    // Vidhana Soudha dome
+    const cx = PH.sx + 132;
+    px(g, cx - 34, top + 22, 68, 22, c); px(g, cx - 14, top + 12, 28, 12, c); rr(g, cx - 10, top, 20, 16, 8, c); px(g, cx - 1, top - 5, 2, 6, c);
+    for (let i = 0; i < 7; i++) px(g, cx - 30 + i * 10, top + 28, 3, 14, C.lcdBg);
+    // coconut palms
+    [[L + 18, 6], [L + 40, 14], [R - 14, 10]].forEach(([x, t]) => { px(g, x, top + t + 4, 2, 44 - t, c); bmp(g, ['.##...##.', '###.#.###', '#..###..#', '..#####..', '.#..#..#.'], x - 3, top + t - 1, c); });
+    // metro viaduct + train
+    px(g, L, top + 36, PH.sw, 3, c);
+    for (let x = L + 6; x < R; x += 30) px(g, x, top + 39, 4, 9, c);
+    rr(g, L + 54, top + 27, 52, 9, 3, c); for (let i = 0; i < 6; i++) px(g, L + 58 + i * 8, top + 29, 4, 3, C.lcdBg);
+    px(g, L, top + 48, PH.sw, 2, c);
+  }
+  function drawHome(g) {
+    phoneFrame(g); notchAndStatus(g);
+    wallpaper(g, PH.sy + 228);
+    const grid = [
+      ['calls', 'CALLS'], ['contacts', 'PEOPLE'], ['news', 'NEWS'], ['reels', null, true],
+      ['jobs', null, true], ['calendar', 'CALENDAR'], ['food', 'FOOD'], ['dating', null, true],
+      ['notes', 'NOTES'], ['settings', 'SETTINGS'],
+    ];
+    grid.forEach(([k, l, locked], i) => appTile(g, PH.sx + (i % 4) * 46 + 7, PH.sy + 32 + Math.floor(i / 4) * 62 + 4, k, { label: l, locked }));
+    // page dots
+    [0, 1, 2].forEach(i => { const x = PH.sx + PH.sw / 2 - 10 + i * 8; i === 0 ? px(g, x, PH.sy + 282, 4, 4, C.lcdInk) : (px(g, x, PH.sy + 282, 4, 1, C.lcdMid), px(g, x, PH.sy + 285, 4, 1, C.lcdMid), px(g, x, PH.sy + 282, 1, 4, C.lcdMid), px(g, x + 3, PH.sy + 282, 1, 4, C.lcdMid)); });
+    // dock: dithered band
+    for (let y = PH.sy + 292; y < PH.h; y++) for (let x = PH.sx; x < PH.sx + PH.sw; x++) if ((x + y) % 2 === 0) px(g, x, y, 1, 1, C.lcdMid);
+    px(g, PH.sx, PH.sy + 292, PH.sw, 1, C.lcdMid);
+    [['maps', 'MAPS'], ['chats', 'CHATS', 2], ['upi', 'UPI'], ['camera', 'CAMERA']].forEach(([k, l, b], i) => {
+      const x = PH.sx + i * 46 + 7, y = PH.sy + 298;
+      rr(g, x - 4, y + 37, 40, 11, 3, C.lcdBg);
+      appTile(g, x, y, k, { label: l, badge: b });
+    });
+  }
+  function pill(g, x, y, w, h, fill = C.lcdBg) {
+    rr(g, x, y + 2, w, h, Math.floor(h / 2), C.lcdMid);
+    rr(g, x, y, w, h, Math.floor(h / 2), C.lcdInk); rr(g, x + 2, y + 2, w - 4, h - 4, Math.floor(h / 2) - 2, fill);
+  }
+  function drawUpi(g) {
+    phoneFrame(g); notchAndStatus(g, '08:41', false);
+    const X = PH.sx, Y = PH.sy;
+    // app glyph top-left
+    rr(g, X + 8, Y + 24, 20, 20, 4, C.lcdInk); rr(g, X + 10, Y + 26, 16, 16, 2, C.lcdBg); bmp(g, RUPEE, X + 16, Y + 30, C.upi);
+    pill(g, X + 38, Y + 23, 122, 22); text(g, 'NAMMA PAY', X + 99, Y + 30, C.lcdInk, { bold: true, align: 'center' });
+    text(g, 'BALANCE', X + PH.sw / 2, Y + 58, C.lcdMid, { align: 'center' });
+    text(g, '₹30,690', X + PH.sw / 2, Y + 70, C.lcdInk, { k: 2, align: 'center' });
+    text(g, 'RECENT', X + 12, Y + 98, C.lcdMid);
+    px(g, X + 50, Y + 101, PH.sw - 62, 1, C.lcdMid);
+    const rows = [['-₹40', 'Filter coffee'], ['+₹500', 'Amma'], ['-₹4,500', 'Hotel · 3 nights'], ['-₹250', 'Vayu Vajra bus'], ['-₹20', 'Chai Anna'], ['+₹35,000', 'From savings']];
+    rows.forEach(([a, l], i) => {
+      const y = Y + 110 + i * 27; pill(g, X + 10, y, PH.sw - 20, 22);
+      text(g, a, X + 20, y + 7, a[0] === '+' ? C.upi : C.alert, { bold: true });
+      text(g, l, X + PH.sw - 20, y + 7, C.lcdInk, { align: 'right' });
+    });
+    // dock bar
+    const dy = Y + 290; rr(g, X + 10, dy + 2, PH.sw - 20, 32, 9, C.lcdMid); rr(g, X + 10, dy, PH.sw - 20, 32, 9, C.lcdInk);
+    ['home', 'scan', 'list', 'contacts'].forEach((k, i) => {
+      const cx = X + 10 + Math.round((PH.sw - 20) * (i + 0.5) / 4), r = I[k];
+      bmp(g, r, cx - Math.floor(bw(r) / 2), dy + 16 - Math.ceil(r.length / 2), i === 2 ? C.lcdBg : C.lcdMid);
+      if (i === 2) px(g, cx - 6, dy + 26, 12, 2, C.lcdBg);
+    });
+  }
+
+  // ── HUD ──
+  function plate(g, x, y, w, h, r = 3) {
+    rr(g, x, y + 1, w, h, r, 'rgba(0,0,0,0.45)');
+    rr(g, x + 2, y + 2, w - 4, h - 4, Math.max(0, r - 2), PLATE);
+    ring(g, x, y, w, h, r, 2, C.grey);
+  }
+  function labelCard(g, x, y, w, h) {
+    px(g, x + 2, y + 2, w - 2, h - 4, PLATE);
+    px(g, x + 3, y, w - 3, 2, C.grey); px(g, x + 3, y + h - 2, w - 3, 2, C.grey);
+    px(g, x, y + 3, 2, h - 6, C.grey); px(g, x + 1, y + 1, 2, 2, C.grey); px(g, x + 1, y + h - 3, 2, 2, C.grey);
+    for (let i = 0; i < 9; i++) { px(g, x + w + 2 + i * 4, y, 2, 2, C.grey); px(g, x + w + 2 + i * 4, y + h - 2, 2, 2, C.grey); }
+  }
+  function choicePill(g, x, y, s, selected) {
+    const w = textW(s) + (selected ? 22 : 14);
+    if (selected) { rr(g, x, y + 1, w, 17, 4, 'rgba(0,0,0,.45)'); rr(g, x, y, w, 17, 4, C.white); bmp(g, ['#..', '##.', '###', '##.', '#..'], x + 6, y + 6, C.black); text(g, s, x + 15, y + 5, C.black); }
+    else { plate(g, x, y, w, 17, 4); text(g, s, x + 7, y + 5, C.white); }
+    return w;
+  }
+  const airport = new Image(); airport.src = 'airport.png';
+  const state = { input: 'touch', moment: 'walk', bob: 0 };
+  function drawHud(g) {
+    g.clearRect(0, 0, 640, 360);
+    g.drawImage(airport, 0, 0);
+    const talking = state.moment === 'talk', paid = state.moment === 'paid';
+    // objective
+    const obj = paid ? 'Find the Vayu Vajra stop' : 'Get a chai from Chai Anna';
+    let w = 6 + 7 + 5 + textW(obj) + 7; plate(g, 8, 8, w, 19); bmp(g, I.star, 14, 14, C.star); text(g, obj, 26, 14, C.white, { shadow: C.black });
+    // location card
+    if (!paid) { const lw = textW('KIAL · ARRIVALS', { bold: true }); labelCard(g, 8, 31, lw + 46, 19); text(g, 'KIAL · ARRIVALS', 15, 37, C.white, { bold: true }); rr(g, lw + 20, 35, 25, 11, 2, C.star); text(g, 'NEW', lw + 33, 37, C.black, { align: 'center', bold: true }); }
+    // phone button
+    plate(g, 604, 8, 28, 28, 4);
+    rr(g, 610, 14, 10, 16, 2, C.white); px(g, 612, 16, 6, 11, C.black); px(g, 614, 16, 2, 1, C.white);
+    [2, 4, 6, 8].forEach((h, i) => px(g, 622 + i * 2, 29 - h, 1, h, C.white));
+    if (state.moment === 'walk') rr(g, 625, 11, 5, 5, 2, C.chat);
+    // clock
+    const ct = 'DAY 1 · 06:12'; const cw = 6 + 9 + 5 + textW(ct, { bold: true }) + 7; plate(g, 598 - cw, 8, cw, 19);
+    bmp(g, I.sunrise, 604 - cw, 14, C.star); text(g, ct, 618 - cw, 14, C.white, { bold: true, shadow: C.black });
+    // wallet + tick
+    if (paid) { const wt = '₹34,980', tk = '-₹20'; const ww = 6 + textW(wt, { bold: true }) + 8 + textW(tk, { bold: true }) + 7; plate(g, 598 - ww, 31, ww, 19); text(g, wt, 604 - ww, 37, C.white, { bold: true, shadow: C.black }); text(g, tk, 591 - textW(tk, { bold: true }), 37, '#ff6b5e', { bold: true, shadow: C.black }); }
+    // prompt bubble over Anna (feet 406,166 → head ~118)
+    if (state.moment === 'walk') {
+      const label = state.input === 'keys' ? '[E] TALK' : 'TALK';
+      const tw = textW(label, { bold: true }) + (state.input === 'keys' ? 12 : 22); const bx = 406 - Math.round(tw / 2), by = 98 - state.bob;
+      plate(g, bx, by, tw, 17, 4); px(g, 403, by + 15, 6, 2, PLATE); px(g, 403, by + 15, 2, 2, C.grey); px(g, 407, by + 15, 2, 2, C.grey); px(g, 405, by + 17, 2, 2, C.grey);
+      if (state.input === 'touch') { bmp(g, I.tap, bx + 6, by + 5, C.white); text(g, label, bx + 16, by + 5, C.white, { bold: true }); }
+      else text(g, label, bx + 6, by + 5, C.white, { bold: true });
+    }
+    // dialogue
+    if (talking || paid) {
+      const by = 254; labelCard(g, 8, by, 588, 86);
+      rr(g, 16, by - 7, textW('CHAI ANNA', { bold: true }) + 14, 15, 4, C.white); text(g, 'CHAI ANNA', 23, by - 3, C.black, { bold: true });
+      const lines = talking ? ['Chai, boss? Twenty rupees. Fresh —', 'kettle just now boiled. You are coming', 'from outside, no?'] : ['Scan, scan… ting! See, money gone', 'already — Bengaluru welcomes you.', 'Whitefield, you said?'];
+      lines.forEach((l, i) => text(g, l, 22, by + 14 + i * 14, C.white, { shadow: C.black }));
+      if (talking) { let x = 22; ['One chai. (₹20, UPI)', 'Bus to Whitefield?', 'Not now, Anna.'].forEach((s, i) => { x += choicePill(g, x, by + 58, s, i === 0) + 8; }); }
+      else if (state.bob) bmp(g, ['#####', '.###.', '..#..'], 578, by + 70, C.white);
+    }
+    // touch controls
+    if (state.input === 'touch' && state.moment === 'walk') {
+      rr(g, 20, 286, 54, 54, 27, 'rgba(0,0,0,.35)'); ring(g, 20, 286, 54, 54, 27, 2, C.grey); rr(g, 36, 302, 22, 22, 11, 'rgba(255,255,255,.55)');
+      plate(g, 580, 288, 52, 52, 12); text(g, 'TALK', 606, 310, C.white, { bold: true, align: 'center', shadow: C.black });
+    }
+  }
+
+  function drawType(g) {
+    px(g, 0, 0, 300, 96, C.black);
+    text(g, 'Namma Bengaluru · ₹34,620', 6, 6, C.white);
+    text(g, 'NAMMA BENGALURU · ₹34,620', 6, 20, C.white, { bold: true });
+    text(g, 'DAY 3 · 08:40', 6, 36, C.lcdBg, { k: 2, bold: true });
+    text(g, 'abcdefghijklm 0123456789 ₹', 6, 64, C.grey);
+    text(g, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 6, 78, C.grey, { bold: true });
+  }
+
+  function drawCtx(g, phoneCanvas) {
+    g.filter = 'grayscale(0.5) brightness(0.45)'; g.drawImage(airport, 0, 0); g.filter = 'none';
+    g.drawImage(phoneCanvas, 217, 2);
+  }
+
+  const $ = id => document.getElementById(id);
+  const ctx = id => { const g = $(id).getContext('2d'); g.imageSmoothingEnabled = false; return g; };
+  function seg(id, key, after) {
+    $(id).addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      state[key] = b.dataset.v;
+      $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      after();
+    });
+  }
+
+  Promise.all([
+    fetch('PixelifySans.ttf').then(r => r.arrayBuffer()).then(b => { FONT = opentype.parse(b); }),
+    airport.decode().catch(() => {}),
+  ]).then(() => {
+    drawHome(ctx('cvHome')); drawUpi(ctx('cvUpi')); drawType(ctx('cvType'));
+    drawCtx(ctx('cvCtx'), $('cvHome'));
+    const hud = ctx('cvHud'); const redraw = () => drawHud(hud); redraw();
+    seg('segInput', 'input', redraw); seg('segMoment', 'moment', redraw);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { state.bob ^= 1; redraw(); }, 500);
+  });
+})();
+</script>

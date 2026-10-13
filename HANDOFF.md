@@ -30,7 +30,7 @@ Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P5 approved**, p
 - **Audit preset**: playground → 0.3 PG Hunt → preset "Phone: day 3, chats waiting" → Play → P (or tap the phone button). Add ledger lines via `__nqStore` to see UPI scroll.
 
 ## 4. Pipelines (exact commands)
-- `corepack pnpm dev` → http://localhost:6174 · `corepack pnpm playground` → /playground.html (dev only) · `corepack pnpm build` = validate → typecheck → vite → `scripts/check-dist.mjs`.
+- `corepack pnpm dev` → http://localhost:6174 (game) · `corepack pnpm playground` → http://localhost:6175/playground.html (dev only) · `corepack pnpm mocks` → http://localhost:6176 (mock boards, `docs/mocks/`) · `corepack pnpm build` = validate → typecheck → vite → `scripts/check-dist.mjs`.
 - `corepack pnpm art`: tokens (colour + motion + dev-UI), every `_raw/characters/*.png` (3×4 magenta sheets → 96×192; `player_*` × 5 skins), props (`_raw/props`, `import-props.mjs`), breath frames (only if breath.json `"approved": true`), every `_raw/maps/*.spec.json` (`import-map.mjs` v2: `units:"px"`, `blocks`, feet-point `spawns`, `zones`, `occluders`, `patches`), title (`import-title.mjs`), street map.
 - Image generation: Figma MCP `generate_image`, model `gpt-image-2.5-sunburst`, **planKey `team::1113684943164685803`** (user's personal team, never the Netradyne org); ≤ 3 rerolls per asset. Prompts + provenance in each `_raw/*/README.md`.
 - Generated-map QA: debug preview (blocks + occluders over the darkened map — pattern in MEMORY.md), then walk every route in the browser.

@@ -21,7 +21,8 @@
     "cap:sync": "pnpm build && cap sync",
     "cap:android": "pnpm cap:sync && cap open android",
     "cap:ios": "pnpm cap:sync && cap open ios",
-    "playground": "vite --open /playground.html"
+    "playground": "vite --port 6175 --strictPort --open /playground.html",
+    "mocks": "vite docs/mocks --port 6176 --strictPort --open /p6-style-board/p6-mock-board.html"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",
