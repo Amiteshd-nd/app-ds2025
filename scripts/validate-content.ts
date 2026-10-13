@@ -679,6 +679,34 @@ export function validateCityMap(city: Json, districts: Json[], colourTokens: Set
   return problems;
 }
 
+/**
+ * Real neighbourhoods (ADR-117): a district with `realworld.area` has its
+ * OpenStreetMap extract, credited; its pocket sits inside the area and is as
+ * big as its tilemap (so the map stays proportional).
+ */
+export function validateAreas(districts: Json[], areas: Record<string, Json>, mapSizes: Record<string, [number, number]>): string[] {
+  const problems: string[] = [];
+  const M_LAT = 110_574;
+  for (const d of districts) {
+    const area = d.realworld?.area;
+    if (!area) continue;
+    const where = `districts.json: ${d.id}`;
+    const data = areas[d.id];
+    if (!data) { problems.push(`${where} has realworld.area but no src/data/map/areas/${d.id}.json — run node scripts/fetch-osm-area.mjs ${d.id}`); continue; }
+    if (!/OpenStreetMap/.test(data.$comment ?? '') || !/ODbL/.test(data.$comment ?? '')) problems.push(`map/areas/${d.id}.json: must carry the OpenStreetMap / ODbL credit in $comment`);
+    if (!(data.roads?.length > 0)) problems.push(`map/areas/${d.id}.json: no streets`);
+    const p = area.pocket;
+    if (!p) continue;
+    const [lat, lng] = p.anchor ?? [];
+    const dist = Math.hypot((lat - d.realworld.lat) * M_LAT, (lng - d.realworld.lng) * M_LAT * Math.cos((lat * Math.PI) / 180));
+    if (!(dist < area.radiusM * 0.8)) problems.push(`${where} pocket anchor is ${Math.round(dist)} m from the area centre — keep it well inside radiusM ${area.radiusM}`);
+    if (!(p.metresPerTile > 0.5 && p.metresPerTile < 3)) problems.push(`${where} pocket metresPerTile ${p.metresPerTile} is not character scale (0.5–3 m)`);
+    const size = mapSizes[d.map];
+    if (size && (p.tiles?.[0] !== size[0] || p.tiles?.[1] !== size[1])) problems.push(`${where} pocket tiles [${p.tiles}] do not match its tilemap ${size[0]}×${size[1]} — the map would not be proportional`);
+  }
+  return problems;
+}
+
 export function validateWorld(districts: Json[], world: WorldInputs): WorldReport {
   const problems: string[] = [];
   const warnings: string[] = [];
@@ -909,6 +937,12 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const city = JSON.parse(readFileSync(join(dataDir, 'map/city.json'), 'utf8'));
   const colourTokens = new Set(Object.keys(JSON.parse(readFileSync(join(assetsDir, '_meta/tokens.json'), 'utf8')).tokens));
   problems.push(...validateCityMap(city, districts, colourTokens));
+  const areasDir = join(dataDir, 'map/areas');
+  const areas: Record<string, Json> = {};
+  if (existsSync(areasDir)) for (const f of readdirSync(areasDir).filter((x) => x.endsWith('.json'))) { const a = JSON.parse(readFileSync(join(areasDir, f), 'utf8')); areas[a.district] = a; }
+  const mapSizes: Record<string, [number, number]> = {};
+  for (const [key, json] of Object.entries(maps)) mapSizes[key] = [json.width, json.height];
+  problems.push(...validateAreas(districts, areas, mapSizes));
 
   const world = validateWorld(districts, { manifest, maps, sprites });
   problems.push(...world.problems);

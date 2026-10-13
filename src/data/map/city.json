@@ -22,12 +22,12 @@
     { "id": "jayanagar", "kind": "residential", "label": "Jayanagar", "outline": [[12.941, 77.574], [12.941, 77.593], [12.919, 77.593], [12.919, 77.574]] },
     { "id": "malleswaram", "kind": "residential", "label": "Malleswaram", "outline": [[13.011, 77.559], [13.011, 77.576], [12.994, 77.576], [12.994, 77.559]] },
     { "id": "kadugodi", "kind": "residential", "label": "Kadugodi PG belt", "outline": [[12.998, 77.742], [12.998, 77.762], [12.962, 77.762], [12.962, 77.742]] },
-    { "id": "prashanth_res", "kind": "residential", "label": "Prashanth Layout", "outline": [[12.979, 77.727], [12.979, 77.742], [12.965, 77.742], [12.965, 77.727]] },
+    { "id": "prashanth_res", "kind": "residential", "label": "Prashanth Extension", "outline": [[12.987, 77.744], [12.987, 77.752], [12.978, 77.752], [12.978, 77.744]] },
     { "id": "ambedkar_hill", "kind": "hill", "label": "Ambedkar Nagar hill", "outline": [[12.991, 77.713], [12.991, 77.724], [12.983, 77.724], [12.983, 77.713]] }
   ],
   "paths": [
     { "id": "vayu_vajra", "kind": "road", "label": "Vayu Vajra KIA-8", "connects": ["airport", "whitefield_street"], "points": [[13.1986, 77.7066], [13.12, 77.69], [13.04, 77.66], [13.005, 77.695], [12.99, 77.72], [12.9698, 77.75]] },
-    { "id": "walk_prashanth", "kind": "walk", "label": "Whitefield → Prashanth Layout", "connects": ["whitefield_street", "prashanth_layout"], "points": [[12.9698, 77.75], [12.9727, 77.7351]] },
+    { "id": "walk_prashanth", "kind": "walk", "label": "Whitefield → Prashanth Layout", "connects": ["whitefield_street", "prashanth_layout"], "points": [[12.9698, 77.75], [12.9739, 77.7505], [12.9800, 77.7517], [12.98353, 77.74892]] },
     { "id": "bellary_road", "kind": "road", "label": "Bellary Road", "points": [[13.1986, 77.7066], [13.165, 77.65], [13.10, 77.597], [13.035, 77.597], [13.0, 77.59], [12.977, 77.592]] },
     { "id": "orr", "kind": "road", "label": "Outer Ring Road", "points": [[13.035, 77.597], [13.04, 77.62], [13.005, 77.695], [12.956, 77.701], [12.925, 77.676], [12.917, 77.623]] },
     { "id": "old_airport_road", "kind": "road", "label": "Old Airport Road", "points": [[12.975, 77.61], [12.961, 77.638], [12.956, 77.701], [12.9698, 77.75]] },

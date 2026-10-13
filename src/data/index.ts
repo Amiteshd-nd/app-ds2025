@@ -3,6 +3,7 @@ import phoneApps from './phone/apps.json';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
+  AreaData,
   CityMapData,
   DialogueFile,
   DistrictDef,
@@ -167,3 +168,7 @@ export const getNpc = (id: string): NpcDef => {
 
 /** The city behind the fullscreen map (P6b): regions, roads, metro, teaser places, icons. */
 export const CITY_MAP: CityMapData = cityMap as unknown as CityMapData;
+
+const areaModules = import.meta.glob('./map/areas/*.json', { eager: true, import: 'default' }) as Record<string, AreaData>;
+/** OpenStreetMap neighbourhoods by district id (ADR-117). */
+export const AREAS: Record<string, AreaData> = Object.fromEntries(Object.values(areaModules).map((a) => [a.district, a]));

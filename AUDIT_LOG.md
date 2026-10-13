@@ -104,3 +104,11 @@ Updated: 2026-10-12
 ### [P6a phone + font — approved] — 2026-10-13
 - Decision: "approved, go for P6b" — covers the bitmap font (incl. the hand-drawn ₹ 5 Z B ( ) , and keeping Pixelify's H tooth), the UI palette, the kit molecules and PhoneScene. No corrections raised.
 - Mobile smoke: phone opens by button tap and keys inside the playground's iPhone 15 frame; touch zones ≥ 48pt; dock clear of the home indicator; joystick + A hidden while open. Native: sync OK, not booted (T-018).
+
+### [P6b map — approved, then extended] — 2026-10-13
+- Decision: "approved, go for P6c" — the fullscreen symbolic map (ADR-115) stands.
+- Request (user, before P6c): make the map relatable to the real place — "if they know the Prashanth Extension area in real life they can feel what is there before they explore", legible routes only, and "the game area should be proportional to what the player sees in the map". Choices made by the user: OpenStreetMap data (ODbL, credited); map side first (Area view), pocket art unchanged; anchor to the real Prashanth Extension, keep the name Prashanth Layout.
+- Rule going forward: **every outdoor pocket has a real place**: `realworld.area` + an OSM extract (`scripts/fetch-osm-area.mjs`) + a pocket placement at character scale (1.2 m/tile) whose `tiles` equal its tilemap — the map box is always the true size of the walkable map.
+- Rule going forward: **new pockets (P7+) are generated to follow their real streets** from the start (the lane's direction and junctions match the OSM extract); the Prashanth pocket is re-laid only if the user asks.
+- Rule going forward: map data from OpenStreetMap only (never copied from Google Maps); "© OpenStreetMap contributors" visible wherever OSM data is drawn.
+- Also: Test Playground moved to its own port 6175; mock boards live in the repo under `docs/mocks/` and run on 6176 (ADR-116).

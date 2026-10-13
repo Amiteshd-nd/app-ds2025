@@ -4,7 +4,9 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Now — P6 Phone · fullscreen map · HUD · menus (style board, ADR-113/114)
 - [x] T-032 P6a (approved 2026-10-13) — font pipeline (Pixelify Sans → bitmap `px`/`pxb`), UI palette + tokens, UI-kit molecules (5 states), PhoneScene: frame, status bar, home 4×3 + dock, Chats (list + thread), UPI, Maps (list), stubs; DND-aware buzz + unlock pop; playground preset `phone-day-3`
-- [x] T-033 P6b — fullscreen symbolic map (ADR-115): `city.json`, MapManager (visited/travelled/route/reroute/★/fast travel), glyph-field regions, 8px-grid paths dotted→solid, metro, nodes, label cards, yellow dashed route, legend, compass, 1×/2× zoom, M key + phone Maps; presets `map-day-3` — **built, awaiting P6b audit**
+- [x] T-033 P6b (approved 2026-10-13) — fullscreen symbolic map (ADR-115): `city.json`, MapManager (visited/travelled/route/reroute/★/fast travel), glyph-field regions, 8px-grid paths dotted→solid, metro, nodes, label cards, yellow dashed route, legend, compass, 1×/2× zoom, M key + phone Maps; presets `map-day-3`
+- [x] T-038 Map Area view (ADR-117): OSM streets around Prashanth Extension, pocket drawn at true size, player position inside it, street labels, © OSM — **built, awaiting audit** (before P6c)
+- [ ] T-039 Real areas for the airport arrivals kerb and the Whitefield hotel street (choose their real spots, fetch, place) — and every new pocket from P7 on
 - [ ] T-034 P6c — HUD rebuild in-canvas (objective, location card, clock, wallet tick, phone button top-right, context action, prompt bubble, toasts queue, autosave glyph, contextual meters, dialogue box) + 5 HUD presets; retires the DOM HUD (closes T-024)
 - [ ] T-035 P6d — Pause / Settings (HUD scale, objective auto-hide, meter visibility, About & credits) / Save / Load / confirm dialogs, full keyboard + gamepad nav
 - [x] T-001 P0.1 Adopt the 5 repo docs (CLAUDE/ARCHITECTURE/TASKS/DECISIONS/MEMORY) + `docs/design/` per `project_docs_convention.md`

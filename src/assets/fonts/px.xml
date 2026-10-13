@@ -4,7 +4,7 @@
   <info face="px" size="11" bold="0" italic="0" smooth="0" aa="1" padding="0,0,0,0" spacing="0,0" />
   <common lineHeight="12" base="9" scaleW="192" scaleH="96" pages="1" packed="0" />
   <pages><page id="0" file="px.png" /></pages>
-  <chars count="119">
+  <chars count="120">
   <char id="48" x="0" y="0" width="5" height="12" xoffset="0" yoffset="0" xadvance="6" page="0" chnl="15" />
   <char id="49" x="12" y="0" width="3" height="12" xoffset="0" yoffset="0" xadvance="4" page="0" chnl="15" />
   <char id="50" x="24" y="0" width="5" height="12" xoffset="0" yoffset="0" xadvance="6" page="0" chnl="15" />
@@ -120,9 +120,10 @@
   <char id="9660" x="0" y="84" width="5" height="12" xoffset="0" yoffset="0" xadvance="6" page="0" chnl="15" />
   <char id="9650" x="12" y="84" width="5" height="12" xoffset="0" yoffset="0" xadvance="6" page="0" chnl="15" />
   <char id="9733" x="24" y="84" width="7" height="12" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" />
-  <char id="10003" x="36" y="84" width="6" height="12" xoffset="0" yoffset="0" xadvance="7" page="0" chnl="15" />
-  <char id="9675" x="48" y="84" width="5" height="12" xoffset="0" yoffset="0" xadvance="6" page="0" chnl="15" />
-  <char id="8226" x="60" y="84" width="2" height="12" xoffset="0" yoffset="0" xadvance="3" page="0" chnl="15" />
-  <char id="176" x="72" y="84" width="2" height="12" xoffset="0" yoffset="0" xadvance="3" page="0" chnl="15" />
+  <char id="169" x="36" y="84" width="7" height="12" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" />
+  <char id="10003" x="48" y="84" width="6" height="12" xoffset="0" yoffset="0" xadvance="7" page="0" chnl="15" />
+  <char id="9675" x="60" y="84" width="5" height="12" xoffset="0" yoffset="0" xadvance="6" page="0" chnl="15" />
+  <char id="8226" x="72" y="84" width="2" height="12" xoffset="0" yoffset="0" xadvance="3" page="0" chnl="15" />
+  <char id="176" x="84" y="84" width="2" height="12" xoffset="0" yoffset="0" xadvance="3" page="0" chnl="15" />
   </chars>
 </font>

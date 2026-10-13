@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
-import { CITY_MAP } from '../data';
+import { AREAS, CITY_MAP, DISTRICTS } from '../data';
+import { MAPS } from '../assets/maps';
 import { platform } from '../platform';
 import { useGameStore } from '../store';
-import { MapManager, type MapNode } from '../systems/MapManager';
+import { anchorOf, MapManager, type MapNode } from '../systems/MapManager';
 import { StatsManager } from '../systems/StatsManager';
 import { hex, motion, type TokenName } from '../ui/tokens';
 import { hudPlate, labelCard, MIN_TAP, type UiState } from '../ui/kit/molecules';
@@ -13,8 +14,10 @@ import { nextFocus } from '../ui/kit/focus';
 import { ARROWS, PADLOCK, POI_GLYPHS } from '../ui/map/glyphs';
 import { paintBase, runOf, stroke } from '../ui/map/paint';
 import { orthogonal, project, walk, type Projection, type Pt } from '../ui/map/projection';
+import { areaProjection, paintArea, paintPocket, placeLabels, pocketOutline, pocketToLatLng, type AreaProjection } from '../ui/map/area';
 import { cardFor, clampPan, LEGEND, nodeAt, panFor, toScreen, zoomAbout, type Zoom } from '../ui/map/view';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
+import type { AreaData, LatLng, PocketPlacement } from '../utils/types';
 import type { WorldScene } from './WorldScene';
 
 const SCREEN = { w: GAME_WIDTH, h: GAME_HEIGHT } as const;
@@ -57,6 +60,12 @@ export class MapScene extends Phaser.Scene {
 
   private phase: 'closed' | 'opening' | 'open' = 'closed';
   private proj!: Projection;
+  /** 'area' = the close-up real neighbourhood (ADR-117); 'city' = the symbolic city. */
+  private view: 'city' | 'area' = 'city';
+  private saved: Record<'city' | 'area', { zoom: Zoom; pan: Pt }> = { city: { zoom: 1, pan: [0, 0] }, area: { zoom: 2, pan: [0, 0] } };
+  private area: { data: AreaData; proj: AreaProjection; pocket?: PocketPlacement; district: string; label: string } | null = null;
+  private player: { at: LatLng; facing: 'n' | 'e' | 's' | 'w' } | null = null;
+  private areaImage: Phaser.GameObjects.Image | null = null;
   private zoom: Zoom = 1;
   private pan: Pt = [0, 0];
   private selected: string | null = null;
@@ -125,7 +134,12 @@ export class MapScene extends Phaser.Scene {
     this.legend = false;
     this.hint = null;
     this.zoom = 1;
+    this.view = 'city';
     this.centreOn(mm.here());
+    this.saved.city = { zoom: this.zoom, pan: this.pan };
+    this.loadArea(world);
+    // Inside a pocket with real streets, open close up: that is where the player can relate.
+    if (this.area) this.switchView('area');
     const reveal = CITY_MAP.paths.map((p) => p.id).filter((id) => mm.pathState(id) === 'reveal');
     this.reveal = reveal.length ? { ids: reveal, step: 0 } : null;
     this.bakeBase();
@@ -190,15 +204,71 @@ export class MapScene extends Phaser.Scene {
     this.pan = clampPan(panFor(m, [SCREEN.w / 2, SCREEN.h / 2], this.zoom), this.zoom, this.proj, SCREEN);
   }
 
+  private dims(): { w: number; h: number } {
+    return this.view === 'area' && this.area ? this.area.proj : this.proj;
+  }
+
+  /** Area view: centre on the player's real position (or the pocket). */
+  private centreOnPlayer(): void {
+    if (this.view !== 'area' || !this.area) { this.centreOn(MapManager.getInstance().here()); return; }
+    const at = this.player?.at ?? (this.area.pocket ? pocketToLatLng(this.area.pocket, [this.area.pocket.tiles[0] / 2, this.area.pocket.tiles[1] / 2]) : this.area.data.centre);
+    this.pan = clampPan(panFor(this.area.proj.at(at), [SCREEN.w / 2, SCREEN.h / 2], this.zoom), this.zoom, this.area.proj, SCREEN);
+  }
+
+  private switchView(v: 'city' | 'area'): void {
+    if (v === 'area' && !this.area) return;
+    this.saved[this.view] = { zoom: this.zoom, pan: this.pan };
+    this.view = v;
+    this.selected = null;
+    this.hint = null;
+    if (v === 'area') { this.zoom = this.saved.area.zoom; this.centreOnPlayer(); }
+    else { this.zoom = this.saved.city.zoom; this.pan = this.saved.city.pan; }
+    this.render();
+  }
+
+  /**
+   * The real neighbourhood of where the player stands (ADR-117), and their
+   * real position: their tile mapped through the pocket placement, or — in an
+   * interior — the door they went in by.
+   */
+  private loadArea(world: WorldScene): void {
+    this.area = null;
+    this.player = null;
+    const pos = world.playerPosition();
+    const anchor = anchorOf(pos.districtId);
+    const data = anchor ? AREAS[anchor.id] : undefined;
+    if (!anchor || !data) return;
+    const rw = anchor.realworld as { label?: string; area?: { pocket?: PocketPlacement } };
+    const pocket = rw.area?.pocket;
+    this.area = { data, proj: areaProjection(data), pocket, district: anchor.id, label: rw.label ?? anchor.name };
+    if (!pocket) return;
+    let tile: [number, number] | null = pos.districtId === anchor.id ? pos.tile : this.doorTile(anchor.id, pos.districtId);
+    if (!tile) tile = [pocket.tiles[0] / 2, pocket.tiles[1] / 2];
+    // Facing → compass: the map's +x runs along the pocket bearing.
+    const turn = { right: 0, down: 90, left: 180, up: 270 }[pos.facing];
+    const deg = (((pocket.bearing + turn) % 360) + 360) % 360;
+    const facing = (['n', 'e', 's', 'w'] as const)[Math.round(deg / 90) % 4];
+    this.player = { at: pocketToLatLng(pocket, tile), facing };
+  }
+
+  /** Tile of the exit zone in `outdoorId` that leads into `interiorId`. */
+  private doorTile(outdoorId: string, interiorId: string): [number, number] | null {
+    const exit = DISTRICTS[outdoorId]?.exits?.find((e) => e.to === interiorId);
+    const def = MAPS[DISTRICTS[outdoorId]?.map ?? ''];
+    const json = def ? (this.cache.tilemap.get(def.key)?.data as { layers?: Array<{ objects?: Array<{ name: string; x: number; y: number; width?: number; height?: number }> }> } | undefined) : undefined;
+    const zone = exit && json?.layers?.flatMap((l) => l.objects ?? []).find((o) => o.name === exit.zone);
+    return zone ? [(zone.x + (zone.width ?? 0) / 2) / 32, (zone.y + (zone.height ?? 0)) / 32] : null;
+  }
+
   private setZoom(z: Zoom, focus: Pt): void {
     if (z === this.zoom) return;
-    this.pan = clampPan(zoomAbout(this.pan, this.zoom, z, focus), z, this.proj, SCREEN);
+    this.pan = clampPan(zoomAbout(this.pan, this.zoom, z, focus), z, this.dims(), SCREEN);
     this.zoom = z;
     this.render();
   }
 
   private panBy(dx: number, dy: number): void {
-    this.pan = clampPan([this.pan[0] + dx, this.pan[1] + dy], this.zoom, this.proj, SCREEN);
+    this.pan = clampPan([this.pan[0] + dx, this.pan[1] + dy], this.zoom, this.dims(), SCREEN);
     this.render();
   }
 
@@ -214,6 +284,10 @@ export class MapScene extends Phaser.Scene {
 
   /** Everything above the base: route, reveals, nodes, icons (map space) + cards, buttons (screen space). */
   private render(): void {
+    if (this.view === 'area' && this.area) { this.renderArea(); return; }
+    this.areaImage?.setVisible(false);
+    this.base?.setVisible(true);
+    this.overlay?.setVisible(true);
     const mm = MapManager.getInstance();
     const nodes = mm.nodes();
     const here = mm.here();
@@ -271,6 +345,61 @@ export class MapScene extends Phaser.Scene {
     this.renderUi(nodes, dest);
   }
 
+  /** The Area view: OSM streets, the pocket outline, the player at their real spot. */
+  private renderArea(): void {
+    const area = this.area!;
+    const key = bake(this, `map:area:${area.district}`, area.proj.w, area.proj.h, (g) => {
+      paintArea(g, area.data, area.proj);
+      if (area.pocket) paintPocket(g, pocketOutline(area.pocket).map((p) => area.proj.at(p)));
+    });
+    if (!this.areaImage) { this.areaImage = this.add.image(0, 0, key).setOrigin(0); this.mapLayer.addAt(this.areaImage, 0); }
+    this.areaImage.setTexture(key).setVisible(true);
+    this.base?.setVisible(false);
+    this.overlay?.setVisible(false);
+    if (this.player) {
+      const k = `map:arrow:${this.player.facing}`;
+      bake(this, k, 7, 7, (g) => bitmap(g, ARROWS[this.player!.facing], 0, 0, hex('map.path')));
+      if (!this.arrow) { this.arrow = this.add.image(0, 0, k).setOrigin(0); this.mapLayer.add(this.arrow); }
+      const [x, y] = area.proj.at(this.player.at);
+      this.arrow.setTexture(k).setPosition(x - 3, y - 3);
+    } else this.arrow?.setVisible(false);
+    this.mapLayer.setPosition(this.pan[0], this.pan[1]).setScale(this.zoom);
+    this.renderAreaUi();
+  }
+
+  private renderAreaUi(): void {
+    this.ui.removeAll(true);
+    this.buttons = [];
+    const area = this.area!;
+    // Street names: screen text, never scaled; overlapping ones dropped.
+    for (const l of placeLabels(area.data, area.proj, this.zoom, (s) => measure(s))) {
+      const [sx, sy] = toScreen(l.at, this.pan, this.zoom);
+      if (sx < -l.w || sx > SCREEN.w + l.w || sy < 0 || sy > SCREEN.h) continue;
+      this.ui.add(pxText(this, Math.round(sx), Math.round(sy) - 3, l.name, { tint: 'hud.text', align: 'center' }));
+    }
+    this.compass();
+    // The pocket's card: name, the real streets it is on, and that you can walk it.
+    if (area.pocket) {
+      const title = area.label.toUpperCase();
+      const sub = (area.pocket.streets ?? []).join(' · ').toUpperCase();
+      const w = Math.max(measure(title, true), measure(sub), measure('YOU CAN WALK HERE')) + 14, h = 41;
+      const [cx, cy] = toScreen(area.proj.at(pocketOutline(area.pocket)[1]), this.pan, this.zoom);
+      const x = Math.max(48, Math.min(SCREEN.w - w - 40, Math.round(cx + 8))), y = Math.max(46, Math.min(BOTTOM - PILL_H - h - 6, Math.round(cy - 20)));
+      this.img(x, y, bake(this, `map:card:${w}x${h}`, w + 40, h, (g) => labelCard(g, 0, 0, w, h, 'default', 9)));
+      this.text(x + 7, y + 6, title, 'hud.text', { bold: true });
+      this.text(x + 7, y + 17, sub, 'hud.border');
+      this.text(x + 7, y + 28, 'YOU CAN WALK HERE', 'map.star');
+    }
+    this.button('close', SCREEN.w - 8 - 54, 8, 'CLOSE', () => this.close());
+    this.button('view', 8, BOTTOM - PILL_H, 'CITY', () => this.switchView('city'));
+    this.button('zoom', SCREEN.w - 8 - 32, BOTTOM - PILL_H, this.zoom === 1 ? '2×' : '1×', () => this.setZoom(this.zoom === 1 ? 2 : 1, [SCREEN.w / 2, SCREEN.h / 2]));
+    this.button('centre', SCREEN.w - 8 - 32 - 6 - 40, BOTTOM - PILL_H, 'ME', () => { this.centreOnPlayer(); this.render(); });
+    // ODbL attribution, always on screen with the data.
+    const credit = '© OpenStreetMap contributors', cw = measure(credit) + 12;
+    this.img(Math.round(SCREEN.w / 2 - cw / 2), BOTTOM - 8, bake(this, `map:credit:${cw}`, cw, 15, (g) => hudPlate(g, 0, 0, cw, 14, 'default', 3)));
+    this.text(SCREEN.w / 2, BOTTOM - 4, credit, 'hud.border', { align: 'center' });
+  }
+
   private headingDir(): 'n' | 'e' | 's' | 'w' {
     const h = MapManager.getInstance().heading();
     if (!h) return 'n';
@@ -311,7 +440,8 @@ export class MapScene extends Phaser.Scene {
 
     // Buttons: close (top-right), legend (bottom-left), centre + zoom (bottom-right), actions (bottom-centre).
     this.button('close', SCREEN.w - 8 - 54, 8, 'CLOSE', () => this.close());
-    this.button('legend', 8, BOTTOM - PILL_H, this.legend ? 'HIDE KEY' : 'KEY', () => { this.legend = !this.legend; this.render(); });
+    const legendW = this.button('legend', 8, BOTTOM - PILL_H, this.legend ? 'HIDE KEY' : 'KEY', () => { this.legend = !this.legend; this.render(); });
+    if (this.area) this.button('view', 8 + legendW + 6, BOTTOM - PILL_H, 'AREA', () => this.switchView('area'));
     this.button('zoom', SCREEN.w - 8 - 32, BOTTOM - PILL_H, this.zoom === 1 ? '2×' : '1×', () => this.setZoom(this.zoom === 1 ? 2 : 1, [SCREEN.w / 2, SCREEN.h / 2]));
     this.button('centre', SCREEN.w - 8 - 32 - 6 - 40, BOTTOM - PILL_H, 'ME', () => { this.centreOn(mm.here()); this.render(); });
 
@@ -436,7 +566,8 @@ export class MapScene extends Phaser.Scene {
     switch (ev.code) {
       case 'KeyM': case 'Escape': case 'Backspace': this.close(); return;
       case 'KeyZ': this.setZoom(this.zoom === 1 ? 2 : 1, [SCREEN.w / 2, SCREEN.h / 2]); return;
-      case 'KeyC': this.centreOn(mm.here()); this.render(); return;
+      case 'KeyC': this.centreOnPlayer(); this.render(); return;
+      case 'KeyV': this.switchView(this.view === 'area' ? 'city' : 'area'); return;
       case 'KeyL': this.legend = !this.legend; this.render(); return;
       case 'KeyW': this.panBy(0, PAN_STEP); return;
       case 'KeyS': this.panBy(0, -PAN_STEP); return;
@@ -448,6 +579,11 @@ export class MapScene extends Phaser.Scene {
     const dirs: Record<string, 'up' | 'down' | 'left' | 'right'> = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right' };
     const dir = dirs[ev.code];
     if (!dir) return;
+    if (this.view === 'area') {
+      const d = { up: [0, PAN_STEP], down: [0, -PAN_STEP], left: [PAN_STEP, 0], right: [-PAN_STEP, 0] }[dir];
+      this.panBy(d[0], d[1]);
+      return;
+    }
     const nodes = mm.nodes();
     const boxes = nodes.map((n) => { const [x, y] = this.nodePt(n); return { x, y, w: 1, h: 1 }; });
     const from = Math.max(0, nodes.findIndex((n) => n.id === (this.selected ?? mm.here())));
@@ -493,7 +629,7 @@ export class MapScene extends Phaser.Scene {
     const dx = p.x - this.drag.start[0], dy = p.y - this.drag.start[1];
     if (!this.drag.moved && Math.hypot(dx, dy) < DRAG_SLOP) return;
     this.drag.moved = true;
-    this.pan = clampPan([Math.round(this.drag.pan[0] + dx), Math.round(this.drag.pan[1] + dy)], this.zoom, this.proj, SCREEN);
+    this.pan = clampPan([Math.round(this.drag.pan[0] + dx), Math.round(this.drag.pan[1] + dy)], this.zoom, this.dims(), SCREEN);
     this.mapLayer.setPosition(this.pan[0], this.pan[1]);
   }
 
@@ -510,7 +646,7 @@ export class MapScene extends Phaser.Scene {
     }
     const drag = this.drag;
     this.drag = null;
-    if (drag?.moved) { this.render(); return; }
+    if (drag?.moved || this.view === 'area') { this.render(); return; }
     const nodes = MapManager.getInstance().nodes().map((n) => ({ id: n.id, screen: toScreen(this.nodePt(n), this.pan, this.zoom) }));
     this.select(nodeAt(nodes, [p.x, p.y]));
   }

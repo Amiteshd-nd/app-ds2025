@@ -23,6 +23,11 @@ export class Player extends Phaser.GameObjects.Sprite {
   private eKey: Phaser.Input.Keyboard.Key;
 
   private currentDirection: Direction = 'down';
+
+  /** Which way the player faces (the map's heading arrow uses it). */
+  get facing(): Direction {
+    return this.currentDirection;
+  }
   private isMoving = false;
   private interactionEnabled = true;
   private interactionCallback: (() => void) | null = null;

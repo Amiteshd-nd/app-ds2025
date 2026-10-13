@@ -25,6 +25,7 @@ import {
   INTERACT_RANGE_PX,
   LAYER_DEPTH,
   SCENE_KEYS,
+  TILE_SIZE,
 } from '../utils/constants';
 import type { DistrictDef, DistrictExit } from '../utils/types';
 
@@ -365,6 +366,11 @@ export class WorldScene extends Phaser.Scene {
   /** The phone (and later the map / pause menu) may open only while the player is free to act. */
   canOpenOverlay(): boolean {
     return !this.dialogueBox.isOpen && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null;
+  }
+
+  /** Where the player stands, in tiles (feet), and which way they face — for the map's Area view (ADR-117). */
+  playerPosition(): { districtId: string; tile: [number, number]; facing: 'up' | 'down' | 'left' | 'right' } {
+    return { districtId: this.district.id, tile: [this.player.x / TILE_SIZE, this.player.y / TILE_SIZE], facing: this.player.facing };
   }
 
   /**

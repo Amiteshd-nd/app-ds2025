@@ -242,9 +242,20 @@
       }
     ],
     "realworld": {
-      "lat": 12.9727,
-      "lng": 77.7351,
-      "label": "Prashanth Layout"
+      "lat": 12.98353,
+      "lng": 77.74892,
+      "label": "Prashanth Layout",
+      "area": {
+        "radiusM": 600,
+        "pocket": {
+          "anchor": [12.983473, 77.74908],
+          "anchorTile": [2, 12],
+          "bearing": 110,
+          "metresPerTile": 1.2,
+          "tiles": [36, 24],
+          "streets": ["1st Main Road", "3rd Cross Road"]
+        }
+      }
     }
   },
   {

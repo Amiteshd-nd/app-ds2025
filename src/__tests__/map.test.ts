@@ -247,3 +247,64 @@ describe('city map validation', () => {
     expect(hex('map.metro.purple')).toMatch(/^#[0-9a-f]{6}$/);
   });
 });
+
+describe('Area view: real streets, proportional pocket (ADR-117)', async () => {
+  const { AREAS } = await import('../data');
+  const { areaProjection, insidePocket, placeLabels, pocketOutline, pocketToLatLng, thickLine } = await import('../ui/map/area');
+  const { validateAreas } = await import('../../scripts/validate-content');
+  const { measure } = await import('../ui/kit/text');
+  const prashanth = DISTRICTS.prashanth_layout;
+  const rw = prashanth.realworld as { lat: number; lng: number; area: { radiusM: number; pocket: import('../utils/types').PocketPlacement } };
+  const pocket = rw.area.pocket;
+  const area = AREAS.prashanth_layout;
+  const metres = (a: [number, number], b: [number, number]) => Math.hypot((a[0] - b[0]) * 110_574, (a[1] - b[1]) * 111_320 * Math.cos((a[0] * Math.PI) / 180));
+
+  it('Prashanth Layout sits on the real Prashanth Extension, with its OpenStreetMap streets', () => {
+    expect(rw.lat).toBeCloseTo(12.98353, 4);
+    expect(area.roads.length).toBeGreaterThan(20);
+    expect(area.roads.some((r) => r.name === '3rd Cross Road')).toBe(true);
+  });
+
+  it('maps tiles to real metres at character scale, along the real lane', () => {
+    expect(pocketToLatLng(pocket, pocket.anchorTile)).toEqual(pocket.anchor);
+    const east = pocketToLatLng(pocket, [pocket.anchorTile[0] + 10, pocket.anchorTile[1]]);
+    expect(metres(east, pocket.anchor)).toBeCloseTo(10 * pocket.metresPerTile, 1);
+    // +x walks along 3rd Cross Road (bearing 110°: east and a little south).
+    expect(east[1]).toBeGreaterThan(pocket.anchor[1]);
+    expect(east[0]).toBeLessThan(pocket.anchor[0]);
+  });
+
+  it('draws the whole pocket at true size: 36×24 tiles ≈ 43×29 m', () => {
+    const [nw, ne, , sw] = pocketOutline(pocket);
+    expect(metres(nw, ne)).toBeCloseTo(36 * 1.2, 0);
+    expect(metres(nw, sw)).toBeCloseTo(24 * 1.2, 0);
+    const proj = areaProjection(area);
+    expect(insidePocket(proj, pocket, pocketToLatLng(pocket, [18, 12]))).toBe(true);
+    expect(insidePocket(proj, pocket, area.centre)).toBe(false);
+  });
+
+  it('names streets once each, main roads first, never overlapping; at 1× only main roads', () => {
+    const proj = areaProjection(area);
+    const at2 = placeLabels(area, proj, 2, (s) => measure(s));
+    expect(new Set(at2.map((l) => l.name)).size).toBe(at2.length);
+    const at1 = placeLabels(area, proj, 1, (s) => measure(s));
+    const main = new Set(area.roads.filter((r) => ['trunk', 'primary', 'secondary', 'tertiary'].includes(r.class)).map((r) => r.name));
+    for (const l of at1) expect(main.has(l.name)).toBe(true);
+  });
+
+  it('thick lines land on whole pixels', () => {
+    const px = new Set<string>();
+    thickLine({ fillStyle: '', globalAlpha: 1, fillRect: (x, y, w, h) => { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px.add(`${x + i},${y + j}`); } }, [0, 0], [10, 4], 2, 'W');
+    for (const k of px) expect(k.split(',').every((v) => Number.isInteger(Number(v)))).toBe(true);
+    expect(px.has('0,0') && px.has('10,4')).toBe(true);
+  });
+
+  it('validation: credit present, pocket inside, pocket as big as its tilemap', () => {
+    const districts = Object.values(DISTRICTS) as unknown as Array<Record<string, any>>;
+    const areas = { prashanth_layout: area as unknown as Record<string, any> };
+    expect(validateAreas(districts, areas, { prashanth_layout: [36, 24] })).toEqual([]);
+    expect(validateAreas(districts, areas, { prashanth_layout: [40, 24] }).join()).toMatch(/not be proportional/);
+    expect(validateAreas(districts, { prashanth_layout: { ...areas.prashanth_layout, $comment: 'x' } }, {}).join()).toMatch(/ODbL/);
+    expect(validateAreas(districts, {}, {}).join()).toMatch(/fetch-osm-area/);
+  });
+});

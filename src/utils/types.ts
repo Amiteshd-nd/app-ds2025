@@ -319,7 +319,7 @@ export interface DistrictDef {
    * Where it is in real Bengaluru (map_navigation §1–2): a pin for the phone's
    * Maps app. Interiors name their `parent` pocket instead of coordinates.
    */
-  realworld?: { lat: number; lng: number; label?: string } | { parent: string };
+  realworld?: { lat: number; lng: number; label?: string; area?: RealArea } | { parent: string };
   /** Phone signal bars here, 0–4 (default 4). The Ambedkar Nagar hill is weak (ADR-114 status bar). */
   signal?: number;
   /** Metro station (city.json id) this pocket sits on: makes it a fast-travel node once visited (ADR-115). */
@@ -603,4 +603,40 @@ export interface CityMapData {
   metro: MetroLine[];
   places: MapPlace[];
   pois: MapPoi[];
+}
+
+/**
+ * A pocket's real neighbourhood (ADR-117): the streets within `radiusM` come
+ * from OpenStreetMap (src/data/map/areas/<districtId>.json), and `pocket`
+ * places the playable tilemap on them at true scale, so walking in the game
+ * moves your dot along the real street.
+ */
+export interface RealArea {
+  radiusM: number;
+  pocket?: PocketPlacement;
+}
+
+export interface PocketPlacement {
+  /** Real point that tile `anchorTile` stands on. */
+  anchor: LatLng;
+  /** Tile (x, y) in the district's tilemap, may be fractional. */
+  anchorTile: [number, number];
+  /** Compass bearing, degrees, of the map's +x (east-in-game) axis. +y is bearing + 90. */
+  bearing: number;
+  /** Real metres per 32px tile (characters are ~1.5 tiles tall ≈ 1.7 m → ~1.2). */
+  metresPerTile: number;
+  /** Tilemap size in tiles, for the outline drawn on the map. */
+  tiles: [number, number];
+  /** Real street names the pocket shows (for the label card). */
+  streets?: string[];
+}
+
+/** OpenStreetMap extract for a pocket's neighbourhood (scripts/fetch-osm-area.mjs). */
+export interface AreaData {
+  district: string;
+  centre: LatLng;
+  radiusM: number;
+  roads: Array<{ name: string | null; class: string; points: LatLng[] }>;
+  parks: Array<{ name: string | null; outline: LatLng[] }>;
+  water: Array<{ name: string | null; outline: LatLng[] }>;
 }

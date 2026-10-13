@@ -42,7 +42,7 @@ export const METRICS = { size: 11, capHeight: 7, capTop: 2, base: 9, lineHeight:
 /** Printable ASCII + what content uses (scanned from src/data) + UI marks. */
 export const CHARSET = [
   ...Array.from({ length: 95 }, (_, i) => String.fromCharCode(32 + i)),
-  '₹', '—', '–', '…', '·', '→', '←', '≥', '−', '≈', '×', 'é', '‘', '’', '“', '”', '▶', '▼', '▲', '★', '✓', '○', '•', '°',
+  '₹', '—', '–', '…', '·', '→', '←', '≥', '−', '≈', '×', 'é', '‘', '’', '“', '”', '▶', '▼', '▲', '★', '©', '✓', '○', '•', '°',
 ];
 
 /** Hand-drawn glyphs: rows top→bottom, top row's y relative to the baseline, advance. */
@@ -58,6 +58,7 @@ export const OVERRIDES = {
   '▶': { rows: ['#..', '##.', '###', '##.', '#..'], top: -6, adv: 4 },
   '▼': { rows: ['#####', '.###.', '..#..'], top: -5, adv: 6 },
   '▲': { rows: ['..#..', '.###.', '#####'], top: -5, adv: 6 },
+  '©': { rows: ['.#####.', '#.....#', '#.###.#', '#.#...#', '#.###.#', '#.....#', '.#####.'], top: -7, adv: 8 }, // OpenStreetMap attribution
   '★': { rows: ['...#...', '...#...', '#######', '.#####.', '..###..', '.##.##.', '##...##'], top: -7, adv: 8 },
   '✓': { rows: ['.....#', '....##', '#..##.', '####..', '.##...'], top: -6, adv: 7 },
   '○': { rows: ['.###.', '#...#', '#...#', '#...#', '.###.'], top: -6, adv: 6 },

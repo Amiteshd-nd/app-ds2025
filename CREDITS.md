@@ -30,6 +30,12 @@ generated `kempegowda_arrivals` map above, so no asset of unknown origin ships.
 | --- | --- | --- |
 | `src/data/map/city.json` (region outlines, road and metro traces, station positions) | Typed by hand in this repository from general knowledge of Bengaluru's geography; simplified and snapped to an 8px grid at draw time. No map tiles, screenshots or traced map images are used or shipped (map_navigation §5) | Same as this repository |
 
+## OpenStreetMap data
+
+| Asset | Source | Licence |
+| --- | --- | --- |
+| `src/data/map/areas/*.json` (streets, parks, water around each pocket) | © OpenStreetMap contributors — <https://www.openstreetmap.org/copyright>, fetched via the public Overpass API by `scripts/fetch-osm-area.mjs` (date in each file's `$comment`), simplified to 4 m | Open Database License (ODbL) 1.0 — attribution shown on the map's Area view and in Settings → About (P6d); these files stay open data. ODbL is allowed for map data files only (ADR-117) |
+
 ## Third-party fonts
 
 | Asset | Source | Licence |
