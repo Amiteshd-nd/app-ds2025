@@ -258,7 +258,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 21,
+     "id": 15,
      "name": "counter",
      "type": "cutout",
      "rotation": 0,
@@ -277,6 +277,327 @@
        "name": "baseY",
        "type": "int",
        "value": 98
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 68
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 61
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 116
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 37
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "name": "cooler",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 6,
+     "y": 73,
+     "width": 19,
+     "height": 50,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__cooler"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 121
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 8
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 105
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 15
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 16
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "name": "chairs",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 6,
+     "y": 123,
+     "width": 27,
+     "height": 54,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__chairs"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 177
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 8
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 131
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 24
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 45
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "name": "plant",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 6,
+     "y": 177,
+     "width": 28,
+     "height": 33,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__plant"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 210
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 9
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 198
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 23
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 12
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "name": "bed",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 198,
+     "y": 56,
+     "width": 31,
+     "height": 75,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__bed"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 131
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 198
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 63
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 31
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 67
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "name": "side_table",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 227,
+     "y": 56,
+     "width": 19,
+     "height": 28,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__side_table"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 84
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 228
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 62
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 17
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 22
+      }
+     ]
+    },
+    {
+     "id": 21,
+     "name": "wardrobe",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 275,
+     "y": 14,
+     "width": 30,
+     "height": 66,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__wardrobe"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 79
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 275
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 62
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 29
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 16
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "name": "desk",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 286,
+     "y": 103,
+     "width": 29,
+     "height": 41,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__desk"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 143
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 288
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 104
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 27
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 39
       }
      ]
     }
@@ -378,7 +699,7 @@
     {
      "id": 6,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -389,14 +710,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 7,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 197,
@@ -407,14 +728,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 8,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -425,14 +746,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 9,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 315,
@@ -443,14 +764,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 10,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 186,
@@ -461,14 +782,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 11,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 186,
@@ -479,14 +800,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 12,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -497,14 +818,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 13,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 147,
@@ -515,122 +836,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 14,
      "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 5,
-     "y": 64,
-     "width": 31,
-     "height": 145,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 15,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 68,
-     "y": 61,
-     "width": 116,
-     "height": 37,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 16,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 197,
-     "y": 62,
-     "width": 31,
-     "height": 68,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 17,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 228,
-     "y": 62,
-     "width": 17,
-     "height": 22,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 18,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 275,
-     "y": 62,
-     "width": 29,
-     "height": 16,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 19,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 288,
-     "y": 104,
-     "width": 27,
-     "height": 39,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 20,
-     "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 276,
@@ -641,7 +854,7 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     }
@@ -806,7 +1019,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 22,
+ "nextobjectid": 23,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

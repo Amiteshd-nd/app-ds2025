@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-120/121). Blocks trace where things MEET THE GROUND. Road y 0-232 is traffic (never walkable); pavement y 232-335 full width with the auto stand left, tea cart, shuttle shelter right; compound wall y 335-403 broken by the pedestrian arch x 838-884 (the boom barrier is for cars); forecourt driveway x 640-900 + side pavements x 540-640 / 900-1035 down to the bottom pavement y 690-745; the entrance canopy x 560-980 y 738-860 is a porch the player walks under to the doors; the building's facade band y 745+ is solid. Prakash's counter is the security cabin (admin_desk), Divya waits at the canopy mouth (lobby), Sameer and Ravi stand on the pavement after 18:00.",
+  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-120/121). Blocks trace where things MEET THE GROUND. Road y 0-232 is traffic (never walkable); pavement y 232-335 full width with the auto stand left, tea cart, shuttle shelter right; compound wall y 335-403 broken by the pedestrian arch x 838-884 (the boom barrier is for cars); forecourt driveway x 640-900 + side pavements x 540-640 / 900-1035 down to the bottom pavement y 690-745; the entrance canopy x 560-980 y 738-860 is a porch the player walks under to the doors; the building's facade band y 745+ is solid. Prakash's counter is the security cabin (admin_desk), Divya waits at the canopy mouth (lobby), Sameer and Ravi stand on the pavement after 18:00. Migrated to ADR-125: compound wall, cabin and office block are `buildings`; pillars, barrier, bollards, planters, autos, cart, umbrella, trees, shelter bench and posts and bin are sorted cut-outs with footprints; the shelter roof and the office canopy hang `above` (you walk under both); road band, lawns and the car park are prop blocks.",
   "name": "office_gate",
   "cols": 36,
   "rows": 24,
@@ -12,120 +12,6 @@
       232
     ],
     [
-      15,
-      285,
-      45,
-      48
-    ],
-    [
-      1470,
-      285,
-      50,
-      48
-    ],
-    [
-      110,
-      292,
-      195,
-      44
-    ],
-    [
-      320,
-      306,
-      80,
-      26
-    ],
-    [
-      400,
-      292,
-      22,
-      40
-    ],
-    [
-      1180,
-      240,
-      10,
-      94
-    ],
-    [
-      1395,
-      240,
-      10,
-      94
-    ],
-    [
-      1215,
-      298,
-      130,
-      30
-    ],
-    [
-      1358,
-      300,
-      30,
-      30
-    ],
-    [
-      0,
-      335,
-      578,
-      68
-    ],
-    [
-      578,
-      262,
-      54,
-      142
-    ],
-    [
-      632,
-      345,
-      194,
-      50
-    ],
-    [
-      826,
-      318,
-      12,
-      86
-    ],
-    [
-      884,
-      318,
-      12,
-      86
-    ],
-    [
-      905,
-      262,
-      55,
-      142
-    ],
-    [
-      960,
-      318,
-      92,
-      130
-    ],
-    [
-      1052,
-      335,
-      484,
-      68
-    ],
-    [
-      560,
-      432,
-      80,
-      48
-    ],
-    [
-      905,
-      432,
-      80,
-      48
-    ],
-    [
       0,
       400,
       540,
@@ -136,48 +22,6 @@
       400,
       501,
       290
-    ],
-    [
-      595,
-      548,
-      45,
-      92
-    ],
-    [
-      898,
-      548,
-      47,
-      92
-    ],
-    [
-      598,
-      680,
-      42,
-      55
-    ],
-    [
-      898,
-      680,
-      44,
-      55
-    ],
-    [
-      0,
-      745,
-      580,
-      280
-    ],
-    [
-      960,
-      745,
-      576,
-      280
-    ],
-    [
-      640,
-      860,
-      260,
-      165
     ]
   ],
   "spawns": [
@@ -249,7 +93,45 @@
       "h": 96
     }
   ],
-  "occluders": [
+  "buildings": [
+    [
+      0,
+      335,
+      578,
+      68
+    ],
+    [
+      1052,
+      335,
+      484,
+      68
+    ],
+    [
+      960,
+      318,
+      92,
+      130
+    ],
+    [
+      0,
+      745,
+      580,
+      280
+    ],
+    [
+      960,
+      745,
+      576,
+      280
+    ],
+    [
+      640,
+      860,
+      260,
+      165
+    ]
+  ],
+  "sorted": [
     {
       "name": "tree_left",
       "rect": [
@@ -259,19 +141,35 @@
         95
       ],
       "base": 330,
+      "footprint": [
+        15,
+        285,
+        45,
+        48
+      ],
       "mode": "key",
       "bg": [
         [
-          80,
-          250,
-          30,
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
           30
         ]
       ],
       "seeds": [
         [
-          35,
+          37,
           230
+        ],
+        [
+          37,
+          300
         ]
       ]
     },
@@ -284,19 +182,121 @@
         105
       ],
       "base": 330,
+      "footprint": [
+        1470,
+        285,
+        50,
+        48
+      ],
       "mode": "key",
       "bg": [
         [
-          1430,
-          250,
-          30,
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
           30
         ]
       ],
       "seeds": [
         [
-          1500,
-          225
+          1499,
+          220
+        ],
+        [
+          1499,
+          300
+        ]
+      ]
+    },
+    {
+      "name": "autos",
+      "rect": [
+        105,
+        230,
+        205,
+        108
+      ],
+      "base": 336,
+      "footprint": [
+        110,
+        292,
+        195,
+        44
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          140,
+          290
+        ],
+        [
+          205,
+          290
+        ],
+        [
+          270,
+          290
+        ]
+      ]
+    },
+    {
+      "name": "tea_cart",
+      "rect": [
+        315,
+        262,
+        90,
+        72
+      ],
+      "base": 332,
+      "footprint": [
+        320,
+        306,
+        80,
+        26
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          360,
+          290
+        ],
+        [
+          360,
+          315
         ]
       ]
     },
@@ -309,32 +309,70 @@
         62
       ],
       "base": 332,
+      "footprint": [
+        355,
+        300,
+        10,
+        8
+      ],
       "mode": "key",
       "bg": [
         [
-          430,
-          250,
+          480,
+          300,
           60,
-          40
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
         ]
       ],
       "seeds": [
         [
-          358,
-          250
+          360,
+          240
         ]
       ]
     },
     {
-      "name": "shelter_roof",
+      "name": "bin_gate",
       "rect": [
-        1175,
-        232,
-        235,
-        32
+        398,
+        282,
+        26,
+        50
       ],
-      "base": 334,
-      "mode": "rect"
+      "base": 332,
+      "footprint": [
+        400,
+        292,
+        22,
+        40
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          411,
+          300
+        ]
+      ]
     },
     {
       "name": "pillar_left",
@@ -342,9 +380,15 @@
         578,
         262,
         54,
-        75
+        142
       ],
       "base": 402,
+      "footprint": [
+        578,
+        262,
+        54,
+        142
+      ],
       "mode": "rect"
     },
     {
@@ -353,9 +397,564 @@
         905,
         262,
         55,
-        75
+        142
       ],
       "base": 402,
+      "footprint": [
+        905,
+        262,
+        55,
+        142
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "barrier",
+      "rect": [
+        632,
+        338,
+        194,
+        58
+      ],
+      "base": 395,
+      "footprint": [
+        632,
+        345,
+        194,
+        50
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          700,
+          360
+        ],
+        [
+          800,
+          360
+        ]
+      ]
+    },
+    {
+      "name": "bollard_gate_1",
+      "rect": [
+        820,
+        310,
+        24,
+        94
+      ],
+      "base": 404,
+      "footprint": [
+        826,
+        318,
+        12,
+        86
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          832,
+          340
+        ],
+        [
+          832,
+          390
+        ]
+      ]
+    },
+    {
+      "name": "bollard_gate_2",
+      "rect": [
+        878,
+        310,
+        24,
+        94
+      ],
+      "base": 404,
+      "footprint": [
+        884,
+        318,
+        12,
+        86
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          890,
+          340
+        ],
+        [
+          890,
+          390
+        ]
+      ]
+    },
+    {
+      "name": "bollards_left",
+      "rect": [
+        555,
+        400,
+        90,
+        80
+      ],
+      "base": 480,
+      "footprint": [
+        560,
+        432,
+        80,
+        48
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          575,
+          440
+        ],
+        [
+          600,
+          445
+        ],
+        [
+          625,
+          440
+        ]
+      ]
+    },
+    {
+      "name": "bollards_right",
+      "rect": [
+        900,
+        400,
+        90,
+        80
+      ],
+      "base": 480,
+      "footprint": [
+        905,
+        432,
+        80,
+        48
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          920,
+          440
+        ],
+        [
+          945,
+          445
+        ],
+        [
+          970,
+          440
+        ]
+      ]
+    },
+    {
+      "name": "planter_1",
+      "rect": [
+        588,
+        518,
+        58,
+        122
+      ],
+      "base": 640,
+      "footprint": [
+        595,
+        548,
+        45,
+        92
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          617,
+          560
+        ],
+        [
+          617,
+          620
+        ]
+      ]
+    },
+    {
+      "name": "planter_2",
+      "rect": [
+        891,
+        518,
+        60,
+        122
+      ],
+      "base": 640,
+      "footprint": [
+        898,
+        548,
+        47,
+        92
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          921,
+          560
+        ],
+        [
+          921,
+          620
+        ]
+      ]
+    },
+    {
+      "name": "planter_3",
+      "rect": [
+        591,
+        658,
+        56,
+        77
+      ],
+      "base": 735,
+      "footprint": [
+        598,
+        680,
+        42,
+        55
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          619,
+          690
+        ],
+        [
+          619,
+          720
+        ]
+      ]
+    },
+    {
+      "name": "planter_4",
+      "rect": [
+        891,
+        658,
+        58,
+        77
+      ],
+      "base": 735,
+      "footprint": [
+        920,
+        680,
+        44,
+        55
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          500,
+          80,
+          60
+        ],
+        [
+          760,
+          600,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          920,
+          690
+        ],
+        [
+          920,
+          720
+        ]
+      ]
+    },
+    {
+      "name": "shelter_bench",
+      "rect": [
+        1210,
+        280,
+        140,
+        50
+      ],
+      "base": 328,
+      "footprint": [
+        1215,
+        298,
+        130,
+        30
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          1280,
+          305
+        ]
+      ]
+    },
+    {
+      "name": "shelter_post_1",
+      "rect": [
+        1176,
+        232,
+        18,
+        102
+      ],
+      "base": 334,
+      "footprint": [
+        1180,
+        240,
+        10,
+        94
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          1185,
+          260
+        ],
+        [
+          1185,
+          320
+        ]
+      ]
+    },
+    {
+      "name": "shelter_post_2",
+      "rect": [
+        1391,
+        232,
+        18,
+        102
+      ],
+      "base": 334,
+      "footprint": [
+        1395,
+        240,
+        10,
+        94
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          1400,
+          260
+        ],
+        [
+          1400,
+          320
+        ]
+      ]
+    },
+    {
+      "name": "bin_shelter",
+      "rect": [
+        1352,
+        268,
+        42,
+        62
+      ],
+      "base": 330,
+      "footprint": [
+        1358,
+        300,
+        30,
+        30
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          480,
+          300,
+          60,
+          30
+        ],
+        [
+          700,
+          300,
+          60,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          1373,
+          290
+        ],
+        [
+          1373,
+          315
+        ]
+      ]
+    }
+  ],
+  "above": [
+    {
+      "name": "shelter_roof",
+      "rect": [
+        1175,
+        232,
+        235,
+        32
+      ],
       "mode": "rect"
     },
     {
@@ -366,7 +965,6 @@
         420,
         122
       ],
-      "base": 860,
       "mode": "rect"
     }
   ]

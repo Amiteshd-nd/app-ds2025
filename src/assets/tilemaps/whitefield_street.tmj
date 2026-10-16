@@ -1849,54 +1849,6 @@
    "objects": [
     {
      "id": 10,
-     "name": "SHOP_AWNING",
-     "type": "SHOP_AWNING",
-     "x": 64,
-     "y": 160,
-     "width": 0,
-     "height": 0,
-     "point": true,
-     "rotation": 0,
-     "visible": true
-    },
-    {
-     "id": 11,
-     "name": "SHOP_AWNING",
-     "type": "SHOP_AWNING",
-     "x": 288,
-     "y": 160,
-     "width": 0,
-     "height": 0,
-     "point": true,
-     "rotation": 0,
-     "visible": true
-    },
-    {
-     "id": 12,
-     "name": "SHOP_AWNING",
-     "type": "SHOP_AWNING",
-     "x": 512,
-     "y": 160,
-     "width": 0,
-     "height": 0,
-     "point": true,
-     "rotation": 0,
-     "visible": true
-    },
-    {
-     "id": 13,
-     "name": "SHOP_AWNING",
-     "type": "SHOP_AWNING",
-     "x": 736,
-     "y": 160,
-     "width": 0,
-     "height": 0,
-     "point": true,
-     "rotation": 0,
-     "visible": true
-    },
-    {
-     "id": 14,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 96,
@@ -1908,7 +1860,7 @@
      "visible": true
     },
     {
-     "id": 15,
+     "id": 11,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 288,
@@ -1920,7 +1872,7 @@
      "visible": true
     },
     {
-     "id": 16,
+     "id": 12,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 480,
@@ -1932,7 +1884,7 @@
      "visible": true
     },
     {
-     "id": 17,
+     "id": 13,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 672,
@@ -1944,7 +1896,7 @@
      "visible": true
     },
     {
-     "id": 18,
+     "id": 14,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 864,
@@ -1956,7 +1908,7 @@
      "visible": true
     },
     {
-     "id": 19,
+     "id": 15,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 192,
@@ -1968,7 +1920,7 @@
      "visible": true
     },
     {
-     "id": 20,
+     "id": 16,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 416,
@@ -1980,7 +1932,7 @@
      "visible": true
     },
     {
-     "id": 21,
+     "id": 17,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 640,
@@ -1992,7 +1944,7 @@
      "visible": true
     },
     {
-     "id": 22,
+     "id": 18,
      "name": "STREET_TREE",
      "type": "STREET_TREE",
      "x": 864,
@@ -2004,7 +1956,7 @@
      "visible": true
     },
     {
-     "id": 23,
+     "id": 19,
      "name": "BENCH",
      "type": "BENCH",
      "x": 160,
@@ -2016,7 +1968,7 @@
      "visible": true
     },
     {
-     "id": 24,
+     "id": 20,
      "name": "BIN",
      "type": "BIN",
      "x": 416,
@@ -2035,7 +1987,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 21,
      "name": "BENCH",
      "type": "BENCH",
      "x": 672,
@@ -2054,7 +2006,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 22,
      "name": "BIN",
      "type": "BIN",
      "x": 864,
@@ -2066,7 +2018,7 @@
      "visible": true
     },
     {
-     "id": 27,
+     "id": 23,
      "name": "PLANTER",
      "type": "PLANTER",
      "x": 288,
@@ -2078,7 +2030,7 @@
      "visible": true
     },
     {
-     "id": 28,
+     "id": 24,
      "name": "PLANTER",
      "type": "PLANTER",
      "x": 576,
@@ -2090,7 +2042,7 @@
      "visible": true
     },
     {
-     "id": 29,
+     "id": 25,
      "name": "STREETLIGHT",
      "type": "STREETLIGHT",
      "x": 256,
@@ -2102,7 +2054,7 @@
      "visible": true
     },
     {
-     "id": 30,
+     "id": 26,
      "name": "STREETLIGHT",
      "type": "STREETLIGHT",
      "x": 608,
@@ -2114,7 +2066,7 @@
      "visible": true
     },
     {
-     "id": 31,
+     "id": 27,
      "name": "FENCE",
      "type": "FENCE",
      "x": 480,
@@ -2126,7 +2078,7 @@
      "visible": true
     },
     {
-     "id": 32,
+     "id": 28,
      "name": "FENCE",
      "type": "FENCE",
      "x": 512,
@@ -2138,7 +2090,7 @@
      "visible": true
     },
     {
-     "id": 33,
+     "id": 29,
      "name": "FENCE",
      "type": "FENCE",
      "x": 544,
@@ -2150,7 +2102,7 @@
      "visible": true
     },
     {
-     "id": 34,
+     "id": 30,
      "name": "FENCE",
      "type": "FENCE",
      "x": 576,
@@ -2162,7 +2114,7 @@
      "visible": true
     },
     {
-     "id": 35,
+     "id": 31,
      "name": "FENCE",
      "type": "FENCE",
      "x": 608,
@@ -2334,30 +2286,30 @@
     0,
     0,
     0,
+    31,
+    32,
+    33,
     0,
     0,
     0,
     0,
+    31,
+    32,
+    33,
     0,
     0,
     0,
     0,
+    31,
+    32,
+    33,
     0,
     0,
     0,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    31,
+    32,
+    33,
     0,
     0,
     0,
@@ -4271,7 +4223,69 @@
    "spacing": 0,
    "tilecount": 35,
    "tileheight": 32,
-   "tilewidth": 32
+   "tilewidth": 32,
+   "tiles": [
+    {
+     "id": 16,
+     "properties": [
+      {
+       "name": "door",
+       "type": "bool",
+       "value": true
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "properties": [
+      {
+       "name": "door",
+       "type": "bool",
+       "value": true
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "properties": [
+      {
+       "name": "tall",
+       "type": "bool",
+       "value": true
+      }
+     ]
+    },
+    {
+     "id": 23,
+     "properties": [
+      {
+       "name": "tall",
+       "type": "bool",
+       "value": true
+      }
+     ]
+    },
+    {
+     "id": 24,
+     "properties": [
+      {
+       "name": "tall",
+       "type": "bool",
+       "value": true
+      }
+     ]
+    },
+    {
+     "id": 25,
+     "properties": [
+      {
+       "name": "tall",
+       "type": "bool",
+       "value": true
+      }
+     ]
+    }
+   ]
   }
  ],
  "tilewidth": 32,

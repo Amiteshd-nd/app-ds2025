@@ -1,83 +1,10 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) \u2192 24x16 tiles, interior at character scale (ADR-100). One room x 25-1050 y 200-810 with the kitchen x 1095-1500 behind a partition (doorway y 600-700), the bathroom and balcony not walkable. Furniture is placed by the game (sprite objects, ADR-122) at the *_spot spawns, so the floor is left empty here.",
+  "$comment": "Source-pixel spec (1536x1024 → 24x16) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; the ceiling fan hangs `above`; furniture is placed by flag as sprite objects.",
   "name": "hill_flat",
   "cols": 24,
   "rows": 16,
   "units": "px",
-  "blocks": [
-    [
-      0,
-      0,
-      1536,
-      200
-    ],
-    [
-      0,
-      200,
-      25,
-      624
-    ],
-    [
-      1050,
-      200,
-      45,
-      400
-    ],
-    [
-      1050,
-      700,
-      45,
-      110
-    ],
-    [
-      1095,
-      340,
-      200,
-      190
-    ],
-    [
-      1290,
-      410,
-      246,
-      120
-    ],
-    [
-      1265,
-      530,
-      120,
-      70
-    ],
-    [
-      1405,
-      555,
-      80,
-      110
-    ],
-    [
-      1500,
-      200,
-      36,
-      624
-    ],
-    [
-      0,
-      810,
-      790,
-      214
-    ],
-    [
-      910,
-      810,
-      626,
-      214
-    ],
-    [
-      790,
-      830,
-      120,
-      194
-    ]
-  ],
+  "blocks": [],
   "spawns": [
     {
       "name": "door",
@@ -133,5 +60,186 @@
       "h": 70
     }
   ],
-  "occluders": []
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      200
+    ],
+    [
+      0,
+      200,
+      25,
+      624
+    ],
+    [
+      1050,
+      200,
+      45,
+      400
+    ],
+    [
+      1050,
+      700,
+      45,
+      110
+    ],
+    [
+      1500,
+      200,
+      36,
+      624
+    ],
+    [
+      0,
+      810,
+      790,
+      214
+    ],
+    [
+      910,
+      810,
+      626,
+      214
+    ],
+    [
+      790,
+      830,
+      120,
+      194
+    ]
+  ],
+  "sorted": [
+    {
+      "name": "sink_counter",
+      "rect": [
+        1095,
+        338,
+        200,
+        194
+      ],
+      "base": 530,
+      "footprint": [
+        1095,
+        340,
+        200,
+        190
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "hob_counter",
+      "rect": [
+        1288,
+        408,
+        248,
+        124
+      ],
+      "base": 530,
+      "footprint": [
+        1290,
+        410,
+        246,
+        120
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "low_counter",
+      "rect": [
+        1263,
+        528,
+        124,
+        74
+      ],
+      "base": 600,
+      "footprint": [
+        1265,
+        530,
+        120,
+        70
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "cylinder",
+      "rect": [
+        1398,
+        540,
+        95,
+        128
+      ],
+      "base": 665,
+      "footprint": [
+        1405,
+        595,
+        80,
+        70
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          1200,
+          650,
+          60,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          1445,
+          600
+        ],
+        [
+          1445,
+          640
+        ]
+      ]
+    }
+  ],
+  "above": [
+    {
+      "name": "fan",
+      "rect": [
+        468,
+        345,
+        215,
+        160
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          300,
+          500,
+          80,
+          60
+        ],
+        [
+          700,
+          600,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          575,
+          420
+        ],
+        [
+          520,
+          460
+        ],
+        [
+          640,
+          470
+        ],
+        [
+          575,
+          370
+        ]
+      ]
+    }
+  ]
 }

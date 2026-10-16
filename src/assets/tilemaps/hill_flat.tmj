@@ -1198,7 +1198,198 @@
    "draworder": "topdown",
    "id": 4,
    "name": "sorted",
-   "objects": [],
+   "objects": [
+    {
+     "id": 18,
+     "name": "sink_counter",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 548,
+     "y": 169,
+     "width": 100,
+     "height": 97,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "hill_flat__sink_counter"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 265
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 548
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 170
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 100
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 95
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "name": "hob_counter",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 644,
+     "y": 204,
+     "width": 124,
+     "height": 62,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "hill_flat__hob_counter"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 265
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 645
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 205
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 123
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 60
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "name": "low_counter",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 632,
+     "y": 264,
+     "width": 62,
+     "height": 37,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "hill_flat__low_counter"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 300
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 633
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 265
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 35
+      }
+     ]
+    },
+    {
+     "id": 21,
+     "name": "cylinder",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 699,
+     "y": 270,
+     "width": 48,
+     "height": 64,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "hill_flat__cylinder"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 333
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 703
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 298
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 40
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 35
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "name": "fan",
+     "type": "above",
+     "rotation": 0,
+     "visible": true,
+     "x": 234,
+     "y": 173,
+     "width": 108,
+     "height": 80,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "hill_flat__fan"
+      }
+     ]
+    }
+   ],
    "opacity": 1,
    "type": "objectgroup",
    "visible": true,
@@ -1610,7 +1801,7 @@
     {
      "id": 10,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -1621,14 +1812,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 11,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -1639,14 +1830,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 12,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 525,
@@ -1657,14 +1848,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 13,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 525,
@@ -1675,86 +1866,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 14,
      "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 548,
-     "y": 170,
-     "width": 100,
-     "height": 95,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 15,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 645,
-     "y": 205,
-     "width": 123,
-     "height": 60,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 16,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 633,
-     "y": 265,
-     "width": 60,
-     "height": 35,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 17,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 703,
-     "y": 278,
-     "width": 40,
-     "height": 55,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 18,
-     "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 750,
@@ -1765,14 +1884,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
-     "id": 19,
+     "id": 15,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -1783,14 +1902,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
-     "id": 20,
+     "id": 16,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 455,
@@ -1801,14 +1920,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
-     "id": 21,
+     "id": 17,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 395,
@@ -1819,7 +1938,7 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     }
@@ -2346,7 +2465,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 22,
+ "nextobjectid": 23,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

@@ -149,3 +149,22 @@ Updated: 2026-10-12
 - A5 re-audit — **kempegowda_arrivals (airport), migrated 2026-10-16**: 30 sorted cut-outs with footprints (desk, podium, gate posts, trolleys, 10 pots, 2 benches, kiosk, chai stall + bench, shelter + plant, 3 bougainvillea, 5 bollards), 1 above (gate header), 4 buildings (hall wall, glass wall ×2, canopy band), 7 prop blocks (carousel island, posts, road). Scripted walk: behind / in front of bollard_3, bougainvillea_2, pot_bench_1 and the trolleys — depth order correct both ways; under the gate header — header depth 10 > player; top wall, glass wall from both sides, canopy band — the feet box stops at the rect edge; the gate opening is the only way out (walked through onto the mat); feet box 20×12 at (6, 35). Validator: zero errors. **Awaiting the user's audit before the other nine maps.**
 - Found by the new reachability rule and fixed (not redrawn): the hill's electricity pole was blocked full-height and sealed the upper lane (now its base only); the ITPL autos and tea cart were blocked to their roofs and left a 12 px pavement (now their ground contact only). Both maps still await their own A5 migration.
 
+### [Render model — airport approved] — 2026-10-16
+- Decision: "approved, migrate the remaining maps" — ADR-125 and the airport migration stand with no corrections; the three art-director calls (one-render maps kept, pixel-rect collision on generated maps, overhead images in the sorted object layer at the props_above depth) are confirmed.
+
+### [Render model — A5 re-audit of the remaining nine maps] — 2026-10-16
+Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `above`, `sop: true`, re-imported, and walked by the scripted A5 (behind and in front of every cut-out with a footprint, every `above` at the overhead depth, every building rect approached from each free side with the feet box, feet box read back). Validator zero errors on all ten.
+| Map | buildings | sorted cut-outs | above | A5 result |
+|---|---|---|---|---|
+| whitefield_hotel | 9 (walls, partition, bathroom-door wall) | 8 (counter, cooler, chairs, plant, bed, side table, wardrobe, desk) | — | 7 ok, 1 unreachable both sides (wardrobe against the wall), walls 10 ok |
+| shanthamma_pg | 7 | 9 (3 cots, almirah, desk, chair, buckets, purifier stand, shoe rack) | — | 4 ok, 5 wall-backed (skipped), walls 6 ok |
+| hill_flat | 8 | 4 (sink counter, hob counter, low counter, cylinder) | 1 (ceiling fan) | 4 ok, fan above, walls 10 ok |
+| bus_interior | 4 (window bands, cabin, rear door) | 3 (two poles, conductor box) | — | 2 ok, 1 skipped, walls 1 ok (the rest unreachable by design) |
+| prashanth_layout | 6 (both house rows) | 22 (3 poles, lamp, bin, dog, cart, neem, banana, corner tree, 2 pillars, shrub, 2 tables, drum, 2 scooters, 2 pots, corner plant, stand board) | — (the lane's cables stay painted: a clean key was not achievable; T-051) | 22 ok, walls 9 ok |
+| office_gate | 6 (compound wall ×2, cabin, office block ×3) | 21 (pillars, barrier, bollards, planters, autos, cart, umbrella, trees, shelter bench/posts, bins) | 2 (shelter roof, canopy) | 18 ok, 3 skipped, above 2, walls 8 ok |
+| ambedkar_nagar_hill | 10 (every house and wall) | 6 (pole, transformer, chai table, stools, shop display, pot) | 2 (tin awning, chai tarp) — slope cables stay painted (T-051) | 3 ok, 3 skipped (lane-backed), above 2, walls 14 ok |
+| cubbon_park | 5 (library, court building, shop row, wall ×2) | 20 (2 trees with trunk footprints, bandstand + plinth, 4 lamps, 4 benches, cycle shed, ice-cream cart, bin, tap, sign, 4 gate pillars) | — | 20 ok, walls 8 ok |
+| whitefield_street (tile-built) | buildings tile layer + collision stencil | 22 placed objects (trees, lamps, benches, bins, planters, fence) | awnings as `props_above` tiles | storefront wall stops the feet box at its edge; behind / in front of a tree correct; `tall` and `door` tile properties in the tileset |
+| kempegowda_arrivals | 4 | 30 | 1 | 30 ok, above 1, walls 6 ok (re-run) |
+- Known limits logged: thin poles against the lane's road key with a fringe of road pixels (bgShare 0.03–0.06); cables on Prashanth and the hill remain painted on the ground (T-051: hand-paint cable overlays, or re-render with cables off and add them as sprites).
+

@@ -1,10 +1,46 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render). Output 10x7 tiles to match the 32x48 characters (AUDIT_LOG P5). Lobby left, guest room right, divider doorway at y 487-691. The counter is an occluder so the receptionist stands BEHIND it.",
+  "$comment": "Source-pixel spec (1536x1024 → 10x7, ADR-100) migrated to the render model (ADR-125): walls are `buildings`; the counter, cooler, chairs, plant, bed, side table, wardrobe, desk and chair stand in the sorted band with footprints; the bathroom door wall is a building.",
   "name": "whitefield_hotel",
   "cols": 10,
   "rows": 7,
   "units": "px",
-  "blocks": [
+  "blocks": [],
+  "spawns": [
+    {
+      "name": "door",
+      "x": 566,
+      "y": 880
+    },
+    {
+      "name": "reception",
+      "x": 600,
+      "y": 330
+    }
+  ],
+  "zones": [
+    {
+      "name": "exit",
+      "x": 430,
+      "y": 930,
+      "w": 275,
+      "h": 94
+    },
+    {
+      "name": "room",
+      "x": 950,
+      "y": 500,
+      "w": 45,
+      "h": 180
+    },
+    {
+      "name": "bed",
+      "x": 960,
+      "y": 597,
+      "w": 130,
+      "h": 50
+    }
+  ],
+  "buildings": [
     [
       0,
       0,
@@ -54,84 +90,13 @@
       61
     ],
     [
-      26,
-      292,
-      145,
-      662
-    ],
-    [
-      326,
-      279,
-      557,
-      171
-    ],
-    [
-      947,
-      282,
-      147,
-      313
-    ],
-    [
-      1094,
-      282,
-      81,
-      100
-    ],
-    [
-      1321,
-      282,
-      138,
-      74
-    ],
-    [
-      1380,
-      474,
-      130,
-      181
-    ],
-    [
       1325,
       672,
       185,
       300
     ]
   ],
-  "spawns": [
-    {
-      "name": "door",
-      "x": 566,
-      "y": 880
-    },
-    {
-      "name": "reception",
-      "x": 600,
-      "y": 330
-    }
-  ],
-  "zones": [
-    {
-      "name": "exit",
-      "x": 430,
-      "y": 930,
-      "w": 275,
-      "h": 94
-    },
-    {
-      "name": "room",
-      "x": 950,
-      "y": 500,
-      "w": 45,
-      "h": 180
-    },
-    {
-      "name": "bed",
-      "x": 960,
-      "y": 597,
-      "w": 130,
-      "h": 50
-    }
-  ],
-  "occluders": [
+  "sorted": [
     {
       "name": "counter",
       "rect": [
@@ -141,7 +106,253 @@
         150
       ],
       "base": 450,
+      "footprint": [
+        326,
+        279,
+        557,
+        171
+      ],
       "mode": "rect"
+    },
+    {
+      "name": "cooler",
+      "rect": [
+        30,
+        335,
+        90,
+        225
+      ],
+      "base": 555,
+      "footprint": [
+        40,
+        480,
+        70,
+        75
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          560,
+          600,
+          80,
+          60
+        ],
+        [
+          1150,
+          700,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          75,
+          400
+        ],
+        [
+          75,
+          500
+        ]
+      ]
+    },
+    {
+      "name": "chairs",
+      "rect": [
+        30,
+        560,
+        130,
+        250
+      ],
+      "base": 810,
+      "footprint": [
+        40,
+        600,
+        115,
+        205
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          560,
+          600,
+          80,
+          60
+        ],
+        [
+          1150,
+          700,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          90,
+          620
+        ],
+        [
+          90,
+          720
+        ]
+      ]
+    },
+    {
+      "name": "plant",
+      "rect": [
+        30,
+        810,
+        135,
+        150
+      ],
+      "base": 960,
+      "footprint": [
+        45,
+        905,
+        110,
+        55
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          560,
+          600,
+          80,
+          60
+        ],
+        [
+          1150,
+          700,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          95,
+          850
+        ],
+        [
+          95,
+          920
+        ]
+      ]
+    },
+    {
+      "name": "bed",
+      "rect": [
+        948,
+        255,
+        152,
+        345
+      ],
+      "base": 598,
+      "footprint": [
+        950,
+        290,
+        147,
+        305
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "side_table",
+      "rect": [
+        1090,
+        255,
+        90,
+        130
+      ],
+      "base": 385,
+      "footprint": [
+        1094,
+        282,
+        81,
+        100
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          560,
+          600,
+          80,
+          60
+        ],
+        [
+          1150,
+          700,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          1135,
+          300
+        ],
+        [
+          1135,
+          350
+        ]
+      ]
+    },
+    {
+      "name": "wardrobe",
+      "rect": [
+        1318,
+        65,
+        145,
+        300
+      ],
+      "base": 360,
+      "footprint": [
+        1321,
+        282,
+        138,
+        74
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "desk",
+      "rect": [
+        1375,
+        470,
+        135,
+        188
+      ],
+      "base": 655,
+      "footprint": [
+        1380,
+        474,
+        130,
+        181
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          560,
+          600,
+          80,
+          60
+        ],
+        [
+          1150,
+          700,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          1440,
+          500
+        ],
+        [
+          1400,
+          560
+        ]
+      ]
     }
-  ]
+  ],
+  "above": []
 }

@@ -1,107 +1,10 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-122). The colony climbs in terraces: the bottom road (y 905-1024, x 0-1050) with the chai stall and furniture shop on its pavement; the stair-lane x 760-940 up to the upper lane (y 430-505, x 20-1290); the long stair x 1125-1280 up to the top walkway (y 100-200, x 760-1290). Three doors: room 1 (green, ground floor, beside the shop), room 2 (maroon, upper lane), room 3 (green, top walkway — the flat). Everything else is houses, walls and hedges.",
+  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-122). The colony climbs in terraces: the bottom road (y 905-1024, x 0-1050) with the chai stall and furniture shop on its pavement; the stair-lane x 760-940 up to the upper lane (y 430-505, x 20-1290); the long stair x 1125-1280 up to the top walkway (y 100-200, x 760-1290). Three doors: room 1 (green, ground floor, beside the shop), room 2 (maroon, upper lane), room 3 (green, top walkway — the flat). Everything else is houses, walls and hedges. Migrated to ADR-125: every house, wall and hedge block is a `building`; the pole, the transformer, the chai tables and stools, the shop display and the pot are sorted cut-outs with footprints; the tin awning, the chai tarp and the slope cables hang `above`.",
   "name": "ambedkar_nagar_hill",
   "cols": 36,
   "rows": 24,
   "units": "px",
-  "blocks": [
-    [
-      0,
-      0,
-      1536,
-      100
-    ],
-    [
-      0,
-      100,
-      760,
-      330
-    ],
-    [
-      1290,
-      100,
-      246,
-      330
-    ],
-    [
-      0,
-      505,
-      760,
-      335
-    ],
-    [
-      1000,
-      505,
-      290,
-      100
-    ],
-    [
-      1290,
-      505,
-      246,
-      400
-    ],
-    [
-      940,
-      540,
-      596,
-      365
-    ],
-    [
-      1050,
-      820,
-      250,
-      204
-    ],
-    [
-      760,
-      200,
-      365,
-      230
-    ],
-    [
-      50,
-      820,
-      120,
-      50
-    ],
-    [
-      80,
-      878,
-      95,
-      42
-    ],
-    [
-      290,
-      790,
-      230,
-      90
-    ],
-    [
-      600,
-      850,
-      30,
-      55
-    ],
-    [
-      995,
-      672,
-      40,
-      30
-    ],
-    [
-      965,
-      560,
-      90,
-      100
-    ],
-    [
-      760,
-      20,
-      160,
-      80
-    ]
-  ],
+  "blocks": [],
   "spawns": [
     {
       "name": "slope_base",
@@ -188,7 +91,69 @@
       "h": 75
     }
   ],
-  "occluders": [
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      100
+    ],
+    [
+      0,
+      100,
+      760,
+      330
+    ],
+    [
+      1290,
+      100,
+      246,
+      330
+    ],
+    [
+      0,
+      505,
+      760,
+      335
+    ],
+    [
+      1000,
+      505,
+      290,
+      100
+    ],
+    [
+      1290,
+      505,
+      246,
+      400
+    ],
+    [
+      940,
+      540,
+      596,
+      365
+    ],
+    [
+      1050,
+      820,
+      250,
+      204
+    ],
+    [
+      760,
+      200,
+      365,
+      230
+    ],
+    [
+      760,
+      20,
+      160,
+      80
+    ]
+  ],
+  "sorted": [
     {
       "name": "pole",
       "rect": [
@@ -198,22 +163,160 @@
         270
       ],
       "base": 700,
+      "footprint": [
+        995,
+        672,
+        40,
+        30
+      ],
       "mode": "key",
       "bg": [
         [
+          850,
+          750,
+          40,
+          30
+        ],
+        [
           880,
-          600,
-          50,
-          50
+          660,
+          40,
+          30
+        ],
+        [
+          1100,
+          700,
+          40,
+          30
         ]
       ],
       "seeds": [
         [
           1012,
-          470
+          450
+        ],
+        [
+          1012,
+          600
+        ],
+        [
+          1012,
+          690
+        ]
+      ],
+      "bgShare": 0.06
+    },
+    {
+      "name": "transformer",
+      "rect": [
+        958,
+        538,
+        104,
+        124
+      ],
+      "base": 660,
+      "footprint": [
+        965,
+        560,
+        90,
+        100
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "chai_table",
+      "rect": [
+        45,
+        795,
+        130,
+        78
+      ],
+      "base": 870,
+      "footprint": [
+        50,
+        820,
+        120,
+        50
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "stools",
+      "rect": [
+        76,
+        868,
+        104,
+        55
+      ],
+      "base": 920,
+      "footprint": [
+        80,
+        878,
+        95,
+        42
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          960,
+          80,
+          40
+        ],
+        [
+          300,
+          940,
+          80,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          100,
+          895
+        ],
+        [
+          150,
+          895
         ]
       ]
     },
+    {
+      "name": "shop_display",
+      "rect": [
+        288,
+        778,
+        236,
+        105
+      ],
+      "base": 880,
+      "footprint": [
+        290,
+        790,
+        230,
+        90
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "pot_room1",
+      "rect": [
+        594,
+        820,
+        42,
+        88
+      ],
+      "base": 905,
+      "footprint": [
+        600,
+        850,
+        30,
+        55
+      ],
+      "mode": "rect"
+    }
+  ],
+  "above": [
     {
       "name": "awning",
       "rect": [
@@ -222,8 +325,45 @@
         310,
         110
       ],
-      "base": 790,
       "mode": "rect"
+    },
+    {
+      "name": "tarp",
+      "rect": [
+        0,
+        690,
+        250,
+        110
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          960,
+          80,
+          40
+        ],
+        [
+          300,
+          940,
+          80,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          120,
+          720
+        ],
+        [
+          60,
+          760
+        ],
+        [
+          200,
+          760
+        ]
+      ]
     }
   ]
 }

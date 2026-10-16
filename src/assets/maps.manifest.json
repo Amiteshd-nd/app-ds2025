@@ -40,7 +40,8 @@
         "player_spawn",
         "lane_zone",
         "lane_return"
-      ]
+      ],
+      "sop": true
     },
     "whitefield_hotel": {
       "file": "whitefield_hotel.tmj",
@@ -53,7 +54,8 @@
         "bed",
         "room",
         "exit"
-      ]
+      ],
+      "sop": true
     },
     "prashanth_layout": {
       "file": "prashanth_layout.tmj",
@@ -70,7 +72,8 @@
         "auto_2",
         "auto_3",
         "auto_stand"
-      ]
+      ],
+      "sop": true
     },
     "shanthamma_pg": {
       "file": "shanthamma_pg.tmj",
@@ -82,7 +85,8 @@
         "exit",
         "bed",
         "doorway"
-      ]
+      ],
+      "sop": true
     },
     "office_gate": {
       "file": "office_gate.tmj",
@@ -100,7 +104,8 @@
         "walk_out",
         "office_arrival",
         "office_door"
-      ]
+      ],
+      "sop": true
     },
     "ambedkar_nagar_hill": {
       "file": "ambedkar_nagar_hill.tmj",
@@ -121,7 +126,8 @@
         "room1_door",
         "room2_door",
         "room3_door"
-      ]
+      ],
+      "sop": true
     },
     "hill_flat": {
       "file": "hill_flat.tmj",
@@ -138,7 +144,8 @@
         "front_door",
         "bed",
         "flat_arrival"
-      ]
+      ],
+      "sop": true
     },
     "bus_interior": {
       "file": "bus_interior.tmj",
@@ -152,7 +159,8 @@
         "seat_b",
         "seat_c",
         "door"
-      ]
+      ],
+      "sop": true
     },
     "cubbon_park": {
       "file": "cubbon_park.tmj",
@@ -182,7 +190,8 @@
         "stop_bamboo",
         "stop_library",
         "ambient_area"
-      ]
+      ],
+      "sop": true
     }
   }
 }

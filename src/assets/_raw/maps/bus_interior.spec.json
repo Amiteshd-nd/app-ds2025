@@ -1,16 +1,10 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) -> 12x8 tiles (ADR-124): the inside of the 500-D, running left to right. Window bands top and bottom, two seat rows, the aisle between them, the driver's cabin at the left, the door with its steps at the right end. Centred on black like every interior.",
+  "$comment": "Source-pixel spec (1536x1024 → 12x8) migrated to ADR-125: window bands, the driver's cabin and the rear door are `buildings`; the seat rows stay prop blocks (nothing stands behind them); the two poles and the conductor's box are sorted cut-outs with footprints.",
   "name": "bus_interior",
   "cols": 12,
   "rows": 8,
   "units": "px",
   "blocks": [
-    [
-      0,
-      0,
-      1536,
-      130
-    ],
     [
       185,
       130,
@@ -22,42 +16,6 @@
       690,
       1205,
       215
-    ],
-    [
-      0,
-      900,
-      1536,
-      124
-    ],
-    [
-      0,
-      130,
-      185,
-      770
-    ],
-    [
-      270,
-      540,
-      30,
-      40
-    ],
-    [
-      1235,
-      540,
-      30,
-      40
-    ],
-    [
-      1390,
-      600,
-      146,
-      300
-    ],
-    [
-      1480,
-      330,
-      56,
-      280
     ]
   ],
   "spawns": [
@@ -97,5 +55,141 @@
       "w": 136,
       "h": 190
     }
-  ]
+  ],
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      130
+    ],
+    [
+      0,
+      130,
+      185,
+      770
+    ],
+    [
+      0,
+      900,
+      1536,
+      124
+    ],
+    [
+      1390,
+      600,
+      146,
+      300
+    ]
+  ],
+  "sorted": [
+    {
+      "name": "pole_left",
+      "rect": [
+        266,
+        330,
+        44,
+        252
+      ],
+      "base": 580,
+      "footprint": [
+        270,
+        540,
+        30,
+        40
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          450,
+          80,
+          60
+        ],
+        [
+          900,
+          600,
+          80,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          285,
+          400
+        ],
+        [
+          285,
+          500
+        ],
+        [
+          285,
+          560
+        ]
+      ]
+    },
+    {
+      "name": "pole_right",
+      "rect": [
+        1228,
+        330,
+        44,
+        252
+      ],
+      "base": 580,
+      "footprint": [
+        1235,
+        540,
+        30,
+        40
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          700,
+          450,
+          80,
+          60
+        ],
+        [
+          900,
+          600,
+          80,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          1250,
+          400
+        ],
+        [
+          1250,
+          500
+        ],
+        [
+          1250,
+          560
+        ]
+      ]
+    },
+    {
+      "name": "conductor_box",
+      "rect": [
+        1420,
+        330,
+        116,
+        280
+      ],
+      "base": 610,
+      "footprint": [
+        1480,
+        330,
+        56,
+        280
+      ],
+      "mode": "rect"
+    }
+  ],
+  "above": []
 }

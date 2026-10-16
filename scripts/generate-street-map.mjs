@@ -23,6 +23,9 @@ const id = (name) => {
 };
 
 const blank = () => new Array(W * H).fill(0);
+/** Tiles that stand up (never in a flat layer) and tiles that are doors (walls' exception). */
+const TALL_TILES = ['streetlight_head', 'streetlight_pole', 'tree_canopy', 'tree_trunk'];
+const DOOR_TILES = ['door_wood', 'door_dark'];
 const put = (layer, x, y, name) => {
   if (x < 0 || y < 0 || x >= W || y >= H) return;
   layer[y * W + x] = id(name);
@@ -126,8 +129,8 @@ const place = (type, tx, ty, extra = {}) => {
   });
 };
 
-// Awnings over the storefronts.
-for (let x = 2; x < W - 4; x += 7) place('SHOP_AWNING', x, TOP_BUILDING[1] + 1);
+// Awnings over the storefronts hang over the pavement: props_above (ADR-125), never sorted.
+for (let x = 2; x < W - 4; x += 7) { put(above, x, TOP_BUILDING[1] + 1, 'awning_left'); put(above, x + 1, TOP_BUILDING[1] + 1, 'awning_mid'); put(above, x + 2, TOP_BUILDING[1] + 1, 'awning_right'); }
 
 // Trees: a 1x2 object whose canopy is the background row and whose trunk is
 // the footprint, so it blocks at the trunk only.
@@ -248,6 +251,10 @@ const map = {
       tilecount: meta.tileCount,
       tileheight: T,
       tilewidth: T,
+      // Tile properties the map validator reads (ADR-125): `tall` tiles may only sit in props_above or as sorted objects; `door` tiles are the exception to walls-need-collision.
+      tiles: Object.entries(meta.ids)
+        .filter(([n]) => TALL_TILES.includes(n) || DOOR_TILES.includes(n))
+        .map(([n, i]) => ({ id: i, properties: [{ name: TALL_TILES.includes(n) ? 'tall' : 'door', type: 'bool', value: true }] })),
     },
   ],
   tilewidth: T,

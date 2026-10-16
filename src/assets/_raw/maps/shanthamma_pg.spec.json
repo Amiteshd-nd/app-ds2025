@@ -1,31 +1,286 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render). Output 10x7 tiles so the furniture matches the 32x48 characters (AUDIT_LOG P5: cot ~2.4 tiles, chair < 1). Blocks trace where things meet the floor; the room is centred on black by WorldScene.",
+  "$comment": "Source-pixel spec (1536x1024 → 10x7) migrated to ADR-125: walls and the partition are `buildings`; cots, almirah, desk, chair, buckets, purifier stand and shoe rack are sorted cut-outs with footprints.",
   "name": "shanthamma_pg",
   "cols": 10,
   "rows": 7,
   "units": "px",
-  "blocks": [
-    [0, 0, 1180, 245],
-    [1180, 0, 356, 155],
-    [0, 0, 36, 1024],
-    [1500, 0, 36, 1024],
-    [1175, 0, 45, 410],
-    [1168, 627, 52, 397],
-    [1216, 0, 64, 330],
-    [1405, 0, 100, 640],
-    [36, 240, 215, 745],
-    [330, 245, 172, 103],
-    [530, 245, 385, 175],
-    [941, 245, 198, 190],
-    [990, 435, 105, 50],
-    [1058, 790, 100, 110]
-  ],
+  "blocks": [],
   "spawns": [
-    { "name": "door", "x": 1330, "y": 740 }
+    {
+      "name": "door",
+      "x": 1330,
+      "y": 740
+    }
   ],
   "zones": [
-    { "name": "exit", "x": 1245, "y": 800, "w": 255, "h": 224 },
-    { "name": "doorway", "x": 1160, "y": 415, "w": 70, "h": 210 },
-    { "name": "bed", "x": 600, "y": 422, "w": 250, "h": 60 }
-  ]
+    {
+      "name": "exit",
+      "x": 1245,
+      "y": 800,
+      "w": 255,
+      "h": 224
+    },
+    {
+      "name": "doorway",
+      "x": 1160,
+      "y": 415,
+      "w": 70,
+      "h": 210
+    },
+    {
+      "name": "bed",
+      "x": 600,
+      "y": 422,
+      "w": 250,
+      "h": 60
+    }
+  ],
+  "buildings": [
+    [
+      0,
+      0,
+      1180,
+      245
+    ],
+    [
+      1180,
+      0,
+      356,
+      155
+    ],
+    [
+      0,
+      0,
+      36,
+      1024
+    ],
+    [
+      1500,
+      0,
+      36,
+      1024
+    ],
+    [
+      1175,
+      0,
+      45,
+      410
+    ],
+    [
+      1168,
+      627,
+      52,
+      397
+    ],
+    [
+      1216,
+      0,
+      64,
+      330
+    ]
+  ],
+  "sorted": [
+    {
+      "name": "cot_left_top",
+      "rect": [
+        36,
+        240,
+        215,
+        352
+      ],
+      "base": 590,
+      "footprint": [
+        36,
+        250,
+        215,
+        335
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "cot_left_bottom",
+      "rect": [
+        36,
+        592,
+        215,
+        395
+      ],
+      "base": 985,
+      "footprint": [
+        36,
+        600,
+        215,
+        382
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "almirah",
+      "rect": [
+        328,
+        25,
+        176,
+        328
+      ],
+      "base": 350,
+      "footprint": [
+        330,
+        245,
+        172,
+        103
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "cot_top",
+      "rect": [
+        528,
+        205,
+        390,
+        215
+      ],
+      "base": 420,
+      "footprint": [
+        530,
+        245,
+        385,
+        175
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "desk",
+      "rect": [
+        938,
+        243,
+        205,
+        195
+      ],
+      "base": 436,
+      "footprint": [
+        941,
+        245,
+        198,
+        190
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "chair",
+      "rect": [
+        985,
+        325,
+        115,
+        160
+      ],
+      "base": 485,
+      "footprint": [
+        990,
+        435,
+        105,
+        50
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          600,
+          700,
+          80,
+          60
+        ],
+        [
+          850,
+          600,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          1040,
+          360
+        ],
+        [
+          1040,
+          440
+        ]
+      ]
+    },
+    {
+      "name": "buckets",
+      "rect": [
+        1052,
+        765,
+        110,
+        135
+      ],
+      "base": 900,
+      "footprint": [
+        1058,
+        790,
+        100,
+        110
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          600,
+          700,
+          80,
+          60
+        ],
+        [
+          850,
+          600,
+          80,
+          60
+        ]
+      ],
+      "seeds": [
+        [
+          1100,
+          800
+        ],
+        [
+          1130,
+          860
+        ]
+      ]
+    },
+    {
+      "name": "purifier_stand",
+      "rect": [
+        1408,
+        15,
+        97,
+        328
+      ],
+      "base": 342,
+      "footprint": [
+        1405,
+        155,
+        100,
+        187
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "shoe_rack",
+      "rect": [
+        1403,
+        383,
+        103,
+        258
+      ],
+      "base": 640,
+      "footprint": [
+        1405,
+        385,
+        100,
+        255
+      ],
+      "mode": "rect"
+    }
+  ],
+  "above": []
 }

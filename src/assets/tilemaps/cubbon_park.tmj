@@ -2640,15 +2640,15 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 68,
+     "id": 48,
      "name": "tree_left",
      "type": "cutout",
      "rotation": 0,
      "visible": true,
-     "x": 124,
-     "y": 296,
-     "width": 232,
-     "height": 177,
+     "x": 131,
+     "y": 300,
+     "width": 218,
+     "height": 167,
      "properties": [
       {
        "name": "image",
@@ -2659,11 +2659,31 @@
        "name": "baseY",
        "type": "int",
        "value": 497
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 199
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 467
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 52
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 30
       }
      ]
     },
     {
-     "id": 69,
+     "id": 49,
      "name": "tree_top",
      "type": "cutout",
      "rotation": 0,
@@ -2682,29 +2702,800 @@
        "name": "baseY",
        "type": "int",
        "value": 210
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 653
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 174
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 52
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 36
       }
      ]
     },
     {
-     "id": 70,
-     "name": "bandstand_roof",
+     "id": 50,
+     "name": "bandstand",
      "type": "cutout",
      "rotation": 0,
      "visible": true,
-     "x": 488,
+     "x": 450,
      "y": 244,
-     "width": 168,
-     "height": 97,
+     "width": 240,
+     "height": 187,
      "properties": [
       {
        "name": "image",
        "type": "string",
-       "value": "cubbon_park__bandstand_roof"
+       "value": "cubbon_park__bandstand"
       },
       {
        "name": "baseY",
        "type": "int",
        "value": 428
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 458
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 259
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 225
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 169
+      }
+     ]
+    },
+    {
+     "id": 51,
+     "name": "lamp_1",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 505,
+     "y": 152,
+     "width": 27,
+     "height": 62,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__lamp_1"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 213
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 512
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 201
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 12
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 12
+      }
+     ]
+    },
+    {
+     "id": 52,
+     "name": "lamp_2",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 479,
+     "y": 452,
+     "width": 27,
+     "height": 62,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__lamp_2"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 513
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 486
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 501
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 12
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 12
+      }
+     ]
+    },
+    {
+     "id": 53,
+     "name": "lamp_3",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1037,
+     "y": 265,
+     "width": 27,
+     "height": 61,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__lamp_3"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 327
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1044
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 315
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 12
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 12
+      }
+     ]
+    },
+    {
+     "id": 54,
+     "name": "lamp_4",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1116,
+     "y": 400,
+     "width": 32,
+     "height": 65,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__lamp_4"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 465
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1125
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 450
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 15
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 15
+      }
+     ]
+    },
+    {
+     "id": 55,
+     "name": "bench_top",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 574,
+     "y": 169,
+     "width": 67,
+     "height": 41,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__bench_top"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 210
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 578
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 188
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 22
+      }
+     ]
+    },
+    {
+     "id": 56,
+     "name": "bench_left",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 131,
+     "y": 269,
+     "width": 38,
+     "height": 46,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__bench_left"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 315
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 135
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 279
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 30
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 36
+      }
+     ]
+    },
+    {
+     "id": 57,
+     "name": "bench_right",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 821,
+     "y": 375,
+     "width": 75,
+     "height": 44,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__bench_right"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 419
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 825
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 396
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 68
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 23
+      }
+     ]
+    },
+    {
+     "id": 58,
+     "name": "bench_bottom",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 394,
+     "y": 501,
+     "width": 67,
+     "height": 43,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__bench_bottom"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 544
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 398
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 521
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 23
+      }
+     ]
+    },
+    {
+     "id": 59,
+     "name": "cycle_shed",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 761,
+     "y": 248,
+     "width": 154,
+     "height": 86,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__cycle_shed"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 330
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 765
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 263
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 146
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 67
+      }
+     ]
+    },
+    {
+     "id": 60,
+     "name": "icecream_cart",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 914,
+     "y": 299,
+     "width": 72,
+     "height": 80,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__icecream_cart"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 379
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 919
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 323
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 56
+      }
+     ]
+    },
+    {
+     "id": 61,
+     "name": "bin",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 784,
+     "y": 377,
+     "width": 30,
+     "height": 47,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__bin"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 424
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 788
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 398
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 22
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 26
+      }
+     ]
+    },
+    {
+     "id": 62,
+     "name": "tap",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 929,
+     "y": 434,
+     "width": 48,
+     "height": 69,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__tap"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 503
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 934
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 450
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 37
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 53
+      }
+     ]
+    },
+    {
+     "id": 63,
+     "name": "sign",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 719,
+     "y": 449,
+     "width": 70,
+     "height": 87,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__sign"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 536
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 724
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 488
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 48
+      }
+     ]
+    },
+    {
+     "id": 64,
+     "name": "gate_pillar_1",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1062,
+     "y": 261,
+     "width": 29,
+     "height": 73,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__gate_pillar_1"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 330
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1065
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 296
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 23
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 34
+      }
+     ]
+    },
+    {
+     "id": 65,
+     "name": "gate_pillar_2",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1062,
+     "y": 344,
+     "width": 29,
+     "height": 72,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__gate_pillar_2"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 413
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1065
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 379
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 23
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 34
+      }
+     ]
+    },
+    {
+     "id": 66,
+     "name": "gate_pillar_3",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1122,
+     "y": 261,
+     "width": 30,
+     "height": 73,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__gate_pillar_3"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 330
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1125
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 296
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 27
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 34
+      }
+     ]
+    },
+    {
+     "id": 67,
+     "name": "gate_pillar_4",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1122,
+     "y": 344,
+     "width": 30,
+     "height": 72,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "cubbon_park__gate_pillar_4"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 413
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1125
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 379
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 27
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 34
       }
      ]
     }
@@ -3600,7 +4391,7 @@
     {
      "id": 23,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 96,
@@ -3611,12 +4402,84 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 24,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 968,
+     "y": 0,
+     "width": 184,
+     "height": 188,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 25,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 96,
+     "y": 611,
+     "width": 339,
+     "height": 113,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 26,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 578,
+     "width": 536,
+     "height": 33,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 27,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 611,
+     "y": 578,
+     "width": 541,
+     "height": 33,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 28,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3634,7 +4497,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 29,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3652,7 +4515,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 30,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3670,7 +4533,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 31,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3688,7 +4551,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 32,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3706,7 +4569,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 33,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3724,7 +4587,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 34,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3742,7 +4605,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 35,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3760,7 +4623,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 36,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3778,7 +4641,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 37,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3796,7 +4659,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 38,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3814,25 +4677,7 @@
      ]
     },
     {
-     "id": 35,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 653,
-     "y": 174,
-     "width": 52,
-     "height": 36,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 36,
+     "id": 39,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3850,79 +4695,7 @@
      ]
     },
     {
-     "id": 37,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 968,
-     "y": 0,
-     "width": 184,
-     "height": 188,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 38,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 512,
-     "y": 201,
-     "width": 12,
-     "height": 12,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 39,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 578,
-     "y": 188,
-     "width": 60,
-     "height": 22,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
      "id": 40,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 458,
-     "y": 259,
-     "width": 225,
-     "height": 169,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 41,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3940,7 +4713,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 41,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3958,223 +4731,7 @@
      ]
     },
     {
-     "id": 43,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 199,
-     "y": 467,
-     "width": 52,
-     "height": 30,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 44,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 135,
-     "y": 279,
-     "width": 30,
-     "height": 36,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 45,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 765,
-     "y": 263,
-     "width": 146,
-     "height": 67,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 46,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 919,
-     "y": 323,
-     "width": 60,
-     "height": 56,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 47,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 825,
-     "y": 396,
-     "width": 68,
-     "height": 23,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 48,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 788,
-     "y": 398,
-     "width": 22,
-     "height": 26,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 49,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 934,
-     "y": 450,
-     "width": 37,
-     "height": 53,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 50,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 724,
-     "y": 488,
-     "width": 60,
-     "height": 48,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 51,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 486,
-     "y": 501,
-     "width": 12,
-     "height": 12,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 52,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1044,
-     "y": 315,
-     "width": 12,
-     "height": 12,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 53,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1125,
-     "y": 450,
-     "width": 15,
-     "height": 15,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 54,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 398,
-     "y": 521,
-     "width": 60,
-     "height": 23,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 55,
+     "id": 42,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4192,7 +4749,7 @@
      ]
     },
     {
-     "id": 56,
+     "id": 43,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4210,7 +4767,7 @@
      ]
     },
     {
-     "id": 57,
+     "id": 44,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4228,7 +4785,7 @@
      ]
     },
     {
-     "id": 58,
+     "id": 45,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4246,7 +4803,7 @@
      ]
     },
     {
-     "id": 59,
+     "id": 46,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4264,61 +4821,7 @@
      ]
     },
     {
-     "id": 60,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 578,
-     "width": 536,
-     "height": 33,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 61,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 611,
-     "y": 578,
-     "width": 541,
-     "height": 33,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 62,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 96,
-     "y": 611,
-     "width": 339,
-     "height": 113,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 63,
+     "id": 47,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4327,78 +4830,6 @@
      "y": 750,
      "width": 1152,
      "height": 18,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 64,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1065,
-     "y": 296,
-     "width": 23,
-     "height": 34,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 65,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1065,
-     "y": 379,
-     "width": 23,
-     "height": 34,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 66,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1125,
-     "y": 296,
-     "width": 27,
-     "height": 34,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 67,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1125,
-     "y": 379,
-     "width": 27,
-     "height": 34,
      "properties": [
       {
        "name": "kind",
@@ -5558,7 +5989,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 71,
+ "nextobjectid": 68,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 41,
+     "id": 21,
      "name": "tree_left",
      "type": "cutout",
      "rotation": 0,
@@ -2659,11 +2659,31 @@
        "name": "baseY",
        "type": "int",
        "value": 248
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 11
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 214
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 34
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 36
       }
      ]
     },
     {
-     "id": 42,
+     "id": 22,
      "name": "tree_right",
      "type": "cutout",
      "rotation": 0,
@@ -2682,11 +2702,117 @@
        "name": "baseY",
        "type": "int",
        "value": 248
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1103
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 214
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 37
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 36
       }
      ]
     },
     {
-     "id": 43,
+     "id": 23,
+     "name": "autos",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 79,
+     "y": 173,
+     "width": 154,
+     "height": 81,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__autos"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 252
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 83
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 219
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 146
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 33
+      }
+     ]
+    },
+    {
+     "id": 24,
+     "name": "tea_cart",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 236,
+     "y": 197,
+     "width": 68,
+     "height": 54,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__tea_cart"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 249
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 240
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 230
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 19
+      }
+     ]
+    },
+    {
+     "id": 25,
      "name": "umbrella",
      "type": "cutout",
      "rotation": 0,
@@ -2705,13 +2831,721 @@
        "name": "baseY",
        "type": "int",
        "value": 249
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 266
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 225
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 8
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 6
       }
      ]
     },
     {
-     "id": 44,
-     "name": "shelter_roof",
+     "id": 26,
+     "name": "bin_gate",
      "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 299,
+     "y": 212,
+     "width": 19,
+     "height": 37,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__bin_gate"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 249
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 300
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 219
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 17
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 30
+      }
+     ]
+    },
+    {
+     "id": 27,
+     "name": "pillar_left",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 434,
+     "y": 197,
+     "width": 40,
+     "height": 106,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__pillar_left"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 302
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 434
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 197
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 40
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 106
+      }
+     ]
+    },
+    {
+     "id": 28,
+     "name": "pillar_right",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 679,
+     "y": 197,
+     "width": 41,
+     "height": 106,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__pillar_right"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 302
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 679
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 197
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 41
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 106
+      }
+     ]
+    },
+    {
+     "id": 29,
+     "name": "barrier",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 474,
+     "y": 254,
+     "width": 146,
+     "height": 43,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__barrier"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 296
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 474
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 259
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 146
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 37
+      }
+     ]
+    },
+    {
+     "id": 30,
+     "name": "bollard_gate_1",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 615,
+     "y": 233,
+     "width": 18,
+     "height": 70,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__bollard_gate_1"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 303
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 620
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 239
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 9
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 64
+      }
+     ]
+    },
+    {
+     "id": 31,
+     "name": "bollard_gate_2",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 659,
+     "y": 233,
+     "width": 18,
+     "height": 70,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__bollard_gate_2"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 303
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 663
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 239
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 9
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 64
+      }
+     ]
+    },
+    {
+     "id": 32,
+     "name": "bollards_left",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 416,
+     "y": 300,
+     "width": 68,
+     "height": 60,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__bollards_left"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 360
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 420
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 324
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 36
+      }
+     ]
+    },
+    {
+     "id": 33,
+     "name": "bollards_right",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 675,
+     "y": 300,
+     "width": 68,
+     "height": 60,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__bollards_right"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 360
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 679
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 324
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 36
+      }
+     ]
+    },
+    {
+     "id": 34,
+     "name": "planter_1",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 441,
+     "y": 389,
+     "width": 44,
+     "height": 91,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__planter_1"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 480
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 446
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 411
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 34
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 69
+      }
+     ]
+    },
+    {
+     "id": 35,
+     "name": "planter_2",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 668,
+     "y": 389,
+     "width": 45,
+     "height": 91,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__planter_2"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 480
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 674
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 411
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 35
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 69
+      }
+     ]
+    },
+    {
+     "id": 36,
+     "name": "planter_3",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 443,
+     "y": 494,
+     "width": 42,
+     "height": 57,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__planter_3"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 551
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 449
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 510
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 31
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 41
+      }
+     ]
+    },
+    {
+     "id": 37,
+     "name": "planter_4",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 668,
+     "y": 494,
+     "width": 44,
+     "height": 57,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__planter_4"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 551
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 690
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 510
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 33
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 41
+      }
+     ]
+    },
+    {
+     "id": 38,
+     "name": "shelter_bench",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 908,
+     "y": 210,
+     "width": 105,
+     "height": 38,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__shelter_bench"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 246
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 911
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 224
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 98
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 22
+      }
+     ]
+    },
+    {
+     "id": 39,
+     "name": "shelter_post_1",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 882,
+     "y": 174,
+     "width": 14,
+     "height": 77,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__shelter_post_1"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 251
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 885
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 180
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 8
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 71
+      }
+     ]
+    },
+    {
+     "id": 40,
+     "name": "shelter_post_2",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1043,
+     "y": 174,
+     "width": 14,
+     "height": 77,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__shelter_post_2"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 251
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1046
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 180
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 8
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 71
+      }
+     ]
+    },
+    {
+     "id": 41,
+     "name": "bin_shelter",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 1014,
+     "y": 201,
+     "width": 32,
+     "height": 47,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "office_gate__bin_shelter"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 248
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 1019
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 225
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 22
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 23
+      }
+     ]
+    },
+    {
+     "id": 42,
+     "name": "shelter_roof",
+     "type": "above",
      "rotation": 0,
      "visible": true,
      "x": 881,
@@ -2723,64 +3557,13 @@
        "name": "image",
        "type": "string",
        "value": "office_gate__shelter_roof"
-      },
-      {
-       "name": "baseY",
-       "type": "int",
-       "value": 251
       }
      ]
     },
     {
-     "id": 45,
-     "name": "pillar_left",
-     "type": "cutout",
-     "rotation": 0,
-     "visible": true,
-     "x": 434,
-     "y": 197,
-     "width": 40,
-     "height": 56,
-     "properties": [
-      {
-       "name": "image",
-       "type": "string",
-       "value": "office_gate__pillar_left"
-      },
-      {
-       "name": "baseY",
-       "type": "int",
-       "value": 302
-      }
-     ]
-    },
-    {
-     "id": 46,
-     "name": "pillar_right",
-     "type": "cutout",
-     "rotation": 0,
-     "visible": true,
-     "x": 679,
-     "y": 197,
-     "width": 41,
-     "height": 56,
-     "properties": [
-      {
-       "name": "image",
-       "type": "string",
-       "value": "office_gate__pillar_right"
-      },
-      {
-       "name": "baseY",
-       "type": "int",
-       "value": 302
-      }
-     ]
-    },
-    {
-     "id": 47,
+     "id": 43,
      "name": "canopy",
-     "type": "cutout",
+     "type": "above",
      "rotation": 0,
      "visible": true,
      "x": 420,
@@ -2792,11 +3575,6 @@
        "name": "image",
        "type": "string",
        "value": "office_gate__canopy"
-      },
-      {
-       "name": "baseY",
-       "type": "int",
-       "value": 645
       }
      ]
     }
@@ -3692,6 +4470,114 @@
     {
      "id": 12,
      "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 251,
+     "width": 434,
+     "height": 51,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 789,
+     "y": 251,
+     "width": 363,
+     "height": 51,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 720,
+     "y": 239,
+     "width": 69,
+     "height": 97,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 559,
+     "width": 435,
+     "height": 210,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 720,
+     "y": 559,
+     "width": 432,
+     "height": 210,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "name": "",
+     "type": "building",
+     "rotation": 0,
+     "visible": true,
+     "x": 480,
+     "y": 645,
+     "width": 195,
+     "height": 124,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "building"
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "name": "",
      "type": "prop",
      "rotation": 0,
      "visible": true,
@@ -3708,349 +4594,7 @@
      ]
     },
     {
-     "id": 13,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 11,
-     "y": 214,
-     "width": 34,
-     "height": 36,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 14,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1103,
-     "y": 214,
-     "width": 37,
-     "height": 36,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 15,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 83,
-     "y": 219,
-     "width": 146,
-     "height": 33,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 16,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 240,
-     "y": 230,
-     "width": 60,
-     "height": 19,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 17,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 300,
-     "y": 219,
-     "width": 17,
-     "height": 30,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 18,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 885,
-     "y": 180,
-     "width": 8,
-     "height": 71,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
      "id": 19,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1046,
-     "y": 180,
-     "width": 8,
-     "height": 71,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 20,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 911,
-     "y": 224,
-     "width": 98,
-     "height": 22,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 21,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 1019,
-     "y": 225,
-     "width": 22,
-     "height": 23,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 22,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 251,
-     "width": 434,
-     "height": 51,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 23,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 434,
-     "y": 197,
-     "width": 40,
-     "height": 106,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 24,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 474,
-     "y": 259,
-     "width": 146,
-     "height": 37,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 25,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 620,
-     "y": 239,
-     "width": 9,
-     "height": 64,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 26,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 663,
-     "y": 239,
-     "width": 9,
-     "height": 64,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 27,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 679,
-     "y": 197,
-     "width": 41,
-     "height": 106,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 28,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 720,
-     "y": 239,
-     "width": 69,
-     "height": 97,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 29,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 789,
-     "y": 251,
-     "width": 363,
-     "height": 51,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 30,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 420,
-     "y": 324,
-     "width": 60,
-     "height": 36,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 31,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 679,
-     "y": 324,
-     "width": 60,
-     "height": 36,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 32,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4068,7 +4612,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 20,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4077,132 +4621,6 @@
      "y": 300,
      "width": 376,
      "height": 218,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 34,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 446,
-     "y": 411,
-     "width": 34,
-     "height": 69,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 35,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 674,
-     "y": 411,
-     "width": 35,
-     "height": 69,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 36,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 449,
-     "y": 510,
-     "width": 31,
-     "height": 41,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 37,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 674,
-     "y": 510,
-     "width": 33,
-     "height": 41,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 38,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 559,
-     "width": 435,
-     "height": 210,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 39,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 720,
-     "y": 559,
-     "width": 432,
-     "height": 210,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 40,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 480,
-     "y": 645,
-     "width": 195,
-     "height": 124,
      "properties": [
       {
        "name": "kind",
@@ -5236,7 +5654,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 48,
+ "nextobjectid": 44,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

@@ -1,137 +1,10 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) \u2192 36x24 tiles. Blocks trace where things MEET THE GROUND (gate bottoms, pole bases, bin, dog, cart wheels, table legs, scooters); air is never blocked. Occluders are what stands up in front of a character behind them (lamp, poles, canopies, gate pillars, cart). Main road x 0-110 runs the full height; lane y 470-645; Shanthamma's yard x 635-775 y 385-420 ends at the gate; bottom shops face south onto the front pavement y 940+, reached down the road and past the corner tree.",
+  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles. Blocks trace where things MEET THE GROUND (gate bottoms, pole bases, bin, dog, cart wheels, table legs, scooters); air is never blocked. Occluders are what stands up in front of a character behind them (lamp, poles, canopies, gate pillars, cart). Main road x 0-110 runs the full height; lane y 470-645; Shanthamma's yard x 635-775 y 385-420 ends at the gate; bottom shops face south onto the front pavement y 940+, reached down the road and past the corner tree. Migrated to ADR-125: both house rows are `buildings`; poles, lamp, bin, cart, dog, trees, pillars, tables, drum, scooters and pots are sorted cut-outs with footprints; the lane's cables hang `above`.",
   "name": "prashanth_layout",
   "cols": 36,
   "rows": 24,
   "units": "px",
-  "blocks": [
-    [
-      110,
-      0,
-      525,
-      420
-    ],
-    [
-      635,
-      0,
-      140,
-      385
-    ],
-    [
-      775,
-      0,
-      365,
-      420
-    ],
-    [
-      1140,
-      0,
-      240,
-      380
-    ],
-    [
-      1380,
-      0,
-      156,
-      420
-    ],
-    [
-      1150,
-      370,
-      50,
-      45
-    ],
-    [
-      1325,
-      370,
-      60,
-      45
-    ],
-    [
-      168,
-      605,
-      22,
-      22
-    ],
-    [
-      192,
-      560,
-      44,
-      30
-    ],
-    [
-      250,
-      555,
-      55,
-      25
-    ],
-    [
-      325,
-      615,
-      165,
-      45
-    ],
-    [
-      772,
-      610,
-      24,
-      22
-    ],
-    [
-      1468,
-      580,
-      22,
-      24
-    ],
-    [
-      140,
-      645,
-      1396,
-      295
-    ],
-    [
-      245,
-      935,
-      60,
-      30
-    ],
-    [
-      355,
-      935,
-      65,
-      30
-    ],
-    [
-      430,
-      930,
-      52,
-      12
-    ],
-    [
-      1030,
-      935,
-      120,
-      30
-    ],
-    [
-      1312,
-      935,
-      125,
-      30
-    ],
-    [
-      1440,
-      935,
-      96,
-      45
-    ],
-    [
-      78,
-      945,
-      28,
-      35
-    ]
-  ],
+  "blocks": [],
   "spawns": [
     {
       "name": "lane_mouth",
@@ -226,7 +99,45 @@
       "h": 94
     }
   ],
-  "occluders": [
+  "buildings": [
+    [
+      110,
+      0,
+      525,
+      420
+    ],
+    [
+      635,
+      0,
+      140,
+      385
+    ],
+    [
+      775,
+      0,
+      365,
+      420
+    ],
+    [
+      1140,
+      0,
+      240,
+      380
+    ],
+    [
+      1380,
+      0,
+      156,
+      420
+    ],
+    [
+      140,
+      645,
+      1396,
+      295
+    ]
+  ],
+  "sorted": [
     {
       "name": "lamp",
       "rect": [
@@ -236,6 +147,12 @@
         210
       ],
       "base": 422,
+      "footprint": [
+        95,
+        400,
+        22,
+        22
+      ],
       "mode": "key",
       "bg": [
         [
@@ -257,20 +174,7 @@
           40
         ]
       ],
-      "seeds": [
-        [
-          131,
-          445
-        ],
-        [
-          131,
-          330
-        ],
-        [
-          85,
-          258
-        ]
-      ]
+      "bgShare": 0.03
     },
     {
       "name": "pole_west",
@@ -281,6 +185,12 @@
         230
       ],
       "base": 627,
+      "footprint": [
+        168,
+        605,
+        22,
+        22
+      ],
       "mode": "key",
       "bg": [
         [
@@ -308,20 +218,7 @@
           40
         ]
       ],
-      "seeds": [
-        [
-          178,
-          618
-        ],
-        [
-          178,
-          520
-        ],
-        [
-          178,
-          430
-        ]
-      ]
+      "bgShare": 0.03
     },
     {
       "name": "pole_mid",
@@ -332,6 +229,12 @@
         195
       ],
       "base": 632,
+      "footprint": [
+        772,
+        610,
+        24,
+        22
+      ],
       "mode": "key",
       "bg": [
         [
@@ -359,20 +262,7 @@
           40
         ]
       ],
-      "seeds": [
-        [
-          785,
-          620
-        ],
-        [
-          785,
-          530
-        ],
-        [
-          785,
-          470
-        ]
-      ]
+      "bgShare": 0.03
     },
     {
       "name": "pole_east",
@@ -383,6 +273,12 @@
         165
       ],
       "base": 603,
+      "footprint": [
+        1468,
+        580,
+        22,
+        24
+      ],
       "mode": "key",
       "bg": [
         [
@@ -398,20 +294,7 @@
           18
         ]
       ],
-      "seeds": [
-        [
-          1478,
-          590
-        ],
-        [
-          1478,
-          520
-        ],
-        [
-          1478,
-          470
-        ]
-      ]
+      "bgShare": 0.03
     },
     {
       "name": "bin",
@@ -422,6 +305,12 @@
         88
       ],
       "base": 590,
+      "footprint": [
+        192,
+        560,
+        44,
+        30
+      ],
       "mode": "key",
       "bg": [
         [
@@ -449,16 +338,24 @@
           40
         ]
       ],
-      "seeds": [
-        [
-          213,
-          540
-        ],
-        [
-          213,
-          575
-        ]
-      ]
+      "bgShare": 0.03
+    },
+    {
+      "name": "dog",
+      "rect": [
+        243,
+        540,
+        70,
+        45
+      ],
+      "base": 582,
+      "footprint": [
+        250,
+        555,
+        55,
+        25
+      ],
+      "mode": "rect"
     },
     {
       "name": "cart",
@@ -469,6 +366,12 @@
         92
       ],
       "base": 660,
+      "footprint": [
+        325,
+        615,
+        165,
+        45
+      ],
       "mode": "key",
       "bg": [
         [
@@ -496,16 +399,7 @@
           40
         ]
       ],
-      "seeds": [
-        [
-          420,
-          600
-        ],
-        [
-          418,
-          645
-        ]
-      ]
+      "bgShare": 0.03
     },
     {
       "name": "neem",
@@ -516,6 +410,12 @@
         95
       ],
       "base": 850,
+      "footprint": [
+        1010,
+        640,
+        60,
+        8
+      ],
       "mode": "key",
       "bg": [
         [
@@ -567,6 +467,12 @@
         105
       ],
       "base": 700,
+      "footprint": [
+        1430,
+        640,
+        60,
+        8
+      ],
       "mode": "key",
       "bg": [
         [
@@ -618,6 +524,12 @@
         215
       ],
       "base": 975,
+      "footprint": [
+        60,
+        940,
+        40,
+        30
+      ],
       "mode": "key",
       "bg": [
         [
@@ -669,6 +581,12 @@
         154
       ],
       "base": 422,
+      "footprint": [
+        600,
+        385,
+        36,
+        37
+      ],
       "mode": "rect"
     },
     {
@@ -680,6 +598,12 @@
         157
       ],
       "base": 422,
+      "footprint": [
+        774,
+        385,
+        33,
+        37
+      ],
       "mode": "rect"
     },
     {
@@ -691,6 +615,12 @@
         74
       ],
       "base": 1024,
+      "footprint": [
+        120,
+        990,
+        100,
+        30
+      ],
       "mode": "key",
       "bg": [
         [
@@ -726,6 +656,160 @@
           1010
         ]
       ]
+    },
+    {
+      "name": "table_1",
+      "rect": [
+        240,
+        878,
+        72,
+        88
+      ],
+      "base": 965,
+      "footprint": [
+        245,
+        935,
+        60,
+        30
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "table_2",
+      "rect": [
+        348,
+        878,
+        78,
+        88
+      ],
+      "base": 965,
+      "footprint": [
+        355,
+        935,
+        65,
+        30
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "drum",
+      "rect": [
+        425,
+        848,
+        62,
+        96
+      ],
+      "base": 942,
+      "footprint": [
+        430,
+        930,
+        52,
+        12
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "scooter_1",
+      "rect": [
+        1025,
+        848,
+        130,
+        118
+      ],
+      "base": 965,
+      "footprint": [
+        1030,
+        935,
+        120,
+        30
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "scooter_2",
+      "rect": [
+        1305,
+        848,
+        136,
+        118
+      ],
+      "base": 965,
+      "footprint": [
+        1312,
+        935,
+        125,
+        30
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "pot_coliving_1",
+      "rect": [
+        1145,
+        328,
+        60,
+        92
+      ],
+      "base": 415,
+      "footprint": [
+        1150,
+        370,
+        50,
+        45
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "pot_coliving_2",
+      "rect": [
+        1320,
+        328,
+        70,
+        92
+      ],
+      "base": 415,
+      "footprint": [
+        1325,
+        370,
+        60,
+        45
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "corner_plant",
+      "rect": [
+        1433,
+        868,
+        103,
+        112
+      ],
+      "base": 980,
+      "footprint": [
+        1440,
+        935,
+        96,
+        45
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "stand_board",
+      "rect": [
+        70,
+        900,
+        45,
+        80
+      ],
+      "base": 980,
+      "footprint": [
+        78,
+        945,
+        28,
+        35
+      ],
+      "mode": "rect"
     }
-  ]
+  ],
+  "above": []
 }

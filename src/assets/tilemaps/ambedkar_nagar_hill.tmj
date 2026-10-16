@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 31,
+     "id": 25,
      "name": "pole",
      "type": "cutout",
      "rotation": 0,
@@ -2659,13 +2659,248 @@
        "name": "baseY",
        "type": "int",
        "value": 525
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 746
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 504
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 30
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 23
       }
      ]
     },
     {
-     "id": 32,
-     "name": "awning",
+     "id": 26,
+     "name": "transformer",
      "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 719,
+     "y": 404,
+     "width": 78,
+     "height": 93,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "ambedkar_nagar_hill__transformer"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 495
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 724
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 420
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 67
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 75
+      }
+     ]
+    },
+    {
+     "id": 27,
+     "name": "chai_table",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 34,
+     "y": 596,
+     "width": 97,
+     "height": 59,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "ambedkar_nagar_hill__chai_table"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 653
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 38
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 615
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 90
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 38
+      }
+     ]
+    },
+    {
+     "id": 28,
+     "name": "stools",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 57,
+     "y": 651,
+     "width": 78,
+     "height": 41,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "ambedkar_nagar_hill__stools"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 690
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 60
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 659
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 71
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 31
+      }
+     ]
+    },
+    {
+     "id": 29,
+     "name": "shop_display",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 216,
+     "y": 584,
+     "width": 177,
+     "height": 78,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "ambedkar_nagar_hill__shop_display"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 660
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 218
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 593
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 172
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 67
+      }
+     ]
+    },
+    {
+     "id": 30,
+     "name": "pot_room1",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 446,
+     "y": 615,
+     "width": 31,
+     "height": 66,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "ambedkar_nagar_hill__pot_room1"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 679
+      },
+      {
+       "name": "footX",
+       "type": "int",
+       "value": 450
+      },
+      {
+       "name": "footY",
+       "type": "int",
+       "value": 638
+      },
+      {
+       "name": "footW",
+       "type": "int",
+       "value": 23
+      },
+      {
+       "name": "footH",
+       "type": "int",
+       "value": 41
+      }
+     ]
+    },
+    {
+     "id": 31,
+     "name": "awning",
+     "type": "above",
      "rotation": 0,
      "visible": true,
      "x": 191,
@@ -2677,11 +2912,24 @@
        "name": "image",
        "type": "string",
        "value": "ambedkar_nagar_hill__awning"
-      },
+      }
+     ]
+    },
+    {
+     "id": 32,
+     "name": "tarp",
+     "type": "above",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 518,
+     "width": 188,
+     "height": 82,
+     "properties": [
       {
-       "name": "baseY",
-       "type": "int",
-       "value": 593
+       "name": "image",
+       "type": "string",
+       "value": "ambedkar_nagar_hill__tarp"
       }
      ]
     }
@@ -3577,7 +3825,7 @@
     {
      "id": 15,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -3588,14 +3836,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 16,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -3606,14 +3854,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 17,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 968,
@@ -3624,14 +3872,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 18,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 0,
@@ -3642,14 +3890,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 19,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 750,
@@ -3660,14 +3908,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 20,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 968,
@@ -3678,14 +3926,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 21,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 705,
@@ -3696,14 +3944,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 22,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 788,
@@ -3714,14 +3962,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 23,
      "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 570,
@@ -3732,122 +3980,14 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     },
     {
      "id": 24,
      "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 38,
-     "y": 615,
-     "width": 90,
-     "height": 38,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 25,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 60,
-     "y": 659,
-     "width": 71,
-     "height": 31,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 26,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 218,
-     "y": 593,
-     "width": 172,
-     "height": 67,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 27,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 450,
-     "y": 638,
-     "width": 23,
-     "height": 41,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 28,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 746,
-     "y": 504,
-     "width": 30,
-     "height": 23,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 29,
-     "name": "",
-     "type": "prop",
-     "rotation": 0,
-     "visible": true,
-     "x": 724,
-     "y": 420,
-     "width": 67,
-     "height": 75,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "prop"
-      }
-     ]
-    },
-    {
-     "id": 30,
-     "name": "",
-     "type": "prop",
+     "type": "building",
      "rotation": 0,
      "visible": true,
      "x": 570,
@@ -3858,7 +3998,7 @@
       {
        "name": "kind",
        "type": "string",
-       "value": "prop"
+       "value": "building"
       }
      ]
     }
