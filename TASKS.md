@@ -4,7 +4,7 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Now — Render model (user's layering brief, ADR-125) · then Act 2
 - [x] T-048 Part A render model — all ten maps migrated and A5-walked 2026-10-16 (AUDIT_LOG table); airport approved: seven layers in the manifest, `sorted` band (cut-outs with footprints, `above` images), `collision` rects with kinds, `FEET_BOX` token, `feetY` depth, validator rules A3 (seven layers, tall tiles, walls↔collision, props_above, footprints, reachability, no depth literals), tests A4 (402 green). Next: migrate whitefield_street, hotel, Prashanth, PG room, ITPL gate, hill, flat, bus, Cubbon with the A5 walk each (AUDIT_LOG), then Part B
-- [ ] T-049 Part B Playground Locations: root node + per-scene Locations, free-roam inspection with layer eye toggles, collision boxes, Y-sort lines, feet boxes, band tints, validator panel, click-to-inspect + Copy ref (needs the validators split into pure modules the browser can import)
+- [x] T-049 Part B Playground Locations — built 2026-10-16, awaiting the user's audit with Part A: root node + per-scene Locations, free-roam inspection with layer eye toggles, collision boxes, Y-sort lines, feet boxes, band tints, validator panel, click-to-inspect + Copy ref (needs the validators split into pure modules the browser can import)
 - [ ] T-051 Cables as overhead cut-outs on Prashanth Layout and the hill (hand-painted overlays or a re-render with cables off + a cable sprite) — they stay painted on the ground for now
 - [x] T-050 Street tileset: tag `tall` and `door` tile properties in `street.tiles.json` so rule 2 and rule 4 bite on tile-built maps; move the street's awnings to `props_above`
 

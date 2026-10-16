@@ -8,7 +8,7 @@
 import { sceneOrder } from '../dev/prereq';
 import type { NpcDef, SceneBeat, SceneComponent } from '../utils/types';
 
-export type NodeKind = 'group' | 'intro' | 'act' | 'arc' | 'scene' | 'beat' | 'character' | 'device';
+export type NodeKind = 'group' | 'intro' | 'act' | 'arc' | 'scene' | 'beat' | 'character' | 'device' | 'location';
 export type NodeStatus = 'built' | 'stub' | 'failing';
 
 export interface TreeNode {
@@ -25,6 +25,19 @@ export interface TreeNode {
   /** Characters: sheets that belong to this base (player skins 1–5), and the NPC using it. */
   sheets?: string[];
   npc?: NpcDef;
+  /** Locations: the map key and the district that opens it (B1/B2). */
+  location?: Location;
+}
+
+/** A map/pocket as the playground lists it (built from maps.manifest.json + districts.json). */
+export interface Location {
+  mapKey: string;
+  /** District name, e.g. "Kempegowda International"; the first district that uses the map. */
+  label: string;
+  /** Districts rendered through this map (interiors and pockets are one each). */
+  districts: Array<{ id: string; name: string }>;
+  /** Scene ids whose district or exits touch this map. */
+  scenes: string[];
 }
 
 export const INTRO: Array<{ key: 'BootScene' | 'TitleScene' | 'CharacterSelectScene'; label: string }> = [
@@ -36,10 +49,24 @@ export const INTRO: Array<{ key: 'BootScene' | 'TitleScene' | 'CharacterSelectSc
 const errorsFor = (problems: string[], needles: string[]) =>
   problems.filter((p) => needles.some((n) => p.includes(n)));
 
-function sceneNode(scene: SceneComponent, problems: string[]): TreeNode {
+/** Problems that belong to a map: its key, its tileset/overlay files, or any district it renders. */
+export const locationErrors = (problems: string[], loc: Location): string[] =>
+  errorsFor(problems, [`${loc.mapKey}:`, ...loc.districts.map((d) => `district "${d.id}"`), ...loc.districts.map((d) => `${d.id}.json`)]);
+
+function locationNode(loc: Location, problems: string[], idPrefix = 'loc'): TreeNode {
+  const errors = locationErrors(problems, loc);
+  return { id: `${idPrefix}:${loc.mapKey}`, label: `${loc.label} (${loc.mapKey})`, kind: 'location', ref: loc.mapKey, location: loc, status: errors.length ? 'failing' : 'built', errors };
+}
+
+function sceneNode(scene: SceneComponent, problems: string[], locations: Location[] = []): TreeNode {
   const errors = errorsFor(problems, [`scenes/${scene.id}.json`]);
   const stub = scene.status === 'STUB';
   const beats = (scene.beats ?? []).filter((b): b is SceneBeat => typeof b === 'object');
+  // B2: the maps this scene uses — its district's, plus every exit's destination.
+  const used = locations.filter((l) => l.scenes.includes(scene.id));
+  const locationGroup: TreeNode[] = used.length
+    ? [{ id: `scene-locs:${scene.id}`, label: 'Locations', kind: 'group', children: used.map((l) => locationNode(l, problems, `sceneloc:${scene.id}`)) }]
+    : [];
   return {
     id: `scene:${scene.id}`,
     label: `${scene.seq ? `${scene.seq} · ` : ''}${scene.title}`,
@@ -48,7 +75,7 @@ function sceneNode(scene: SceneComponent, problems: string[]): TreeNode {
     scene,
     status: errors.length ? 'failing' : stub ? 'stub' : 'built',
     errors,
-    children: beats.map((beat) => ({
+    children: (beats.map((beat): TreeNode => ({
       id: `beat:${scene.id}:${beat.id}`,
       label: `${beat.id} · ${beat.what.slice(0, 48)}${beat.what.length > 48 ? '…' : ''}`,
       kind: 'beat' as const,
@@ -56,7 +83,7 @@ function sceneNode(scene: SceneComponent, problems: string[]): TreeNode {
       beat,
       scene,
       status: stub ? 'stub' : 'built',
-    })),
+    })) as TreeNode[]).concat(locationGroup),
   };
 }
 
@@ -65,6 +92,7 @@ export function buildTree(
   sheets: string[],
   npcs: NpcDef[],
   problems: string[] = [],
+  locations: Location[] = [],
 ): TreeNode[] {
   const intro: TreeNode = {
     id: 'group:intro', label: 'Intro', kind: 'group',
@@ -78,9 +106,9 @@ export function buildTree(
     const children: TreeNode[] = hasArcs
       ? [...new Set(list.map((s) => s.arc ?? '(no arc)'))].map((arc): TreeNode => ({
           id: `arc:${act}:${arc}`, label: `Arc · ${arc}`, kind: 'arc' as const,
-          children: list.filter((s) => (s.arc ?? '(no arc)') === arc).map((s) => sceneNode(s, problems)),
+          children: list.filter((s) => (s.arc ?? '(no arc)') === arc).map((s) => sceneNode(s, problems, locations)),
         }))
-      : list.map((s) => sceneNode(s, problems));
+      : list.map((s) => sceneNode(s, problems, locations));
     const flat = hasArcs ? children.flatMap((c) => c.children ?? []) : children;
     const status: NodeStatus = flat.some((c) => c.status === 'failing') ? 'failing' : flat.every((c) => c.status === 'stub') ? 'stub' : 'built';
     return { id: `act:${act}`, label: `Act ${act}`, kind: 'act', status, children };
@@ -118,7 +146,32 @@ export function buildTree(
     children: [{ id: 'device:phone-landscape', label: 'Phone in landscape — thumbs & controls', kind: 'device' }],
   };
 
-  return [intro, chapters, characters, devices];
+  // B1: every map/pocket, labelled by the district that renders it.
+  const locationsGroup: TreeNode = { id: 'group:locations', label: 'Locations', kind: 'group', children: locations.map((l) => locationNode(l, problems)) };
+
+  return locations.length ? [intro, chapters, locationsGroup, characters, devices] : [intro, chapters, characters, devices];
+}
+
+/**
+ * Locations from the manifest and the districts (never hand-listed): one per
+ * map key, with the districts that render it and the scenes that touch it.
+ */
+export function buildLocations(
+  mapKeys: string[],
+  districts: Array<{ id: string; name: string; map: string; exits?: Array<{ to: string }> }>,
+  scenes: SceneComponent[],
+): Location[] {
+  const byId = new Map(districts.map((d) => [d.id, d]));
+  const mapOf = (districtId: string) => byId.get(districtId)?.map;
+  return mapKeys.map((mapKey) => {
+    const ds = districts.filter((d) => d.map === mapKey);
+    const sceneIds = scenes.filter((s) => {
+      const own = mapOf(s.district) === mapKey;
+      const exits = (s.exits ?? []).some((e) => typeof e === 'object' && mapOf(e.to) === mapKey);
+      return own || exits;
+    }).map((s) => s.id);
+    return { mapKey, label: ds[0]?.name ?? mapKey, districts: ds.map((d) => ({ id: d.id, name: d.name })), scenes: sceneIds };
+  });
 }
 
 /** Depth-first filter: keep nodes whose label matches, and their ancestors. */

@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { SPRITE_URLS } from '../assets';
+import { OVERLAY_URLS, SPRITE_URLS } from '../assets';
+import { DISTRICTS, SCENES } from '../data';
+import { locationErrors, type Location } from './tree';
 import { applyOverride, beatFlag, type PlaygroundState, type StateOverride } from '../dev/prereq';
-import type { DevApi, DevNode } from '../dev/devApi';
+import type { DevApi, DevNode, LayerInfo, OverlayKind, Pick } from '../dev/devApi';
 import { PALETTE, hex, motion } from '../ui/tokens';
 import type { SceneBeat, SceneComponent } from '../utils/types';
 import breathLines from '../assets/_raw/characters/breath.json';
@@ -26,6 +28,12 @@ interface Props {
   sim: SimOptions;
   setSim(s: SimOptions): void;
   targets: Target[];
+  /** Part B: open a location (free-roam) and select its node; the last click-to-inspect pick; validator problems. */
+  openLocation(mapKey: string): void;
+  pick: Pick | null;
+  inspecting: boolean;
+  setInspecting(on: boolean): void;
+  problems: string[];
 }
 
 /** Things the inspector will show once they exist (ADR-105) — never faked. */
@@ -44,6 +52,7 @@ export default function Inspector(props: Props) {
       {node.kind === 'beat' && node.scene && node.beat && <BeatInspector {...props} scene={node.scene} beat={node.beat} />}
       {node.kind === 'character' && <CharacterViewer node={node} />}
       {node.kind === 'device' && <DeviceInspector {...props} />}
+      {node.kind === 'location' && node.location && <LocationInspector {...props} location={node.location} />}
       {(node.kind === 'group' || node.kind === 'act' || node.kind === 'arc') && (
         <p className="pg-dim">{node.children?.length ?? 0} item{node.children?.length === 1 ? '' : 's'} — select one to inspect or play it.</p>
       )}
@@ -183,6 +192,7 @@ function SceneInspector(props: Props & { scene: SceneComponent }) {
     <>
       <p className="pg-dim">{scene.district} · starts at {scene.entry?.spawn ?? '—'}{scene.status === 'STUB' ? ' · stub' : ''}</p>
       <p>{scene.player_goal}</p>
+      <SceneLocations {...props} scene={scene} />
       {base && <StateSummary base={base} override={override} />}
       <div className="pg-row">
         <button className="pg-primary" disabled={!api || scene.status === 'STUB'} title={scene.status === 'STUB' ? 'A stub: co-author it with the user first (HANDOFF §3)' : undefined} onClick={() => play({ kind: 'scene', sceneId: scene.id })}>▶ Play</button>
@@ -210,6 +220,109 @@ function SceneInspector(props: Props & { scene: SceneComponent }) {
         </dl>
         <div className="pg-sub">Not in the game yet</div>
         {NOT_YET.map((n) => <div key={n} className="pg-notyet">{n}</div>)}
+      </Fold>
+    </>
+  );
+}
+
+/** B5: the maps a scene uses — its district's and every exit's — each opening in free-roam. */
+function SceneLocations({ scene, openLocation }: Props & { scene: SceneComponent }) {
+  const locs = useMemo(() => {
+    const mapOf = (id: string) => DISTRICTS[id]?.map;
+    const keys = new Set<string>();
+    const own = mapOf(scene.district); if (own) keys.add(own);
+    for (const e of scene.exits ?? []) if (typeof e === 'object' && mapOf(e.to)) keys.add(mapOf(e.to)!);
+    return [...keys];
+  }, [scene]);
+  if (!locs.length) return null;
+  return (
+    <div className="pg-row">
+      <span className="pg-dim">Locations:</span>
+      {locs.map((k) => <button key={k} onClick={() => openLocation(k)} title="Open this map alone, free-roam">{Object.values(DISTRICTS).find((d) => d.map === k)?.name ?? k}</button>)}
+    </div>
+  );
+}
+
+const OVERLAYS: Array<{ kind: OverlayKind; label: string; tint: string }> = [
+  { kind: 'collision', label: 'Collision boxes', tint: 'pg-bad' },
+  { kind: 'ysort', label: 'Y-sort lines (feet Y + depth)', tint: 'pg-warnline' },
+  { kind: 'feet', label: 'Feet boxes (player, NPCs)', tint: 'pg-ok' },
+  { kind: 'tintSorted', label: 'Tint the sorted band', tint: 'pg-warnline' },
+  { kind: 'tintAbove', label: 'Tint props_above', tint: 'pg-blue' },
+  { kind: 'zones', label: 'Spawns + zones', tint: 'pg-dim' },
+];
+
+/** B3/B4: a map opened alone — layer eyes, overlays, click-to-inspect, validator results, spawns and exits. */
+function LocationInspector(props: Props & { location: Location }) {
+  const { location, api, openLocation, pick, inspecting, setInspecting, problems } = props;
+  const [layers, setLayers] = useState<LayerInfo[]>([]);
+  const [overlays, setOverlays] = useState<Record<OverlayKind, boolean> | null>(null);
+  const [info, setInfo] = useState<ReturnType<DevApi['mapInfo']>>(null);
+  const [copied, setCopied] = useState(false);
+  const running = info?.key === location.mapKey;
+  useEffect(() => {
+    if (!api) return;
+    const tick = () => { setInfo(api.mapInfo()); setLayers(api.mapLayers()); setOverlays(api.overlays()); };
+    tick();
+    const timer = window.setInterval(tick, 700);
+    return () => window.clearInterval(timer);
+  }, [api, location.mapKey]);
+  const errors = useMemo(() => locationErrors(problems, location), [problems, location]);
+  const scenes = location.scenes.map((id) => SCENES[id]).filter(Boolean);
+  const copy = (text: string) => { navigator.clipboard?.writeText(text).then(() => { setCopied(true); window.setTimeout(() => setCopied(false), 1200); }).catch(() => {}); };
+  return (
+    <>
+      <p className="pg-dim">{location.districts.map((d) => `${d.name} (${d.id})`).join(' · ') || 'no district renders this map'}</p>
+      <div className="pg-row">
+        <button className="pg-primary" disabled={!api} onClick={() => openLocation(location.mapKey)}>{running ? '↻ Reload map' : '▶ Open map (free-roam)'}</button>
+        <label title="Click anything on the canvas to see its layer, id, footprint and depth"><input type="checkbox" checked={inspecting} onChange={(e) => setInspecting(e.target.checked)} /> Inspect on click</label>
+      </div>
+      {running ? (
+        <>
+          <h3>Layers (render order)</h3>
+          <div className="pg-layers">
+            {layers.map((l) => (
+              <label key={l.name} className="pg-layer">
+                <input type="checkbox" checked={l.visible} onChange={(e) => api?.setLayerVisible(l.name, e.target.checked)} title={l.visible ? 'Hide' : 'Show'} />
+                <span className="pg-eye">{l.visible ? '◉' : '○'}</span>
+                <span>{l.name}</span>
+                <span className="pg-dim">{l.kind} · {l.count}</span>
+              </label>
+            ))}
+          </div>
+          <h3>Layer lines</h3>
+          <div className="pg-layers">
+            {OVERLAYS.map((o) => (
+              <label key={o.kind} className="pg-layer"><input type="checkbox" checked={overlays?.[o.kind] ?? false} onChange={(e) => api?.setOverlay(o.kind, e.target.checked)} /> <span className={o.tint}>■</span> {o.label}</label>
+            ))}
+          </div>
+          <h3>Picked</h3>
+          {pick ? (
+            <dl className="pg-props pg-pick">
+              <dt>Layer</dt><dd>{pick.layer}</dd>
+              <dt>Kind</dt><dd>{pick.kind}</dd>
+              <dt>Id / name</dt><dd>{pick.name}</dd>
+              <dt>Position</dt><dd>{Math.round(pick.x)}, {Math.round(pick.y)}{pick.w ? ` · ${Math.round(pick.w)}×${Math.round(pick.h ?? 0)}` : ''}</dd>
+              <dt>Footprint</dt><dd>{pick.footprint ? `${Math.round(pick.footprint.x)}, ${Math.round(pick.footprint.y)} · ${Math.round(pick.footprint.w)}×${Math.round(pick.footprint.h)}` : '—'}</dd>
+              <dt>Collision</dt><dd>{pick.collision ? 'yes' : 'no'}</dd>
+              <dt>Depth</dt><dd>{pick.depth !== undefined ? `${pick.depth.toFixed(4)}${pick.feetY !== undefined ? ` (feet Y ${pick.feetY})` : ''}` : '—'}</dd>
+            </dl>
+          ) : <p className="pg-dim">{inspecting ? 'Click something on the canvas.' : 'Turn on "Inspect on click" and click a prop or tile.'}</p>}
+          {pick && <div className="pg-row"><code className="pg-ref">{pick.ref}</code><button onClick={() => copy(pick.ref)}>{copied ? 'Copied' : 'Copy ref'}</button></div>}
+        </>
+      ) : <p className="pg-dim">Open the map to see its layers and inspect it.</p>}
+      <h3>Validator</h3>
+      {errors.length ? <div className="pg-errors">{errors.map((e) => <div key={e}>✗ {e}</div>)}</div> : <div className="pg-ok">✓ no problems for this map</div>}
+      <Fold label="Details">
+        <dl className="pg-props">
+          <dt>Map key</dt><dd>{location.mapKey}</dd>
+          <dt>Size</dt><dd>{info && running ? `${info.tiles[0]}×${info.tiles[1]} tiles (${info.widthPx}×${info.heightPx} px)` : '—'}</dd>
+          <dt>Pocket</dt><dd>{location.districts.map((d) => { const rw = DISTRICTS[d.id]?.realworld; return rw && 'area' in rw && rw.area ? `${d.name}: ${rw.area.radiusM} m radius${rw.area.pocket ? `, ${rw.area.pocket.metresPerTile} m/tile` : ''}` : rw && 'parent' in rw ? `${d.name}: inside ${rw.parent}` : null; }).filter(Boolean).join(' · ') || '—'}</dd>
+          <dt>Spawns</dt><dd>{info && running ? info.spawns.map((sp) => `${sp.name}${sp.point ? '' : ' (zone)'}`).join(', ') : '— (open the map)'}</dd>
+          <dt>Exits</dt><dd>{location.districts.flatMap((d) => (DISTRICTS[d.id]?.exits ?? []).map((e) => `${e.zone} → ${e.to} (${e.transit})`)).join(', ') || '—'}</dd>
+          <dt>Scenes</dt><dd>{scenes.map((sc) => `${sc.seq ?? ''} ${sc.title}`).join(', ') || '—'}</dd>
+          <dt>Assets</dt><dd>tileset {location.mapKey.replace(/_map$/, '')}.png · {Object.keys(OVERLAY_URLS).filter((k) => k.startsWith(`${location.districts[0]?.id === 'airport' ? 'kempegowda_arrivals' : location.mapKey}__`)).length} cut-outs</dd>
+        </dl>
       </Fold>
     </>
   );

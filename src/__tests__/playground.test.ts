@@ -4,6 +4,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SCENES, NPCS } from '../data';
 import { applyOverride, beatFlag, buildPrereqState, sceneOrder } from '../dev/prereq';
+import { buildLocations } from '../playground/tree';
+import { DISTRICTS } from '../data';
+import { MAPS } from '../assets/maps';
 import { buildTree, filterTree, findNode } from '../playground/tree';
 import { lineDiff } from '../playground/diff';
 import { STARTING_WALLET } from '../utils/constants';
@@ -216,6 +219,19 @@ describe('phone-in-landscape ergonomics', async () => {
     const tiny = checkControl(iphone, 'Tiny', { x: 300, y: 100, w: 20, h: 20 });
     expect(tiny.bigEnough).toBe(false);
     expect(tiny.inSafeArea).toBe(false);
+  });
+
+  it('lists every map as a Location, labelled by its district, and under each scene the maps it uses (Part B)', () => {
+    const locations = buildLocations(Object.keys(MAPS), Object.values(DISTRICTS), scenes);
+    expect(locations.map((l) => l.mapKey).sort()).toEqual(Object.keys(MAPS).sort());
+    expect(locations.find((l) => l.mapKey === 'airport_map')!.label).toBe('Kempegowda International');
+    expect(locations.find((l) => l.mapKey === 'cubbon_park')!.scenes).toContain('act1_cubbon');
+    expect(locations.find((l) => l.mapKey === 'bus_interior')!.scenes).toContain('act1_bus_cubbon');
+    const t = buildTree(scenes, [], [], ['airport_map: layer "fx" is missing'], locations);
+    expect(t.map((n) => n.label)).toEqual(['Intro', 'Chapters', 'Locations', 'Characters', 'Devices']);
+    expect(findNode(t, 'loc:airport_map')!.status).toBe('failing');
+    expect(findNode(t, 'loc:cubbon_park')!.status).toBe('built');
+    expect(findNode(t, 'scene-locs:act1_cubbon')!.children!.map((c) => c.ref).sort()).toEqual(['cubbon_park', 'whitefield_street']);
   });
 
   it('the tree offers the phone simulation under Devices', () => {

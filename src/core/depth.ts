@@ -65,5 +65,8 @@ export const objectZY = (
   tileSize: number,
 ): number => (topTileY + tilesTall) * tileSize;
 
+/** The feet line a sorted-band depth encodes (dev overlays). */
+export const zYForDepth = (depth: number): number => Math.round((depth - DEPTH.ENTITIES) * (MAX_WORLD_HEIGHT + 1));
+
 /** Small bump so an item resting on a surface sorts in front of it. */
 export const SURFACE_BUMP = 0.5;

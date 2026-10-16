@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type Phaser from 'phaser';
 import BangaloreTimes from '../BangaloreTimes';
-import { NPCS, SCENES } from '../data';
+import { DISTRICTS, NPCS, SCENES } from '../data';
 import { SPRITE_URLS } from '../assets';
-import { installDevApi, type DevApi, type DevNode } from '../dev/devApi';
+import { MAPS } from '../assets/maps';
+import { installDevApi, type DevApi, type DevNode, type Pick } from '../dev/devApi';
 import type { PlaygroundState, StateOverride } from '../dev/prereq';
 import { devUi, type DevTheme } from '../ui/tokens';
 import { GAME_WIDTH } from '../utils/constants';
-import { buildTree, filterTree, findNode, type TreeNode } from './tree';
+import { buildLocations, buildTree, filterTree, findNode, type TreeNode } from './tree';
 import { DEVICES, deviceById, type HandSize } from './ergonomics';
 import ThumbOverlay, { type Target } from './ThumbOverlay';
 import Inspector from './Inspector';
@@ -92,6 +93,8 @@ export default function Playground() {
   const [theme, setTheme] = useState<DevTheme>(() => stored<DevTheme>('pg-theme', 'light'));
   const [widths, setWidths] = useState(() => stored('pg-widths', { left: 240, right: 300 }));
   const [status, setStatus] = useState('');
+  const [pick, setPick] = useState<Pick | null>(null);
+  const [inspecting, setInspecting] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const screenRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.5);
@@ -145,9 +148,10 @@ export default function Playground() {
     return () => window.clearInterval(timer);
   }, [api]);
 
+  const locations = useMemo(() => buildLocations(Object.keys(MAPS), Object.values(DISTRICTS), Object.values(SCENES)), []);
   const tree = useMemo(
-    () => buildTree(Object.values(SCENES), Object.keys(SPRITE_URLS), Object.values(NPCS), problems),
-    [problems],
+    () => buildTree(Object.values(SCENES), Object.keys(SPRITE_URLS), Object.values(NPCS), problems, locations),
+    [problems, locations],
   );
   const visible = useMemo(() => filterTree(tree, query), [tree, query]);
   const selected = findNode(tree, selectedId);
@@ -180,10 +184,33 @@ export default function Playground() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api]);
 
+  /** B3: open a map alone at its first district's default spawn — free-roam, no quest state. */
+  const openLocation = useCallback((mapKey: string) => {
+    const district = Object.values(DISTRICTS).find((d) => d.map === mapKey);
+    if (!district) return;
+    setSelectedId(`loc:${mapKey}`);
+    setPick(null);
+    play({ kind: 'district', districtId: district.id }, {});
+  }, [play]);
+
   const select = (n: TreeNode) => {
     setSelectedId(n.id);
     // The phone simulation item switches the stage to a phone, if it was a desktop.
     if (n.kind === 'device' && deviceId === 'desktop') setDeviceId('iphone15');
+    // B2: clicking a location anywhere in the tree opens that map.
+    if (n.kind === 'location' && n.location) openLocation(n.location.mapKey);
+  };
+
+  /** Click-to-inspect: a click on the canvas becomes a game-pixel point for the dev API. */
+  const onStageClick = (e: React.MouseEvent) => {
+    if (!inspecting || !api) return;
+    const canvas = screenRef.current?.querySelector('canvas');
+    if (!canvas) return;
+    const box = canvas.getBoundingClientRect();
+    if (e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom) return;
+    const gx = ((e.clientX - box.left) / box.width) * GAME_WIDTH;
+    const gy = ((e.clientY - box.top) / box.height) * (GAME_WIDTH * 9 / 16);
+    setPick(api.inspectAt(gx, gy));
   };
   const toggle = (id: string) => setOpen((o) => ({ ...o, [id]: !o[id] }));
 
@@ -205,7 +232,7 @@ export default function Playground() {
   const renderNode = (n: TreeNode, depth: number) => {
     const hasKids = Boolean(n.children?.length);
     const isOpen = query ? true : open[n.id] ?? false;
-    const icon = n.status === 'failing' ? '✗' : n.status === 'stub' ? '◌' : n.status === 'built' ? '●' : n.kind === 'device' ? '📱' : '';
+    const icon = n.status === 'failing' ? '✗' : n.status === 'stub' ? '◌' : n.kind === 'location' ? '⌖' : n.status === 'built' ? '●' : n.kind === 'device' ? '📱' : '';
     return (
       <div key={n.id}>
         <div
@@ -285,7 +312,7 @@ export default function Playground() {
           </details>
           <span className="pg-fps">{fps} fps</span>
         </div>
-        <div className="pg-stage" ref={stageRef}>
+        <div className={`pg-stage ${inspecting ? 'pg-inspecting' : ''}`} ref={stageRef} onClickCapture={onStageClick}>
           <div className={`pg-frame ${device.id === 'desktop' ? 'pg-desktop' : 'pg-phoneframe'}`} style={{ width: device.width * scale, height: device.height * scale }}>
             <div className="pg-screen" ref={screenRef} style={{ width: device.width, height: device.height, transform: `scale(${scale})` }}>
               <BangaloreTimes startScene="TitleScene" touchControls={device.id === 'desktop' ? 'auto' : 'always'} />
@@ -315,6 +342,11 @@ export default function Playground() {
             sim={sim}
             setSim={setSim}
             targets={targets}
+            openLocation={openLocation}
+            pick={pick}
+            inspecting={inspecting}
+            setInspecting={setInspecting}
+            problems={problems}
           />
         ) : <p className="pg-dim">Select something on the left.</p>}
       </aside>
