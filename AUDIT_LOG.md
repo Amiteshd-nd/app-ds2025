@@ -168,3 +168,6 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 | kempegowda_arrivals | 4 | 30 | 1 | 30 ok, above 1, walls 6 ok (re-run) |
 - Known limits logged: thin poles against the lane's road key with a fringe of road pixels (bgShare 0.03–0.06); cables on Prashanth and the hill remain painted on the ground (T-051: hand-paint cable overlays, or re-render with cables off and add them as sprites).
 
+### [Layering brief — Part A (all maps) + Part B (Playground Locations) approved] — 2026-10-16
+- Decision: "approved, push and start P10" — the render model on all ten maps and the Playground Locations stand with no corrections; the logged limits (cables painted, pole fringes — T-051) are accepted for now. Pushed.
+
