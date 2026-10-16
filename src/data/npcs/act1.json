@@ -3,48 +3,56 @@
     "id": "npc_auto_meter",
     "name": "Auto Driver",
     "tier": 2,
-    "dialogue": "dlg_auto_meter"
+    "dialogue": "dlg_auto_meter",
+    "sheet": "npc_auto_driver"
   },
   {
     "id": "npc_auto_fair",
     "name": "Auto Driver",
     "tier": 2,
-    "dialogue": "dlg_auto_fair"
+    "dialogue": "dlg_auto_fair",
+    "sheet": "npc_auto_driver"
   },
   {
     "id": "npc_auto_kannada",
     "name": "Auto Driver",
     "tier": 2,
-    "dialogue": "dlg_auto_kannada"
+    "dialogue": "dlg_auto_kannada",
+    "sheet": "npc_auto_driver"
   },
   {
     "id": "npc_office_guard",
     "name": "Security Guard",
     "tier": 2,
-    "dialogue": "dlg_office_guard"
+    "dialogue": "dlg_office_guard",
+    "sheet": "npc_security_guard"
   },
   {
     "id": "npc_prakash",
     "name": "Prakash (Admin)",
     "tier": 2,
-    "dialogue": "dlg_prakash"
+    "dialogue": "dlg_prakash",
+    "sheet": "npc_prakash"
   },
   {
     "id": "npc_divya",
     "name": "Divya",
     "tier": 3,
-    "dialogue": "dlg_divya_monday"
+    "dialogue": "dlg_divya_monday",
+    "sheet": "npc_divya"
   },
   {
     "id": "npc_sameer",
     "name": "Sameer",
     "tier": 2,
-    "dialogue": "dlg_sameer_intro"
+    "dialogue": "dlg_sameer_intro",
+    "sheet": "npc_sameer"
   },
   {
     "id": "npc_ravi",
     "name": "Ravi",
     "tier": 3,
-    "dialogue": "dlg_ravi_intro"
+    "dialogue": "dlg_ravi_intro",
+    "sheet": "npc_ravi"
   }
 ]

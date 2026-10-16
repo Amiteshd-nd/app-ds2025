@@ -3,7 +3,8 @@ Updated: 2026-10-16
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
 ## Now — P7 Monday / office (story 1.1–1.3, ADR-120)
-- [ ] T-012 P7 — **P7a built 2026-10-16** (ADR-120: workday skip + `workday` trigger, officeClockIn, pgNoticeTimer, three autos + neg_auto_meter, guard/Prakash/Divya/Sameer/Ravi dialogues, furniture + notice in the lane, chats, items; quests + scene components drafted in `src/data/_drafts/p7/`). **P7b blocked on the user**: 6–9 office reference photos (ADR-30) + the real spot for the office gate near ITPL → OSM extract → pocket render on its streets → district `office_gate` (zones: auto_drop, auto_stand, office_arrival, admin_desk, lobby, office_door [workday], gate_evening, shuttle_bay) → move drafts live → sheets for the Act 1 cast + auto/van props → skyline time-lapse card → transit kind `auto` card → audit
+- [ ] T-012 P7 Monday / office — **built 2026-10-16, awaiting P7 audit** (ADR-120 systems + ADR-121 pocket): `office_gate` on the real Whitefield Road (OSM), gate render + spec, Act 1 cast sheets, WorkdayScene skyline card, exits with `minutes`/`requiresFlag`, NPC/trigger `requiresFlag`, transit `auto`; quests 1.1–1.3 + scene components live
+- [ ] T-043 Auto-rickshaw + HIVR van props (sprite-based placed objects) for the lane's auto stand and Ravi's shuttle (ADR-121 left them undrawn)
 
 ## Done — P6 Phone · fullscreen map · HUD · menus (style board, ADR-113/114)
 - [x] T-032 P6a (approved 2026-10-13) — font pipeline (Pixelify Sans → bitmap `px`/`pxb`), UI palette + tokens, UI-kit molecules (5 states), PhoneScene: frame, status bar, home 4×3 + dock, Chats (list + thread), UPI, Maps (list), stubs; DND-aware buzz + unlock pop; playground preset `phone-day-3`

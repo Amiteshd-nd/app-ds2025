@@ -219,7 +219,7 @@ export interface NegotiationDef {
 }
 
 // --- Districts -------------------------------------------------------------
-export type TransitKind = 'walk' | 'bus' | 'metro' | 'scooter' | 'cab';
+export type TransitKind = 'walk' | 'bus' | 'metro' | 'scooter' | 'cab' | 'auto';
 
 /** What must be true before the player may enter a district. */
 export interface DistrictUnlock {
@@ -238,6 +238,8 @@ export interface DistrictNpcRef {
   spawn: string;
   /** The NPC is gone once this flag is set — the owner who took your token (ADR-96). */
   unlessFlag?: string;
+  /** The NPC is here only once this flag is set — Sameer and Ravi at the gate after the workday (ADR-121). */
+  requiresFlag?: string;
 }
 
 /** A placed object positioned by data rather than in Tiled. */
@@ -271,8 +273,12 @@ export interface DistrictExit {
   fare?: number;
   /** Card text shown during the ride; defaults to "<transit> → <district name>". */
   card?: string;
-  /** Toast shown when the destination is still locked ("Gate is locked…"). */
+  /** Toast shown when the destination is still locked ("Gate is locked…") or `requiresFlag` is not yet set. */
   lockedText?: string;
+  /** The ride needs this flag (a fare agreed with a driver); boarding spends it, so the next ride is bargained again (ADR-121). */
+  requiresFlag?: string;
+  /** Game minutes the journey takes — the clock jumps on arrival (a 40-minute walk makes you late; ADR-121). */
+  minutes?: number;
 }
 
 /** A zone that announces itself on the bus (`zone:reached`) so quests can react. */
@@ -282,6 +288,8 @@ export interface DistrictTrigger {
   once?: boolean;
   /** Never fires once this flag is set — a phone call that must not ring twice. */
   unlessFlag?: string;
+  /** Fires only once this flag is set — the office door waits until Divya has been found (ADR-121). */
+  requiresFlag?: string;
   /** Flags set on entry — a silent breadcrumb (the HIVR lanyard man). */
   setFlags?: string[];
   /** Dialogue opened on entry — a phone call in the room, a thought at a window. */

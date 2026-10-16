@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { getDistrict } from '../data';
 import { useGameStore } from '../store';
+import { TimeManager } from '../systems/TimeManager';
 import { FADE_MS, GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS, TRANSIT_CARD_MS } from '../utils/constants';
 import type { TransitSceneData, WorldSceneData } from './WorldScene';
 
@@ -31,7 +32,10 @@ export class TransitScene extends Phaser.Scene {
     this.cameras.main.setRoundPixels(true);
     this.cameras.main.setBackgroundColor('#000000');
 
-    if (data.exit.transit === 'walk') {
+    // The journey takes game time (ADR-121): a 40-minute walk can make you late.
+    if (data.exit.minutes) TimeManager.getInstance().advance(data.exit.minutes);
+
+    if (data.exit.transit === 'walk' && !data.exit.card) {
       this.time.delayedCall(FADE_MS / 2, () => this.arrive());
       return;
     }

@@ -200,6 +200,8 @@ const map = {
         // (story 0.3). Walking off the edge enters it; coming back lands at lane_return.
         { id: 8, name: 'lane_return', point: true, rotation: 0, type: '', visible: true, x: 27 * T + 16, y: TOP_WALK[0] * T + 40, width: 0, height: 0 },
         { id: 9, name: 'lane_zone', rotation: 0, type: '', visible: true, x: (W - 1) * T, y: TOP_WALK[0] * T, width: T, height: (TOP_WALK[1] - TOP_WALK[0] + 1) * T },
+        // West end of the top pavement: the long walk to the ITPL gate (story 1.1, ADR-121) — free, forty minutes.
+        { id: 10, name: 'office_walk', rotation: 0, type: '', visible: true, x: 0, y: TOP_WALK[0] * T, width: T, height: (TOP_WALK[1] - TOP_WALK[0] + 1) * T },
         // The walkable band (pavement, kerb, road) that ambient citizens stay inside.
         { id: 5, name: 'ambient_area', rotation: 0, type: '', visible: true, x: T, y: TOP_WALK[0] * T, width: (W - 2) * T, height: (BOTTOM_WALK[1] - TOP_WALK[0] + 1) * T },
       ],
@@ -241,5 +243,5 @@ writeFileSync(join(assets, 'tilemaps/whitefield_street.tmj'), `${JSON.stringify(
 const solid = collision.filter(Boolean).length;
 console.log(
   `✓ whitefield_street.tmj — ${W}x${H} tiles, ${solid} solid tiles, ` +
-    `${placed.length} placed objects, 9 spawn objects`,
+    `${placed.length} placed objects, 10 spawn objects`,
 );

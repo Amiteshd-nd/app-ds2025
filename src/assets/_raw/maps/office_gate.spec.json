@@ -1,0 +1,373 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 render) \u2192 36x24 tiles, 1.2 m/tile (ADR-120/121). Blocks trace where things MEET THE GROUND. Road y 0-232 is traffic (never walkable); pavement y 232-335 full width with the auto stand left, tea cart, shuttle shelter right; compound wall y 335-403 broken by the pedestrian arch x 838-884 (the boom barrier is for cars); forecourt driveway x 640-900 + side pavements x 540-640 / 900-1035 down to the bottom pavement y 690-745; the entrance canopy x 560-980 y 738-860 is a porch the player walks under to the doors; the building's facade band y 745+ is solid. Prakash's counter is the security cabin (admin_desk), Divya waits at the canopy mouth (lobby), Sameer and Ravi stand on the pavement after 18:00.",
+  "name": "office_gate",
+  "cols": 36,
+  "rows": 24,
+  "units": "px",
+  "blocks": [
+    [
+      0,
+      0,
+      1536,
+      232
+    ],
+    [
+      15,
+      285,
+      45,
+      48
+    ],
+    [
+      1470,
+      285,
+      50,
+      48
+    ],
+    [
+      110,
+      248,
+      195,
+      88
+    ],
+    [
+      320,
+      272,
+      80,
+      60
+    ],
+    [
+      400,
+      292,
+      22,
+      40
+    ],
+    [
+      1180,
+      240,
+      10,
+      94
+    ],
+    [
+      1395,
+      240,
+      10,
+      94
+    ],
+    [
+      1215,
+      298,
+      130,
+      30
+    ],
+    [
+      1358,
+      300,
+      30,
+      30
+    ],
+    [
+      0,
+      335,
+      578,
+      68
+    ],
+    [
+      578,
+      262,
+      54,
+      142
+    ],
+    [
+      632,
+      345,
+      194,
+      50
+    ],
+    [
+      826,
+      318,
+      12,
+      86
+    ],
+    [
+      884,
+      318,
+      12,
+      86
+    ],
+    [
+      905,
+      262,
+      55,
+      142
+    ],
+    [
+      960,
+      318,
+      92,
+      130
+    ],
+    [
+      1052,
+      335,
+      484,
+      68
+    ],
+    [
+      560,
+      432,
+      80,
+      48
+    ],
+    [
+      905,
+      432,
+      80,
+      48
+    ],
+    [
+      0,
+      400,
+      540,
+      290
+    ],
+    [
+      1035,
+      400,
+      501,
+      290
+    ],
+    [
+      595,
+      548,
+      45,
+      92
+    ],
+    [
+      898,
+      548,
+      47,
+      92
+    ],
+    [
+      598,
+      680,
+      42,
+      55
+    ],
+    [
+      898,
+      680,
+      44,
+      55
+    ],
+    [
+      0,
+      745,
+      580,
+      280
+    ],
+    [
+      960,
+      745,
+      576,
+      280
+    ],
+    [
+      640,
+      860,
+      260,
+      165
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "auto_drop",
+      "x": 440,
+      "y": 300
+    },
+    {
+      "name": "gate_evening",
+      "x": 520,
+      "y": 300
+    },
+    {
+      "name": "shuttle_bay",
+      "x": 1140,
+      "y": 300
+    },
+    {
+      "name": "guard",
+      "x": 925,
+      "y": 425
+    },
+    {
+      "name": "admin_desk",
+      "x": 1005,
+      "y": 478
+    },
+    {
+      "name": "lobby",
+      "x": 870,
+      "y": 715
+    }
+  ],
+  "zones": [
+    {
+      "name": "auto_stand",
+      "x": 100,
+      "y": 236,
+      "w": 210,
+      "h": 100
+    },
+    {
+      "name": "walk_out",
+      "x": 0,
+      "y": 232,
+      "w": 45,
+      "h": 105
+    },
+    {
+      "name": "office_arrival",
+      "x": 640,
+      "y": 400,
+      "w": 265,
+      "h": 45
+    },
+    {
+      "name": "office_door",
+      "x": 650,
+      "y": 815,
+      "w": 250,
+      "h": 45
+    },
+    {
+      "name": "ambient_area",
+      "x": 60,
+      "y": 236,
+      "w": 1440,
+      "h": 96
+    }
+  ],
+  "occluders": [
+    {
+      "name": "tree_left",
+      "rect": [
+        0,
+        195,
+        75,
+        95
+      ],
+      "base": 330,
+      "mode": "key",
+      "bg": [
+        [
+          80,
+          250,
+          30,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          35,
+          230
+        ]
+      ]
+    },
+    {
+      "name": "tree_right",
+      "rect": [
+        1462,
+        185,
+        74,
+        105
+      ],
+      "base": 330,
+      "mode": "key",
+      "bg": [
+        [
+          1430,
+          250,
+          30,
+          30
+        ]
+      ],
+      "seeds": [
+        [
+          1500,
+          225
+        ]
+      ]
+    },
+    {
+      "name": "umbrella",
+      "rect": [
+        312,
+        222,
+        95,
+        62
+      ],
+      "base": 332,
+      "mode": "key",
+      "bg": [
+        [
+          430,
+          250,
+          60,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          358,
+          250
+        ]
+      ]
+    },
+    {
+      "name": "shelter_roof",
+      "rect": [
+        1175,
+        232,
+        235,
+        32
+      ],
+      "base": 334,
+      "mode": "rect"
+    },
+    {
+      "name": "pillar_left",
+      "rect": [
+        578,
+        262,
+        54,
+        75
+      ],
+      "base": 402,
+      "mode": "rect"
+    },
+    {
+      "name": "pillar_right",
+      "rect": [
+        905,
+        262,
+        55,
+        75
+      ],
+      "base": 402,
+      "mode": "rect"
+    },
+    {
+      "name": "canopy",
+      "rect": [
+        560,
+        738,
+        420,
+        122
+      ],
+      "base": 860,
+      "mode": "rect"
+    }
+  ]
+}

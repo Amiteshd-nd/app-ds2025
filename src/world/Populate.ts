@@ -29,13 +29,18 @@ export function npcs(
   spawnLayer: string | undefined,
   /** Static group the NPCs' feet join: people are solid (AUDIT_LOG P5). */
   bodies?: Phaser.Physics.Arcade.StaticGroup,
+  /** Place only these refs — WorldScene adds late arrivals (requiresFlag) after the workday. */
+  only?: (ref: DistrictDef['npcs'] extends (infer R)[] | undefined ? R : never) => boolean,
 ): Phaser.GameObjects.Sprite[] {
   const sprites: Phaser.GameObjects.Sprite[] = [];
 
   const { flags } = useGameStore.getState();
   for (const ref of district.npcs ?? []) {
+    if (only && !only(ref)) continue;
     // Gone for good once their flag is set (ADR-96) — the token man does not come back.
     if (ref.unlessFlag && flags[ref.unlessFlag]) continue;
+    // Not here until their flag is set (ADR-121) — Sameer and Ravi appear at the gate after the workday.
+    if (ref.requiresFlag && !flags[ref.requiresFlag]) continue;
     const npc = NPCS[ref.id];
     const obj = findObject(map, spawnLayer, ref.spawn);
 

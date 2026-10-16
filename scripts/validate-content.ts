@@ -27,7 +27,7 @@ const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
 const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation'];
-const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab'];
+const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
 const SKILL_BRANCHES = Object.keys(SKILL_TIER_NAMES);
 const QUEST_TYPE_LIST: string[] = [...QUEST_TYPES];
 const NPC_TIER_LIST: number[] = [...NPC_TIERS];
@@ -171,6 +171,9 @@ export function validateContent(
       if (ref.unlessFlag !== undefined && (typeof ref.unlessFlag !== 'string' || !ref.unlessFlag)) {
         add(where, `${d} NPC "${ref.id}" unlessFlag must be a flag name`);
       }
+      if (ref.requiresFlag !== undefined && (typeof ref.requiresFlag !== 'string' || !ref.requiresFlag)) {
+        add(where, `${d} NPC "${ref.id}" requiresFlag must be a flag name`);
+      }
       const other = claimed.get(ref.spawn);
       if (other) add(where, `${d}: NPC "${ref.id}" and "${other}" both claim spawn "${ref.spawn}"`);
       else claimed.set(ref.spawn, ref.id);
@@ -203,6 +206,12 @@ export function validateContent(
       if (exit.fare !== undefined && (!Number.isInteger(exit.fare) || exit.fare < 0)) {
         add(where, `${d} exit "${exit.zone}" fare must be a non-negative integer`);
       }
+      if (exit.minutes !== undefined && (!Number.isInteger(exit.minutes) || exit.minutes < 0 || exit.minutes > 600)) {
+        add(where, `${d} exit "${exit.zone}" minutes must be a whole number of game minutes, 0–600`);
+      }
+      if (exit.requiresFlag !== undefined && (typeof exit.requiresFlag !== 'string' || !exit.requiresFlag)) {
+        add(where, `${d} exit "${exit.zone}" requiresFlag must be a flag name`);
+      }
       if (exit.lockedText !== undefined && typeof exit.lockedText !== 'string') {
         add(where, `${d} exit "${exit.zone}" lockedText must be a string`);
       } else if (exit.lockedText) {
@@ -215,6 +224,9 @@ export function validateContent(
       if (trigger.action !== undefined && !['sleep', 'workday'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday)`);
       if (trigger.unlessFlag !== undefined && (typeof trigger.unlessFlag !== 'string' || !trigger.unlessFlag)) {
         add(where, `${d} trigger "${trigger.zone}" unlessFlag must be a flag name`);
+      }
+      if (trigger.requiresFlag !== undefined && (typeof trigger.requiresFlag !== 'string' || !trigger.requiresFlag)) {
+        add(where, `${d} trigger "${trigger.zone}" requiresFlag must be a flag name`);
       }
       if (trigger.setFlags !== undefined && !Array.isArray(trigger.setFlags)) {
         add(where, `${d} trigger "${trigger.zone}" setFlags must be an array`);

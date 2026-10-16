@@ -4,7 +4,7 @@
   "act": 1,
   "seq": "1.2",
   "title": "The Intern",
-  "status": "P7-draft",
+  "status": "P7",
   "time": "18:05 Monday, dusk",
   "player_goal": "Go home.",
   "design_goal": "Introduce Ravi as a peer, not a plot device; plant the HIVR shuttle (same box logo as 0.1).",
@@ -58,7 +58,7 @@
     {
       "zone": "auto_stand",
       "to": "whitefield_street",
-      "spawn": "auto_stand",
+      "spawn": "player_spawn",
       "transit": "auto"
     }
   ],

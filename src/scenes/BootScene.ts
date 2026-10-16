@@ -7,7 +7,7 @@ import {
   SPRITE_WIDTH,
   TILE_SIZE,
 } from '../utils/constants';
-import { FONT_URLS, OVERLAY_URLS, PROP_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
+import { BACKDROP_URLS, FONT_URLS, OVERLAY_URLS, PROP_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
 import { motion } from '../ui/tokens';
 import { STREET_FRAMES_KEY } from '../entities/PlacedObject';
 import { MAPS } from '../assets/maps';
@@ -71,6 +71,8 @@ export class BootScene extends Phaser.Scene {
       this.load.image(key, url);
     }
 
+    // Silhouette backdrops (the workday skyline, ADR-121).
+    for (const [key, url] of Object.entries(BACKDROP_URLS)) this.load.image(key, url);
     // Behaviour props (luggage on the carousel).
     for (const [key, url] of Object.entries(PROP_URLS)) {
       this.load.image(key, url);

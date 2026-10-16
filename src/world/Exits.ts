@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
 import { ReputationManager } from '../systems/ReputationManager';
+import { useGameStore } from '../store';
 import { StatsManager } from '../systems/StatsManager';
 import type { DistrictDef, DistrictExit } from '../utils/types';
 import { EntryWatcher, findObject, zoneFromObject } from './Zones';
@@ -46,6 +47,15 @@ export function bind(
           // A locked door says why, once per approach (the watcher re-arms on step-out).
           if (exit.lockedText) gameEvents.emit('ui:toast', { text: exit.lockedText });
           return;
+        }
+        // A ride that needs a fare agreed first (the auto stand): the flag is spent on boarding.
+        if (exit.requiresFlag) {
+          const store = useGameStore.getState();
+          if (!store.flags[exit.requiresFlag]) {
+            if (exit.lockedText) gameEvents.emit('ui:toast', { text: exit.lockedText });
+            return;
+          }
+          store.setFlag(exit.requiresFlag, false);
         }
         // The fare is the first real money sink (game_components §7).
         // Ledger label: the ride's name from its card ("Vayu Vajra KIA-8 → Whitefield · ₹250").

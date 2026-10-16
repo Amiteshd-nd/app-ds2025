@@ -21,7 +21,7 @@ const defaults = {
 
 describe('prerequisite-state builder', () => {
   it('orders scenes by seq', () => {
-    expect(sceneOrder(scenes).map((s) => s.id)).toEqual(['act0_arrivals', 'act0_hotel', 'act0_pg_hunt']);
+    expect(sceneOrder(scenes).map((s) => s.id)).toEqual(['act0_arrivals', 'act0_hotel', 'act0_pg_hunt', 'act1_first_day', 'act1_ravi_intro', 'act1_pg_exit']);
   });
 
   it('scene N gets every earlier scene\'s save_flags and completed quests, none of its own', () => {

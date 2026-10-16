@@ -112,6 +112,14 @@
         "to": "prashanth_layout",
         "spawn": "lane_mouth",
         "transit": "walk"
+      },
+      {
+        "zone": "office_walk",
+        "to": "office_gate",
+        "spawn": "auto_drop",
+        "transit": "walk",
+        "minutes": 40,
+        "card": "Walk → ITPL Gate · 40 min"
       }
     ],
     "realworld": {
@@ -175,7 +183,9 @@
       "quest": "q_act0_arrival"
     },
     "quests": [
-      "q_act0_pg_hunt"
+      "q_act0_pg_hunt",
+      "q_act1_first_day",
+      "q_act1_pg_exit"
     ],
     "npcs": [
       {
@@ -202,6 +212,19 @@
       {
         "id": "npc_provision_basava",
         "spawn": "provision"
+      },
+      {
+        "id": "npc_auto_meter",
+        "spawn": "auto_1"
+      },
+      {
+        "id": "npc_auto_fair",
+        "spawn": "auto_2"
+      },
+      {
+        "id": "npc_auto_kannada",
+        "spawn": "auto_3",
+        "unlessFlag": "auto_kannada_left"
       }
     ],
     "ambient": {
@@ -239,6 +262,16 @@
         "spawn": "door",
         "transit": "walk",
         "lockedText": "Shanthamma's gate is locked. Talk to her first."
+      },
+      {
+        "zone": "auto_stand",
+        "to": "office_gate",
+        "spawn": "auto_drop",
+        "transit": "auto",
+        "minutes": 15,
+        "requiresFlag": "auto_fare_paid",
+        "lockedText": "Agree a fare with one of the drivers first — or walk from the main road.",
+        "card": "Auto → ITPL Gate"
       }
     ],
     "realworld": {
@@ -248,15 +281,30 @@
       "area": {
         "radiusM": 600,
         "pocket": {
-          "anchor": [12.983473, 77.74908],
-          "anchorTile": [2, 12],
+          "anchor": [
+            12.983473,
+            77.74908
+          ],
+          "anchorTile": [
+            2,
+            12
+          ],
           "bearing": 110,
           "metresPerTile": 1.2,
-          "tiles": [36, 24],
-          "streets": ["1st Main Road", "3rd Cross Road"]
+          "tiles": [
+            36,
+            24
+          ],
+          "streets": [
+            "1st Main Road",
+            "3rd Cross Road"
+          ]
         }
       }
-    }
+    },
+    "behaviours": [
+      "pgNoticeTimer"
+    ]
   },
   {
     "id": "shanthamma_pg",
@@ -298,5 +346,121 @@
     "realworld": {
       "parent": "prashanth_layout"
     }
+  },
+  {
+    "id": "office_gate",
+    "name": "ITPL Gate",
+    "map": "office_gate",
+    "defaultSpawn": "auto_drop",
+    "fadeMs": 400,
+    "realworld": {
+      "lat": 12.98741,
+      "lng": 77.7366,
+      "label": "ITPL Gate",
+      "area": {
+        "radiusM": 600,
+        "pocket": {
+          "anchor": [
+            12.987409,
+            77.736602
+          ],
+          "anchorTile": [
+            18,
+            7
+          ],
+          "bearing": 91,
+          "metresPerTile": 1.2,
+          "tiles": [
+            36,
+            24
+          ],
+          "streets": [
+            "Whitefield Road"
+          ]
+        }
+      }
+    },
+    "signal": 4,
+    "unlock": {
+      "quest": "q_act0_pg_hunt"
+    },
+    "quests": [
+      "q_act1_first_day",
+      "q_act1_ravi_intro"
+    ],
+    "npcs": [
+      {
+        "id": "npc_office_guard",
+        "spawn": "guard"
+      },
+      {
+        "id": "npc_prakash",
+        "spawn": "admin_desk"
+      },
+      {
+        "id": "npc_divya",
+        "spawn": "lobby"
+      },
+      {
+        "id": "npc_sameer",
+        "spawn": "gate_evening",
+        "requiresFlag": "act1_first_day_done"
+      },
+      {
+        "id": "npc_ravi",
+        "spawn": "shuttle_bay",
+        "requiresFlag": "act1_first_day_done"
+      }
+    ],
+    "ambient": {
+      "base": [
+        "crowd_techie",
+        "crowd_officegoer",
+        "crowd_hoodie",
+        "crowd_autodriver",
+        "crowd_delivery"
+      ],
+      "count": 8,
+      "area": "ambient_area"
+    },
+    "triggers": [
+      {
+        "zone": "office_arrival",
+        "setFlags": [
+          "office_arrived"
+        ],
+        "unlessFlag": "office_arrived"
+      },
+      {
+        "zone": "office_door",
+        "action": "workday",
+        "requiresFlag": "divya_met_monday",
+        "setFlags": [
+          "act1_first_day_done"
+        ]
+      }
+    ],
+    "exits": [
+      {
+        "zone": "auto_stand",
+        "to": "whitefield_street",
+        "spawn": "player_spawn",
+        "transit": "auto",
+        "fare": 80,
+        "minutes": 15,
+        "card": "Auto → Whitefield · ₹80"
+      },
+      {
+        "zone": "walk_out",
+        "to": "whitefield_street",
+        "spawn": "player_spawn",
+        "transit": "walk",
+        "minutes": 40,
+        "card": "Walk → Whitefield · 40 min"
+      }
+    ],
+    "behaviours": [
+      "officeClockIn"
+    ]
   }
 ]

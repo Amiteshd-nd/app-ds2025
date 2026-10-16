@@ -55,7 +55,7 @@ export const FLAG = {
 } as const;
 
 /** Relative cost of a km by each way of travelling (bus beats walking a long way). */
-const COST_PER_KM: Record<TransitKind, number> = { walk: 1, bus: 0.4, metro: 0.3, scooter: 0.5, cab: 0.5 };
+const COST_PER_KM: Record<TransitKind, number> = { walk: 1, bus: 0.4, metro: 0.3, scooter: 0.5, cab: 0.5, auto: 0.5 };
 /** Familiarity ★: district standing at which each star lights (Hosa → Gothu → Namma, ADR-26). */
 export const FAMILIARITY_STARS = [1, 5, 15, 30, 60] as const;
 

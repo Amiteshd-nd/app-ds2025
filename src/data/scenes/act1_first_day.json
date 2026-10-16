@@ -4,7 +4,7 @@
   "act": 1,
   "seq": "1.1",
   "title": "Monday",
-  "status": "P7-draft",
+  "status": "P7",
   "time": "08:15 Monday, clear",
   "player_goal": "Reach the office by 9:30 using Maps.",
   "design_goal": "Navigation across pockets, autos as three temperaments (haggle / meter / Kannada puzzle), lateness as a cost, the first key item, the workday as a reusable time jump. The office interior is never shown.",
@@ -16,28 +16,10 @@
     "Curious"
   ],
   "entry": {
-    "from": "whitefield_street",
+    "from": "prashanth_layout",
     "spawn": "auto_drop"
   },
   "cast": [
-    {
-      "npc": "npc_auto_meter",
-      "tier": 2,
-      "spawn": "auto_1",
-      "role": "'Meter illa, ₹150' — firm haggle (neg_auto_meter), floor ₹100"
-    },
-    {
-      "npc": "npc_auto_fair",
-      "tier": 2,
-      "spawn": "auto_2",
-      "role": "By the meter, ₹80; +1 rep for trusting him"
-    },
-    {
-      "npc": "npc_auto_kannada",
-      "tier": 2,
-      "spawn": "auto_3",
-      "role": "Kannada only: 'Meter haaki' = ₹80 + XP; English = ₹120; 'Hogu' = he leaves"
-    },
     {
       "npc": "npc_office_guard",
       "tier": 2,
@@ -60,7 +42,7 @@
       "npc": "npc_sameer",
       "tier": 2,
       "spawn": "gate_evening",
-      "role": "Appears at 18:00 (unlessFlag before act1_first_day_done); shares number → met_sameer"
+      "role": "Appears at the gate after the workday (requiresFlag act1_first_day_done); shares number → met_sameer"
     }
   ],
   "quests": [
@@ -123,8 +105,14 @@
     {
       "zone": "auto_stand",
       "to": "whitefield_street",
-      "spawn": "auto_stand",
+      "spawn": "player_spawn",
       "transit": "auto"
+    },
+    {
+      "zone": "walk_out",
+      "to": "whitefield_street",
+      "spawn": "player_spawn",
+      "transit": "walk"
     }
   ],
   "save_flags": [

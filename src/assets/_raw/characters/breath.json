@@ -528,5 +528,115 @@
    "waist_y": 30,
    "enabled": false
   }
+ },
+ "npc_prakash": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_divya": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_sameer": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_ravi": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_auto_driver": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
  }
 }

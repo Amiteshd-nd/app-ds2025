@@ -28,6 +28,7 @@ import {
 } from '../utils/constants';
 import type { DistrictDef, DistrictExit } from '../utils/types';
 import type { HudScene, HudSceneData } from './HudScene';
+import type { WorkdaySceneData } from './WorkdayScene';
 
 export interface WorldSceneData {
   districtId: string;
@@ -61,6 +62,7 @@ export class WorldScene extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap;
   private player!: Player;
   private npcs: Phaser.GameObjects.Sprite[] = [];
+  private npcBodies!: Phaser.Physics.Arcade.StaticGroup;
   private crowd!: Populate.Crowd;
   private exits!: Exits.BoundExits;
   private triggers!: Triggers.BoundTriggers;
@@ -132,6 +134,7 @@ export class WorldScene extends Phaser.Scene {
     colliders.push(shapes.blocks);
 
     const npcBodies = this.physics.add.staticGroup();
+    this.npcBodies = npcBodies;
     this.npcs = Populate.npcs(this, this.district, this.map, def.spawnLayer, npcBodies);
     this.physics.add.collider(this.player, npcBodies);
     colliders.push(npcBodies);
@@ -391,15 +394,38 @@ export class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeEffect.reset();
     this.cameras.main.fadeOut(FADE_MS, 0, 0, 0);
     this.cameras.main.once('camerafadeoutcomplete', () => {
-      TimeManager.getInstance().workday();
+      const from = useGameStore.getState().clock;
+      const to = TimeManager.getInstance().workday();
       this.persist();
-      this.cameras.main.fadeEffect.reset();
-      this.cameras.main.fadeIn(FADE_MS, 0, 0, 0);
-      this.cameras.main.once('camerafadeincomplete', () => {
-        this.sleeping = false;
-        this.player.setInteractionEnabled(true);
+      // The skyline time-lapse plays over the black; when it is done, the evening fades in.
+      this.scene.launch(SCENE_KEYS.WORKDAY, { day: from.day, from: from.minute, to: to.minute } satisfies WorkdaySceneData);
+      this.scene.bringToTop(SCENE_KEYS.WORKDAY);
+      this.scene.bringToTop(SCENE_KEYS.ORIENTATION);
+      this.scene.get(SCENE_KEYS.WORKDAY).events.once('workday:done', () => {
+        this.scene.stop(SCENE_KEYS.WORKDAY);
+        this.arrivals();
+        this.cameras.main.fadeEffect.reset();
+        this.cameras.main.fadeIn(FADE_MS, 0, 0, 0);
+        this.cameras.main.once('camerafadeincomplete', () => {
+          this.sleeping = false;
+          this.player.setInteractionEnabled(true);
+        });
       });
     });
+  }
+
+  /**
+   * Time passed inside this place (the workday): NPCs whose `requiresFlag` is
+   * now set walk on, and quests that have just become startable start —
+   * Sameer and Ravi at the gate at 18:00, with "The Intern" ready to play.
+   */
+  private arrivals(): void {
+    const def = MAPS[this.district.map];
+    const { flags } = useGameStore.getState();
+    const present = new Set(this.npcs.map((n) => n.getData('npcId') as string));
+    const late = Populate.npcs(this, this.district, this.map, def.spawnLayer, this.npcBodies, (ref) => Boolean(ref.requiresFlag && flags[ref.requiresFlag]) && !present.has(ref.id));
+    this.npcs.push(...late);
+    for (const questId of this.district.quests ?? []) QuestManager.getInstance().start(questId);
   }
 
   /** Hand over to TransitScene, which fades, shows the ride card and lands us. */

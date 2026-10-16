@@ -83,6 +83,10 @@ const propModules = import.meta.glob('./props/*.png', {
 
 export const PROP_URLS: Record<string, string> = byBasename(propModules);
 
+// Flat silhouette backdrops (scripts/import-backdrop.mjs): the workday skyline (ADR-121). Keyed by basename.
+const backdropModules = import.meta.glob('./backdrops/*.png', { eager: true, import: 'default', query: '?url' }) as Record<string, string>;
+export const BACKDROP_URLS: Record<string, string> = byBasename(backdropModules);
+
 // Bitmap fonts written by scripts/import-font.mjs (ADR-114): `px` regular and
 // `pxb` pixel bold, each a PNG atlas + AngelCode BMFont XML.
 const fontModules = import.meta.glob('./fonts/*.{png,xml}', {

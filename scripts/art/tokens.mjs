@@ -56,6 +56,16 @@ export const TOKEN_INDEX = {
   'plaster.pastel': 43,
   'plaster.ochre': 39,
   'tank.black': 0,
+  // ── Workday skyline card (ADR-121): the sky's day, in the world's own colours ──
+  'sky.morning': 15,     // the one blue the palette has
+  'sky.noon': 43,        // pale, washed
+  'sky.afternoon': 39,   // ochre
+  'sky.evening': 38,     // amber
+  'sky.dusk': 11,        // brick red
+  'sky.night': 1,        // near-black warm
+  'sky.sun': 44,
+  'sky.moon': 47,
+  'sky.silhouette': 0,
   'grille': 1,
   'wood': 4,
   'wood.lit': 20,
@@ -178,6 +188,9 @@ export const MOTION_TOKENS = {
   'm.hud.saved': 1200,          // the SAVED glyph
   /** Prompt bubbles and the dialogue chevron bob 1px at this period, ms. */
   'm.hud.bob': 500,
+  /** Workday skyline card (ADR-121): 09:30 → 18:00 in this many ms, in this many steps (reduced motion: one frame). */
+  'm.workday': 6000,
+  'm.workday.steps': 12,
 };
 
 /**

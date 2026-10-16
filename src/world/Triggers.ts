@@ -44,6 +44,7 @@ export function bind(
       new EntryWatcher(scene, player, zone, () => {
         if (fired && trigger.once !== false) return;
         if (trigger.unlessFlag && useGameStore.getState().flags[trigger.unlessFlag]) return;
+        if (trigger.requiresFlag && !useGameStore.getState().flags[trigger.requiresFlag]) return;
         fired = true;
         for (const flag of trigger.setFlags ?? []) useGameStore.getState().setFlag(flag, true);
         gameEvents.emit('zone:reached', { zoneId: trigger.zone, districtId: district.id });

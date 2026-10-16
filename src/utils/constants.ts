@@ -193,6 +193,8 @@ export const SCENE_KEYS = Object.freeze({
   HUD: 'HudScene',
   /** Pause / Settings / Save / Load / About (P6d, ADR-119). Started by Boot, never stopped; opens over the world or the title. */
   MENU: 'MenuScene',
+  /** The workday skyline time-lapse (story 1.1 F4, ADR-121), shown inside the office door's fade. */
+  WORKDAY: 'WorkdayScene',
   /** "Rotate your phone" over everything while a touch device is held in portrait (mobile foundation rule 4). */
   ORIENTATION: 'OrientationScene',
 });

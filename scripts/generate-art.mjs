@@ -22,6 +22,7 @@ import { importMap } from './import-map.mjs';
 import { importTitle } from './import-title.mjs';
 import { importBreath } from './import-breath.mjs';
 import { importProps } from './import-props.mjs';
+import { importBackdrops } from './import-backdrop.mjs';
 import { importFont } from './import-font.mjs';
 
 // Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
@@ -92,6 +93,7 @@ for (const file of readdirSync(mapRaw).filter((f) => f.endsWith('.spec.json')).s
 
 // ── Props: luggage and other behaviour-placed objects ──────────────────────
 await importProps();
+await importBackdrops();
 
 // ── Title screen: imported from _raw/title/ (ADR-101) ──────────────────────
 await importTitle();

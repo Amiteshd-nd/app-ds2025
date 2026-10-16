@@ -3506,6 +3506,17 @@
      "height": 96
     },
     {
+     "id": 10,
+     "name": "office_walk",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 0,
+     "y": 160,
+     "width": 32,
+     "height": 96
+    },
+    {
      "id": 5,
      "name": "ambient_area",
      "rotation": 0,
