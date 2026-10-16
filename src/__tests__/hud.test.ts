@@ -7,7 +7,7 @@ import { StatsManager } from '../systems/StatsManager';
 import { useGameStore } from '../store';
 import { DIALOGUE, layoutDialogue, onCard, pillAt, pillWidth } from '../ui/hud/dialogue';
 import { HUD_GLYPHS } from '../ui/hud/glyphs';
-import { HUD, STICK_RADIUS, TYPEWRITER_MS, plateWidth, stickZone, touchLayout } from '../ui/hud/layout';
+import { HUD, STICK_RADIUS, TYPEWRITER_MS, hudLayout, plateWidth, stickZone, touchLayout } from '../ui/hud/layout';
 import {
   METER_BITES, METER_SHOWS, ToastQueue, clockGlyph, clockLabel, locationCard, meters, objectiveLine, objectiveText, promptLabel, revealedChars, stackRows,
   toastLayout, walletView,
@@ -79,6 +79,16 @@ describe('HUD layout promises (ADR-118)', () => {
     expect(l.h).toBe(DIALOGUE.minH);
     expect(l.y).toBeGreaterThan(HUD.pad + 3 * (HUD.plateH + HUD.stackGap) + 3 * (HUD.meter.h + HUD.meter.gap));
     expect(HUD.safeBottom).toBe(GAME_HEIGHT - 20);
+  });
+
+  it('at 2× (Larger text) the plates still fit a 320×180 virtual canvas', () => {
+    const L = hudLayout(2);
+    expect([L.W, L.H]).toEqual([320, 180]);
+    expect(L.phoneButton.x + L.phoneButton.size).toBe(L.W - L.pad);
+    const clockW = plateWidth(measure(clockLabel({ day: 99, minute: 23 * 60 + 59 }), true), 9);
+    expect(L.objective.x + plateWidth(L.objective.maxTextW, 7)).toBeLessThan(L.right - clockW);
+    expect(L.toast.cy + 10).toBeLessThanOrEqual(L.safeBottom);
+    expect(L.locationMaxTextW + 60).toBeLessThan(L.W);
   });
 
   it('every HUD glyph is a rectangle of . and #', () => {
@@ -163,17 +173,18 @@ describe('HUD view-models', () => {
   it('toasts: one at a time, in order, each for its hold; duplicates collapse; wraps to two lines', () => {
     const q = new ToastQueue(1000, 3);
     expect(q.tick(0)).toBeNull();
-    q.push({ text: 'A' }, 0);
-    q.push({ text: 'A' }, 0); // collapsed
-    q.push({ text: 'B' }, 0);
+    q.push({ text: 'A' });
+    q.push({ text: 'A' }); // collapsed
+    q.push({ text: 'B' });
     expect(q.tick(0)?.text).toBe('A');
     expect(q.pending).toBe(1);
     expect(q.nextChange()).toBe(1000);
     expect(q.tick(999)?.text).toBe('A');
     expect(q.tick(1000)?.text).toBe('B');
     expect(q.tick(2000)).toBeNull();
-    for (const t of ['1', '2', '3', '4', '5']) q.push({ text: t }, 3000);
+    q.push({ text: '1' });
     expect(q.tick(3000)?.text).toBe('1');
+    for (const t of ['2', '3', '4', '5']) q.push({ text: t });
     expect(q.pending).toBe(3); // the cap: the oldest waiting ('2') was dropped
     expect(q.tick(4000)?.text).toBe('3');
     const long = toastLayout({ text: 'Company booking: 3 nights. Find a PG before it runs out. And the hotel does not extend, whatever you say.' });

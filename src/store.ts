@@ -93,8 +93,8 @@ export interface GameState {
   transactions: Transaction[];
   /** Phone state: chat message ids delivered and read. Saved. */
   phone: PhoneState;
-  /** A full-screen overlay over the world (the phone; later the map and pause menu). Hides the HUD. Not saved. */
-  overlay: 'phone' | 'map' | null;
+  /** A full-screen overlay over the world (the phone, the map, the pause menu). Hides the HUD. Not saved. */
+  overlay: 'phone' | 'map' | 'menu' | null;
   /** A destination the player set on the map (district id); wins over the quest's. Not saved. */
   mapDestination: string | null;
 
@@ -125,7 +125,7 @@ export interface GameState {
   /** Append to the UPI ledger (StatsManager does this on every spend/earn). */
   addTransaction: (tx: Transaction) => void;
   setPhone: (phone: PhoneState) => void;
-  setOverlay: (overlay: 'phone' | 'map' | null) => void;
+  setOverlay: (overlay: 'phone' | 'map' | 'menu' | null) => void;
   setMapDestination: (districtId: string | null) => void;
 
   hydrate: (partial: Partial<GameState>) => void;

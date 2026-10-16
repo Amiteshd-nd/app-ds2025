@@ -36,7 +36,7 @@ export function objectiveLine(quests: QuestState, catalogue: Record<string, Ques
 }
 
 /** The objective text cut to its plate; mixed case (content, not a label). */
-export const objectiveText = (line: string): string => truncate(line, HUD.objective.maxTextW);
+export const objectiveText = (line: string, maxTextW = HUD.objective.maxTextW): string => truncate(line, maxTextW);
 
 // ── Clock ────────────────────────────────────────────────────────────────
 
@@ -63,8 +63,8 @@ export interface LocationCard {
   isNew: boolean;
 }
 
-export const locationCard = (districtName: string, firstVisit: boolean): LocationCard => ({
-  name: truncate(districtName.toUpperCase(), HUD.locationMaxTextW, true),
+export const locationCard = (districtName: string, firstVisit: boolean, maxTextW = HUD.locationMaxTextW): LocationCard => ({
+  name: truncate(districtName.toUpperCase(), maxTextW, true),
   isNew: firstVisit,
 });
 
@@ -173,12 +173,12 @@ export class ToastQueue {
 
   constructor(private holdMs: number, private max = 8) {}
 
-  push(toast: Toast, now: number): void {
+  /** Enqueue. Nothing shows until the next tick(), so a toast raised while the HUD is hidden waits for it. */
+  push(toast: Toast): void {
     const last = this.queue[this.queue.length - 1] ?? this.current?.toast;
     if (last && last.text === toast.text) return;
     if (this.queue.length >= this.max) this.queue.shift();
     this.queue.push(toast);
-    this.advance(now);
   }
 
   /** The toast to show at `now`, or null. Call every frame or on a timer. */

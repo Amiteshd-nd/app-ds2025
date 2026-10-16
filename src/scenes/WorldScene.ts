@@ -201,6 +201,7 @@ export class WorldScene extends Phaser.Scene {
     this.scene.bringToTop(SCENE_KEYS.PHONE);
     this.scene.launch(SCENE_KEYS.MAP);
     this.scene.bringToTop(SCENE_KEYS.MAP);
+    this.scene.bringToTop(SCENE_KEYS.MENU);
     this.scene.bringToTop(SCENE_KEYS.ORIENTATION);
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
@@ -387,12 +388,18 @@ export class WorldScene extends Phaser.Scene {
     } satisfies TransitSceneData);
   }
 
+  /** Where a save should put the player back: this district, these pixels. */
+  savePosition(): { districtId: string; x: number; y: number } {
+    return { districtId: this.district.id, x: this.player.x, y: this.player.y };
+  }
+
+  /** Autosave now (the pause menu opening, the app going to the background). */
+  saveNow(): void {
+    this.persist();
+  }
+
   private persist(): void {
-    SaveManager.getInstance().save({
-      districtId: this.district.id,
-      x: this.player.x,
-      y: this.player.y,
-    });
+    SaveManager.getInstance().save(this.savePosition());
   }
 
   /** The phone (and later the map / pause menu) may open only while the player is free to act. */

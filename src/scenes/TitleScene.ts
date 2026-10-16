@@ -4,6 +4,8 @@ import { SaveManager } from '../systems/SaveManager';
 import { useGameStore } from '../store';
 import { platform } from '../platform';
 import { color, hex } from '../ui/tokens';
+import { attachGamepad, PAD } from '../ui/kit/gamepad';
+import type { MenuScene } from './MenuScene';
 import type { WorldSceneData } from './WorldScene';
 
 /** Draw order, back to front. */
@@ -20,8 +22,8 @@ const FG_TOP = 255; // where the foreground cut-out starts
 const LAMPS: Array<[number, number]> = [[99, 223], [220, 223], [359, 225], [476, 225], [625, 225], [571, 246]];
 const TRAFFIC = ['title_auto', 'title_bus', 'title_car', 'title_scooter', 'title_auto', 'title_car'];
 const MENU_X = 252;
-const MENU_Y = 300;
-const MENU_GAP = 16;
+const MENU_Y = 292;
+const MENU_GAP = 15;
 
 /**
  * TitleScene — Bengaluru at golden hour, seen from a park on a rise (ADR-101).
@@ -41,7 +43,7 @@ export class TitleScene extends Phaser.Scene {
 
   private selectedIndex = 0;
   private menuItems: Phaser.GameObjects.Text[] = [];
-  private menuOptions = ['New Game', 'Continue', 'Settings'];
+  private menuOptions = ['New Game', 'Continue', 'Load Game', 'Settings'];
   private statusText!: Phaser.GameObjects.Text;
   private cursor!: Phaser.GameObjects.Image;
   private still = false;
@@ -75,6 +77,24 @@ export class TitleScene extends Phaser.Scene {
     this.createLogo();
     this.createMenu();
     this.setupInput();
+    // The pause/settings menu and the rotate panel stay above the title.
+    this.scene.bringToTop(SCENE_KEYS.MENU);
+    this.scene.bringToTop(SCENE_KEYS.ORIENTATION);
+  }
+
+  /** While the Load / Settings menu is up, the title's own menu sleeps. */
+  private get menuUp(): boolean {
+    return useGameStore.getState().overlay !== null;
+  }
+
+  private menu(): MenuScene | null {
+    return this.scene.isActive(SCENE_KEYS.MENU) ? (this.scene.get(SCENE_KEYS.MENU) as MenuScene) : null;
+  }
+
+  /** The menu loaded a slot: fade into the world at its saved spot. */
+  startWorldAt(position: { districtId: string; x: number; y: number }): void {
+    if (this.leaving) return;
+    this.fadeToScene(SCENE_KEYS.WORLD, position satisfies WorldSceneData);
   }
 
   // ── The living city ───────────────────────────────────────────────────────
@@ -257,8 +277,8 @@ export class TitleScene extends Phaser.Scene {
       const text = this.add.text(MENU_X, MENU_Y + index * MENU_GAP, option, this.textStyle(11))
         .setOrigin(0, 0.5).setDepth(Z.menu);
       text.setInteractive({ useHandCursor: true });
-      text.on('pointerover', () => { this.selectedIndex = index; this.updateMenuDisplay(); });
-      text.on('pointerdown', () => { this.selectedIndex = index; this.confirmSelection(); });
+      text.on('pointerover', () => { if (this.menuUp) return; this.selectedIndex = index; this.updateMenuDisplay(); });
+      text.on('pointerdown', () => { if (this.menuUp) return; this.selectedIndex = index; this.confirmSelection(); });
       this.menuItems.push(text);
     });
 
@@ -273,7 +293,7 @@ export class TitleScene extends Phaser.Scene {
 
     this.add.text(8, GAME_HEIGHT - 10, '© 2026 Bangalore Times', this.textStyle(7)).setOrigin(0, 0.5).setDepth(Z.menu);
     this.add.text(GAME_WIDTH - 8, GAME_HEIGHT - 10, 'Made in Bengaluru', this.textStyle(7)).setOrigin(1, 0.5).setDepth(Z.menu);
-    this.statusText = this.add.text(MENU_X, MENU_Y + 3 * MENU_GAP + 2, '', this.textStyle(8))
+    this.statusText = this.add.text(MENU_X, MENU_Y + this.menuOptions.length * MENU_GAP + 2, '', this.textStyle(8))
       .setOrigin(0, 0.5).setDepth(Z.menu).setColor(hex('ui.focus'));
 
     this.updateMenuDisplay();
@@ -289,9 +309,15 @@ export class TitleScene extends Phaser.Scene {
     keyboard.on('keydown-S', () => this.moveSelection(1));
     keyboard.on('keydown-ENTER', () => this.confirmSelection());
     keyboard.on('keydown-SPACE', () => this.confirmSelection());
+    const offPad = attachGamepad(this, {
+      button: (b) => { if (b === PAD.A || b === PAD.START) this.confirmSelection(); },
+      dir: (d) => { if (d === 'up' || d === 'down') this.moveSelection(d === 'up' ? -1 : 1); },
+    }, () => !this.menuUp && !this.leaving);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, offPad);
   }
 
   private moveSelection(direction: number): void {
+    if (this.menuUp) return;
     this.selectedIndex = Phaser.Math.Wrap(this.selectedIndex + direction, 0, this.menuOptions.length);
     this.updateMenuDisplay();
   }
@@ -307,7 +333,7 @@ export class TitleScene extends Phaser.Scene {
   }
 
   private confirmSelection(): void {
-    if (this.leaving) return;
+    if (this.leaving || this.menuUp) return;
     // The first confirm on the title screen is the user gesture that unlocks
     // audio on iOS/Android (mobile foundation rule 8); nothing plays before it.
     void platform.audio.unlock();
@@ -319,8 +345,11 @@ export class TitleScene extends Phaser.Scene {
       case 'Continue':
         this.continueGame();
         break;
+      case 'Load Game':
+        this.menu()?.open({ mode: 'title', screen: 'load' });
+        break;
       case 'Settings':
-        this.statusText.setText('Settings arrive with the phone (P6).');
+        this.menu()?.open({ mode: 'title', screen: 'settings' });
         break;
     }
   }

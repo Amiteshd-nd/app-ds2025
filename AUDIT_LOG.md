@@ -115,3 +115,8 @@ Updated: 2026-10-12
 
 ### [Map Area view — approved] — 2026-10-13, confirmed 2026-10-16
 - Decision: "Area view approved, start P6c" (user, 2026-10-16) — the OpenStreetMap Area view (ADR-117) stands with no corrections; P6c (T-034) begins.
+
+### [P6c HUD — approved] — 2026-10-16
+- Decision: "approved, start P6d" — the in-canvas HUD, dialogue card, touch controls and rotate panel (ADR-118) stand with no corrections; the art-director calls listed in ADR-118 (4 s / 5 s / 3 s holds, wallet after payment only, meter thresholds, tiers dropped from the always-on HUD) are confirmed.
+- Rule going forward: **nothing the player sees in play is DOM** — HUD, prompts, toasts, dialogue, touch controls and menus are Phaser scenes in the bitmap font; the React shell is the canvas and the host's back pill only.
+- Rule going forward: **a scene that subscribes to the store or the event bus unsubscribes on SHUTDOWN and DESTROY** (the host remounts the game; a leaked listener bakes into a dead renderer).

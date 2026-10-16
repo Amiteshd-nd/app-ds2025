@@ -11,6 +11,7 @@ import { bitmap, bitmapWidth, rect, ring, roundRect, type PixelCtx } from '../ui
 import { bake, pxText } from '../ui/kit/phaser';
 import { measure, truncate } from '../ui/kit/text';
 import { nextFocus } from '../ui/kit/focus';
+import { attachGamepad, PAD } from '../ui/kit/gamepad';
 import { ARROWS, PADLOCK, POI_GLYPHS } from '../ui/map/glyphs';
 import { paintBase, runOf, stroke } from '../ui/map/paint';
 import { orthogonal, project, walk, type Projection, type Pt } from '../ui/map/projection';
@@ -107,9 +108,16 @@ export class MapScene extends Phaser.Scene {
     this.input.on('pointerup', this.onUp, this);
     this.input.on('wheel', (_p: unknown, _o: unknown, _dx: number, dy: number) => { if (this.phase === 'open') this.setZoom(dy < 0 ? 2 : 1, [SCREEN.w / 2, SCREEN.h / 2]); });
     const offBack = platform.lifecycle.onBackButton(() => { if (this.phase === 'open') this.close(); });
+    // Gamepad (ADR-119): X opens the map while walking; A sets a destination, B closes, RB zooms, LB toggles CITY/AREA.
+    const PAD_KEYS: Record<number, string> = { [PAD.A]: 'Enter', [PAD.B]: 'Escape', [PAD.X]: 'KeyM', [PAD.RB]: 'KeyZ', [PAD.LB]: 'KeyV', [PAD.Y]: 'KeyF' };
+    const offPad = attachGamepad(this, {
+      button: (b) => { const code = PAD_KEYS[b]; if (code) this.onKey({ code } as KeyboardEvent); },
+      dir: (d) => { if (this.phase === 'open') this.onKey({ code: { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' }[d] } as KeyboardEvent); },
+    });
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       offBack();
       this.input.keyboard?.off('keydown', this.onKey, this);
+      offPad();
       if (this.phase !== 'closed') this.finishClose();
     });
   }

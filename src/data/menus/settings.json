@@ -1,0 +1,102 @@
+{
+  "$comment": "Settings menu (settings_and_saveload §1, ADR-119): sections and rows. Each row edits one atom of settings.defaults.json by path; the validator checks the path exists, the kind matches the atom's type, and every label is drawable by the bitmap font. Labels UPPERCASE (ADR-114). A `note` row is one line of plain text.",
+  "sections": [
+    {
+      "id": "audio", "title": "AUDIO",
+      "rows": [
+        { "kind": "note", "label": "No audio in this build yet — these are ready for it." },
+        { "kind": "slider", "label": "MASTER", "setting": "audio.master", "min": 0, "max": 100, "step": 10 },
+        { "kind": "slider", "label": "MUSIC", "setting": "audio.music", "min": 0, "max": 100, "step": 10 },
+        { "kind": "slider", "label": "SOUND EFFECTS", "setting": "audio.sfx", "min": 0, "max": 100, "step": 10 },
+        { "kind": "slider", "label": "AMBIENCE", "setting": "audio.ambience", "min": 0, "max": 100, "step": 10 },
+        { "kind": "toggle", "label": "MUTE", "setting": "audio.muted" }
+      ]
+    },
+    {
+      "id": "display", "title": "DISPLAY",
+      "rows": [
+        { "kind": "toggle", "label": "FULLSCREEN", "setting": "display.fullscreen" },
+        { "kind": "choice", "label": "PIXEL SCALE", "setting": "display.pixelScale", "options": [
+          { "value": "auto", "label": "AUTO" }, { "value": "1", "label": "1×" }, { "value": "2", "label": "2×" }, { "value": "3", "label": "3×" }
+        ] },
+        { "kind": "toggle", "label": "SCREEN SHAKE", "setting": "display.screenShake" },
+        { "kind": "toggle", "label": "REDUCE FLASHES", "setting": "display.reduceFlashes" }
+      ]
+    },
+    {
+      "id": "gameplay", "title": "GAMEPLAY",
+      "rows": [
+        { "kind": "choice", "label": "DIFFICULTY", "setting": "gameplay.difficulty", "options": [
+          { "value": "relaxed", "label": "RELAXED" }, { "value": "normal", "label": "NORMAL" }
+        ] },
+        { "kind": "note", "label": "Relaxed halves hunger and other survival ticks." },
+        { "kind": "toggle", "label": "DO NOT DISTURB", "setting": "gameplay.doNotDisturb" },
+        { "kind": "toggle", "label": "TUTORIAL HINTS", "setting": "gameplay.tutorialHints" },
+        { "kind": "choice", "label": "DIALOGUE SPEED", "setting": "gameplay.dialogueSpeed", "options": [
+          { "value": "slow", "label": "SLOW" }, { "value": "normal", "label": "NORMAL" }, { "value": "fast", "label": "FAST" }, { "value": "instant", "label": "INSTANT" }
+        ] },
+        { "kind": "toggle", "label": "AUTO-RUN", "setting": "gameplay.autoRun" }
+      ]
+    },
+    {
+      "id": "hud", "title": "HUD",
+      "rows": [
+        { "kind": "toggle", "label": "OBJECTIVE AUTO-HIDE", "setting": "hud.objectiveAutoHide" },
+        { "kind": "note", "label": "On: the objective line folds to its star after four seconds." },
+        { "kind": "choice", "label": "METERS", "setting": "hud.meters", "options": [
+          { "value": "auto", "label": "WHEN THEY MATTER" }, { "value": "always", "label": "ALWAYS" }
+        ] },
+        { "kind": "toggle", "label": "LARGER TEXT", "setting": "accessibility.largerText" },
+        { "kind": "note", "label": "Draws the HUD, prompts, toasts and menus at twice the size." }
+      ]
+    },
+    {
+      "id": "controls", "title": "CONTROLS",
+      "rows": [
+        { "kind": "choice", "label": "JOYSTICK SIDE", "setting": "controls.joystickSide", "options": [
+          { "value": "left", "label": "LEFT" }, { "value": "right", "label": "RIGHT" }
+        ] },
+        { "kind": "choice", "label": "JOYSTICK SIZE", "setting": "controls.joystickSize", "options": [
+          { "value": "small", "label": "SMALL" }, { "value": "medium", "label": "MEDIUM" }, { "value": "large", "label": "LARGE" }
+        ] },
+        { "kind": "toggle", "label": "HAPTICS", "setting": "controls.haptics" },
+        { "kind": "toggle", "label": "HOLD TO RUN", "setting": "accessibility.holdToRun" },
+        { "kind": "note", "label": "Keyboard: arrows or WASD, SHIFT runs, E talks, P phone, M map, ESC pause." },
+        { "kind": "note", "label": "Gamepad: stick or d-pad, A talks, B back, START pauses." }
+      ]
+    },
+    {
+      "id": "accessibility", "title": "ACCESSIBILITY",
+      "rows": [
+        { "kind": "toggle", "label": "LARGER TEXT", "setting": "accessibility.largerText" },
+        { "kind": "toggle", "label": "COLOURBLIND METER ICONS", "setting": "accessibility.colourblindIcons" },
+        { "kind": "note", "label": "Meters always carry a shape as well as a colour." },
+        { "kind": "toggle", "label": "REDUCE FLASHES", "setting": "display.reduceFlashes" },
+        { "kind": "choice", "label": "DIALOGUE SPEED", "setting": "gameplay.dialogueSpeed", "options": [
+          { "value": "slow", "label": "SLOW" }, { "value": "normal", "label": "NORMAL" }, { "value": "fast", "label": "FAST" }, { "value": "instant", "label": "INSTANT" }
+        ] }
+      ]
+    },
+    {
+      "id": "language", "title": "LANGUAGE",
+      "rows": [
+        { "kind": "choice", "label": "UI LANGUAGE", "setting": "language.ui", "options": [ { "value": "en", "label": "ENGLISH" } ] },
+        { "kind": "note", "label": "Kannada and Hindi come later. Signboards stay bilingual." }
+      ]
+    },
+    {
+      "id": "data", "title": "DATA",
+      "rows": [
+        { "kind": "action", "label": "RESET SETTINGS", "action": "resetSettings" },
+        { "kind": "action", "label": "DELETE A SAVE", "action": "deleteSave" },
+        { "kind": "note", "label": "Saves live on this device. Export and import arrive with the web release." }
+      ]
+    },
+    {
+      "id": "about", "title": "ABOUT",
+      "rows": [
+        { "kind": "action", "label": "ABOUT & CREDITS", "action": "about" }
+      ]
+    }
+  ]
+}

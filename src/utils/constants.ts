@@ -173,6 +173,8 @@ export const SCENE_KEYS = Object.freeze({
   MAP: 'MapScene',
   /** The in-canvas HUD (P6c, ADR-118): plates, prompt bubble, toasts, dialogue box, touch controls. Launched by WorldScene. */
   HUD: 'HudScene',
+  /** Pause / Settings / Save / Load / About (P6d, ADR-119). Started by Boot, never stopped; opens over the world or the title. */
+  MENU: 'MenuScene',
   /** "Rotate your phone" over everything while a touch device is held in portrait (mobile foundation rule 4). */
   ORIENTATION: 'OrientationScene',
 });

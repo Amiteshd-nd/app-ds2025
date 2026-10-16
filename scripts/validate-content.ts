@@ -605,6 +605,58 @@ const objectNames = (tmj: Json | undefined, layerName: string | undefined): Set<
  * drawn bounds, ids unique, every reference resolves, every journey the
  * player can make (an exit between two outdoor pockets) has a drawn path.
  */
+/**
+ * Settings menu (ADR-119): every row edits a real atom of settings.defaults.json
+ * with a matching kind; every choice covers the default; every label is drawable.
+ */
+export function validateSettingsMenu(menu: Json, defaults: Json, glyphs?: Set<string>): string[] {
+  const problems: string[] = [];
+  const file = 'menus/settings.json';
+  const add = (msg: string) => problems.push(`${file}: ${msg}`);
+  const drawable = (where: string, text: unknown) => {
+    if (!glyphs || typeof text !== 'string') return;
+    const missing = [...new Set([...text].filter((ch) => !glyphs.has(ch) && ch !== '\n'))];
+    if (missing.length) add(`${where} cannot draw ${missing.map((m) => `"${m}"`).join(', ')} in the UI font`);
+  };
+  if (!Array.isArray(menu?.sections) || !menu.sections.length) { add('needs a non-empty "sections" array'); return problems; }
+  const ids = new Set<string>();
+  for (const section of menu.sections as Json[]) {
+    const where = `section "${section.id}"`;
+    if (!section.id || typeof section.id !== 'string') add('a section is missing its id');
+    if (ids.has(section.id)) add(`${where} is listed twice`);
+    ids.add(section.id);
+    if (typeof section.title !== 'string' || !section.title) add(`${where} needs a title`);
+    else drawable(`${where} title`, section.title);
+    if (!Array.isArray(section.rows) || !section.rows.length) { add(`${where} has no rows`); continue; }
+    for (const [i, row] of (section.rows as Json[]).entries()) {
+      const rw = `${where} row ${i}`;
+      if (typeof row.label !== 'string' || !row.label) add(`${rw} needs a label`);
+      else drawable(`${rw} label`, row.label);
+      if (row.kind === 'note') continue;
+      if (row.kind === 'action') {
+        if (!['resetSettings', 'deleteSave', 'about'].includes(row.action)) add(`${rw} has unknown action "${row.action}"`);
+        continue;
+      }
+      if (!['toggle', 'choice', 'slider'].includes(row.kind)) { add(`${rw} has unknown kind "${row.kind}"`); continue; }
+      const [sec, key, extra] = String(row.setting ?? '').split('.');
+      const atom = sec && key && !extra ? (defaults as Record<string, Record<string, unknown>>)[sec]?.[key] : undefined;
+      if (atom === undefined) { add(`${rw} edits "${row.setting}", which is not in settings.defaults.json`); continue; }
+      if (row.kind === 'toggle' && typeof atom !== 'boolean') add(`${rw} is a toggle but "${row.setting}" is a ${typeof atom}`);
+      if (row.kind === 'slider') {
+        if (typeof atom !== 'number') add(`${rw} is a slider but "${row.setting}" is a ${typeof atom}`);
+        if (![row.min, row.max, row.step].every((n) => Number.isFinite(n)) || row.min >= row.max || row.step <= 0) add(`${rw} needs numeric min < max and a positive step`);
+      }
+      if (row.kind === 'choice') {
+        if (!Array.isArray(row.options) || !row.options.length) { add(`${rw} needs options`); continue; }
+        const values = (row.options as Json[]).map((o) => String(o.value));
+        if (!values.includes(String(atom))) add(`${rw} options do not include the default "${String(atom)}"`);
+        for (const o of row.options as Json[]) { if (typeof o.label !== 'string') add(`${rw} option "${o.value}" needs a label`); else drawable(`${rw} option "${o.value}"`, o.label); }
+      }
+    }
+  }
+  return problems;
+}
+
 export function validateCityMap(city: Json, districts: Json[], colourTokens: Set<string>): string[] {
   const problems: string[] = [];
   const add = (msg: string) => problems.push(`map/city.json: ${msg}`);
@@ -939,6 +991,7 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const city = JSON.parse(readFileSync(join(dataDir, 'map/city.json'), 'utf8'));
   const colourTokens = new Set(Object.keys(JSON.parse(readFileSync(join(assetsDir, '_meta/tokens.json'), 'utf8')).tokens));
   problems.push(...validateCityMap(city, districts, colourTokens));
+  problems.push(...validateSettingsMenu(JSON.parse(readFileSync(join(dataDir, 'menus/settings.json'), 'utf8')), JSON.parse(readFileSync(join(dataDir, 'settings.defaults.json'), 'utf8')), glyphs));
   const areasDir = join(dataDir, 'map/areas');
   const areas: Record<string, Json> = {};
   if (existsSync(areasDir)) for (const f of readdirSync(areasDir).filter((x) => x.endsWith('.json'))) { const a = JSON.parse(readFileSync(join(areasDir, f), 'utf8')); areas[a.district] = a; }

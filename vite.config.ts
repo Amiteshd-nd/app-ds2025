@@ -3,12 +3,15 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 // Dev-only Test Playground endpoints (ADR-104); `apply: 'serve'` keeps it out of builds.
 import { playgroundPlugin } from './scripts/vite-playground.mjs';
+import pkg from './package.json' with { type: 'json' };
 
 // Standalone build for the game. When consumed as a library, the host's bundler
 // (personal-doc's Vite) transpiles src/index.ts directly — this config isn't used.
 export default defineConfig({
   // Repo guardrail: no ports starting with 4 or 5 (Vite's 5173 default is out).
   server: { port: 6174, strictPort: true },
+  // Settings → About shows this.
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   plugins: [
     react(),
     playgroundPlugin(),

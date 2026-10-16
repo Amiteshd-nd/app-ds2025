@@ -640,3 +640,21 @@ export interface AreaData {
   parks: Array<{ name: string | null; outline: LatLng[] }>;
   water: Array<{ name: string | null; outline: LatLng[] }>;
 }
+
+// --- Settings menu (ADR-119) ----------------------------------------------
+export type SettingsMenuRow =
+  | { kind: 'note'; label: string }
+  | { kind: 'toggle'; label: string; setting: string }
+  | { kind: 'choice'; label: string; setting: string; options: Array<{ value: string; label: string }> }
+  | { kind: 'slider'; label: string; setting: string; min: number; max: number; step: number }
+  | { kind: 'action'; label: string; action: 'resetSettings' | 'deleteSave' | 'about' };
+
+export interface SettingsMenuSection {
+  id: string;
+  title: string;
+  rows: SettingsMenuRow[];
+}
+
+export interface SettingsMenu {
+  sections: SettingsMenuSection[];
+}

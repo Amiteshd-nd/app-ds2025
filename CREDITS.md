@@ -34,13 +34,13 @@ generated `kempegowda_arrivals` map above, so no asset of unknown origin ships.
 
 | Asset | Source | Licence |
 | --- | --- | --- |
-| `src/data/map/areas/*.json` (streets, parks, water around each pocket) | © OpenStreetMap contributors — <https://www.openstreetmap.org/copyright>, fetched via the public Overpass API by `scripts/fetch-osm-area.mjs` (date in each file's `$comment`), simplified to 4 m | Open Database License (ODbL) 1.0 — attribution shown on the map's Area view and in Settings → About (P6d); these files stay open data. ODbL is allowed for map data files only (ADR-117) |
+| `src/data/map/areas/*.json` (streets, parks, water around each pocket) | © OpenStreetMap contributors — <https://www.openstreetmap.org/copyright>, fetched via the public Overpass API by `scripts/fetch-osm-area.mjs` (date in each file's `$comment`), simplified to 4 m | Open Database License (ODbL) 1.0 — attribution shown on the map's Area view and in Settings → About (ADR-119); these files stay open data. ODbL is allowed for map data files only (ADR-117) |
 
 ## Third-party fonts
 
 | Asset | Source | Licence |
 | --- | --- | --- |
-| `src/assets/_raw/fonts/PixelifySans-wght.ttf` → `src/assets/fonts/px.*`, `pxb.*` (bitmap font "based on Pixelify Sans", modified: grid-sampled, pixel bold, hand-drawn ₹ 5 Z B ( ) , and UI marks) | Pixelify Sans by The Pixelify Sans Project Authors — <https://github.com/eifetx/Pixelify-Sans>, downloaded 2026-10-13 from the official <https://github.com/google/fonts/tree/main/ofl/pixelifysans> | SIL Open Font License 1.1 — `src/assets/_raw/fonts/OFL.txt`, shipped as `public/licenses/OFL-PixelifySans.txt`; no Reserved Font Name. OFL is allowed for font files only (ADR-114). Credited in Settings → About (P6d) |
+| `src/assets/_raw/fonts/PixelifySans-wght.ttf` → `src/assets/fonts/px.*`, `pxb.*` (bitmap font "based on Pixelify Sans", modified: grid-sampled, pixel bold, hand-drawn ₹ 5 Z B ( ) , and UI marks) | Pixelify Sans by The Pixelify Sans Project Authors — <https://github.com/eifetx/Pixelify-Sans>, downloaded 2026-10-13 from the official <https://github.com/google/fonts/tree/main/ofl/pixelifysans> | SIL Open Font License 1.1 — `src/assets/_raw/fonts/OFL.txt`, shipped as `public/licenses/OFL-PixelifySans.txt`; no Reserved Font Name. OFL is allowed for font files only (ADR-114). Credited in Settings → About (ADR-119) |
 
 ## Third-party packs
 

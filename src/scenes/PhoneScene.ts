@@ -14,7 +14,10 @@ import { measure, rupees, truncate } from '../ui/kit/text';
 import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, listRows, slideSteps } from '../ui/phone/layout';
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
 import { BUBBLE, bubbleWindow, bubbles, chatRows, homeTiles, mapRows, statusBar, upiRows, type HomeTile } from '../ui/phone/viewModel';
-import { HUD } from '../ui/hud/layout';
+import { hudLayout, hudScale } from '../ui/hud/layout';
+import { attachGamepad, PAD } from '../ui/kit/gamepad';
+import { useSettings } from '../systems/SettingsManager';
+import type { MenuScene } from './MenuScene';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import type { MapScene } from './MapScene';
 import type { WorldScene } from './WorldScene';
@@ -32,8 +35,8 @@ interface Focusable extends Box {
   activate: () => void;
 }
 
-/** The closed phone's button: the HUD's top-right corner (ADR-118). */
-const BUTTON = HUD.phoneButton;
+/** The closed phone's button: the HUD's top-right corner (ADR-118), at the HUD's scale (ADR-119). */
+const button = () => { const L = hudLayout(hudScale(settings().accessibility.largerText)); return { x: L.phoneButton.x * L.k, y: L.phoneButton.y * L.k, size: L.phoneButton.size, k: L.k }; };
 /** In-app navigation: the phone's own four destinations. */
 const NAV: Array<{ id: 'home' | 'chats' | 'maps' | 'upi'; icon: IconName }> = [
   { id: 'home', icon: 'home' }, { id: 'chats', icon: 'chats' }, { id: 'maps', icon: 'maps' }, { id: 'upi', icon: 'upi' },
@@ -113,6 +116,20 @@ export class PhoneScene extends Phaser.Scene {
       gameEvents.on('phone:app-unlocked', ({ appId }) => this.popApp(appId)),
       gameEvents.on('time:advanced', () => { if (this.phase === 'open') this.render(); }),
       platform.lifecycle.onBackButton(() => { if (this.phase === 'open') this.back(); }),
+      useSettings.subscribe(() => this.placeButton()),
+      // The closed button hides under the map and the pause menu; it is the HUD's corner, not theirs.
+      useGameStore.subscribe((s, prev) => { if (s.overlay !== prev.overlay && this.phase === 'closed') this.button.setVisible(s.overlay === null); }),
+      // Gamepad (ADR-119): the same intents as the keys. Y opens the phone while walking.
+      attachGamepad(this, {
+        button: (b) => {
+          if (this.phase === 'closed') { if (b === PAD.Y && useGameStore.getState().overlay === null) this.open(); return; }
+          if (this.phase !== 'open') return;
+          if (b === PAD.A) this.onKey({ code: 'Enter' } as KeyboardEvent);
+          else if (b === PAD.B) this.onKey({ code: 'Escape' } as KeyboardEvent);
+          else if (b === PAD.Y) this.close();
+        },
+        dir: (d) => { if (this.phase === 'open') this.move(d); },
+      }),
     );
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.off.forEach((f) => f());
@@ -187,7 +204,7 @@ export class PhoneScene extends Phaser.Scene {
   // ── Closed button ────────────────────────────────────────────────────────
 
   private buildButton(): void {
-    const s = BUTTON.size;
+    const s = button().size;
     bake(this, 'ph:button', s, s + 1, (g) => {
       hudPlate(g, 0, 0, s, s, 'default', 4);
       bitmap(g, ICONS.phone, 6, 6, hex('hud.text'));
@@ -196,8 +213,15 @@ export class PhoneScene extends Phaser.Scene {
     bake(this, 'ph:button:badge', 6, 6, (g) => roundRect(g, 0, 0, 6, 6, 2, hex('phone.accent.chat')));
     this.buttonPlate = this.add.image(0, 0, 'ph:button').setOrigin(0);
     this.buttonBadge = this.add.image(s - 8, 3, 'ph:button:badge').setOrigin(0);
-    this.button = this.add.container(BUTTON.x, BUTTON.y, [this.buttonPlate, this.buttonBadge]);
+    this.button = this.add.container(0, 0, [this.buttonPlate, this.buttonBadge]);
+    this.placeButton();
     this.refreshButton();
+  }
+
+  /** Where the HUD's layout puts the button right now (Larger text moves and doubles it). */
+  private placeButton(): void {
+    const b = button();
+    this.button.setPosition(b.x, b.y).setScale(b.k);
   }
 
   private refreshButton(): void {
@@ -214,10 +238,11 @@ export class PhoneScene extends Phaser.Scene {
       delay: motion('m.phone.wiggle.step'),
       repeat: n - 1,
       callback: () => {
-        this.button.x = this.button.x === BUTTON.x ? BUTTON.x - 1 : BUTTON.x;
+        const bx = button().x;
+        this.button.x = this.button.x === bx ? bx - 1 : bx;
       },
     });
-    this.time.delayedCall(motion('m.phone.wiggle.step') * (n + 1), () => { this.button.x = BUTTON.x; });
+    this.time.delayedCall(motion('m.phone.wiggle.step') * (n + 1), () => { this.button.x = button().x; });
   }
 
   /** Newly unlocked app: a stepped pop on its tile (300 ms), if the home screen is up. */
@@ -244,6 +269,7 @@ export class PhoneScene extends Phaser.Scene {
     else if (id === 'chats') this.go({ app: 'chats' });
     else if (id === 'upi') this.go({ app: 'upi' });
     else if (id === 'maps') this.handToMap();
+    else if (id === 'settings') this.handToMenu();
     else this.go({ app: 'stub', appId: id });
   }
 
@@ -264,6 +290,22 @@ export class PhoneScene extends Phaser.Scene {
     this.hint = null;
     this.button.setVisible(true);
     map.open(true);
+  }
+
+  /** Settings app → the pause menu's Settings screen (ADR-119); the menu takes over the pause. */
+  private handToMenu(): void {
+    const menu = this.scene.get(SCENE_KEYS.MENU) as MenuScene | null;
+    if (!menu || !this.scene.isActive(SCENE_KEYS.MENU)) { this.go({ app: 'stub', appId: 'settings' }); return; }
+    this.phase = 'closed';
+    this.root.setVisible(false).setY(GAME_HEIGHT);
+    this.dim.setVisible(false);
+    const world = this.world();
+    if (this.worldFx && world) world.cameras.main.postFX?.clear();
+    this.worldFx = null;
+    useGameStore.getState().setOverlay(null);
+    this.hint = null;
+    this.button.setVisible(true);
+    menu.open({ screen: 'settings', fromOverlay: true });
   }
 
   private back(): void {
@@ -331,9 +373,11 @@ export class PhoneScene extends Phaser.Scene {
 
   private onPointerDown(p: Phaser.Input.Pointer): void {
     if (this.phase === 'closed') {
-      // The button's touch zone is 44px square around the 28px plate.
-      const pad = (44 - BUTTON.size) / 2;
-      if (p.x >= BUTTON.x - pad && p.x < BUTTON.x + BUTTON.size + pad && p.y >= BUTTON.y - pad && p.y < BUTTON.y + BUTTON.size + pad) this.open();
+      // The button's touch zone is at least 44px square around the plate.
+      const b = button();
+      const size = b.size * b.k;
+      const pad = Math.max(0, (44 - size) / 2);
+      if (p.x >= b.x - pad && p.x < b.x + size + pad && p.y >= b.y - pad && p.y < b.y + size + pad) this.open();
       return;
     }
     if (this.phase !== 'open') return;

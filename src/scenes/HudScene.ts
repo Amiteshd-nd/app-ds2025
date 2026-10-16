@@ -7,18 +7,20 @@ import { useGameStore } from '../store';
 import { settings, useSettings } from '../systems/SettingsManager';
 import { DialogueBox, type DialogueBoxCallbacks } from '../ui/DialogueBox';
 import { HUD_GLYPHS } from '../ui/hud/glyphs';
-import { HUD, plateWidth, stickZone, touchLayout, type StickSize } from '../ui/hud/layout';
+import { HUD, TOUCH, hudLayout, hudScale, plateWidth, stickZone, touchLayout, type HudLayout, type StickSize } from '../ui/hud/layout';
 import {
   ToastQueue, clockGlyph, clockLabel, locationCard, meters, objectiveLine, objectiveText, promptLabel, stackRows, toastLayout, walletView,
   type InputMode, type Toast,
 } from '../ui/hud/viewModel';
+import { attachGamepad, PAD, STICK_DEAD, walkAxis } from '../ui/kit/gamepad';
 import { ICONS } from '../ui/kit/icons';
 import { blockRow, hudPlate, labelCard, speechBubble, tapZone, type UiState } from '../ui/kit/molecules';
 import { bake, pxText, pxTextShadow } from '../ui/kit/phaser';
 import { bitmap, bitmapHeight, bitmapWidth, roundRect, ring, type PixelCtx } from '../ui/kit/pixel';
 import { measure } from '../ui/kit/text';
 import { hex, motion, rgba, type TokenName } from '../ui/tokens';
-import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
+import { GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
+import type { MenuScene } from './MenuScene';
 import type { WorldScene } from './WorldScene';
 
 export interface HudSceneData {
@@ -32,6 +34,8 @@ export interface TouchTarget {
   rect: { x: number; y: number; w: number; h: number };
 }
 
+type Rect = { x: number; y: number; w: number; h: number };
+
 /**
  * HudScene — the in-canvas HUD (P6c, ADR-118; style board §5). Launched by
  * WorldScene above the world, below the phone and the map; hidden while an
@@ -40,14 +44,16 @@ export interface TouchTarget {
  * Fixed layout, contextual content:
  *   top-left   ★ objective (one line, collapses to ★ after 4 s) · location
  *              card with NEW on arrival (5 s) · meters only when they matter
- *   top-right  clock with the sky glyph · the phone button (PhoneScene) ·
- *              wallet + tick for 3 s after money moves · SAVED after a write
+ *   top-right  clock with the sky glyph (tap: pause) · the phone button
+ *              (PhoneScene) · wallet + tick for 3 s after money moves · SAVED
  *   world      a speech-bubble prompt over the NPC in reach ("[E] TALK" / tap)
  *   bottom     one toast at a time (queue), above the dialogue card when up
  *   touch      joystick + context action button (Settings: side, size)
  *
  * Everything static is repainted from state into one texture on change;
  * only the prompt bubble, the joystick knob and the 1px bob move per frame.
+ * Larger text (ADR-119) draws the plates at 2× on a 320×180 virtual canvas;
+ * the touch controls and the dialogue card stay physical.
  */
 export class HudScene extends Phaser.Scene {
   static readonly KEY = SCENE_KEYS.HUD;
@@ -57,15 +63,18 @@ export class HudScene extends Phaser.Scene {
   private pendingDialogue: { id: string; callbacks: DialogueBoxCallbacks } | null = null;
   private dialogue!: DialogueBox;
 
+  private L: HudLayout = HUD;
   private root!: Phaser.GameObjects.Container;
   private chrome!: Phaser.GameObjects.Image;
   private texts!: Phaser.GameObjects.Container;
   private bubble!: Phaser.GameObjects.Container;
   private bubbleKey = '';
+  private clockZone: Rect | null = null;
   private controls: { root: Phaser.GameObjects.Container; ring: Phaser.GameObjects.Image; knob: Phaser.GameObjects.Image; action: Phaser.GameObjects.Container; stick: { cx: number; cy: number; r: number }; actionBox: { x: number; y: number; size: number } } | null = null;
   private actionKey = '';
   private stickPointer: number | null = null;
   private actionPointer: number | null = null;
+  private padWalking = false;
 
   private toasts!: ToastQueue;
   private objective: string | null = null;
@@ -86,6 +95,7 @@ export class HudScene extends Phaser.Scene {
     this.off = [];
     this.stickPointer = null;
     this.actionPointer = null;
+    this.padWalking = false;
     this.cameras.main.setRoundPixels(true);
     this.input.addPointer(2); // stick + action at once, plus the phone button
 
@@ -96,11 +106,12 @@ export class HudScene extends Phaser.Scene {
     this.cardUntil = now + motion('m.hud.card.hold');
     this.wallet = null;
     this.savedUntil = 0;
+    this.L = hudLayout(hudScale(settings().accessibility.largerText));
 
-    this.chrome = this.add.image(0, 0, bake(this, 'hud:chrome', GAME_WIDTH, GAME_HEIGHT, () => {})).setOrigin(0);
+    this.chrome = this.add.image(0, 0, bake(this, 'hud:chrome', this.L.W, this.L.H, () => {})).setOrigin(0);
     this.texts = this.add.container(0, 0);
     this.bubble = this.add.container(0, 0).setVisible(false);
-    this.root = this.add.container(0, 0, [this.chrome, this.texts, this.bubble]);
+    this.root = this.add.container(0, 0, [this.chrome, this.texts, this.bubble]).setScale(this.L.k);
     this.dialogue = new DialogueBox(this);
     if (this.touchMode()) this.buildControls();
 
@@ -116,12 +127,14 @@ export class HudScene extends Phaser.Scene {
         if (s.overlay !== prev.overlay) this.setHidden(s.overlay !== null);
         if (s.quests !== prev.quests || s.clock !== prev.clock || s.stats !== prev.stats || s.flags !== prev.flags) this.render();
       }),
-      useSettings.subscribe(() => { this.rebuildControls(); this.render(); }),
+      useSettings.subscribe(() => { this.rescale(); this.rebuildControls(); this.render(); }),
       (() => { const h = () => this.rebuildControls(); this.registry.events.on('changedata-touchControls', h); return () => this.registry.events.off('changedata-touchControls', h); })(),
       gameEvents.on('ui:toast', (t) => this.toast(t)),
       gameEvents.on('wallet:spent', ({ amount }) => this.moved(-amount)),
       gameEvents.on('wallet:earned', ({ amount }) => this.moved(amount)),
       gameEvents.on('save:written', () => { this.savedUntil = this.time.now + motion('m.hud.saved'); this.render(); }),
+      // Gamepad while walking: A talks (the dialogue card takes A itself while it is up).
+      attachGamepad(this, { button: (b) => { if (b === PAD.A && !this.dialogueOpen && this.root.visible) pressInteract(); } }, () => this.alive),
     );
     if (!platform.display.prefersReducedMotion()) {
       this.time.addEvent({ delay: motion('m.hud.bob'), loop: true, callback: () => { this.bob = !this.bob; } });
@@ -202,14 +215,24 @@ export class HudScene extends Phaser.Scene {
     return this.touchMode() ? 'touch' : 'keys';
   }
 
+  /** Larger text toggled: new virtual canvas, redraw everything. */
+  private rescale(): void {
+    const k = hudScale(settings().accessibility.largerText);
+    if (k === this.L.k) return;
+    this.L = hudLayout(k);
+    this.root.setScale(k);
+    this.bubbleKey = '';
+  }
+
   private setHidden(hidden: boolean): void {
     this.root.setVisible(!hidden);
     this.controls?.root.setVisible(!hidden && !this.dialogueOpen);
     if (hidden) this.releaseAll();
+    else this.render(); // toasts waited while an overlay was up
   }
 
   private toast(t: Toast): void {
-    this.toasts.push(t, this.time.now);
+    this.toasts.push(t);
     this.render();
   }
 
@@ -222,6 +245,7 @@ export class HudScene extends Phaser.Scene {
 
   private render(): void {
     if (!this.alive) return;
+    const L = this.L;
     const now = this.time.now;
     const store = useGameStore.getState();
     const prefs = settings();
@@ -232,48 +256,51 @@ export class HudScene extends Phaser.Scene {
     const showCard = now < this.cardUntil && store.activeDistrict !== null;
     const meterList = meters(store.stats, prefs.hud.meters as 'auto' | 'always');
     const rows = stackRows({ objective: this.objective !== null, location: showCard, meters: meterList });
-    const card = showCard ? locationCard(getDistrict(store.activeDistrict!).name, this.firstVisit) : null;
+    const card = showCard ? locationCard(getDistrict(store.activeDistrict!).name, this.firstVisit, L.locationMaxTextW) : null;
+    const objective = this.objective !== null ? objectiveText(this.objective, L.objective.maxTextW) : '';
     const clockText = clockLabel(store.clock);
     const sky = HUD_GLYPHS[clockGlyph(store.clock.minute)];
     const clockW = plateWidth(measure(clockText, true), bitmapWidth(sky));
-    const clockX = HUD.right - clockW;
+    const clockX = L.right - clockW;
+    this.clockZone = tapZone(clockX * L.k, L.pad * L.k, clockW * L.k, L.plateH * L.k);
     const walletUp = (this.wallet && now < this.wallet.until) || prefs.hud.meters === 'always';
     const wallet = walletUp ? walletView(store.stats.wallet, this.wallet && now < this.wallet.until ? this.wallet.moved : null) : null;
     const walletW = wallet ? 6 + measure(wallet.balance, true) + (wallet.tick ? 8 + measure(wallet.tick.text, true) : 0) + 7 : 0;
-    const walletX = HUD.right - walletW;
+    const walletX = L.right - walletW;
     const saved = now < this.savedUntil;
     const savedW = plateWidth(measure('SAVED', true), bitmapWidth(HUD_GLYPHS.saved));
-    const savedX = GAME_WIDTH - HUD.pad - savedW;
-    const toast = this.toasts.tick(now);
-    const tl = toast ? toastLayout(toast) : null;
+    const savedX = L.W - L.pad - savedW;
+    // Toasts wait while an overlay hides the HUD: they only advance when visible.
+    const toast = this.root.visible ? this.toasts.tick(now) : null;
+    const tl = toast ? toastLayout(toast, L.toast.maxTextW) : null;
     const dialogueTop = this.dialogue?.top ?? null;
-    const toastX = tl ? Math.round(HUD.toast.cx - tl.w / 2) : 0;
-    const toastY = tl ? (dialogueTop !== null ? dialogueTop - 7 - tl.h - HUD.toast.gapAboveDialogue : Math.round(HUD.toast.cy - tl.h / 2)) : 0;
+    const toastX = tl ? Math.round(L.toast.cx - tl.w / 2) : 0;
+    const toastY = tl ? (dialogueTop !== null ? Math.floor(dialogueTop / L.k) - 7 - tl.h - L.toast.gapAboveDialogue : Math.round(L.toast.cy - tl.h / 2)) : 0;
 
-    bake(this, 'hud:chrome', GAME_WIDTH, GAME_HEIGHT, (g) => {
+    bake(this, 'hud:chrome', L.W, L.H, (g) => {
       for (const row of rows) {
         if (row.kind === 'objective') {
-          const w = expanded ? plateWidth(measure(objectiveText(this.objective!)), 7) : plateWidth(0, 7) - 5;
-          hudPlate(g, HUD.pad, row.y, w, HUD.plateH);
-          bitmap(g, HUD_GLYPHS.star, HUD.pad + 6, row.y + 6, hex('hud.star'));
+          const w = expanded ? plateWidth(measure(objective), 7) : plateWidth(0, 7) - 5;
+          hudPlate(g, L.pad, row.y, w, L.plateH);
+          bitmap(g, HUD_GLYPHS.star, L.pad + 6, row.y + 6, hex('hud.star'));
         } else if (row.kind === 'location' && card) {
           const tw = measure(card.name, true);
           const w = 7 + tw + (card.isNew ? 6 + 25 + 3 : 8);
-          labelCard(g, HUD.pad, row.y, w, HUD.plateH);
-          if (card.isNew) roundRect(g, HUD.pad + 7 + tw + 6, row.y + 4, 25, 11, 2, hex('hud.star'));
+          labelCard(g, L.pad, row.y, w, L.plateH);
+          if (card.isNew) roundRect(g, L.pad + 7 + tw + 6, row.y + 4, 25, 11, 2, hex('hud.star'));
         } else if (row.kind === 'meter' && row.meter) {
           const tone: TokenName = row.meter.critical ? 'phone.accent.alert' : 'hud.text';
-          hudPlate(g, HUD.pad, row.y, HUD.meter.w, HUD.meter.h);
-          bitmap(g, HUD_GLYPHS[row.meter.icon], HUD.pad + HUD.meter.iconX, row.y + 4, hex(tone));
-          blockRow(g, HUD.pad + HUD.meter.blocksX, row.y + 5, row.meter.blocks, 5, { on: tone });
+          hudPlate(g, L.pad, row.y, L.meter.w, L.meter.h);
+          bitmap(g, HUD_GLYPHS[row.meter.icon], L.pad + L.meter.iconX, row.y + 4, hex(tone));
+          blockRow(g, L.pad + L.meter.blocksX, row.y + 5, row.meter.blocks, 5, { on: tone });
         }
       }
-      hudPlate(g, clockX, HUD.pad, clockW, HUD.plateH);
-      bitmap(g, sky, clockX + 6, HUD.pad + 6, hex('hud.star'));
-      if (wallet) hudPlate(g, walletX, HUD.pad + HUD.plateH + HUD.stackGap, walletW, HUD.plateH);
+      hudPlate(g, clockX, L.pad, clockW, L.plateH);
+      bitmap(g, sky, clockX + 6, L.pad + 6, hex('hud.star'));
+      if (wallet) hudPlate(g, walletX, L.pad + L.plateH + L.stackGap, walletW, L.plateH);
       if (saved) {
-        hudPlate(g, savedX, HUD.saved.y, savedW, HUD.plateH);
-        bitmap(g, HUD_GLYPHS.saved, savedX + 6, HUD.saved.y + 6, hex('hud.text'));
+        hudPlate(g, savedX, L.saved.y, savedW, L.plateH);
+        bitmap(g, HUD_GLYPHS.saved, savedX + 6, L.saved.y + 6, hex('hud.text'));
       }
       if (tl && toast) {
         hudPlate(g, toastX, toastY, tl.w, tl.h, 'default', 4);
@@ -288,19 +315,19 @@ export class HudScene extends Phaser.Scene {
     this.texts.removeAll(true);
     const add = (objs: Phaser.GameObjects.GameObject[]) => this.texts.add(objs);
     for (const row of rows) {
-      if (row.kind === 'objective' && expanded) add(pxTextShadow(this, HUD.pad + 6 + 7 + 5, row.y + 6, objectiveText(this.objective!)));
+      if (row.kind === 'objective' && expanded) add(pxTextShadow(this, L.pad + 6 + 7 + 5, row.y + 6, objective));
       if (row.kind === 'location' && card) {
-        add([pxText(this, HUD.pad + 7, row.y + 6, card.name, { bold: true })]);
-        if (card.isNew) add([pxText(this, HUD.pad + 7 + measure(card.name, true) + 6 + 13, row.y + 6, 'NEW', { bold: true, tint: 'hud.plate', align: 'center' })]);
+        add([pxText(this, L.pad + 7, row.y + 6, card.name, { bold: true })]);
+        if (card.isNew) add([pxText(this, L.pad + 7 + measure(card.name, true) + 6 + 13, row.y + 6, 'NEW', { bold: true, tint: 'hud.plate', align: 'center' })]);
       }
     }
-    add(pxTextShadow(this, clockX + 6 + bitmapWidth(sky) + 5, HUD.pad + 6, clockText, { bold: true }));
+    add(pxTextShadow(this, clockX + 6 + bitmapWidth(sky) + 5, L.pad + 6, clockText, { bold: true }));
     if (wallet) {
-      const y = HUD.pad + HUD.plateH + HUD.stackGap + 6;
+      const y = L.pad + L.plateH + L.stackGap + 6;
       add(pxTextShadow(this, walletX + 6, y, wallet.balance, { bold: true }));
-      if (wallet.tick) add(pxTextShadow(this, HUD.right - 7, y, wallet.tick.text, { bold: true, tint: wallet.tick.tone, align: 'right' }));
+      if (wallet.tick) add(pxTextShadow(this, L.right - 7, y, wallet.tick.text, { bold: true, tint: wallet.tick.tone, align: 'right' }));
     }
-    if (saved) add([pxText(this, savedX + 6 + bitmapWidth(HUD_GLYPHS.saved) + 5, HUD.saved.y + 6, 'SAVED', { bold: true })]);
+    if (saved) add([pxText(this, savedX + 6 + bitmapWidth(HUD_GLYPHS.saved) + 5, L.saved.y + 6, 'SAVED', { bold: true })]);
     if (tl && toast) {
       const tx = toastX + 6 + (toast.icon ? 20 : 0);
       tl.lines.forEach((l, i) => add(pxTextShadow(this, tx, toastY + 6 + i * 12, l)));
@@ -318,7 +345,7 @@ export class HudScene extends Phaser.Scene {
     this.refreshTimer = this.time.delayedCall(Math.min(...deadlines) - now + 1, () => this.render());
   }
 
-  // ── Per frame: prompt bubble, joystick, action label ─────────────────────
+  // ── Per frame: prompt bubble, joystick, gamepad walk, action label ───────
 
   update(): void {
     if (!this.alive || !this.root.visible) return;
@@ -329,10 +356,22 @@ export class HudScene extends Phaser.Scene {
       this.controls.root.setVisible(!this.dialogueOpen);
       this.renderAction(near?.verb ?? null);
     }
+    this.walkWithPad();
+  }
+
+  /** The left stick walks when no finger is on the on-screen stick. */
+  private walkWithPad(): void {
+    if (this.stickPointer !== null || this.dialogueOpen) return;
+    const axis = walkAxis(this);
+    if (!axis) return;
+    const pushed = Math.hypot(axis.x, axis.y) >= STICK_DEAD * 0.6;
+    if (pushed) { setAxis(axis.x, axis.y); this.padWalking = true; }
+    else if (this.padWalking) { setAxis(0, 0); this.padWalking = false; }
   }
 
   private placeBubble(world: WorldScene | null, wx: number, wy: number, verb: string | null): void {
     if (!world || !verb) { this.bubble.setVisible(false); return; }
+    const L = this.L;
     const mode = this.inputMode();
     const label = promptLabel(verb, mode);
     const key = `${mode}:${label}`;
@@ -341,9 +380,9 @@ export class HudScene extends Phaser.Scene {
       this.bubble.removeAll(true);
       const tapW = mode === 'touch' ? bitmapWidth(HUD_GLYPHS.tap) + 3 : 0;
       const w = 6 + tapW + measure(label, true) + 7;
-      const h = HUD.prompt.h + HUD.prompt.tailH;
+      const h = L.prompt.h + L.prompt.tailH;
       const tex = bake(this, `hud:bubble:${key}`, w, h + 1, (g) => {
-        speechBubble(g, 0, 0, w, HUD.prompt.h);
+        speechBubble(g, 0, 0, w, L.prompt.h);
         if (mode === 'touch') bitmap(g, HUD_GLYPHS.tap, 6, 4, hex('hud.text'));
       });
       this.bubble.add(this.add.image(0, 0, tex).setOrigin(0));
@@ -352,12 +391,12 @@ export class HudScene extends Phaser.Scene {
     }
     const cam = world.cameras.main;
     const w = this.bubble.getData('w') as number;
-    const x = Phaser.Math.Clamp(Math.round(wx - cam.scrollX - w / 2), 2, GAME_WIDTH - w - 2);
-    const y = Math.max(2, Math.round(wy - cam.scrollY) - HUD.prompt.h - HUD.prompt.tailH - HUD.prompt.lift - (this.bob ? 1 : 0));
+    const x = Phaser.Math.Clamp(Math.round((wx - cam.scrollX) / L.k - w / 2), 2, L.W - w - 2);
+    const y = Math.max(2, Math.round((wy - cam.scrollY) / L.k) - L.prompt.h - L.prompt.tailH - L.prompt.lift - (this.bob ? 1 : 0));
     this.bubble.setPosition(x, y).setVisible(true);
   }
 
-  // ── Touch controls ───────────────────────────────────────────────────────
+  // ── Touch controls (physical, never scaled) ──────────────────────────────
 
   private buildControls(): void {
     const prefs = settings().controls;
@@ -367,8 +406,8 @@ export class HudScene extends Phaser.Scene {
       roundRect(g, 0, 0, d, d, stick.r, rgba('hud.plate', 0.35));
       ring(g, 0, 0, d, d, stick.r, 2, hex('hud.border'));
     });
-    const k = HUD.stick.knob * 2;
-    const knobTex = bake(this, 'hud:knob', k, k, (g) => roundRect(g, 0, 0, k, k, HUD.stick.knob, rgba('hud.text', 0.55)));
+    const k = TOUCH.stick.knob * 2;
+    const knobTex = bake(this, 'hud:knob', k, k, (g) => roundRect(g, 0, 0, k, k, TOUCH.stick.knob, rgba('hud.text', 0.55)));
     const ringImg = this.add.image(stick.cx, stick.cy, ringTex);
     const knob = this.add.image(stick.cx, stick.cy, knobTex);
     const actionRoot = this.add.container(action.x, action.y);
@@ -402,12 +441,18 @@ export class HudScene extends Phaser.Scene {
     if (verb) this.controls.action.add(pxText(this, s / 2, Math.round(s / 2) - 3 + (state === 'pressed' ? 1 : 0), verb, { bold: true, tint: state === 'pressed' ? 'hud.plate' : 'hud.text', align: 'center' }));
   }
 
-  private inZone(p: Phaser.Input.Pointer, z: { x: number; y: number; w: number; h: number }): boolean {
+  private inZone(p: Phaser.Input.Pointer, z: Rect): boolean {
     return p.x >= z.x && p.x < z.x + z.w && p.y >= z.y && p.y < z.y + z.h;
   }
 
   private onPointerDown(p: Phaser.Input.Pointer): void {
-    if (!this.controls || !this.root.visible || this.dialogueOpen) return;
+    if (!this.root.visible || this.dialogueOpen) return;
+    // The clock plate is the touch way into the pause menu (ADR-119); the phone button keeps its own corner.
+    if (this.clockZone && this.inZone(p, this.clockZone) && p.x < GAME_WIDTH - 44) {
+      (this.scene.get(SCENE_KEYS.MENU) as MenuScene | null)?.open();
+      return;
+    }
+    if (!this.controls) return;
     const c = this.controls;
     if (this.stickPointer === null && this.inZone(p, stickZone(c.stick))) {
       this.stickPointer = p.id;
@@ -435,7 +480,7 @@ export class HudScene extends Phaser.Scene {
     if (!this.controls) return;
     const { cx, cy, r } = this.controls.stick;
     let dx = p.x - cx, dy = p.y - cy;
-    const max = r - HUD.stick.knob / 2;
+    const max = r - TOUCH.stick.knob / 2;
     const dist = Math.hypot(dx, dy);
     if (dist > max) { dx = (dx / dist) * max; dy = (dy / dist) * max; }
     this.controls.knob.setPosition(Math.round(cx + dx), Math.round(cy + dy));
@@ -452,6 +497,7 @@ export class HudScene extends Phaser.Scene {
   private releaseAll(): void {
     this.releaseStick();
     this.actionPointer = null;
+    if (this.padWalking) { setAxis(0, 0); this.padWalking = false; }
   }
 }
 

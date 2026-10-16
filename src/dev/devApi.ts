@@ -131,7 +131,7 @@ export function installDevApi(game: Phaser.Game): DevApi {
   };
 
   const startScene = (key: string, data?: object) => {
-    for (const s of game.scene.getScenes(true)) if (s.scene.key !== SCENE_KEYS.ORIENTATION) game.scene.stop(s.scene.key);
+    for (const s of game.scene.getScenes(true)) if (s.scene.key !== SCENE_KEYS.ORIENTATION && s.scene.key !== SCENE_KEYS.MENU) game.scene.stop(s.scene.key);
     game.scene.start(key, data);
   };
 

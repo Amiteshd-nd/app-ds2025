@@ -14,6 +14,7 @@ import { MAPS } from '../assets/maps';
 import { useGameStore } from '../store';
 import { SaveManager } from '../systems/SaveManager';
 import { useSettings } from '../systems/SettingsManager';
+import { applyDisplaySettings } from '../core/display';
 import { QuestManager } from '../systems/QuestManager';
 import { PhoneManager } from '../systems/PhoneManager';
 import { MapManager } from '../systems/MapManager';
@@ -124,10 +125,12 @@ export class BootScene extends Phaser.Scene {
       SaveManager.getInstance().init().catch((err) => console.warn('[BootScene] save slots unreadable:', err)),
       useSettings.getState().load(),
     ]);
-    // "Rotate your phone" sits over every scene from here on (mobile foundation rule 4).
+    // The pause/settings menu and the "rotate your phone" panel sit over every scene from here on.
+    this.scene.launch(SCENE_KEYS.MENU);
     this.scene.launch(SCENE_KEYS.ORIENTATION);
     this.time.delayedCall(300, () => {
       void savesReady.then(() => {
+        applyDisplaySettings(this.game, useSettings.getState().settings.display);
         if (startDistrict) this.scene.start(SCENE_KEYS.WORLD, { districtId: startDistrict });
         else this.scene.start(next);
       });

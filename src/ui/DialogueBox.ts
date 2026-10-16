@@ -7,6 +7,7 @@ import { HUD_GLYPHS } from './hud/glyphs';
 import { DIALOGUE, layoutDialogue, onCard, pillAt, type DialogueLayout } from './hud/dialogue';
 import { type DialogueSpeed } from './hud/layout';
 import { revealedChars } from './hud/viewModel';
+import { attachGamepad, PAD } from './kit/gamepad';
 import { choicePill, labelCard, type UiState } from './kit/molecules';
 import { bake, pxText, pxTextShadow } from './kit/phaser';
 import { bitmap, roundRect } from './kit/pixel';
@@ -100,9 +101,14 @@ export class DialogueBox {
     const onDown = (p: Phaser.Input.Pointer) => this.onPointer(p);
     this.scene.input.keyboard?.on('keydown', onKey);
     this.scene.input.on('pointerdown', onDown);
+    const offPad = attachGamepad(this.scene, {
+      button: (b) => { if (b === PAD.A || b === PAD.B) this.confirm(); },
+      dir: (d) => this.move(d === 'up' || d === 'left' ? -1 : 1),
+    }, () => this.isOpen);
     this.detach = () => {
       this.scene.input.keyboard?.off('keydown', onKey);
       this.scene.input.off('pointerdown', onDown);
+      offPad();
     };
   }
 

@@ -1,5 +1,6 @@
 import districtsJson from './districts.json';
 import phoneApps from './phone/apps.json';
+import settingsMenu from './menus/settings.json';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
@@ -15,6 +16,7 @@ import type {
   NegotiationDef,
   PhoneApp,
   SceneComponent,
+  SettingsMenu,
 } from '../utils/types';
 
 /**
@@ -99,6 +101,9 @@ export const OBJECTS: Record<string, ObjectDef> = byId(
 export const SCENES: Record<string, SceneComponent> = byId(load<SceneComponent>(sceneModules), 'scene');
 
 /** Phone apps in home-screen order (P6). */
+/** Settings menu sections (ADR-119): data, validated. */
+export const SETTINGS_MENU: SettingsMenu = settingsMenu as SettingsMenu;
+
 export const PHONE_APPS: PhoneApp[] = [...(phoneApps as PhoneApp[])].sort((a, b) => a.order - b.order);
 
 /** Chat threads by id (data/phone/chats). */
