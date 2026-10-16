@@ -29,12 +29,16 @@ export interface Behaviour {
 import { hotelNightTimer } from './hotelNightTimer';
 import { beh_breathing } from './breathing';
 import { beh_carousel } from './carousel';
+import { officeClockIn } from './officeClockIn';
+import { pgNoticeTimer } from './pgNoticeTimer';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
   hotelNightTimer,
   beh_breathing,
   beh_carousel,
+  officeClockIn,
+  pgNoticeTimer,
 };
 
 /**

@@ -1,0 +1,34 @@
+{
+  "id": "dlg_auto_meter",
+  "speaker": "Auto Driver",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "auto_fare_paid",
+      "node": "paid"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Office? ITPL side? Meter illa, saar. One-fifty. Morning traffic, one-way, return empty.",
+      "negotiate": {
+        "id": "neg_auto_meter",
+        "deal": "deal",
+        "walk": "walk"
+      }
+    },
+    "deal": {
+      "text": "Sit, sit. Hold the bar. Nine-thirty we will reach — maybe nine-thirty-five.",
+      "effect": {
+        "xp": 10,
+        "xp_branch": "city_survival"
+      }
+    },
+    "walk": {
+      "text": "Your wish. Other autos will say two hundred, then you come back."
+    },
+    "paid": {
+      "text": "Already paid, saar. Get in before the signal changes."
+    }
+  }
+}

@@ -212,6 +212,7 @@ export function validateContent(
 
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
+      if (trigger.action !== undefined && !['sleep', 'workday'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday)`);
       if (trigger.unlessFlag !== undefined && (typeof trigger.unlessFlag !== 'string' || !trigger.unlessFlag)) {
         add(where, `${d} trigger "${trigger.zone}" unlessFlag must be a flag name`);
       }

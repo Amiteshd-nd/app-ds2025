@@ -1,0 +1,18 @@
+{
+  "id": "ravi",
+  "contact": "Ravi (HIVR intern)",
+  "messages": [
+    {
+      "id": "ravi_1",
+      "from": "them",
+      "text": "Ravi here. The shuttle guy. Call anytime — I am free. Too free, honestly.",
+      "after": "met_ravi"
+    },
+    {
+      "id": "ravi_2",
+      "from": "them",
+      "text": "Stipend came. Half of it. They said the other half is 'processing'.",
+      "after": "act1_first_day_done"
+    }
+  ]
+}

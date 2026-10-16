@@ -12,6 +12,8 @@ export interface BoundTriggers {
 export interface TriggerActions {
   openDialogue(dialogueId: string): void;
   sleep(): void;
+  /** The office door: fade, the day passes, fade back at closing time (story 1.1 F3–F5). */
+  workday(): void;
 }
 
 /**
@@ -47,6 +49,7 @@ export function bind(
         gameEvents.emit('zone:reached', { zoneId: trigger.zone, districtId: district.id });
         if (trigger.dialogue) actions.openDialogue(trigger.dialogue);
         if (trigger.action === 'sleep') actions.sleep();
+        if (trigger.action === 'workday') actions.workday();
       }),
     );
   }

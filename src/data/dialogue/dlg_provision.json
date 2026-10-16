@@ -6,13 +6,91 @@
     "start": {
       "text": "Biscuits, chips, Maggi, bread, milk — what you want?",
       "choices": [
-        { "text": "Night snacks — noodles, biscuits, banana chips (₹120)", "next": "snacks", "effect": { "wallet": -120, "food": 15, "flags": { "lane_food": true } } },
-        { "text": "A water bottle (₹20)", "next": "water", "effect": { "wallet": -20 } },
-        { "text": "Nothing.", "next": "bye" }
+        {
+          "text": "Night snacks — noodles, biscuits, banana chips (₹120)",
+          "next": "snacks",
+          "effect": {
+            "wallet": -120,
+            "food": 15,
+            "flags": {
+              "lane_food": true
+            }
+          }
+        },
+        {
+          "text": "A water bottle (₹20)",
+          "next": "water",
+          "effect": {
+            "wallet": -20
+          }
+        },
+        {
+          "text": "Nothing.",
+          "next": "bye"
+        }
       ]
     },
-    "snacks": { "text": "Good. PG food finishes by nine, then hunger comes at eleven. Keep this." },
-    "water": { "text": "Cold one is ₹22. Okay, okay — ₹20 for you." },
-    "bye": { "text": "Okay. I'm open till eleven." }
-  }
+    "snacks": {
+      "text": "Good. PG food finishes by nine, then hunger comes at eleven. Keep this."
+    },
+    "water": {
+      "text": "Cold one is ₹22. Okay, okay — ₹20 for you."
+    },
+    "bye": {
+      "text": "Okay. I'm open till eleven."
+    },
+    "start_act1": {
+      "text": "Biscuits, chips, Maggi — or something bigger? Office people buy table-chair from me. Folding. Eighteen hundred, delivery free.",
+      "choices": [
+        {
+          "text": "A folding table and chair (₹1,800)",
+          "next": "delivery",
+          "effect": {
+            "wallet": -1800,
+            "item_add": "folding_table_chair",
+            "flags": {
+              "furniture_bought": true
+            }
+          }
+        },
+        {
+          "text": "Night snacks — noodles, biscuits, banana chips (₹120)",
+          "next": "snacks",
+          "effect": {
+            "wallet": -120,
+            "food": 15,
+            "flags": {
+              "lane_food": true
+            }
+          }
+        },
+        {
+          "text": "Nothing.",
+          "next": "bye"
+        }
+      ]
+    },
+    "delivery": {
+      "text": "(Twenty minutes later, a boy with the flat-pack at Shanthamma's gate.) Where to keep, saar? … Three cots, one almirah, one table already. (He looks at the floor. The floor looks back.) Not enough space. I'll keep it in the godown till you have a room, no charge.",
+      "effect": {
+        "flags": {
+          "furniture_stored": true
+        },
+        "stress": 3
+      }
+    },
+    "stored": {
+      "text": "Table-chair is safe in the godown. Find a room with a floor, I'll send it the same day."
+    }
+  },
+  "enter": [
+    {
+      "flag": "furniture_stored",
+      "node": "stored"
+    },
+    {
+      "flag": "act1_first_day_done",
+      "node": "start_act1"
+    }
+  ]
 }

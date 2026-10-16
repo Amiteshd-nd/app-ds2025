@@ -120,3 +120,8 @@ Updated: 2026-10-12
 - Decision: "approved, start P6d" — the in-canvas HUD, dialogue card, touch controls and rotate panel (ADR-118) stand with no corrections; the art-director calls listed in ADR-118 (4 s / 5 s / 3 s holds, wallet after payment only, meter thresholds, tiers dropped from the always-on HUD) are confirmed.
 - Rule going forward: **nothing the player sees in play is DOM** — HUD, prompts, toasts, dialogue, touch controls and menus are Phaser scenes in the bitmap font; the React shell is the canvas and the host's back pill only.
 - Rule going forward: **a scene that subscribes to the store or the event bus unsubscribes on SHUTDOWN and DESTROY** (the host remounts the game; a leaked listener bakes into a dead renderer).
+
+### [P6d menus — approved] — 2026-10-16
+- Decision: "approved, start P7" — the pause/settings/save/load menus, gamepad support and Larger text (ADR-119) stand with no corrections; the art-director calls in ADR-119 (clock plate as touch pause, pause autosaves, autosave slot read-only, dialogue card unscaled for now) are confirmed. P6 is complete.
+- Rule going forward: **a new setting is an atom plus a data row** (`settings.defaults.json` + `data/menus/settings.json`); the validator refuses one without the other.
+- Rule going forward: **every scene that can be driven by keys is driven by the pad too** through `attachGamepad` — no scene reads a gamepad on its own.

@@ -1,0 +1,159 @@
+{
+  "id": "act1_first_day",
+  "district": "office_gate",
+  "act": 1,
+  "seq": "1.1",
+  "title": "Monday",
+  "status": "P7-draft",
+  "time": "08:15 Monday, clear",
+  "player_goal": "Reach the office by 9:30 using Maps.",
+  "design_goal": "Navigation across pockets, autos as three temperaments (haggle / meter / Kannada puzzle), lateness as a cost, the first key item, the workday as a reusable time jump. The office interior is never shown.",
+  "pacing": [
+    "Calm",
+    "Engaged",
+    "Tense",
+    "Reward",
+    "Curious"
+  ],
+  "entry": {
+    "from": "whitefield_street",
+    "spawn": "auto_drop"
+  },
+  "cast": [
+    {
+      "npc": "npc_auto_meter",
+      "tier": 2,
+      "spawn": "auto_1",
+      "role": "'Meter illa, ₹150' — firm haggle (neg_auto_meter), floor ₹100"
+    },
+    {
+      "npc": "npc_auto_fair",
+      "tier": 2,
+      "spawn": "auto_2",
+      "role": "By the meter, ₹80; +1 rep for trusting him"
+    },
+    {
+      "npc": "npc_auto_kannada",
+      "tier": 2,
+      "spawn": "auto_3",
+      "role": "Kannada only: 'Meter haaki' = ₹80 + XP; English = ₹120; 'Hogu' = he leaves"
+    },
+    {
+      "npc": "npc_office_guard",
+      "tier": 2,
+      "spawn": "guard",
+      "role": "No ID, no entry → Admin block"
+    },
+    {
+      "npc": "npc_prakash",
+      "tier": 2,
+      "spawn": "admin_desk",
+      "role": "'Spell it.' Issues the ID card (key item)"
+    },
+    {
+      "npc": "npc_divya",
+      "tier": 3,
+      "spawn": "lobby",
+      "role": "Branches on on_time_first_day / late_first_day; evening line after the workday"
+    },
+    {
+      "npc": "npc_sameer",
+      "tier": 2,
+      "spawn": "gate_evening",
+      "role": "Appears at 18:00 (unlessFlag before act1_first_day_done); shares number → met_sameer"
+    }
+  ],
+  "quests": [
+    "q_act1_first_day"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "Maps shows the Office pin and the route. Walk the Whitefield street to the auto stand (three autos) or walk the whole way.",
+      "interact": "walk / Maps",
+      "flag": "office_route_seen"
+    },
+    {
+      "id": "F2",
+      "pacing": "Engaged",
+      "what": "Three autos, three temperaments. Any deal pays and the exit zone takes you (transit auto, card 'Auto → Office'). Walking is free and slow.",
+      "interact": "dialogue + negotiation",
+      "flag": "auto_fare_paid",
+      "economy": "₹80 / ₹100–150 / ₹120",
+      "reroute": "no auto → walk; late → stress + Divya's remark"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "Office gate arrival zone sets office_arrived → officeClockIn reads the clock: ≤ 09:30 'Made it.' else 'Divya noticed.' (+10 stress). Guard → Prakash ('Spell it.') → ID card → Divya.",
+      "interact": "dialogue",
+      "flag": "id_card_issued, divya_met_monday"
+    },
+    {
+      "id": "F4",
+      "pacing": "Reward",
+      "what": "The office door is a workday trigger: fade to black, [skyline time-lapse card — art pending], clock 09:30 → 18:00, food −20, first-day stress +5, autosave.",
+      "interact": "walk into the door zone",
+      "flag": "act1_first_day_done"
+    },
+    {
+      "id": "F5",
+      "pacing": "Curious",
+      "what": "18:00 outside the gate: Sameer says bye, and a lanky intern in an HIVR lanyard is on the phone — 1.2 begins at once.",
+      "interact": "walk",
+      "flag": ""
+    }
+  ],
+  "economy": [
+    {
+      "trigger": "auto fare",
+      "spend": "80–150",
+      "canAfford": true
+    },
+    {
+      "trigger": "ID card replacement (threat only)",
+      "spend": 500,
+      "canAfford": true
+    }
+  ],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [
+    {
+      "zone": "auto_stand",
+      "to": "whitefield_street",
+      "spawn": "auto_stand",
+      "transit": "auto"
+    }
+  ],
+  "save_flags": [
+    "office_route_seen",
+    "auto_fare_paid",
+    "auto_kannada_left",
+    "kannada_auto",
+    "office_arrived",
+    "on_time_first_day",
+    "late_first_day",
+    "office_guard_met",
+    "id_card_issued",
+    "divya_met_monday",
+    "act1_first_day_done",
+    "met_sameer"
+  ],
+  "assets_needed": [
+    "office_gate pocket render on its real streets (tech-park gate, guard cabin, admin block door, auto stand, shuttle bay) — needs the user's references (ADR-30) and the real spot",
+    "skyline time-lapse card (landmarks doc: Nandi Hills parallax)",
+    "sheets: three auto drivers, guard, Prakash, Divya, Sameer, Ravi",
+    "auto + white HIVR van props",
+    "transit kind 'auto' card art"
+  ],
+  "acceptance": [
+    "Maps routes from Prashanth Layout to the Office pin",
+    "each auto resolves as written and the exit charges nothing extra",
+    "arriving after 09:30 sets late_first_day, +10 stress, and Divya's late line plays; before, her on-time line",
+    "Prakash's card adds id_card and the guard's line changes",
+    "the office door jumps the clock to 18:00 with food −20 and autosaves",
+    "Sameer and Ravi stand at the gate at 18:00 and 1.2 can be played immediately"
+  ]
+}

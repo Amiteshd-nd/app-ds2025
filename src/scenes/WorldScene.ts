@@ -150,6 +150,7 @@ export class WorldScene extends Phaser.Scene {
     this.triggers = Triggers.bind(this, this.district, this.map, def.spawnLayer, this.player, {
       openDialogue: (id) => this.openDialogue(id),
       sleep: () => this.sleep(),
+      workday: () => this.workday(),
     });
 
     const behaviourNames = [...new Set([...CORE_BEHAVIOURS, ...(this.district.behaviours ?? [])])];
@@ -367,6 +368,30 @@ export class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeOut(FADE_MS, 0, 0, 0);
     this.cameras.main.once('camerafadeoutcomplete', () => {
       TimeManager.getInstance().sleep();
+      this.persist();
+      this.cameras.main.fadeEffect.reset();
+      this.cameras.main.fadeIn(FADE_MS, 0, 0, 0);
+      this.cameras.main.once('camerafadeincomplete', () => {
+        this.sleeping = false;
+        this.player.setInteractionEnabled(true);
+      });
+    });
+  }
+
+  /**
+   * The office door (story 1.1 F3–F5): fade to black, the workday passes in
+   * one jump (TimeManager.workday — canteen food cost, first-day nerves),
+   * autosave, fade back in at 18:00 outside the same door. The skyline
+   * time-lapse card (ADR-120) will sit inside the black once its art lands.
+   */
+  private workday(): void {
+    if (this.leaving || this.sleeping || this.talking) return;
+    this.sleeping = true; // same guard as a night: zones and the clock hold until the fade is done
+    this.player.setInteractionEnabled(false);
+    this.cameras.main.fadeEffect.reset();
+    this.cameras.main.fadeOut(FADE_MS, 0, 0, 0);
+    this.cameras.main.once('camerafadeoutcomplete', () => {
+      TimeManager.getInstance().workday();
       this.persist();
       this.cameras.main.fadeEffect.reset();
       this.cameras.main.fadeIn(FADE_MS, 0, 0, 0);

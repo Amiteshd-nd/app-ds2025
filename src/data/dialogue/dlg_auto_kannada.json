@@ -1,0 +1,71 @@
+{
+  "id": "dlg_auto_kannada",
+  "speaker": "Auto Driver",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "auto_fare_paid",
+      "node": "paid"
+    },
+    {
+      "flag": "auto_kannada_left",
+      "node": "gone"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Elli hogbeku? (He waits. English does not seem to be on offer.)",
+      "choices": [
+        {
+          "text": "Office-ge, ITPL hattira. Meter haaki.",
+          "next": "sari",
+          "effect": {
+            "wallet": -80,
+            "flags": {
+              "auto_fare_paid": true,
+              "kannada_auto": true
+            },
+            "xp": 20,
+            "xp_branch": "city_survival",
+            "reputation": 2
+          }
+        },
+        {
+          "text": "Office? Do you know office? ITPL?",
+          "next": "english",
+          "effect": {
+            "wallet": -120,
+            "flags": {
+              "auto_fare_paid": true
+            }
+          }
+        },
+        {
+          "text": "Hogu, hogu!",
+          "next": "hogu",
+          "effect": {
+            "flags": {
+              "auto_kannada_left": true
+            },
+            "stress": 3
+          }
+        }
+      ]
+    },
+    "sari": {
+      "text": "Sari, sari! Kutko. (He flips the meter down with one finger and grins.) Kannada gottha? Good, good."
+    },
+    "english": {
+      "text": "Office… yaava office? Haan, ITPL. Nooru-ippattu. (He holds up fingers: one-twenty. Meter stays up.)"
+    },
+    "hogu": {
+      "text": "Hogu? Naane hogtini! (That meant 'go away'. He goes away.)"
+    },
+    "gone": {
+      "text": "(He is across the road now, pretending not to see you.)"
+    },
+    "paid": {
+      "text": "Banni, banni. Kutko."
+    }
+  }
+}

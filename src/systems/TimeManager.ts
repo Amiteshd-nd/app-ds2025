@@ -3,13 +3,16 @@ import { useGameStore, type GameClock } from '../store';
 import { StatsManager } from './StatsManager';
 import { survivalRate } from './SettingsManager';
 import {
+  FIRST_DAY_STRESS,
   FOOD_MINUTES_PER_POINT,
   GAME_MINUTE_MS,
   HUNGRY_AT,
   MINUTES_PER_DAY,
+  OFFICE_END_MINUTE,
   SLEEP_FOOD_RESET,
   SLEEP_HEALTH,
   WAKE_MINUTE,
+  WORKDAY_FOOD_COST,
 } from '../utils/constants';
 
 /**
@@ -110,6 +113,31 @@ export class TimeManager {
     const nights = (store.counters.nights_slept ?? 0) + 1;
     store.setCounter('nights_slept', nights);
     gameEvents.emit('time:slept', { day: next.day, nights });
+    return next;
+  }
+
+  /**
+   * A workday in one jump (story 1.1 F4, the skyline time-lapse): the clock
+   * lands on closing time the same day. Not the awake drain — eight hours of
+   * it would empty the food meter — but one canteen-sized cost, plus first-day
+   * nerves the first time. Announces `time:workday` so the office behaviours
+   * and the transition card can react. A no-op after closing time.
+   */
+  workday(): GameClock {
+    const { day, minute } = this.clock;
+    if (minute >= OFFICE_END_MINUTE) return this.clock;
+    const skipped = OFFICE_END_MINUTE - minute;
+    const next = { day, minute: OFFICE_END_MINUTE };
+    useGameStore.getState().setClock(next);
+    this.foodCarry = 0;
+    const stats = StatsManager.getInstance();
+    stats.adjust('food', -WORKDAY_FOOD_COST);
+    const store = useGameStore.getState();
+    const days = (store.counters.workdays ?? 0) + 1;
+    store.setCounter('workdays', days);
+    if (days === 1) stats.adjust('stress', FIRST_DAY_STRESS);
+    gameEvents.emit('time:advanced', { ...next, deltaMinutes: skipped });
+    gameEvents.emit('time:workday', { day, minutesSkipped: skipped });
     return next;
   }
 }

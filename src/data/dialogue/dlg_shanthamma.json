@@ -2,28 +2,67 @@
   "id": "dlg_shanthamma",
   "speaker": "Shanthamma",
   "portrait": "npc_shanthamma",
-  "enter": [{ "flag": "pg_signed", "node": "signed" }],
+  "enter": [
+    {
+      "flag": "pg_notice_due",
+      "node": "notice_due"
+    },
+    {
+      "flag": "pg_notice_given",
+      "node": "noticed"
+    },
+    {
+      "flag": "furniture_stored",
+      "node": "notice"
+    },
+    {
+      "flag": "pg_signed",
+      "node": "signed"
+    }
+  ],
   "nodes": {
     "start": {
       "text": "Yaaru? PG-ge bandidira? Come, come. Veg only, ah — no egg, no meat, not even in your tiffin box. Gate closes ten o'clock sharp. Ground floor ladies, first floor gents. One cot is free, under the window.",
       "choices": [
-        { "text": "How much, Aunty?", "next": "price" },
-        { "text": "Can I see the room first?", "next": "see" },
-        { "text": "I'll come back later.", "next": "later" }
+        {
+          "text": "How much, Aunty?",
+          "next": "price"
+        },
+        {
+          "text": "Can I see the room first?",
+          "next": "see"
+        },
+        {
+          "text": "I'll come back later.",
+          "next": "later"
+        }
       ]
     },
     "see": {
       "text": "Good, you are sensible. Those token-wala people never show the room. … See: clean, fan works, hot water six to eight, window faces the lane. Now, money matters.",
-      "effect": { "flags": { "pg_room_seen": true }, "xp": 10, "xp_branch": "city_survival" },
+      "effect": {
+        "flags": {
+          "pg_room_seen": true
+        },
+        "xp": 10,
+        "xp_branch": "city_survival"
+      },
       "next": "price"
     },
     "price": {
       "text": "Ten thousand deposit, eight thousand rent, first month in advance. Food two times included, Sunday special. Everybody pays this, I'm not making it up.",
-      "negotiate": { "id": "neg_shanthamma", "deal": "done", "walk": "walked" }
+      "negotiate": {
+        "id": "neg_shanthamma",
+        "deal": "done",
+        "walk": "walked"
+      }
     },
     "done": {
       "text": "Sari, done. Here — key. Lose it, duplicate is ₹200. Your cot is the one under the window. Go keep your bag, wash your face, rest.",
-      "effect": { "xp": 20, "xp_branch": "soft_skills" }
+      "effect": {
+        "xp": 20,
+        "xp_branch": "soft_skills"
+      }
     },
     "walked": {
       "text": "Hm. Go, see the other places. Shanthamma's price will be here only. Come before ten — after that, gate is locked."
@@ -33,6 +72,34 @@
     },
     "signed": {
       "text": "Key is with you? Gate closes ten. And no egg puffs inside — I can smell from the kitchen."
+    },
+    "notice": {
+      "text": "Basavaraj's boy came with a table. Where you will keep a table, kanna? This is a PG, not a flat. … You want your own place. I can see. Notice is one week — deposit comes back after.",
+      "choices": [
+        {
+          "text": "I'll give notice, Aunty. One week.",
+          "next": "notice_given",
+          "effect": {
+            "flags": {
+              "pg_notice_given": true
+            },
+            "reputation": 1
+          }
+        },
+        {
+          "text": "Not yet. Let me think.",
+          "next": "later"
+        }
+      ]
+    },
+    "notice_given": {
+      "text": "Okay. Seven nights. Eat here till then — I'm not sending you out hungry. And the tiffin box is mine, leave it."
+    },
+    "noticed": {
+      "text": "Counting? I'm also counting. Find a place with a window, not just a cot under one."
+    },
+    "notice_due": {
+      "text": "Week is done. Deposit is ready — minus nothing, you kept the room clean. Gate stays open for you, kanna. Sunday lunch, come."
     }
   }
 }

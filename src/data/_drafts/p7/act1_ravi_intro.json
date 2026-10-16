@@ -1,0 +1,78 @@
+{
+  "id": "act1_ravi_intro",
+  "district": "office_gate",
+  "act": 1,
+  "seq": "1.2",
+  "title": "The Intern",
+  "status": "P7-draft",
+  "time": "18:05 Monday, dusk",
+  "player_goal": "Go home.",
+  "design_goal": "Introduce Ravi as a peer, not a plot device; plant the HIVR shuttle (same box logo as 0.1).",
+  "pacing": [
+    "Curious",
+    "Calm",
+    "Curious"
+  ],
+  "entry": {
+    "from": "act1_first_day",
+    "spawn": "gate_evening"
+  },
+  "cast": [
+    {
+      "npc": "npc_ravi",
+      "tier": 3,
+      "spawn": "shuttle_bay",
+      "role": "On the phone about a stipend; gives his number → met_ravi; shuttle arrives"
+    }
+  ],
+  "quests": [
+    "q_act1_ravi_intro"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "A lanky guy in an HIVR lanyard arguing on the phone in an accent the player knows.",
+      "interact": "walk near",
+      "flag": ""
+    },
+    {
+      "id": "F2",
+      "pacing": "Calm",
+      "what": "Dialogue: intern at a lab in Hebbal, shuttle from this gate, stipend 'processing'. Number → met_ravi; Ravi chat thread opens.",
+      "interact": "dialogue",
+      "flag": "met_ravi"
+    },
+    {
+      "id": "F3",
+      "pacing": "Curious",
+      "what": "White van with the blue-cross cold-box logo turns in (prop, unlessFlag met_ravi → appears after).",
+      "interact": "watch",
+      "flag": "seen_hivr_shuttle"
+    }
+  ],
+  "economy": [],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [
+    {
+      "zone": "auto_stand",
+      "to": "whitefield_street",
+      "spawn": "auto_stand",
+      "transit": "auto"
+    }
+  ],
+  "save_flags": [
+    "met_ravi",
+    "seen_hivr_shuttle"
+  ],
+  "assets_needed": [
+    "npc_ravi sheet (lanyard, green = intern)",
+    "white van prop with the HIVR box logo"
+  ],
+  "acceptance": [
+    "Ravi is at the shuttle bay only after act1_first_day_done",
+    "met_ravi opens the Ravi chat",
+    "the van appears after the talk"
+  ]
+}

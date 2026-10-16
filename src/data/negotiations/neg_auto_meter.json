@@ -1,0 +1,25 @@
+{
+  "id": "neg_auto_meter",
+  "npc": "npc_auto_meter",
+  "temperament": "firm",
+  "patience": 2,
+  "terms": [
+    { "id": "fare", "label": "Fare", "ask": 150, "floor": 100 }
+  ],
+  "counters": [
+    { "id": "meter", "text": "Meter haaki, anna. It comes to ₹80.", "term": "fare", "offer": 80, "tactic": "compare" },
+    { "id": "daily", "text": "I'll come this way every day now. ₹100?", "term": "fare", "offer": 100, "tactic": "reason" },
+    { "id": "fifty", "text": "₹50. Take it or leave it.", "term": "fare", "offer": 50, "tactic": "lowball" }
+  ],
+  "lines": {
+    "concede": "Okay, {amount}. Sit, sit — traffic is there.",
+    "hold": "Meter illa, saar. One-way trip, return empty. {total}.",
+    "offended": "Fifty? Walk, then. Good for health.",
+    "final": "{total}, last. Nine-thirty you want to reach, no?",
+    "callback": "Ey — okay, {amount}. Come. Don't tell the other drivers."
+  },
+  "acceptText": "Fine — {total}. Let's go.",
+  "walkText": "I'll find another auto",
+  "reason": "auto_fare",
+  "on_deal": { "flags": ["auto_fare_paid"] }
+}

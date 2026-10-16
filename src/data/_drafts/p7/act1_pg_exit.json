@@ -1,0 +1,85 @@
+{
+  "id": "act1_pg_exit",
+  "district": "prashanth_layout",
+  "act": 1,
+  "seq": "1.3",
+  "title": "Not Working Out",
+  "status": "P7-draft",
+  "time": "Days 5–8, evenings",
+  "player_goal": "Realise the PG isn't it; buy a table and chair — 'No space.'",
+  "design_goal": "A motivated move: housing ladder step 2, a one-week timer (pgNoticeTimer).",
+  "pacing": [
+    "Calm",
+    "Engaged",
+    "Tense"
+  ],
+  "entry": {
+    "from": "office_gate",
+    "spawn": "lane_mouth"
+  },
+  "cast": [
+    {
+      "npc": "npc_provision_basava",
+      "tier": 2,
+      "spawn": "provision",
+      "role": "After act1_first_day_done sells the folding table + chair (₹1,800); the delivery boy's 'Not enough space.'"
+    },
+    {
+      "npc": "npc_shanthamma",
+      "tier": 3,
+      "spawn": "shanthamma",
+      "role": "After furniture_stored: notice is one week; pg_notice_given starts the timer"
+    }
+  ],
+  "quests": [
+    "q_act1_pg_exit"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "Food keeps dipping — PG food doesn't suit (no community named).",
+      "interact": "—",
+      "flag": ""
+    },
+    {
+      "id": "F2",
+      "pacing": "Engaged",
+      "what": "Buy table + chair ₹1,800 → 'Where to keep, saar?' → Not enough space → godown (item held).",
+      "interact": "dialogue",
+      "flag": "furniture_stored",
+      "economy": "₹1,800"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "Shanthamma: notice one week, deposit after. Timer counts nights; pg_notice_due opens 1.4.",
+      "interact": "dialogue",
+      "flag": "pg_notice_given → pg_notice_due"
+    }
+  ],
+  "economy": [
+    {
+      "trigger": "folding table + chair",
+      "spend": 1800,
+      "canAfford": true
+    }
+  ],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [],
+  "save_flags": [
+    "furniture_bought",
+    "furniture_stored",
+    "pg_notice_given",
+    "pg_notice_due"
+  ],
+  "assets_needed": [
+    "none new — lane and PG exist"
+  ],
+  "acceptance": [
+    "the furniture choice appears only after act1_first_day_done",
+    "buying sets furniture_stored and adds folding_table_chair",
+    "Shanthamma's notice line appears after furniture_stored; agreeing starts a 7-night countdown with morning toasts; zero sets pg_notice_due and her 'deposit ready' line"
+  ]
+}

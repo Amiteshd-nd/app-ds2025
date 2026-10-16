@@ -27,6 +27,8 @@ export interface GameEvents {
   'ui:toast': { text: string; icon?: IconName };
   'time:advanced': { day: number; minute: number; deltaMinutes: number };
   'time:slept': { day: number; nights: number };
+  /** A workday passed in one jump (story 1.1 F4): clock now at closing time. */
+  'time:workday': { day: number; minutesSkipped: number };
   'quest:started': { questId: string };
   'quest:objective': { questId: string; objectiveId: string };
   'quest:completed': { questId: string };

@@ -42,5 +42,21 @@
     "icon": "item_placeholder",
     "type": "key_item",
     "stackable": false
+  },
+  {
+    "id": "id_card",
+    "name": "Office ID Card",
+    "description": "Your name, spelt right on the second try. Opens the gate, the lift and the canteen queue.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false
+  },
+  {
+    "id": "folding_table_chair",
+    "name": "Folding Table + Chair",
+    "description": "Flat-packed hope. Needs a floor that is yours.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false
   }
 ]

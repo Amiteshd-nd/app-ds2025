@@ -1,0 +1,18 @@
+{
+  "id": "sameer",
+  "contact": "Sameer (Team)",
+  "messages": [
+    {
+      "id": "sameer_1",
+      "from": "them",
+      "text": "Sameer here, same team, desk behind yours. Canteen 1 PM tomorrow — I'll show you the good counter.",
+      "after": "met_sameer"
+    },
+    {
+      "id": "sameer_2",
+      "from": "me",
+      "text": "Done. Thanks for today.",
+      "after": "met_sameer"
+    }
+  ]
+}

@@ -286,8 +286,8 @@ export interface DistrictTrigger {
   setFlags?: string[];
   /** Dialogue opened on entry — a phone call in the room, a thought at a window. */
   dialogue?: string;
-  /** Built-in action on entry. `sleep` = TimeManager.sleep() (bed zones). */
-  action?: 'sleep';
+  /** Built-in action on entry. `sleep` = TimeManager.sleep() (bed zones); `workday` = TimeManager.workday() behind a fade (the office door). */
+  action?: 'sleep' | 'workday';
 }
 
 /**

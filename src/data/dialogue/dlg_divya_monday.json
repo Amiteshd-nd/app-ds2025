@@ -1,0 +1,52 @@
+{
+  "id": "dlg_divya_monday",
+  "speaker": "Divya",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "act1_first_day_done",
+      "node": "evening"
+    },
+    {
+      "flag": "late_first_day",
+      "node": "late"
+    },
+    {
+      "flag": "on_time_first_day",
+      "node": "ontime"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "You found it! Did the guard send you to Prakash? He sends everyone to Prakash. Come, induction is upstairs.",
+      "next": "go"
+    },
+    "ontime": {
+      "text": "Nine twenty-eight. I like you already. Prakash gave the card? Good. Come up — induction, then I'll show you your desk. Window seat, don't get used to it.",
+      "effect": {
+        "reputation": 2,
+        "xp": 10,
+        "xp_branch": "soft_skills"
+      },
+      "next": "go"
+    },
+    "late": {
+      "text": "(She looks at her watch, then at you, then decides not to say it.) Autos? Everyone's first Monday is autos. Tomorrow, leave twenty minutes early. Come, induction has started.",
+      "effect": {
+        "stress": 2
+      },
+      "next": "go"
+    },
+    "go": {
+      "text": "Laptop comes from IT on Wednesday — IT is IT. Till then, read the wiki and meet the team. Sameer sits behind you; he talks. That's useful.",
+      "effect": {
+        "flags": {
+          "divya_met_monday": true
+        }
+      }
+    },
+    "evening": {
+      "text": "Day one done. Go home, eat something that isn't from a machine. Nine-thirty tomorrow."
+    }
+  }
+}

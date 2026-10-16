@@ -1,0 +1,66 @@
+{
+  "id": "q_act1_first_day",
+  "title": "Monday",
+  "description": "Reach the office by 9:30 — Maps, an auto or your feet — get your ID from Prakash, find Divya, survive day one.",
+  "chapter": 1,
+  "district": "office_gate",
+  "type": "delivery",
+  "prerequisite_quests": [
+    "q_act0_pg_hunt"
+  ],
+  "objectives": [
+    {
+      "id": "leave",
+      "text": "Leave Prashanth Layout for the office (Maps knows the way)",
+      "type": "reach",
+      "target": "main_road",
+      "destination": "prashanth_layout"
+    },
+    {
+      "id": "ride",
+      "text": "Take an auto to the office",
+      "type": "flag",
+      "target": "auto_fare_paid",
+      "optional": true,
+      "destination": "whitefield_street"
+    },
+    {
+      "id": "arrive",
+      "text": "Reach the office gate by 9:30",
+      "type": "flag",
+      "target": "office_arrived",
+      "destination": "office_gate"
+    },
+    {
+      "id": "id_card",
+      "text": "Get your ID card from Prakash (Admin block)",
+      "type": "flag",
+      "target": "id_card_issued",
+      "destination": "office_gate"
+    },
+    {
+      "id": "divya",
+      "text": "Find Divya",
+      "type": "flag",
+      "target": "divya_met_monday",
+      "destination": "office_gate"
+    },
+    {
+      "id": "workday",
+      "text": "Go in. (The day will pass.)",
+      "type": "flag",
+      "target": "act1_first_day_done",
+      "destination": "office_gate"
+    }
+  ],
+  "rewards": {
+    "xp": 50,
+    "xp_branch": "soft_skills",
+    "reputation": 5
+  },
+  "on_complete": {
+    "set_flags": [
+      "act1_first_day_done"
+    ]
+  }
+}

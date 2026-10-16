@@ -1,0 +1,32 @@
+{
+  "id": "q_act1_ravi_intro",
+  "title": "The Intern",
+  "description": "Outside the gate at six, a lanky guy in an HIVR lanyard argues with his mother about a stipend. He sounds like home.",
+  "chapter": 1,
+  "district": "office_gate",
+  "type": "social",
+  "prerequisite_quests": [
+    "q_act1_first_day"
+  ],
+  "objectives": [
+    {
+      "id": "sameer",
+      "text": "Say bye to Sameer at the gate",
+      "type": "flag",
+      "target": "met_sameer",
+      "optional": true,
+      "destination": "office_gate"
+    },
+    {
+      "id": "ravi",
+      "text": "Talk to the intern waiting for his shuttle",
+      "type": "flag",
+      "target": "met_ravi",
+      "destination": "office_gate"
+    }
+  ],
+  "rewards": {
+    "xp": 20,
+    "xp_branch": "soft_skills"
+  }
+}

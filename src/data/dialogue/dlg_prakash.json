@@ -1,0 +1,51 @@
+{
+  "id": "dlg_prakash",
+  "speaker": "Prakash · Admin",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "id_card_issued",
+      "node": "done"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Yes yes, new joinee, I know, Divya madam told. Offer letter? Degree? Good. Name? … Spell it.",
+      "choices": [
+        {
+          "text": "(Spell it slowly.)",
+          "next": "spelt"
+        },
+        {
+          "text": "It's on the offer letter, sir.",
+          "next": "letter"
+        }
+      ]
+    },
+    "letter": {
+      "text": "Letter is letter, system is system. System wants spelling. Spell it.",
+      "next": "spelt",
+      "effect": {
+        "stress": 1
+      }
+    },
+    "spelt": {
+      "text": "(Typing with two fingers.) Okay. Photo — look here, don't smile, this is office not Instagram. … Printing. Card is coming. Don't lose it, replacement is five hundred.",
+      "next": "card"
+    },
+    "card": {
+      "text": "Here. Lanyard is blue for employees, red for vendors, green for interns. You are blue. Go, Divya madam is waiting. Second floor.",
+      "effect": {
+        "item_add": "id_card",
+        "flags": {
+          "id_card_issued": true
+        },
+        "xp": 15,
+        "xp_branch": "soft_skills"
+      }
+    },
+    "done": {
+      "text": "Card working? Good. Don't lose it. Five hundred."
+    }
+  }
+}

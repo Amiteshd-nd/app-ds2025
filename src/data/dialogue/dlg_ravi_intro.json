@@ -1,0 +1,50 @@
+{
+  "id": "dlg_ravi_intro",
+  "speaker": "Ravi",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "met_ravi",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(On the phone, in the accent of a town three hours from yours.) — No, Amma, stipend is coming, they said processing — I'll call. (He hangs up.) Sorry. You also new? Which town?",
+      "choices": [
+        {
+          "text": "Not far from yours, by the sound of it.",
+          "next": "town",
+          "effect": {
+            "reputation": 1
+          }
+        },
+        {
+          "text": "New since Monday. You work here?",
+          "next": "lab"
+        }
+      ]
+    },
+    "town": {
+      "text": "Ha! I knew it. Ravi. Intern — not here, at a lab in Hebbal. HIVR. Shuttle picks us up from this gate, God knows why. Two months and the stipend is still 'processing'.",
+      "next": "number"
+    },
+    "lab": {
+      "text": "Not here. Lab in Hebbal — HIVR, you'd have seen the name on cold boxes at the airport. Shuttle picks us up from this gate. Two months, no stipend. 'Processing'.",
+      "next": "number"
+    },
+    "number": {
+      "text": "Take my number. Call anytime — I'm free. Too free. (A white van turns in. The same blue-cross box logo as the airport, on its door.) That's me. Monday, same time?",
+      "effect": {
+        "flags": {
+          "met_ravi": true
+        },
+        "xp": 15,
+        "xp_branch": "soft_skills"
+      }
+    },
+    "again": {
+      "text": "Shuttle's late again. Stipend's late again. I'm early for everything, that's my problem."
+    }
+  }
+}

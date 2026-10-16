@@ -1,0 +1,24 @@
+{
+  "id": "dlg_office_guard",
+  "speaker": "Security Guard",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "id_card_issued",
+      "node": "badge"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "New joinee? No ID, no entry — rule is rule. Admin block, left side, ground floor. Ask for Prakash sir. Tell him I sent you — he will still make you wait.",
+      "effect": {
+        "flags": {
+          "office_guard_met": true
+        }
+      }
+    },
+    "badge": {
+      "text": "Ah, card is there. Tap, tap. Lift is on the right. Welcome, saar-madam."
+    }
+  }
+}

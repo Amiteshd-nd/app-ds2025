@@ -2,13 +2,16 @@
 Updated: 2026-10-16
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — P6 Phone · fullscreen map · HUD · menus (style board, ADR-113/114)
+## Now — P7 Monday / office (story 1.1–1.3, ADR-120)
+- [ ] T-012 P7 — **P7a built 2026-10-16** (ADR-120: workday skip + `workday` trigger, officeClockIn, pgNoticeTimer, three autos + neg_auto_meter, guard/Prakash/Divya/Sameer/Ravi dialogues, furniture + notice in the lane, chats, items; quests + scene components drafted in `src/data/_drafts/p7/`). **P7b blocked on the user**: 6–9 office reference photos (ADR-30) + the real spot for the office gate near ITPL → OSM extract → pocket render on its streets → district `office_gate` (zones: auto_drop, auto_stand, office_arrival, admin_desk, lobby, office_door [workday], gate_evening, shuttle_bay) → move drafts live → sheets for the Act 1 cast + auto/van props → skyline time-lapse card → transit kind `auto` card → audit
+
+## Done — P6 Phone · fullscreen map · HUD · menus (style board, ADR-113/114)
 - [x] T-032 P6a (approved 2026-10-13) — font pipeline (Pixelify Sans → bitmap `px`/`pxb`), UI palette + tokens, UI-kit molecules (5 states), PhoneScene: frame, status bar, home 4×3 + dock, Chats (list + thread), UPI, Maps (list), stubs; DND-aware buzz + unlock pop; playground preset `phone-day-3`
 - [x] T-033 P6b (approved 2026-10-13) — fullscreen symbolic map (ADR-115): `city.json`, MapManager (visited/travelled/route/reroute/★/fast travel), glyph-field regions, 8px-grid paths dotted→solid, metro, nodes, label cards, yellow dashed route, legend, compass, 1×/2× zoom, M key + phone Maps; presets `map-day-3`
 - [x] T-038 Map Area view (ADR-117, approved 2026-10-13): OSM streets around Prashanth Extension, pocket drawn at true size, player position inside it, street labels, © OSM
 - [ ] T-039 Real areas for the airport arrivals kerb and the Whitefield hotel street (choose their real spots, fetch, place) — and every new pocket from P7 on
 - [x] T-034 P6c (ADR-118) — HUD rebuilt in-canvas (objective, location card + NEW, clock + sky glyph, wallet tick, phone button top-right, context action, prompt bubble, toast queue, SAVED glyph, contextual meters, dialogue card with typewriter + pills), in-canvas joystick, rotate panel; 5 HUD presets; DOM HUD + TouchControls deleted (closes T-024) — approved 2026-10-16
-- [x] T-035 P6d (ADR-119) — MenuScene: Pause / Settings from `data/menus/settings.json` (9 sections incl. HUD auto-hide + meters, Larger text = 2× HUD/menus, About & credits) / Save / Load / Delete / confirm dialogs; keyboard + gamepad (`ui/kit/gamepad.ts`, also HUD walk, phone, map, dialogue, title) + touch; Title gains Load Game + Settings; phone Settings app → menu; background → autosave + pause — **built 2026-10-16, awaiting P6d audit**
+- [x] T-035 P6d (ADR-119) — MenuScene: Pause / Settings from `data/menus/settings.json` (9 sections incl. HUD auto-hide + meters, Larger text = 2× HUD/menus, About & credits) / Save / Load / Delete / confirm dialogs; keyboard + gamepad (`ui/kit/gamepad.ts`, also HUD walk, phone, map, dialogue, title) + touch; Title gains Load Game + Settings; phone Settings app → menu; background → autosave + pause — approved 2026-10-16
 - [ ] T-040 Dialogue card at 2× (Larger text): page long lines, two-line choice pills — or cap content at 40-char lines / 30-char choices per the design system
 - [ ] T-041 Save export / import in Settings → Data (needs a `platform.files` download/upload molecule; web = Blob download, native = share sheet)
 - [ ] T-042 Key rebinding (Settings → Controls) once the input map has named actions
@@ -32,7 +35,7 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 - [x] T-030 Test Playground (ADR-104/105/108) — approved 2026-10-13: tree, prerequisite builder, quiet inspector, presets, deep links, isolated saves, export-with-confirm, light/dark, resizable panels, phone-in-landscape thumbs simulation
 - [x] T-031 Brand-new airport (ADR-109) — approved 2026-10-13
 - [x] T-028 Living title screen (ADR-101/102) — approved 2026-10-13
-- [x] T-011 P6 systems (ADR-110/111/112: slots via platform.saves, settings, phone rules, UPI ledger, Maps data, autosave triggers); UI split into T-032…T-035 · T-012 P7 Monday/office · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
+- [x] T-011 P6 systems (ADR-110/111/112: slots via platform.saves, settings, phone rules, UPI ledger, Maps data, autosave triggers); UI split into T-032…T-035 · T-013 P8 hill flat · T-014 P9 Cubbon + Ananya + City Moments
 - [ ] T-015 Quest taxonomy → `help|social|deliver|investigate|collect|chase|combat-lite` (ADR-18/22) and rep tiers → Hosa/Gothu/Namma (ADR-26); migrate existing content ids to prefix convention (`npc_`, `q_`, `dlg_`…)
 - [ ] T-016 M1 Android release · T-017 M2 iOS release (after web slice public)
 - [x] T-024 Landscape lock + "rotate your phone" panel in portrait; safe-area insets on HUD pills; **the HUD + quest panel cover ~⅓ of an iPhone-size screen** (playground phone simulation, 2026-10-13) — closed by P6c (ADR-118): canvas HUD, bottom 20 px kept clear, OrientationScene

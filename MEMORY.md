@@ -51,6 +51,8 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 
 - Menus (ADR-119): a new setting = one atom in `settings.defaults.json` + one row in `data/menus/settings.json` (the validator ties them); the menu draws it. A new pause item = `pauseRows` + a `pauseAction` case. Anything that must open the menu calls `MenuScene.open({...})`; the scene is global (Boot starts it) — never launch or stop it from a world scene.
 
+- Content that names a district which does not exist yet goes to `src/data/_drafts/<phase>/` (not globbed, not validated) with a README — never a placeholder map. Move it live when the pocket lands (P7: `_drafts/p7`).
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
 - `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` and `src/ui/kit/icons.ts` — keep those free of Vite-only syntax and of JSON imports (Node needs `with { type: 'json' }`); the validator reads `fonts/metrics.json` with `readFileSync` instead.

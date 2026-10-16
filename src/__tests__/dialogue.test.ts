@@ -13,8 +13,9 @@ beforeEach(() => {
 describe('content registry', () => {
   it('loads authored content by id', () => {
     expect(Object.keys(DIALOGUE).sort()).toEqual([
-      'airport_helper', 'dlg_amma_call', 'dlg_cab_tout', 'dlg_chai_anna', 'dlg_coliving', 'dlg_darshini',
-      'dlg_divya_call', 'dlg_hotel_reception', 'dlg_neighbour_leela', 'dlg_pg_token', 'dlg_provision',
+      'airport_helper', 'dlg_amma_call', 'dlg_auto_fair', 'dlg_auto_kannada', 'dlg_auto_meter', 'dlg_cab_tout', 'dlg_chai_anna',
+      'dlg_coliving', 'dlg_darshini', 'dlg_divya_call', 'dlg_divya_monday', 'dlg_hotel_reception', 'dlg_neighbour_leela',
+      'dlg_office_guard', 'dlg_pg_token', 'dlg_prakash', 'dlg_provision', 'dlg_ravi_intro', 'dlg_sameer_intro',
       'dlg_shanthamma', 'receptionist', 'security_guard', 'shopkeeper',
     ]);
     expect(Object.keys(QUESTS)).toContain('q_act0_arrival');

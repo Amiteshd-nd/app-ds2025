@@ -75,6 +75,24 @@ export const HOTEL_NIGHTS = 3;
 /** After the company's nights, the receptionist's rate (dlg_hotel_reception). */
 export const HOTEL_EXTRA_NIGHT = 1800;
 
+// --- Office (story 1.1 / 1.3; ADR-120) --------------------------------------
+/** Divya said 9:30. Clock in later than this on the first day and it is noticed. */
+export const OFFICE_START_MINUTE = 9 * 60 + 30;
+/** The workday skip lands here, same day. */
+export const OFFICE_END_MINUTE = 18 * 60;
+/** A workday costs this much food (canteen lunch implied) instead of the awake drain. */
+export const WORKDAY_FOOD_COST = 20;
+/** First day nerves. */
+export const FIRST_DAY_STRESS = 5;
+/** Walking in late on day one. */
+export const LATE_STRESS = 10;
+/** Shanthamma's notice period, in nights (story 1.3). */
+export const PG_NOTICE_DAYS = 7;
+/** Folding table + chair from the lane shop (story 1.3). */
+export const FURNITURE_PRICE = 1800;
+/** What the meter would read Whitefield lane → office (story 1.1 autos). */
+export const AUTO_METER_FARE = 80;
+
 // --- Food (profile doc §2, components §7; ADR-97) --------------------------
 /**
  * Game minutes per food point while awake. 6 → a full meter lasts ten game

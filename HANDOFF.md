@@ -1,34 +1,27 @@
 # HANDOFF — resume here (read right after CLAUDE.md)
-Updated: 2026-10-16, P6c approved, P6d built (awaiting audit). A new chat picks up exactly here.
+Updated: 2026-10-16, P6 complete; P7a built, P7b waits on the user's office references + spot. A new chat picks up exactly here.
 
 ## 0. Where we are — in one breath
-Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P5 approved**, plus the living title screen, the Test Playground and the new airport. **P6 systems built** (ADR-110/111/112). **P6 style board** approved (ADR-113/114). **P6a** phone, **P6b** map + Area view (ADR-115/117) and **P6c** in-canvas HUD (ADR-118) **approved**. **P6d (T-035, ADR-119) is built and awaits the user's audit**: one MenuScene for pause / settings (data-driven, nine sections) / save / load / delete / confirm / about, keyboard + gamepad + touch, Larger text = 2× HUD and menus, Title gains Load Game + Settings, the phone's Settings app and the HUD's clock plate open the menu, backgrounding autosaves and pauses. That closes P6; **P7 Monday/office (T-012)** is next, co-authored with the user (new pocket → real streets first, AUDIT_LOG rule). Breathing parked + OFF (T-029). Last push 2026-10-13 (6d745db); P6c (fd92b0b) and P6d are committed locally, push only when asked. 368 tests, typecheck, validators, `pnpm build` (+ dist check) all green.
+Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P6 approved** (P6d menus approved 2026-10-16; ADR-119). **P7 Monday/office (T-012) is half built — ADR-120**: the systems and script are in (workday skip + `workday` trigger, lateness rule, PG notice timer, three autos, guard/Prakash/Divya/Sameer/Ravi lines, furniture + notice on the lane, chats, items), all tested and validated; the quests and scene components for 1.1–1.3 are drafted in `src/data/_drafts/p7/`. **P7b is blocked on the user**: 6–9 office reference photos (ADR-30) and the real spot for the office gate near ITPL. Then: OSM extract → pocket render on its streets → `office_gate` district → drafts go live → Act 1 cast sheets + auto/van props → skyline time-lapse card → `auto` transit card → audit. Breathing parked + OFF (T-029). Last push 2026-10-13 (6d745db); P6c, P6d and P7a are committed locally, push only when asked. 373 tests, typecheck, validators, `pnpm build` all green.
 
 ## 1. Phase / task ledger
 | Item | State |
 |---|---|
-| P0–P5, title screen, playground, new airport | approved |
-| P6 systems (ADR-110/111/112) · style board (ADR-113/114) | approved — mock board: https://claude.ai/artifact/MPtuoSmvoPVF2JwCVnLXYj (also `docs/mocks/p6-style-board/`, `pnpm mocks`) |
-| P6a phone (T-032) · P6b map (T-033) · Area view (T-038) · P6c HUD (T-034) | approved |
-| **P6d menus (T-035, ADR-119)** | **built 2026-10-16 — awaiting audit** |
-| P7 Monday / office (T-012) | next, after the P6d audit — content + a new pocket with the user |
+| P0–P6 (phone · map · Area view · HUD · menus) | approved — ADR-110…119 |
+| **P7a Monday systems + script (ADR-120)** | **built 2026-10-16** (nothing visible in play yet: the content is dormant until the office pocket) |
+| **P7b office pocket + art + drafts live** | **blocked: user's references + real spot** |
 | T-039 real areas for the airport kerb + hotel street · T-040 dialogue at 2× · T-041 save export/import UI · T-042 key rebinding | open |
 | Breathing (T-029) | parked, OFF |
 
 ## 2. Resume protocol
-1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-113…119), `MEMORY.md`, `AUDIT_LOG.md` (the P6 rules are standing rules).
-2. If the user has audited P6d: log corrections in AUDIT_LOG as rules, apply, then start **P7** (T-012 Monday/office: story_script §1.x beats → scene component JSON + a new office pocket near ITPL generated to its real streets (`scripts/fetch-osm-area.mjs`, ADR-117 rule) + quests/dialogue; ask the user for the office reference images first — ADR-30) — STOP for audit after it.
-3. Art direction is delegated ("think like an art director and take the best call"): decide, show, log in the ADR. Ask only on a conflict with a logged decision.
-4. Still open with the user: chat-line voice review (4 threads); the app hints in `phone/apps.json`; the Office pin near ITPL and the Ambedkar Nagar position (guesses until P7/P8).
+1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-117…120), `MEMORY.md`, `AUDIT_LOG.md`.
+2. **If the user has sent the office references + spot:** add `realworld.area` for `office_gate` (anchor at the chosen gate, bearing along its street) to a new district entry → `node scripts/fetch-osm-area.mjs office_gate` → generate the pocket render on those streets (prompt rules in `_raw/maps/README.md`; gate, guard cabin, admin block door, auto stand, shuttle bay, parking) → `office_gate.spec.json` with zones `auto_drop` (spawn), `auto_stand` (exit → whitefield_street, transit `auto`), `office_arrival` (trigger `setFlags: [office_arrived]`), `admin_desk`, `lobby`, `office_door` (trigger `action: workday`), `gate_evening`, `shuttle_bay` → district lists `behaviours: [officeClockIn]` and `prashanth_layout` adds `pgNoticeTimer` → move `_drafts/p7/*` into `quests/` and `scenes/` → add `auto` to `TRANSIT_KINDS` + its card → Act 1 cast sheets through the sprite pipeline → the skyline time-lapse card inside the workday fade (landmarks doc: Nandi Hills parallax) → Maps: the Office pin becomes the district node → validate, test, build → STOP for the P7 audit.
+3. Voice review: the new lines (autos, guard, Prakash, Divya, Sameer, Ravi, Basavaraj's delivery boy, Shanthamma's notice, three chats) are drafts in the user's register; read them with the user before the audit.
+4. Art direction is delegated: decide, show, log. Ask only on a conflict with a logged decision.
 
-## 3. P6d — how to audit it (playground, 6175)
-- Any node → **ESC** (or tap the clock plate, or START on a pad): PAUSED · RESUME / SETTINGS / SAVE / LOAD / MAP / QUIT TO TITLE as label cards, the chosen one white with ▶; world dimmed + desaturated; the HUD hides; opening autosaves (SAVED glyph on return).
-- SETTINGS → nine sections. In a section ◀▶ (or tap: toggles flip, choices cycle, slider left/right half) change the value live: GAMEPLAY → DIALOGUE SPEED then talk to someone; HUD → OBJECTIVE AUTO-HIDE off keeps the line up; HUD → LARGER TEXT doubles the HUD + menus (phone button follows); CONTROLS → JOYSTICK SIDE on the iPhone 15 device moves the stick; DISPLAY → PIXEL SCALE 2× fixes the canvas; DATA → RESET / DELETE A SAVE confirm first; ABOUT credits the font + OpenStreetMap + version.
-- SAVE: the autosave row is read-only; an empty slot saves at once (toast after the menu closes); a used slot asks "Overwrite slot N?". LOAD: filled slots only; in play it asks before dropping unsaved progress; the world restarts at the slot's position. QUIT TO TITLE asks, then the title shows **New Game · Continue · Load Game · Settings** — Load Game and Settings open the same menu over the title.
-- Phone (P) → Settings app → the menu's SETTINGS screen; BACK/ESC returns to the world (not the phone).
-- Gamepad (plug one in, press a button first): left stick walks, A talks, Y phone, X map, START pause; in menus d-pad/stick, A select, B back.
-- Snapshots from this build are in the session scratchpad (`menu-pause`, `menu-gameplay`, `menu-save`, `menu-load`, `menu-audio-title`, `hud-2x`).
-Decisions the user may want to overturn (ADR-119): clock plate as the touch pause control; pause autosaves; autosave slot read-only; dialogue card not scaled by Larger text (T-040); no HUD-scale knob beyond Larger text; audio rows shown although nothing plays yet.
+## 3. P7a — how to see what exists (playground, 6175)
+- Nothing new appears in play until the pocket exists. The behaviours and the workday skip are unit-tested (`act1.test.ts`). To try the lane half early: `__nqStore.getState().setFlag('act1_first_day_done', true)` on node 0.3, talk to Basavaraj → table + chair → Shanthamma → notice → sleep seven nights (toasts count down; `pg_notice_due`).
+- Dialogue drafts: `src/data/dialogue/dlg_auto_*.json`, `dlg_office_guard.json`, `dlg_prakash.json`, `dlg_divya_monday.json`, `dlg_sameer_intro.json`, `dlg_ravi_intro.json`; `dlg_provision.json` (`start_act1`, `delivery`), `dlg_shanthamma.json` (`notice*`).
 
 ## 4. What exists, where the next steps plug in
 - **Kit** `src/ui/kit/`: `pixel` · `icons` · `text` · `molecules` (phonePill, appTile, badge, dockBar, hudPlate, labelCard, blockRow, speechBubble, choicePill, tapZone; 5 states) · `focus` · `phaser` (bake, pxText, pxTextShadow). P6d menus reuse `labelCard` (selected inverts with ▶) and `blockRow` for sliders — add molecules here, with tests in `uikit.test.ts` / `hud.test.ts`.
@@ -50,7 +43,7 @@ Decisions the user may want to overturn (ADR-119): clock plate as the touch paus
 - Another chat's dev server may already hold 6174/6175 — a plain `navigate` to its URL serves the current files.
 
 ## 7. Open items the user owns
-- **P6d audit** (above). T-039 real places for the airport kerb and the hotel street. Chat-line voice review; app hints copy. Breathing lines (T-029). T-018 Xcode / Android Studio or cloud CI (native shells never booted on this Mac). Unfinished business doc: names, endings, co-op, monetization, trailer honesty.
+- **P7b inputs**: office reference photos (6–9), the real office-gate spot, voice OK on the Act 1 lines. T-039 real places for the airport kerb and the hotel street. Chat-line voice review; app hints copy. Breathing lines (T-029). T-018 Xcode / Android Studio or cloud CI (native shells never booted on this Mac). Unfinished business doc: names, endings, co-op, monetization, trailer honesty.
 
 ## 8. Debt not to forget
 T-027 occluders/pixel collision for the hand-made airport map and the procedural Whitefield street · T-021 street tiles off-palette · T-015 quest taxonomy + rep tiers · health/stress ticks not yet · no audio yet (Settings volumes inert) · T-040 dialogue card at 2× · T-041 save export/import UI · T-042 key rebinding · `display.screenShake/reduceFlashes`, `gameplay.tutorialHints/autoRun`, `accessibility.colourblindIcons/holdToRun` are atoms with menu rows but no consumer yet · the dialogue card shows at most 3 wrapped lines (longest line today needs 2) · playtime on slot cards reads — in playground runs (SaveManager.tick counts only while WorldScene updates; check in a real run).

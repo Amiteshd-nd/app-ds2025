@@ -1,0 +1,38 @@
+{
+  "id": "q_act1_pg_exit",
+  "title": "Not Working Out",
+  "description": "PG food doesn't suit. A table and chair would help — if there were a floor to put them on.",
+  "chapter": 1,
+  "district": "prashanth_layout",
+  "type": "collection",
+  "prerequisite_quests": [
+    "q_act1_first_day"
+  ],
+  "objectives": [
+    {
+      "id": "furniture",
+      "text": "Buy a folding table and chair from Basavaraj (₹1,800)",
+      "type": "flag",
+      "target": "furniture_stored",
+      "destination": "prashanth_layout"
+    },
+    {
+      "id": "notice",
+      "text": "Tell Shanthamma",
+      "type": "flag",
+      "target": "pg_notice_given",
+      "destination": "prashanth_layout"
+    },
+    {
+      "id": "week",
+      "text": "Seven nights. Find a place with a floor.",
+      "type": "flag",
+      "target": "pg_notice_due",
+      "destination": "shanthamma_pg"
+    }
+  ],
+  "rewards": {
+    "xp": 30,
+    "xp_branch": "city_survival"
+  }
+}

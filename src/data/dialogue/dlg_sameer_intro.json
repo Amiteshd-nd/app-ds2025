@@ -1,0 +1,51 @@
+{
+  "id": "dlg_sameer_intro",
+  "speaker": "Sameer",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "met_sameer",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "First day? Same team — I'm Sameer, desk behind yours. You looked at the window seat like it was a view. It's a parking lot. Give me your number, canteen tomorrow, I'll show you the good counter.",
+      "choices": [
+        {
+          "text": "Sure. (Share number.)",
+          "next": "shared",
+          "effect": {
+            "flags": {
+              "met_sameer": true
+            },
+            "reputation": 1,
+            "xp": 10,
+            "xp_branch": "soft_skills"
+          }
+        },
+        {
+          "text": "Which counter is the bad one?",
+          "next": "counter"
+        }
+      ]
+    },
+    "counter": {
+      "text": "The one with the queue. The queue is for the biryani. The biryani is a lie.",
+      "next": "shared",
+      "effect": {
+        "flags": {
+          "met_sameer": true
+        },
+        "xp": 10,
+        "xp_branch": "soft_skills"
+      }
+    },
+    "shared": {
+      "text": "Done. Go, go, your bus. Whitefield traffic at six is a personality test."
+    },
+    "again": {
+      "text": "Tomorrow. One PM. Don't eat before."
+    }
+  }
+}

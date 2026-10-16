@@ -1,0 +1,44 @@
+{
+  "id": "dlg_auto_fair",
+  "speaker": "Auto Driver",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "auto_fare_paid",
+      "node": "paid"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Where to? … Office near ITPL? Meter, meter. Eighty rupees, ninety if the signal catches us. Get in.",
+      "choices": [
+        {
+          "text": "Meter it is. (₹80, UPI)",
+          "next": "go",
+          "effect": {
+            "wallet": -80,
+            "flags": {
+              "auto_fare_paid": true
+            },
+            "reputation": 1,
+            "xp": 10,
+            "xp_branch": "city_survival"
+          }
+        },
+        {
+          "text": "One minute, let me check the others.",
+          "next": "bye"
+        }
+      ]
+    },
+    "go": {
+      "text": "See, honest meter still exists in Whitefield. Tell your friends. Hold the bar."
+    },
+    "bye": {
+      "text": "Check, check. I'm here till nine. After that I'm also late."
+    },
+    "paid": {
+      "text": "Paid already. Climb in, boss."
+    }
+  }
+}
