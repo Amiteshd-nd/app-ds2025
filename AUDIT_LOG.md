@@ -134,3 +134,8 @@ Updated: 2026-10-12
 ### [P7 Monday / office — approved] — 2026-10-16
 - Decision: "approved, start P8" — the ITPL gate pocket, the Monday systems and script, the workday card, the autos and the Act 1 cast (ADR-120/121) stand with no corrections; the art-director calls in ADR-121 (6-second card, sky in the world palette, Prakash at the cabin, 40-minute walk, shared driver sheet) are confirmed.
 - Rule going forward: **new pockets follow the P7 recipe** (MEMORY.md): spot chosen and logged → OSM extract → one render matched to look-only reference photos → px spec with a debug preview → routes probed in the browser → audit. One session per pocket.
+
+### [P8 Ambedkar Nagar hill flat — approved] — 2026-10-16
+- Decision: "approved, start P9" — the hill lane and flat pockets, the Reels signal test, Aunty's haggle, furniture by flag, the salary countdown and bus 335-E (ADR-122) stand with no corrections; the art-director calls listed in ADR-122 (three terraces, Reels as the meter, 0/1/2 bars, 4 s give-up, Aunty warm, ₹42,000, the balcony house kept for Kavya) are confirmed.
+- Rule going forward: **a story beat that spans two places is two scene components or one whose `district` is where its cast stands** (1.5's cast rides the bus, so `act1_bus_cubbon` is a `bus_interior` scene entered from the street) — the validator holds a scene's cast to its district.
+

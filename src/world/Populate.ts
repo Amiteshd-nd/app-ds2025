@@ -13,6 +13,7 @@ import {
 } from '../utils/constants';
 import type { Direction, DistrictDef } from '../utils/types';
 import { findObject } from './Zones';
+import { pxText } from '../ui/kit/phaser';
 
 /** Texture every NPC without art is drawn with — the BootScene silhouette. */
 const NPC_PLACEHOLDER = 'npc_placeholder';
@@ -70,6 +71,7 @@ export function npcs(
     sprite.setData('tier', npc.tier);
     if (npc.breathing === false) sprite.setData('breathing', false);
     if (ref.unlessFlag) sprite.setData('unlessFlag', ref.unlessFlag);
+    if (npc.tic === 'cough') cough(scene, sprite);
     if (bodies) {
       // Same feet box as the player (20×12 at 6,35): you bump into a person
       // at their feet, and can still stand close enough to talk.
@@ -82,6 +84,27 @@ export function npcs(
   }
 
   return sprites;
+}
+
+/** How often the cough comes (ms) and how far the sprite shakes (whole pixels, design system §7). */
+export const COUGH_EVERY_MS: [number, number] = [6000, 10000];
+
+/**
+ * The jogger's tic (story 1.6, ADR-123): every few seconds a three-beat shake
+ * and a small "khh" that rises and fades, then nothing — he waves it off.
+ * Pure Phaser tweens on the sprite; stops with the sprite.
+ */
+function cough(scene: Phaser.Scene, sprite: Phaser.GameObjects.Sprite): void {
+  const fit = () => {
+    if (!sprite.active) return;
+    const x0 = sprite.x;
+    scene.tweens.addCounter({ from: 0, to: 6, duration: 420, onUpdate: (tw) => { if (sprite.active) sprite.x = x0 + (Math.floor(tw.getValue() ?? 0) % 2 ? 1 : 0); }, onComplete: () => { if (sprite.active) sprite.x = x0; } });
+    const puff = pxText(scene, sprite.x + 10, sprite.y - sprite.displayHeight / 2 - 4, 'khh', { tint: 'hud.text' });
+    puff.setDepth(sprite.depth + 1);
+    scene.tweens.add({ targets: puff, y: puff.y - 10, alpha: 0, duration: 900, onComplete: () => puff.destroy() });
+    scene.time.delayedCall(Phaser.Math.Between(COUGH_EVERY_MS[0], COUGH_EVERY_MS[1]), fit);
+  };
+  scene.time.delayedCall(Phaser.Math.Between(1500, 4000), fit);
 }
 
 export interface PlacedObjects {

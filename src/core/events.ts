@@ -44,6 +44,12 @@ export interface GameEvents {
   'negotiation:ended': { negotiationId: string; outcome: 'deal' | 'walk'; total: number };
   /** A slot was written (autosave or manual). The HUD shows its SAVED glyph. */
   'save:written': { slot: string };
+  /** A countdown for the HUD's timer plate ("500-D in 1:12"); null clears it (ADR-123). */
+  'ui:timer': { text: string | null };
+  /** A named NPC's relationship moved (ADR-123). */
+  'relationship:changed': { npcId: string; state: string };
+  /** A City Moments photo was taken (ADR-123). `done`/`total` are the set's progress. */
+  'photo:taken': { photoId: string; set: string | null; done: number; total: number };
 }
 
 type Handler<T> = (payload: T) => void;

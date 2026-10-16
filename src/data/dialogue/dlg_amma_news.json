@@ -1,0 +1,14 @@
+{
+  "id": "dlg_amma_news",
+  "speaker": "Amma (phone)",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": { "text": "Hello? You went to the park? Good, good. Alone? ... Okay, okay, I'm not asking.", "next": "news" },
+    "news": { "text": "Listen. The news here is saying something about Bangalore. Some fever, north side, Hebbal or where. Be careful. Don't go in crowds. Don't eat outside.", "next": "adult" },
+    "adult": { "text": "Yes, yes, you are an adult. Adults also get fever. Drink hot water. Call Sunday. ... And send the photo of the room, you said you would.", "next": "quiet" },
+    "quiet": {
+      "text": "(The call ends. On the phone, Reels is still open: a doctor's thread, a meme, a clip of a Hebbal ward with the lights off. You put it face down and lie on the cot.)",
+      "effect": { "flags": { "amma_news_called": true } }
+    }
+  }
+}

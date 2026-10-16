@@ -1,7 +1,7 @@
 import { DISTRICTS } from '../../data';
 import { useGameStore } from '../../store';
 import type { GameClock, Transaction } from '../../store';
-import type { ChatMessage, ChatThread, PhoneApp, ReelClip } from '../../utils/types';
+import type { ChatMessage, ChatThread, PhoneApp, PhotoDef, ReelClip } from '../../utils/types';
 import type { IconName } from '../kit/icons';
 import type { UiState } from '../kit/molecules';
 import { clockText, measure, rupees, truncate, wrap } from '../kit/text';
@@ -190,3 +190,39 @@ export function reelState(bars: number, elapsedMs: number): ReelState {
 
 /** "Buffering", "Buffering.", "Buffering..", "Buffering..." — one step per 400 ms. */
 export const bufferingText = (elapsedMs: number): string => `Buffering${'.'.repeat(Math.floor(elapsedMs / 400) % 4)}`;
+
+// ── Camera / City Moments (ADR-123) ───────────────────────────────────────
+
+export interface CameraView {
+  /** What the viewfinder frames where the player stands, or null. */
+  framed: (PhotoDef & { taken: boolean }) | null;
+  /** The viewfinder's line: "IN FRAME: THE BANDSTAND" / "Nothing worth a photo here." */
+  line: string;
+  /** SNAP is offered (something framed and not yet taken). */
+  canSnap: boolean;
+  /** Gallery, newest-defined last; taken ones only. */
+  gallery: Array<PhotoDef & { taken: boolean }>;
+  /** "CUBBON · 2/5" per set that has at least one photo defined. */
+  sets: Array<{ set: string; done: number; total: number }>;
+}
+
+export function cameraView(photoSpot: string | null, photos: Array<PhotoDef & { taken: boolean }>): CameraView {
+  const framed = photoSpot ? photos.find((p) => p.id === photoSpot) ?? null : null;
+  const sets = [...new Set(photos.map((p) => p.set).filter((s): s is string => s !== null))].map((set) => {
+    const all = photos.filter((p) => p.set === set);
+    return { set, done: all.filter((p) => p.taken).length, total: all.length };
+  });
+  return {
+    framed,
+    line: framed ? (framed.taken ? `${framed.title} · taken` : `IN FRAME: ${framed.title.toUpperCase()}`) : 'Nothing worth a photo here.',
+    canSnap: Boolean(framed && !framed.taken),
+    gallery: photos.filter((p) => p.taken),
+    sets,
+  };
+}
+
+/** "₹6,500 · ₹1,200 to go" / "₹6,500 · you can afford it" under a priced note. */
+export function noteDetail(price: number | undefined, toGo: number | null): string | null {
+  if (price === undefined || toGo === null) return null;
+  return toGo > 0 ? `${rupees(price)} · ${rupees(toGo)} to go` : `${rupees(price)} · you can afford it`;
+}

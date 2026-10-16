@@ -1,0 +1,101 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 render) -> 12x8 tiles (ADR-124): the inside of the 500-D, running left to right. Window bands top and bottom, two seat rows, the aisle between them, the driver's cabin at the left, the door with its steps at the right end. Centred on black like every interior.",
+  "name": "bus_interior",
+  "cols": 12,
+  "rows": 8,
+  "units": "px",
+  "blocks": [
+    [
+      0,
+      0,
+      1536,
+      130
+    ],
+    [
+      185,
+      130,
+      1205,
+      210
+    ],
+    [
+      185,
+      690,
+      1205,
+      215
+    ],
+    [
+      0,
+      900,
+      1536,
+      124
+    ],
+    [
+      0,
+      130,
+      185,
+      770
+    ],
+    [
+      270,
+      540,
+      30,
+      40
+    ],
+    [
+      1235,
+      540,
+      30,
+      40
+    ],
+    [
+      1390,
+      600,
+      146,
+      300
+    ],
+    [
+      1440,
+      330,
+      96,
+      280
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "aisle",
+      "x": 700,
+      "y": 520
+    },
+    {
+      "name": "seat_a",
+      "x": 470,
+      "y": 400
+    },
+    {
+      "name": "seat_b",
+      "x": 1000,
+      "y": 660
+    },
+    {
+      "name": "seat_c",
+      "x": 1150,
+      "y": 400
+    }
+  ],
+  "zones": [
+    {
+      "name": "aisle_zone",
+      "x": 560,
+      "y": 380,
+      "w": 280,
+      "h": 280
+    },
+    {
+      "name": "door",
+      "x": 1400,
+      "y": 135,
+      "w": 136,
+      "h": 190
+    }
+  ]
+}

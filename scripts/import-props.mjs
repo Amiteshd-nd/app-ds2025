@@ -23,6 +23,10 @@ export const SHEETS = {
   luggage: { cols: 4, rows: 3, height: 18 },
   // Hill-flat furniture (ADR-122): cot · table + chair · fridge / induction stove · water drum · cardboard box.
   furniture: { cols: 3, rows: 2, height: 40, heights: [56, 40, 40, 20, 28, 22] },
+  // Street props (ADR-123/T-043): the 500-D bus · metro barricade sheets · a pillar under construction · auto · van · rental cycles.
+  street_props: { cols: 3, rows: 2, height: 40, heights: [44, 30, 60, 34, 42, 26] },
+  // Cubbon Park animals (ADR-123): sleeping dog · sitting dog · standing dog · pigeon · crow · squirrel.
+  animals: { cols: 3, rows: 2, height: 20, heights: [16, 24, 20, 10, 12, 12] },
 };
 
 const keyMagenta = (d) => {

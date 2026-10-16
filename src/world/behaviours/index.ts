@@ -12,6 +12,10 @@ export interface BehaviourContext {
   characters(): Phaser.GameObjects.Sprite[];
   /** The OS "reduce motion" setting (platform.display) — collapse motion, never hide. */
   reducedMotion: boolean;
+  /** True while the player can act: no conversation, no fade, no overlay (a ride's clock holds otherwise). */
+  playerFree(): boolean;
+  /** Leave the district through one of its exits, by zone name (the bus ride ending). */
+  leave(exitZone: string): void;
 }
 
 /**
@@ -33,6 +37,10 @@ import { officeClockIn } from './officeClockIn';
 import { pgNoticeTimer } from './pgNoticeTimer';
 import { signalZones } from './signalZones';
 import { salaryCountdown } from './salaryCountdown';
+import { busSchedule } from './busSchedule';
+import { busRide } from './busRide';
+import { photoSpots } from './photoSpots';
+import { companion } from './companion';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -43,6 +51,10 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   pgNoticeTimer,
   signalZones,
   salaryCountdown,
+  busSchedule,
+  busRide,
+  photoSpots,
+  companion,
 };
 
 /**

@@ -1,0 +1,8 @@
+[
+  { "id": "bandstand", "set": "cubbon", "title": "The bandstand", "caption": "Cast iron, 1920s, repainted every election. Nobody has played here since the brass band retired." },
+  { "id": "library", "set": "cubbon", "title": "State Central Library", "caption": "Red, white pillars, a hundred and ten years of people meaning to read." },
+  { "id": "bamboo", "set": "cubbon", "title": "The bamboo grove", "caption": "Four o'clock light. Every photographer in the city knows; none of them tells you." },
+  { "id": "red_building", "set": "cubbon", "title": "The red building", "caption": "Attara Kacheri — the old court, eighteen offices, one colour." },
+  { "id": "dog", "set": "cubbon", "title": "A Cubbon dog", "caption": "Asleep in a sunbeam. The pigeon won, again." },
+  { "id": "ananya_portrait", "set": null, "title": "You, at the library steps", "caption": "Shot by Ananya. 'That's your new wallpaper, by the way.'" }
+]

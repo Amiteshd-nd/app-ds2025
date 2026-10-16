@@ -2,10 +2,14 @@
 Updated: 2026-10-16
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122)
+## Now — Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122 · P9 Cubbon ADR-123/124)
 - [x] T-012 P7 Monday / office — approved 2026-10-16
-- [ ] T-013 P8 Ambedkar Nagar hill flat — **built 2026-10-16, awaiting P8 audit** (ADR-122: hill lane + flat pockets on Seetharampalya Road, Reels signal test, Aunty's haggle, furniture as sprite props by flag, salary countdown, deposit refund, bus 335-E) (ADR-120 systems + ADR-121 pocket): `office_gate` on the real Whitefield Road (OSM), gate render + spec, Act 1 cast sheets, WorkdayScene skyline card, exits with `minutes`/`requiresFlag`, NPC/trigger `requiresFlag`, transit `auto`; quests 1.1–1.3 + scene components live
-- [ ] T-043 Auto-rickshaw + HIVR van props (sprite-based placed objects) for the lane's auto stand and Ravi's shuttle (ADR-121 left them undrawn)
+- [x] T-013 P8 Ambedkar Nagar hill flat — approved 2026-10-16 (ADR-122)
+- [ ] T-014 P9 Cubbon Park + Ananya + City Moments — **built 2026-10-16, awaiting P9 audit** (ADR-123 systems: `busSchedule` + HUD timer plate, `busRide`, Camera + `photoSpots`, RelationshipManager + Contacts, Notes wishlist, `companion`, NPC `tic`, chat `upi`; ADR-124 pockets: `cubbon_park` on the bandstand (OSM), `bus_interior`, the street's barricade + kerb stop, `street_props` + `animals` sheets, eight sheets; quests 1.5–1.6, scene components, Amma's call, Act 1 close → `act2_started`)
+- [ ] T-043 Auto-rickshaw + HIVR van props — art done in `street_props` (cells 4–5, ADR-124); still to place at Prashanth's auto stand and the ITPL shuttle bay as `AUTO_RICKSHAW` / `VAN` objects
+- [ ] T-044 Bus passengers sit (draw the three on their seats instead of standing in the aisle) — a seated-pose row in the sheet template, or a `seated` NpcDef flag that lifts the sprite onto the seat and drops its body
+- [ ] T-045 Ambient crowd spawns can land inside Shapes blocks on generated maps (Cubbon's `ambient_area` overlaps hedges) — spawn on walkable ground only
+- [ ] T-046 Act 2 stubs: `act2_started` already unlocks the Dating app on the last Act 1 sleep (ADR-07) — co-author 2.1+ with the user before any Act 2 content
 
 ## Done — P6 Phone · fullscreen map · HUD · menus (style board, ADR-113/114)
 - [x] T-032 P6a (approved 2026-10-13) — font pipeline (Pixelify Sans → bitmap `px`/`pxb`), UI palette + tokens, UI-kit molecules (5 states), PhoneScene: frame, status bar, home 4×3 + dock, Chats (list + thread), UPI, Maps (list), stubs; DND-aware buzz + unlock pop; playground preset `phone-day-3`

@@ -1,0 +1,11 @@
+{
+  "id": "dlg_metro_sign",
+  "speaker": "Barricade",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Blue sheets, a pillar in a cage of rebar, a board: NAMMA METRO - OPENING SOON. Under it, hand-painted: 'Under construction. Use bus 500-D.' Under that, in marker: 'since 2019'.",
+      "effect": { "flags": { "metro_seen": true }, "xp": 5, "xp_branch": "city_survival" }
+    }
+  }
+}

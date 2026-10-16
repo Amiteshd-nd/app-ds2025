@@ -1,0 +1,23 @@
+{
+  "id": "dlg_ananya_walk",
+  "speaker": "Ananya",
+  "portrait": "npc_ananya",
+  "enter": [
+    { "flag": "ananya_walk2", "node": "library" },
+    { "flag": "ananya_walk1", "node": "bamboo" }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Everyone stands in the middle of the bandstand. Stand at the edge, where the railing curves - see? Now the bandstand is the subject, not you. (click) Okay. Bamboo. This way.",
+      "effect": { "flags": { "ananya_walk1": true } }
+    },
+    "bamboo": {
+      "text": "Four o'clock light. Told you. Don't move - (click) - that one's for me. People pay for this and I get it for the price of a cycle. Library steps next, then I let you go.",
+      "effect": { "flags": { "ananya_walk2": true } }
+    },
+    "library": {
+      "text": "Red building, white pillars, a hundred and ten years of people meaning to read. Your turn - stand on the third step. No, smile less. (click) Sent. That's your new wallpaper, by the way.",
+      "effect": { "flags": { "ananya_walk3": true, "ananya_walk_done": true, "photo_ananya_portrait": true }, "relationship": { "npc": "npc_ananya", "state": "warm" }, "stress": -10 }
+    }
+  }
+}

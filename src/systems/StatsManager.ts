@@ -1,6 +1,7 @@
 import { gameEvents } from '../core/events';
 import { useGameStore } from '../store';
 import { InventoryManager } from './InventoryManager';
+import { RelationshipManager } from './RelationshipManager';
 import { ReputationManager } from './ReputationManager';
 import type { AdjustableStat, PlayerStats, SkillBranchName, StatEffect } from '../utils/types';
 
@@ -114,6 +115,7 @@ export class StatsManager {
       const district = useGameStore.getState().activeDistrict ?? undefined;
       ReputationManager.getInstance().add(effect.reputation, district);
     }
+    if (effect.relationship) RelationshipManager.getInstance().set(effect.relationship.npc, effect.relationship.state);
 
     if (effect.item_add) {
       const added = InventoryManager.getInstance().add(effect.item_add);

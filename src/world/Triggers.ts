@@ -11,6 +11,8 @@ export interface BoundTriggers {
 /** What a trigger may ask the scene to do beyond announcing itself. */
 export interface TriggerActions {
   openDialogue(dialogueId: string): void;
+  /** False while a conversation, a fade or an overlay is up — a dialogue trigger waits for the next entry instead of firing into silence. */
+  canTalk(): boolean;
   sleep(): void;
   /** The office door: fade, the day passes, fade back at closing time (story 1.1 F3–F5). */
   workday(): void;
@@ -45,6 +47,8 @@ export function bind(
         if (fired && trigger.once !== false) return;
         if (trigger.unlessFlag && useGameStore.getState().flags[trigger.unlessFlag]) return;
         if (trigger.requiresFlag && !useGameStore.getState().flags[trigger.requiresFlag]) return;
+        // A conversation is already up (Ananya's previous stop still open): do not spend this trigger — re-arm on the next entry (ADR-124).
+        if (trigger.dialogue && !actions.canTalk()) return;
         fired = true;
         for (const flag of trigger.setFlags ?? []) useGameStore.getState().setFlag(flag, true);
         gameEvents.emit('zone:reached', { zoneId: trigger.zone, districtId: district.id });

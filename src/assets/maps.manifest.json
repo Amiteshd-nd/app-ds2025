@@ -208,7 +208,74 @@
         "drum_spot",
         "box_spot",
         "front_door",
-        "bed"
+        "bed",
+        "flat_arrival"
+      ]
+    },
+    "bus_interior": {
+      "file": "bus_interior.tmj",
+      "requiredLayers": [
+        "Ground",
+        "Walls",
+        "Objects",
+        "Collision",
+        "Above Player"
+      ],
+      "collisionLayer": "Collision",
+      "spawnLayer": "Spawns",
+      "optionalLayers": [
+        "Effects",
+        "Foreground"
+      ],
+      "shapeLayer": "Shapes",
+      "requiredSpawns": [
+        "aisle",
+        "aisle_zone",
+        "seat_a",
+        "seat_b",
+        "seat_c",
+        "door"
+      ]
+    },
+    "cubbon_park": {
+      "file": "cubbon_park.tmj",
+      "requiredLayers": [
+        "Ground",
+        "Walls",
+        "Objects",
+        "Collision",
+        "Above Player"
+      ],
+      "collisionLayer": "Collision",
+      "spawnLayer": "Spawns",
+      "optionalLayers": [
+        "Effects",
+        "Foreground"
+      ],
+      "shapeLayer": "Shapes",
+      "requiredSpawns": [
+        "bus_drop",
+        "cubbon_arrival",
+        "park_gate_bus",
+        "cycle_rental",
+        "ananya_spot",
+        "icecream_cart",
+        "library_steps_a",
+        "library_steps_b",
+        "jogger_spot",
+        "guitar_shop",
+        "dog_a",
+        "dog_b",
+        "dog_c",
+        "photo_bandstand",
+        "photo_library",
+        "photo_bamboo",
+        "photo_red_building",
+        "photo_dog",
+        "stop_bandstand",
+        "stop_bamboo",
+        "stop_library",
+        "ambient_area"
       ]
     }
   },

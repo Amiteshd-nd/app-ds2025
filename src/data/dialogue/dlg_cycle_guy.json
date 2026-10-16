@@ -1,0 +1,18 @@
+{
+  "id": "dlg_cycle_guy",
+  "speaker": "Cycle rental",
+  "portrait": "npc_cycle_guy",
+  "enter": [{ "flag": "ananya_paid", "node": "after" }],
+  "nodes": {
+    "start": {
+      "text": "Cycle? Sixty an hour, three hundred deposit, you bring it back with both wheels. (He nods at the woman arguing with his phone.) Her payment is stuck. Phone died halfway. Happens. Still sixty.",
+      "choices": [
+        { "text": "Not today, thanks.", "next": "bye" },
+        { "text": "Can't you let it go?", "next": "no" }
+      ]
+    },
+    "no": { "text": "Boss, I let it go, tomorrow twenty people's phones die at exactly sixty rupees. This is Cubbon Park, not a charity." },
+    "bye": { "text": "Come Sunday evening, the light is better and the cycles are cheaper. Both lies." },
+    "after": { "text": "Decent of you. Most people look at their shoes. Cycle for yourself? Sixty." }
+  }
+}

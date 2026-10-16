@@ -1,7 +1,9 @@
 import { gameEvents } from '../core/events';
-import { CHATS, DISTRICTS, PHONE_APPS, QUESTS } from '../data';
+import { CHATS, CONTACTS, DISTRICTS, NOTES, PHONE_APPS, PHOTOS, QUESTS } from '../data';
 import { useGameStore } from '../store';
-import type { ChatMessage, ChatThread, DistrictDef, PhoneApp } from '../utils/types';
+import type { ChatMessage, ChatThread, ContactDef, DistrictDef, NoteDef, PhoneApp, PhotoDef, RelationshipState } from '../utils/types';
+import { RELATIONSHIP_LABEL } from './RelationshipManager';
+import { StatsManager } from './StatsManager';
 import { ReputationManager } from './ReputationManager';
 import { settings } from './SettingsManager';
 
@@ -66,6 +68,8 @@ export class PhoneManager {
     store.setPhone({ ...store.phone, delivered: [...delivered] });
     const dnd = settings().gameplay.doNotDisturb;
     for (const { thread, message } of fresh) {
+      // Money that arrives with a message (Ananya's sixty, ADR-123) lands on the ledger under the contact's name.
+      if (message.upi && message.from === 'them') StatsManager.getInstance().earn(message.upi, 'upi_received', thread.contact);
       gameEvents.emit('phone:message', { threadId: thread.id, messageId: message.id, contact: thread.contact, text: message.text });
       if (message.from === 'them' && !options.quiet && (!dnd || message.critical)) {
         gameEvents.emit('ui:toast', { text: `${thread.contact}: ${message.text}`, icon: 'chats' });
@@ -158,5 +162,51 @@ export class PhoneManager {
       break;
     }
     return { pins, here, destination };
+  }
+
+  // ── Contacts, Notes, City Moments (ADR-123) ───────────────────────────────
+
+  /** Contacts the player has: flag-gated, with the relationship word under a linked NPC. */
+  contacts(): Array<ContactDef & { relationship: RelationshipState | null; status: string | null }> {
+    const { flags, relationships } = useGameStore.getState();
+    return CONTACTS.filter((c) => !c.after || flags[c.after]).map((c) => {
+      const relationship = c.npc ? relationships[c.npc] ?? null : null;
+      return { ...c, relationship, status: relationship ? RELATIONSHIP_LABEL[relationship] : null };
+    });
+  }
+
+  /** Notes (the wishlist): flag-gated; a priced note says how far the wallet is from it. */
+  notes(): Array<NoteDef & { toGo: number | null }> {
+    const { flags, stats } = useGameStore.getState();
+    return NOTES.filter((n) => !n.after || flags[n.after]).map((n) => ({ ...n, toGo: n.price === undefined ? null : Math.max(0, n.price - stats.wallet) }));
+  }
+
+  /** Every photo definition with whether it has been taken. */
+  photos(): Array<PhotoDef & { taken: boolean }> {
+    const { flags } = useGameStore.getState();
+    return PHOTOS.map((p) => ({ ...p, taken: Boolean(flags[`photo_${p.id}`]) }));
+  }
+
+  /** Progress of a set: taken / total. */
+  photoProgress(set: string): { done: number; total: number } {
+    const all = this.photos().filter((p) => p.set === set);
+    return { done: all.filter((p) => p.taken).length, total: all.length };
+  }
+
+  /**
+   * Take the photo framed where the player stands. Sets `photo_<id>`; when the
+   * set is complete, `<set>_photos_done`. Returns false when nothing is framed
+   * or it was already taken.
+   */
+  takePhoto(photoId: string): boolean {
+    const store = useGameStore.getState();
+    const photo = PHOTOS.find((p) => p.id === photoId);
+    if (!photo || store.flags[`photo_${photoId}`]) return false;
+    store.setFlag(`photo_${photoId}`, true);
+    const progress = photo.set ? this.photoProgress(photo.set) : { done: 1, total: 1 };
+    if (photo.set && progress.done === progress.total) useGameStore.getState().setFlag(`${photo.set}_photos_done`, true);
+    gameEvents.emit('photo:taken', { photoId, set: photo.set, ...progress });
+    gameEvents.emit('ui:toast', { text: photo.set ? `City Moments · ${photo.title} · ${progress.done}/${progress.total}` : `Saved: ${photo.title}`, icon: 'camera' });
+    return true;
   }
 }

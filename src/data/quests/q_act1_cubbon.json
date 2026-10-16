@@ -1,0 +1,21 @@
+{
+  "id": "q_act1_cubbon",
+  "title": "Cubbon Park",
+  "description": "Five photos, one favour, a guitar you can't have yet. Then the bus home.",
+  "chapter": 1,
+  "district": "cubbon_park",
+  "type": "collection",
+  "prerequisite_quests": ["q_act1_bus_cubbon"],
+  "objectives": [
+    { "id": "photos", "text": "City Moments: photograph the five Cubbon spots (Camera app)", "type": "flag", "target": "cubbon_photos_done", "destination": "cubbon_park" },
+    { "id": "ananya", "text": "Help the woman at the cycle rental", "type": "flag", "target": "ananya_paid", "destination": "cubbon_park" },
+    { "id": "number", "text": "Exchange numbers", "type": "flag", "target": "ananya_number", "destination": "cubbon_park" },
+    { "id": "walk", "text": "Walk the loop with Ananya", "type": "flag", "target": "ananya_walk_done", "optional": true, "destination": "cubbon_park" },
+    { "id": "guitar", "text": "Look at the guitar shop on the Church Street side", "type": "flag", "target": "guitar_wishlisted", "optional": true, "destination": "cubbon_park" },
+    { "id": "jogger", "text": "(That jogger keeps coughing.)", "type": "flag", "target": "jogger_cough_seen", "optional": true },
+    { "id": "home", "text": "Bus home. Amma will call.", "type": "flag", "target": "amma_news_called", "destination": "hill_flat" },
+    { "id": "sleep", "text": "Sleep. Monday again.", "type": "flag", "target": "act1_done", "destination": "hill_flat" }
+  ],
+  "rewards": { "xp": 80, "xp_branch": "soft_skills", "reputation": 5 },
+  "on_complete": { "set_flags": ["act2_started"] }
+}

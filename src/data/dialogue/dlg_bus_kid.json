@@ -1,0 +1,11 @@
+{
+  "id": "dlg_bus_kid",
+  "speaker": "Sleeping kid",
+  "portrait": "npc_bus_kid",
+  "nodes": {
+    "start": {
+      "text": "(Asleep, head on the window, mouth open. A school bag with a cricket-ball-sized dent. Headphones leaking a Kannada rap song. He mumbles 'ball... ball...' and does not wake.)",
+      "effect": { "flags": { "kid_seen": true } }
+    }
+  }
+}

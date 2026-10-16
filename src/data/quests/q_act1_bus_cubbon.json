@@ -1,0 +1,18 @@
+{
+  "id": "q_act1_bus_cubbon",
+  "title": "Bus to Town",
+  "description": "Sunday. The metro isn't open. Find the 500-D and go see the green part of the city.",
+  "chapter": 1,
+  "district": "whitefield_street",
+  "type": "search",
+  "prerequisite_quests": ["q_act1_hill_flat"],
+  "objectives": [
+    { "id": "metro", "text": "Check the metro station across the road", "type": "flag", "target": "metro_seen", "destination": "whitefield_street" },
+    { "id": "board", "text": "Catch the 500-D from the kerb stop (₹35)", "type": "flag", "target": "on_bus_500d", "destination": "whitefield_street" },
+    { "id": "nurse", "text": "Talk to the nurse on the bus", "type": "flag", "target": "nurse_heard", "optional": true },
+    { "id": "uncle", "text": "Read the uncle's headline", "type": "flag", "target": "uncle_headline", "optional": true },
+    { "id": "arrive", "text": "Reach Cubbon Park", "type": "flag", "target": "cubbon_arrived", "destination": "cubbon_park" }
+  ],
+  "rewards": { "xp": 30, "xp_branch": "city_survival" },
+  "on_complete": { "set_flags": ["act1_bus_done"] }
+}

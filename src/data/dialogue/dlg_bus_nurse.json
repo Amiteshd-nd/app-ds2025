@@ -1,0 +1,24 @@
+{
+  "id": "dlg_bus_nurse",
+  "speaker": "Nurse",
+  "portrait": "npc_nurse",
+  "enter": [{ "flag": "nurse_heard", "node": "again" }],
+  "nodes": {
+    "start": {
+      "text": "(Asleep against the window, then not.) Sorry - was I talking? Double shift. Hebbal side, the new wing. Strange cases, same story every time: fever, then the light hurts their eyes, then they stop talking.",
+      "choices": [
+        { "text": "What are they calling it?", "next": "seasonal" },
+        { "text": "Sleep. I'll wake you at Cubbon.", "next": "sleep" }
+      ]
+    },
+    "seasonal": {
+      "text": "Seasonal. The ward says seasonal, the paper says seasonal. Seasonal doesn't make a grown man scared of a tube light. (She closes her eyes.) Wake me at the park, no?",
+      "effect": { "flags": { "nurse_heard": true }, "xp": 10, "xp_branch": "city_survival" }
+    },
+    "sleep": {
+      "text": "Bless you. (Gone in three seconds. Her ID badge turns over: a hospital crest, a name, HEBBAL in red.)",
+      "effect": { "flags": { "nurse_heard": true } }
+    },
+    "again": { "text": "(Asleep. Properly, this time. The badge swings with the bus.)" }
+  }
+}

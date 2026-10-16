@@ -13,9 +13,10 @@ beforeEach(() => {
 describe('content registry', () => {
   it('loads authored content by id', () => {
     expect(Object.keys(DIALOGUE).sort()).toEqual([
-      'airport_helper', 'dlg_amma_call', 'dlg_auto_fair', 'dlg_auto_kannada', 'dlg_auto_meter', 'dlg_cab_tout', 'dlg_chai_anna',
-      'dlg_coliving', 'dlg_darshini', 'dlg_divya_call', 'dlg_divya_monday', 'dlg_hill_chai', 'dlg_hill_furniture', 'dlg_hotel_reception',
-      'dlg_manju', 'dlg_neighbour_leela', 'dlg_office_guard', 'dlg_owner_aunty', 'dlg_pg_token', 'dlg_prakash', 'dlg_provision',
+      'airport_helper', 'dlg_amma_call', 'dlg_amma_news', 'dlg_ananya', 'dlg_ananya_walk', 'dlg_auto_fair', 'dlg_auto_kannada', 'dlg_auto_meter',
+      'dlg_bus_kid', 'dlg_bus_nurse', 'dlg_bus_uncle', 'dlg_cab_tout', 'dlg_chai_anna',
+      'dlg_coliving', 'dlg_cycle_guy', 'dlg_darshini', 'dlg_divya_call', 'dlg_divya_monday', 'dlg_guitar_shop', 'dlg_hill_chai', 'dlg_hill_furniture', 'dlg_hotel_reception',
+      'dlg_icecream', 'dlg_jogger', 'dlg_manju', 'dlg_metro_sign', 'dlg_neighbour_leela', 'dlg_office_guard', 'dlg_owner_aunty', 'dlg_pg_token', 'dlg_prakash', 'dlg_provision',
       'dlg_ravi_intro', 'dlg_sameer_intro', 'dlg_shanthamma', 'receptionist', 'security_guard', 'shopkeeper',
     ]);
     expect(Object.keys(QUESTS)).toContain('q_act0_arrival');

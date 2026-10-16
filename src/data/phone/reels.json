@@ -25,5 +25,20 @@
     "caption": "Three wards in Hebbal reporting the same thing. Officials: 'seasonal'.",
     "after": "flat_signed",
     "critical": true
+  },
+  {
+    "id": "reel_doctor",
+    "handle": "@dr_ambika_speaks",
+    "title": "A doctor's thread: 'not seasonal'",
+    "caption": "Twelve posts. Photophobia, aphasia, one ward. 'I am not allowed to say more.' Deleted by the time you finish reading.",
+    "after": "cubbon_arrived",
+    "critical": true
+  },
+  {
+    "id": "reel_meme",
+    "handle": "@peak_bengaluru",
+    "title": "POV: you say 'seasonal' in Hebbal",
+    "caption": "Spongebob, four panels, forty thousand likes. The comments are not laughing.",
+    "after": "cubbon_arrived"
   }
 ]

@@ -19,6 +19,12 @@
       "from": "them",
       "text": "You moved to the hill? Signal there is a myth, like the Hoodi flyover.",
       "after": "flat_signed"
+    },
+    {
+      "id": "sameer_4",
+      "from": "them",
+      "text": "Monday. Canteen. Don't be late twice - Divya counts.",
+      "after": "act1_done"
     }
   ]
 }

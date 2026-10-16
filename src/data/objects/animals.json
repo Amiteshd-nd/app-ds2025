@@ -1,0 +1,35 @@
+[
+  {
+    "id": "DOG_SLEEPING",
+    "label": "Sleeping dog",
+    "category": "animal",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "animals_01"
+  },
+  {
+    "id": "DOG_SITTING",
+    "label": "Sitting dog",
+    "category": "animal",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "animals_02"
+  },
+  {
+    "id": "DOG_STANDING",
+    "label": "Standing dog",
+    "category": "animal",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "animals_03"
+  }
+]

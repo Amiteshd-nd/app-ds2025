@@ -1,0 +1,13 @@
+{
+  "id": "dlg_jogger",
+  "speaker": "Jogger",
+  "portrait": "npc_jogger",
+  "enter": [{ "flag": "jogger_cough_seen", "node": "again" }],
+  "nodes": {
+    "start": {
+      "text": "khh - khhh - sorry. Sorry. Dust. The construction on Kasturba Road, you know how it is. (He waves it off, checks his watch, and keeps jogging on the spot.) Three more rounds. Totally fine.",
+      "effect": { "flags": { "jogger_cough_seen": true }, "xp": 5, "xp_branch": "city_survival" }
+    },
+    "again": { "text": "(Round two. The cough comes back at the bamboo. He waves it off again, at nobody.)" }
+  }
+}

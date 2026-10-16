@@ -94,7 +94,13 @@ export interface StatEffect {
   flags?: Record<string, boolean>;
   /** Reputation earned here, credited to the current district and the total (refusing the token scam). */
   reputation?: number;
+  /** Move a named NPC's relationship to a state — Ananya's number exchanged (ADR-123). */
+  relationship?: { npc: string; state: RelationshipState };
 }
+
+// --- Relationships (game_components §8, ADR-123) ---------------------------
+/** Five light states, no meters shown: met → warm → strained → resolved / lost. */
+export type RelationshipState = 'met' | 'warm' | 'strained' | 'resolved' | 'lost';
 
 export interface SkillRequirement {
   skill: SkillBranchName;
@@ -336,6 +342,56 @@ export interface DistrictDef {
   signal?: number;
   /** Metro station (city.json id) this pocket sits on: makes it a fast-travel node once visited (ADR-115). */
   metroStation?: string;
+  /** Buses that call at this pocket on a visible interval (story 1.5 F2, ADR-123) — run by `busSchedule`. */
+  buses?: BusSchedule[];
+  /** A ride that ends on its own: the bus interior (story 1.5 F3) — run by `busRide`. */
+  ride?: RideDef;
+  /** Where a photo is worth taking: standing inside the zone frames `photo` in the Camera app (City Moments, ADR-123). */
+  photoSpots?: Array<{ zone: string; photo: string }>;
+  /** An NPC who walks with the player while `whileFlag` is set and `untilFlag` is not (Ananya's loop, ADR-123) — run by `companion`. */
+  companion?: CompanionDef;
+}
+
+/**
+ * A bus on an interval (ADR-123). Every `every` real seconds the bus slides in
+ * from spawn `from` to spawn `stop`, waits `dwell` seconds with `flag` set (the
+ * boarding exit on `zone` carries `requiresFlag: flag`), then leaves to `to`.
+ */
+export interface BusSchedule {
+  id: string;
+  /** "500-D" — what the HUD countdown and the toasts call it. */
+  label: string;
+  /** The boarding exit's zone (an exit of this district). */
+  zone: string;
+  /** Flag that is true only while the bus stands at the stop. */
+  flag: string;
+  /** Seconds between arrivals (real time, while the world runs). */
+  every: number;
+  /** Seconds the bus waits at the stop. */
+  dwell: number;
+  /** Spawn points (feet/centre) the bus sprite travels between. */
+  from: string;
+  stop: string;
+  to: string;
+  /** Prop image key (src/assets/props) drawn as the bus; a plain block when absent. */
+  prop?: string;
+}
+
+/** A timed ride (ADR-123): after `seconds` of free play the flag is set and the exit on `exit` is taken. */
+export interface RideDef {
+  seconds: number;
+  /** Exit zone of this district that the ride ends through. */
+  exit: string;
+  /** Flag the ride's end sets — the door exit carries `requiresFlag` on it, so you cannot leave a moving bus. */
+  flag: string;
+  /** "Cubbon Park" — the HUD countdown's label. */
+  label: string;
+}
+
+export interface CompanionDef {
+  npc: string;
+  whileFlag: string;
+  untilFlag?: string;
 }
 
 // --- Scene components (SCENE_TEMPLATE §B) ----------------------------------
@@ -398,6 +454,8 @@ export interface NpcDef {
   tint?: number;
   /** Idle breathing (beh_breathing); default true. False for sleepers, statues, special poses. */
   breathing?: boolean;
+  /** A small repeating mannerism drawn by Populate — the jogger who coughs and waves it off (ADR-123). */
+  tic?: 'cough';
 }
 
 // --- Placeable objects -----------------------------------------------------
@@ -516,6 +574,8 @@ export interface SaveData {
   transactions: Array<{ amount: number; label: string; reason: string; day: number; minute: number; balance: number }>;
   /** Chat messages delivered / read (1.6.0). */
   phone: { delivered: string[]; read: string[] };
+  /** Named-NPC relationship states (1.7.0, ADR-123). */
+  relationships: Record<string, RelationshipState>;
   playtime_seconds: number;
 }
 
@@ -542,6 +602,8 @@ export interface ChatMessage {
   after?: string;
   /** Buzzes even under Do Not Disturb (story-critical). */
   critical?: boolean;
+  /** ₹ that arrive with the message through earn() — Ananya returning the sixty (ADR-123). */
+  upi?: number;
 }
 
 export interface ChatThread {
@@ -684,4 +746,32 @@ export interface ReelClip {
   after?: string;
   /** A breadcrumb (the fever clip): watching it sets `reels_<id>_seen` and this is a story beat. */
   critical?: boolean;
+}
+
+// --- City Moments, Contacts, Notes (ADR-123) -------------------------------
+/** A photo worth taking. Taken = flag `photo_<id>`; a whole set done = flag `<set>_photos_done`. */
+export interface PhotoDef {
+  id: string;
+  title: string;
+  caption: string;
+  /** Collection name ("cubbon"); `null` for one-offs that arrive by story (Ananya's photo of you). */
+  set: string | null;
+}
+
+/** A contact in the phone: shown once `after` is set (always when absent); `npc` links the relationship state. */
+export interface ContactDef {
+  id: string;
+  name: string;
+  npc?: string;
+  after?: string;
+  /** One line under the name ("Team lead", "Owner Aunty"). */
+  note?: string;
+}
+
+/** A note in the Notes app — the wishlist (story 1.6 F4). `price` draws "₹N to go" against the wallet. */
+export interface NoteDef {
+  id: string;
+  text: string;
+  after?: string;
+  price?: number;
 }

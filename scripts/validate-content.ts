@@ -26,7 +26,9 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation'];
+const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship'];
+const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
+const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
 const SKILL_BRANCHES = Object.keys(SKILL_TIER_NAMES);
 const QUEST_TYPE_LIST: string[] = [...QUEST_TYPES];
@@ -60,7 +62,7 @@ export function validateContent(
   tileIds: Record<string, number> = {},
   sceneFiles: JsonFile[] = [],
   negotiationFiles: JsonFile[] = [],
-  phone: { apps?: Json[]; chats?: JsonFile[]; reels?: Json[] } = {},
+  phone: { apps?: Json[]; chats?: JsonFile[]; reels?: Json[]; photos?: Json[]; contacts?: Json[]; notes?: Json[] } = {},
   /** Characters the UI bitmap font can draw (src/assets/fonts/metrics.json). Omitted = not checked. */
   glyphs?: Set<string>,
 ): string[] {
@@ -118,6 +120,7 @@ export function validateContent(
         add(file, `NPC "${npc.id}" points at dialogue "${npc.dialogue}", which does not exist`);
       }
       // Tier 1 is atmosphere; tiers 2 and 3 exist to be talked to.
+      if (npc.tic !== undefined && !NPC_TICS.includes(npc.tic)) add(file, `NPC "${npc.id}" tic "${npc.tic}" is not one of ${NPC_TICS.join(', ')}`);
       if (npc.breathing !== undefined && typeof npc.breathing !== 'boolean') {
         add(file, `NPC "${npc.id}" breathing must be true or false`);
       }
@@ -247,6 +250,43 @@ export function validateContent(
       const coords = typeof rw.lat === 'number' && typeof rw.lng === 'number' && Math.abs(rw.lat) <= 90 && Math.abs(rw.lng) <= 180;
       const parent = typeof rw.parent === 'string' && districtIds.has(rw.parent) && rw.parent !== district.id;
       if (!coords && !parent) add(where, `${d} realworld needs lat/lng or a parent district`);
+    }
+
+    // Buses on an interval (ADR-123): the boarding exit must gate on the bus's flag.
+    const exitByZone = new Map<string, Json>((district.exits ?? []).map((e: Json) => [e.zone, e]));
+    for (const bus of district.buses ?? []) {
+      const b = `${d} bus "${bus.id ?? '?'}"`;
+      for (const k of ['id', 'label', 'zone', 'flag', 'from', 'stop', 'to']) if (typeof bus[k] !== 'string' || !bus[k]) add(where, `${b} needs a string ${k}`);
+      if (!(Number.isInteger(bus.every) && bus.every >= 10 && bus.every <= 600)) add(where, `${b} every must be 10–600 seconds`);
+      if (!(Number.isInteger(bus.dwell) && bus.dwell >= 3 && bus.dwell < (bus.every ?? 0))) add(where, `${b} dwell must be at least 3 seconds and shorter than every`);
+      const exit = exitByZone.get(bus.zone);
+      if (!exit) add(where, `${b} zone "${bus.zone}" is not one of the district's exits`);
+      else if (exit.requiresFlag !== bus.flag) add(where, `${b}: exit "${bus.zone}" must carry requiresFlag "${bus.flag}" so nobody boards without a bus`);
+      if (bus.label) drawable(where, `${b} label`, bus.label);
+      if (!(district.behaviours ?? []).includes('busSchedule')) add(where, `${d} lists buses but not the "busSchedule" behaviour`);
+    }
+    if (district.ride !== undefined) {
+      const r = district.ride;
+      if (!(Number.isInteger(r.seconds) && r.seconds >= 5 && r.seconds <= 180)) add(where, `${d} ride.seconds must be 5–180`);
+      for (const k of ['exit', 'flag', 'label']) if (typeof r[k] !== 'string' || !r[k]) add(where, `${d} ride needs a string ${k}`);
+      const exit = exitByZone.get(r.exit);
+      if (!exit) add(where, `${d} ride.exit "${r.exit}" is not one of the district's exits`);
+      else if (exit.requiresFlag !== r.flag) add(where, `${d} ride: exit "${r.exit}" must carry requiresFlag "${r.flag}" — you cannot leave a moving bus`);
+      if (r.label) drawable(where, `${d} ride.label`, r.label);
+      if (!(district.behaviours ?? []).includes('busRide')) add(where, `${d} has a ride but not the "busRide" behaviour`);
+    }
+    const photoIds = new Set((phone.photos ?? []).map((p: Json) => p.id));
+    for (const spot of district.photoSpots ?? []) {
+      if (!spot.zone || typeof spot.zone !== 'string') add(where, `${d} has a photoSpot without a zone name`);
+      if (!spot.photo || (phone.photos && !photoIds.has(spot.photo))) add(where, `${d} photoSpot "${spot.zone}" frames unknown photo "${spot.photo}" (phone/photos.json)`);
+    }
+    if ((district.photoSpots?.length ?? 0) > 0 && !(district.behaviours ?? []).includes('photoSpots')) add(where, `${d} lists photoSpots but not the "photoSpots" behaviour`);
+    if (district.companion !== undefined) {
+      const c = district.companion;
+      if (!(district.npcs ?? []).some((ref: Json) => ref.id === c.npc)) add(where, `${d} companion "${c.npc}" is not an NPC placed in this district`);
+      if (typeof c.whileFlag !== 'string' || !c.whileFlag) add(where, `${d} companion needs a whileFlag`);
+      if (c.untilFlag !== undefined && (typeof c.untilFlag !== 'string' || !c.untilFlag)) add(where, `${d} companion untilFlag must be a flag name`);
+      if (!(district.behaviours ?? []).includes('companion')) add(where, `${d} has a companion but not the "companion" behaviour`);
     }
 
     for (const name of district.behaviours ?? []) {
@@ -497,7 +537,43 @@ export function validateContent(
       messageIds.add(m.id);
       if (m.from !== 'them' && m.from !== 'me') add(file, `message "${m.id}" from must be "them" or "me"`);
       if (m.after !== undefined && (typeof m.after !== 'string' || !m.after)) add(file, `message "${m.id}" after must be a flag name`);
+      if (m.upi !== undefined && (!Number.isInteger(m.upi) || m.upi <= 0 || m.from !== 'them')) add(file, `message "${m.id}" upi must be a positive integer on a message from them`);
     }
+  }
+
+  // ── City Moments, Contacts, Notes (ADR-123) ──────────────────────────────
+  const seenPhotos = new Set<string>();
+  for (const photo of phone.photos ?? []) {
+    const pw = `photo "${photo.id ?? '?'}"`;
+    if (!photo.id) { add('phone/photos.json', 'a photo has no id'); continue; }
+    if (seenPhotos.has(photo.id)) add('phone/photos.json', `${pw} is listed twice`);
+    seenPhotos.add(photo.id);
+    for (const k of ['title', 'caption']) {
+      if (typeof photo[k] !== 'string' || !photo[k]) add('phone/photos.json', `${pw} needs a ${k}`);
+      else drawable('phone/photos.json', `${pw} ${k}`, photo[k]);
+    }
+    if (photo.set !== null && (typeof photo.set !== 'string' || !photo.set)) add('phone/photos.json', `${pw} set must be a name or null`);
+  }
+  const seenContacts = new Set<string>();
+  for (const c of phone.contacts ?? []) {
+    const cw = `contact "${c.id ?? '?'}"`;
+    if (!c.id || !c.name) { add('phone/contacts.json', 'every contact needs id and name'); continue; }
+    if (seenContacts.has(c.id)) add('phone/contacts.json', `${cw} is listed twice`);
+    seenContacts.add(c.id);
+    drawable('phone/contacts.json', `${cw} name`, c.name);
+    drawable('phone/contacts.json', `${cw} note`, c.note);
+    if (c.npc !== undefined && !npcIds.has(c.npc)) add('phone/contacts.json', `${cw} links unknown NPC "${c.npc}"`);
+    if (c.after !== undefined && (typeof c.after !== 'string' || !c.after)) add('phone/contacts.json', `${cw} after must be a flag name`);
+  }
+  const seenNotes = new Set<string>();
+  for (const n of phone.notes ?? []) {
+    const nw = `note "${n.id ?? '?'}"`;
+    if (!n.id || typeof n.text !== 'string' || !n.text) { add('phone/notes.json', 'every note needs id and text'); continue; }
+    if (seenNotes.has(n.id)) add('phone/notes.json', `${nw} is listed twice`);
+    seenNotes.add(n.id);
+    drawable('phone/notes.json', `${nw} text`, n.text);
+    if (n.price !== undefined && (!Number.isInteger(n.price) || n.price <= 0)) add('phone/notes.json', `${nw} price must be a positive integer`);
+    if (n.after !== undefined && (typeof n.after !== 'string' || !n.after)) add('phone/notes.json', `${nw} after must be a flag name`);
   }
 
   // ── Reels (ADR-122) ──────────────────────────────────────────────────────
@@ -837,6 +913,9 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     for (const ref of district.npcs ?? []) need(ref.spawn, `NPC "${ref.id}" spawn`);
     for (const ref of district.objects ?? []) need(ref.at, `object "${ref.id}" spawn`);
     for (const trigger of district.triggers ?? []) need(trigger.zone, 'trigger zone');
+    for (const bus of district.buses ?? []) for (const k of ['from', 'stop', 'to'] as const) need(bus[k], `bus "${bus.id}" ${k} spawn`);
+    for (const spot of district.photoSpots ?? []) need(spot.zone, `photoSpot "${spot.photo}" zone`);
+    for (const z of district.signalZones ?? []) need(z.zone, 'signal zone');
 
     for (const exit of district.exits ?? []) {
       need(exit.zone, 'exit zone');
@@ -955,6 +1034,11 @@ function validateEffect(
   if (effect.xp !== undefined && !effect.xp_branch) {
     out.push(`${file}: ${where} grants xp with no xp_branch`);
   }
+  if (effect.relationship !== undefined) {
+    const r = effect.relationship;
+    if (typeof r !== 'object' || typeof r.npc !== 'string' || !r.npc) out.push(`${file}: ${where} relationship needs an npc`);
+    if (!RELATIONSHIP_STATES.includes(r?.state)) out.push(`${file}: ${where} relationship state must be one of ${RELATIONSHIP_STATES.join(', ')}`);
+  }
   if (effect.xp_branch && !SKILL_BRANCHES.includes(effect.xp_branch)) {
     out.push(`${file}: ${where} has xp_branch "${effect.xp_branch}", which is not a branch`);
   }
@@ -1015,7 +1099,10 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const fontMetrics = JSON.parse(readFileSync(resolve(here, '../src/assets/fonts/metrics.json'), 'utf8'));
   const glyphs = new Set(Object.keys(fontMetrics.advance as Record<string, number>));
   const reels = JSON.parse(readFileSync(join(dataDir, 'phone/reels.json'), 'utf8'));
-  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations, { apps: phoneApps, chats, reels }, glyphs);
+  const photos = JSON.parse(readFileSync(join(dataDir, 'phone/photos.json'), 'utf8'));
+  const contacts = JSON.parse(readFileSync(join(dataDir, 'phone/contacts.json'), 'utf8'));
+  const notes = JSON.parse(readFileSync(join(dataDir, 'phone/notes.json'), 'utf8'));
+  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations, { apps: phoneApps, chats, reels, photos, contacts, notes }, glyphs);
 
   const assetsDir = resolve(here, '../src/assets');
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));

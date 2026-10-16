@@ -82,6 +82,8 @@ export class HudScene extends Phaser.Scene {
   private cardUntil = 0;
   private wallet: { moved: number; until: number } | null = null;
   private savedUntil = 0;
+  /** A countdown under the clock ("500-D in 1:12"), from `ui:timer`; null = no plate (ADR-123). */
+  private timer: string | null = null;
   private bob = false;
   private refreshTimer: Phaser.Time.TimerEvent | null = null;
   private off: Array<() => void> = [];
@@ -133,6 +135,7 @@ export class HudScene extends Phaser.Scene {
       gameEvents.on('wallet:spent', ({ amount }) => this.moved(-amount)),
       gameEvents.on('wallet:earned', ({ amount }) => this.moved(amount)),
       gameEvents.on('save:written', () => { this.savedUntil = this.time.now + motion('m.hud.saved'); this.render(); }),
+      gameEvents.on('ui:timer', ({ text }) => { if (text !== this.timer) { this.timer = text; this.render(); } }),
       // Gamepad while walking: A talks (the dialogue card takes A itself while it is up).
       attachGamepad(this, { button: (b) => { if (b === PAD.A && !this.dialogueOpen && this.root.visible) pressInteract(); } }, () => this.alive),
     );
@@ -263,6 +266,12 @@ export class HudScene extends Phaser.Scene {
     const clockW = plateWidth(measure(clockText, true), bitmapWidth(sky));
     const clockX = L.right - clockW;
     this.clockZone = tapZone(clockX * L.k, L.pad * L.k, clockW * L.k, L.plateH * L.k);
+    // The timer plate (a bus countdown) sits under the clock; the wallet moves down a row while it is up.
+    const timer = this.timer;
+    const timerW = timer ? plateWidth(measure(timer, true), bitmapWidth(ICONS.bus)) : 0;
+    const timerX = L.right - timerW;
+    const timerY = L.pad + L.plateH + L.stackGap;
+    const walletY = timer ? timerY + L.plateH + L.stackGap : L.pad + L.plateH + L.stackGap;
     const walletUp = (this.wallet && now < this.wallet.until) || prefs.hud.meters === 'always';
     const wallet = walletUp ? walletView(store.stats.wallet, this.wallet && now < this.wallet.until ? this.wallet.moved : null) : null;
     const walletW = wallet ? 6 + measure(wallet.balance, true) + (wallet.tick ? 8 + measure(wallet.tick.text, true) : 0) + 7 : 0;
@@ -297,7 +306,11 @@ export class HudScene extends Phaser.Scene {
       }
       hudPlate(g, clockX, L.pad, clockW, L.plateH);
       bitmap(g, sky, clockX + 6, L.pad + 6, hex('hud.star'));
-      if (wallet) hudPlate(g, walletX, L.pad + L.plateH + L.stackGap, walletW, L.plateH);
+      if (timer) {
+        hudPlate(g, timerX, timerY, timerW, L.plateH);
+        bitmap(g, ICONS.bus, timerX + 6, timerY + 5, hex('hud.star'));
+      }
+      if (wallet) hudPlate(g, walletX, walletY, walletW, L.plateH);
       if (saved) {
         hudPlate(g, savedX, L.saved.y, savedW, L.plateH);
         bitmap(g, HUD_GLYPHS.saved, savedX + 6, L.saved.y + 6, hex('hud.text'));
@@ -322,8 +335,9 @@ export class HudScene extends Phaser.Scene {
       }
     }
     add(pxTextShadow(this, clockX + 6 + bitmapWidth(sky) + 5, L.pad + 6, clockText, { bold: true }));
+    if (timer) add(pxTextShadow(this, timerX + 6 + bitmapWidth(ICONS.bus) + 5, timerY + 6, timer, { bold: true }));
     if (wallet) {
-      const y = L.pad + L.plateH + L.stackGap + 6;
+      const y = walletY + 6;
       add(pxTextShadow(this, walletX + 6, y, wallet.balance, { bold: true }));
       if (wallet.tick) add(pxTextShadow(this, L.right - 7, y, wallet.tick.text, { bold: true, tint: wallet.tick.tone, align: 'right' }));
     }

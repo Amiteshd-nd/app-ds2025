@@ -13,7 +13,7 @@ import { nextFocus, type Box, type Direction } from '../ui/kit/focus';
 import { measure, rupees, truncate } from '../ui/kit/text';
 import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, listRows, slideSteps } from '../ui/phone/layout';
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
-import { BUBBLE, bubbleWindow, bubbles, bufferingText, chatRows, homeTiles, mapRows, reelState, signalAt, statusBar, upiRows, visibleReels, type HomeTile, type ReelState } from '../ui/phone/viewModel';
+import { BUBBLE, bubbleWindow, bubbles, bufferingText, cameraView, chatRows, homeTiles, mapRows, noteDetail, reelState, signalAt, statusBar, upiRows, visibleReels, type HomeTile, type ReelState } from '../ui/phone/viewModel';
 import { REELS } from '../data';
 import type { ReelClip } from '../utils/types';
 import { hudLayout, hudScale } from '../ui/hud/layout';
@@ -32,6 +32,9 @@ type Route =
   | { app: 'maps' }
   | { app: 'reels' }
   | { app: 'reel'; clipId: string; since: number }
+  | { app: 'camera' }
+  | { app: 'contacts' }
+  | { app: 'notes' }
   | { app: 'stub'; appId: string };
 
 interface Focusable extends Box {
@@ -276,6 +279,9 @@ export class PhoneScene extends Phaser.Scene {
     else if (id === 'maps') this.handToMap();
     else if (id === 'settings') this.handToMenu();
     else if (id === 'reels') this.go({ app: 'reels' });
+    else if (id === 'camera') this.go({ app: 'camera' });
+    else if (id === 'contacts') this.go({ app: 'contacts' });
+    else if (id === 'notes') this.go({ app: 'notes' });
     else this.go({ app: 'stub', appId: id });
   }
 
@@ -347,7 +353,7 @@ export class PhoneScene extends Phaser.Scene {
   private move(dir: Direction): void {
     this.focusVisible = true;
     const inNav = this.focusId?.startsWith('nav:');
-    const scrolls = this.route.app === 'thread' || this.route.app === 'upi' || this.route.app === 'maps' || this.route.app === 'reels';
+    const scrolls = this.route.app === 'thread' || this.route.app === 'upi' || this.route.app === 'maps' || this.route.app === 'reels' || this.route.app === 'camera' || this.route.app === 'contacts' || this.route.app === 'notes';
     if (scrolls && (dir === 'up' || dir === 'down')) { this.scrollBy(dir === 'up' ? -1 : 1); return; }
     if (this.route.app === 'chats' && !inNav && (dir === 'up' || dir === 'down')) {
       const rows = this.focusables.filter((f) => f.id.startsWith('thread:'));
@@ -449,6 +455,9 @@ export class PhoneScene extends Phaser.Scene {
       case 'maps': this.drawMaps(); break;
       case 'reels': this.drawReels(); break;
       case 'reel': this.drawReel(this.route.clipId, this.route.since); break;
+      case 'camera': this.drawCamera(); break;
+      case 'contacts': this.drawContacts(); break;
+      case 'notes': this.drawNotes(); break;
       case 'stub': this.drawStub(this.route.appId); break;
     }
     if (this.hint) this.drawHint(this.hint);
@@ -756,6 +765,84 @@ export class PhoneScene extends Phaser.Scene {
     }
     this.text(fx, fy + fh + 24, `Signal here: ${bars} bar${bars === 1 ? '' : 's'}`, 'phone.lcd.mid');
     this.resolveReel(clip, state);
+  }
+
+  // Camera / City Moments (ADR-123) ────────────────────────────────────────
+
+  private drawCamera(): void {
+    this.drawChrome('camera', 'CAMERA', null);
+    const phone = PhoneManager.getInstance();
+    const view = cameraView(useGameStore.getState().photoSpot, phone.photos());
+    // The viewfinder: a dark frame with corner marks; the framed subject's name on it.
+    const fx = LIST.x, fy = APP.contentTop, fw = LIST.w, fh = 70;
+    this.image(fx, fy, bake(this, `ph:finder:${view.framed ? (view.framed.taken ? 'taken' : 'framed') : 'empty'}`, fw, fh, (g) => {
+      roundRect(g, 0, 0, fw, fh, 6, hex('phone.lcd.ink'));
+      const c = hex(view.framed && !view.framed.taken ? 'phone.lcd.bg' : 'phone.lcd.mid');
+      for (const [cx, cy] of [[6, 6], [fw - 16, 6], [6, fh - 16], [fw - 16, fh - 16]] as const) {
+        rect(g, cx, cy, 10, 2, c); rect(g, cx, cy, 2, 10, c);
+        rect(g, cx, cy + 8, 10, 2, c); rect(g, cx + 8, cy, 2, 10, c);
+      }
+      if (view.framed) roundRect(g, fw / 2 - 20, fh / 2 - 12, 40, 24, 3, hex('phone.lcd.mid'));
+    }));
+    this.text(fx + fw / 2, fy + fh + 6, truncate(view.line, fw, true), view.canSnap ? 'phone.lcd.ink' : 'phone.lcd.mid', { bold: true, align: 'center' });
+    const snapY = fy + fh + 20;
+    if (view.canSnap) {
+      const id = 'camera:snap';
+      const painted = this.pill(LIST.x + 40, snapY, LIST.w - 80, 22, this.stateOf(id));
+      this.text(PHONE.screen.w / 2, snapY + 7 + painted.dy, 'SNAP', painted.ink, { bold: true, align: 'center' });
+      this.focusable(id, { x: LIST.x + 40, y: snapY - 11, w: LIST.w - 80, h: 44 }, () => { if (view.framed) { phone.takePhoto(view.framed.id); this.render(); } });
+    }
+    // City Moments: the sets' progress, then the gallery.
+    let y = snapY + 30;
+    for (const set of view.sets) this.text(LIST.x, y, `${set.set.toUpperCase()} · ${set.done}/${set.total}`, 'phone.lcd.mid'), (y += 12);
+    const rows = view.gallery;
+    const top = y + 4;
+    const rowH = 26, pitch = 30;
+    const visible = Math.max(1, Math.floor((APP.nav.y - 8 - top) / pitch));
+    this.clampScroll(rows.length - visible);
+    if (!rows.length) this.text(PHONE.screen.w / 2, top + 10, 'No photos yet.', 'phone.lcd.mid', { align: 'center' });
+    rows.slice(this.scroll, this.scroll + visible).forEach((p, k) => {
+      const ry = top + k * pitch;
+      const painted = this.pill(LIST.x, ry, LIST.w, rowH, 'default');
+      this.text(LIST.x + 8, ry + 4, truncate(p.title, LIST.w - 16, true), painted.ink, { bold: true });
+      this.text(LIST.x + 8, ry + 15, truncate(p.caption, LIST.w - 16), painted.ink);
+    });
+    this.arrows({ up: this.scroll > 0, down: this.scroll + visible < rows.length }, top, top + visible * pitch - 4);
+  }
+
+  // Contacts (ADR-123) ─────────────────────────────────────────────────────
+
+  private drawContacts(): void {
+    this.drawChrome('contacts', 'CONTACTS', null);
+    const rows = PhoneManager.getInstance().contacts();
+    const visible = listRows();
+    this.clampScroll(rows.length - visible);
+    rows.slice(this.scroll, this.scroll + visible).forEach((c, k) => {
+      const y = APP.contentTop + k * LIST.pitch;
+      const painted = this.pill(LIST.x, y, LIST.w, LIST.rowH, 'default');
+      this.text(LIST.x + 8, y + 8, truncate(c.name.toUpperCase(), LIST.w - 16, true), painted.ink, { bold: true });
+      const detail = c.status ? `${c.note ?? ''}${c.note ? ' · ' : ''}${c.status}` : c.note ?? '';
+      if (detail) this.text(LIST.x + 8, y + 22, truncate(detail, LIST.w - 16), painted.ink);
+    });
+    this.arrows({ up: this.scroll > 0, down: this.scroll + visible < rows.length }, APP.contentTop, APP.contentTop + visible * LIST.pitch - 4);
+  }
+
+  // Notes — the wishlist (ADR-123) ─────────────────────────────────────────
+
+  private drawNotes(): void {
+    this.drawChrome('notes', 'NOTES', null);
+    const rows = PhoneManager.getInstance().notes();
+    if (!rows.length) { this.text(PHONE.screen.w / 2, 130, 'Nothing noted yet.', 'phone.lcd.mid', { align: 'center' }); return; }
+    const visible = listRows();
+    this.clampScroll(rows.length - visible);
+    rows.slice(this.scroll, this.scroll + visible).forEach((n, k) => {
+      const y = APP.contentTop + k * LIST.pitch;
+      const painted = this.pill(LIST.x, y, LIST.w, LIST.rowH, 'default');
+      this.text(LIST.x + 8, y + 8, truncate(n.text, LIST.w - 16, true), painted.ink, { bold: true });
+      const detail = noteDetail(n.price, n.toGo);
+      if (detail) this.text(LIST.x + 8, y + 22, truncate(detail, LIST.w - 16), painted.ink);
+    });
+    this.arrows({ up: this.scroll > 0, down: this.scroll + visible < rows.length }, APP.contentTop, APP.contentTop + visible * LIST.pitch - 4);
   }
 
   private drawStub(appId: string): void {

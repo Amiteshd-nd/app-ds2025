@@ -1,0 +1,24 @@
+{
+  "id": "dlg_bus_uncle",
+  "speaker": "Uncle with a paper",
+  "portrait": "npc_bus_uncle",
+  "enter": [{ "flag": "uncle_headline", "node": "again" }],
+  "nodes": {
+    "start": {
+      "text": "(The headline, folded toward you: 'HIVR - VISITING INSTITUTE STUDY ENTERS THIRD PHASE'.) You young people and your reels. Read. See - a foreign institute, doing a study in Hebbal. Third phase!",
+      "choices": [
+        { "text": "A study of what?", "next": "what" },
+        { "text": "Which institute?", "next": "which" }
+      ]
+    },
+    "what": {
+      "text": "Of what, they don't say! Four columns and they don't say. In my time a study was something you did before exams. (He turns the page to the cricket.)",
+      "effect": { "flags": { "uncle_headline": true }, "xp": 10, "xp_branch": "city_survival" }
+    },
+    "which": {
+      "text": "HIVR. Hindi? Hebbal? I don't know, they only say the initials, like it's a friend. Visiting, it says. Visiting since two years. (He turns the page to the cricket.)",
+      "effect": { "flags": { "uncle_headline": true }, "xp": 10, "xp_branch": "city_survival" }
+    },
+    "again": { "text": "(Cricket page now. He has stopped reading it.)" }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "ananya",
+  "contact": "Ananya",
+  "messages": [
+    {
+      "id": "ananya_1",
+      "from": "them",
+      "text": "Ananya. Phone's alive again. Sixty rupees coming back - I'm a woman of my word, mostly.",
+      "after": "ananya_number"
+    },
+    {
+      "id": "ananya_3",
+      "from": "them",
+      "text": "Returned. Told you.",
+      "after": "amma_news_called",
+      "upi": 60
+    },
+    {
+      "id": "ananya_4",
+      "from": "them",
+      "text": "Next Sunday, bamboo, four o'clock. Bring the smile-less face.",
+      "after": "act1_done"
+    },
+    {
+      "id": "ananya_2",
+      "from": "them",
+      "text": "Sent you the bandstand one. You looked like a tourist. In a good way.",
+      "after": "ananya_walk_done"
+    }
+  ]
+}

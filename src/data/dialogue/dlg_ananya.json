@@ -1,0 +1,64 @@
+{
+  "id": "dlg_ananya",
+  "speaker": "Ananya",
+  "portrait": "npc_ananya",
+  "enter": [
+    { "flag": "ananya_walk_done", "node": "after_walk" },
+    { "flag": "ananya_walk", "node": "walking" },
+    { "flag": "ananya_number", "node": "number_done" },
+    { "flag": "ananya_paid", "node": "paid_again" },
+    { "flag": "ananya_declined", "node": "again" }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Hey - sorry - do you have UPI? My phone died mid-payment and this uncle thinks I'm running away with his cycle. It's sixty. I'm not a scam. Well. A scam would say that.",
+      "choices": [
+        { "text": "I'll pay. Sixty, right? (₹60)", "next": "paid", "effect": { "wallet": -60, "flags": { "ananya_paid": true }, "relationship": { "npc": "npc_ananya", "state": "met" } } },
+        { "text": "Sorry - broke week. Flat deposit.", "next": "broke", "effect": { "flags": { "ananya_declined": true } } }
+      ]
+    },
+    "broke": { "text": "Flat deposit. Say no more, I've been there. I'll stand here and look honest until the uncle gives up." },
+    "again": {
+      "text": "Still here. Still honest. Still sixty.",
+      "choices": [
+        { "text": "Fine. Sixty. (₹60)", "next": "paid", "effect": { "wallet": -60, "flags": { "ananya_paid": true }, "relationship": { "npc": "npc_ananya", "state": "met" } } },
+        { "text": "Good luck.", "next": "broke" }
+      ]
+    },
+    "paid": {
+      "text": "You're a lifesaver. Give me your number - I'll send it back tonight, when this thing remembers it's a phone. (She holds up a very dead screen.) I'm Ananya.",
+      "choices": [
+        { "text": "Sure. Here.", "next": "number", "effect": { "flags": { "ananya_number": true } } },
+        { "text": "Only if I get yours first.", "next": "number_flirt", "effect": { "flags": { "ananya_number": true } } }
+      ]
+    },
+    "paid_again": {
+      "text": "The sixty-rupee person. Number? For the refund. Purely business.",
+      "choices": [
+        { "text": "Here.", "next": "number", "effect": { "flags": { "ananya_number": true } } }
+      ]
+    },
+    "number_flirt": { "text": "Bold, for someone who just paid for my cycle. (She writes it on your hand. Actual pen.) Now yours.", "next": "number" },
+    "number": {
+      "text": "Saved. I shoot the park every Sunday - the light under the bamboo at four is unfair. Walking the loop? I'll show you the five spots everyone photographs, and the one nobody does.",
+      "choices": [
+        { "text": "Lead the way.", "next": "go", "effect": { "flags": { "ananya_walk": true } } },
+        { "text": "Another time - I have a bus to catch.", "next": "later" }
+      ]
+    },
+    "number_done": {
+      "text": "Changed your mind about the loop? Bandstand, bamboo, the library steps. Twenty minutes. I talk the whole way, fair warning.",
+      "choices": [
+        { "text": "Okay. Show me.", "next": "go", "effect": { "flags": { "ananya_walk": true } } },
+        { "text": "Next Sunday.", "next": "later" }
+      ]
+    },
+    "go": { "text": "Bandstand first. Try to keep up - I've got a cycle." },
+    "later": { "text": "Next Sunday, then. I'll be the one arguing with the cycle uncle." },
+    "walking": { "text": "Keep walking. Bandstand, then the bamboo, then the library steps. I'll tell you when to stop." },
+    "after_walk": {
+      "text": "Same time next Sunday? I'll bring the proper lens. And your sixty rupees. Probably.",
+      "effect": { "relationship": { "npc": "npc_ananya", "state": "warm" } }
+    }
+  }
+}

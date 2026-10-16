@@ -204,6 +204,19 @@ const map = {
         { id: 10, name: 'office_walk', rotation: 0, type: '', visible: true, x: 0, y: TOP_WALK[0] * T, width: T, height: (TOP_WALK[1] - TOP_WALK[0] + 1) * T },
         // The BMTC stop beside where the airport bus dropped you: 335-E to Ambedkar Nagar (story 1.4, ADR-122).
         { id: 11, name: 'hill_bus', rotation: 0, type: '', visible: true, x: 1 * T, y: TOP_WALK[0] * T - 8, width: T + 16, height: 16 },
+        // BMTC 500-D to Cubbon Park (story 1.5, ADR-123): the kerb stop mid-way along the top pavement; the bus
+        // runs the top (westbound) lane, pulling in from the east edge, standing at bus_halt and leaving west.
+        { id: 12, name: 'bus_500d', rotation: 0, type: '', visible: true, x: 5 * T, y: KERB_TOP * T - 10, width: 3 * T, height: 20 },
+        { id: 13, name: 'bus_in', point: true, rotation: 0, type: '', visible: true, x: W * T + 80, y: (ROAD[0] + 2) * T - 6, width: 0, height: 0 },
+        { id: 14, name: 'bus_halt', point: true, rotation: 0, type: '', visible: true, x: 6.5 * T, y: (ROAD[0] + 2) * T - 6, width: 0, height: 0 },
+        { id: 15, name: 'bus_out', point: true, rotation: 0, type: '', visible: true, x: -120, y: (ROAD[0] + 2) * T - 6, width: 0, height: 0 },
+        // The metro station being built across the road (story 1.5 F1): barricade sheets on the bottom pavement's
+        // east end, the sign read from the pavement in front of them.
+        { id: 16, name: 'barricade_spot', point: true, rotation: 0, type: '', visible: true, x: 23 * T, y: (BOTTOM_WALK[0] + 1) * T, width: 0, height: 0 },
+        { id: 17, name: 'pillar_spot', point: true, rotation: 0, type: '', visible: true, x: 26 * T, y: BOTTOM_WALK[0] * T, width: 0, height: 0 },
+        { id: 18, name: 'metro_sign', rotation: 0, type: '', visible: true, x: 23 * T, y: (BOTTOM_WALK[0] + 2) * T, width: 3 * T, height: 24 },
+        // Where the 500-D home drops you: the kerb by the stop.
+        { id: 19, name: 'cubbon_return', point: true, rotation: 0, type: '', visible: true, x: 6 * T + 16, y: TOP_WALK[1] * T + 8, width: 0, height: 0 },
         // The walkable band (pavement, kerb, road) that ambient citizens stay inside.
         { id: 5, name: 'ambient_area', rotation: 0, type: '', visible: true, x: T, y: TOP_WALK[0] * T, width: (W - 2) * T, height: (BOTTOM_WALK[1] - TOP_WALK[0] + 1) * T },
       ],
@@ -245,5 +258,5 @@ writeFileSync(join(assets, 'tilemaps/whitefield_street.tmj'), `${JSON.stringify(
 const solid = collision.filter(Boolean).length;
 console.log(
   `✓ whitefield_street.tmj — ${W}x${H} tiles, ${solid} solid tiles, ` +
-    `${placed.length} placed objects, 11 spawn objects`,
+    `${placed.length} placed objects, 19 spawn objects`,
 );

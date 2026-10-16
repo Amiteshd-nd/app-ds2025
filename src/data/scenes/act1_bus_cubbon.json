@@ -1,0 +1,118 @@
+{
+  "id": "act1_bus_cubbon",
+  "district": "bus_interior",
+  "act": 1,
+  "seq": "1.5",
+  "title": "Bus to Town",
+  "status": "P9",
+  "time": "Sunday morning",
+  "player_goal": "Reach Cubbon Park.",
+  "design_goal": "The metro-under-construction reveal; the bus as a social space; the first World-War-Z voices (a nurse, a headline).",
+  "pacing": [
+    "Curious",
+    "Calm",
+    "Curious",
+    "Reward"
+  ],
+  "entry": {
+    "from": "whitefield_street",
+    "spawn": "aisle"
+  },
+  "cast": [
+    {
+      "npc": "npc_bus_nurse",
+      "tier": 2,
+      "spawn": "seat_a",
+      "role": "Double shift, Hebbal side, strange cases (nurse_heard) - reappears as the ward nurse in Act 3"
+    },
+    {
+      "npc": "npc_bus_uncle",
+      "tier": 2,
+      "spawn": "seat_b",
+      "role": "Headline: HIVR visiting-institute study, third phase (uncle_headline)"
+    },
+    {
+      "npc": "npc_bus_kid",
+      "tier": 2,
+      "spawn": "seat_c",
+      "role": "Asleep; atmosphere"
+    }
+  ],
+  "quests": [
+    "q_act1_bus_cubbon"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "The metro station across the road: barricades, 'NAMMA METRO - OPENING SOON', hand-painted 'Use bus 500-D'. Reading the sign sets metro_seen.",
+      "interact": "walk up to the barricade",
+      "flag": "metro_seen"
+    },
+    {
+      "id": "F2",
+      "pacing": "Calm",
+      "what": "The 500-D arrives every 90 s (HUD countdown, the bus pulls in and stands 20 s). Board from the kerb stop: ₹35 (UPI).",
+      "interact": "walk onto the stop while the bus stands",
+      "flag": "on_bus_500d",
+      "economy": "₹35"
+    },
+    {
+      "id": "F3",
+      "pacing": "Curious",
+      "what": "The bus interior, a 25-second ride that pauses while you talk: the nurse (Hebbal, strange cases), the uncle (HIVR headline), the sleeping kid.",
+      "interact": "dialogue",
+      "flag": "nurse_heard, uncle_headline"
+    },
+    {
+      "id": "F4",
+      "pacing": "Reward",
+      "what": "'Cubbon Park. Everybody down.' Fade - green.",
+      "interact": "automatic",
+      "flag": "cubbon_arrived"
+    }
+  ],
+  "economy": [
+    {
+      "trigger": "bus 500-D",
+      "spend": 35,
+      "canAfford": true
+    }
+  ],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [
+    {
+      "zone": "bus_500d",
+      "to": "bus_interior",
+      "spawn": "aisle",
+      "transit": "bus"
+    },
+    {
+      "zone": "door",
+      "to": "cubbon_park",
+      "spawn": "bus_drop",
+      "transit": "walk"
+    }
+  ],
+  "save_flags": [
+    "metro_seen",
+    "on_bus_500d",
+    "nurse_heard",
+    "uncle_headline",
+    "kid_seen",
+    "cubbon_arrived",
+    "act1_bus_done"
+  ],
+  "assets_needed": [
+    "bus_interior render + spec",
+    "street_props sheet (bus, barricade, pillar, auto, van)",
+    "sheets: nurse, bus uncle, bus kid"
+  ],
+  "acceptance": [
+    "the barricade's sign sets metro_seen and the quest's first step",
+    "the 500-D stop refuses boarding until the bus stands there; the HUD counts down to it; boarding costs ₹35",
+    "the bus interior lasts 25 s of free play, holds while a passenger talks, and ends at Cubbon Park on its own",
+    "arriving sets cubbon_arrived and completes the quest; Cubbon Park's own quest starts on arrival"
+  ]
+}

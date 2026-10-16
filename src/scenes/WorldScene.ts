@@ -152,6 +152,7 @@ export class WorldScene extends Phaser.Scene {
     );
     this.triggers = Triggers.bind(this, this.district, this.map, def.spawnLayer, this.player, {
       openDialogue: (id) => this.openDialogue(id),
+      canTalk: () => !this.talking && !this.leaving && !this.sleeping,
       sleep: () => this.sleep(),
       workday: () => this.workday(),
     });
@@ -168,6 +169,12 @@ export class WorldScene extends Phaser.Scene {
         scene: this, district: this.district, map: this.map, player: this.player,
         characters: () => [this.player, ...this.npcs, ...this.crowd.citizens],
         reducedMotion,
+        playerFree: () => !this.talking && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null,
+        leave: (zone) => {
+          const exit = this.district.exits?.find((e) => e.zone === zone);
+          if (!exit) { console.error(`[WorldScene] district "${this.district.id}" has no exit on zone "${zone}"`); return; }
+          this.leaveVia(exit);
+        },
       });
       if (teardown) this.teardowns.push(teardown);
     }
@@ -190,6 +197,8 @@ export class WorldScene extends Phaser.Scene {
       gameEvents.on('wallet:spent', soon),
       gameEvents.on('quest:objective', soon),
       gameEvents.on('quest:completed', soon),
+      // A quest finishing here can open the next one this place begins (1.5 → 1.6 on arrival at the park).
+      gameEvents.on('quest:completed', () => { if (!this.leaving) for (const questId of this.district.quests ?? []) QuestManager.getInstance().start(questId); }),
     );
 
     // Autosave on arrival as well as on leaving (ADR-63: area transition).

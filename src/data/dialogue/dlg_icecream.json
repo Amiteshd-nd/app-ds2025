@@ -1,0 +1,18 @@
+{
+  "id": "dlg_icecream",
+  "speaker": "Ice-cream cart",
+  "portrait": "npc_icecream",
+  "nodes": {
+    "start": {
+      "text": "Chocobar thirty, kulfi forty, cone fifty. The cone melts before you reach the bandstand - I'm warning you now so you don't come back angry.",
+      "choices": [
+        { "text": "Chocobar. (₹30)", "next": "choco", "effect": { "wallet": -30, "food": 10, "stress": -5, "flags": { "cubbon_icecream": true } } },
+        { "text": "Kulfi. (₹40)", "next": "kulfi", "effect": { "wallet": -40, "food": 15, "stress": -5, "flags": { "cubbon_icecream": true } } },
+        { "text": "Not now.", "next": "bye" }
+      ]
+    },
+    "choco": { "text": "Good choice. Chocobar is the cone's sensible cousin." },
+    "kulfi": { "text": "Malai. The dogs know the sound of this lid, so eat fast." },
+    "bye": { "text": "Walk once around, you'll come back. Everyone does." }
+  }
+}

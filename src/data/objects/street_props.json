@@ -1,0 +1,57 @@
+[
+  {
+    "id": "METRO_BARRICADE",
+    "label": "Metro barricade",
+    "category": "structure",
+    "tilesWide": 3,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "street_props_02"
+  },
+  {
+    "id": "METRO_PILLAR",
+    "label": "Metro pillar under construction",
+    "category": "structure",
+    "tilesWide": 1,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "street_props_03"
+  },
+  {
+    "id": "AUTO_RICKSHAW",
+    "label": "Auto-rickshaw",
+    "category": "vehicle",
+    "tilesWide": 2,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "street_props_04"
+  },
+  {
+    "id": "VAN",
+    "label": "White van",
+    "category": "vehicle",
+    "tilesWide": 3,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "street_props_05"
+  },
+  {
+    "id": "CYCLE_RACK",
+    "label": "Rental cycles",
+    "category": "vehicle",
+    "tilesWide": 2,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "street_props_06"
+  }
+]

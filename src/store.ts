@@ -18,6 +18,7 @@ import type {
   PlayerProfile,
   PlayerSkills,
   PlayerStats,
+  RelationshipState,
   ReputationState,
   SkillBranchName,
 } from './utils/types';
@@ -101,6 +102,10 @@ export interface GameState {
   signalOverride: number | null;
   /** Flag the current signal zone sets when a Reel is tested there (room1_checked…). Not saved. */
   signalZoneFlag: string | null;
+  /** Named-NPC relationship states (game_components §8, ADR-123). Saved. */
+  relationships: Record<string, RelationshipState>;
+  /** The photo framed where the player stands (a photoSpots zone), or null. Not saved. */
+  photoSpot: string | null;
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -132,6 +137,8 @@ export interface GameState {
   setOverlay: (overlay: 'phone' | 'map' | 'menu' | null) => void;
   setMapDestination: (districtId: string | null) => void;
   setSignalOverride: (bars: number | null, flag?: string | null) => void;
+  setRelationship: (npcId: string, state: RelationshipState) => void;
+  setPhotoSpot: (photoId: string | null) => void;
 
   hydrate: (partial: Partial<GameState>) => void;
   reset: () => void;
@@ -198,6 +205,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   mapDestination: null,
   signalOverride: null,
   signalZoneFlag: null,
+  relationships: {},
+  photoSpot: null,
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -257,6 +266,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   setOverlay: (overlay) => set({ overlay }),
   setMapDestination: (mapDestination) => set({ mapDestination }),
   setSignalOverride: (signalOverride, flag = null) => set({ signalOverride, signalZoneFlag: signalOverride === null ? null : flag }),
+  setRelationship: (npcId, state) => set((s) => ({ relationships: { ...s.relationships, [npcId]: state } })),
+  setPhotoSpot: (photoSpot) => set({ photoSpot }),
 
   hydrate: (partial) => set(partial),
 
@@ -281,5 +292,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       mapDestination: null,
       signalOverride: null,
       signalZoneFlag: null,
+      relationships: {},
+      photoSpot: null,
     }),
 }));

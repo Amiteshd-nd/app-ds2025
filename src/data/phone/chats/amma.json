@@ -31,6 +31,19 @@
       "from": "them",
       "text": "Own room? Send photo. Lock the door at night, and buy a bed before a TV.",
       "after": "flat_signed"
+    },
+    {
+      "id": "amma_6",
+      "from": "them",
+      "text": "Sunday? Go somewhere green. Don't sit with the phone the whole day.",
+      "after": "slept_in_flat"
+    },
+    {
+      "id": "amma_7",
+      "from": "them",
+      "text": "Did you reach home? The news is saying something about Bangalore. Reply.",
+      "after": "cubbon_arrived",
+      "critical": true
     }
   ]
 }

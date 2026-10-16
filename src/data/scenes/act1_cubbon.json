@@ -1,0 +1,55 @@
+{
+  "id": "act1_cubbon",
+  "district": "cubbon_park",
+  "act": 1,
+  "seq": "1.6",
+  "title": "Cubbon Park",
+  "status": "P9",
+  "time": "Sunday afternoon",
+  "player_goal": "Explore; help someone.",
+  "design_goal": "Meet Ananya through the phone system (a payment, a number); the first collectible set (City Moments); the curiosity hook (a cough, a wishlist, a doctor's thread).",
+  "pacing": ["Calm", "Curious", "Engaged", "Reward", "Calm", "Curious"],
+  "entry": { "from": "bus_interior", "spawn": "bus_drop" },
+  "cast": [
+    { "npc": "npc_cycle_guy", "tier": 2, "spawn": "cycle_rental", "role": "Sixty an hour; will not let Ananya's payment go" },
+    { "npc": "npc_ananya", "tier": 3, "spawn": "ananya_spot", "role": "Phone dead, ₹60 stuck; pays back later by UPI (chat). Number exchanged opens the relationship (met → warm after the walk)" },
+    { "npc": "npc_icecream", "tier": 2, "spawn": "icecream_cart", "role": "Chocobar ₹30 / kulfi ₹40 (food, -stress)" },
+    { "npc": "npc_library_regular_a", "tier": 1, "spawn": "library_steps_a", "role": "Atmosphere" },
+    { "npc": "npc_library_regular_b", "tier": 1, "spawn": "library_steps_b", "role": "Atmosphere" },
+    { "npc": "npc_jogger", "tier": 2, "spawn": "jogger_spot", "role": "Stops, coughs, waves it off (tic: cough; jogger_cough_seen)" },
+    { "npc": "npc_guitar_shop", "tier": 2, "spawn": "guitar_shop", "role": "Guitar ₹6,500 - the display piece, booked till Tuesday → guitar_wishlisted (Notes)" }
+  ],
+  "objects": [
+    { "id": "DOG_SLEEPING", "at": "dog_a", "requires": null },
+    { "id": "DOG_SITTING", "at": "dog_b", "requires": null },
+    { "id": "DOG_STANDING", "at": "dog_c", "requires": null }
+  ],
+  "quests": ["q_act1_cubbon"],
+  "beats": [
+    { "id": "F1", "pacing": "Calm", "what": "Arrival unlocks the Camera. Five photo spots - bandstand, library, bamboo grove, red building, a dog - frame themselves in the viewfinder when you stand in them; SNAP saves a City Moment. All five → cubbon_photos_done.", "interact": "walk + phone", "flag": "photo_bandstand … cubbon_photos_done" },
+    { "id": "F2", "pacing": "Curious", "what": "Ananya at the cycle rental: phone dead, ₹60 stuck. Pay (₹60) → she asks for your number → relationship opens (Contacts shows 'Met').", "interact": "dialogue", "flag": "ananya_paid, ananya_number", "economy": "₹60" },
+    { "id": "F3", "pacing": "Engaged", "what": "Optional: walk the loop. She follows; three stops (bandstand, bamboo, library steps) are three lines; the last one is her photo of you - it lands in the Camera gallery and on the save slot.", "interact": "walk + dialogue", "flag": "ananya_walk … ananya_walk_done, photo_ananya_portrait" },
+    { "id": "F4", "pacing": "Reward", "what": "The guitar shop at the Church Street edge: ₹6,500, the display piece, Tuesday. A note appears in Notes with how far the wallet is from it.", "interact": "dialogue", "flag": "guitar_wishlisted" },
+    { "id": "F5", "pacing": "Calm", "what": "Bus home from the park gate (₹35, 50 min). In the room the phone rings: Amma - 'the news is saying something about Bangalore'. Reels: a doctor's thread, a meme, the ward clip.", "interact": "walk in", "flag": "amma_news_called", "economy": "₹35" },
+    { "id": "F6", "pacing": "Curious", "what": "Sleep. Act 1 ends; the Dating app arrives on the phone (Act 2 starts as a stub).", "interact": "walk onto the cot", "flag": "act1_done, act2_started" }
+  ],
+  "economy": [
+    { "trigger": "Ananya's cycle", "spend": 60, "canAfford": true },
+    { "trigger": "ice cream", "spend": "30-40", "canAfford": true },
+    { "trigger": "guitar", "spend": 6500, "canAfford": false },
+    { "trigger": "bus home", "spend": 35, "canAfford": true }
+  ],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [{ "zone": "park_gate_bus", "to": "whitefield_street", "spawn": "cubbon_return", "transit": "bus" }],
+  "save_flags": ["cubbon_arrived", "city_moments_taught", "photo_bandstand", "photo_library", "photo_bamboo", "photo_red_building", "photo_dog", "cubbon_photos_done", "ananya_paid", "ananya_declined", "ananya_number", "ananya_walk", "ananya_walk1", "ananya_walk2", "ananya_walk3", "ananya_walk_done", "photo_ananya_portrait", "cubbon_icecream", "jogger_cough_seen", "guitar_wishlisted", "amma_news_called", "act1_done", "act2_started"],
+  "assets_needed": ["cubbon_park render + spec", "animals sheet (three dogs)", "sheets: cycle guy, Ananya, ice-cream cart, jogger, guitar shop"],
+  "acceptance": [
+    "arriving unlocks the Camera; standing in a photo spot frames it and SNAP saves it; five photos set cubbon_photos_done",
+    "paying Ananya's ₹60 spends through the ledger; exchanging numbers puts her in Contacts as 'Met' and opens her chat",
+    "with ananya_walk set she follows the player; the three stop zones give three lines; the last sets ananya_walk_done, her photo appears in the gallery and the relationship reads 'Friends'",
+    "the guitar cannot be bought today; the Notes app shows it with the rupees to go",
+    "back in the flat, Amma calls once; the ₹60 comes back on the ledger with Ananya's message",
+    "sleeping sets act1_done, completes the quest and unlocks the Dating app (act2_started)"
+  ]
+}

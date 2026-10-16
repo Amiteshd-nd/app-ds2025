@@ -103,6 +103,20 @@ export const COT_PRICE = 4_500;
 /** Induction stove at the hill furniture shop. */
 export const STOVE_PRICE = 2_200;
 
+// Story 1.5 / 1.6 (ADR-123): the bus to town, Cubbon Park.
+/** BMTC 500-D fare, ₹ (story: ₹35 UPI/cash). */
+export const BUS_500D_FARE = 35;
+/** Seconds between 500-D arrivals at the Whitefield stop (story: "every 90 s"). */
+export const BUS_EVERY_S = 90;
+/** Seconds the bus waits at the stop before leaving. */
+export const BUS_DWELL_S = 20;
+/** Seconds the bus-interior ride lasts (story: "25-s ride"). */
+export const RIDE_SECONDS = 25;
+/** The cycle rental's hourly fee, ₹ — what Ananya cannot pay (story 1.6 F2). */
+export const CYCLE_FEE = 60;
+/** The Church Street guitar, ₹ (story 1.6 F4). */
+export const GUITAR_PRICE = 6_500;
+
 // --- Food (profile doc §2, components §7; ADR-97) --------------------------
 /**
  * Game minutes per food point while awake. 6 → a full meter lasts ten game
@@ -248,14 +262,14 @@ export const DEFAULT_PLAYER_SHEET = 'player_m_3';
 // 1.4.0: stats are health/wallet/social/stamina/food/stress/battery; `met` ledger added.
 // 1.5.0: clock + counters (TimeSystem, behaviours).
 // 1.6.0: UPI ledger (transactions), phone delivered/read, real playtime; slots via platform.saves.
-export const SAVE_VERSION = '1.6.0';
+export const SAVE_VERSION = '1.7.0';
 
 /**
  * Older formats that can be upgraded forward rather than discarded. Refusing a
  * save is correct when its shape is unknown; throwing away a player's run
  * because a field was added is not.
  */
-export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0', '1.3.0', '1.4.0', '1.5.0'] as const;
+export const MIGRATABLE_SAVE_VERSIONS = ['1.0.0', '1.1.0', '1.2.0', '1.3.0', '1.4.0', '1.5.0', '1.6.0'] as const;
 
 /** Scene class names that pre-1.2.0 saves recorded, mapped to the district they meant. */
 export const LEGACY_SCENE_DISTRICTS: Record<string, string> = {

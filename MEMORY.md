@@ -65,3 +65,8 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 
 ## Parked
 See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows in `DECISIONS.md`.
+
+## P9 (2026-10-16) — Cubbon Park, built, awaiting audit
+- Bus to town (1.5) and Cubbon Park (1.6) are live (ADR-123/124): `busSchedule` (interval bus + HUD timer plate), `busRide` (auto-ending ride), Camera + `photoSpots` (City Moments), `RelationshipManager` (Contacts shows the word), Notes (wishlist), `companion` (Ananya follows), NPC `tic`, `ChatMessage.upi`. Act 1 ends on the sleep after Amma's call → `act2_started` unlocks Dating.
+- Browser QA recipe that finally held: `game.loop.sleep()` and drive ONE virtual clock with `game.step(__T += 16.67, 16.67)` (mixing with the real RAF runs time backwards and breaks timers); stub `MenuScene.open` while scripting (the pane's visibility pause opens the menu mid-run and freezes `playerFree()`); tweens run on `Date.now()` — patch `scene.tweens.getDelta = () => 16.67 * timeScale` on every scene so they follow the virtual clock; `document.hidden` is true during tool calls, so real time never advances inside a script.
+

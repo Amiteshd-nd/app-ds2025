@@ -1,0 +1,24 @@
+{
+  "id": "dlg_guitar_shop",
+  "speaker": "Guitar shop · Church Street",
+  "portrait": "npc_guitar_shop",
+  "enter": [{ "flag": "guitar_wishlisted", "node": "again" }],
+  "nodes": {
+    "start": {
+      "text": "That one in the window? Six thousand five hundred. Spruce top, decent tuners. Half this city learnt Wonderwall on this model and the other half pretends it didn't.",
+      "choices": [
+        { "text": "I'll take it. (₹6,500)", "next": "booked" },
+        { "text": "Too much for this month.", "next": "wish" }
+      ]
+    },
+    "booked": {
+      "text": "Ah - that one's the display piece, booked till Tuesday. New stock comes Tuesday. Take my number, come Tuesday, I'll keep one aside. Six-five, no bargaining - I'm not the cycle uncle.",
+      "effect": { "flags": { "guitar_wishlisted": true } }
+    },
+    "wish": {
+      "text": "Then come back when it isn't. It'll still be six-five; I don't do sales, I do tuning. (He writes GUITAR - TUESDAY on a card and hands it to you anyway.)",
+      "effect": { "flags": { "guitar_wishlisted": true } }
+    },
+    "again": { "text": "Tuesday. I remember you. The spruce top is still six-five and still in the window." }
+  }
+}

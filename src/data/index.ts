@@ -2,6 +2,9 @@ import districtsJson from './districts.json';
 import phoneApps from './phone/apps.json';
 import settingsMenu from './menus/settings.json';
 import reels from './phone/reels.json';
+import photos from './phone/photos.json';
+import contacts from './phone/contacts.json';
+import notes from './phone/notes.json';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
@@ -19,6 +22,9 @@ import type {
   SceneComponent,
   SettingsMenu,
   ReelClip,
+  PhotoDef,
+  ContactDef,
+  NoteDef,
 } from '../utils/types';
 
 /**
@@ -105,6 +111,13 @@ export const SCENES: Record<string, SceneComponent> = byId(load<SceneComponent>(
 /** Phone apps in home-screen order (P6). */
 /** Reels clips (ADR-122): parody handles, gated by flags, validated. */
 export const REELS: ReelClip[] = reels as ReelClip[];
+
+/** City Moments photos (ADR-123): taken = flag `photo_<id>`. */
+export const PHOTOS: PhotoDef[] = photos as PhotoDef[];
+/** Phone contacts (ADR-123), flag-gated; `npc` links a relationship. */
+export const CONTACTS: ContactDef[] = contacts as ContactDef[];
+/** Notes app entries (ADR-123) — the wishlist. */
+export const NOTES: NoteDef[] = notes as NoteDef[];
 
 /** Settings menu sections (ADR-119): data, validated. */
 export const SETTINGS_MENU: SettingsMenu = settingsMenu as SettingsMenu;

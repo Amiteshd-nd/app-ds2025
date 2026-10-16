@@ -175,6 +175,7 @@ export class SaveManager {
       counters: state.counters,
       transactions: state.transactions,
       phone: state.phone,
+      relationships: state.relationships,
       playtime_seconds: Math.floor(this.playtimeMs / 1000),
     };
 
@@ -270,6 +271,7 @@ export class SaveManager {
       counters: data.counters ?? {},
       transactions: data.transactions ?? [],
       phone: data.phone ?? { delivered: [], read: [] },
+      relationships: data.relationships ?? {},
       playtime_seconds: data.playtime_seconds ?? 0,
       player: {
         profile,
@@ -304,6 +306,7 @@ export class SaveManager {
       counters: data.counters,
       transactions: data.transactions,
       phone: data.phone,
+      relationships: data.relationships ?? {},
     });
     this.playtimeMs = (data.playtime_seconds ?? 0) * 1000;
     return true;

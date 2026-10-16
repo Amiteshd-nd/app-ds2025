@@ -129,13 +129,62 @@
         "fare": 20,
         "minutes": 25,
         "card": "BMTC 335-E → Ambedkar Nagar · ₹20"
+      },
+      {
+        "zone": "bus_500d",
+        "to": "bus_interior",
+        "spawn": "aisle",
+        "transit": "bus",
+        "fare": 35,
+        "minutes": 5,
+        "card": "BMTC 500-D → Cubbon Park · ₹35",
+        "requiresFlag": "bus_500d_here",
+        "lockedText": "500-D stops here. Wait for it - the clock is on the HUD."
       }
     ],
     "realworld": {
       "lat": 12.9698,
       "lng": 77.75,
       "label": "Whitefield"
-    }
+    },
+    "buses": [
+      {
+        "id": "500d",
+        "label": "500-D",
+        "zone": "bus_500d",
+        "flag": "bus_500d_here",
+        "every": 90,
+        "dwell": 20,
+        "from": "bus_in",
+        "stop": "bus_halt",
+        "to": "bus_out",
+        "prop": "street_props_01"
+      }
+    ],
+    "behaviours": [
+      "busSchedule"
+    ],
+    "triggers": [
+      {
+        "zone": "metro_sign",
+        "dialogue": "dlg_metro_sign",
+        "unlessFlag": "metro_seen",
+        "requiresFlag": "slept_in_flat"
+      }
+    ],
+    "objects": [
+      {
+        "id": "METRO_BARRICADE",
+        "at": "barricade_spot"
+      },
+      {
+        "id": "METRO_PILLAR",
+        "at": "pillar_spot"
+      }
+    ],
+    "quests": [
+      "q_act1_bus_cubbon"
+    ]
   },
   {
     "id": "whitefield_hotel",
@@ -632,12 +681,29 @@
     ],
     "triggers": [
       {
-        "zone": "bed",
+        "zone": "flat_arrival",
+        "dialogue": "dlg_amma_news",
+        "requiresFlag": "cubbon_arrived",
+        "unlessFlag": "amma_news_called",
+        "setFlags": [
+          "amma_news_called"
+        ]
+      },
+      {
         "action": "sleep",
         "requiresFlag": "bed_bought",
         "setFlags": [
           "slept_in_flat"
-        ]
+        ],
+        "zone": "bed"
+      },
+      {
+        "zone": "bed",
+        "requiresFlag": "amma_news_called",
+        "setFlags": [
+          "act1_done"
+        ],
+        "unlessFlag": "act1_done"
       }
     ],
     "exits": [
@@ -653,6 +719,237 @@
     ],
     "realworld": {
       "parent": "ambedkar_nagar_hill"
+    }
+  },
+  {
+    "id": "bus_interior",
+    "name": "BMTC 500-D",
+    "map": "bus_interior",
+    "defaultSpawn": "aisle",
+    "fadeMs": 300,
+    "unlock": {
+      "flags": [
+        "slept_in_flat"
+      ]
+    },
+    "signal": 3,
+    "npcs": [
+      {
+        "id": "npc_bus_nurse",
+        "spawn": "seat_a"
+      },
+      {
+        "id": "npc_bus_uncle",
+        "spawn": "seat_b"
+      },
+      {
+        "id": "npc_bus_kid",
+        "spawn": "seat_c"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "aisle_zone",
+        "setFlags": [
+          "on_bus_500d"
+        ],
+        "unlessFlag": "on_bus_500d"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "door",
+        "to": "cubbon_park",
+        "spawn": "bus_drop",
+        "transit": "walk",
+        "minutes": 45,
+        "requiresFlag": "ride_over",
+        "lockedText": "The bus is moving. Sit."
+      }
+    ],
+    "ride": {
+      "seconds": 25,
+      "exit": "door",
+      "flag": "ride_over",
+      "label": "Cubbon Park"
+    },
+    "behaviours": [
+      "busRide"
+    ],
+    "realworld": {
+      "parent": "whitefield_street"
+    },
+    "quests": [
+      "q_act1_bus_cubbon"
+    ]
+  },
+  {
+    "id": "cubbon_park",
+    "name": "Cubbon Park",
+    "map": "cubbon_park",
+    "defaultSpawn": "bus_drop",
+    "fadeMs": 400,
+    "unlock": {
+      "flags": [
+        "slept_in_flat"
+      ]
+    },
+    "signal": 4,
+    "quests": [
+      "q_act1_bus_cubbon",
+      "q_act1_cubbon"
+    ],
+    "npcs": [
+      {
+        "id": "npc_cycle_guy",
+        "spawn": "cycle_rental"
+      },
+      {
+        "id": "npc_ananya",
+        "spawn": "ananya_spot"
+      },
+      {
+        "id": "npc_icecream",
+        "spawn": "icecream_cart"
+      },
+      {
+        "id": "npc_library_regular_a",
+        "spawn": "library_steps_a"
+      },
+      {
+        "id": "npc_library_regular_b",
+        "spawn": "library_steps_b"
+      },
+      {
+        "id": "npc_jogger",
+        "spawn": "jogger_spot"
+      },
+      {
+        "id": "npc_guitar_shop",
+        "spawn": "guitar_shop"
+      }
+    ],
+    "objects": [
+      {
+        "id": "DOG_SLEEPING",
+        "at": "dog_a"
+      },
+      {
+        "id": "DOG_SITTING",
+        "at": "dog_b"
+      },
+      {
+        "id": "DOG_STANDING",
+        "at": "dog_c"
+      }
+    ],
+    "ambient": {
+      "area": "ambient_area",
+      "base": [
+        "crowd_student",
+        "crowd_elder",
+        "crowd_homemaker",
+        "crowd_hoodie",
+        "crowd_techie"
+      ],
+      "count": 5
+    },
+    "photoSpots": [
+      {
+        "zone": "photo_bandstand",
+        "photo": "bandstand"
+      },
+      {
+        "zone": "photo_library",
+        "photo": "library"
+      },
+      {
+        "zone": "photo_bamboo",
+        "photo": "bamboo"
+      },
+      {
+        "zone": "photo_red_building",
+        "photo": "red_building"
+      },
+      {
+        "zone": "photo_dog",
+        "photo": "dog"
+      }
+    ],
+    "companion": {
+      "npc": "npc_ananya",
+      "whileFlag": "ananya_walk",
+      "untilFlag": "ananya_walk_done"
+    },
+    "triggers": [
+      {
+        "zone": "cubbon_arrival",
+        "setFlags": [
+          "cubbon_arrived",
+          "city_moments_taught"
+        ],
+        "unlessFlag": "cubbon_arrived"
+      },
+      {
+        "zone": "stop_bandstand",
+        "dialogue": "dlg_ananya_walk",
+        "requiresFlag": "ananya_walk",
+        "unlessFlag": "ananya_walk1"
+      },
+      {
+        "zone": "stop_bamboo",
+        "dialogue": "dlg_ananya_walk",
+        "requiresFlag": "ananya_walk1",
+        "unlessFlag": "ananya_walk2"
+      },
+      {
+        "zone": "stop_library",
+        "dialogue": "dlg_ananya_walk",
+        "requiresFlag": "ananya_walk2",
+        "unlessFlag": "ananya_walk3"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "park_gate_bus",
+        "to": "whitefield_street",
+        "spawn": "cubbon_return",
+        "transit": "bus",
+        "fare": 35,
+        "minutes": 50,
+        "card": "BMTC 500-D → Whitefield · ₹35"
+      }
+    ],
+    "behaviours": [
+      "photoSpots",
+      "companion"
+    ],
+    "realworld": {
+      "lat": 12.97672,
+      "lng": 77.59493,
+      "label": "Cubbon Park",
+      "area": {
+        "radiusM": 600,
+        "pocket": {
+          "anchor": [
+            12.97672,
+            77.59493
+          ],
+          "anchorTile": [
+            17.8,
+            10.3
+          ],
+          "bearing": 90,
+          "metresPerTile": 1.2,
+          "tiles": [
+            36,
+            24
+          ],
+          "streets": [
+            "Cubbon Park"
+          ]
+        }
+      }
     }
   }
 ]
