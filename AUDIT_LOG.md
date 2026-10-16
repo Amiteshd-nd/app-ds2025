@@ -171,3 +171,6 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 ### [Layering brief — Part A (all maps) + Part B (Playground Locations) approved] — 2026-10-16
 - Decision: "approved, push and start P10" — the render model on all ten maps and the Playground Locations stand with no corrections; the logged limits (cables painted, pole fringes — T-051) are accepted for now. Pushed.
 
+### [P10 2.1 "Credited" — approved] — 2026-10-16
+- Decision: "approved, push and start 2.2" — paydays every 30 nights, Noor Motors on ITPL Main Road, the outright haggle and the EMI, fuel and the bunk, Maps RIDE with the contextual gauge and the parked scooter (ADR-126) stand with no corrections; the art-director calls listed in ADR-126 (Sameer's chat + toast as the tutorial, no make name, rides through Maps only, the showroom west of Pattandur Agrahara) are confirmed. Pushed.
+- Rule going forward: **a bought thing that changes how you move (scooter, metro card) lives in Maps as a travel mode with its own cost line, never as a steerable sprite or a per-pocket exit** — one mechanism, every pocket gains it for free.
