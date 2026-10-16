@@ -1,4 +1,5 @@
 import { useGameStore } from '../../store';
+import { LAYERS } from '../../utils/constants';
 import { findObject } from '../Zones';
 import type { Behaviour } from './index';
 
@@ -11,7 +12,7 @@ import type { Behaviour } from './index';
 export const photoSpots: Behaviour = {
   attach({ scene, district, map, player }) {
     const spots = (district.photoSpots ?? []).map((z) => {
-      const obj = findObject(map, 'Spawns', z.zone);
+      const obj = findObject(map, LAYERS.spawns, z.zone);
       return obj ? { photo: z.photo, x: obj.x ?? 0, y: obj.y ?? 0, w: obj.width ?? 0, h: obj.height ?? 0 } : null;
     }).filter((z): z is { photo: string; x: number; y: number; w: number; h: number } => z !== null);
     if (!spots.length) return;

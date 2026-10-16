@@ -952,17 +952,24 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
       }
     }
 
+    // Rule 7 (ADR-125): the feet box can walk from the default spawn to every exit zone.
+    for (const exit of district.exits ?? []) {
+      if (!exit.zone || !spawns.has(exit.zone) || !district.defaultSpawn || !spawns.has(district.defaultSpawn)) continue;
+      const verdict = reachable(tmj, def, district.defaultSpawn, exit.zone);
+      if (verdict === false) add(`${d}: the feet box cannot walk from "${district.defaultSpawn}" to exit "${exit.zone}" — a wall or footprint seals the way (ADR-125)`);
+    }
+
     // Density: a screen with nothing to do is a design bug (ADR-40), not a crash.
     const tiles = (tmj.width ?? 0) * (tmj.height ?? 0);
     if (tiles > 0) {
-      const objectLayer = (tmj.layers ?? []).find((l: Json) => l.name === def.objectLayer);
+      const objectLayer = (tmj.layers ?? []).find((l: Json) => l.name === def.sortedLayer);
       const interactables =
         (district.npcs?.length ?? 0) +
         (district.objects?.length ?? 0) +
         (district.exits?.length ?? 0) +
         (district.triggers?.length ?? 0) +
         (district.pulse_slots?.length ?? 0) +
-        ((objectLayer?.objects ?? []) as Json[]).length;
+        ((objectLayer?.objects ?? []) as Json[]).filter((o) => o.type !== 'cutout' && o.type !== 'above').length;
       const screens = tiles / SCREEN_TILES;
       if (interactables < screens) {
         warn(`${d} has ${interactables} interactables over ~${Math.round(screens)} screens — ADR-40 wants ≥1 per 10×10-tile screen`);
@@ -993,6 +1000,69 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
   }
 
   return { problems, warnings };
+}
+
+/**
+ * Walkability on an 8px grid with the 20×12 feet box (ADR-125): a cell is
+ * blocked when any collision rect (object layer), collision tile, placed
+ * object footprint or cutout footprint overlaps it. BFS from the spawn's cell
+ * to any cell of the target zone. Returns null when the map has no collision
+ * data at all (nothing to check).
+ */
+export function reachable(tmj: Json, def: Json, spawnName: string, zoneName: string): boolean | null {
+  const CELL = 8, FEET_W = 20, FEET_H = 12;
+  const W = (tmj.width ?? 0) * 32, H = (tmj.height ?? 0) * 32;
+  if (!W || !H) return null;
+  const rects: Array<[number, number, number, number]> = [];
+  const layers: Json[] = tmj.layers ?? [];
+  const collision = layers.find((l) => l.name === def.collisionLayer);
+  if (collision?.type === 'objectgroup') for (const o of collision.objects ?? []) rects.push([o.x, o.y, o.width, o.height]);
+  if (collision?.type === 'tilelayer') {
+    for (let i = 0; i < (collision.data ?? []).length; i++) if (collision.data[i]) rects.push([(i % collision.width) * 32, Math.floor(i / collision.width) * 32, 32, 32]);
+  }
+  const sorted = layers.find((l) => l.name === def.sortedLayer);
+  for (const o of sorted?.objects ?? []) {
+    const get = (n: string) => o.properties?.find((p: Json) => p.name === n)?.value;
+    if (o.type === 'cutout' && typeof get('footX') === 'number') rects.push([get('footX'), get('footY'), get('footW'), get('footH')]);
+  }
+  if (!rects.length) return null;
+  const cols = Math.ceil(W / CELL), rows = Math.ceil(H / CELL);
+  const blocked = new Uint8Array(cols * rows);
+  for (const [x, y, w, h] of rects) {
+    const x0 = Math.max(0, Math.floor((x - FEET_W / 2) / CELL)), x1 = Math.min(cols - 1, Math.floor((x + w + FEET_W / 2 - 1) / CELL));
+    const y0 = Math.max(0, Math.floor((y - FEET_H / 2) / CELL)), y1 = Math.min(rows - 1, Math.floor((y + h + FEET_H / 2 - 1) / CELL));
+    for (let cy = y0; cy <= y1; cy++) for (let cx = x0; cx <= x1; cx++) blocked[cy * cols + cx] = 1;
+  }
+  const spawnLayer = layers.find((l) => l.name === def.spawnLayer);
+  const spawn = (spawnLayer?.objects ?? []).find((o: Json) => o.name === spawnName);
+  const zone = (spawnLayer?.objects ?? []).find((o: Json) => o.name === zoneName);
+  if (!spawn || !zone) return null;
+  // Spawns are sprite centres; the feet box sits 17px below.
+  const sx = Math.floor((spawn.x ?? 0) / CELL), sy = Math.floor(((spawn.y ?? 0) + 17) / CELL);
+  // Reached when the feet box standing on the cell overlaps the zone (zones often hug a wall's edge).
+  const inZone = (cx: number, cy: number) => {
+    const px = cx * CELL + CELL / 2, py = cy * CELL + CELL / 2;
+    const zw = zone.width || 96, zh = zone.height || 96, zx = zone.width ? zone.x : zone.x - zw / 2, zy = zone.height ? zone.y : zone.y - zh / 2;
+    return px + FEET_W / 2 > zx && px - FEET_W / 2 < zx + zw && py + FEET_H / 2 > zy && py - FEET_H / 2 < zy + zh;
+  };
+  const seen = new Uint8Array(cols * rows);
+  const queue: number[] = [];
+  const start = sy * cols + sx;
+  if (sx < 0 || sy < 0 || sx >= cols || sy >= rows) return null;
+  seen[start] = 1; queue.push(start);
+  while (queue.length) {
+    const k = queue.shift()!;
+    const cx = k % cols, cy = (k - cx) / cols;
+    if (inZone(cx, cy)) return true;
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const nx = cx + dx, ny = cy + dy;
+      if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) continue;
+      const n = ny * cols + nx;
+      if (seen[n] || blocked[n]) continue;
+      seen[n] = 1; queue.push(n);
+    }
+  }
+  return false;
 }
 
 function validateRequirement(file: string, where: string, requires: Json): string[] {

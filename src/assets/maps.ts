@@ -12,31 +12,28 @@ export interface MapDefinition {
   file: string;
   /** Bundled URL for the .tmj. */
   url: string;
-  /** Tile layers that must be present, matched by exact name. */
-  requiredLayers: string[];
-  /** Layer used as the (invisible) collision stencil. */
+  /** The invisible collision layer: a tile stencil, or an object layer of pixel rects (generated maps). */
   collisionLayer?: string;
-  /** Object layer holding spawn points. */
+  /** Object layer holding spawn points and zones. */
   spawnLayer?: string;
-  /** Object layer holding placed world objects, each typed by an ObjectDef id. */
-  objectLayer?: string;
+  /** The Y-sort band (ADR-125): placed objects typed by ObjectDef id, `cutout` images with a footprint, `above` images. */
+  sortedLayer?: string;
   /** Object layer of City Pulse slots: named, typed anchors events switch on. */
   pulseLayer?: string;
-  /** Object layer of `solid` blocks and `occluder` cut-outs (generated maps). */
-  shapeLayer?: string;
   /** Spawn object names the scene code depends on. */
   requiredSpawns: string[];
+  /** Migrated to the render model: the validator is strict about footprints and legacy shapes. */
+  sop?: boolean;
 }
 
 interface ManifestMap {
   file: string;
-  requiredLayers: string[];
   collisionLayer?: string;
   spawnLayer?: string;
-  objectLayer?: string;
+  sortedLayer?: string;
   pulseLayer?: string;
-  shapeLayer?: string;
   requiredSpawns?: string[];
+  sop?: boolean;
 }
 
 export const TILE_SIZE_FROM_MANIFEST: number = manifest.tileSize;
@@ -70,13 +67,12 @@ const build = (): Record<string, MapDefinition> => {
           key,
           file: def.file,
           url,
-          requiredLayers: def.requiredLayers,
           collisionLayer: def.collisionLayer,
           spawnLayer: def.spawnLayer,
-          objectLayer: def.objectLayer,
+          sortedLayer: def.sortedLayer,
           pulseLayer: def.pulseLayer,
-          shapeLayer: def.shapeLayer,
           requiredSpawns: def.requiredSpawns ?? [],
+          sop: def.sop,
         } satisfies MapDefinition,
       ];
     }),

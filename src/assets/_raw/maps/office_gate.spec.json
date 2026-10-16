@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) \u2192 36x24 tiles, 1.2 m/tile (ADR-120/121). Blocks trace where things MEET THE GROUND. Road y 0-232 is traffic (never walkable); pavement y 232-335 full width with the auto stand left, tea cart, shuttle shelter right; compound wall y 335-403 broken by the pedestrian arch x 838-884 (the boom barrier is for cars); forecourt driveway x 640-900 + side pavements x 540-640 / 900-1035 down to the bottom pavement y 690-745; the entrance canopy x 560-980 y 738-860 is a porch the player walks under to the doors; the building's facade band y 745+ is solid. Prakash's counter is the security cabin (admin_desk), Divya waits at the canopy mouth (lobby), Sameer and Ravi stand on the pavement after 18:00.",
+  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-120/121). Blocks trace where things MEET THE GROUND. Road y 0-232 is traffic (never walkable); pavement y 232-335 full width with the auto stand left, tea cart, shuttle shelter right; compound wall y 335-403 broken by the pedestrian arch x 838-884 (the boom barrier is for cars); forecourt driveway x 640-900 + side pavements x 540-640 / 900-1035 down to the bottom pavement y 690-745; the entrance canopy x 560-980 y 738-860 is a porch the player walks under to the doors; the building's facade band y 745+ is solid. Prakash's counter is the security cabin (admin_desk), Divya waits at the canopy mouth (lobby), Sameer and Ravi stand on the pavement after 18:00.",
   "name": "office_gate",
   "cols": 36,
   "rows": 24,
@@ -25,15 +25,15 @@
     ],
     [
       110,
-      248,
+      292,
       195,
-      88
+      44
     ],
     [
       320,
-      272,
+      306,
       80,
-      60
+      26
     ],
     [
       400,

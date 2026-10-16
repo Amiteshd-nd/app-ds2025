@@ -9,7 +9,7 @@ import { TILESET_URLS } from '../assets';
 import { MAPS, LAYER_ORDER } from '../assets/maps';
 import { getDistrict } from '../data';
 import { gameEvents } from '../core/events';
-import { characterZY, depthForZY } from '../core/depth';
+import { depthForZY, feetY } from '../core/depth';
 import * as Populate from '../world/Populate';
 import * as Exits from '../world/Exits';
 import * as Triggers from '../world/Triggers';
@@ -128,8 +128,8 @@ export class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, solids);
     colliders.push(solids);
 
-    // Generated maps: pixel-precise blocks + occluder cut-outs (AUDIT_LOG P5).
-    const shapes = Shapes.bind(this, this.map, def.shapeLayer);
+    // The render model (ADR-125): collision rects, sorted cut-outs with footprints, overhead cut-outs.
+    const shapes = Shapes.bind(this, this.map, def.sortedLayer, def.collisionLayer);
     this.physics.add.collider(this.player, shapes.blocks);
     colliders.push(shapes.blocks);
 
@@ -275,7 +275,8 @@ export class WorldScene extends Phaser.Scene {
       layer.setDepth(LAYER_DEPTH[name] ?? 0);
 
       if (name === collisionName) {
-        // The collision layer is a hidden stencil: any non-empty tile is solid.
+        // A tile collision layer is a hidden stencil: any non-empty tile is solid.
+        // (Generated maps carry collision as an object layer of rects instead — Shapes.bind reads it.)
         layer.setVisible(false);
         layer.setCollisionByExclusion([-1, 0]);
         collision = layer;
@@ -516,12 +517,11 @@ export class WorldScene extends Phaser.Scene {
       this.triggers.update();
     }
 
-    // Depth is computed from each drawable's bottom edge, never authored.
-    // Placed objects set theirs once at construction; characters move, so
-    // theirs is recomputed each frame.
-    this.player.setDepth(depthForZY(characterZY(this.player)));
-    for (const npc of this.npcs) npc.setDepth(depthForZY(characterZY(npc)));
-    for (const citizen of this.crowd.citizens) citizen.setDepth(depthForZY(characterZY(citizen)));
+    // The Y-sort band (ADR-125): depth = feet Y (the body's bottom), never authored.
+    // Placed objects set theirs once at construction; movers recompute each frame.
+    this.player.setDepth(depthForZY(feetY(this.player)));
+    for (const npc of this.npcs) npc.setDepth(depthForZY(feetY(npc)));
+    for (const citizen of this.crowd.citizens) citizen.setDepth(depthForZY(feetY(citizen)));
   }
 }
 

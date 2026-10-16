@@ -10,9 +10,9 @@ const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 
 /** A fixed hand-authored-style definition — the validator's behaviour, not whichever map is the airport today. */
 const AIRPORT = {
   file: 'test_map.tmj',
-  requiredLayers: ['Ground', 'Walls', 'Objects', 'Collision', 'Above Player'],
-  collisionLayer: 'Collision',
-  spawnLayer: 'Spawns',
+  collisionLayer: 'collision',
+  spawnLayer: 'spawns',
+  sortedLayer: 'sorted',
   requiredSpawns: ['player_spawn'],
   optionalLayers: ['Effects', 'Foreground'],
 };
@@ -29,12 +29,14 @@ const goodMap = () => ({
   tileheight: 32,
   tilesets: TILESETS.map((name, i) => ({ name, firstgid: i + 1, image: `../tilesets/${name}.png` })),
   layers: [
-    { name: 'Ground', type: 'tilelayer', visible: true },
-    { name: 'Walls', type: 'tilelayer', visible: true },
-    { name: 'Objects', type: 'tilelayer', visible: true },
-    { name: 'Collision', type: 'tilelayer', visible: false },
-    { name: 'Above Player', type: 'tilelayer', visible: true },
-    { name: 'Spawns', type: 'objectgroup', visible: true, objects: [{ name: 'player_spawn', x: 1, y: 1 }] },
+    { name: 'ground', type: 'tilelayer', visible: true },
+    { name: 'ground_detail', type: 'tilelayer', visible: true },
+    { name: 'buildings', type: 'tilelayer', visible: true },
+    { name: 'sorted', type: 'objectgroup', visible: true, objects: [] },
+    { name: 'props_above', type: 'tilelayer', visible: true },
+    { name: 'collision', type: 'tilelayer', visible: false },
+    { name: 'fx', type: 'tilelayer', visible: true },
+    { name: 'spawns', type: 'objectgroup', visible: true, objects: [{ name: 'player_spawn', x: 1, y: 1 }] },
   ],
 });
 
@@ -60,11 +62,12 @@ describe('tilemap validator', () => {
 
   it('catches a renamed layer, and points at the near-miss', () => {
     const problems = check((m) => {
-      m.layers.find((l) => l.name === 'Above Player')!.name = 'above player';
+      m.layers.find((l) => l.name === 'props_above')!.name = 'Props Above';
     });
-    expect(problems).toHaveLength(1);
-    expect(problems[0]).toContain('missing layer "Above Player"');
-    expect(problems[0]).toContain('differs in case or spacing');
+    const missing = problems.find((p: string) => p.includes('missing layer "props_above"'));
+    expect(missing).toBeDefined();
+    expect(missing).toContain('differs in case or spacing');
+    expect(problems.some((p: string) => p.includes('not in the layer taxonomy'))).toBe(true);
   });
 
   it('catches a tileset with no matching image — the silent-empty-layer bug', () => {
@@ -78,7 +81,7 @@ describe('tilemap validator', () => {
 
   it('catches a missing required spawn', () => {
     const problems = check((m) => {
-      m.layers.find((l) => l.name === 'Spawns')!.objects = [{ name: 'gaurd', x: 0, y: 0 }];
+      m.layers.find((l) => l.name === 'spawns')!.objects = [{ name: 'gaurd', x: 0, y: 0 }];
     });
     expect(problems).toHaveLength(1);
     expect(problems[0]).toContain('missing spawn object "player_spawn"');
@@ -102,14 +105,14 @@ describe('tilemap validator', () => {
 
   it('warns when the collision stencil is left visible', () => {
     const problems = check((m) => {
-      m.layers.find((l) => l.name === 'Collision')!.visible = true;
+      m.layers.find((l) => l.name === 'collision')!.visible = true;
     });
     expect(problems[0]).toContain('is visible');
   });
 
   it('catches a spawn layer authored as a tile layer', () => {
     const problems = check((m) => {
-      m.layers.find((l) => l.name === 'Spawns')!.type = 'tilelayer';
+      m.layers.find((l) => l.name === 'spawns')!.type = 'tilelayer';
     });
     expect(problems[0]).toContain('expected an object layer');
   });
@@ -122,7 +125,7 @@ describe('tilemap validator — doors and City Pulse slots', () => {
 
   it('warns on a door that is not 32x48 — player height is door height', () => {
     const map = goodMap();
-    map.layers.find((l) => l.name === 'Spawns')!.objects!.push({ name: 'door_pg', x: 0, y: 0, width: 32, height: 32 } as never);
+    map.layers.find((l) => l.name === 'spawns')!.objects!.push({ name: 'door_pg', x: 0, y: 0, width: 32, height: 32 } as never);
     const warnings = mapWarnings('test_map', AIRPORT, map);
     expect(warnings).toHaveLength(1);
     expect(warnings[0]).toContain('expected 32x48');
@@ -130,7 +133,7 @@ describe('tilemap validator — doors and City Pulse slots', () => {
 
   it('accepts a 32x48 door, by name or by type', () => {
     const map = goodMap();
-    map.layers.find((l) => l.name === 'Spawns')!.objects!.push(
+    map.layers.find((l) => l.name === 'spawns')!.objects!.push(
       { name: 'door_pg', x: 0, y: 0, width: 32, height: 48 } as never,
       { name: 'front', type: 'door', x: 0, y: 0, width: 32, height: 48 } as never,
     );
@@ -164,29 +167,38 @@ describe('tilemap validator — doors and City Pulse slots', () => {
   });
 });
 
-describe('shape layer (generated maps, AUDIT_LOG P5)', () => {
-  const def = { ...AIRPORT, shapeLayer: 'Shapes' };
-  const withShapes = (objects: unknown[]) => {
+describe('the sorted band (render model, ADR-125)', () => {
+  const withSorted = (objects: unknown[], sop = true) => {
     const map = goodMap();
-    (map.layers as unknown[]).push({ name: 'Shapes', type: 'objectgroup', visible: true, objects });
-    return validateMap('test_map', def, map, TILESETS, 32, [], ['test_map__pole']);
+    (map.layers.find((l) => l.name === 'sorted') as { objects: unknown[] }).objects = objects;
+    return validateMap('test_map', { ...AIRPORT, sop }, map, TILESETS, 32, [], ['test_map__pole', 'test_map__wires']);
   };
+  const foot = [{ name: 'footX', value: 0 }, { name: 'footY', value: 30 }, { name: 'footW', value: 8 }, { name: 'footH', value: 6 }];
 
-  it('accepts solid blocks and occluders whose cut-out exists', () => {
-    expect(withShapes([
-      { id: 1, type: 'solid', x: 0, y: 0, width: 10, height: 10 },
-      { id: 2, name: 'pole', type: 'occluder', properties: [{ name: 'image', value: 'test_map__pole' }, { name: 'baseY', value: 40 }] },
+  it('accepts a placed object, a cutout with a feet line and footprint, and an overhead image', () => {
+    expect(withSorted([
+      { id: 1, type: 'BENCH', x: 0, y: 0 },
+      { id: 2, name: 'pole', type: 'cutout', properties: [{ name: 'image', value: 'test_map__pole' }, { name: 'baseY', value: 40 }, ...foot] },
+      { id: 3, name: 'wires', type: 'above', properties: [{ name: 'image', value: 'test_map__wires' }] },
     ])).toEqual([]);
   });
 
-  it('catches an unknown shape type, a missing cut-out and a missing baseY', () => {
-    const p = withShapes([
-      { id: 1, type: 'wall' },
-      { id: 2, name: 'tree', type: 'occluder', properties: [{ name: 'image', value: 'test_map__tree' }] },
+  it('on a migrated map a cutout without a footprint is an error; unmigrated maps are let through', () => {
+    const pole = { id: 2, name: 'pole', type: 'cutout', properties: [{ name: 'image', value: 'test_map__pole' }, { name: 'baseY', value: 40 }] };
+    expect(withSorted([pole]).some((x: string) => x.includes('no footprint'))).toBe(true);
+    expect(withSorted([pole], false)).toEqual([]);
+  });
+
+  it('catches legacy shapes, a missing cut-out, a missing baseY and an overhead image that blocks', () => {
+    const p = withSorted([
+      { id: 1, type: 'solid', x: 0, y: 0, width: 10, height: 10 },
+      { id: 2, name: 'tree', type: 'cutout', properties: [{ name: 'image', value: 'test_map__tree' }, ...foot] },
+      { id: 3, name: 'wires', type: 'above', properties: [{ name: 'image', value: 'test_map__wires' }, ...foot] },
     ]);
-    expect(p.some((x: string) => x.includes('expected solid or occluder'))).toBe(true);
+    expect(p.some((x: string) => x.includes('legacy type "solid"'))).toBe(true);
     expect(p.some((x: string) => x.includes('not in src/assets/overlays'))).toBe(true);
     expect(p.some((x: string) => x.includes('no numeric baseY'))).toBe(true);
+    expect(p.some((x: string) => x.includes('overhead things never block'))).toBe(true);
   });
 });
 

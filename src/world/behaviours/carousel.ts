@@ -1,4 +1,5 @@
 import { depthForZY } from '../../core/depth';
+import { LAYERS } from '../../utils/constants';
 import { findObject } from '../Zones';
 import type { Behaviour } from './index';
 
@@ -43,7 +44,7 @@ export const stadiumLength = ({ w, h }: Stadium): number => 2 * Math.max(0, w - 
  */
 export const beh_carousel: Behaviour = {
   attach({ scene, map, reducedMotion }) {
-    const zone = findObject(map, 'Spawns', 'carousel_belt');
+    const zone = findObject(map, LAYERS.spawns, 'carousel_belt');
     if (!zone?.width || !zone.height) {
       console.error('[beh_carousel] no carousel_belt zone in this map');
       return;

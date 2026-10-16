@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { depthForZY } from '../../core/depth';
 import { gameEvents } from '../../core/events';
 import { useGameStore } from '../../store';
+import { LAYERS } from '../../utils/constants';
 import { findObject } from '../Zones';
 import type { Behaviour } from './index';
 
@@ -41,7 +42,7 @@ export const busSchedule: Behaviour = {
     if (!buses.length) return;
     const store = () => useGameStore.getState();
     const sprites = new Map<string, Phaser.GameObjects.Image | Phaser.GameObjects.Rectangle>();
-    const point = (name: string) => { const o = findObject(map, 'Spawns', name); return o ? { x: o.x ?? 0, y: o.y ?? 0 } : null; };
+    const point = (name: string) => { const o = findObject(map, LAYERS.spawns, name); return o ? { x: o.x ?? 0, y: o.y ?? 0 } : null; };
 
     for (const bus of buses) {
       if (store().flags[bus.flag]) store().setFlag(bus.flag, false);

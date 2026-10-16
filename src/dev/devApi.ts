@@ -13,7 +13,7 @@ import { SCENES } from '../data';
 import { SaveManager } from '../systems/SaveManager';
 import { TimeManager } from '../systems/TimeManager';
 import { useGameStore } from '../store';
-import { SCENE_KEYS } from '../utils/constants';
+import { LAYERS, SCENE_KEYS } from '../utils/constants';
 import { applyOverride, buildPrereqState, type PlaygroundState, type StateOverride } from './prereq';
 
 export type DevNode =
@@ -92,19 +92,19 @@ export function installDevApi(game: Phaser.Game): DevApi {
     // The hidden collision stencil of tile-based maps.
     for (const layer of scene.children.list) {
       const l = layer as Phaser.Tilemaps.TilemapLayer;
-      if (l.layer?.name === 'Collision') l.setVisible(collision).setAlpha(0.45);
+      if (l.layer?.name === LAYERS.collision) l.setVisible(collision).setAlpha(0.45);
     }
     zoneGraphics?.destroy();
     zoneGraphics = null;
     if (zones) {
       const map = (scene as unknown as { map?: Phaser.Tilemaps.Tilemap }).map;
       const g = scene.add.graphics().setDepth(10_000);
-      for (const layerName of ['Spawns', 'Shapes']) {
+      for (const layerName of [LAYERS.spawns, LAYERS.sorted, LAYERS.collision]) {
         for (const obj of map?.getObjectLayer(layerName)?.objects ?? []) {
           const x = obj.x ?? 0, y = obj.y ?? 0, w = obj.width ?? 0, h = obj.height ?? 0;
           if (obj.point || (!w && !h)) g.fillStyle(0x44ff88, 0.9).fillCircle(x, y, 2);
-          else if (obj.type === 'solid') g.lineStyle(1, 0xff44aa, 0.8).strokeRect(x, y, w, h);
-          else if (obj.type === 'occluder') g.lineStyle(1, 0xffaa22, 0.6).strokeRect(x, y, w, h);
+          else if (layerName === LAYERS.collision) g.lineStyle(1, 0xff44aa, 0.8).strokeRect(x, y, w, h);
+          else if (obj.type === 'cutout' || obj.type === 'above') g.lineStyle(1, obj.type === 'above' ? 0x44aaff : 0xffaa22, 0.6).strokeRect(x, y, w, h);
           else g.lineStyle(1, 0x44ccff, 0.9).strokeRect(x, y, w, h);
         }
       }

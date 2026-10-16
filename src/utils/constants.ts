@@ -237,18 +237,45 @@ export const DEPTH = {
 } as const;
 
 /**
- * Draw depth per Tiled layer name in maps.manifest.json#layerOrder. WorldScene
- * never names a layer itself — it walks layerOrder and looks the depth up here.
+ * The render model (ADR-125): the seven layers every map has, in draw order.
+ * Tile layers draw at a fixed depth; `sorted` is the Y-sort band (an object
+ * layer: everything that stands on the ground, depth = feet Y); `props_above`
+ * hangs over the street; `collision` is invisible; `fx` tints and weather.
+ */
+export const LAYERS = Object.freeze({
+  ground: 'ground',
+  groundDetail: 'ground_detail',
+  buildings: 'buildings',
+  sorted: 'sorted',
+  propsAbove: 'props_above',
+  collision: 'collision',
+  fx: 'fx',
+  /** Spawn points and zones (an object layer outside the draw order). */
+  spawns: 'spawns',
+});
+
+/**
+ * Draw depth per layer name in maps.manifest.json#layerOrder. WorldScene never
+ * names a layer itself — it walks layerOrder and looks the depth up here. The
+ * sorted band lives between DEPTH.ENTITIES and DEPTH.ENTITIES + 1 (core/depth.ts).
  */
 export const LAYER_DEPTH: Record<string, number> = {
-  Ground: DEPTH.GROUND,
-  Walls: DEPTH.WALLS,
-  Objects: DEPTH.OBJECTS,
-  Collision: DEPTH.OBJECTS, // hidden stencil; depth is irrelevant but must exist
-  'Above Player': DEPTH.ABOVE_PLAYER,
-  Effects: DEPTH.EFFECTS,
-  Foreground: DEPTH.FOREGROUND,
+  [LAYERS.ground]: DEPTH.GROUND,
+  [LAYERS.groundDetail]: DEPTH.WALLS,
+  [LAYERS.buildings]: DEPTH.OBJECTS,
+  [LAYERS.sorted]: DEPTH.ENTITIES,
+  [LAYERS.collision]: DEPTH.OBJECTS, // hidden stencil; depth is irrelevant but must exist
+  [LAYERS.propsAbove]: DEPTH.ABOVE_PLAYER,
+  [LAYERS.fx]: DEPTH.EFFECTS,
 };
+
+/**
+ * The feet box (ADR-125, design-system token): the only part of a 32×48
+ * character that collides — 20×12 px at the bottom of the frame. The head may
+ * overlap a wall behind; that is correct 3/4 depth. Player, NPCs, crowd and
+ * vehicles all use it.
+ */
+export const FEET_BOX = Object.freeze({ w: 20, h: 12, offsetX: 6, offsetY: 35 });
 
 // --- Defaults --------------------------------------------------------------
 export const DEFAULT_PLAYER_NAME = 'You';

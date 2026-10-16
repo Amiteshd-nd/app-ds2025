@@ -96,7 +96,11 @@ export function mapWarnings(mapKey, def, tmj) {
 }
 
 /** Collect problems for one map. Pure, so tests can drive it directly. */
-export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layerOrder = [], overlays = null) {
+/** The render model's seven layers (ADR-125) — the default when no manifest order is given. */
+export const RENDER_LAYERS = ['ground', 'ground_detail', 'buildings', 'sorted', 'props_above', 'collision', 'fx'];
+
+export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layerOrder = RENDER_LAYERS, overlays = null) {
+  if (!layerOrder?.length) layerOrder = RENDER_LAYERS;
   const problems = [];
   const layerNames = (tmj.layers ?? []).map((l) => l.name);
 
@@ -115,42 +119,55 @@ export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layer
     problems.push('map is infinite — Phaser needs a fixed-size map (Map > Properties > uncheck Infinite)');
   }
 
-  for (const required of def.requiredLayers ?? []) {
-    if (!layerNames.includes(required)) {
-      const near = layerNames.find(
-        (n) => n.toLowerCase().replace(/\s+/g, '') === required.toLowerCase().replace(/\s+/g, ''),
-      );
-      problems.push(
-        `missing layer "${required}"` +
-          (near ? ` — found "${near}", which differs in case or spacing` : ` (has: ${layerNames.join(', ')})`),
-      );
+  // Rule 1 (ADR-125): every map has exactly the seven layers, in draw order (empty allowed).
+  if (layerOrder.length) {
+    for (const required of layerOrder) {
+      if (!layerNames.includes(required)) {
+        const near = layerNames.find((n) => n.toLowerCase().replace(/[\s_]+/g, '') === required.toLowerCase().replace(/[\s_]+/g, ''));
+        problems.push(`missing layer "${required}"` + (near ? ` — found "${near}", which differs in case or spacing` : ` (has: ${layerNames.join(', ')})`));
+      }
+    }
+    const known = new Set([...layerOrder, def.spawnLayer, def.pulseLayer].filter(Boolean));
+    for (const layer of tmj.layers ?? []) {
+      if (!known.has(layer.name)) {
+        problems.push(`layer "${layer.name}" is not in the layer taxonomy (${layerOrder.join(' → ')}) — rename it or add it to maps.manifest.json`);
+      }
+    }
+    const present = (tmj.layers ?? []).filter((l) => layerOrder.includes(l.name)).map((l) => l.name);
+    const expected = layerOrder.filter((n) => present.includes(n));
+    if (present.join(',') !== expected.join(',')) {
+      problems.push(`layer order is ${present.join(' → ')}, expected ${expected.join(' → ')} — reorder them so draw order matches the taxonomy`);
     }
   }
 
-  // A layer named outside the taxonomy is a typo or a drift — either way the
-  // game will never draw it, and silently ignoring it is how maps rot.
-  if (layerOrder.length) {
-    const known = new Set([...layerOrder, def.spawnLayer, def.objectLayer, def.pulseLayer, def.shapeLayer].filter(Boolean));
+  // Rule 2: a tile tagged `tall` belongs in the sorted band (as an object), never in a flat tile layer.
+  const tallTiles = new Set();
+  for (const ts of tmj.tilesets ?? []) {
+    for (const t of ts.tiles ?? []) if ((t.properties ?? []).some((p) => p.name === 'tall' && p.value === true)) tallTiles.add((ts.firstgid ?? 1) + t.id);
+  }
+  if (tallTiles.size) {
     for (const layer of tmj.layers ?? []) {
-      if (!known.has(layer.name)) {
-        problems.push(
-          `layer "${layer.name}" is not in the layer taxonomy ` +
-            `(${layerOrder.join(' → ')}) — rename it in Tiled or add it to maps.manifest.json`,
-        );
+      if (layer.type !== 'tilelayer' || layer.name === 'props_above') continue;
+      const hits = (layer.data ?? []).map((gid, i) => (tallTiles.has(gid) ? i : -1)).filter((i) => i >= 0);
+      if (hits.length) {
+        const i = hits[0];
+        problems.push(`tall tile in flat layer "${layer.name}" at tile (${i % layer.width}, ${Math.floor(i / layer.width)}) — move it to a sorted object`);
       }
     }
+  }
 
-    // Out-of-order layers render behind or in front of the wrong things.
-    const present = (tmj.layers ?? [])
-      .filter((l) => layerOrder.includes(l.name))
-      .map((l) => l.name);
-    const expected = layerOrder.filter((n) => present.includes(n));
-    if (present.join(',') !== expected.join(',')) {
-      problems.push(
-        `layer order is ${present.join(' → ')}, expected ${expected.join(' → ')} ` +
-          '— reorder them in Tiled so draw order matches the taxonomy',
-      );
-    }
+  // Rules 4–5: building tiles need collision underneath (door tiles excepted); props_above never collides.
+  const tileLayer = (n) => (tmj.layers ?? []).find((l) => l.name === n && l.type === 'tilelayer');
+  const buildings = tileLayer('buildings'), collisionTiles = tileLayer('collision'), above = tileLayer('props_above');
+  const doorTiles = new Set();
+  for (const ts of tmj.tilesets ?? []) for (const t of ts.tiles ?? []) if ((t.properties ?? []).some((p) => p.name === 'door' && p.value === true)) doorTiles.add((ts.firstgid ?? 1) + t.id);
+  if (buildings && collisionTiles) {
+    const miss = (buildings.data ?? []).findIndex((gid, i) => gid && !doorTiles.has(gid) && !(collisionTiles.data ?? [])[i]);
+    if (miss >= 0) problems.push(`buildings tile at (${miss % buildings.width}, ${Math.floor(miss / buildings.width)}) has no collision tile under it — walls block, doors are the way in`);
+  }
+  if (above && collisionTiles) {
+    const hit = (above.data ?? []).findIndex((gid, i) => gid && (collisionTiles.data ?? [])[i]);
+    if (hit >= 0) problems.push(`props_above tile at (${hit % above.width}, ${Math.floor(hit / above.width)}) carries collision — overhead things never block`);
   }
 
   if (def.collisionLayer) {
@@ -180,37 +197,40 @@ export function validateMap(mapKey, def, tmj, availableTilesets, tileSize, layer
     }
   }
 
-  // Generated maps: `solid` blocks and `occluder` cut-outs (scripts/import-map.mjs).
-  if (def.shapeLayer) {
-    const layer = (tmj.layers ?? []).find((l) => l.name === def.shapeLayer);
+  // Rule 3: the sorted band — placed objects typed by ObjectDef id, `cutout` images with a feet line (+ footprint when migrated), `above` images.
+  if (def.sortedLayer) {
+    const layer = (tmj.layers ?? []).find((l) => l.name === def.sortedLayer);
     if (!layer) {
-      problems.push(`missing object layer "${def.shapeLayer}"`);
+      problems.push(`missing object layer "${def.sortedLayer}"`);
+    } else if (layer.type !== 'objectgroup') {
+      problems.push(`"${def.sortedLayer}" is a ${layer.type}, expected an object layer`);
     } else {
       for (const obj of layer.objects ?? []) {
-        if (obj.type !== 'solid' && obj.type !== 'occluder') {
-          problems.push(`shape ${obj.id} in "${def.shapeLayer}" has type "${obj.type}", expected solid or occluder`);
-        }
-        if (obj.type === 'occluder') {
-          const image = obj.properties?.find((p) => p.name === 'image')?.value;
-          const baseY = obj.properties?.find((p) => p.name === 'baseY')?.value;
-          if (!image || (overlays && !overlays.includes(image))) problems.push(`occluder "${obj.name}" image "${image}" is not in src/assets/overlays/`);
-          if (typeof baseY !== 'number') problems.push(`occluder "${obj.name}" has no numeric baseY`);
+        const get = (n) => obj.properties?.find((p) => p.name === n)?.value;
+        if (!obj.type) { problems.push(`sorted object ${obj.id} has no type (an ObjectDef id, cutout, or above)`); continue; }
+        if (obj.type === 'solid' || obj.type === 'occluder') { problems.push(`sorted object "${obj.name}" has legacy type "${obj.type}" — re-import the map with scripts/import-map.mjs`); continue; }
+        if (obj.type === 'cutout' || obj.type === 'above') {
+          const image = get('image');
+          if (!image || (overlays && !overlays.includes(image))) problems.push(`${obj.type} "${obj.name}" image "${image}" is not in src/assets/overlays/`);
+          if (obj.type === 'cutout') {
+            if (typeof get('baseY') !== 'number') problems.push(`cutout "${obj.name}" has no numeric baseY (its feet line)`);
+            const hasFoot = ['footX', 'footY', 'footW', 'footH'].every((k) => typeof get(k) === 'number');
+            if (!hasFoot && def.sop) problems.push(`cutout "${obj.name}" has no footprint — a standing object must say where it meets the ground (ADR-125)`);
+          } else if (['footX', 'footY', 'footW', 'footH'].some((k) => get(k) !== undefined)) {
+            problems.push(`above "${obj.name}" carries a footprint — overhead things never block`);
+          }
         }
       }
     }
   }
-
-  if (def.objectLayer) {
-    const layer = (tmj.layers ?? []).find((l) => l.name === def.objectLayer);
-    if (!layer) {
-      problems.push(`missing object layer "${def.objectLayer}"`);
-    } else if (layer.type !== 'objectgroup') {
-      problems.push(`"${def.objectLayer}" is a ${layer.type}, expected an object layer`);
-    } else {
+  // Collision as an object layer (generated maps): rects only, each with a kind.
+  if (def.collisionLayer) {
+    const layer = (tmj.layers ?? []).find((l) => l.name === def.collisionLayer);
+    if (layer?.type === 'objectgroup') {
       for (const obj of layer.objects ?? []) {
-        if (!obj.type) {
-          problems.push(`placed object ${obj.id} in "${def.objectLayer}" has no type`);
-        }
+        if (!obj.width || !obj.height) problems.push(`collision rect ${obj.id} has no size`);
+        const kind = obj.properties?.find((p) => p.name === 'kind')?.value;
+        if (kind !== 'building' && kind !== 'prop') problems.push(`collision rect ${obj.id} kind "${kind}" must be building or prop`);
       }
     }
   }

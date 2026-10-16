@@ -1,34 +1,34 @@
 # HANDOFF — resume here (read right after CLAUDE.md)
-Updated: 2026-10-16, P9 approved and pushed; Act 1 complete; Act 2–4 stubs scaffolded, 2.1 awaiting the user's words. A new chat picks up exactly here.
+Updated: 2026-10-16, P9 pushed; Act 1 complete; render model (ADR-125) in, airport migrated — awaiting audit; then nine maps, Part B, then P10 (2.1 decided). A new chat picks up exactly here.
 
 ## 0. Where we are — in one breath
-Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P9 approved** (ADR-110…124; P9 approved and pushed 2026-10-16 as 6fdcb5b). **Act 1 is complete**: the web slice runs from the airport to the last Sunday sleep, which sets `act2_started` and unlocks the Dating app. **Acts 2–4 exist as STUBS** (`src/data/scenes/act2_*`, `act3_*`, `act4_*`, status STUB, seq 2.1…4.6) scaffolded from the story script — the user co-authors them one at a time, starting with **2.1 "Credited"** (the salary ping, the scooter showroom, the fuel gauge; draft + open questions in §3). Mobile smoke tests (T-016/T-017) are blocked on this machine (no Xcode, no Android SDK). Breathing parked + OFF (T-029). 391 tests, typecheck, validators, `pnpm build` all green.
+Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P9 approved and pushed** (ADR-110…124); Act 1 complete; Acts 2–4 are STUBS (2.1 "Credited" decided by the user: ₹42,000, EMI + outright, ITPL road, stays in Whitefield — build after the render fix). **The user's layering brief (render model, ADR-125) is in progress — Part A step 1 done: the engine, importers, validators and tests speak the seven-layer model and the airport is migrated; it awaits the user's audit** before the other nine maps are migrated (A5 walk each), then Part B (Playground Locations), then P10. Mobile smoke tests blocked on this Mac (no Xcode / Android SDK). Breathing parked + OFF. 402 tests, typecheck, validators, `pnpm build` all green. Uncommitted work is committed locally; push only when asked.
 
 ## 1. Phase / task ledger
 | Item | State |
 |---|---|
 | P0–P9 (Acts 0–1) | approved — ADR-110…124 |
-| **Act 2–4 stubs (T-047)** | **scaffolded 2026-10-16 — 2.1 awaits the user's words** |
-| P10 = 2.1 "Credited" build | after the user edits the 2.1 stub |
-| T-016 Android · T-017 iOS smoke tests | blocked: toolchain missing on this Mac |
-| T-039 · T-040 · T-041 · T-042 · T-043 · T-044 · T-045 | open |
-| Breathing (T-029) | parked, OFF |
+| **T-048 render model, Part A — airport** | **migrated 2026-10-16 — awaiting the user's audit** |
+| T-048 remaining nine maps (A5 walk each) | next, after the audit |
+| T-049 Part B Playground Locations | after Part A |
+| P10 = 2.1 "Credited" build | after Part B (user's numbers recorded in the stub) |
+| T-016/T-017 mobile smoke tests | blocked: toolchain missing |
+| T-039 … T-047, T-050 | open |
 
 ## 2. Resume protocol
-1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-118…124), `MEMORY.md`, `AUDIT_LOG.md`.
-2. **Co-author before building**: show the user the 2.1 stub (`src/data/scenes/act2_credited.json`) and the open questions in §3; take their words and numbers into the stub (status stays STUB until they say "build"); then P10 runs the usual recipe — spot chosen and logged (the scooter showroom's real street, OSM) → render → px spec → quest + dialogue → validate → browser → audit. Each later stub the same way.
-3. Voice: every line in Acts 2–4 is the user's register — drafts only until they edit.
-4. Art direction is delegated: decide, show, log. Ask only on a conflict with a logged decision.
+1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-118…125), `MEMORY.md`, `AUDIT_LOG.md` (the render-model rule + the airport walk).
+2. If the user has audited the airport: log corrections, then migrate the nine maps one by one — spec gains `buildings` / `sorted` (+footprints) / `above`, debug preview, `sop: true` in the manifest, re-import, run the A5 walk (script in §3), log in AUDIT_LOG. Then Part B. Then P10.
+3. Art direction is delegated: decide, show, log. Ask only on a conflict with a logged decision.
 
-## 3. 2.1 "Credited" — the draft to co-author (not built)
-Story: workday → phone ping "₹32,000 credited" → tutorial card about two-wheelers and fuel → the Whitefield scooter showroom: second-hand ₹38,000 on EMI (₹6,000 down) or save two months → **fuel gauge introduced** (ADR-06: scooter is fuel-gated; game_components §4: speed ×1.8, tank ≈ 3 Whitefield↔Indiranagar round trips, petrol bunk sink, parking zones, no metro areas, stolen in 4.0).
-Draft in the stub: F1 the salary already lands through `salaryCountdown` (₹42,000, ADR-122 — the script says ₹32,000: **pick one**); F2 Sameer's canteen line points you to a showroom on the Whitefield main road ("second-hand, ask for Noor"); F3 the showroom: a used scooter (parody make) ₹38,000 — buy outright, EMI (₹6,000 down, ₹3,200 × 10 on the salary day through a new `emi` behaviour), or walk; F4 first ride = a new transit kind on the map (scooter, fuel-gated, `fuel` counter, bunk NPCs at Whitefield and Indiranagar); F5 the fuel gauge appears on the HUD only while riding or at a bunk (ADR-118 rule: contextual).
-Open questions for the user: (1) ₹32,000 or ₹42,000 salary; (2) EMI or outright or both; (3) where the showroom is (Whitefield main road near Hope Farm? ITPL road?); (4) does the scooter unlock Indiranagar as the next pocket (2.2 metro opens later) or does 2.1 stay inside Whitefield; (5) the parody make's name; (6) is the tutorial card a phone message from Sameer or a HUD card.
+## 3. Render model — how to audit the airport (playground, 6175, node 0.1 Arrivals)
+Walk behind and in front of a bollard, a bougainvillea planter, a pot by the benches and the trolleys — you vanish behind them and cover them in front. Walk under the gate header — never drawn over it. Walk into the hall's top wall, the glass wall from both sides, the canopy band outside — stopped at the edge; the gate opening is the only way to the kerb. Press the playground's collision toggle to see the feet boxes and footprints. Decisions to overturn (ADR-125): one-render maps kept (cut-outs + rects) rather than a tileset rebuild; `collision` as pixel rects on generated maps and a tile stencil on tile-built ones; `above` cut-outs living in the `sorted` object layer (drawn at the props_above depth) because an image cannot live in a tile layer.
+Scripted A5 walk (browser pane, this session's recipe): `game.loop.sleep()`, one virtual clock, stub `MenuScene.open`, patch `scene.tweens.getDelta`, then `tp` + `walk(dx, dy, n)` with the body's velocity and read `player.depth` against each cut-out's depth, `body.bottom` against each wall edge.
 
 ## 4. What exists, where the next steps plug in
 - **Kit** `src/ui/kit/`: `pixel` · `icons` · `text` · `molecules` (phonePill, appTile, badge, dockBar, hudPlate, labelCard, blockRow, speechBubble, choicePill, tapZone; 5 states) · `focus` · `phaser` (bake, pxText, pxTextShadow). P6d menus reuse `labelCard` (selected inverts with ▶) and `blockRow` for sliders — add molecules here, with tests in `uikit.test.ts` / `hud.test.ts`.
 - **HUD** `src/ui/hud/{layout,viewModel,dialogue,glyphs}.ts` + `scenes/HudScene.ts` + `ui/DialogueBox.ts` (ARCHITECTURE "HUD"); `hudLayout(k)` — Larger text draws at 2× on a 320×180 virtual canvas.
 - **Menus** `data/menus/settings.json` + `ui/menu/{layout,viewModel}.ts` + `scenes/MenuScene.ts` (global, started by Boot) + `ui/kit/gamepad.ts` + `core/display.ts` (ARCHITECTURE "Menus"). New setting = atom + row; the validator ties them.
+- **Render model** `utils/constants.ts` (`LAYERS`, `LAYER_DEPTH`, `FEET_BOX`), `core/depth.ts` (`feetY`), `world/Shapes.ts` (collision rects, `cutout`/`above`), `assets/maps.manifest.json` (seven layers, `sortedLayer`, `sop`), `scripts/import-map.mjs` (`buildings` · `sorted` · `above`), `scripts/validate-maps.mjs` (rules 1–5), `scripts/validate-content.ts` `reachable()` (rule 7), `__tests__/render-model.test.ts`. Migrated: `_raw/maps/kempegowda_arrivals.spec.json`.
 - **Act 1 / Cubbon** `whitefield_street.buses` + `bus_interior` + `cubbon_park` districts, `_raw/maps/{cubbon_park,bus_interior}.*`, `data/map/areas/cubbon_park.json`; behaviours `busSchedule` · `busRide` · `photoSpots` · `companion`; `systems/RelationshipManager.ts`; phone apps Camera / Contacts / Notes (`data/phone/{photos,contacts,notes}.json`, `PhoneManager.contacts/notes/photos/takePhoto`, `cameraView`); `street_props` + `animals` prop sheets; HUD timer plate (`ui:timer`) (ARCHITECTURE "Act 1 — Bus to town + Cubbon Park").
 - **Act 1 / hill** `ambedkar_nagar_hill` + `hill_flat` districts, `_raw/maps/{ambedkar_nagar_hill,hill_flat}.*`, `data/map/areas/ambedkar_nagar_hill.json`; behaviours `signalZones`, `salaryCountdown`; sprite objects (`data/objects/furniture.json`, `_raw/props/furniture.png`, `import-props.mjs` heights); Reels (`data/phone/reels.json`, PhoneScene routes `reels`/`reel`) (ARCHITECTURE "Act 1 — Ambedkar Nagar").
 - **Act 1 / office** `office_gate` district + `_raw/maps/office_gate.{png,spec.json}` + `data/map/areas/office_gate.json`; `scenes/WorkdayScene.ts` + `_raw/backdrops/skyline_whitefield.png` (`import-backdrop.mjs`); behaviours `officeClockIn`, `pgNoticeTimer`; exits with `minutes` / `requiresFlag`; NPC refs + triggers with `requiresFlag`; `WorldScene.arrivals()` (ARCHITECTURE "Act 1"). New pocket recipe in `MEMORY.md`.

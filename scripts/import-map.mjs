@@ -12,11 +12,19 @@
  * SOURCE-image pixels, so changing the scale is changing one number:
  *
  *   { "name": "shanthamma_pg", "cols": 10, "rows": 7, "units": "px",
- *     "blocks":  [[x, y, w, h], ...],          // what feet cannot cross (pixel-precise)
- *     "spawns":  [{ "name": "door", "x": 1000, "y": 900 }],   // where the FEET stand
- *     "zones":   [{ "name": "bed", "x": 540, "y": 400, "w": 300, "h": 60 }],
- *     "occluders": [{ "name": "pole", "rect": [x, y, w, h], "base": y,
- *                     "mode": "key" | "rect", "bg": [[x, y, w, h]], "seeds": [[x, y]] }] }
+ *     "buildings": [[x, y, w, h], ...],        // wall footprints (collision rects, kind building)
+ *     "blocks":    [[x, y, w, h], ...],        // other things feet cannot cross (kind prop)
+ *     "spawns":    [{ "name": "door", "x": 1000, "y": 900 }],   // where the FEET stand
+ *     "zones":     [{ "name": "bed", "x": 540, "y": 400, "w": 300, "h": 60 }],
+ *     "sorted":    [{ "name": "pole", "rect": [x, y, w, h], "base": y, "footprint": [x, y, w, h],
+ *                     "mode": "key" | "rect", "bg": [[x, y, w, h]], "seeds": [[x, y]] }],
+ *     "above":     [{ "name": "wires", "rect": [x, y, w, h], "mode": ..., "bg": ..., "seeds": ... }] }
+ *
+ * The render model (ADR-125): `sorted` cut-outs stand on the ground and
+ * Y-sort with characters by `base` (their feet line) and collide through
+ * their `footprint`; `above` cut-outs hang over the street and are drawn
+ * above everyone, never colliding; `buildings` + `blocks` are the collision
+ * rects. Legacy `occluders` import as sorted cut-outs without a footprint.
  *
  * Blocks follow the art: a gate, a pot, a pole BASE, a trunk — never a canopy
  * or the air above a pole. Occluders are the parts that stand up in front of
@@ -99,15 +107,7 @@ export async function importMap(specPath) {
     .png({ palette: true, compressionLevel: 9, dither: 0 })
     .toFile(join(assets, 'tilesets', `${name}.png`));
 
-  // Collision stencil: legacy tile rects only. Pixel specs use `blocks`.
-  const collision = new Array(count).fill(0);
-  if (!px) {
-    for (const [x, y, w, h] of spec.solid ?? []) {
-      for (let yy = y; yy < y + h; yy++) for (let xx = x; xx < x + w; xx++) {
-        if (xx >= 0 && yy >= 0 && xx < cols && yy < rows) collision[yy * cols + xx] = 1;
-      }
-    }
-  }
+  if (!px) throw new Error(`${name}: legacy tile-unit spec — convert to "units": "px" (ADR-125)`);
 
   let objectId = 1;
   const spawnObjects = [
@@ -124,16 +124,20 @@ export async function importMap(specPath) {
     })),
   ];
 
-  const shapeObjects = (spec.blocks ?? []).map(([x, y, w, h]) => ({
-    id: objectId++, name: '', type: 'solid', rotation: 0, visible: true,
+  // Collision rects: buildings (whole wall footprints) and prop blocks.
+  const rectObject = (kind) => ([x, y, w, h]) => ({
+    id: objectId++, name: '', type: kind, rotation: 0, visible: true,
     x: X(x), y: Y(y), width: Math.max(1, X(x + w) - X(x)), height: Math.max(1, Y(y + h) - Y(y)),
-  }));
+    properties: [{ name: 'kind', type: 'string', value: kind }],
+  });
+  const collisionObjects = [...(spec.buildings ?? []).map(rectObject('building')), ...(spec.blocks ?? []).map(rectObject('prop'))];
 
-  // Occluders: cut-outs drawn above whoever stands behind them.
+  // Cut-outs: `sorted` (feet line + footprint) and `above` (overhead); legacy `occluders` = sorted without a footprint.
   const overlayDir = join(assets, 'overlays');
   mkdirSync(overlayDir, { recursive: true });
   for (const f of readdirSync(overlayDir)) if (f.startsWith(`${name}__`)) rmSync(join(overlayDir, f));
-  for (const occ of spec.occluders ?? []) {
+  const sortedObjects = [];
+  const cut = async (occ, type) => {
     const [ox, oy, ow, oh] = occ.rect;
     const x0 = X(ox), y0 = Y(oy), w = Math.max(1, X(ox + ow) - x0), h = Math.max(1, Y(oy + oh) - y0);
     const keep = occluderMask(data, W, H, { x0, y0, w, h }, occ, X, Y);
@@ -148,35 +152,45 @@ export async function importMap(specPath) {
     }
     const key = `${name}__${occ.name}`;
     await sharp(rgba, { raw: { width: w, height: h, channels: 4 } }).png({ compressionLevel: 9 }).toFile(join(overlayDir, `${key}.png`));
-    shapeObjects.push({
-      id: objectId++, name: occ.name, type: 'occluder', rotation: 0, visible: true,
-      x: x0, y: y0, width: w, height: h,
-      properties: [
-        { name: 'image', type: 'string', value: key },
-        { name: 'baseY', type: 'int', value: Y(occ.base) },
-      ],
-    });
-    if (kept === 0) console.warn(`  ⚠ ${name}: occluder "${occ.name}" kept no pixels — check its bg/seeds`);
-  }
+    const properties = [{ name: 'image', type: 'string', value: key }];
+    if (type === 'cutout') {
+      properties.push({ name: 'baseY', type: 'int', value: Y(occ.base ?? oy + oh) });
+      if (occ.footprint) {
+        const [fx, fy, fw, fh] = occ.footprint;
+        properties.push(
+          { name: 'footX', type: 'int', value: X(fx) }, { name: 'footY', type: 'int', value: Y(fy) },
+          { name: 'footW', type: 'int', value: Math.max(1, X(fx + fw) - X(fx)) }, { name: 'footH', type: 'int', value: Math.max(1, Y(fy + fh) - Y(fy)) },
+        );
+      }
+    }
+    sortedObjects.push({ id: objectId++, name: occ.name, type, rotation: 0, visible: true, x: x0, y: y0, width: w, height: h, properties });
+    if (kept === 0) console.warn(`  ⚠ ${name}: ${type} "${occ.name}" kept no pixels — check its bg/seeds`);
+  };
+  for (const occ of spec.sorted ?? []) await cut(occ, 'cutout');
+  for (const occ of spec.occluders ?? []) await cut(occ, 'cutout');
+  for (const occ of spec.above ?? []) await cut(occ, 'above');
 
   const tileLayer = (layerName, layerData, visible, id) => ({
     data: layerData, height: rows, id, name: layerName, opacity: 1, type: 'tilelayer', visible, width: cols, x: 0, y: 0,
   });
-  const objectLayer = (layerName, objects, id) => ({
-    draworder: 'topdown', id, name: layerName, objects, opacity: 1, type: 'objectgroup', visible: true, x: 0, y: 0,
+  const objectLayer = (layerName, objects, id, visible = true) => ({
+    draworder: 'topdown', id, name: layerName, objects, opacity: 1, type: 'objectgroup', visible, x: 0, y: 0,
   });
+  const empty = () => new Array(count).fill(0);
+  // The seven layers of the render model, in draw order (ADR-125), plus spawns.
   const map = {
     compressionlevel: -1, height: rows, infinite: false,
     layers: [
-      tileLayer('Ground', Array.from({ length: count }, (_, i) => i + 1), true, 1),
-      tileLayer('Walls', new Array(count).fill(0), true, 2),
-      tileLayer('Objects', new Array(count).fill(0), true, 3),
-      tileLayer('Collision', collision, false, 4),
-      tileLayer('Above Player', new Array(count).fill(0), true, 5),
-      objectLayer('Spawns', spawnObjects, 6),
-      objectLayer('Shapes', shapeObjects, 7),
+      tileLayer('ground', Array.from({ length: count }, (_, i) => i + 1), true, 1),
+      tileLayer('ground_detail', empty(), true, 2),
+      tileLayer('buildings', empty(), true, 3),
+      objectLayer('sorted', sortedObjects, 4),
+      tileLayer('props_above', empty(), true, 5),
+      objectLayer('collision', collisionObjects, 6, false),
+      tileLayer('fx', empty(), true, 7),
+      objectLayer('spawns', spawnObjects, 8),
     ],
-    nextlayerid: 8, nextobjectid: objectId, orientation: 'orthogonal', renderorder: 'right-down',
+    nextlayerid: 9, nextobjectid: objectId, orientation: 'orthogonal', renderorder: 'right-down',
     tiledversion: '1.11.0', tileheight: TILE, tilewidth: TILE, type: 'map', version: '1.10', width: cols,
     tilesets: [{
       columns: SHEET_COLS, firstgid: 1, image: `../tilesets/${name}.png`,
@@ -185,9 +199,10 @@ export async function importMap(specPath) {
     }],
   };
   writeFileSync(join(assets, 'tilemaps', `${name}.tmj`), `${JSON.stringify(map, null, 1)}\n`);
-  const blocks = shapeObjects.filter((o) => o.type === 'solid').length;
-  const occluders = shapeObjects.length - blocks;
-  console.log(`✓ ${name}: ${cols}x${rows} tiles (${W}x${H}px) → ${count} tiles, ${blocks} blocks, ${occluders} occluders, ${spawnObjects.length} spawns/zones`);
+  const buildings = collisionObjects.filter((o) => o.type === 'building').length;
+  const cutouts = sortedObjects.filter((o) => o.type === 'cutout').length;
+  const above = sortedObjects.length - cutouts;
+  console.log(`✓ ${name}: ${cols}x${rows} tiles (${W}x${H}px) → ${count} tiles, ${buildings} buildings + ${collisionObjects.length - buildings} blocks, ${cutouts} sorted cut-outs, ${above} above, ${spawnObjects.length} spawns/zones`);
 }
 
 /**

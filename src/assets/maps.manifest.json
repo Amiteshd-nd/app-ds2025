@@ -1,18 +1,27 @@
 {
   "$comment": "Contract between Tiled exports and the game. Both the runtime map registry (src/assets/maps.ts) and the build-time validator (scripts/validate-maps.mjs) read this file, so a Tiled export that drifts from it fails the build instead of rendering an empty floor.",
   "tileSize": 32,
+  "layerOrder": [
+    "ground",
+    "ground_detail",
+    "buildings",
+    "sorted",
+    "props_above",
+    "collision",
+    "fx"
+  ],
+  "$layerOrderComment": "The render model (ADR-125). Every map has exactly these seven layers, in this order (empty allowed): ground (roads, floors) · ground_detail (markings, grates, baked shadows) · buildings (wall tiles) · sorted (the Y-sort band: an OBJECT layer of everything that stands on the ground — typed placed objects, `cutout` images with a baseY + footprint, `above` images drawn over the street) · props_above (overhead tiles: wires, awnings, canopies, roofs) · collision (invisible: a tile stencil, or an object layer of pixel rects for generated maps) · fx. Plus `spawns`, an object layer of points and zones outside the draw order.",
+  "$sortedComment": "sorted objects: `type` = an ObjectDef id (placed object, tiles or sprite; depth from its footprint bottom), `cutout` (properties image, baseY, footprint x/y/w/h — a static body; depth = baseY), or `above` (property image; drawn at the props_above depth, never collides). Written by scripts/import-map.mjs and generate-street-map.mjs.",
+  "$collisionComment": "collision as an object layer (generated maps): rects with property kind = building | prop. Buildings cover the whole wall footprint except door gaps.",
+  "$pulseLayerComment": "Optional per-map `pulseLayer`: an object layer of City Pulse slots. Every slot is a named, uniquely named object with a `type` (wall, corner, shopfront, crowd). Districts list the slots they offer under pulse_slots and the validator checks they exist.",
+  "$doorComment": "Any spawn-layer object named door_* or typed `door` is a door and must be 32x48 (player height = door height, design system §2). The map validator warns otherwise.",
+  "$sopComment": "`sop: true` marks a map migrated to the render model: every cutout needs a footprint and legacy occluders are errors. Unmigrated maps get warnings until their A5 re-audit.",
   "maps": {
     "airport_map": {
       "file": "kempegowda_arrivals.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "player_spawn",
         "zone_exit",
@@ -20,73 +29,37 @@
         "chai_stall",
         "carousel_belt"
       ],
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
-      "shapeLayer": "Shapes"
+      "sop": true
     },
     "whitefield_street": {
       "file": "whitefield_street.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "player_spawn",
         "lane_zone",
         "lane_return"
-      ],
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
-      "objectLayer": "Objects Layer"
+      ]
     },
     "whitefield_hotel": {
       "file": "whitefield_hotel.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "door",
         "reception",
         "bed",
         "room",
         "exit"
-      ],
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
-      "shapeLayer": "Shapes"
+      ]
     },
     "prashanth_layout": {
       "file": "prashanth_layout.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "lane_mouth",
         "gate10_out",
@@ -97,47 +70,25 @@
         "auto_2",
         "auto_3",
         "auto_stand"
-      ],
-      "shapeLayer": "Shapes"
+      ]
     },
     "shanthamma_pg": {
       "file": "shanthamma_pg.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "door",
         "exit",
         "bed",
         "doorway"
-      ],
-      "shapeLayer": "Shapes"
+      ]
     },
     "office_gate": {
       "file": "office_gate.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "auto_drop",
         "gate_evening",
@@ -149,25 +100,13 @@
         "walk_out",
         "office_arrival",
         "office_door"
-      ],
-      "shapeLayer": "Shapes"
+      ]
     },
     "ambedkar_nagar_hill": {
       "file": "ambedkar_nagar_hill.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
-      "shapeLayer": "Shapes",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "slope_base",
         "bus_drop",
@@ -186,20 +125,9 @@
     },
     "hill_flat": {
       "file": "hill_flat.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
-      "shapeLayer": "Shapes",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "door",
         "cot_spot",
@@ -214,20 +142,9 @@
     },
     "bus_interior": {
       "file": "bus_interior.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
-      "shapeLayer": "Shapes",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "aisle",
         "aisle_zone",
@@ -239,20 +156,9 @@
     },
     "cubbon_park": {
       "file": "cubbon_park.tmj",
-      "requiredLayers": [
-        "Ground",
-        "Walls",
-        "Objects",
-        "Collision",
-        "Above Player"
-      ],
-      "collisionLayer": "Collision",
-      "spawnLayer": "Spawns",
-      "optionalLayers": [
-        "Effects",
-        "Foreground"
-      ],
-      "shapeLayer": "Shapes",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
       "requiredSpawns": [
         "bus_drop",
         "cubbon_arrival",
@@ -278,19 +184,5 @@
         "ambient_area"
       ]
     }
-  },
-  "layerOrder": [
-    "Ground",
-    "Walls",
-    "Objects",
-    "Collision",
-    "Above Player",
-    "Effects",
-    "Foreground"
-  ],
-  "$layerOrderComment": "Canonical draw order, back to front. Depth comes from layering rather than from bigger images. A map need not use every layer, but any layer it does use must be named from this list \u2014 an unlisted name is a typo or a taxonomy drift.",
-  "$objectLayerComment": "Object layer holding placed world objects. Each object's `type` must name an ObjectDef in src/data/objects \u2014 the content validator enforces it.",
-  "$pulseLayerComment": "Optional per-map `pulseLayer`: an object layer of City Pulse slots. Every slot is a named, uniquely named object with a `type` (wall, corner, shopfront, crowd). Districts list the slots they offer under pulse_slots and the validator checks they exist.",
-  "$doorComment": "Any spawn-layer object named door_* or typed `door` is a door and must be 32x48 (player height = door height, design system \u00a72). The map validator warns otherwise.",
-  "$shapeLayerComment": "Optional per-map `shapeLayer` (generated maps): objects typed `solid` (pixel-precise blocks the feet cannot cross) and `occluder` (a cut-out drawn above whoever stands behind it; properties image + baseY). Written by scripts/import-map.mjs."
+  }
 }

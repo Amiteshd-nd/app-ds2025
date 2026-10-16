@@ -2,7 +2,12 @@
 Updated: 2026-10-16
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — Act 2 (stubs co-authored with the user; Act 1 complete 2026-10-16)
+## Now — Render model (user's layering brief, ADR-125) · then Act 2
+- [ ] T-048 Part A render model — **airport migrated 2026-10-16, awaiting the user's audit**: seven layers in the manifest, `sorted` band (cut-outs with footprints, `above` images), `collision` rects with kinds, `FEET_BOX` token, `feetY` depth, validator rules A3 (seven layers, tall tiles, walls↔collision, props_above, footprints, reachability, no depth literals), tests A4 (402 green). Next: migrate whitefield_street, hotel, Prashanth, PG room, ITPL gate, hill, flat, bus, Cubbon with the A5 walk each (AUDIT_LOG), then Part B
+- [ ] T-049 Part B Playground Locations: root node + per-scene Locations, free-roam inspection with layer eye toggles, collision boxes, Y-sort lines, feet boxes, band tints, validator panel, click-to-inspect + Copy ref (needs the validators split into pure modules the browser can import)
+- [ ] T-050 Street tileset: tag `tall` and `door` tile properties in `street.tiles.json` so rule 2 and rule 4 bite on tile-built maps; move the street's awnings to `props_above`
+
+## Act 2 (stubs co-authored with the user; Act 1 complete 2026-10-16)
 - [ ] T-047 Act 2–4 scene STUBS scaffolded from the story script (`src/data/scenes/act2_*…act4_*`, status STUB) — **the user co-authors 2.1 "Credited" first** (draft beats + open questions in HANDOFF §3), then P10 builds it
 - [ ] T-016 / T-017 mobile smoke tests are blocked on this machine: no Xcode (Command Line Tools only) and no Android SDK — install one, then `pnpm cap:android` / `cap:ios`
 

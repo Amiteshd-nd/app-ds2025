@@ -78,7 +78,7 @@
    ],
    "height": 7,
    "id": 1,
-   "name": "Ground",
+   "name": "ground",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -161,7 +161,7 @@
    ],
    "height": 7,
    "id": 2,
-   "name": "Walls",
+   "name": "ground_detail",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -244,7 +244,7 @@
    ],
    "height": 7,
    "id": 3,
-   "name": "Objects",
+   "name": "buildings",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -253,85 +253,37 @@
    "y": 0
   },
   {
-   "data": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-   ],
-   "height": 7,
+   "draworder": "topdown",
    "id": 4,
-   "name": "Collision",
+   "name": "sorted",
+   "objects": [
+    {
+     "id": 21,
+     "name": "counter",
+     "type": "cutout",
+     "rotation": 0,
+     "visible": true,
+     "x": 68,
+     "y": 66,
+     "width": 116,
+     "height": 32,
+     "properties": [
+      {
+       "name": "image",
+       "type": "string",
+       "value": "whitefield_hotel__counter"
+      },
+      {
+       "name": "baseY",
+       "type": "int",
+       "value": 98
+      }
+     ]
+    }
+   ],
    "opacity": 1,
-   "type": "tilelayer",
-   "visible": false,
-   "width": 10,
+   "type": "objectgroup",
+   "visible": true,
    "x": 0,
    "y": 0
   },
@@ -410,7 +362,7 @@
    ],
    "height": 7,
    "id": 5,
-   "name": "Above Player",
+   "name": "props_above",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -421,7 +373,372 @@
   {
    "draworder": "topdown",
    "id": 6,
-   "name": "Spawns",
+   "name": "collision",
+   "objects": [
+    {
+     "id": 6,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 0,
+     "width": 186,
+     "height": 64,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 197,
+     "y": 0,
+     "width": 123,
+     "height": 62,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 0,
+     "width": 5,
+     "height": 224,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 315,
+     "y": 0,
+     "width": 5,
+     "height": 224,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 186,
+     "y": 0,
+     "width": 11,
+     "height": 107,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 186,
+     "y": 151,
+     "width": 11,
+     "height": 73,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 211,
+     "width": 89,
+     "height": 13,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 147,
+     "y": 211,
+     "width": 173,
+     "height": 13,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 5,
+     "y": 64,
+     "width": 31,
+     "height": 145,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 68,
+     "y": 61,
+     "width": 116,
+     "height": 37,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 197,
+     "y": 62,
+     "width": 31,
+     "height": 68,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 228,
+     "y": 62,
+     "width": 17,
+     "height": 22,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 275,
+     "y": 62,
+     "width": 29,
+     "height": 16,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 288,
+     "y": 104,
+     "width": 27,
+     "height": 39,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 276,
+     "y": 147,
+     "width": 39,
+     "height": 66,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    }
+   ],
+   "opacity": 1,
+   "type": "objectgroup",
+   "visible": false,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "data": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "height": 7,
+   "id": 7,
+   "name": "fx",
+   "opacity": 1,
+   "type": "tilelayer",
+   "visible": true,
+   "width": 10,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "draworder": "topdown",
+   "id": 8,
+   "name": "spawns",
    "objects": [
     {
      "id": 1,
@@ -486,209 +803,9 @@
    "visible": true,
    "x": 0,
    "y": 0
-  },
-  {
-   "draworder": "topdown",
-   "id": 7,
-   "name": "Shapes",
-   "objects": [
-    {
-     "id": 6,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 0,
-     "width": 186,
-     "height": 64
-    },
-    {
-     "id": 7,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 197,
-     "y": 0,
-     "width": 123,
-     "height": 62
-    },
-    {
-     "id": 8,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 0,
-     "width": 5,
-     "height": 224
-    },
-    {
-     "id": 9,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 315,
-     "y": 0,
-     "width": 5,
-     "height": 224
-    },
-    {
-     "id": 10,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 186,
-     "y": 0,
-     "width": 11,
-     "height": 107
-    },
-    {
-     "id": 11,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 186,
-     "y": 151,
-     "width": 11,
-     "height": 73
-    },
-    {
-     "id": 12,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 211,
-     "width": 89,
-     "height": 13
-    },
-    {
-     "id": 13,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 147,
-     "y": 211,
-     "width": 173,
-     "height": 13
-    },
-    {
-     "id": 14,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 5,
-     "y": 64,
-     "width": 31,
-     "height": 145
-    },
-    {
-     "id": 15,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 68,
-     "y": 61,
-     "width": 116,
-     "height": 37
-    },
-    {
-     "id": 16,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 197,
-     "y": 62,
-     "width": 31,
-     "height": 68
-    },
-    {
-     "id": 17,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 228,
-     "y": 62,
-     "width": 17,
-     "height": 22
-    },
-    {
-     "id": 18,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 275,
-     "y": 62,
-     "width": 29,
-     "height": 16
-    },
-    {
-     "id": 19,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 288,
-     "y": 104,
-     "width": 27,
-     "height": 39
-    },
-    {
-     "id": 20,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 276,
-     "y": 147,
-     "width": 39,
-     "height": 66
-    },
-    {
-     "id": 21,
-     "name": "counter",
-     "type": "occluder",
-     "rotation": 0,
-     "visible": true,
-     "x": 68,
-     "y": 66,
-     "width": 116,
-     "height": 32,
-     "properties": [
-      {
-       "name": "image",
-       "type": "string",
-       "value": "whitefield_hotel__counter"
-      },
-      {
-       "name": "baseY",
-       "type": "int",
-       "value": 98
-      }
-     ]
-    }
-   ],
-   "opacity": 1,
-   "type": "objectgroup",
-   "visible": true,
-   "x": 0,
-   "y": 0
   }
  ],
- "nextlayerid": 8,
+ "nextlayerid": 9,
  "nextobjectid": 22,
  "orientation": "orthogonal",
  "renderorder": "right-down",

@@ -78,7 +78,7 @@
    ],
    "height": 7,
    "id": 1,
-   "name": "Ground",
+   "name": "ground",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -161,7 +161,7 @@
    ],
    "height": 7,
    "id": 2,
-   "name": "Walls",
+   "name": "ground_detail",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -244,7 +244,7 @@
    ],
    "height": 7,
    "id": 3,
-   "name": "Objects",
+   "name": "buildings",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -253,85 +253,13 @@
    "y": 0
   },
   {
-   "data": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-   ],
-   "height": 7,
+   "draworder": "topdown",
    "id": 4,
-   "name": "Collision",
+   "name": "sorted",
+   "objects": [],
    "opacity": 1,
-   "type": "tilelayer",
-   "visible": false,
-   "width": 10,
+   "type": "objectgroup",
+   "visible": true,
    "x": 0,
    "y": 0
   },
@@ -410,7 +338,7 @@
    ],
    "height": 7,
    "id": 5,
-   "name": "Above Player",
+   "name": "props_above",
    "opacity": 1,
    "type": "tilelayer",
    "visible": true,
@@ -421,7 +349,354 @@
   {
    "draworder": "topdown",
    "id": 6,
-   "name": "Spawns",
+   "name": "collision",
+   "objects": [
+    {
+     "id": 5,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 0,
+     "width": 246,
+     "height": 54,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 246,
+     "y": 0,
+     "width": 74,
+     "height": 34,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 0,
+     "y": 0,
+     "width": 8,
+     "height": 224,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 313,
+     "y": 0,
+     "width": 7,
+     "height": 224,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 245,
+     "y": 0,
+     "width": 9,
+     "height": 90,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 243,
+     "y": 137,
+     "width": 11,
+     "height": 87,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 253,
+     "y": 0,
+     "width": 14,
+     "height": 72,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 293,
+     "y": 0,
+     "width": 21,
+     "height": 140,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 8,
+     "y": 53,
+     "width": 44,
+     "height": 162,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 69,
+     "y": 54,
+     "width": 36,
+     "height": 22,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 110,
+     "y": 54,
+     "width": 81,
+     "height": 38,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 196,
+     "y": 54,
+     "width": 41,
+     "height": 41,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 206,
+     "y": 95,
+     "width": 22,
+     "height": 11,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "name": "",
+     "type": "prop",
+     "rotation": 0,
+     "visible": true,
+     "x": 220,
+     "y": 173,
+     "width": 21,
+     "height": 24,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "prop"
+      }
+     ]
+    }
+   ],
+   "opacity": 1,
+   "type": "objectgroup",
+   "visible": false,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "data": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "height": 7,
+   "id": 7,
+   "name": "fx",
+   "opacity": 1,
+   "type": "tilelayer",
+   "visible": true,
+   "width": 10,
+   "x": 0,
+   "y": 0
+  },
+  {
+   "draworder": "topdown",
+   "id": 8,
+   "name": "spawns",
    "objects": [
     {
      "id": 1,
@@ -474,175 +749,9 @@
    "visible": true,
    "x": 0,
    "y": 0
-  },
-  {
-   "draworder": "topdown",
-   "id": 7,
-   "name": "Shapes",
-   "objects": [
-    {
-     "id": 5,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 0,
-     "width": 246,
-     "height": 54
-    },
-    {
-     "id": 6,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 246,
-     "y": 0,
-     "width": 74,
-     "height": 34
-    },
-    {
-     "id": 7,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 0,
-     "y": 0,
-     "width": 8,
-     "height": 224
-    },
-    {
-     "id": 8,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 313,
-     "y": 0,
-     "width": 7,
-     "height": 224
-    },
-    {
-     "id": 9,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 245,
-     "y": 0,
-     "width": 9,
-     "height": 90
-    },
-    {
-     "id": 10,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 243,
-     "y": 137,
-     "width": 11,
-     "height": 87
-    },
-    {
-     "id": 11,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 253,
-     "y": 0,
-     "width": 14,
-     "height": 72
-    },
-    {
-     "id": 12,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 293,
-     "y": 0,
-     "width": 21,
-     "height": 140
-    },
-    {
-     "id": 13,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 8,
-     "y": 53,
-     "width": 44,
-     "height": 162
-    },
-    {
-     "id": 14,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 69,
-     "y": 54,
-     "width": 36,
-     "height": 22
-    },
-    {
-     "id": 15,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 110,
-     "y": 54,
-     "width": 81,
-     "height": 38
-    },
-    {
-     "id": 16,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 196,
-     "y": 54,
-     "width": 41,
-     "height": 41
-    },
-    {
-     "id": 17,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 206,
-     "y": 95,
-     "width": 22,
-     "height": 11
-    },
-    {
-     "id": 18,
-     "name": "",
-     "type": "solid",
-     "rotation": 0,
-     "visible": true,
-     "x": 220,
-     "y": 173,
-     "width": 21,
-     "height": 24
-    }
-   ],
-   "opacity": 1,
-   "type": "objectgroup",
-   "visible": true,
-   "x": 0,
-   "y": 0
   }
  ],
- "nextlayerid": 8,
+ "nextlayerid": 9,
  "nextobjectid": 19,
  "orientation": "orthogonal",
  "renderorder": "right-down",

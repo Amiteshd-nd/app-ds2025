@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import type { Direction } from '../utils/types';
-import { DEPTH, HUNGRY_AT, HUNGRY_SPEED, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
+import { DEPTH, HUNGRY_AT, HUNGRY_SPEED, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE, FEET_BOX } from '../utils/constants';
 import { useGameStore } from '../store';
 import { ensurePlaceholderTexture } from '../utils/placeholders';
 import { consumeInteract, input } from '../input/InputMap';
@@ -49,8 +49,8 @@ export class Player extends Phaser.GameObjects.Sprite {
     // bottom ~12px, so the collision box sits at the feet — that is what makes
     // a top-down character read as standing "in" the scene rather than on it.
     const body = this.body as Phaser.Physics.Arcade.Body;
-    body.setSize(20, 12);
-    body.setOffset(6, 35);
+    body.setSize(FEET_BOX.w, FEET_BOX.h);
+    body.setOffset(FEET_BOX.offsetX, FEET_BOX.offsetY);
     body.setCollideWorldBounds(true);
 
     this.setDepth(DEPTH.ENTITIES);

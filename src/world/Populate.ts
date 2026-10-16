@@ -10,6 +10,7 @@ import {
   BOT_TURN_INTERVAL_MAX,
   BOT_TURN_INTERVAL_MIN,
   DEPTH,
+  FEET_BOX,
 } from '../utils/constants';
 import type { Direction, DistrictDef } from '../utils/types';
 import { findObject } from './Zones';
@@ -77,8 +78,8 @@ export function npcs(
       // at their feet, and can still stand close enough to talk.
       bodies.add(sprite);
       const body = sprite.body as Phaser.Physics.Arcade.StaticBody;
-      body.setSize(20, 12, false);
-      body.setOffset(6, 35);
+      body.setSize(FEET_BOX.w, FEET_BOX.h, false);
+      body.setOffset(FEET_BOX.offsetX, FEET_BOX.offsetY);
     }
     sprites.push(sprite);
   }
@@ -144,9 +145,10 @@ export function objects(
     placed.push(item);
   };
 
-  const layer = def.objectLayer ? map.getObjectLayer(def.objectLayer) : null;
+  // Typed placed objects in the sorted band; `cutout` / `above` images are Shapes.bind's.
+  const layer = def.sortedLayer ? map.getObjectLayer(def.sortedLayer) : null;
   for (const obj of layer?.objects ?? []) {
-    if (!obj.type) continue; // validator rejects this; nothing sensible to draw
+    if (!obj.type || obj.type === 'cutout' || obj.type === 'above') continue;
     const hueProp = obj.properties?.find(
       (p: { name: string; value: unknown }) => p.name === 'hueShift',
     );
@@ -236,8 +238,8 @@ export function wander(
 
     scene.physics.add.existing(citizen);
     const body = citizen.body as Phaser.Physics.Arcade.Body;
-    body.setSize(20, 12);
-    body.setOffset(6, 35);
+    body.setSize(FEET_BOX.w, FEET_BOX.h);
+    body.setOffset(FEET_BOX.offsetX, FEET_BOX.offsetY);
     body.setCollideWorldBounds(true);
     // Citizens hold their ground: the player stops against them, as against an NPC.
     body.pushable = false;
