@@ -164,6 +164,7 @@ export function objects(
   for (const ref of district.objects ?? []) {
     if (ref.requires && !InventoryManager.getInstance().has(ref.requires)) continue;
     if (ref.requiresFlag && !flagsNow[ref.requiresFlag]) continue;
+    if (ref.unlessFlag && flagsNow[ref.unlessFlag]) continue;
     const at = findObject(map, def.spawnLayer, ref.at);
     if (!at) {
       console.error(`[Populate] object "${ref.id}" wants spawn "${ref.at}", which is not in the map`);

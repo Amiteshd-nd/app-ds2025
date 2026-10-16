@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileS
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SCENES, NPCS } from '../data';
-import { applyOverride, beatFlag, buildPrereqState, sceneOrder } from '../dev/prereq';
+import { applyOverride, beatFlag, beatFlags, buildPrereqState, sceneOrder } from '../dev/prereq';
 import { buildLocations } from '../playground/tree';
 import { DISTRICTS } from '../data';
 import { MAPS } from '../assets/maps';
@@ -26,9 +26,11 @@ describe('prerequisite-state builder', () => {
   it('orders scenes by seq; the Act 2–4 stubs follow the worked Acts 0–1', () => {
     const ordered = sceneOrder(scenes).map((s) => s.id);
     expect(ordered.slice(0, 9)).toEqual(['act0_arrivals', 'act0_hotel', 'act0_pg_hunt', 'act1_first_day', 'act1_ravi_intro', 'act1_pg_exit', 'act1_hill_flat', 'act1_bus_cubbon', 'act1_cubbon']);
-    expect(ordered.slice(9, 12)).toEqual(['act2_credited', 'act2_metro_opens', 'act2_guitar']);
+    // "2.2b" (the ride, the second half of a beat that spans two places) follows "2.2" and precedes "2.3".
+    expect(ordered.slice(9, 13)).toEqual(['act2_credited', 'act2_metro_opens', 'act2_metro_ride', 'act2_guitar']);
     expect(ordered[ordered.length - 1]).toBe('act4_tunnel');
-    for (const s of scenes) if (s.act >= 2 && s.id !== 'act2_credited') expect(s.status, s.id).toBe('STUB');
+    const built = ['act2_credited', 'act2_metro_opens', 'act2_metro_ride'];
+    for (const s of scenes) if (s.act >= 2 && !built.includes(s.id)) expect(s.status, s.id).toBe('STUB');
   });
 
   it('scene N gets every earlier scene\'s save_flags and completed quests, none of its own', () => {
@@ -55,6 +57,9 @@ describe('prerequisite-state builder', () => {
     expect(state.flags.coliving_seen).toBe(true);   // F3
     expect(state.flags.pg_signed).toBeUndefined();  // F4 itself
     expect(beatFlag({ id: 'x', pacing: 'Calm', what: 'w', flag: '-' })).toBeNull();
+    // "a, b" sets both; "a | b" are alternatives (the first is taken) — story 2.2 F1 sets metro_open and metro_opening_seen.
+    expect(beatFlags({ id: 'x', pacing: 'Calm', what: 'w', flag: 'metro_open, metro_opening_seen' })).toEqual(['metro_open', 'metro_opening_seen']);
+    expect(beatFlags({ id: 'x', pacing: 'Calm', what: 'w', flag: 'seat_given | seat_kept' })).toEqual(['seat_given']);
   });
 
   it('reads the scene clock and refuses unknown scenes and beats', () => {

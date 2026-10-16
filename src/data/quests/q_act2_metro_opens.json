@@ -1,0 +1,79 @@
+{
+  "id": "q_act2_metro_opens",
+  "title": "Metro Opens",
+  "description": "The barricades came down overnight. First ride is free. Go before the whole of Whitefield does.",
+  "chapter": 2,
+  "district": "metro_station",
+  "type": "search",
+  "prerequisite_quests": [
+    "q_act2_credited"
+  ],
+  "objectives": [
+    {
+      "id": "open",
+      "text": "Wait for the Purple Line to open",
+      "type": "flag",
+      "target": "metro_open"
+    },
+    {
+      "id": "street",
+      "text": "See the station on the Whitefield street",
+      "type": "flag",
+      "target": "metro_opening_seen",
+      "destination": "whitefield_street"
+    },
+    {
+      "id": "enter",
+      "text": "Go up the stairs into the station",
+      "type": "flag",
+      "target": "metro_station_entered",
+      "destination": "metro_station"
+    },
+    {
+      "id": "kid",
+      "text": "Help the lost kid by the pillar",
+      "type": "flag",
+      "target": "lost_kid_returned",
+      "destination": "metro_station"
+    },
+    {
+      "id": "token",
+      "text": "Sort out the token machine jam",
+      "type": "flag",
+      "target": "token_jam_fixed",
+      "destination": "metro_station"
+    },
+    {
+      "id": "board",
+      "text": "Board the first train",
+      "type": "flag",
+      "target": "first_metro_ride",
+      "destination": "metro_station"
+    },
+    {
+      "id": "seat",
+      "text": "Decide about the seat",
+      "type": "flag",
+      "target": "seat_decided",
+      "optional": true
+    },
+    {
+      "id": "arrive",
+      "text": "Reach Cubbon Park by metro",
+      "type": "flag",
+      "target": "metro_ridden",
+      "destination": "cubbon_park"
+    }
+  ],
+  "rewards": {
+    "xp": 40,
+    "xp_branch": "city_survival",
+    "reputation": 2
+  },
+  "on_complete": {
+    "set_flags": [
+      "act2_metro_done",
+      "metro_tier_1"
+    ]
+  }
+}

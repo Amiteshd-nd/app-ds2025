@@ -1,0 +1,35 @@
+{
+  "id": "dlg_kid_mother",
+  "speaker": "Woman in the token queue",
+  "portrait": "npc_kid_mother",
+  "enter": [
+    {
+      "flag": "kid_following",
+      "node": "reunion"
+    },
+    {
+      "flag": "lost_kid_returned",
+      "node": "after"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Counting coins into her palm, eyes on the machine.) Not now, sorry - it ate my ten rupees and I've got a - (she looks down, at the space beside her) - Adi? ADI?"
+    },
+    "reunion": {
+      "text": "ADI! Where - don't you EVER - (she has him by both shoulders, then against her, then at arm's length to shout at him again). Sir. Thank you. Thank you, thank you. Dhanyavaadagalu. Spider-Man, say thank you uncle.",
+      "effect": {
+        "flags": {
+          "lost_kid_returned": true,
+          "kid_following": false,
+          "kid_to_mother": true
+        },
+        "reputation": 3,
+        "stress": -5
+      }
+    },
+    "after": {
+      "text": "(Adi is wearing her dupatta as a leash now. He waves at you with his free hand.)"
+    }
+  }
+}

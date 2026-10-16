@@ -224,6 +224,20 @@ const map = {
         { id: 20, name: 'itpl_bus', rotation: 0, type: '', visible: true, x: 4 * T, y: TOP_WALK[0] * T - 8, width: T + 16, height: 16 },
         // Where your scooter stands once you own one (ADR-126): by the kerb, east of the 500-D stop.
         { id: 21, name: 'scooter_park', point: true, rotation: 0, type: '', visible: true, x: 10 * T, y: TOP_WALK[1] * T, width: 0, height: 0 },
+        // Opening day (story 2.2, ADR-127): the finished station mouth stands where the barricade was; its foot is the
+        // stairs exit (reachable only once the barricade object is gone), bunting and a flagpole on the pavement,
+        // marigold pots and crowd barriers at the kerb, three opening-day citizens. All placed by `metro_open`.
+        { id: 22, name: 'station_spot', point: true, rotation: 0, type: '', visible: true, x: 23 * T, y: BOTTOM_WALK[0] * T, width: 0, height: 0 },
+        { id: 23, name: 'station_stairs', rotation: 0, type: '', visible: true, x: 23 * T + 24, y: (BOTTOM_WALK[0] + 1) * T + 12, width: 2 * T - 16, height: 12 },
+        { id: 24, name: 'station_mouth', point: true, rotation: 0, type: '', visible: true, x: 24 * T + 16, y: (BOTTOM_WALK[0] + 2) * T + 20, width: 0, height: 0 },
+        { id: 25, name: 'station_zone', rotation: 0, type: '', visible: true, x: 20 * T, y: (BOTTOM_WALK[0] + 1) * T, width: 9 * T, height: 2 * T },
+        { id: 26, name: 'bunting_spot', point: true, rotation: 0, type: '', visible: true, x: 20 * T, y: BOTTOM_WALK[0] * T, width: 0, height: 0 },
+        { id: 27, name: 'flag_spot', point: true, rotation: 0, type: '', visible: true, x: 27 * T, y: BOTTOM_WALK[0] * T, width: 0, height: 0 },
+        { id: 28, name: 'pots_spot', point: true, rotation: 0, type: '', visible: true, x: 21 * T, y: (BOTTOM_WALK[0] + 2) * T, width: 0, height: 0 },
+        { id: 29, name: 'barrier_spot', point: true, rotation: 0, type: '', visible: true, x: 27 * T, y: (BOTTOM_WALK[0] + 2) * T, width: 0, height: 0 },
+        { id: 30, name: 'crowd_a', point: true, rotation: 0, type: '', visible: true, x: 19 * T + 16, y: (BOTTOM_WALK[0] + 2) * T + 8, width: 0, height: 0 },
+        { id: 31, name: 'crowd_b', point: true, rotation: 0, type: '', visible: true, x: 26 * T + 16, y: (BOTTOM_WALK[0] + 1) * T + 8, width: 0, height: 0 },
+        { id: 32, name: 'crowd_c', point: true, rotation: 0, type: '', visible: true, x: 29 * T + 16, y: (BOTTOM_WALK[0] + 2) * T + 8, width: 0, height: 0 },
         // Where the 500-D home drops you: the kerb by the stop.
         { id: 19, name: 'cubbon_return', point: true, rotation: 0, type: '', visible: true, x: 6 * T + 16, y: TOP_WALK[1] * T + 8, width: 0, height: 0 },
         // The walkable band (pavement, kerb, road) that ambient citizens stay inside.
@@ -271,5 +285,5 @@ writeFileSync(join(assets, 'tilemaps/whitefield_street.tmj'), `${JSON.stringify(
 const solid = collision.filter(Boolean).length;
 console.log(
   `✓ whitefield_street.tmj — ${W}x${H} tiles, ${solid} solid tiles, ` +
-    `${placed.length} placed objects, 21 spawn objects`,
+    `${placed.length} placed objects, 32 spawn objects`,
 );

@@ -149,6 +149,14 @@
         "fare": 20,
         "minutes": 15,
         "card": "BMTC 500-D → ITPL Main Road · ₹20"
+      },
+      {
+        "zone": "station_stairs",
+        "to": "metro_station",
+        "spawn": "station_stairs",
+        "transit": "walk",
+        "minutes": 2,
+        "lockedText": "Barricades. Not yet."
       }
     ],
     "realworld": {
@@ -181,25 +189,83 @@
         "dialogue": "dlg_metro_sign",
         "unlessFlag": "metro_seen",
         "requiresFlag": "slept_in_flat"
+      },
+      {
+        "zone": "station_zone",
+        "setFlags": [
+          "metro_opening_seen"
+        ],
+        "requiresFlag": "metro_open",
+        "unlessFlag": "metro_opening_seen"
       }
     ],
     "objects": [
       {
         "id": "METRO_BARRICADE",
-        "at": "barricade_spot"
+        "at": "barricade_spot",
+        "unlessFlag": "metro_open"
       },
       {
         "id": "METRO_PILLAR",
-        "at": "pillar_spot"
+        "at": "pillar_spot",
+        "unlessFlag": "metro_open"
       },
       {
         "id": "SCOOTER_GREY",
         "at": "scooter_park",
         "requiresFlag": "scooter_owned"
+      },
+      {
+        "id": "METRO_ENTRANCE",
+        "at": "station_spot",
+        "requiresFlag": "metro_open"
+      },
+      {
+        "id": "METRO_PILLAR_DONE",
+        "at": "pillar_spot",
+        "requiresFlag": "metro_open"
+      },
+      {
+        "id": "BUNTING",
+        "at": "bunting_spot",
+        "requiresFlag": "metro_open"
+      },
+      {
+        "id": "FLAGPOLE",
+        "at": "flag_spot",
+        "requiresFlag": "metro_open"
+      },
+      {
+        "id": "MARIGOLD_POTS",
+        "at": "pots_spot",
+        "requiresFlag": "metro_open"
+      },
+      {
+        "id": "CROWD_BARRIER",
+        "at": "barrier_spot",
+        "requiresFlag": "metro_open"
       }
     ],
     "quests": [
       "q_act1_bus_cubbon"
+    ],
+    "metroStation": "stn_whitefield",
+    "npcs": [
+      {
+        "id": "npc_crowd_selfie",
+        "spawn": "crowd_a",
+        "requiresFlag": "metro_open"
+      },
+      {
+        "id": "npc_crowd_filming",
+        "spawn": "crowd_b",
+        "requiresFlag": "metro_open"
+      },
+      {
+        "id": "npc_crowd_garland",
+        "spawn": "crowd_c",
+        "requiresFlag": "metro_open"
+      }
     ]
   },
   {
@@ -739,7 +805,8 @@
     ],
     "behaviours": [
       "salaryCountdown",
-      "emi"
+      "emi",
+      "metroOpening"
     ],
     "realworld": {
       "parent": "ambedkar_nagar_hill"
@@ -821,7 +888,8 @@
     "signal": 4,
     "quests": [
       "q_act1_bus_cubbon",
-      "q_act1_cubbon"
+      "q_act1_cubbon",
+      "q_act2_metro_opens"
     ],
     "npcs": [
       {
@@ -931,6 +999,14 @@
         "dialogue": "dlg_ananya_walk",
         "requiresFlag": "ananya_walk2",
         "unlessFlag": "ananya_walk3"
+      },
+      {
+        "zone": "metro_arrival",
+        "setFlags": [
+          "metro_ridden",
+          "cubbon_arrived"
+        ],
+        "unlessFlag": "metro_ridden"
       }
     ],
     "exits": [
@@ -974,7 +1050,8 @@
           ]
         }
       }
-    }
+    },
+    "metroStation": "stn_cubbon_park"
   },
   {
     "id": "scooter_showroom",
@@ -1080,6 +1157,147 @@
         "minutes": 10,
         "card": "Walk → ITPL Gate · 10 min"
       }
+    ]
+  },
+  {
+    "id": "metro_station",
+    "name": "Whitefield Metro",
+    "map": "metro_station",
+    "defaultSpawn": "station_stairs",
+    "fadeMs": 400,
+    "unlock": {
+      "flags": [
+        "metro_open"
+      ]
+    },
+    "signal": 2,
+    "realworld": {
+      "parent": "whitefield_street"
+    },
+    "quests": [
+      "q_act2_metro_opens"
+    ],
+    "npcs": [
+      {
+        "id": "npc_metro_guard",
+        "spawn": "gates"
+      },
+      {
+        "id": "npc_lost_kid",
+        "spawn": "concourse_corner",
+        "unlessFlag": "lost_kid_returned"
+      },
+      {
+        "id": "npc_kid_mother",
+        "spawn": "token_queue"
+      },
+      {
+        "id": "npc_token_uncle",
+        "spawn": "token_machine"
+      }
+    ],
+    "ambient": {
+      "area": "ambient_area",
+      "base": [
+        "crowd_student",
+        "crowd_techie",
+        "crowd_homemaker",
+        "crowd_elder",
+        "crowd_officegoer"
+      ],
+      "count": 5
+    },
+    "companion": {
+      "npc": "npc_lost_kid",
+      "whileFlag": "kid_following",
+      "untilFlag": "lost_kid_returned"
+    },
+    "triggers": [
+      {
+        "zone": "arrival",
+        "setFlags": [
+          "metro_station_entered"
+        ],
+        "unlessFlag": "metro_station_entered"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "stairs_down",
+        "to": "whitefield_street",
+        "spawn": "station_mouth",
+        "transit": "walk",
+        "minutes": 2
+      },
+      {
+        "zone": "platform",
+        "to": "metro_interior",
+        "spawn": "coach_door",
+        "transit": "metro",
+        "card": "Purple Line → Cubbon Park · free today"
+      }
+    ],
+    "behaviours": [
+      "companion"
+    ]
+  },
+  {
+    "id": "metro_interior",
+    "name": "Purple Line coach",
+    "map": "metro_interior",
+    "defaultSpawn": "coach_door",
+    "fadeMs": 300,
+    "unlock": {
+      "flags": [
+        "metro_open"
+      ]
+    },
+    "signal": 1,
+    "realworld": {
+      "parent": "whitefield_street"
+    },
+    "quests": [
+      "q_act2_metro_opens"
+    ],
+    "npcs": [
+      {
+        "id": "npc_metro_ajji",
+        "spawn": "coach_standing"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "boarded",
+        "setFlags": [
+          "first_metro_ride"
+        ],
+        "unlessFlag": "first_metro_ride"
+      },
+      {
+        "zone": "seat_zone",
+        "dialogue": "dlg_metro_ajji",
+        "unlessFlag": "seat_decided"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "coach_door",
+        "to": "cubbon_park",
+        "spawn": "metro_drop",
+        "transit": "walk",
+        "minutes": 40,
+        "requiresFlag": "metro_ride_over",
+        "lockedText": "The doors are shut. Hold the pole."
+      }
+    ],
+    "ride": {
+      "seconds": 30,
+      "exit": "coach_door",
+      "flag": "metro_ride_over",
+      "label": "Cubbon Park"
+    },
+    "behaviours": [
+      "busRide"
     ]
   }
 ]

@@ -1,0 +1,8 @@
+[
+  { "id": "METRO_ENTRANCE", "label": "Metro station entrance", "category": "structure", "tilesWide": 3, "tilesTall": 2, "backgroundTiles": 2, "solid": false, "colorEditable": false, "sprite": "metro_props_01" },
+  { "id": "BUNTING", "label": "Inauguration bunting", "category": "structure", "tilesWide": 2, "tilesTall": 1, "backgroundTiles": 1, "solid": false, "colorEditable": false, "sprite": "metro_props_02" },
+  { "id": "FLAGPOLE", "label": "Flagpole with flags", "category": "structure", "tilesWide": 1, "tilesTall": 2, "backgroundTiles": 1, "solid": true, "colorEditable": false, "sprite": "metro_props_03" },
+  { "id": "CROWD_BARRIER", "label": "Crowd barriers", "category": "structure", "tilesWide": 2, "tilesTall": 1, "backgroundTiles": 0, "solid": true, "colorEditable": false, "sprite": "metro_props_04" },
+  { "id": "MARIGOLD_POTS", "label": "Marigold pots", "category": "structure", "tilesWide": 2, "tilesTall": 1, "backgroundTiles": 0, "solid": true, "colorEditable": false, "sprite": "metro_props_05" },
+  { "id": "METRO_PILLAR_DONE", "label": "Metro pillar, finished", "category": "structure", "tilesWide": 1, "tilesTall": 2, "backgroundTiles": 1, "solid": true, "colorEditable": false, "sprite": "metro_props_06" }
+]

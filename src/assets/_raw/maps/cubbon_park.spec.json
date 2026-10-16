@@ -1,1002 +1,1014 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) -> 36x24 tiles, 1.2 m/tile (ADR-124). Cubbon Park compressed to one pocket: the State Central Library top-left (steps walkable, the regulars sit there), the bamboo grove down the left edge, the bandstand on its plinth in the middle (not walkable; photographed from the path south of it), the cycle shed + ice-cream cart on the right lawn, the red court building's corner top-right, the east gate on the right edge (the bus), and along the bottom the compound wall with a gate down to a pavement of three shops - the left one is the guitar shop. Migrated to ADR-125: the library, the court building, the shop row and the compound wall are `buildings`; trees (canopy + trunk), the bandstand (roof + plinth), lamps, benches, the cycle shed, the ice-cream cart, bin, tap, sign and gate pillars are sorted cut-outs with footprints; hedges, bushes, the bamboo grove and the road stay prop blocks.",
-  "name": "cubbon_park",
-  "cols": 36,
-  "rows": 24,
-  "units": "px",
-  "blocks": [
+ "$comment": "Source-pixel spec (1536x1024 render) -> 36x24 tiles, 1.2 m/tile (ADR-124). Cubbon Park compressed to one pocket: the State Central Library top-left (steps walkable, the regulars sit there), the bamboo grove down the left edge, the bandstand on its plinth in the middle (not walkable; photographed from the path south of it), the cycle shed + ice-cream cart on the right lawn, the red court building's corner top-right, the east gate on the right edge (the bus), and along the bottom the compound wall with a gate down to a pavement of three shops - the left one is the guitar shop. Migrated to ADR-125: the library, the court building, the shop row and the compound wall are `buildings`; trees (canopy + trunk), the bandstand (roof + plinth), lamps, benches, the cycle shed, the ice-cream cart, bin, tap, sign and gate pillars are sorted cut-outs with footprints; hedges, bushes, the bamboo grove and the road stay prop blocks.",
+ "name": "cubbon_park",
+ "cols": 36,
+ "rows": 24,
+ "units": "px",
+ "blocks": [
+  [
+   190,
+   150,
+   45,
+   60
+  ],
+  [
+   440,
+   150,
+   108,
+   60
+  ],
+  [
+   150,
+   210,
+   100,
+   40
+  ],
+  [
+   380,
+   210,
+   110,
+   40
+  ],
+  [
+   0,
+   0,
+   135,
+   440
+  ],
+  [
+   0,
+   520,
+   150,
+   250
+  ],
+  [
+   0,
+   860,
+   120,
+   164
+  ],
+  [
+   548,
+   0,
+   215,
+   150
+  ],
+  [
+   560,
+   150,
+   130,
+   80
+  ],
+  [
+   760,
+   0,
+   330,
+   60
+  ],
+  [
+   1090,
+   0,
+   200,
+   40
+  ],
+  [
+   1130,
+   40,
+   160,
+   290
+  ],
+  [
+   590,
+   440,
+   30,
+   60
+  ],
+  [
+   900,
+   440,
+   40,
+   60
+  ],
+  [
+   640,
+   715,
+   70,
+   45
+  ],
+  [
+   800,
+   715,
+   80,
+   45
+  ],
+  [
+   1080,
+   680,
+   70,
+   50
+  ],
+  [
+   1250,
+   730,
+   80,
+   40
+  ],
+  [
+   1400,
+   730,
+   80,
+   40
+  ],
+  [
+   0,
+   1000,
+   1536,
+   24
+  ]
+ ],
+ "spawns": [
+  {
+   "name": "bus_drop",
+   "x": 1395,
+   "y": 480
+  },
+  {
+   "name": "cycle_rental",
+   "x": 1150,
+   "y": 480
+  },
+  {
+   "name": "ananya_spot",
+   "x": 1010,
+   "y": 485
+  },
+  {
+   "name": "icecream_cart",
+   "x": 1330,
+   "y": 505
+  },
+  {
+   "name": "library_steps_a",
+   "x": 255,
+   "y": 220
+  },
+  {
+   "name": "library_steps_b",
+   "x": 425,
+   "y": 220
+  },
+  {
+   "name": "jogger_spot",
+   "x": 900,
+   "y": 630
+  },
+  {
+   "name": "guitar_shop",
+   "x": 205,
+   "y": 985
+  },
+  {
+   "name": "dog_a",
+   "x": 560,
+   "y": 620
+  },
+  {
+   "name": "dog_b",
+   "x": 1090,
+   "y": 320
+  },
+  {
+   "name": "dog_c",
+   "x": 880,
+   "y": 935
+  },
+  {
+   "name": "metro_drop",
+   "x": 1395,
+   "y": 580
+  }
+ ],
+ "zones": [
+  {
+   "name": "cubbon_arrival",
+   "x": 1340,
+   "y": 430,
+   "w": 110,
+   "h": 100
+  },
+  {
+   "name": "park_gate_bus",
+   "x": 1470,
+   "y": 442,
+   "w": 66,
+   "h": 62
+  },
+  {
+   "name": "photo_bandstand",
+   "x": 600,
+   "y": 590,
+   "w": 330,
+   "h": 60
+  },
+  {
+   "name": "photo_library",
+   "x": 230,
+   "y": 205,
+   "w": 220,
+   "h": 55
+  },
+  {
+   "name": "photo_bamboo",
+   "x": 60,
+   "y": 430,
+   "w": 150,
+   "h": 100
+  },
+  {
+   "name": "photo_red_building",
+   "x": 1300,
+   "y": 255,
+   "w": 180,
+   "h": 70
+  },
+  {
+   "name": "photo_dog",
+   "x": 500,
+   "y": 590,
+   "w": 120,
+   "h": 90
+  },
+  {
+   "name": "stop_bandstand",
+   "x": 600,
+   "y": 590,
+   "w": 330,
+   "h": 60
+  },
+  {
+   "name": "stop_bamboo",
+   "x": 60,
+   "y": 430,
+   "w": 150,
+   "h": 100
+  },
+  {
+   "name": "stop_library",
+   "x": 230,
+   "y": 205,
+   "w": 220,
+   "h": 55
+  },
+  {
+   "name": "ambient_area",
+   "x": 150,
+   "y": 260,
+   "w": 1250,
+   "h": 480
+  },
+  {
+   "name": "metro_arrival",
+   "x": 1340,
+   "y": 540,
+   "w": 110,
+   "h": 80
+  }
+ ],
+ "buildings": [
+  [
+   128,
+   0,
+   420,
+   150
+  ],
+  [
+   1290,
+   0,
+   246,
+   250
+  ],
+  [
+   128,
+   815,
+   452,
+   150
+  ],
+  [
+   0,
+   770,
+   715,
+   45
+  ],
+  [
+   815,
+   770,
+   721,
+   45
+  ]
+ ],
+ "sorted": [
+  {
+   "name": "tree_left",
+   "rect": [
+    175,
+    400,
+    290,
+    222
+   ],
+   "base": 662,
+   "footprint": [
+    265,
+    622,
+    70,
+    40
+   ],
+   "mode": "rect"
+  },
+  {
+   "name": "tree_top",
+   "rect": [
+    755,
+    30,
+    320,
+    240
+   ],
+   "base": 280,
+   "footprint": [
+    870,
+    232,
+    70,
+    48
+   ],
+   "mode": "key",
+   "bg": [
     [
-      190,
-      150,
-      45,
-      60
+     700,
+     180,
+     50,
+     40
     ],
     [
-      440,
-      150,
-      108,
-      60
-    ],
-    [
-      150,
-      210,
-      100,
-      40
-    ],
-    [
-      380,
-      210,
-      110,
-      40
-    ],
-    [
-      0,
-      0,
-      135,
-      440
-    ],
-    [
-      0,
-      520,
-      150,
-      250
-    ],
-    [
-      0,
-      860,
-      120,
-      164
-    ],
-    [
-      548,
-      0,
-      215,
-      150
-    ],
-    [
-      560,
-      150,
-      130,
-      80
-    ],
-    [
-      760,
-      0,
-      330,
-      60
-    ],
-    [
-      1090,
-      0,
-      200,
-      40
-    ],
-    [
-      1130,
-      40,
-      160,
-      290
-    ],
-    [
-      590,
-      440,
-      30,
-      60
-    ],
-    [
-      900,
-      440,
-      40,
-      60
-    ],
-    [
-      640,
-      715,
-      70,
-      45
-    ],
-    [
-      800,
-      715,
-      80,
-      45
-    ],
-    [
-      1080,
-      680,
-      70,
-      50
-    ],
-    [
-      1250,
-      730,
-      80,
-      40
-    ],
-    [
-      1400,
-      730,
-      80,
-      40
-    ],
-    [
-      0,
-      1000,
-      1536,
-      24
+     1090,
+     200,
+     40,
+     40
     ]
-  ],
-  "spawns": [
-    {
-      "name": "bus_drop",
-      "x": 1395,
-      "y": 480
-    },
-    {
-      "name": "cycle_rental",
-      "x": 1150,
-      "y": 480
-    },
-    {
-      "name": "ananya_spot",
-      "x": 1010,
-      "y": 485
-    },
-    {
-      "name": "icecream_cart",
-      "x": 1330,
-      "y": 505
-    },
-    {
-      "name": "library_steps_a",
-      "x": 255,
-      "y": 220
-    },
-    {
-      "name": "library_steps_b",
-      "x": 425,
-      "y": 220
-    },
-    {
-      "name": "jogger_spot",
-      "x": 900,
-      "y": 630
-    },
-    {
-      "name": "guitar_shop",
-      "x": 205,
-      "y": 985
-    },
-    {
-      "name": "dog_a",
-      "x": 560,
-      "y": 620
-    },
-    {
-      "name": "dog_b",
-      "x": 1090,
-      "y": 320
-    },
-    {
-      "name": "dog_c",
-      "x": 880,
-      "y": 935
-    }
-  ],
-  "zones": [
-    {
-      "name": "cubbon_arrival",
-      "x": 1340,
-      "y": 430,
-      "w": 110,
-      "h": 100
-    },
-    {
-      "name": "park_gate_bus",
-      "x": 1470,
-      "y": 442,
-      "w": 66,
-      "h": 62
-    },
-    {
-      "name": "photo_bandstand",
-      "x": 600,
-      "y": 590,
-      "w": 330,
-      "h": 60
-    },
-    {
-      "name": "photo_library",
-      "x": 230,
-      "y": 205,
-      "w": 220,
-      "h": 55
-    },
-    {
-      "name": "photo_bamboo",
-      "x": 60,
-      "y": 430,
-      "w": 150,
-      "h": 100
-    },
-    {
-      "name": "photo_red_building",
-      "x": 1300,
-      "y": 255,
-      "w": 180,
-      "h": 70
-    },
-    {
-      "name": "photo_dog",
-      "x": 500,
-      "y": 590,
-      "w": 120,
-      "h": 90
-    },
-    {
-      "name": "stop_bandstand",
-      "x": 600,
-      "y": 590,
-      "w": 330,
-      "h": 60
-    },
-    {
-      "name": "stop_bamboo",
-      "x": 60,
-      "y": 430,
-      "w": 150,
-      "h": 100
-    },
-    {
-      "name": "stop_library",
-      "x": 230,
-      "y": 205,
-      "w": 220,
-      "h": 55
-    },
-    {
-      "name": "ambient_area",
-      "x": 150,
-      "y": 260,
-      "w": 1250,
-      "h": 480
-    }
-  ],
-  "buildings": [
+   ],
+   "seeds": [
     [
-      128,
-      0,
-      420,
-      150
+     900,
+     120
     ],
     [
-      1290,
-      0,
-      246,
-      250
+     800,
+     200
     ],
     [
-      128,
-      815,
-      452,
-      150
-    ],
-    [
-      0,
-      770,
-      715,
-      45
-    ],
-    [
-      815,
-      770,
-      721,
-      45
+     1000,
+     200
     ]
-  ],
-  "sorted": [
-    {
-      "name": "tree_left",
-      "rect": [
-        175,
-        400,
-        290,
-        222
-      ],
-      "base": 662,
-      "footprint": [
-        265,
-        622,
-        70,
-        40
-      ],
-      "mode": "rect"
-    },
-    {
-      "name": "tree_top",
-      "rect": [
-        755,
-        30,
-        320,
-        240
-      ],
-      "base": 280,
-      "footprint": [
-        870,
-        232,
-        70,
-        48
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          700,
-          180,
-          50,
-          40
-        ],
-        [
-          1090,
-          200,
-          40,
-          40
-        ]
-      ],
-      "seeds": [
-        [
-          900,
-          120
-        ],
-        [
-          800,
-          200
-        ],
-        [
-          1000,
-          200
-        ]
-      ]
-    },
-    {
-      "name": "bandstand",
-      "rect": [
-        600,
-        325,
-        320,
-        250
-      ],
-      "base": 570,
-      "footprint": [
-        610,
-        345,
-        300,
-        225
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          760,
-          370
-        ],
-        [
-          700,
-          420
-        ],
-        [
-          830,
-          420
-        ],
-        [
-          760,
-          520
-        ]
-      ]
-    },
-    {
-      "name": "lamp_1",
-      "rect": [
-        673,
-        203,
-        36,
-        82
-      ],
-      "base": 284,
-      "footprint": [
-        683,
-        268,
-        16,
-        16
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          691,
-          215
-        ],
-        [
-          691,
-          260
-        ]
-      ]
-    },
-    {
-      "name": "lamp_2",
-      "rect": [
-        638,
-        603,
-        36,
-        82
-      ],
-      "base": 684,
-      "footprint": [
-        648,
-        668,
-        16,
-        16
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          656,
-          615
-        ],
-        [
-          656,
-          660
-        ]
-      ]
-    },
-    {
-      "name": "lamp_3",
-      "rect": [
-        1382,
-        353,
-        36,
-        82
-      ],
-      "base": 436,
-      "footprint": [
-        1392,
-        420,
-        16,
-        16
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1400,
-          365
-        ],
-        [
-          1400,
-          410
-        ]
-      ]
-    },
-    {
-      "name": "lamp_4",
-      "rect": [
-        1488,
-        533,
-        42,
-        87
-      ],
-      "base": 620,
-      "footprint": [
-        1500,
-        600,
-        20,
-        20
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1510,
-          545
-        ],
-        [
-          1510,
-          595
-        ]
-      ]
-    },
-    {
-      "name": "bench_top",
-      "rect": [
-        765,
-        225,
-        90,
-        55
-      ],
-      "base": 280,
-      "footprint": [
-        770,
-        250,
-        80,
-        30
-      ],
-      "mode": "rect"
-    },
-    {
-      "name": "bench_left",
-      "rect": [
-        175,
-        358,
-        50,
-        62
-      ],
-      "base": 420,
-      "footprint": [
-        180,
-        372,
-        40,
-        48
-      ],
-      "mode": "rect"
-    },
-    {
-      "name": "bench_right",
-      "rect": [
-        1095,
-        500,
-        100,
-        58
-      ],
-      "base": 558,
-      "footprint": [
-        1100,
-        528,
-        90,
-        30
-      ],
-      "mode": "rect"
-    },
-    {
-      "name": "bench_bottom",
-      "rect": [
-        525,
-        668,
-        90,
-        57
-      ],
-      "base": 725,
-      "footprint": [
-        530,
-        695,
-        80,
-        30
-      ],
-      "mode": "rect"
-    },
-    {
-      "name": "cycle_shed",
-      "rect": [
-        1015,
-        330,
-        205,
-        115
-      ],
-      "base": 440,
-      "footprint": [
-        1020,
-        350,
-        195,
-        90
-      ],
-      "mode": "rect"
-    },
-    {
-      "name": "icecream_cart",
-      "rect": [
-        1218,
-        398,
-        97,
-        107
-      ],
-      "base": 505,
-      "footprint": [
-        1225,
-        430,
-        80,
-        75
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1265,
-          420
-        ],
-        [
-          1265,
-          470
-        ]
-      ]
-    },
-    {
-      "name": "bin",
-      "rect": [
-        1045,
-        503,
-        40,
-        62
-      ],
-      "base": 565,
-      "footprint": [
-        1050,
-        530,
-        30,
-        35
-      ],
-      "mode": "rect"
-    },
-    {
-      "name": "tap",
-      "rect": [
-        1238,
-        578,
-        64,
-        92
-      ],
-      "base": 670,
-      "footprint": [
-        1245,
-        600,
-        50,
-        70
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1270,
-          610
-        ],
-        [
-          1270,
-          650
-        ]
-      ]
-    },
-    {
-      "name": "sign",
-      "rect": [
-        958,
-        598,
-        94,
-        117
-      ],
-      "base": 715,
-      "footprint": [
-        965,
-        650,
-        80,
-        65
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          600,
-          285,
-          40,
-          30
-        ],
-        [
-          1000,
-          570,
-          30,
-          30
-        ],
-        [
-          560,
-          300,
-          40,
-          30
-        ]
-      ]
-    },
-    {
-      "name": "gate_pillar_1",
-      "rect": [
-        1416,
-        348,
-        38,
-        97
-      ],
-      "base": 440,
-      "footprint": [
-        1420,
-        395,
-        30,
-        45
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          500,
-          480,
-          40,
-          30
-        ],
-        [
-          1000,
-          500,
-          30,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1435,
-          370
-        ],
-        [
-          1435,
-          420
-        ]
-      ]
-    },
-    {
-      "name": "gate_pillar_2",
-      "rect": [
-        1416,
-        458,
-        38,
-        97
-      ],
-      "base": 550,
-      "footprint": [
-        1420,
-        505,
-        30,
-        45
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          500,
-          480,
-          40,
-          30
-        ],
-        [
-          1000,
-          500,
-          30,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1435,
-          480
-        ],
-        [
-          1435,
-          530
-        ]
-      ]
-    },
-    {
-      "name": "gate_pillar_3",
-      "rect": [
-        1496,
-        348,
-        40,
-        97
-      ],
-      "base": 440,
-      "footprint": [
-        1500,
-        395,
-        36,
-        45
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          500,
-          480,
-          40,
-          30
-        ],
-        [
-          1000,
-          500,
-          30,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1515,
-          370
-        ],
-        [
-          1515,
-          420
-        ]
-      ]
-    },
-    {
-      "name": "gate_pillar_4",
-      "rect": [
-        1496,
-        458,
-        40,
-        97
-      ],
-      "base": 550,
-      "footprint": [
-        1500,
-        505,
-        36,
-        45
-      ],
-      "mode": "key",
-      "bg": [
-        [
-          500,
-          480,
-          40,
-          30
-        ],
-        [
-          1000,
-          500,
-          30,
-          30
-        ]
-      ],
-      "seeds": [
-        [
-          1515,
-          480
-        ],
-        [
-          1515,
-          530
-        ]
-      ]
-    }
-  ],
-  "above": []
+   ]
+  },
+  {
+   "name": "bandstand",
+   "rect": [
+    600,
+    325,
+    320,
+    250
+   ],
+   "base": 570,
+   "footprint": [
+    610,
+    345,
+    300,
+    225
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     760,
+     370
+    ],
+    [
+     700,
+     420
+    ],
+    [
+     830,
+     420
+    ],
+    [
+     760,
+     520
+    ]
+   ]
+  },
+  {
+   "name": "lamp_1",
+   "rect": [
+    673,
+    203,
+    36,
+    82
+   ],
+   "base": 284,
+   "footprint": [
+    683,
+    268,
+    16,
+    16
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     691,
+     215
+    ],
+    [
+     691,
+     260
+    ]
+   ]
+  },
+  {
+   "name": "lamp_2",
+   "rect": [
+    638,
+    603,
+    36,
+    82
+   ],
+   "base": 684,
+   "footprint": [
+    648,
+    668,
+    16,
+    16
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     656,
+     615
+    ],
+    [
+     656,
+     660
+    ]
+   ]
+  },
+  {
+   "name": "lamp_3",
+   "rect": [
+    1382,
+    353,
+    36,
+    82
+   ],
+   "base": 436,
+   "footprint": [
+    1392,
+    420,
+    16,
+    16
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1400,
+     365
+    ],
+    [
+     1400,
+     410
+    ]
+   ]
+  },
+  {
+   "name": "lamp_4",
+   "rect": [
+    1488,
+    533,
+    42,
+    87
+   ],
+   "base": 620,
+   "footprint": [
+    1500,
+    600,
+    20,
+    20
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1510,
+     545
+    ],
+    [
+     1510,
+     595
+    ]
+   ]
+  },
+  {
+   "name": "bench_top",
+   "rect": [
+    765,
+    225,
+    90,
+    55
+   ],
+   "base": 280,
+   "footprint": [
+    770,
+    250,
+    80,
+    30
+   ],
+   "mode": "rect"
+  },
+  {
+   "name": "bench_left",
+   "rect": [
+    175,
+    358,
+    50,
+    62
+   ],
+   "base": 420,
+   "footprint": [
+    180,
+    372,
+    40,
+    48
+   ],
+   "mode": "rect"
+  },
+  {
+   "name": "bench_right",
+   "rect": [
+    1095,
+    500,
+    100,
+    58
+   ],
+   "base": 558,
+   "footprint": [
+    1100,
+    528,
+    90,
+    30
+   ],
+   "mode": "rect"
+  },
+  {
+   "name": "bench_bottom",
+   "rect": [
+    525,
+    668,
+    90,
+    57
+   ],
+   "base": 725,
+   "footprint": [
+    530,
+    695,
+    80,
+    30
+   ],
+   "mode": "rect"
+  },
+  {
+   "name": "cycle_shed",
+   "rect": [
+    1015,
+    330,
+    205,
+    115
+   ],
+   "base": 440,
+   "footprint": [
+    1020,
+    350,
+    195,
+    90
+   ],
+   "mode": "rect"
+  },
+  {
+   "name": "icecream_cart",
+   "rect": [
+    1218,
+    398,
+    97,
+    107
+   ],
+   "base": 505,
+   "footprint": [
+    1225,
+    430,
+    80,
+    75
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1265,
+     420
+    ],
+    [
+     1265,
+     470
+    ]
+   ]
+  },
+  {
+   "name": "bin",
+   "rect": [
+    1045,
+    503,
+    40,
+    62
+   ],
+   "base": 565,
+   "footprint": [
+    1050,
+    530,
+    30,
+    35
+   ],
+   "mode": "rect"
+  },
+  {
+   "name": "tap",
+   "rect": [
+    1238,
+    578,
+    64,
+    92
+   ],
+   "base": 670,
+   "footprint": [
+    1245,
+    600,
+    50,
+    70
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1270,
+     610
+    ],
+    [
+     1270,
+     650
+    ]
+   ]
+  },
+  {
+   "name": "sign",
+   "rect": [
+    958,
+    598,
+    94,
+    117
+   ],
+   "base": 715,
+   "footprint": [
+    965,
+    650,
+    80,
+    65
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     600,
+     285,
+     40,
+     30
+    ],
+    [
+     1000,
+     570,
+     30,
+     30
+    ],
+    [
+     560,
+     300,
+     40,
+     30
+    ]
+   ]
+  },
+  {
+   "name": "gate_pillar_1",
+   "rect": [
+    1416,
+    348,
+    38,
+    97
+   ],
+   "base": 440,
+   "footprint": [
+    1420,
+    395,
+    30,
+    45
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     500,
+     480,
+     40,
+     30
+    ],
+    [
+     1000,
+     500,
+     30,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1435,
+     370
+    ],
+    [
+     1435,
+     420
+    ]
+   ]
+  },
+  {
+   "name": "gate_pillar_2",
+   "rect": [
+    1416,
+    458,
+    38,
+    97
+   ],
+   "base": 550,
+   "footprint": [
+    1420,
+    505,
+    30,
+    45
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     500,
+     480,
+     40,
+     30
+    ],
+    [
+     1000,
+     500,
+     30,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1435,
+     480
+    ],
+    [
+     1435,
+     530
+    ]
+   ]
+  },
+  {
+   "name": "gate_pillar_3",
+   "rect": [
+    1496,
+    348,
+    40,
+    97
+   ],
+   "base": 440,
+   "footprint": [
+    1500,
+    395,
+    36,
+    45
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     500,
+     480,
+     40,
+     30
+    ],
+    [
+     1000,
+     500,
+     30,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1515,
+     370
+    ],
+    [
+     1515,
+     420
+    ]
+   ]
+  },
+  {
+   "name": "gate_pillar_4",
+   "rect": [
+    1496,
+    458,
+    40,
+    97
+   ],
+   "base": 550,
+   "footprint": [
+    1500,
+    505,
+    36,
+    45
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     500,
+     480,
+     40,
+     30
+    ],
+    [
+     1000,
+     500,
+     30,
+     30
+    ]
+   ],
+   "seeds": [
+    [
+     1515,
+     480
+    ],
+    [
+     1515,
+     530
+    ]
+   ]
+  }
+ ],
+ "above": []
 }

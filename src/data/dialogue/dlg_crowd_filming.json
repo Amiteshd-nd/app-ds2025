@@ -1,0 +1,10 @@
+{
+  "id": "dlg_crowd_filming",
+  "speaker": "Man filming",
+  "portrait": "crowd_hoodie",
+  "nodes": {
+    "start": {
+      "text": "(Phone up, narrating.) 'Whitefield metro, day one, 2024 - sorry, whichever year this is. Four years of barricades. Say hi to the camera, sir.'"
+    }
+  }
+}

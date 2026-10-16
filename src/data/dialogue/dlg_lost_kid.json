@@ -1,0 +1,52 @@
+{
+  "id": "dlg_lost_kid",
+  "speaker": "Lost kid",
+  "portrait": "npc_lost_kid",
+  "enter": [
+    {
+      "flag": "kid_following",
+      "node": "following"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Six, Spider-Man T-shirt, standing very still by the pillar the way children do when they have decided not to cry and are losing.) Amma was here. Then she was... here. She's not here.",
+      "choices": [
+        {
+          "text": "Come. Let's find the man in the yellow vest.",
+          "next": "guard",
+          "effect": {
+            "flags": {
+              "kid_following": true
+            }
+          }
+        },
+        {
+          "text": "Where did you last see your amma?",
+          "next": "mother",
+          "effect": {
+            "flags": {
+              "kid_following": true
+            }
+          }
+        },
+        {
+          "text": "(Not your problem.)",
+          "next": "leave"
+        }
+      ]
+    },
+    "guard": {
+      "text": "(He takes two fingers of your hand, not the whole hand. Follows.)"
+    },
+    "mother": {
+      "text": "Token. She was buying token. The machine was angry. (He points at nothing, then at the queue.) I'll come with you."
+    },
+    "leave": {
+      "text": "(He looks at the pillar. The pillar has a garland. He counts the marigolds.)"
+    },
+    "following": {
+      "text": "(He holds on tighter. 'Is it that one?' he asks about every adult.)"
+    }
+  }
+}

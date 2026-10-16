@@ -1,10 +1,11 @@
 import { gameEvents } from '../core/events';
 import { CITY_MAP, DISTRICTS, QUESTS } from '../data';
 import { useGameStore } from '../store';
+import { FLAG_METRO_FREE_DAY, FLAG_METRO_OPEN } from '../world/behaviours/metroFlags';
 import type { CityMapData, DistrictDef, LatLng, MapPoiKind, TransitKind } from '../utils/types';
 import { ReputationManager } from './ReputationManager';
 import { FUEL_COUNTER } from './StatsManager';
-import { FUEL_PER_KM, SCOOTER_MINUTES_PER_KM } from '../utils/constants';
+import { FUEL_PER_KM, METRO_FARE_BASE, METRO_FARE_CAP, METRO_FARE_PER_KM, SCOOTER_MINUTES_PER_KM } from '../utils/constants';
 
 /**
  * MapManager — the fullscreen map's rules, no pixels (P6b, ADR-113/115).
@@ -57,6 +58,9 @@ export const FLAG = {
 } as const;
 
 /** Relative cost of a km by each way of travelling (bus beats walking a long way). */
+/** Namma Metro's fare (ADR-115): ₹10 + ₹2/km, in ₹5 steps, ₹60 cap. */
+export const metroFare = (km: number): number => Math.min(METRO_FARE_CAP, Math.ceil((METRO_FARE_BASE + METRO_FARE_PER_KM * km) / 5) * 5);
+
 const COST_PER_KM: Record<TransitKind, number> = { walk: 1, bus: 0.4, metro: 0.3, scooter: 0.5, cab: 0.5, auto: 0.5 };
 /** Familiarity ★: district standing at which each star lights (Hosa → Gothu → Namma, ADR-26). */
 export const FAMILIARITY_STARS = [1, 5, 15, 30, 60] as const;
@@ -345,8 +349,9 @@ export class MapManager {
     const here = this.here();
     const from = here ? this.districts[here] : undefined, to = this.districts[toDistrictId];
     if (!from?.metroStation || !to?.metroStation || from.id === to.id) return null;
-    if (!useGameStore.getState().flags[FLAG.visited(to.id)]) return null;
-    const km = kmBetween(this.at(from), this.at(to));
-    return { fare: Math.min(60, Math.ceil((10 + 2 * km) / 5) * 5), station: to.metroStation };
+    const flags = useGameStore.getState().flags;
+    // The line is under construction until the opening-day world event (story 2.2, ADR-05/127).
+    if (!flags[FLAG_METRO_OPEN] || !flags[FLAG.visited(to.id)]) return null;
+    return { fare: flags[FLAG_METRO_FREE_DAY] ? 0 : metroFare(kmBetween(this.at(from), this.at(to))), station: to.metroStation };
   }
 }

@@ -156,7 +156,8 @@ describe('district + NPC registries', () => {
 
   it('queries content by district — the unit of world expansion', () => {
     expect(npcsInDistrict('airport')).toHaveLength(7);
-    expect(npcsInDistrict('whitefield_street')).toEqual([]);
+    // The street's only placed NPCs are the three opening-day citizens (story 2.2, ADR-127); everyone else is ambient.
+    expect(npcsInDistrict('whitefield_street').map((n) => n.id)).toEqual(['npc_crowd_selfie', 'npc_crowd_filming', 'npc_crowd_garland']);
     expect(questsInDistrict('airport').map((q) => q.id)).toEqual(['q_act0_arrival']);
   });
 

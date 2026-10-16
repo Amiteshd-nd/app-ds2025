@@ -1,0 +1,88 @@
+{
+  "id": "act2_metro_ride",
+  "district": "metro_interior",
+  "act": 2,
+  "seq": "2.2b",
+  "title": "First Train",
+  "status": "P11",
+  "time": "The same morning",
+  "player_goal": "Reach Cubbon Park on the first train.",
+  "design_goal": "The coach as a social space (the bus pattern, ADR-123) and challenge #3, the rep check. Then Maps grows: the Purple Line is ridden and METRO fast travel wakes up (ADR-115).",
+  "pacing": [
+    "Tense",
+    "Reward",
+    "Calm"
+  ],
+  "entry": {
+    "from": "metro_station",
+    "spawn": "coach_door"
+  },
+  "cast": [
+    {
+      "npc": "npc_metro_ajji",
+      "tier": 2,
+      "spawn": "coach_standing",
+      "role": "Stops in front of your seat - the yellow one. Challenge #3: stand (seat_given, +2 rep) or look at the phone (seat_kept, -2 rep, +3 stress)"
+    }
+  ],
+  "quests": [
+    "q_act2_metro_opens"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Tense",
+      "what": "A 30-second ride that pauses while you talk, 'Cubbon Park' counting down on the HUD. The ajji with the cloth bag stops in front of the last seat. Stand up, or look at the phone while an aunty says 'Youngsters' for the coach.",
+      "interact": "dialogue (rep check)",
+      "flag": "seat_given | seat_kept"
+    },
+    {
+      "id": "F2",
+      "pacing": "Reward",
+      "what": "'Cubbon Park. Doors open on the left.' Fade - the park from its station side. Maps: the Purple Line fills in; METRO · ₹0 today between Whitefield and Cubbon Park, ₹10 + ₹2/km in ₹5 steps (cap ₹60) from tomorrow.",
+      "interact": "automatic + map",
+      "flag": "metro_ridden"
+    },
+    {
+      "id": "F3",
+      "pacing": "Calm",
+      "what": "The quest closes: act2_metro_done and metro_tier_1 (the two concourse challenges and the ride - the ladder 2.4 IKEA needs for Majestic). The scooter stays parked on the street; it cannot ride into a station pocket.",
+      "interact": "automatic",
+      "flag": "metro_tier_1"
+    }
+  ],
+  "economy": [
+    {
+      "trigger": "metro ride after opening day (₹10 + ₹2/km, ₹5 steps, cap ₹60)",
+      "spend": "20-60",
+      "canAfford": true
+    }
+  ],
+  "exits": [
+    {
+      "zone": "coach_door",
+      "to": "cubbon_park",
+      "spawn": "metro_drop",
+      "transit": "walk"
+    }
+  ],
+  "save_flags": [
+    "seat_given",
+    "seat_kept",
+    "seat_decided",
+    "metro_ride_over",
+    "metro_ridden",
+    "act2_metro_done",
+    "metro_tier_1"
+  ],
+  "assets_needed": [
+    "metro_interior render + spec (done)",
+    "sheet: ajji (done)"
+  ],
+  "acceptance": [
+    "the coach ride lasts 30 s of free play, holds while the ajji talks, and ends at Cubbon Park's metro_drop on its own; the seat check sets seat_given (+2) or seat_kept (-2, +3 stress)",
+    "arriving sets metro_ridden and completes the quest -> act2_metro_done, metro_tier_1",
+    "Maps offers METRO · ₹N between visited pockets on stations only once metro_open; ₹0 while metro_free_day, the ADR-115 fare after the next sleep; the ride card reads Purple Line → …"
+  ],
+  "open_questions": []
+}

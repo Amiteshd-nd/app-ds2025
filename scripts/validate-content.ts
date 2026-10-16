@@ -185,6 +185,7 @@ export function validateContent(
     for (const ref of district.objects ?? []) {
       if (!ref.id || !ref.at) add(where, `${d} has an object entry without id or at`);
       if (ref.requiresFlag !== undefined && (typeof ref.requiresFlag !== 'string' || !ref.requiresFlag)) add(where, `${d} object "${ref.id}" requiresFlag must be a flag name`);
+      if (ref.unlessFlag !== undefined && (typeof ref.unlessFlag !== 'string' || !ref.unlessFlag)) add(where, `${d} object "${ref.id}" unlessFlag must be a flag name`);
       if (ref.requires && !itemIds.has(ref.requires)) {
         add(where, `${d} object "${ref.id}" requires unknown item "${ref.requires}"`);
       }
@@ -460,7 +461,7 @@ export function validateContent(
     }
     if (!json.acceptance?.length) add(file, 'has no acceptance list — the audit gate needs one');
     if (json.seq !== undefined) {
-      if (typeof json.seq !== 'string' || !/^\d+\.\d+$/.test(json.seq)) add(file, `seq "${json.seq}" must look like "0.2" (act.scene)`);
+      if (typeof json.seq !== 'string' || !/^\d+\.\d+[a-z]?$/.test(json.seq)) add(file, `seq "${json.seq}" must look like "0.2" (act.scene) or "2.2b" (a beat's second half)`);
       else if (seqSeen.has(json.seq)) add(file, `seq "${json.seq}" is also used by ${seqSeen.get(json.seq)} — story order must be unique`);
       else seqSeen.set(json.seq, file);
     }

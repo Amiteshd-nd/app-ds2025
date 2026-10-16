@@ -36,11 +36,12 @@ export interface StateOverride {
 }
 
 const seqKey = (s: SceneComponent): [number, number, string] => {
-  const m = /^(\d+)\.(\d+)$/.exec(s.seq ?? '');
-  return m ? [Number(m[1]), Number(m[2]), s.id] : [s.act, Number.MAX_SAFE_INTEGER, s.id];
+  // "2.2b" is the second half of a story beat that spans two places (AUDIT_LOG P8): it follows "2.2" and precedes "2.3".
+  const m = /^(\d+)\.(\d+)([a-z]?)$/.exec(s.seq ?? '');
+  return m ? [Number(m[1]), Number(m[2]), `${m[3]}:${s.id}`] : [s.act, Number.MAX_SAFE_INTEGER, s.id];
 };
 
-/** Scenes in story order: by `seq` ("act.scene"); scenes without one go last in their act. */
+/** Scenes in story order: by `seq` ("act.scene", optionally "act.sceneb" for a beat's second half); scenes without one go last in their act. */
 export function sceneOrder(scenes: SceneComponent[]): SceneComponent[] {
   return [...scenes].sort((a, b) => {
     const [a1, a2, a3] = seqKey(a), [b1, b2, b3] = seqKey(b);
@@ -48,11 +49,18 @@ export function sceneOrder(scenes: SceneComponent[]): SceneComponent[] {
   });
 }
 
-/** The flag a beat sets: its `flag`, or the first of "a | b" alternatives; "-" sets none. */
-export const beatFlag = (beat: SceneBeat): string | null => {
-  const first = beat.flag?.split('|')[0]?.trim();
-  return first && first !== '-' ? first : null;
-};
+/**
+ * The flags a beat sets: its `flag` field, "a, b" setting both and "a | b"
+ * meaning alternatives (the first is taken); "-" sets none.
+ */
+export const beatFlags = (beat: SceneBeat): string[] =>
+  (beat.flag ?? '')
+    .split(',')
+    .map((part) => part.split('|')[0]?.trim() ?? '')
+    .filter((flag) => flag && flag !== '-');
+
+/** The first flag a beat sets, for labels. */
+export const beatFlag = (beat: SceneBeat): string | null => beatFlags(beat)[0] ?? null;
 
 /** "08:30 morning" → 510; nothing parseable → null. */
 const parseTime = (time?: string): number | null => {
@@ -87,10 +95,7 @@ export function buildPrereqState(
     const beats = (target.beats ?? []).filter((b): b is SceneBeat => typeof b === 'object');
     const at = beats.findIndex((b) => b.id === beatId);
     if (at < 0) throw new Error(`Scene "${sceneId}" has no beat "${beatId}"`);
-    for (const beat of beats.slice(0, at)) {
-      const flag = beatFlag(beat);
-      if (flag) flags[flag] = true;
-    }
+    for (const beat of beats.slice(0, at)) for (const flag of beatFlags(beat)) flags[flag] = true;
   }
 
   return {

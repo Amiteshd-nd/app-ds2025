@@ -12,5 +12,61 @@
     "tier": 2,
     "dialogue": "dlg_bunk_attendant",
     "sheet": "npc_bunk_attendant"
+  },
+  {
+    "id": "npc_metro_guard",
+    "name": "Gate attendant",
+    "tier": 2,
+    "dialogue": "dlg_metro_guard",
+    "sheet": "npc_metro_guard"
+  },
+  {
+    "id": "npc_lost_kid",
+    "name": "Lost kid",
+    "tier": 2,
+    "dialogue": "dlg_lost_kid",
+    "sheet": "npc_lost_kid"
+  },
+  {
+    "id": "npc_kid_mother",
+    "name": "Woman in the token queue",
+    "tier": 2,
+    "dialogue": "dlg_kid_mother",
+    "sheet": "npc_kid_mother"
+  },
+  {
+    "id": "npc_token_uncle",
+    "name": "Uncle at the token machine",
+    "tier": 2,
+    "dialogue": "dlg_token_uncle",
+    "sheet": "npc_token_uncle"
+  },
+  {
+    "id": "npc_metro_ajji",
+    "name": "Ajji with a cloth bag",
+    "tier": 2,
+    "dialogue": "dlg_metro_ajji",
+    "sheet": "npc_metro_ajji"
+  },
+  {
+    "id": "npc_crowd_selfie",
+    "name": "Selfie group",
+    "tier": 2,
+    "dialogue": "dlg_crowd_selfie",
+    "sheet": "crowd_student"
+  },
+  {
+    "id": "npc_crowd_filming",
+    "name": "Man filming",
+    "tier": 2,
+    "dialogue": "dlg_crowd_filming",
+    "sheet": "crowd_hoodie"
+  },
+  {
+    "id": "npc_crowd_garland",
+    "name": "Aunty with a garland",
+    "tier": 2,
+    "dialogue": "dlg_crowd_garland",
+    "sheet": "crowd_homemaker"
   }
 ]

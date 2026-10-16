@@ -11,7 +11,7 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 ## Act 2 (stubs co-authored with the user; Act 1 complete 2026-10-16)
 - [x] T-052 P10 = 2.1 "Credited" — approved 2026-10-16 (ADR-126: paydays, Noor Motors pocket on ITPL Main Road, outright haggle + EMI, fuel + bunk, Maps RIDE, contextual fuel gauge, parked scooter by flag)
 - [x] T-047 Act 2–4 scene STUBS scaffolded; 2.1 decided by the user and built as P10 (T-052); 2.2+ remain stubs to co-author
-- [ ] T-053 P11 = 2.2 "Metro Opens" — stub drafted 2026-10-16 for the user to co-author, then build
+- [ ] T-053 P11 = 2.2 "Metro Opens" + 2.2b "First Train" — **built 2026-10-16, awaiting the user's audit** (ADR-127: the opening on the sleep after the scooter decision, the station mouth and opening-day dressing on the street, the concourse pocket with the lost kid / token jam challenges, the coach ride with the seat check, Maps METRO fast travel ₹0 → ADR-115 fare, metro_tier_1)
 - [ ] T-016 / T-017 mobile smoke tests are blocked on this machine: no Xcode (Command Line Tools only) and no Android SDK — install one, then `pnpm cap:android` / `cap:ios`
 
 ## Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122 · P9 Cubbon ADR-123/124)

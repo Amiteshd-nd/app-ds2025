@@ -1,0 +1,72 @@
+{
+  "id": "dlg_metro_guard",
+  "speaker": "Gate attendant",
+  "portrait": "npc_metro_guard",
+  "enter": [
+    {
+      "flag": "kid_following",
+      "node": "kid_handover"
+    },
+    {
+      "flag": "guard_met",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Free today, sir. Tomorrow you pay like everyone - token from the machine, tap on the gate, it opens. Don't jump the flap, the camera sees.",
+      "effect": {
+        "flags": {
+          "guard_met": true
+        }
+      },
+      "choices": [
+        {
+          "text": "Where's the train?",
+          "next": "train"
+        },
+        {
+          "text": "And that machine?",
+          "next": "machine"
+        },
+        {
+          "text": "Okay.",
+          "next": "bye"
+        }
+      ]
+    },
+    "train": {
+      "text": "Up there, standing. Doors close when they feel like it. Go, go - first train, you'll tell your children."
+    },
+    "machine": {
+      "text": "The left one eats notes. The right one eats notes slower. Today nobody needs either - tell that uncle, he won't listen to me."
+    },
+    "bye": {
+      "text": "Enjoy. Four years we waited for this."
+    },
+    "again": {
+      "text": "Still free, sir. Still standing. Go sit in it before the whole of Whitefield does.",
+      "choices": [
+        {
+          "text": "Where's the train?",
+          "next": "train"
+        },
+        {
+          "text": "Okay.",
+          "next": "bye"
+        }
+      ]
+    },
+    "kid_handover": {
+      "text": "Whose child? Spider-Man, come here. Sir, I'll put him on the announcement, the mother will come running. Go, enjoy the train. Good man.",
+      "effect": {
+        "flags": {
+          "lost_kid_returned": true,
+          "kid_following": false,
+          "kid_to_guard": true
+        },
+        "reputation": 1
+      }
+    }
+  }
+}

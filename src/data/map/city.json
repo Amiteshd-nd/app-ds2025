@@ -1,1213 +1,1221 @@
 {
- "$comment": "The city behind the fullscreen map (P6b, ADR-115). Real coordinates, simplified by eye — symbolic, snapped to an 8px grid at draw time; no map tiles or screenshots ship (map_navigation §5). Districts with realworld lat/lng become nodes automatically; places here are teaser pockets shown locked until they become districts.",
- "pxPerKm": 16,
- "bounds": {
-  "north": 13.215,
-  "west": 77.44,
-  "south": 12.8,
-  "east": 77.785
- },
- "regions": [
-  {
-   "id": "cubbon_park",
-   "kind": "park",
-   "label": "Cubbon Park",
-   "outline": [
-    [
-     12.982,
-     77.588
-    ],
-    [
-     12.982,
-     77.598
-    ],
-    [
-     12.97,
-     77.6
-    ],
-    [
-     12.97,
-     77.59
-    ]
-   ]
+  "$comment": "The city behind the fullscreen map (P6b, ADR-115). Real coordinates, simplified by eye — symbolic, snapped to an 8px grid at draw time; no map tiles or screenshots ship (map_navigation §5). Districts with realworld lat/lng become nodes automatically; places here are teaser pockets shown locked until they become districts.",
+  "pxPerKm": 16,
+  "bounds": {
+    "north": 13.215,
+    "west": 77.44,
+    "south": 12.8,
+    "east": 77.785
   },
-  {
-   "id": "lalbagh",
-   "kind": "park",
-   "label": "Lalbagh",
-   "outline": [
-    [
-     12.956,
-     77.579
-    ],
-    [
-     12.956,
-     77.591
-    ],
-    [
-     12.943,
-     77.591
-    ],
-    [
-     12.943,
-     77.579
-    ]
-   ]
-  },
-  {
-   "id": "ulsoor_lake",
-   "kind": "lake",
-   "label": "Ulsoor Lake",
-   "outline": [
-    [
-     12.987,
-     77.615
-    ],
-    [
-     12.988,
-     77.624
-    ],
-    [
-     12.979,
-     77.625
-    ],
-    [
-     12.978,
-     77.617
-    ]
-   ]
-  },
-  {
-   "id": "sankey_tank",
-   "kind": "lake",
-   "label": "Sankey Tank",
-   "outline": [
-    [
-     13.013,
-     77.57
-    ],
-    [
-     13.013,
-     77.578
-    ],
-    [
-     13.007,
-     77.578
-    ],
-    [
-     13.007,
-     77.57
-    ]
-   ]
-  },
-  {
-   "id": "hebbal_lake",
-   "kind": "lake",
-   "label": "Hebbal Lake",
-   "outline": [
-    [
-     13.051,
-     77.587
-    ],
-    [
-     13.051,
-     77.599
-    ],
-    [
-     13.04,
-     77.599
-    ],
-    [
-     13.04,
-     77.587
-    ]
-   ]
-  },
-  {
-   "id": "bellandur_lake",
-   "kind": "lake",
-   "label": "Bellandur Lake",
-   "outline": [
-    [
-     12.946,
-     77.654
-    ],
-    [
-     12.943,
-     77.686
-    ],
-    [
-     12.924,
-     77.69
-    ],
-    [
-     12.921,
-     77.664
-    ]
-   ]
-  },
-  {
-   "id": "varthur_lake",
-   "kind": "lake",
-   "label": "Varthur Lake",
-   "outline": [
-    [
-     12.953,
-     77.734
-    ],
-    [
-     12.951,
-     77.753
-    ],
-    [
-     12.937,
-     77.753
-    ],
-    [
-     12.939,
-     77.736
-    ]
-   ]
-  },
-  {
-   "id": "mg_brigade",
-   "kind": "commercial",
-   "label": "MG Road · Brigade",
-   "outline": [
-    [
-     12.978,
-     77.601
-    ],
-    [
-     12.978,
-     77.613
-    ],
-    [
-     12.968,
-     77.613
-    ],
-    [
-     12.968,
-     77.603
-    ]
-   ]
-  },
-  {
-   "id": "commercial_street",
-   "kind": "commercial",
-   "label": "Commercial Street",
-   "outline": [
-    [
-     12.986,
-     77.603
-    ],
-    [
-     12.986,
-     77.613
-    ],
-    [
-     12.98,
-     77.613
-    ],
-    [
-     12.98,
-     77.603
-    ]
-   ]
-  },
-  {
-   "id": "majestic",
-   "kind": "commercial",
-   "label": "Majestic",
-   "outline": [
-    [
-     12.982,
-     77.565
-    ],
-    [
-     12.982,
-     77.579
-    ],
-    [
-     12.971,
-     77.579
-    ],
-    [
-     12.971,
-     77.565
-    ]
-   ]
-  },
-  {
-   "id": "itpl",
-   "kind": "it",
-   "label": "ITPL",
-   "outline": [
-    [
-     12.991,
-     77.724
-    ],
-    [
-     12.991,
-     77.741
-    ],
-    [
-     12.98,
-     77.741
-    ],
-    [
-     12.98,
-     77.724
-    ]
-   ]
-  },
-  {
-   "id": "manyata",
-   "kind": "it",
-   "label": "Manyata Tech Park",
-   "outline": [
-    [
-     13.053,
-     77.614
-    ],
-    [
-     13.053,
-     77.629
-    ],
-    [
-     13.039,
-     77.629
-    ],
-    [
-     13.039,
-     77.614
-    ]
-   ]
-  },
-  {
-   "id": "electronic_city",
-   "kind": "it",
-   "label": "Electronic City",
-   "outline": [
-    [
-     12.853,
-     77.654
-    ],
-    [
-     12.853,
-     77.673
-    ],
-    [
-     12.837,
-     77.673
-    ],
-    [
-     12.837,
-     77.654
-    ]
-   ]
-  },
-  {
-   "id": "orr_bellandur",
-   "kind": "it",
-   "label": "Outer Ring Road tech parks",
-   "outline": [
-    [
-     12.934,
-     77.69
-    ],
-    [
-     12.934,
-     77.703
-    ],
-    [
-     12.918,
-     77.703
-    ],
-    [
-     12.918,
-     77.69
-    ]
-   ]
-  },
-  {
-   "id": "indiranagar",
-   "kind": "residential",
-   "label": "Indiranagar",
-   "outline": [
-    [
-     12.986,
-     77.632
-    ],
-    [
-     12.986,
-     77.649
-    ],
-    [
-     12.964,
-     77.649
-    ],
-    [
-     12.964,
-     77.634
-    ]
-   ]
-  },
-  {
-   "id": "koramangala",
-   "kind": "residential",
-   "label": "Koramangala",
-   "outline": [
-    [
-     12.946,
-     77.611
-    ],
-    [
-     12.946,
-     77.636
-    ],
-    [
-     12.924,
-     77.636
-    ],
-    [
-     12.924,
-     77.611
-    ]
-   ]
-  },
-  {
-   "id": "jayanagar",
-   "kind": "residential",
-   "label": "Jayanagar",
-   "outline": [
-    [
-     12.941,
-     77.574
-    ],
-    [
-     12.941,
-     77.593
-    ],
-    [
-     12.919,
-     77.593
-    ],
-    [
-     12.919,
-     77.574
-    ]
-   ]
-  },
-  {
-   "id": "malleswaram",
-   "kind": "residential",
-   "label": "Malleswaram",
-   "outline": [
-    [
-     13.011,
-     77.559
-    ],
-    [
-     13.011,
-     77.576
-    ],
-    [
-     12.994,
-     77.576
-    ],
-    [
-     12.994,
-     77.559
-    ]
-   ]
-  },
-  {
-   "id": "kadugodi",
-   "kind": "residential",
-   "label": "Kadugodi PG belt",
-   "outline": [
-    [
-     12.998,
-     77.742
-    ],
-    [
-     12.998,
-     77.762
-    ],
-    [
-     12.962,
-     77.762
-    ],
-    [
-     12.962,
-     77.742
-    ]
-   ]
-  },
-  {
-   "id": "prashanth_res",
-   "kind": "residential",
-   "label": "Prashanth Extension",
-   "outline": [
-    [
-     12.987,
-     77.744
-    ],
-    [
-     12.987,
-     77.752
-    ],
-    [
-     12.978,
-     77.752
-    ],
-    [
-     12.978,
-     77.744
-    ]
-   ]
-  },
-  {
-   "id": "ambedkar_hill",
-   "kind": "hill",
-   "label": "Ambedkar Nagar hill",
-   "outline": [
-    [
-     12.991,
-     77.713
-    ],
-    [
-     12.991,
-     77.724
-    ],
-    [
-     12.983,
-     77.724
-    ],
-    [
-     12.983,
-     77.713
-    ]
-   ]
-  }
- ],
- "paths": [
-  {
-   "id": "vayu_vajra",
-   "kind": "road",
-   "label": "Vayu Vajra KIA-8",
-   "connects": [
-    "airport",
-    "whitefield_street"
-   ],
-   "points": [
-    [
-     13.1986,
-     77.7066
-    ],
-    [
-     13.12,
-     77.69
-    ],
-    [
-     13.04,
-     77.66
-    ],
-    [
-     13.005,
-     77.695
-    ],
-    [
-     12.99,
-     77.72
-    ],
-    [
-     12.9698,
-     77.75
-    ]
-   ]
-  },
-  {
-   "id": "walk_prashanth",
-   "kind": "walk",
-   "label": "Whitefield → Prashanth Layout",
-   "connects": [
-    "whitefield_street",
-    "prashanth_layout"
-   ],
-   "points": [
-    [
-     12.9698,
-     77.75
-    ],
-    [
-     12.9739,
-     77.7505
-    ],
-    [
-     12.98,
-     77.7517
-    ],
-    [
-     12.98353,
-     77.74892
-    ]
-   ]
-  },
-  {
-   "id": "bellary_road",
-   "kind": "road",
-   "label": "Bellary Road",
-   "points": [
-    [
-     13.1986,
-     77.7066
-    ],
-    [
-     13.165,
-     77.65
-    ],
-    [
-     13.1,
-     77.597
-    ],
-    [
-     13.035,
-     77.597
-    ],
-    [
-     13.0,
-     77.59
-    ],
-    [
-     12.977,
-     77.592
-    ]
-   ]
-  },
-  {
-   "id": "orr",
-   "kind": "road",
-   "label": "Outer Ring Road",
-   "points": [
-    [
-     13.035,
-     77.597
-    ],
-    [
-     13.04,
-     77.62
-    ],
-    [
-     13.005,
-     77.695
-    ],
-    [
-     12.956,
-     77.701
-    ],
-    [
-     12.925,
-     77.676
-    ],
-    [
-     12.917,
-     77.623
-    ]
-   ]
-  },
-  {
-   "id": "old_airport_road",
-   "kind": "road",
-   "label": "Old Airport Road",
-   "points": [
-    [
-     12.975,
-     77.61
-    ],
-    [
-     12.961,
-     77.638
-    ],
-    [
-     12.956,
-     77.701
-    ],
-    [
-     12.9698,
-     77.75
-    ]
-   ]
-  },
-  {
-   "id": "whitefield_main",
-   "kind": "road",
-   "label": "Whitefield Main Road",
-   "points": [
-    [
-     12.9698,
-     77.75
-    ],
-    [
-     12.985,
-     77.737
-    ],
-    [
-     12.99,
-     77.715
-    ],
-    [
-     13.005,
-     77.695
-    ]
-   ]
-  },
-  {
-   "id": "hosur_road",
-   "kind": "road",
-   "label": "Hosur Road",
-   "points": [
-    [
-     12.917,
-     77.623
-    ],
-    [
-     12.88,
-     77.64
-    ],
-    [
-     12.845,
-     77.66
-    ],
-    [
-     12.816,
-     77.69
-    ]
-   ]
-  },
-  {
-   "id": "mysore_road",
-   "kind": "road",
-   "label": "Mysore Road",
-   "points": [
-    [
-     12.977,
-     77.572
-    ],
-    [
-     12.955,
-     77.53
-    ],
-    [
-     12.93,
-     77.49
-    ]
-   ]
-  },
-  {
-   "id": "tumkur_road",
-   "kind": "road",
-   "label": "Tumkur Road",
-   "points": [
-    [
-     12.977,
-     77.572
-    ],
-    [
-     13.022,
-     77.55
-    ],
-    [
-     13.048,
-     77.5
-    ]
-   ]
-  },
-  {
-   "id": "auto_itpl",
-   "kind": "road",
-   "label": "Whitefield Road",
-   "connects": [
-    "prashanth_layout",
-    "office_gate"
-   ],
-   "points": [
-    [
-     12.98353,
-     77.74892
-    ],
-    [
-     12.9852,
-     77.7455
-    ],
-    [
-     12.9868,
-     77.7395
-    ],
-    [
-     12.98741,
-     77.7366
-    ]
-   ]
-  },
-  {
-   "id": "walk_itpl",
-   "kind": "road",
-   "label": "Whitefield Main Road",
-   "connects": [
-    "whitefield_street",
-    "office_gate"
-   ],
-   "points": [
-    [
-     12.9698,
-     77.75
-    ],
-    [
-     12.9765,
-     77.7462
-    ],
-    [
-     12.9835,
-     77.7415
-    ],
-    [
-     12.98741,
-     77.7366
-    ]
-   ]
-  },
-  {
-   "id": "bus_hill",
-   "kind": "road",
-   "label": "BMTC 335-E",
-   "connects": [
-    "whitefield_street",
-    "ambedkar_nagar_hill"
-   ],
-   "points": [
-    [
-     12.9698,
-     77.75
-    ],
-    [
-     12.9745,
-     77.742
-    ],
-    [
-     12.981,
-     77.73
-    ],
-    [
-     12.987,
-     77.7185
-    ]
-   ]
-  },
-  {
-   "id": "bus_cubbon",
-   "kind": "road",
-   "label": "BMTC 500-D",
-   "connects": [
-    "whitefield_street",
-    "cubbon_park"
-   ],
-   "points": [
-    [
-     12.9698,
-     77.75
-    ],
-    [
-     12.9775,
-     77.7295
-    ],
-    [
-     12.9905,
-     77.7005
-    ],
-    [
-     13.0006,
-     77.6744
-    ],
-    [
-     12.9907,
-     77.6525
-    ],
-    [
-     12.9784,
-     77.6408
-    ],
-    [
-     12.9735,
-     77.62
-    ],
-    [
-     12.9755,
-     77.6067
-    ],
-    [
-     12.9767,
-     77.5949
-    ]
-   ]
-  },
-  {
-   "id": "bus_itpl",
-   "kind": "road",
-   "label": "BMTC 500-D",
-   "connects": [
-    "whitefield_street",
-    "scooter_showroom"
-   ],
-   "points": [
-    [
-     12.9698,
-     77.75
-    ],
-    [
-     12.9775,
-     77.7395
-    ],
-    [
-     12.9862,
-     77.729
-    ]
-   ]
-  },
-  {
-   "id": "walk_itpl_road",
-   "kind": "walk",
-   "label": "ITPL Main Road",
-   "connects": [
-    "scooter_showroom",
-    "office_gate"
-   ],
-   "points": [
-    [
-     12.9862,
-     77.729
-    ],
-    [
-     12.9874,
-     77.7366
-    ]
-   ]
-  }
- ],
- "metro": [
-  {
-   "id": "purple",
-   "label": "Purple Line",
-   "colour": "map.metro.purple",
-   "stations": [
+  "regions": [
     {
-     "id": "stn_challaghatta",
-     "label": "Challaghatta",
-     "at": [
-      12.897,
-      77.461
-     ]
+      "id": "cubbon_park",
+      "kind": "park",
+      "label": "Cubbon Park",
+      "outline": [
+        [
+          12.982,
+          77.588
+        ],
+        [
+          12.982,
+          77.598
+        ],
+        [
+          12.97,
+          77.6
+        ],
+        [
+          12.97,
+          77.59
+        ]
+      ]
     },
     {
-     "id": "stn_mysore_road",
-     "label": "Mysore Road",
-     "at": [
-      12.946,
-      77.53
-     ]
+      "id": "lalbagh",
+      "kind": "park",
+      "label": "Lalbagh",
+      "outline": [
+        [
+          12.956,
+          77.579
+        ],
+        [
+          12.956,
+          77.591
+        ],
+        [
+          12.943,
+          77.591
+        ],
+        [
+          12.943,
+          77.579
+        ]
+      ]
     },
     {
-     "id": "stn_vijayanagar",
-     "label": "Vijayanagar",
-     "at": [
-      12.971,
-      77.537
-     ]
+      "id": "ulsoor_lake",
+      "kind": "lake",
+      "label": "Ulsoor Lake",
+      "outline": [
+        [
+          12.987,
+          77.615
+        ],
+        [
+          12.988,
+          77.624
+        ],
+        [
+          12.979,
+          77.625
+        ],
+        [
+          12.978,
+          77.617
+        ]
+      ]
     },
     {
-     "id": "stn_majestic",
-     "label": "Majestic",
-     "at": [
-      12.9757,
-      77.5728
-     ]
+      "id": "sankey_tank",
+      "kind": "lake",
+      "label": "Sankey Tank",
+      "outline": [
+        [
+          13.013,
+          77.57
+        ],
+        [
+          13.013,
+          77.578
+        ],
+        [
+          13.007,
+          77.578
+        ],
+        [
+          13.007,
+          77.57
+        ]
+      ]
     },
     {
-     "id": "stn_vidhana_soudha",
-     "label": "Vidhana Soudha",
-     "at": [
-      12.9796,
-      77.5906
-     ]
+      "id": "hebbal_lake",
+      "kind": "lake",
+      "label": "Hebbal Lake",
+      "outline": [
+        [
+          13.051,
+          77.587
+        ],
+        [
+          13.051,
+          77.599
+        ],
+        [
+          13.04,
+          77.599
+        ],
+        [
+          13.04,
+          77.587
+        ]
+      ]
     },
     {
-     "id": "stn_mg_road",
-     "label": "MG Road",
-     "at": [
-      12.9755,
-      77.6067
-     ]
+      "id": "bellandur_lake",
+      "kind": "lake",
+      "label": "Bellandur Lake",
+      "outline": [
+        [
+          12.946,
+          77.654
+        ],
+        [
+          12.943,
+          77.686
+        ],
+        [
+          12.924,
+          77.69
+        ],
+        [
+          12.921,
+          77.664
+        ]
+      ]
     },
     {
-     "id": "stn_indiranagar",
-     "label": "Indiranagar",
-     "at": [
-      12.9784,
-      77.6408
-     ]
+      "id": "varthur_lake",
+      "kind": "lake",
+      "label": "Varthur Lake",
+      "outline": [
+        [
+          12.953,
+          77.734
+        ],
+        [
+          12.951,
+          77.753
+        ],
+        [
+          12.937,
+          77.753
+        ],
+        [
+          12.939,
+          77.736
+        ]
+      ]
     },
     {
-     "id": "stn_baiyappanahalli",
-     "label": "Baiyappanahalli",
-     "at": [
-      12.9907,
-      77.6525
-     ]
+      "id": "mg_brigade",
+      "kind": "commercial",
+      "label": "MG Road · Brigade",
+      "outline": [
+        [
+          12.978,
+          77.601
+        ],
+        [
+          12.978,
+          77.613
+        ],
+        [
+          12.968,
+          77.613
+        ],
+        [
+          12.968,
+          77.603
+        ]
+      ]
     },
     {
-     "id": "stn_kr_puram",
-     "label": "KR Puram",
-     "at": [
-      13.0006,
-      77.6744
-     ]
+      "id": "commercial_street",
+      "kind": "commercial",
+      "label": "Commercial Street",
+      "outline": [
+        [
+          12.986,
+          77.603
+        ],
+        [
+          12.986,
+          77.613
+        ],
+        [
+          12.98,
+          77.613
+        ],
+        [
+          12.98,
+          77.603
+        ]
+      ]
     },
     {
-     "id": "stn_kundalahalli",
-     "label": "Kundalahalli",
-     "at": [
-      12.9776,
-      77.7158
-     ]
+      "id": "majestic",
+      "kind": "commercial",
+      "label": "Majestic",
+      "outline": [
+        [
+          12.982,
+          77.565
+        ],
+        [
+          12.982,
+          77.579
+        ],
+        [
+          12.971,
+          77.579
+        ],
+        [
+          12.971,
+          77.565
+        ]
+      ]
     },
     {
-     "id": "stn_itpl",
-     "label": "ITPL",
-     "at": [
-      12.9874,
-      77.7373
-     ]
+      "id": "itpl",
+      "kind": "it",
+      "label": "ITPL",
+      "outline": [
+        [
+          12.991,
+          77.724
+        ],
+        [
+          12.991,
+          77.741
+        ],
+        [
+          12.98,
+          77.741
+        ],
+        [
+          12.98,
+          77.724
+        ]
+      ]
     },
     {
-     "id": "stn_whitefield",
-     "label": "Whitefield (Kadugodi)",
-     "at": [
-      12.9956,
-      77.7577
-     ]
+      "id": "manyata",
+      "kind": "it",
+      "label": "Manyata Tech Park",
+      "outline": [
+        [
+          13.053,
+          77.614
+        ],
+        [
+          13.053,
+          77.629
+        ],
+        [
+          13.039,
+          77.629
+        ],
+        [
+          13.039,
+          77.614
+        ]
+      ]
+    },
+    {
+      "id": "electronic_city",
+      "kind": "it",
+      "label": "Electronic City",
+      "outline": [
+        [
+          12.853,
+          77.654
+        ],
+        [
+          12.853,
+          77.673
+        ],
+        [
+          12.837,
+          77.673
+        ],
+        [
+          12.837,
+          77.654
+        ]
+      ]
+    },
+    {
+      "id": "orr_bellandur",
+      "kind": "it",
+      "label": "Outer Ring Road tech parks",
+      "outline": [
+        [
+          12.934,
+          77.69
+        ],
+        [
+          12.934,
+          77.703
+        ],
+        [
+          12.918,
+          77.703
+        ],
+        [
+          12.918,
+          77.69
+        ]
+      ]
+    },
+    {
+      "id": "indiranagar",
+      "kind": "residential",
+      "label": "Indiranagar",
+      "outline": [
+        [
+          12.986,
+          77.632
+        ],
+        [
+          12.986,
+          77.649
+        ],
+        [
+          12.964,
+          77.649
+        ],
+        [
+          12.964,
+          77.634
+        ]
+      ]
+    },
+    {
+      "id": "koramangala",
+      "kind": "residential",
+      "label": "Koramangala",
+      "outline": [
+        [
+          12.946,
+          77.611
+        ],
+        [
+          12.946,
+          77.636
+        ],
+        [
+          12.924,
+          77.636
+        ],
+        [
+          12.924,
+          77.611
+        ]
+      ]
+    },
+    {
+      "id": "jayanagar",
+      "kind": "residential",
+      "label": "Jayanagar",
+      "outline": [
+        [
+          12.941,
+          77.574
+        ],
+        [
+          12.941,
+          77.593
+        ],
+        [
+          12.919,
+          77.593
+        ],
+        [
+          12.919,
+          77.574
+        ]
+      ]
+    },
+    {
+      "id": "malleswaram",
+      "kind": "residential",
+      "label": "Malleswaram",
+      "outline": [
+        [
+          13.011,
+          77.559
+        ],
+        [
+          13.011,
+          77.576
+        ],
+        [
+          12.994,
+          77.576
+        ],
+        [
+          12.994,
+          77.559
+        ]
+      ]
+    },
+    {
+      "id": "kadugodi",
+      "kind": "residential",
+      "label": "Kadugodi PG belt",
+      "outline": [
+        [
+          12.998,
+          77.742
+        ],
+        [
+          12.998,
+          77.762
+        ],
+        [
+          12.962,
+          77.762
+        ],
+        [
+          12.962,
+          77.742
+        ]
+      ]
+    },
+    {
+      "id": "prashanth_res",
+      "kind": "residential",
+      "label": "Prashanth Extension",
+      "outline": [
+        [
+          12.987,
+          77.744
+        ],
+        [
+          12.987,
+          77.752
+        ],
+        [
+          12.978,
+          77.752
+        ],
+        [
+          12.978,
+          77.744
+        ]
+      ]
+    },
+    {
+      "id": "ambedkar_hill",
+      "kind": "hill",
+      "label": "Ambedkar Nagar hill",
+      "outline": [
+        [
+          12.991,
+          77.713
+        ],
+        [
+          12.991,
+          77.724
+        ],
+        [
+          12.983,
+          77.724
+        ],
+        [
+          12.983,
+          77.713
+        ]
+      ]
     }
-   ]
-  },
-  {
-   "id": "green",
-   "label": "Green Line",
-   "colour": "map.metro.green",
-   "stations": [
+  ],
+  "paths": [
     {
-     "id": "stn_nagasandra",
-     "label": "Nagasandra",
-     "at": [
-      13.048,
-      77.5
-     ]
+      "id": "vayu_vajra",
+      "kind": "road",
+      "label": "Vayu Vajra KIA-8",
+      "connects": [
+        "airport",
+        "whitefield_street"
+      ],
+      "points": [
+        [
+          13.1986,
+          77.7066
+        ],
+        [
+          13.12,
+          77.69
+        ],
+        [
+          13.04,
+          77.66
+        ],
+        [
+          13.005,
+          77.695
+        ],
+        [
+          12.99,
+          77.72
+        ],
+        [
+          12.9698,
+          77.75
+        ]
+      ]
     },
     {
-     "id": "stn_yeshwanthpur",
-     "label": "Yeshwanthpur",
-     "at": [
-      13.0237,
-      77.55
-     ]
+      "id": "walk_prashanth",
+      "kind": "walk",
+      "label": "Whitefield → Prashanth Layout",
+      "connects": [
+        "whitefield_street",
+        "prashanth_layout"
+      ],
+      "points": [
+        [
+          12.9698,
+          77.75
+        ],
+        [
+          12.9739,
+          77.7505
+        ],
+        [
+          12.98,
+          77.7517
+        ],
+        [
+          12.98353,
+          77.74892
+        ]
+      ]
     },
     {
-     "id": "stn_sampige_road",
-     "label": "Mantri Square Sampige Road",
-     "at": [
-      12.9908,
-      77.5707
-     ]
+      "id": "bellary_road",
+      "kind": "road",
+      "label": "Bellary Road",
+      "points": [
+        [
+          13.1986,
+          77.7066
+        ],
+        [
+          13.165,
+          77.65
+        ],
+        [
+          13.1,
+          77.597
+        ],
+        [
+          13.035,
+          77.597
+        ],
+        [
+          13.0,
+          77.59
+        ],
+        [
+          12.977,
+          77.592
+        ]
+      ]
     },
     {
-     "id": "stn_majestic",
-     "label": "Majestic",
-     "at": [
-      12.9757,
-      77.5728
-     ]
+      "id": "orr",
+      "kind": "road",
+      "label": "Outer Ring Road",
+      "points": [
+        [
+          13.035,
+          77.597
+        ],
+        [
+          13.04,
+          77.62
+        ],
+        [
+          13.005,
+          77.695
+        ],
+        [
+          12.956,
+          77.701
+        ],
+        [
+          12.925,
+          77.676
+        ],
+        [
+          12.917,
+          77.623
+        ]
+      ]
     },
     {
-     "id": "stn_lalbagh",
-     "label": "Lalbagh",
-     "at": [
-      12.9466,
-      77.58
-     ]
+      "id": "old_airport_road",
+      "kind": "road",
+      "label": "Old Airport Road",
+      "points": [
+        [
+          12.975,
+          77.61
+        ],
+        [
+          12.961,
+          77.638
+        ],
+        [
+          12.956,
+          77.701
+        ],
+        [
+          12.9698,
+          77.75
+        ]
+      ]
     },
     {
-     "id": "stn_jayanagar",
-     "label": "Jayanagar",
-     "at": [
-      12.9296,
-      77.5801
-     ]
+      "id": "whitefield_main",
+      "kind": "road",
+      "label": "Whitefield Main Road",
+      "points": [
+        [
+          12.9698,
+          77.75
+        ],
+        [
+          12.985,
+          77.737
+        ],
+        [
+          12.99,
+          77.715
+        ],
+        [
+          13.005,
+          77.695
+        ]
+      ]
     },
     {
-     "id": "stn_banashankari",
-     "label": "Banashankari",
-     "at": [
-      12.9152,
-      77.5735
-     ]
+      "id": "hosur_road",
+      "kind": "road",
+      "label": "Hosur Road",
+      "points": [
+        [
+          12.917,
+          77.623
+        ],
+        [
+          12.88,
+          77.64
+        ],
+        [
+          12.845,
+          77.66
+        ],
+        [
+          12.816,
+          77.69
+        ]
+      ]
     },
     {
-     "id": "stn_silk_institute",
-     "label": "Silk Institute",
-     "at": [
-      12.8617,
-      77.5304
-     ]
+      "id": "mysore_road",
+      "kind": "road",
+      "label": "Mysore Road",
+      "points": [
+        [
+          12.977,
+          77.572
+        ],
+        [
+          12.955,
+          77.53
+        ],
+        [
+          12.93,
+          77.49
+        ]
+      ]
+    },
+    {
+      "id": "tumkur_road",
+      "kind": "road",
+      "label": "Tumkur Road",
+      "points": [
+        [
+          12.977,
+          77.572
+        ],
+        [
+          13.022,
+          77.55
+        ],
+        [
+          13.048,
+          77.5
+        ]
+      ]
+    },
+    {
+      "id": "auto_itpl",
+      "kind": "road",
+      "label": "Whitefield Road",
+      "connects": [
+        "prashanth_layout",
+        "office_gate"
+      ],
+      "points": [
+        [
+          12.98353,
+          77.74892
+        ],
+        [
+          12.9852,
+          77.7455
+        ],
+        [
+          12.9868,
+          77.7395
+        ],
+        [
+          12.98741,
+          77.7366
+        ]
+      ]
+    },
+    {
+      "id": "walk_itpl",
+      "kind": "road",
+      "label": "Whitefield Main Road",
+      "connects": [
+        "whitefield_street",
+        "office_gate"
+      ],
+      "points": [
+        [
+          12.9698,
+          77.75
+        ],
+        [
+          12.9765,
+          77.7462
+        ],
+        [
+          12.9835,
+          77.7415
+        ],
+        [
+          12.98741,
+          77.7366
+        ]
+      ]
+    },
+    {
+      "id": "bus_hill",
+      "kind": "road",
+      "label": "BMTC 335-E",
+      "connects": [
+        "whitefield_street",
+        "ambedkar_nagar_hill"
+      ],
+      "points": [
+        [
+          12.9698,
+          77.75
+        ],
+        [
+          12.9745,
+          77.742
+        ],
+        [
+          12.981,
+          77.73
+        ],
+        [
+          12.987,
+          77.7185
+        ]
+      ]
+    },
+    {
+      "id": "bus_cubbon",
+      "kind": "road",
+      "label": "BMTC 500-D",
+      "connects": [
+        "whitefield_street",
+        "cubbon_park"
+      ],
+      "points": [
+        [
+          12.9698,
+          77.75
+        ],
+        [
+          12.9775,
+          77.7295
+        ],
+        [
+          12.9905,
+          77.7005
+        ],
+        [
+          13.0006,
+          77.6744
+        ],
+        [
+          12.9907,
+          77.6525
+        ],
+        [
+          12.9784,
+          77.6408
+        ],
+        [
+          12.9735,
+          77.62
+        ],
+        [
+          12.9755,
+          77.6067
+        ],
+        [
+          12.9767,
+          77.5949
+        ]
+      ]
+    },
+    {
+      "id": "bus_itpl",
+      "kind": "road",
+      "label": "BMTC 500-D",
+      "connects": [
+        "whitefield_street",
+        "scooter_showroom"
+      ],
+      "points": [
+        [
+          12.9698,
+          77.75
+        ],
+        [
+          12.9775,
+          77.7395
+        ],
+        [
+          12.9862,
+          77.729
+        ]
+      ]
+    },
+    {
+      "id": "walk_itpl_road",
+      "kind": "walk",
+      "label": "ITPL Main Road",
+      "connects": [
+        "scooter_showroom",
+        "office_gate"
+      ],
+      "points": [
+        [
+          12.9862,
+          77.729
+        ],
+        [
+          12.9874,
+          77.7366
+        ]
+      ]
     }
-   ]
-  },
-  {
-   "id": "yellow",
-   "label": "Yellow Line",
-   "colour": "map.metro.yellow",
-   "stations": [
+  ],
+  "metro": [
     {
-     "id": "stn_rv_road",
-     "label": "RV Road",
-     "at": [
-      12.9214,
-      77.5802
-     ]
+      "id": "purple",
+      "label": "Purple Line",
+      "colour": "map.metro.purple",
+      "stations": [
+        {
+          "id": "stn_challaghatta",
+          "label": "Challaghatta",
+          "at": [
+            12.897,
+            77.461
+          ]
+        },
+        {
+          "id": "stn_mysore_road",
+          "label": "Mysore Road",
+          "at": [
+            12.946,
+            77.53
+          ]
+        },
+        {
+          "id": "stn_vijayanagar",
+          "label": "Vijayanagar",
+          "at": [
+            12.971,
+            77.537
+          ]
+        },
+        {
+          "id": "stn_majestic",
+          "label": "Majestic",
+          "at": [
+            12.9757,
+            77.5728
+          ]
+        },
+        {
+          "id": "stn_vidhana_soudha",
+          "label": "Vidhana Soudha",
+          "at": [
+            12.9796,
+            77.5906
+          ]
+        },
+        {
+          "id": "stn_cubbon_park",
+          "label": "Cubbon Park",
+          "at": [
+            12.9789,
+            77.5967
+          ]
+        },
+        {
+          "id": "stn_mg_road",
+          "label": "MG Road",
+          "at": [
+            12.9755,
+            77.6067
+          ]
+        },
+        {
+          "id": "stn_indiranagar",
+          "label": "Indiranagar",
+          "at": [
+            12.9784,
+            77.6408
+          ]
+        },
+        {
+          "id": "stn_baiyappanahalli",
+          "label": "Baiyappanahalli",
+          "at": [
+            12.9907,
+            77.6525
+          ]
+        },
+        {
+          "id": "stn_kr_puram",
+          "label": "KR Puram",
+          "at": [
+            13.0006,
+            77.6744
+          ]
+        },
+        {
+          "id": "stn_kundalahalli",
+          "label": "Kundalahalli",
+          "at": [
+            12.9776,
+            77.7158
+          ]
+        },
+        {
+          "id": "stn_itpl",
+          "label": "ITPL",
+          "at": [
+            12.9874,
+            77.7373
+          ]
+        },
+        {
+          "id": "stn_whitefield",
+          "label": "Whitefield (Kadugodi)",
+          "at": [
+            12.9956,
+            77.7577
+          ]
+        }
+      ]
     },
     {
-     "id": "stn_jayadeva",
-     "label": "Jayadeva Hospital",
-     "at": [
-      12.9177,
-      77.5988
-     ]
+      "id": "green",
+      "label": "Green Line",
+      "colour": "map.metro.green",
+      "stations": [
+        {
+          "id": "stn_nagasandra",
+          "label": "Nagasandra",
+          "at": [
+            13.048,
+            77.5
+          ]
+        },
+        {
+          "id": "stn_yeshwanthpur",
+          "label": "Yeshwanthpur",
+          "at": [
+            13.0237,
+            77.55
+          ]
+        },
+        {
+          "id": "stn_sampige_road",
+          "label": "Mantri Square Sampige Road",
+          "at": [
+            12.9908,
+            77.5707
+          ]
+        },
+        {
+          "id": "stn_majestic",
+          "label": "Majestic",
+          "at": [
+            12.9757,
+            77.5728
+          ]
+        },
+        {
+          "id": "stn_lalbagh",
+          "label": "Lalbagh",
+          "at": [
+            12.9466,
+            77.58
+          ]
+        },
+        {
+          "id": "stn_jayanagar",
+          "label": "Jayanagar",
+          "at": [
+            12.9296,
+            77.5801
+          ]
+        },
+        {
+          "id": "stn_banashankari",
+          "label": "Banashankari",
+          "at": [
+            12.9152,
+            77.5735
+          ]
+        },
+        {
+          "id": "stn_silk_institute",
+          "label": "Silk Institute",
+          "at": [
+            12.8617,
+            77.5304
+          ]
+        }
+      ]
     },
     {
-     "id": "stn_silk_board",
-     "label": "Central Silk Board",
-     "at": [
-      12.9177,
-      77.623
-     ]
-    },
-    {
-     "id": "stn_electronic_city",
-     "label": "Electronic City",
-     "at": [
-      12.8456,
-      77.6602
-     ]
-    },
-    {
-     "id": "stn_bommasandra",
-     "label": "Bommasandra",
-     "at": [
-      12.816,
-      77.69
-     ]
+      "id": "yellow",
+      "label": "Yellow Line",
+      "colour": "map.metro.yellow",
+      "stations": [
+        {
+          "id": "stn_rv_road",
+          "label": "RV Road",
+          "at": [
+            12.9214,
+            77.5802
+          ]
+        },
+        {
+          "id": "stn_jayadeva",
+          "label": "Jayadeva Hospital",
+          "at": [
+            12.9177,
+            77.5988
+          ]
+        },
+        {
+          "id": "stn_silk_board",
+          "label": "Central Silk Board",
+          "at": [
+            12.9177,
+            77.623
+          ]
+        },
+        {
+          "id": "stn_electronic_city",
+          "label": "Electronic City",
+          "at": [
+            12.8456,
+            77.6602
+          ]
+        },
+        {
+          "id": "stn_bommasandra",
+          "label": "Bommasandra",
+          "at": [
+            12.816,
+            77.69
+          ]
+        }
+      ]
     }
-   ]
-  }
- ],
- "places": [
-  {
-   "id": "place_mg_brigade",
-   "label": "MG Road · Brigade",
-   "at": [
-    12.973,
-    77.608
-   ]
-  },
-  {
-   "id": "place_commercial_street",
-   "label": "Commercial Street",
-   "at": [
-    12.983,
-    77.6085
-   ]
-  },
-  {
-   "id": "place_cubbon_park",
-   "label": "Cubbon Park",
-   "at": [
-    12.9763,
-    77.5929
-   ],
-   "districtId": "cubbon_park"
-  },
-  {
-   "id": "place_church_street",
-   "label": "Church Street",
-   "at": [
-    12.9752,
-    77.604
-   ]
-  },
-  {
-   "id": "place_majestic",
-   "label": "Majestic bus stand",
-   "at": [
-    12.977,
-    77.57
-   ]
-  },
-  {
-   "id": "place_indiranagar",
-   "label": "Indiranagar 100 Ft",
-   "at": [
-    12.9719,
-    77.6412
-   ]
-  },
-  {
-   "id": "place_malleswaram",
-   "label": "Malleswaram 8th Cross",
-   "at": [
-    13.003,
-    77.569
-   ]
-  },
-  {
-   "id": "place_jayanagar",
-   "label": "Jayanagar 4th Block",
-   "at": [
-    12.925,
-    77.5838
-   ]
-  }
- ],
- "pois": [
-  {
-   "kind": "chai",
-   "node": "airport"
-  },
-  {
-   "kind": "bus",
-   "node": "airport"
-  },
-  {
-   "kind": "home",
-   "node": "whitefield_street",
-   "showIf": "hotel_checked_in",
-   "hideIf": "pg_signed"
-  },
-  {
-   "kind": "home",
-   "node": "prashanth_layout",
-   "showIf": "pg_signed"
-  },
-  {
-   "kind": "bus",
-   "node": "cubbon_park"
-  }
- ]
+  ],
+  "places": [
+    {
+      "id": "place_mg_brigade",
+      "label": "MG Road · Brigade",
+      "at": [
+        12.973,
+        77.608
+      ]
+    },
+    {
+      "id": "place_commercial_street",
+      "label": "Commercial Street",
+      "at": [
+        12.983,
+        77.6085
+      ]
+    },
+    {
+      "id": "place_cubbon_park",
+      "label": "Cubbon Park",
+      "at": [
+        12.9763,
+        77.5929
+      ],
+      "districtId": "cubbon_park"
+    },
+    {
+      "id": "place_church_street",
+      "label": "Church Street",
+      "at": [
+        12.9752,
+        77.604
+      ]
+    },
+    {
+      "id": "place_majestic",
+      "label": "Majestic bus stand",
+      "at": [
+        12.977,
+        77.57
+      ]
+    },
+    {
+      "id": "place_indiranagar",
+      "label": "Indiranagar 100 Ft",
+      "at": [
+        12.9719,
+        77.6412
+      ]
+    },
+    {
+      "id": "place_malleswaram",
+      "label": "Malleswaram 8th Cross",
+      "at": [
+        13.003,
+        77.569
+      ]
+    },
+    {
+      "id": "place_jayanagar",
+      "label": "Jayanagar 4th Block",
+      "at": [
+        12.925,
+        77.5838
+      ]
+    }
+  ],
+  "pois": [
+    {
+      "kind": "chai",
+      "node": "airport"
+    },
+    {
+      "kind": "bus",
+      "node": "airport"
+    },
+    {
+      "kind": "home",
+      "node": "whitefield_street",
+      "showIf": "hotel_checked_in",
+      "hideIf": "pg_signed"
+    },
+    {
+      "kind": "home",
+      "node": "prashanth_layout",
+      "showIf": "pg_signed"
+    },
+    {
+      "kind": "bus",
+      "node": "cubbon_park"
+    }
+  ]
 }

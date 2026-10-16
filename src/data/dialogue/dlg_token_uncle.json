@@ -1,0 +1,68 @@
+{
+  "id": "dlg_token_uncle",
+  "speaker": "Uncle at the token machine",
+  "portrait": "npc_token_uncle",
+  "enter": [
+    {
+      "flag": "token_jam_fixed",
+      "node": "after"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Fourth time. FOURTH. It takes the note, it thinks about it, it gives the note back. Same note. What is it, a bank? (The queue behind him has given up pretending to be patient.)",
+      "choices": [
+        {
+          "text": "Uncle, it's free today. No token needed.",
+          "next": "free",
+          "effect": {
+            "flags": {
+              "token_jam_fixed": true
+            },
+            "reputation": 1
+          }
+        },
+        {
+          "text": "Press cancel. Here - this button.",
+          "next": "cancel",
+          "effect": {
+            "flags": {
+              "token_jam_fixed": true
+            },
+            "reputation": 1
+          }
+        },
+        {
+          "text": "Take ten rupees, uncle. (₹10)",
+          "next": "lend",
+          "effect": {
+            "wallet": -10,
+            "flags": {
+              "token_jam_fixed": true
+            },
+            "reputation": 2
+          }
+        },
+        {
+          "text": "(Join the other queue.)",
+          "next": "other"
+        }
+      ]
+    },
+    "free": {
+      "text": "Free? Nothing is free in Bengaluru, not even - (the attendant waves his whole arm) - oh. OH. Then why is the machine here? To build character?"
+    },
+    "cancel": {
+      "text": "Cancel. There's a cancel. Twenty years of banking and there's a - (the note slides out, flat, almost new) - see, it ironed it also."
+    },
+    "lend": {
+      "text": "No, no, I'll GPay you. What's your number? (He types it into the machine's keypad. He will not GPay you.) Thank you, sir. Youngsters, I tell you - some of you are okay."
+    },
+    "other": {
+      "text": "(The other queue is the same uncle, a minute from now.)"
+    },
+    "after": {
+      "text": "(He is explaining the cancel button to the next person in line. At length.)"
+    }
+  }
+}

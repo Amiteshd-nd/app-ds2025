@@ -1,0 +1,10 @@
+{
+  "id": "dlg_crowd_garland",
+  "speaker": "Aunty with a garland",
+  "portrait": "crowd_homemaker",
+  "nodes": {
+    "start": {
+      "text": "My husband worked on the pillars. Three years. He's inside, riding it up and down, up and down. Won't come out. Let him."
+    }
+  }
+}

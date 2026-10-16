@@ -43,6 +43,7 @@ import { photoSpots } from './photoSpots';
 import { companion } from './companion';
 import { emi } from './emi';
 import { fuelSpots } from './fuelSpots';
+import { metroOpening } from './metroOpening';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -59,6 +60,7 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   companion,
   emi,
   fuelSpots,
+  metroOpening,
 };
 
 /**

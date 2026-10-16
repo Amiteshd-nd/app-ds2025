@@ -136,6 +136,14 @@ export const FUEL_TOPUP = 30;
 /** Scooter: game minutes per km (about 24 km/h through Whitefield traffic). */
 export const SCOOTER_MINUTES_PER_KM = 2.5;
 
+// ── The metro (story 2.2, ADR-115/127) ──────────────────────────────────────
+/** Namma Metro's fare: ₹10 + ₹2/km, rounded up to ₹5, capped. */
+export const METRO_FARE_BASE = 10;
+export const METRO_FARE_PER_KM = 2;
+export const METRO_FARE_CAP = 60;
+/** Game minutes Whitefield ↔ Cubbon Park takes on the train. */
+export const METRO_RIDE_MINUTES = 40;
+
 // --- Food (profile doc §2, components §7; ADR-97) --------------------------
 /**
  * Game minutes per food point while awake. 6 → a full meter lasts ten game

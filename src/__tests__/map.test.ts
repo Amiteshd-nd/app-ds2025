@@ -5,7 +5,8 @@ import { validateCityMap } from '../../scripts/validate-content';
 import { gameEvents } from '../core/events';
 import { CITY_MAP, DISTRICTS } from '../data';
 import { useGameStore } from '../store';
-import { FLAG, MapManager } from '../systems/MapManager';
+import { FLAG, MapManager, metroFare } from '../systems/MapManager';
+import { FLAG_METRO_FREE_DAY, FLAG_METRO_OPEN } from '../world/behaviours/metroFlags';
 import { ReputationManager } from '../systems/ReputationManager';
 import type { PixelCtx } from '../ui/kit/pixel';
 import { hex } from '../ui/tokens';
@@ -186,6 +187,10 @@ describe('MapManager on a small test city', () => {
   it('fast travel: both pockets on stations, the target visited; Namma Metro-like fare', () => {
     const mm = new MapManager(city, districts);
     useGameStore.getState().setActiveDistrict('a');
+    useGameStore.getState().setFlag(FLAG.visited('d'), true);
+    expect(mm.fastTravel('d')).toBeNull(); // the line is still under construction (story 2.2, ADR-127)
+    useGameStore.getState().setFlag(FLAG_METRO_OPEN, true);
+    useGameStore.getState().setFlag(FLAG.visited('d'), false);
     expect(mm.fastTravel('d')).toBeNull(); // not visited yet
     useGameStore.getState().setFlag(FLAG.visited('d'), true);
     const ft = mm.fastTravel('d')!;
@@ -194,6 +199,12 @@ describe('MapManager on a small test city', () => {
     expect(ft.fare).toBeGreaterThanOrEqual(10);
     expect(ft.fare).toBeLessThanOrEqual(60);
     expect(mm.fastTravel('b')).toBeNull(); // b has no station
+    // Opening day: free till the next sleep.
+    useGameStore.getState().setFlag(FLAG_METRO_FREE_DAY, true);
+    expect(mm.fastTravel('d')!.fare).toBe(0);
+    expect(metroFare(0)).toBe(10);
+    expect(metroFare(18)).toBe(50);
+    expect(metroFare(40)).toBe(60);
     mm.dispose();
   });
 });

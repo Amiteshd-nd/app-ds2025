@@ -968,5 +968,115 @@
       "waist_y": 32,
       "enabled": false
     }
+  },
+  "npc_metro_guard": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "npc_lost_kid": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "npc_kid_mother": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "npc_token_uncle": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "npc_metro_ajji": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
   }
 }

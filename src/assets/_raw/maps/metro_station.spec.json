@@ -1,0 +1,41 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 24x16) — the Whitefield (Kadugodi) metro concourse on opening day (story 2.2, ADR-127), one open hall on the render model: the train band is a `building`; the four garlanded gates with their glass railings, the garlanded pillar, the ticket counter, the two token machines, the bench, the bins, the pots and the stair rails are `sorted` cut-outs with footprints. The platform strip (y 140–180) boards the train (`platform` exit); the stairs at the bottom lead back to the street. Second render: the first drew a back wall that sealed the hall (caught by the reachability rule).",
+  "name": "metro_station",
+  "cols": 24,
+  "rows": 16,
+  "units": "px",
+  "blocks": [],
+  "spawns": [
+    { "name": "station_stairs", "x": 768, "y": 930 },
+    { "name": "gates", "x": 470, "y": 345 },
+    { "name": "concourse_corner", "x": 1060, "y": 360 },
+    { "name": "token_queue", "x": 230, "y": 590 },
+    { "name": "token_machine", "x": 150, "y": 690 }
+  ],
+  "zones": [
+    { "name": "arrival", "x": 600, "y": 850, "w": 330, "h": 100 },
+    { "name": "stairs_down", "x": 600, "y": 1000, "w": 330, "h": 24 },
+    { "name": "platform", "x": 0, "y": 138, "w": 1536, "h": 42 },
+    { "name": "ambient_area", "x": 200, "y": 380, "w": 1150, "h": 420 }
+  ],
+  "buildings": [[0, 0, 1536, 140]],
+  "sorted": [
+    { "name": "counter", "rect": [0, 188, 154, 296], "base": 484, "footprint": [0, 300, 150, 184], "mode": "rect" },
+    { "name": "token_top", "rect": [14, 490, 92, 134], "base": 624, "footprint": [16, 560, 88, 62], "mode": "rect" },
+    { "name": "token_bottom", "rect": [14, 620, 92, 134], "base": 754, "footprint": [16, 690, 88, 62], "mode": "rect" },
+    { "name": "rail_left", "rect": [352, 198, 158, 100], "base": 298, "footprint": [354, 230, 154, 66], "mode": "rect" },
+    { "name": "gate_1", "rect": [524, 182, 52, 146], "base": 328, "footprint": [526, 270, 48, 58], "mode": "rect" },
+    { "name": "gate_2", "rect": [654, 182, 52, 146], "base": 328, "footprint": [656, 270, 48, 58], "mode": "rect" },
+    { "name": "gate_3", "rect": [786, 182, 52, 146], "base": 328, "footprint": [788, 270, 48, 58], "mode": "rect" },
+    { "name": "gate_4", "rect": [911, 182, 54, 146], "base": 328, "footprint": [913, 270, 50, 58], "mode": "rect" },
+    { "name": "pillar", "rect": [1018, 100, 80, 206], "base": 306, "footprint": [1022, 262, 72, 44], "mode": "rect" },
+    { "name": "rail_right", "rect": [1098, 198, 160, 100], "base": 298, "footprint": [1100, 230, 156, 66], "mode": "rect" },
+    { "name": "bench", "rect": [1436, 450, 100, 180], "base": 630, "footprint": [1440, 540, 94, 88], "mode": "rect" },
+    { "name": "bins", "rect": [1415, 650, 110, 104], "base": 754, "footprint": [1418, 700, 104, 52], "mode": "rect" },
+    { "name": "pot_left", "rect": [10, 815, 145, 160], "base": 975, "footprint": [14, 900, 138, 72], "mode": "rect" },
+    { "name": "pot_right", "rect": [1390, 815, 145, 160], "base": 975, "footprint": [1394, 900, 138, 72], "mode": "rect" },
+    { "name": "rail_stairs_left", "rect": [520, 770, 64, 254], "base": 1024, "footprint": [524, 790, 56, 230], "mode": "rect" },
+    { "name": "rail_stairs_right", "rect": [950, 770, 64, 254], "base": 1024, "footprint": [954, 790, 56, 230], "mode": "rect" }
+  ],
+  "above": []
+}

@@ -1,0 +1,223 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 \u2192 12x8) \u2014 a Purple Line coach on the bus pattern (story 2.2b, ADR-127): the window-and-seat band and the door wall are `buildings`; the three floor-to-ceiling poles are sorted cut-outs with footprints; the coach ends are prop blocks. You board by the right-hand door and the ride ends through it (`coach_door`, requiresFlag metro_ride_over).",
+  "name": "metro_interior",
+  "cols": 12,
+  "rows": 8,
+  "units": "px",
+  "blocks": [
+    [
+      0,
+      290,
+      44,
+      390
+    ],
+    [
+      1494,
+      290,
+      42,
+      390
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "coach_door",
+      "x": 1275,
+      "y": 600
+    },
+    {
+      "name": "coach_standing",
+      "x": 1000,
+      "y": 560
+    }
+  ],
+  "zones": [
+    {
+      "name": "boarded",
+      "x": 1150,
+      "y": 560,
+      "w": 300,
+      "h": 110
+    },
+    {
+      "name": "seat_zone",
+      "x": 850,
+      "y": 300,
+      "w": 450,
+      "h": 250
+    },
+    {
+      "name": "coach_door",
+      "x": 1100,
+      "y": 672,
+      "w": 350,
+      "h": 20
+    }
+  ],
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      290
+    ],
+    [
+      0,
+      680,
+      1536,
+      344
+    ]
+  ],
+  "sorted": [
+    {
+      "name": "pole_1",
+      "rect": [
+        288,
+        290,
+        48,
+        326
+      ],
+      "base": 612,
+      "footprint": [
+        294,
+        586,
+        36,
+        26
+      ],
+      "mode": "key",
+      "bgShare": 0.04,
+      "bg": [
+        [
+          500,
+          450,
+          100,
+          60
+        ],
+        [
+          900,
+          500,
+          100,
+          50
+        ]
+      ],
+      "seeds": [
+        [
+          312,
+          330
+        ],
+        [
+          312,
+          450
+        ],
+        [
+          312,
+          560
+        ],
+        [
+          312,
+          600
+        ]
+      ]
+    },
+    {
+      "name": "pole_2",
+      "rect": [
+        743,
+        290,
+        48,
+        326
+      ],
+      "base": 612,
+      "footprint": [
+        749,
+        586,
+        36,
+        26
+      ],
+      "mode": "key",
+      "bgShare": 0.04,
+      "bg": [
+        [
+          500,
+          450,
+          100,
+          60
+        ],
+        [
+          900,
+          500,
+          100,
+          50
+        ]
+      ],
+      "seeds": [
+        [
+          767,
+          330
+        ],
+        [
+          767,
+          450
+        ],
+        [
+          767,
+          560
+        ],
+        [
+          767,
+          600
+        ]
+      ]
+    },
+    {
+      "name": "pole_4",
+      "rect": [
+        1210,
+        300,
+        48,
+        318
+      ],
+      "base": 614,
+      "footprint": [
+        1216,
+        588,
+        36,
+        26
+      ],
+      "mode": "key",
+      "bgShare": 0.04,
+      "bg": [
+        [
+          500,
+          450,
+          100,
+          60
+        ],
+        [
+          900,
+          500,
+          100,
+          50
+        ]
+      ],
+      "seeds": [
+        [
+          1233,
+          330
+        ],
+        [
+          1233,
+          450
+        ],
+        [
+          1233,
+          560
+        ],
+        [
+          1233,
+          600
+        ]
+      ]
+    }
+  ],
+  "above": []
+}

@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 48,
+     "id": 50,
      "name": "tree_left",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 49,
+     "id": 51,
      "name": "tree_top",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 50,
+     "id": 52,
      "name": "bandstand",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 51,
+     "id": 53,
      "name": "lamp_1",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 52,
+     "id": 54,
      "name": "lamp_2",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 53,
+     "id": 55,
      "name": "lamp_3",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 54,
+     "id": 56,
      "name": "lamp_4",
      "type": "cutout",
      "rotation": 0,
@@ -2941,7 +2941,7 @@
      ]
     },
     {
-     "id": 55,
+     "id": 57,
      "name": "bench_top",
      "type": "cutout",
      "rotation": 0,
@@ -2984,7 +2984,7 @@
      ]
     },
     {
-     "id": 56,
+     "id": 58,
      "name": "bench_left",
      "type": "cutout",
      "rotation": 0,
@@ -3027,7 +3027,7 @@
      ]
     },
     {
-     "id": 57,
+     "id": 59,
      "name": "bench_right",
      "type": "cutout",
      "rotation": 0,
@@ -3070,7 +3070,7 @@
      ]
     },
     {
-     "id": 58,
+     "id": 60,
      "name": "bench_bottom",
      "type": "cutout",
      "rotation": 0,
@@ -3113,7 +3113,7 @@
      ]
     },
     {
-     "id": 59,
+     "id": 61,
      "name": "cycle_shed",
      "type": "cutout",
      "rotation": 0,
@@ -3156,7 +3156,7 @@
      ]
     },
     {
-     "id": 60,
+     "id": 62,
      "name": "icecream_cart",
      "type": "cutout",
      "rotation": 0,
@@ -3199,7 +3199,7 @@
      ]
     },
     {
-     "id": 61,
+     "id": 63,
      "name": "bin",
      "type": "cutout",
      "rotation": 0,
@@ -3242,7 +3242,7 @@
      ]
     },
     {
-     "id": 62,
+     "id": 64,
      "name": "tap",
      "type": "cutout",
      "rotation": 0,
@@ -3285,7 +3285,7 @@
      ]
     },
     {
-     "id": 63,
+     "id": 65,
      "name": "sign",
      "type": "cutout",
      "rotation": 0,
@@ -3328,7 +3328,7 @@
      ]
     },
     {
-     "id": 64,
+     "id": 66,
      "name": "gate_pillar_1",
      "type": "cutout",
      "rotation": 0,
@@ -3371,7 +3371,7 @@
      ]
     },
     {
-     "id": 65,
+     "id": 67,
      "name": "gate_pillar_2",
      "type": "cutout",
      "rotation": 0,
@@ -3414,7 +3414,7 @@
      ]
     },
     {
-     "id": 66,
+     "id": 68,
      "name": "gate_pillar_3",
      "type": "cutout",
      "rotation": 0,
@@ -3457,7 +3457,7 @@
      ]
     },
     {
-     "id": 67,
+     "id": 69,
      "name": "gate_pillar_4",
      "type": "cutout",
      "rotation": 0,
@@ -4389,7 +4389,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 23,
+     "id": 25,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4407,7 +4407,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 26,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4425,7 +4425,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 27,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4443,7 +4443,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 28,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4461,7 +4461,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 29,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4479,7 +4479,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 30,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4497,7 +4497,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 31,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4515,7 +4515,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 32,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4533,7 +4533,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 33,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4551,7 +4551,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 34,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4569,7 +4569,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 35,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4587,7 +4587,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 36,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4605,7 +4605,7 @@
      ]
     },
     {
-     "id": 35,
+     "id": 37,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4623,7 +4623,7 @@
      ]
     },
     {
-     "id": 36,
+     "id": 38,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4641,7 +4641,7 @@
      ]
     },
     {
-     "id": 37,
+     "id": 39,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4659,7 +4659,7 @@
      ]
     },
     {
-     "id": 38,
+     "id": 40,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4677,7 +4677,7 @@
      ]
     },
     {
-     "id": 39,
+     "id": 41,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4695,7 +4695,7 @@
      ]
     },
     {
-     "id": 40,
+     "id": 42,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4713,7 +4713,7 @@
      ]
     },
     {
-     "id": 41,
+     "id": 43,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4731,7 +4731,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 44,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4749,7 +4749,7 @@
      ]
     },
     {
-     "id": 43,
+     "id": 45,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4767,7 +4767,7 @@
      ]
     },
     {
-     "id": 44,
+     "id": 46,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4785,7 +4785,7 @@
      ]
     },
     {
-     "id": 45,
+     "id": 47,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4803,7 +4803,7 @@
      ]
     },
     {
-     "id": 46,
+     "id": 48,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4821,7 +4821,7 @@
      ]
     },
     {
-     "id": 47,
+     "id": 49,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -5861,6 +5861,18 @@
     },
     {
      "id": 12,
+     "name": "metro_drop",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 1046,
+     "y": 418,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 13,
      "name": "cubbon_arrival",
      "rotation": 0,
      "type": "",
@@ -5871,7 +5883,7 @@
      "height": 75
     },
     {
-     "id": 13,
+     "id": 14,
      "name": "park_gate_bus",
      "rotation": 0,
      "type": "",
@@ -5882,7 +5894,7 @@
      "height": 46
     },
     {
-     "id": 14,
+     "id": 15,
      "name": "photo_bandstand",
      "rotation": 0,
      "type": "",
@@ -5893,7 +5905,7 @@
      "height": 45
     },
     {
-     "id": 15,
+     "id": 16,
      "name": "photo_library",
      "rotation": 0,
      "type": "",
@@ -5904,7 +5916,7 @@
      "height": 41
     },
     {
-     "id": 16,
+     "id": 17,
      "name": "photo_bamboo",
      "rotation": 0,
      "type": "",
@@ -5915,7 +5927,7 @@
      "height": 75
     },
     {
-     "id": 17,
+     "id": 18,
      "name": "photo_red_building",
      "rotation": 0,
      "type": "",
@@ -5926,7 +5938,7 @@
      "height": 53
     },
     {
-     "id": 18,
+     "id": 19,
      "name": "photo_dog",
      "rotation": 0,
      "type": "",
@@ -5937,7 +5949,7 @@
      "height": 67
     },
     {
-     "id": 19,
+     "id": 20,
      "name": "stop_bandstand",
      "rotation": 0,
      "type": "",
@@ -5948,7 +5960,7 @@
      "height": 45
     },
     {
-     "id": 20,
+     "id": 21,
      "name": "stop_bamboo",
      "rotation": 0,
      "type": "",
@@ -5959,7 +5971,7 @@
      "height": 75
     },
     {
-     "id": 21,
+     "id": 22,
      "name": "stop_library",
      "rotation": 0,
      "type": "",
@@ -5970,7 +5982,7 @@
      "height": 41
     },
     {
-     "id": 22,
+     "id": 23,
      "name": "ambient_area",
      "rotation": 0,
      "type": "",
@@ -5979,6 +5991,17 @@
      "y": 195,
      "width": 937,
      "height": 360
+    },
+    {
+     "id": 24,
+     "name": "metro_arrival",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 1005,
+     "y": 405,
+     "width": 83,
+     "height": 60
     }
    ],
    "opacity": 1,
@@ -5989,7 +6012,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 68,
+ "nextobjectid": 70,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

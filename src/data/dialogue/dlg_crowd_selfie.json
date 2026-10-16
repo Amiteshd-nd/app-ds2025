@@ -1,0 +1,10 @@
+{
+  "id": "dlg_crowd_selfie",
+  "speaker": "Selfie group",
+  "portrait": "crowd_student",
+  "nodes": {
+    "start": {
+      "text": "Bro, take one of all of us with the station behind - no, the FLAGS behind - okay, three, two -"
+    }
+  }
+}

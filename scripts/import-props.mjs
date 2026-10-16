@@ -29,6 +29,8 @@ export const SHEETS = {
   animals: { cols: 3, rows: 2, height: 20, heights: [16, 24, 20, 10, 12, 12] },
   // The player's scooter (P10, ADR-126): grey facing down · side · back; red and white side views; a petrol pump.
   scooters: { cols: 3, rows: 2, height: 30, heights: [34, 28, 34, 28, 28, 30] },
+  // Opening day (P11, ADR-127): the finished station entrance · bunting · a flagpole · crowd barriers · marigold pots · a finished pillar.
+  metro_props: { cols: 3, rows: 2, height: 40, heights: [64, 30, 62, 22, 26, 62] },
 };
 
 const keyMagenta = (d) => {

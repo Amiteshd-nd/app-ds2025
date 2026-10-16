@@ -31,6 +31,12 @@
       "from": "them",
       "text": "Salary day! Celebrate by buying a scooter, like a proper Whitefield person. Second-hand - ITPL Main Road, Noor Motors, ask for Noor. Don't pay sticker.",
       "after": "first_salary"
+    },
+    {
+      "id": "sameer_6",
+      "from": "them",
+      "text": "METRO. Finally. Whitefield to Cubbon, forty minutes, no 500-D smell. Free till midnight - go before the whole of Whitefield goes. Barricades are already down.",
+      "after": "metro_open"
     }
   ]
 }

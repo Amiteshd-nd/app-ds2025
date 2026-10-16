@@ -260,6 +260,8 @@ export interface DistrictObjectRef {
   requires?: string;
   /** Flag that must be set for the object to exist — the cot once bought (ADR-122). */
   requiresFlag?: string;
+  /** The object is gone once this flag is set — the metro barricade on opening day (ADR-127). */
+  unlessFlag?: string;
 }
 
 /** Ambient crowd: random-walk bots drawn from a pool of sprite sheets. */

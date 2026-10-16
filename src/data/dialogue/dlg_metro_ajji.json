@@ -1,0 +1,57 @@
+{
+  "id": "dlg_metro_ajji",
+  "speaker": "Ajji with a cloth bag",
+  "portrait": "npc_metro_ajji",
+  "enter": [
+    {
+      "flag": "seat_given",
+      "node": "after_given"
+    },
+    {
+      "flag": "seat_kept",
+      "node": "after_kept"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(You got the last seat - the yellow one. A small woman with a cloth bag stops in front of it. She doesn't say anything. She doesn't have to. The whole coach is saying it for her.)",
+      "choices": [
+        {
+          "text": "Ajji, sit. (Stand up.)",
+          "next": "given",
+          "effect": {
+            "flags": {
+              "seat_given": true,
+              "seat_decided": true
+            },
+            "reputation": 2
+          }
+        },
+        {
+          "text": "(Look at the phone.)",
+          "next": "kept",
+          "effect": {
+            "flags": {
+              "seat_kept": true,
+              "seat_decided": true
+            },
+            "reputation": -2,
+            "stress": 3
+          }
+        }
+      ]
+    },
+    "given": {
+      "text": "Live long, kanna. (She sits, bag on her lap, and tells the window about her grandson's wedding in Hoskote. The window is very interested.)"
+    },
+    "kept": {
+      "text": "(Two seats down, an aunty says 'Youngsters' loud enough for the whole coach. The ajji holds the pole. Three stops. You look at the phone very hard.)"
+    },
+    "after_given": {
+      "text": "(She's showing the wedding photos to the man beside her now. He's trapped. He looks happy about it.)"
+    },
+    "after_kept": {
+      "text": "(She is holding the pole. She is not looking at you. Nobody is looking at you. Everybody is looking at you.)"
+    }
+  }
+}

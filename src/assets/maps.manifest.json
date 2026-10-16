@@ -10,11 +10,11 @@
     "collision",
     "fx"
   ],
-  "$layerOrderComment": "The render model (ADR-125). Every map has exactly these seven layers, in this order (empty allowed): ground (roads, floors) · ground_detail (markings, grates, baked shadows) · buildings (wall tiles) · sorted (the Y-sort band: an OBJECT layer of everything that stands on the ground — typed placed objects, `cutout` images with a baseY + footprint, `above` images drawn over the street) · props_above (overhead tiles: wires, awnings, canopies, roofs) · collision (invisible: a tile stencil, or an object layer of pixel rects for generated maps) · fx. Plus `spawns`, an object layer of points and zones outside the draw order.",
-  "$sortedComment": "sorted objects: `type` = an ObjectDef id (placed object, tiles or sprite; depth from its footprint bottom), `cutout` (properties image, baseY, footprint x/y/w/h — a static body; depth = baseY), or `above` (property image; drawn at the props_above depth, never collides). Written by scripts/import-map.mjs and generate-street-map.mjs.",
+  "$layerOrderComment": "The render model (ADR-125). Every map has exactly these seven layers, in this order (empty allowed): ground (roads, floors) \u00b7 ground_detail (markings, grates, baked shadows) \u00b7 buildings (wall tiles) \u00b7 sorted (the Y-sort band: an OBJECT layer of everything that stands on the ground \u2014 typed placed objects, `cutout` images with a baseY + footprint, `above` images drawn over the street) \u00b7 props_above (overhead tiles: wires, awnings, canopies, roofs) \u00b7 collision (invisible: a tile stencil, or an object layer of pixel rects for generated maps) \u00b7 fx. Plus `spawns`, an object layer of points and zones outside the draw order.",
+  "$sortedComment": "sorted objects: `type` = an ObjectDef id (placed object, tiles or sprite; depth from its footprint bottom), `cutout` (properties image, baseY, footprint x/y/w/h \u2014 a static body; depth = baseY), or `above` (property image; drawn at the props_above depth, never collides). Written by scripts/import-map.mjs and generate-street-map.mjs.",
   "$collisionComment": "collision as an object layer (generated maps): rects with property kind = building | prop. Buildings cover the whole wall footprint except door gaps.",
   "$pulseLayerComment": "Optional per-map `pulseLayer`: an object layer of City Pulse slots. Every slot is a named, uniquely named object with a `type` (wall, corner, shopfront, crowd). Districts list the slots they offer under pulse_slots and the validator checks they exist.",
-  "$doorComment": "Any spawn-layer object named door_* or typed `door` is a door and must be 32x48 (player height = door height, design system §2). The map validator warns otherwise.",
+  "$doorComment": "Any spawn-layer object named door_* or typed `door` is a door and must be 32x48 (player height = door height, design system \u00a72). The map validator warns otherwise.",
   "$sopComment": "`sop: true` marks a map migrated to the render model: every cutout needs a footprint and legacy occluders are errors. Unmigrated maps get warnings until their A5 re-audit.",
   "maps": {
     "airport_map": {
@@ -189,7 +189,9 @@
         "stop_bandstand",
         "stop_bamboo",
         "stop_library",
-        "ambient_area"
+        "ambient_area",
+        "metro_drop",
+        "metro_arrival"
       ],
       "sop": true
     },
@@ -208,6 +210,37 @@
         "road_east",
         "bunk_zone",
         "ambient_area"
+      ],
+      "sop": true
+    },
+    "metro_station": {
+      "file": "metro_station.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "station_stairs",
+        "gates",
+        "concourse_corner",
+        "token_queue",
+        "token_machine",
+        "arrival",
+        "stairs_down",
+        "platform",
+        "ambient_area"
+      ],
+      "sop": true
+    },
+    "metro_interior": {
+      "file": "metro_interior.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "coach_door",
+        "coach_standing",
+        "boarded",
+        "seat_zone"
       ],
       "sop": true
     }

@@ -23,6 +23,7 @@ import {
   FADE_MS,
   INTERACT_RANGE_PX,
   LAYER_DEPTH,
+  METRO_RIDE_MINUTES,
   SCENE_KEYS,
   TILE_SIZE,
 } from '../utils/constants';
@@ -480,8 +481,9 @@ export class WorldScene extends Phaser.Scene {
   travelTo(districtId: string, transit: DistrictExit['transit'], minutes?: number): void {
     this.scene.resume();
     const name = getDistrict(districtId).name;
-    const card = transit === 'scooter' ? `Scooter → ${name}` : undefined;
-    this.leaveVia({ zone: '', to: districtId, spawn: getDistrict(districtId).defaultSpawn, transit, ...(minutes ? { minutes } : {}), ...(card ? { card } : {}) });
+    const card = transit === 'scooter' ? `Scooter → ${name}` : transit === 'metro' ? `Purple Line → ${name}` : undefined;
+    const ride = minutes ?? (transit === 'metro' ? METRO_RIDE_MINUTES : undefined);
+    this.leaveVia({ zone: '', to: districtId, spawn: getDistrict(districtId).defaultSpawn, transit, ...(ride ? { minutes: ride } : {}), ...(card ? { card } : {}) });
   }
 
   /**
