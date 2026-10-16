@@ -17,7 +17,10 @@
   ],
   "entry": {
     "from": "prashanth_layout",
-    "spawn": "auto_drop"
+    "spawn": "auto_drop",
+    "after": [
+      "F1"
+    ]
   },
   "cast": [
     {
@@ -117,7 +120,6 @@
   ],
   "save_flags": [
     "office_route_seen",
-    "auto_fare_paid",
     "auto_kannada_left",
     "kannada_auto",
     "office_arrived",

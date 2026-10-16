@@ -1,0 +1,141 @@
+{
+  "scene": "act0_pg_hunt",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act0_pg_hunt + prashanth_layout + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "prashanth_layout",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "do": "goto",
+      "target": "zone:lane_arrival"
+    },
+    {
+      "id": "goto_4",
+      "do": "goto",
+      "target": "npc:npc_gate_owner",
+      "optional": true
+    },
+    {
+      "id": "interact_5",
+      "do": "interact",
+      "target": "npc:npc_gate_owner",
+      "optional": true
+    },
+    {
+      "id": "choose_6",
+      "do": "choose",
+      "option": "bye",
+      "optional": true
+    },
+    {
+      "id": "goto_7",
+      "do": "goto",
+      "target": "npc:npc_coliving_rhea",
+      "optional": true
+    },
+    {
+      "id": "interact_8",
+      "do": "interact",
+      "target": "npc:npc_coliving_rhea",
+      "optional": true
+    },
+    {
+      "id": "choose_9",
+      "do": "choose",
+      "option": "look",
+      "optional": true
+    },
+    {
+      "id": "goto_10",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_shanthamma"
+    },
+    {
+      "id": "interact_11",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_shanthamma"
+    },
+    {
+      "id": "choose_12",
+      "beat": "F4",
+      "do": "choose",
+      "option": "price"
+    },
+    {
+      "id": "choose_13",
+      "beat": "F4",
+      "do": "choose",
+      "option": "Okay, Aunty"
+    },
+    {
+      "id": "goto_14",
+      "beat": "F5",
+      "do": "goto",
+      "target": "npc:npc_darshini_raju"
+    },
+    {
+      "id": "interact_15",
+      "beat": "F5",
+      "do": "interact",
+      "target": "npc:npc_darshini_raju"
+    },
+    {
+      "id": "choose_16",
+      "beat": "F5",
+      "do": "choose",
+      "option": "idli"
+    },
+    {
+      "id": "goto_17",
+      "beat": "F6",
+      "do": "goto",
+      "target": "exit:gate10"
+    },
+    {
+      "id": "wait_for_18",
+      "beat": "F6",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "shanthamma_pg",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_19",
+      "beat": "F6",
+      "do": "goto",
+      "target": "zone:bed"
+    },
+    {
+      "id": "advance_20",
+      "beat": "F6",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_21",
+      "beat": "F6",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "amma_called",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_22",
+      "do": "expect",
+      "flag": "act0_pg_done",
+      "timeout": 3000
+    }
+  ]
+}

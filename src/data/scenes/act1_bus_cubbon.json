@@ -16,7 +16,11 @@
   ],
   "entry": {
     "from": "whitefield_street",
-    "spawn": "aisle"
+    "spawn": "aisle",
+    "after": [
+      "F1",
+      "F2"
+    ]
   },
   "cast": [
     {

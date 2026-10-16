@@ -485,7 +485,10 @@
     ],
     "realworld": {
       "parent": "prashanth_layout"
-    }
+    },
+    "behaviours": [
+      "pgNoticeTimer"
+    ]
   },
   {
     "id": "office_gate",
@@ -784,7 +787,8 @@
         "setFlags": [
           "slept_in_flat"
         ],
-        "zone": "bed"
+        "zone": "bed",
+        "once": false
       },
       {
         "zone": "bed",
@@ -977,10 +981,16 @@
       {
         "zone": "cubbon_arrival",
         "setFlags": [
-          "cubbon_arrived",
-          "city_moments_taught"
+          "cubbon_arrived"
         ],
         "unlessFlag": "cubbon_arrived"
+      },
+      {
+        "zone": "cubbon_arrival",
+        "setFlags": [
+          "city_moments_taught"
+        ],
+        "unlessFlag": "city_moments_taught"
       },
       {
         "zone": "stop_bandstand",

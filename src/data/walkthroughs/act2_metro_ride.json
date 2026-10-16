@@ -1,0 +1,100 @@
+{
+  "scene": "act2_metro_ride",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act2_metro_opens + metro_interior + the prereq state",
+  "seed": 7,
+  "notes": [
+    "q_act2_metro_opens is already complete in this scene's prerequisite state (an earlier scene's quest) — its on_complete flags are not expected"
+  ],
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "metro_interior",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "metro_open",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_4",
+      "do": "expect",
+      "flag": "metro_opening_seen",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_5",
+      "do": "expect",
+      "flag": "metro_station_entered",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_6",
+      "do": "expect",
+      "flag": "lost_kid_returned",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_7",
+      "do": "expect",
+      "flag": "token_jam_fixed",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_8",
+      "do": "expect",
+      "flag": "first_metro_ride",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_9",
+      "do": "goto",
+      "target": "zone:seat_zone",
+      "optional": true
+    },
+    {
+      "id": "choose_10",
+      "do": "choose",
+      "option": "given",
+      "optional": true
+    },
+    {
+      "id": "wait_for_11",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "seat_decided",
+      "timeout": 6000,
+      "optional": true
+    },
+    {
+      "id": "wait_for_12",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 90000
+    },
+    {
+      "id": "goto_13",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:metro_arrival"
+    },
+    {
+      "id": "wait_for_14",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "metro_ridden",
+      "timeout": 6000
+    }
+  ]
+}

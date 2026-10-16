@@ -1,0 +1,179 @@
+{
+  "scene": "act2_metro_opens",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act2_metro_opens + metro_station + entry.after F1",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "metro_station",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "metro_open",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_4",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "metro_opening_seen",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_5",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:arrival"
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "metro_station_entered",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_7",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_lost_kid"
+    },
+    {
+      "id": "interact_8",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_lost_kid"
+    },
+    {
+      "id": "choose_9",
+      "beat": "F3",
+      "do": "choose",
+      "option": "guard"
+    },
+    {
+      "id": "goto_10",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_metro_guard"
+    },
+    {
+      "id": "interact_11",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_metro_guard"
+    },
+    {
+      "id": "advance_12",
+      "beat": "F3",
+      "do": "advance"
+    },
+    {
+      "id": "goto_13",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_token_uncle"
+    },
+    {
+      "id": "interact_14",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_token_uncle"
+    },
+    {
+      "id": "choose_15",
+      "beat": "F4",
+      "do": "choose",
+      "option": "free"
+    },
+    {
+      "id": "goto_16",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:platform"
+    },
+    {
+      "id": "wait_for_17",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "metro_interior",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_18",
+      "beat": "F5",
+      "do": "goto",
+      "target": "zone:boarded"
+    },
+    {
+      "id": "wait_for_19",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "first_metro_ride",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_20",
+      "do": "goto",
+      "target": "zone:seat_zone",
+      "optional": true
+    },
+    {
+      "id": "choose_21",
+      "do": "choose",
+      "option": "given",
+      "optional": true
+    },
+    {
+      "id": "wait_for_22",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "seat_decided",
+      "timeout": 6000,
+      "optional": true
+    },
+    {
+      "id": "wait_for_23",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 90000
+    },
+    {
+      "id": "goto_24",
+      "do": "goto",
+      "target": "zone:metro_arrival"
+    },
+    {
+      "id": "wait_for_25",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "metro_ridden",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_26",
+      "do": "expect",
+      "flag": "act2_metro_done",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_27",
+      "do": "expect",
+      "flag": "metro_tier_1",
+      "timeout": 3000
+    }
+  ]
+}

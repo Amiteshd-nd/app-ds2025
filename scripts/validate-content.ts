@@ -461,6 +461,11 @@ export function validateContent(
       if (typeof exit === 'object' && exit.to && !districtIds.has(exit.to)) add(file, `exit to "${exit.to}" is not a district`);
     }
     if (!json.acceptance?.length) add(file, 'has no acceptance list — the audit gate needs one');
+    if (json.entry?.after !== undefined) {
+      const beatIds = new Set(((json.beats ?? []) as Json[]).filter((b) => typeof b === 'object').map((b) => b.id));
+      if (!Array.isArray(json.entry.after)) add(file, 'entry.after must be an array of beat ids');
+      else for (const id of json.entry.after) if (!beatIds.has(id)) add(file, `entry.after names beat "${id}", which the scene does not have`);
+    }
     if (json.seq !== undefined) {
       if (typeof json.seq !== 'string' || !/^\d+\.\d+[a-z]?$/.test(json.seq)) add(file, `seq "${json.seq}" must look like "0.2" (act.scene) or "2.2b" (a beat's second half)`);
       else if (seqSeen.has(json.seq)) add(file, `seq "${json.seq}" is also used by ${seqSeen.get(json.seq)} — story order must be unique`);
@@ -1120,7 +1125,7 @@ function detectPrerequisiteCycles(questFiles: Array<{ file: string; json: Json }
 
 
 // ── Movie Mode walkthroughs (Test Playground, T-054) ────────────────────────
-const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
+const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
 const WALKTHROUGH_READY = ['scene_loaded', 'free', 'flag', 'dialogue', 'objective'];
 
 /**
@@ -1193,7 +1198,7 @@ export function validateWalkthroughs(
         case 'interact': if (step.target !== undefined) target(step.target, 'target'); break;
         case 'choose': if (!(typeof step.option === 'number' && step.option >= 0) && !(typeof step.option === 'string' && step.option)) add(`${where} option must be an index or a text/node id`); break;
         case 'wait': if (typeof step.ms !== 'number' || step.ms < 0) add(`${where} ms must be a number`); break;
-        case 'phone': if (!['open', 'close', 'app', 'tap'].includes(step.action)) add(`${where} phone action must be open, close, app or tap`); break;
+        case 'phone': if (!['open', 'close', 'back', 'app', 'tap', 'scroll'].includes(step.action)) add(`${where} phone action must be open, close, back, app, tap or scroll`); if (step.action === 'app' && typeof step.app !== 'string') add(`${where} phone app needs an app id`); if (step.action === 'tap' && typeof step.target !== 'string') add(`${where} phone tap needs a focusable target`); break;
         case 'pay': if (step.max !== undefined && typeof step.max !== 'number') add(`${where} max must be a number`); break;
         case 'expect': {
           const keys = ['flag', 'not_flag', 'wallet_lte', 'wallet_gte', 'district', 'scene', 'near'].filter((k) => step[k] !== undefined);

@@ -46,12 +46,13 @@ export class EntryWatcher {
     private readonly scene: Phaser.Scene,
     private readonly body: Phaser.Types.Physics.Arcade.ArcadeColliderType,
     private readonly zone: Phaser.GameObjects.Zone,
-    private readonly onEnter: () => void,
+    /** Return `false` to decline the entry: the watcher stays armed and fires again on the next frame the body is still inside. */
+    private readonly onEnter: () => void | boolean,
   ) {}
 
   update(): void {
     const now = this.scene.physics.overlap(this.body, this.zone);
-    if (now && !this.inside) this.onEnter();
+    if (now && !this.inside && this.onEnter() === false) return; // declined (busy): do not latch, try again
     this.inside = now;
   }
 }

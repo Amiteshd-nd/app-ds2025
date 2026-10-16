@@ -427,7 +427,8 @@ export interface SceneComponent {
   player_goal: string;
   design_goal: string;
   pacing: string[];
-  entry?: { from: string; spawn: string };
+  /** Where the scene starts; `after` names the beats that happen before this entry (their flags are prerequisite state in the Playground). */
+  entry?: { from: string; spawn: string; after?: string[] };
   cast: Array<{ npc: string; tier: number; spawn?: string; schedule?: string; role?: string }>;
   objects?: Array<{ id: string; at: string; requires?: string | null }>;
   quests: string[];

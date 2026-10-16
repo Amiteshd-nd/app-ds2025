@@ -91,8 +91,11 @@ export function buildPrereqState(
     for (const quest of earlier.quests ?? []) if (!questsCompleted.includes(quest)) questsCompleted.push(quest);
   }
 
+  // Beats that happen before the scene's entry (the bus ride before the office gate, the opening before the station stairs): their flags are already true when the scene starts.
+  const allBeats = (target.beats ?? []).filter((b): b is SceneBeat => typeof b === 'object');
+  for (const id of target.entry?.after ?? []) { const beat = allBeats.find((b) => b.id === id); if (beat) for (const flag of beatFlags(beat)) flags[flag] = true; }
   if (beatId) {
-    const beats = (target.beats ?? []).filter((b): b is SceneBeat => typeof b === 'object');
+    const beats = allBeats;
     const at = beats.findIndex((b) => b.id === beatId);
     if (at < 0) throw new Error(`Scene "${sceneId}" has no beat "${beatId}"`);
     for (const beat of beats.slice(0, at)) for (const flag of beatFlags(beat)) flags[flag] = true;

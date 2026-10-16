@@ -1,0 +1,342 @@
+{
+  "scene": "act1_cubbon",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_cubbon + cubbon_park + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "do": "goto",
+      "target": "zone:photo_bandstand"
+    },
+    {
+      "id": "phone_4",
+      "do": "phone",
+      "action": "app",
+      "app": "camera"
+    },
+    {
+      "id": "phone_5",
+      "do": "phone",
+      "action": "tap",
+      "target": "camera:snap"
+    },
+    {
+      "id": "phone_6",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_7",
+      "do": "goto",
+      "target": "zone:photo_library"
+    },
+    {
+      "id": "phone_8",
+      "do": "phone",
+      "action": "app",
+      "app": "camera"
+    },
+    {
+      "id": "phone_9",
+      "do": "phone",
+      "action": "tap",
+      "target": "camera:snap"
+    },
+    {
+      "id": "phone_10",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_11",
+      "do": "goto",
+      "target": "zone:photo_bamboo"
+    },
+    {
+      "id": "phone_12",
+      "do": "phone",
+      "action": "app",
+      "app": "camera"
+    },
+    {
+      "id": "phone_13",
+      "do": "phone",
+      "action": "tap",
+      "target": "camera:snap"
+    },
+    {
+      "id": "phone_14",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_15",
+      "do": "goto",
+      "target": "zone:photo_red_building"
+    },
+    {
+      "id": "phone_16",
+      "do": "phone",
+      "action": "app",
+      "app": "camera"
+    },
+    {
+      "id": "phone_17",
+      "do": "phone",
+      "action": "tap",
+      "target": "camera:snap"
+    },
+    {
+      "id": "phone_18",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_19",
+      "do": "goto",
+      "target": "zone:photo_dog"
+    },
+    {
+      "id": "phone_20",
+      "do": "phone",
+      "action": "app",
+      "app": "camera"
+    },
+    {
+      "id": "phone_21",
+      "do": "phone",
+      "action": "tap",
+      "target": "camera:snap"
+    },
+    {
+      "id": "phone_22",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "wait_for_23",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "cubbon_photos_done",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_24",
+      "beat": "F2",
+      "do": "goto",
+      "target": "npc:npc_ananya"
+    },
+    {
+      "id": "interact_25",
+      "beat": "F2",
+      "do": "interact",
+      "target": "npc:npc_ananya"
+    },
+    {
+      "id": "choose_26",
+      "beat": "F2",
+      "do": "choose",
+      "option": "paid"
+    },
+    {
+      "id": "choose_27",
+      "beat": "F2",
+      "do": "choose",
+      "option": "number"
+    },
+    {
+      "id": "choose_28",
+      "do": "choose",
+      "option": "go",
+      "optional": true
+    },
+    {
+      "id": "goto_29",
+      "do": "goto",
+      "target": "zone:stop_bandstand",
+      "optional": true
+    },
+    {
+      "id": "advance_30",
+      "do": "advance",
+      "optional": true
+    },
+    {
+      "id": "wait_for_31",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ananya_walk1",
+      "timeout": 6000,
+      "optional": true
+    },
+    {
+      "id": "goto_32",
+      "do": "goto",
+      "target": "zone:stop_bamboo",
+      "optional": true
+    },
+    {
+      "id": "advance_33",
+      "do": "advance",
+      "optional": true
+    },
+    {
+      "id": "wait_for_34",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ananya_walk2",
+      "timeout": 6000,
+      "optional": true
+    },
+    {
+      "id": "goto_35",
+      "do": "goto",
+      "target": "zone:stop_library",
+      "optional": true
+    },
+    {
+      "id": "advance_36",
+      "do": "advance",
+      "optional": true
+    },
+    {
+      "id": "wait_for_37",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ananya_walk_done",
+      "timeout": 6000,
+      "optional": true
+    },
+    {
+      "id": "goto_38",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_guitar_shop",
+      "optional": true
+    },
+    {
+      "id": "interact_39",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_guitar_shop",
+      "optional": true
+    },
+    {
+      "id": "choose_40",
+      "beat": "F4",
+      "do": "choose",
+      "option": "booked",
+      "optional": true
+    },
+    {
+      "id": "goto_41",
+      "do": "goto",
+      "target": "npc:npc_jogger",
+      "optional": true
+    },
+    {
+      "id": "interact_42",
+      "do": "interact",
+      "target": "npc:npc_jogger",
+      "optional": true
+    },
+    {
+      "id": "advance_43",
+      "do": "advance",
+      "optional": true
+    },
+    {
+      "id": "goto_44",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:park_gate_bus"
+    },
+    {
+      "id": "wait_for_45",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_46",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:hill_bus"
+    },
+    {
+      "id": "wait_for_47",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_48",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_49",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_50",
+      "beat": "F5",
+      "do": "goto",
+      "target": "zone:flat_arrival"
+    },
+    {
+      "id": "advance_51",
+      "beat": "F5",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_52",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "amma_news_called",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_53",
+      "beat": "F6",
+      "do": "goto",
+      "target": "zone:bed"
+    },
+    {
+      "id": "wait_for_54",
+      "beat": "F6",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "act1_done",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_55",
+      "do": "expect",
+      "flag": "act2_started",
+      "timeout": 3000
+    }
+  ]
+}

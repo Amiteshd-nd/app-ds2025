@@ -1,0 +1,99 @@
+{
+  "scene": "act1_pg_exit",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_pg_exit + prashanth_layout + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "prashanth_layout",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "beat": "F2",
+      "do": "goto",
+      "target": "npc:npc_provision_basava"
+    },
+    {
+      "id": "interact_4",
+      "beat": "F2",
+      "do": "interact",
+      "target": "npc:npc_provision_basava"
+    },
+    {
+      "id": "choose_5",
+      "beat": "F2",
+      "do": "choose",
+      "option": "delivery"
+    },
+    {
+      "id": "goto_6",
+      "do": "goto",
+      "target": "npc:npc_shanthamma"
+    },
+    {
+      "id": "interact_7",
+      "do": "interact",
+      "target": "npc:npc_shanthamma"
+    },
+    {
+      "id": "choose_8",
+      "do": "choose",
+      "option": "notice_given"
+    },
+    {
+      "id": "goto_9",
+      "do": "goto",
+      "target": "exit:gate10"
+    },
+    {
+      "id": "wait_for_10",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "shanthamma_pg",
+      "timeout": 20000
+    },
+    {
+      "id": "sleep_11",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_12",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_13",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_14",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_15",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_16",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_17",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_18",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "pg_notice_due",
+      "timeout": 6000
+    }
+  ]
+}

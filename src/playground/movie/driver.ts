@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { DIALOGUE } from '../../data';
+import { DIALOGUE, DISTRICTS, NPCS } from '../../data';
 import { gameEvents, type GameEvents } from '../../core/events';
 import type { DevApi } from '../../dev/devApi';
 import { pressInteract, setAxis } from '../../input/InputMap';
@@ -7,9 +7,14 @@ import { DialogueManager } from '../../systems/DialogueManager';
 import { useSettings } from '../../systems/SettingsManager';
 import { useGameStore } from '../../store';
 import { INTERACT_RANGE_PX, LAYERS, SCENE_KEYS } from '../../utils/constants';
+import { PHONE } from '../../ui/phone/layout';
 import { MOVIE_OVERLAY_KEY, MovieOverlayScene } from './MovieOverlayScene';
 import type { DriverState, MovieDriver, Target } from './types';
-import { astar, buildGrid, cellAt, cellCentre, corners, FEET_DY, nearestFree, overlapsZone, zoneOf, type Grid, type Rect } from './walkgrid';
+import { astar, buildGrid, cellAt, cellCentre, corners, FEET_DY, nearestFree, overlapsZone, smooth, zoneOf, type Grid, type Rect } from './walkgrid';
+
+/** The bot's planning grid: the validator's feet box on 2 px cells, so any gap the body fits through stays open. */
+const BOT_CELL = 2;
+const BOT_FEET = Object.freeze({ w: 20, h: 12 });
 
 /** Frames a synthetic key is held (Phaser clears JustDown on keyup; the box reads keydown). */
 const KEY_HOLD_FRAMES = 5;
@@ -117,6 +122,22 @@ export class PhaserDriver implements MovieDriver {
   walk(dx: number, dy: number): void { setAxis(dx, dy); }
   interact(): void { pressInteract(); }
 
+  /** A tap on the canvas at game coordinates — the touch path (Phaser's mouse manager listens on the canvas). */
+  async tap(gameX: number, gameY: number): Promise<void> {
+    const canvas = this.game.canvas;
+    // Phaser caches the canvas bounds; inside the Playground's scaled frame they go stale between layouts.
+    (this.game.scale as unknown as { updateBounds?: () => void }).updateBounds?.();
+    const rect = canvas.getBoundingClientRect();
+    const clientX = rect.left + (gameX / this.game.scale.width) * rect.width;
+    const clientY = rect.top + (gameY / this.game.scale.height) * rect.height;
+    const init = { clientX, clientY, button: 0, buttons: 1, bubbles: true, cancelable: true };
+    canvas.dispatchEvent(new MouseEvent('mousemove', init));
+    canvas.dispatchEvent(new MouseEvent('mousedown', init));
+    await this.frames(3);
+    canvas.dispatchEvent(new MouseEvent('mouseup', { ...init, buttons: 0 }));
+    await this.frames(2);
+  }
+
   async key(code: string, key: string, keyCode: number): Promise<void> {
     window.dispatchEvent(new KeyboardEvent('keydown', { code, key, keyCode, bubbles: true }));
     await this.frames(KEY_HOLD_FRAMES);
@@ -124,27 +145,48 @@ export class PhaserDriver implements MovieDriver {
     await this.frames(2);
   }
 
+  /** Clear of walls, exits and action zones (the crowd aside) — where a sidestep may land. */
+  freeAt(x: number, y: number): boolean {
+    const w = this.world(); if (!w || !w.map) return false;
+    const grid = this.grid(w, undefined, true, false);
+    const i = cellAt(grid, x, y);
+    return i >= 0 && !grid.blocked[i];
+  }
+
   feet(): [number, number] | null {
     const w = this.world();
     return w?.player ? [w.player.x, w.player.y + FEET_DY] : null;
   }
 
-  route(target: Target): { ok: true; corners: Array<[number, number]>; px: number } | { ok: false; reason: string } {
+  route(target: Target): { ok: true; corners: Array<[number, number]>; px: number; zone?: { x: number; y: number; w: number; h: number; avoid?: Array<{ x: number; y: number; w: number; h: number }> } } | { ok: false; reason: string } {
     const w = this.world();
     if (!w || !w.map || !w.player) return { ok: false, reason: 'no_world' };
-    const grid = this.grid(w);
-    const goal = this.resolve(w, grid, target);
-    if (!goal) return { ok: false, reason: `unknown_target:${target}` };
+    // Plan around exits and action zones first; when that seals the way (the hotel's bed under its room zone,
+    // the lane's mouth beside its pavement), plan again without them and take the risk a thumb would.
     const feet = this.feet()!;
-    const start = nearestFree(grid, cellAt(grid, feet[0], feet[1]));
-    if (start < 0) return { ok: false, reason: 'player_off_grid' };
-    const path = astar(grid, start, goal.test, goal.point);
-    if (!path) return { ok: false, reason: `unreachable_target:${target}` };
+    let grid = this.grid(w, target, true);
+    let goal = this.resolve(w, grid, target);
+    if (!goal) return { ok: false, reason: `unknown_target:${target}` };
+    if (goal.here && goal.here(feet)) return { ok: true, corners: [], px: 0, zone: goal.zone };
+    const startCell = cellAt(grid, feet[0], feet[1]);
+    if (startCell < 0) return { ok: false, reason: `player_off_grid at ${Math.round(feet[0])},${Math.round(feet[1])}` };
+    let path: number[] | null = null, start = -1;
+    // Goal variants in order (a cell with its centre inside the zone, then any overlap); the exits avoided first,
+    // the crowd treated as walls first (three citizens around the spawn can seal a road for a while — then the
+    // walk sidesteps whoever is still in the way).
+    for (const [avoid, crowd] of [[true, true], [true, false], [false, true], [false, false]] as Array<[boolean, boolean]>) {
+      if (!(avoid && crowd)) { grid = this.grid(w, target, avoid, crowd); goal = this.resolve(w, grid, target)!; }
+      start = nearestFree(grid, startCell, Math.ceil(24 / grid.cell));
+      if (start < 0) continue;
+      for (const test of goal.tests) { path = astar(grid, start, test, goal.point); if (path) break; }
+      if (path) break;
+    }
+    if (!path) return { ok: false, reason: start < 0 ? `player_boxed_in at ${Math.round(feet[0])},${Math.round(feet[1])}` : `unreachable_target:${target}` };
     // The first waypoint is the start cell itself: the player's own cell can be dilated shut (a citizen
     // standing on them), so the route begins on the nearest free cell — walk there before following
     // the 4-connected corners, otherwise the first leg cuts diagonally through whatever blocked it.
-    const pts = [cellCentre(grid, start), ...corners(grid, path)];
-    return { ok: true, corners: pts, px: path.length * grid.cell };
+    const pts = smooth(grid, [cellCentre(grid, start), ...corners(grid, path)]);
+    return { ok: true, corners: pts, px: path.length * grid.cell, zone: goal.zone };
   }
 
   dialogue() {
@@ -161,6 +203,21 @@ export class PhaserDriver implements MovieDriver {
       return { text: c.text, enabled: c.enabled, next: raw?.next, cost: wallet < 0 ? -wallet : 0 };
     });
     return { open: true, typing: Boolean(box.typing), selected: box.selected, choices, text: view.text };
+  }
+
+  talkingTo(): string | null {
+    const hud = this.hud(); if (!hud?.dialogue?.isOpen) return null;
+    const view = DialogueManager.getInstance().view(); if (!view) return null;
+    const w = this.world();
+    const npc = w?.npcs.find((n) => NPCS[n.getData('npcId') as string]?.dialogue === view.dialogueId);
+    return npc ? (npc.getData('npcId') as string) : null;
+  }
+
+  phone() {
+    const scene = this.game.scene.getScene(SCENE_KEYS.PHONE) as (Phaser.Scene & { phase: string; route: { app: string }; focusId: string | null; focusables: Array<{ id: string; x: number; y: number; w: number; h: number }> }) | null;
+    if (!scene || !this.game.scene.isActive(SCENE_KEYS.PHONE) || scene.phase !== 'open') return null;
+    const root = (scene as unknown as { root?: { x: number; y: number } }).root;
+    return { app: scene.route?.app ?? 'home', focusId: scene.focusId ?? null, origin: [PHONE.x + PHONE.screen.x, (root?.y ?? PHONE.y) + PHONE.screen.y] as [number, number], focusables: (scene.focusables ?? []).map((f) => ({ id: f.id, x: f.x, y: f.y, w: f.w, h: f.h })) };
   }
 
   on(event: string, cb: (payload: unknown) => void): () => void {
@@ -212,8 +269,19 @@ export class PhaserDriver implements MovieDriver {
    * footprints, NPC bodies, the crowd). Trigger and exit zones are physics
    * zones too, but nothing collides with them — so they never block a route.
    */
-  private grid(w: World): Grid {
+  private grid(w: World, target?: Target, avoidZones = true, withCrowd = true): Grid {
     const rects: Rect[] = [];
+    // Exits and zones that take the world over (a bed, the office door) are walls unless they are the target:
+    // a route that brushes the lane's mouth would otherwise leave the district on the way to the shop.
+    const districtId = useGameStore.getState().activeDistrict;
+    const district = districtId ? DISTRICTS[districtId] : undefined;
+    const targetName = target ? target.slice(target.indexOf(':') + 1) : '';
+    const taboo = [...(district?.exits ?? []).map((e) => e.zone), ...(district?.triggers ?? []).filter((t) => t.action).map((t) => t.zone)].filter((z) => z !== targetName);
+    const tabooRects: Rect[] = [];
+    for (const name of avoidZones ? taboo : []) {
+      const obj = w.map.getObjectLayer(LAYERS.spawns)?.objects.find((o) => o.name === name);
+      if (obj && obj.width && obj.height) tabooRects.push([obj.x ?? 0, obj.y ?? 0, obj.width, obj.height]);
+    }
     const push = (b: { x: number; y: number; width: number; height: number } | null | undefined) => { if (b && b.width > 0 && b.height > 0) rects.push([b.x, b.y, b.width, b.height]); };
     for (const c of w.physics.world.colliders.getActive()) {
       const other = (c.object1 === w.player ? c.object2 : c.object2 === w.player ? c.object1 : null) as unknown;
@@ -229,28 +297,37 @@ export class PhaserDriver implements MovieDriver {
         continue;
       }
       // The crowd is a plain array of sprites (WorldScene collides the player with `crowd.citizens`).
-      if (Array.isArray(other)) { for (const child of other as Array<{ body?: Phaser.Physics.Arcade.Body }>) push(child.body ?? null); continue; }
+      if (Array.isArray(other)) { if (withCrowd) for (const child of other as Array<{ body?: Phaser.Physics.Arcade.Body }>) push(child.body ?? null); continue; }
       push((other as { body?: Phaser.Physics.Arcade.Body }).body ?? null);
     }
-    return buildGrid(rects, w.map.widthInPixels, w.map.heightInPixels);
+    // 2 px cells: the validator's 8 px grid seals gaps the body squeezes through (between two parked autos,
+    // a scooter and a wall, a shop front and its pavement), and the bot would plan the long way or not at all.
+    const grid = buildGrid(rects, w.map.widthInPixels, w.map.heightInPixels, BOT_CELL, BOT_FEET);
+    // Zones fire on any overlap and the stick drifts a few px off the planned line, so they get a wider margin
+    // than walls; when that seals the only way, route() plans again without them.
+    if (tabooRects.length) { const slack = 2 * (3 + 2 * this.speed); const zones = buildGrid(tabooRects, w.map.widthInPixels, w.map.heightInPixels, BOT_CELL, { w: BOT_FEET.w + slack, h: BOT_FEET.h + slack }); for (let i = 0; i < grid.blocked.length; i++) if (zones.blocked[i]) grid.blocked[i] = 1; }
+    return grid;
   }
 
-  /** "npc:<id>" | "zone:<name>" | "spawn:<name>" | "exit:<zone>" | "tile:x,y" | bare name (npc, then zone/spawn). */
-  private resolve(w: World, grid: Grid, target: Target): { test: (i: number) => boolean; point: [number, number] } | null {
+  /** "npc:<id>" | "zone:<name>" | "spawn:<name>" | "exit:<zone>" | "tile:x,y" | "px:x,y" (a feet point) | bare name (npc, then zone/spawn). */
+  private resolve(w: World, grid: Grid, target: Target): { tests: Array<(i: number) => boolean>; point: [number, number]; here?: (feet: [number, number]) => boolean; zone?: { x: number; y: number; w: number; h: number; avoid?: Array<{ x: number; y: number; w: number; h: number }> } } | null {
     const [prefix, rest] = target.includes(':') ? [target.slice(0, target.indexOf(':')), target.slice(target.indexOf(':') + 1)] : ['', target];
     const npc = (id: string) => w.npcs.find((n) => n.getData('npcId') === id && n.active);
     const object = (name: string) => w.map.getObjectLayer(LAYERS.spawns)?.objects.find((o) => o.name === name);
     if (prefix === 'npc' || (!prefix && npc(rest))) {
       const n = npc(rest); if (!n) return null;
-      // Standing anywhere in talking reach (WorldScene.nearestNpc measures sprite centres), with a margin for a wide feet box.
-      const reach = INTERACT_RANGE_PX - 14;
-      return { point: [n.x, n.y + FEET_DY], test: (i) => { const [x, y] = cellCentre(grid, i); return Math.hypot(x - n.x, y - FEET_DY - n.y) < reach; } };
+      // Standing in talking reach (WorldScene.nearestNpc measures sprite centres) and nearer to this NPC than to any other,
+      // so E talks to the right one; a small margin for the stick stopping short of a cell centre.
+      const reach = INTERACT_RANGE_PX - 6;
+      const others = w.npcs.filter((o) => o !== n && o.active);
+      const good = (px: number, py: number) => { const dn = Math.hypot(px - n.x, py - n.y); return dn < reach && others.every((o) => Math.hypot(px - o.x, py - o.y) > dn + 4); };
+      return { point: [n.x, n.y + FEET_DY], tests: [(i) => { const [x, y] = cellCentre(grid, i); return good(x, y - FEET_DY); }], here: (feet) => good(feet[0], feet[1] - FEET_DY) };
     }
-    if (prefix === 'tile') {
-      const [tx, ty] = rest.split(',').map(Number);
-      const point: [number, number] = [tx * 32 + 16, ty * 32 + 16];
-      const goal = nearestFree(grid, cellAt(grid, point[0], point[1]));
-      return goal < 0 ? null : { point, test: (i) => i === goal };
+    if (prefix === 'tile' || prefix === 'px') {
+      const [a, b] = rest.split(',').map(Number);
+      const point: [number, number] = prefix === 'tile' ? [a * 32 + 16, b * 32 + 16] : [a, b];
+      const goal = nearestFree(grid, cellAt(grid, point[0], point[1]), Math.ceil(12 / grid.cell));
+      return goal < 0 ? null : { point, tests: [(i) => i === goal], here: (feet) => Math.hypot(feet[0] - point[0], feet[1] - point[1]) <= 3 };
     }
     const obj = object(rest);
     if (!obj) return null;
@@ -260,10 +337,22 @@ export class PhaserDriver implements MovieDriver {
       // one-pixel overlap on the grid can be no overlap for the physics body. Thin zones keep a third.
       const m = Math.min(6, zone.w / 3, zone.h / 3);
       const inner = { x: zone.x + m, y: zone.y + m, w: zone.w - 2 * m, h: zone.h - 2 * m };
-      return { point: [zone.x + zone.w / 2, zone.y + zone.h / 2], test: (i) => overlapsZone(grid, i, inner) };
+      // Prefer standing with the feet centre inside the zone (signal rooms and photo spots read the body centre);
+      // a zone drawn over something solid (the bed, an arrival zone around a parked auto) is reachable at its edge only.
+      const centreIn = (x: number, y: number) => x >= zone.x + 1 && x <= zone.x + zone.w - 1 && y >= zone.y + 1 && y <= zone.y + zone.h - 1;
+      // Photo spots and signal rooms are read "first zone wins": stand where no sibling zone also claims the spot
+      // (the dog's zone shares a corner with the bandstand's).
+      const districtId = useGameStore.getState().activeDistrict;
+      const district = districtId ? DISTRICTS[districtId] : undefined;
+      const siblings = [...(district?.photoSpots ?? []).map((p) => p.zone), ...(district?.signalZones ?? []).map((z) => z.zone)].filter((n) => n !== rest && [...(district?.photoSpots ?? []).map((p) => p.zone), ...(district?.signalZones ?? []).map((z) => z.zone)].includes(rest));
+      const others = siblings.map((n) => object(n)).filter((o): o is NonNullable<typeof o> => Boolean(o && o.width && o.height)).map((o) => zoneOf(o));
+      const exclusive = (x: number, y: number) => centreIn(x, y) && !others.some((o) => x >= o.x && x <= o.x + o.w && y >= o.y && y <= o.y + o.h);
+      const tests = [(i: number) => { const [x, y] = cellCentre(grid, i); return exclusive(x, y); }, (i: number) => { const [x, y] = cellCentre(grid, i); return centreIn(x, y); }, (i: number) => overlapsZone(grid, i, inner), (i: number) => overlapsZone(grid, i, zone)];
+      const inside = (feet: [number, number]) => exclusive(feet[0], feet[1]);
+      return { point: [zone.x + zone.w / 2, zone.y + zone.h / 2], tests, here: inside, zone: others.length ? { ...zone, avoid: others } : zone };
     }
     // A point spawn: stand within 12 px of it.
     const point: [number, number] = [obj.x ?? 0, (obj.y ?? 0) + FEET_DY];
-    return { point, test: (i) => { const [x, y] = cellCentre(grid, i); return Math.hypot(x - point[0], y - point[1]) < 12; } };
+    return { point, tests: [(i) => { const [x, y] = cellCentre(grid, i); return Math.hypot(x - point[0], y - point[1]) < 12; }] };
   }
 }

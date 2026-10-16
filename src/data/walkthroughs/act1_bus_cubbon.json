@@ -1,0 +1,103 @@
+{
+  "scene": "act1_bus_cubbon",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_bus_cubbon + bus_interior + entry.after F1/F2",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "bus_interior",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "metro_seen",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_4",
+      "beat": "F2",
+      "do": "expect",
+      "flag": "on_bus_500d",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_5",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_bus_nurse",
+      "optional": true
+    },
+    {
+      "id": "interact_6",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_bus_nurse",
+      "optional": true
+    },
+    {
+      "id": "choose_7",
+      "beat": "F3",
+      "do": "choose",
+      "option": "seasonal",
+      "optional": true
+    },
+    {
+      "id": "goto_8",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_bus_uncle",
+      "optional": true
+    },
+    {
+      "id": "interact_9",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_bus_uncle",
+      "optional": true
+    },
+    {
+      "id": "choose_10",
+      "beat": "F3",
+      "do": "choose",
+      "option": "what",
+      "optional": true
+    },
+    {
+      "id": "wait_for_11",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 90000
+    },
+    {
+      "id": "goto_12",
+      "beat": "F4",
+      "do": "goto",
+      "target": "zone:cubbon_arrival"
+    },
+    {
+      "id": "wait_for_13",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "cubbon_arrived",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_14",
+      "do": "expect",
+      "flag": "act1_bus_done",
+      "timeout": 3000
+    }
+  ]
+}

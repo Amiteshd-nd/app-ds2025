@@ -151,7 +151,10 @@
   "time": "Weekday evening",
   "entry": {
     "from": "whitefield_street",
-    "spawn": "bus_drop"
+    "spawn": "bus_drop",
+    "after": [
+      "F1"
+    ]
   },
   "objects": [
     {

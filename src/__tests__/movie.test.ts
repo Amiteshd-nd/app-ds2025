@@ -6,7 +6,7 @@ import { MAPS } from '../assets/maps';
 import { runStep } from '../playground/movie/actions';
 import { MovieRunner, summarise } from '../playground/movie/runner';
 import type { DriverState, MovieDriver, Step, Walkthrough } from '../playground/movie/types';
-import { astar, bfs, buildGrid, cellAt, cellCentre, corners, nearestFree, overlapsZone, rectsFromTmj, zoneOf, FEET_DY } from '../playground/movie/walkgrid';
+import { astar, bfs, buildGrid, cellAt, cellCentre, corners, lineFree, nearestFree, overlapsZone, rectsFromTmj, smooth, zoneOf, FEET_DY } from '../playground/movie/walkgrid';
 import { reachable, validateWalkthroughs } from '../../scripts/validate-content.ts';
 // @ts-expect-error — plain .mjs build check, no types
 import { checkDist, MARKERS } from '../../scripts/check-dist.mjs';
@@ -51,6 +51,11 @@ describe('walk grid (shared by the validator and the bot)', () => {
     const path = astar(gap, start, (i) => i === end, cellCentre(gap, end))!;
     expect(path).not.toBeNull();
     expect(path[path.length - 1]).toBe(end);
+    // String-pulling: the staircase through the gap becomes a few straight legs, each over free cells only.
+    const pts = smooth(gap, corners(gap, path));
+    expect(pts.length).toBeLessThanOrEqual(corners(gap, path).length);
+    for (let k = 1; k < pts.length; k++) expect(lineFree(gap, pts[k - 1], pts[k])).toBe(true);
+    expect(lineFree(gap, [20, 20], [180, 100])).toBe(false);
   });
 });
 
@@ -74,6 +79,10 @@ function fakeDriver(over: Partial<DriverState> = {}, options: { routes?: Record<
     route: (t) => options.routes?.[t] ?? { ok: false, reason: `unknown_target:${t}` },
     feet: () => feet,
     dialogue: () => null,
+    phone: () => null,
+    tap: async () => undefined,
+    freeAt: () => true,
+    talkingTo: () => null,
     on: (e, cb) => { if (!listeners.has(e)) listeners.set(e, new Set()); listeners.get(e)!.add(cb); return () => listeners.get(e)!.delete(cb); },
     setFlag: (f, v) => { state.flags[f] = v; },
     screenshot: async () => 'data:image/png;base64,AAAA',
@@ -100,7 +109,7 @@ describe('actions', () => {
     expect((await runStep(d, { do: 'goto', target: 'zone:nowhere' }, ctx)).reason).toMatch(/unknown_target/);
     const r = await runStep(d, { do: 'goto', target: 'zone:far' }, ctx);
     expect(r.status).toBe('failed');
-    expect(r.reason).toMatch(/stuck/);
+    expect(r.reason).toMatch(/stuck|timeout:goto/); // sidesteps and replans first; the walk's own timeout may end it
   });
 
   it('wait_for times out as a failure, never an exception; expect names what was wrong; set_flag is a cheat', async () => {

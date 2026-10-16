@@ -24,7 +24,7 @@ export interface Grid {
 }
 
 /** Mark every cell whose feet box would overlap a rect. */
-export function buildGrid(rects: Rect[], widthPx: number, heightPx: number, cell = CELL, feet = FEET): Grid {
+export function buildGrid(rects: Rect[], widthPx: number, heightPx: number, cell = CELL, feet: { w: number; h: number } = FEET): Grid {
   const cols = Math.ceil(widthPx / cell), rows = Math.ceil(heightPx / cell);
   const blocked = new Uint8Array(cols * rows);
   for (const [x, y, w, h] of rects) {
@@ -48,7 +48,7 @@ export function cellCentre(grid: Grid, index: number): [number, number] {
 }
 
 /** The feet box standing on a cell overlaps the zone (zones often hug a wall's edge). */
-export function overlapsZone(grid: Grid, index: number, zone: Zone, feet = FEET): boolean {
+export function overlapsZone(grid: Grid, index: number, zone: Zone, feet: { w: number; h: number } = FEET): boolean {
   const [px, py] = cellCentre(grid, index);
   return px + feet.w / 2 > zone.x && px - feet.w / 2 < zone.x + zone.w && py + feet.h / 2 > zone.y && py - feet.h / 2 < zone.y + zone.h;
 }
@@ -179,5 +179,31 @@ export function corners(grid: Grid, path: number[]): Array<[number, number]> {
     prevDir = dir;
   }
   out.push(cellCentre(grid, path[path.length - 1]));
+  return out;
+}
+
+/** True when every cell under the segment a→b is free (sampled every half cell). */
+export function lineFree(grid: Grid, a: [number, number], b: [number, number]): boolean {
+  const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+  const steps = Math.max(1, Math.ceil(len / (grid.cell / 2)));
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const idx = cellAt(grid, a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t);
+    if (idx < 0 || grid.blocked[idx]) return false;
+  }
+  return true;
+}
+
+/** String-pulling: drop every waypoint that a straight free line can skip, so a staircase becomes a diagonal. */
+export function smooth(grid: Grid, points: Array<[number, number]>): Array<[number, number]> {
+  if (points.length < 3) return points;
+  const out: Array<[number, number]> = [points[0]];
+  let i = 0;
+  while (i < points.length - 1) {
+    let j = points.length - 1;
+    while (j > i + 1 && !lineFree(grid, points[i], points[j])) j--;
+    out.push(points[j]);
+    i = j;
+  }
   return out;
 }

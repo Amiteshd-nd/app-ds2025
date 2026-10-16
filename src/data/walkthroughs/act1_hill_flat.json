@@ -1,0 +1,244 @@
+{
+  "scene": "act1_hill_flat",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_hill_flat + ambedkar_nagar_hill + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "do": "goto",
+      "target": "zone:hill_arrival"
+    },
+    {
+      "id": "wait_for_4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "hill_arrived",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_5",
+      "do": "goto",
+      "target": "npc:npc_manju"
+    },
+    {
+      "id": "interact_6",
+      "do": "interact",
+      "target": "npc:npc_manju"
+    },
+    {
+      "id": "choose_7",
+      "do": "choose",
+      "option": "teach"
+    },
+    {
+      "id": "goto_8",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:room1_door"
+    },
+    {
+      "id": "phone_9",
+      "beat": "F2",
+      "do": "phone",
+      "action": "app",
+      "app": "reels"
+    },
+    {
+      "id": "phone_10",
+      "beat": "F2",
+      "do": "phone",
+      "action": "tap",
+      "target": "reel:reel_traffic"
+    },
+    {
+      "id": "wait_for_11",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "room1_checked",
+      "timeout": 8000
+    },
+    {
+      "id": "phone_12",
+      "beat": "F2",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_13",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:room2_door"
+    },
+    {
+      "id": "phone_14",
+      "beat": "F2",
+      "do": "phone",
+      "action": "app",
+      "app": "reels"
+    },
+    {
+      "id": "phone_15",
+      "beat": "F2",
+      "do": "phone",
+      "action": "tap",
+      "target": "reel:reel_traffic"
+    },
+    {
+      "id": "wait_for_16",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "room2_checked",
+      "timeout": 8000
+    },
+    {
+      "id": "phone_17",
+      "beat": "F2",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_18",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:room3_door"
+    },
+    {
+      "id": "phone_19",
+      "beat": "F2",
+      "do": "phone",
+      "action": "app",
+      "app": "reels"
+    },
+    {
+      "id": "phone_20",
+      "beat": "F2",
+      "do": "phone",
+      "action": "tap",
+      "target": "reel:reel_traffic"
+    },
+    {
+      "id": "wait_for_21",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "room3_checked",
+      "timeout": 8000
+    },
+    {
+      "id": "phone_22",
+      "beat": "F2",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_23",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_owner_aunty"
+    },
+    {
+      "id": "interact_24",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_owner_aunty"
+    },
+    {
+      "id": "choose_25",
+      "beat": "F3",
+      "do": "choose",
+      "option": "price"
+    },
+    {
+      "id": "choose_26",
+      "beat": "F3",
+      "do": "choose",
+      "option": "Deal, Aunty"
+    },
+    {
+      "id": "goto_27",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_furniture_rafiq"
+    },
+    {
+      "id": "interact_28",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_furniture_rafiq"
+    },
+    {
+      "id": "choose_29",
+      "beat": "F4",
+      "do": "choose",
+      "option": "cot"
+    },
+    {
+      "id": "goto_30",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_furniture_rafiq",
+      "optional": true
+    },
+    {
+      "id": "interact_31",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_furniture_rafiq",
+      "optional": true
+    },
+    {
+      "id": "choose_32",
+      "beat": "F4",
+      "do": "choose",
+      "option": "stove",
+      "optional": true
+    },
+    {
+      "id": "goto_33",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_34",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "sleep_35",
+      "beat": "F5",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_36",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "slept_in_flat",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_37",
+      "do": "expect",
+      "flag": "act1_hill_done",
+      "timeout": 3000
+    }
+  ]
+}

@@ -26,8 +26,9 @@ export type Step = Base & (
   | { do: 'goto'; target: Target }
   | { do: 'interact'; target?: Target }
   | { do: 'choose'; option: string | number }
+  | { do: 'advance' }
   | { do: 'wait'; ms: number }
-  | { do: 'phone'; action: 'open' | 'close' | 'app' | 'tap'; app?: string; id?: string }
+  | { do: 'phone'; action: 'open' | 'close' | 'back' | 'app' | 'tap' | 'scroll'; app?: string; target?: string; n?: number }
   | { do: 'sleep' }
   | { do: 'pay'; max?: number }
   | { do: 'expect'; flag?: string; not_flag?: string; wallet_lte?: number; wallet_gte?: number; district?: string; scene?: string; near?: Target }
@@ -36,10 +37,12 @@ export type Step = Base & (
 );
 
 export type StepAction = Step['do'];
-export const STEP_ACTIONS: readonly StepAction[] = ['wait_for', 'goto', 'interact', 'choose', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
+export const STEP_ACTIONS: readonly StepAction[] = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
 
 export interface Walkthrough {
   scene: string;
+  /** What the generator could not resolve or skipped, for the reader (never steps). */
+  notes?: string[];
   /** How the file came to be ("generated 2026-10-16 from beats", "hand-authored"). */
   generated?: string;
   /** RNG seed for this scene's run (the runner's seed otherwise). */
@@ -124,11 +127,19 @@ export interface MovieDriver {
   interact(): void;
   key(code: string, key: string, keyCode: number): Promise<void>;
   /** Walking: a planned route to a target, or an error reason. */
-  route(target: Target): { ok: true; corners: Array<[number, number]>; px: number } | { ok: false; reason: string };
+  route(target: Target): { ok: true; corners: Array<[number, number]>; px: number; zone?: { x: number; y: number; w: number; h: number; avoid?: Array<{ x: number; y: number; w: number; h: number }> } } | { ok: false; reason: string };
+  /** Clear of walls, exits and action zones — where a sidestep may land. */
+  freeAt(x: number, y: number): boolean;
   /** Feet point of the player (for steering / expect near). */
   feet(): [number, number] | null;
   /** The dialogue box's choices right now (enabled flags), the selected index, and whether it is still typing. */
   dialogue(): { open: boolean; typing: boolean; selected: number; choices: Array<{ text: string; enabled: boolean; next?: string; cost: number }>; text: string } | null;
+  /** The NPC id whose conversation is open (by its dialogue id), or null. */
+  talkingTo(): string | null;
+  /** The phone overlay right now: route, focused id, focusable ids with their boxes; null when closed. */
+  phone(): { app: string; focusId: string | null; origin: [number, number]; focusables: Array<{ id: string; x: number; y: number; w: number; h: number }> } | null;
+  /** A tap on the canvas at game coordinates (the touch path). */
+  tap(gameX: number, gameY: number): Promise<void>;
   /** Subscribe to one game event; returns the unsubscribe. */
   on(event: string, cb: (payload: unknown) => void): () => void;
   setFlag(flag: string, value: boolean): void;

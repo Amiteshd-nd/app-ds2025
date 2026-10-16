@@ -1,0 +1,85 @@
+{
+  "scene": "act1_first_day",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_first_day + office_gate + entry.after F1",
+  "seed": 7,
+  "notes": [
+    "q_act1_first_day/leave (reach main_road in prashanth_layout) lies before the scene's entry — skipped",
+    "q_act1_first_day/ride (flag auto_fare_paid in whitefield_street) lies before the scene's entry — skipped",
+    "q_act1_first_day cannot complete inside this scene — its on_complete flags are not expected"
+  ],
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "office_gate",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "do": "goto",
+      "target": "zone:office_arrival"
+    },
+    {
+      "id": "wait_for_4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "office_arrived",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_5",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_prakash"
+    },
+    {
+      "id": "interact_6",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_prakash"
+    },
+    {
+      "id": "choose_7",
+      "beat": "F3",
+      "do": "choose",
+      "option": "spelt"
+    },
+    {
+      "id": "goto_8",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_divya"
+    },
+    {
+      "id": "interact_9",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_divya"
+    },
+    {
+      "id": "advance_10",
+      "beat": "F3",
+      "do": "advance"
+    },
+    {
+      "id": "goto_11",
+      "beat": "F4",
+      "do": "goto",
+      "target": "zone:office_door"
+    },
+    {
+      "id": "wait_for_12",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "act1_first_day_done",
+      "timeout": 6000
+    }
+  ]
+}

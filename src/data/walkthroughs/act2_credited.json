@@ -1,0 +1,92 @@
+{
+  "scene": "act2_credited",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act2_credited + scooter_showroom + entry.after F1",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "scooter_showroom",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "first_salary",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:showroom_arrival"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "showroom_arrived",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_6",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_noor"
+    },
+    {
+      "id": "interact_7",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_noor"
+    },
+    {
+      "id": "choose_8",
+      "beat": "F3",
+      "do": "choose",
+      "option": "emi_deal"
+    },
+    {
+      "id": "goto_9",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_bunk_attendant",
+      "optional": true
+    },
+    {
+      "id": "interact_10",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_bunk_attendant",
+      "optional": true
+    },
+    {
+      "id": "choose_11",
+      "beat": "F4",
+      "do": "choose",
+      "option": "full",
+      "optional": true
+    },
+    {
+      "id": "unresolved_12",
+      "beat": "F5",
+      "do": "unresolved",
+      "reason": "q_act2_credited/ride: nothing in scooter_showroom (trigger, conversation, sleep, phone) or reachable through its exits sets scooter_ridden — set by code or by a system the generator does not model",
+      "optional": true
+    },
+    {
+      "id": "expect_13",
+      "do": "expect",
+      "flag": "act2_credited_done",
+      "timeout": 3000
+    }
+  ]
+}

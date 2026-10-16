@@ -1,0 +1,44 @@
+{
+  "scene": "act1_ravi_intro",
+  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_ravi_intro + office_gate + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "office_gate",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "met_sameer",
+      "timeout": 3000,
+      "optional": true
+    },
+    {
+      "id": "goto_4",
+      "beat": "F2",
+      "do": "goto",
+      "target": "npc:npc_ravi"
+    },
+    {
+      "id": "interact_5",
+      "beat": "F2",
+      "do": "interact",
+      "target": "npc:npc_ravi"
+    },
+    {
+      "id": "choose_6",
+      "beat": "F2",
+      "do": "choose",
+      "option": "town"
+    }
+  ]
+}
