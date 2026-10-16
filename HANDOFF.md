@@ -1,21 +1,22 @@
 # HANDOFF — resume here (read right after CLAUDE.md)
-Updated: 2026-10-16, layering brief approved + pushed; P10 = 2.1 "Credited" built (awaiting audit). A new chat picks up exactly here.
+Updated: 2026-10-16, P10 = 2.1 "Credited" approved + pushed (38c33c6); 2.2 "Metro Opens" stub DRAFTED (`src/data/scenes/act2_metro_opens.json`), awaiting the user's edits before P11 builds it. A new chat picks up exactly here.
 
 ## 0. Where we are — in one breath
-Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P9 approved; the layering brief (render model ADR-125 on all maps + Playground Locations) approved and pushed** (fedc10f). **P10 = story 2.1 "Credited" (ADR-126) is built and awaits the user's audit**: paydays every 30 nights after the first salary (₹42,000) with the two-wheeler tutorial toast; Sameer's tip; the new `scooter_showroom` pocket on ITPL Main Road (petrol bunk under a canopy, Noor Motors with its scooter row, tea stall, bakery, bus shelter; built on the render model); Noor's grey scooter ₹38,000 — a slick outright haggle (floor ₹35,000) or the EMI (₹6,000 down + ₹3,200 × 10 on salary days through the ledger, bounces with stress); four litres with the keys; the bunk (₹350 full / ₹100 worth) with the contextual fuel gauge; Maps → RIDE · FUEL −N% to visited Whitefield pockets, the Scooter → … card with the fuel line, the gauge on landing, your scooter parked where you arrive. Browser-checked: arrival, the EMI deal (−₹6,000, fuel 30, emi_left 10), the forecourt gauge, the fill (100%), a ride home (fuel 95, card, parked scooter). Acts 2.2–4 remain stubs. Mobile smoke tests blocked (no Xcode / Android SDK). 411 tests, typecheck, validators, `pnpm build` green. Committed locally; push only when asked.
+Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P9 approved; the layering brief (render model ADR-125 on all maps + Playground Locations) approved and pushed** (fedc10f). **P10 = story 2.1 "Credited" (ADR-126) approved and pushed.** It shipped: paydays every 30 nights after the first salary (₹42,000) with the two-wheeler tutorial toast; Sameer's tip; the new `scooter_showroom` pocket on ITPL Main Road (petrol bunk under a canopy, Noor Motors with its scooter row, tea stall, bakery, bus shelter; built on the render model); Noor's grey scooter ₹38,000 — a slick outright haggle (floor ₹35,000) or the EMI (₹6,000 down + ₹3,200 × 10 on salary days through the ledger, bounces with stress); four litres with the keys; the bunk (₹350 full / ₹100 worth) with the contextual fuel gauge; Maps → RIDE · FUEL −N% to visited Whitefield pockets, the Scooter → … card with the fuel line, the gauge on landing, your scooter parked where you arrive. Browser-checked: arrival, the EMI deal (−₹6,000, fuel 30, emi_left 10), the forecourt gauge, the fill (100%), a ride home (fuel 95, card, parked scooter). Acts 2.2–4 remain stubs. Mobile smoke tests blocked (no Xcode / Android SDK). 411 tests, typecheck, validators, `pnpm build` green. Committed locally; push only when asked.
 
 ## 1. Phase / task ledger
 | Item | State |
 |---|---|
 | P0–P9 · layering brief (T-048/T-049) | approved — ADR-110…125 |
-| **P10 = 2.1 "Credited" (T-052, ADR-126)** | **built 2026-10-16 — awaiting the user's audit** |
-| 2.2 "Metro Opens" … 4.6 | stubs — the user co-authors each before its build |
+| P10 = 2.1 "Credited" (T-052, ADR-126) | approved 2026-10-16, pushed |
+| **P11 = 2.2 "Metro Opens" (T-053)** | **stub drafted 2026-10-16 — the user edits words/numbers + answers its `open_questions`, then build** |
+| 2.3 "Guitar" … 4.6 | stubs — the user co-authors each before its build |
 | T-016/T-017 mobile smoke tests | blocked: toolchain missing |
 | T-039 … T-047, T-051 | open |
 
 ## 2. Resume protocol
 1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-118…126), `MEMORY.md`, `AUDIT_LOG.md`.
-2. If the user has audited P10: log corrections as rules, then **co-author 2.2 "Metro Opens"** from its stub (`src/data/scenes/act2_metro_opens.json`: barricades gone, inauguration flags, first ride free, the Purple Line as fast travel between visited stations, a train-interior ride on the bus pattern, the first metro challenge) — take the user's words and numbers into the stub, then build (P11) by the usual recipe. Voice: drafts until the user edits.
+2. **2.2 "Metro Opens" is drafted** in `src/data/scenes/act2_metro_opens.json` (status STUB, `draft` field): take the user's edits and answers to its `open_questions` into the stub, log the decisions as ADR-127, then build P11 by the usual recipe: `metro_station` pocket (compressed concourse) + `metro_interior` coach on the `busRide` pattern → street generator swaps the barricade for a station mouth on `metro_open` → `city.json` gains `stn_cubbon_park` and `metroStation` on whitefield_street/cubbon_park (wakes ADR-115 `MapManager.fastTravel`, already coded, never exercised) → three challenges → validate → browser → audit. Voice: drafts until the user edits.
 3. Art generation now goes through a scratch Figma file (`generate_image` with `fileKey`, then `download_assets` → raw image URL); the planKey URL mode was withdrawn upstream mid-session.
 4. Art direction is delegated: decide, show, log. Ask only on a conflict with a logged decision.
 

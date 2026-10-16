@@ -1,42 +1,200 @@
 {
   "id": "act2_metro_opens",
-  "district": "whitefield_street",
+  "district": "metro_station",
   "act": 2,
   "seq": "2.2",
   "title": "Metro Opens",
   "status": "STUB",
+  "draft": "Claude's draft 2026-10-16 from story_script_v1 §5 (2.2), ADR-05/ADR-115, game_components §4/§6. The user edits the words and the numbers; then P11 builds it.",
+  "time": "A weekday morning, the first sleep after 2.1's scooter decision",
   "player_goal": "Ride the Purple Line on opening day.",
-  "design_goal": "World event: barricades gone, flags, crowd; first ride free; metro challenges begin (lost kid, token-machine jam, seat-for-elderly rep check). Purple Line Whitefield ↔ KR Puram ↔ Indiranagar ↔ MG Road ↔ Cubbon Park (ADR-115 fast travel on visited stations).",
+  "design_goal": "Reveal #13: the metro network (ADR-05 world event). Progress: the map grows from one bus route to a line. Reward: the first ride is free. The three Whitefield metro challenges start the station-unlock ladder (game_components §6) that 2.4 IKEA cashes in at Majestic.",
   "pacing": [
-    "TODO"
+    "Curious",
+    "Reward",
+    "Engaged",
+    "Engaged",
+    "Tense",
+    "Reward",
+    "Calm"
   ],
+  "entry": {
+    "from": "whitefield_street",
+    "spawn": "station_stairs"
+  },
   "cast": [
-    "TODO: station staff",
-    "TODO: lost kid",
-    "TODO: elderly passenger"
+    {
+      "npc": "npc_metro_guard",
+      "tier": 2,
+      "spawn": "gates",
+      "role": "Gate attendant in a high-vis vest. Opening-day line: 'Free today, sir. Tomorrow you pay like everyone.' Explains tokens vs the gate; points at the jammed machine."
+    },
+    {
+      "npc": "npc_lost_kid",
+      "tier": 2,
+      "spawn": "concourse_corner",
+      "role": "Six, Spider-Man T-shirt, crying by the pillar. Challenge #1 'Lost kid': walk him to the guard or find his mother in the crowd (she is by the token machine) → lost_kid_returned, +rep."
+    },
+    {
+      "npc": "npc_kid_mother",
+      "tier": 2,
+      "spawn": "token_queue",
+      "role": "In the token queue, has not noticed yet. Takes the kid back; 'Thank you, thank you' in Kannada and English."
+    },
+    {
+      "npc": "npc_token_uncle",
+      "tier": 2,
+      "spawn": "token_machine",
+      "role": "Feeding a torn ₹10 note into the token machine for the fourth time. Challenge #2 'Token machine jam': tell him it is free today / press cancel for him / lend him ₹10 → token_jam_fixed."
+    },
+    {
+      "npc": "npc_metro_ajji",
+      "tier": 2,
+      "spawn": "coach_standing",
+      "role": "An old woman standing with a cloth bag on the train. Challenge #3 'Seat for elderly': stand up (give seat, +rep) or keep sitting (an aunty's remark, −rep) → seat_given / seat_kept."
+    },
+    {
+      "npc": "npc_metro_crowd",
+      "tier": 3,
+      "spawn": "crowd",
+      "role": "Citizens from the shared sheets: a selfie group under the flags, a man filming the first train, a family with a garland. Atmosphere only."
+    }
   ],
   "quests": [
-    "TODO: q_act2_metro_opens"
+    "q_act2_metro_opens"
   ],
   "beats": [
-    "F1 — The barricade sheets are gone; inauguration flags; a crowd on the street.",
-    "F2 — Station interior pocket (TODO), free token today.",
-    "F3 — Metro challenge #1 on the train.",
-    "F4 — MG Road / Indiranagar as new pockets (TODO: which first)."
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "The morning after the scooter decision: a News headline 'Purple Line: Whitefield stretch opens today, rides free till midnight' and Sameer's chat ('Metro finally! Go before the crowd. Free today.'). Step onto the Whitefield street: the blue sheets and the caged pillar are gone; a finished station mouth with stairs, bunting in orange-white-green, inauguration flags on the poles, a crowd on the pavement.",
+      "interact": "phone + walk",
+      "flag": "metro_open, metro_opening_seen"
+    },
+    {
+      "id": "F2",
+      "pacing": "Reward",
+      "what": "Up the stairs into the station concourse (new pocket, compressed like the bus): token counter, two token machines, the AFC gates, a Purple Line strip map on the wall, the platform beyond. The guard at the gates: free today, tokens from tomorrow (₹10 + ₹2/km, ADR-115).",
+      "interact": "exit + dialogue",
+      "flag": "metro_station_entered, guard_met"
+    },
+    {
+      "id": "F3",
+      "pacing": "Engaged",
+      "what": "Challenge #1, the lost kid by the pillar. Walk him to the guard (safe) or spot his mother in the token queue (warmer; she reads 'Spider-Man' off your line). Either way he goes home; the second route gives more rep.",
+      "interact": "dialogue + companion walk (reuse the Ananya 'companion' behaviour for the kid)",
+      "flag": "lost_kid_returned"
+    },
+    {
+      "id": "F4",
+      "pacing": "Engaged",
+      "what": "Challenge #2, the token machine jam. The uncle keeps feeding a torn note. Options: 'It is free today, uncle' (he will not believe you until the guard waves) / press cancel for him (note comes back) / lend ₹10 (he insists on UPI-ing it back, which he never does). All three clear the queue.",
+      "interact": "dialogue",
+      "flag": "token_jam_fixed",
+      "economy": "₹0 or ₹10"
+    },
+    {
+      "id": "F5",
+      "pacing": "Tense",
+      "what": "Through the gates, onto the first train: a Purple Line coach (new interior, on the bus pattern), 30 s ride that pauses while you talk, 'Next station: Cubbon Park' on the strip. You get the last seat. Challenge #3: the ajji with the cloth bag stops in front of you. Stand up (seat_given, +rep, she blesses you) or keep sitting (seat_kept, −rep, an aunty two seats down says 'Youngsters' loud enough).",
+      "interact": "dialogue (rep check)",
+      "flag": "first_metro_ride, seat_given | seat_kept"
+    },
+    {
+      "id": "F6",
+      "pacing": "Reward",
+      "what": "'Cubbon Park. Doors open on the left.' Fade — the park, from the station side this time. Toast: 'Purple Line ridden'. Maps: the Purple Line fills in, the five famous stations (Whitefield · KR Puram · Indiranagar · MG Road · Cubbon Park) show as rings; METRO · ₹N appears between visited pockets that sit on stations (ADR-115, already built, fare ₹0 today).",
+      "interact": "automatic + map",
+      "flag": "metro_ridden"
+    },
+    {
+      "id": "F7",
+      "pacing": "Calm",
+      "what": "After midnight the fare applies: ₹10 + ₹2/km in ₹5 steps, cap ₹60 (Whitefield ↔ Cubbon Park ≈ ₹50). Two of the three challenges done → metro_tier 1 (the ladder 2.4 IKEA needs for Majestic). The scooter cannot enter the station (parking zone at the stairs; 'No two-wheelers beyond this point').",
+      "interact": "automatic",
+      "flag": "metro_tier"
+    }
   ],
-  "economy": [],
+  "economy": [
+    {
+      "trigger": "metro ride, opening day",
+      "spend": 0,
+      "canAfford": true
+    },
+    {
+      "trigger": "metro ride, after opening day (₹10 + ₹2/km, ₹5 steps, cap ₹60)",
+      "spend": "20-60",
+      "canAfford": true
+    },
+    {
+      "trigger": "lend the token uncle ₹10",
+      "spend": 10,
+      "canAfford": true
+    }
+  ],
   "exits": [
-    "TODO"
+    {
+      "zone": "station_stairs",
+      "to": "whitefield_street",
+      "spawn": "station_mouth",
+      "transit": "walk"
+    },
+    {
+      "zone": "platform",
+      "to": "metro_interior",
+      "spawn": "coach_door",
+      "transit": "metro",
+      "requiresFlag": "metro_open"
+    },
+    {
+      "zone": "coach_door",
+      "to": "cubbon_park",
+      "spawn": "metro_drop",
+      "transit": "walk",
+      "requiresFlag": "ride_over",
+      "note": "on metro_interior; the bus pattern (ride: {seconds: 30, exit, flag, label})"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "metro_open",
+    "metro_opening_seen",
+    "metro_station_entered",
+    "guard_met",
+    "lost_kid_returned",
+    "token_jam_fixed",
+    "first_metro_ride",
+    "seat_given",
+    "seat_kept",
+    "metro_ridden",
+    "metro_tier",
+    "act2_metro_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "metro_station pocket: one compressed concourse render + spec (token counter, 2 token machines, AFC gates, strip map, pillar, platform edge) on the render model (ADR-125)",
+    "metro_interior: one coach render + spec (longitudinal seats, poles, strip map, doors) on the bus_interior pattern",
+    "whitefield_street generator: barricade + pillar objects gain unlessFlag metro_open; a station mouth with stairs + bunting + flags gains requiresFlag metro_open (street_props sheet cells)",
+    "city.json: add stn_cubbon_park to the Purple Line (it is missing today — the line jumps Vidhana Soudha → MG Road); whitefield_street and cubbon_park gain metroStation so ADR-115 fast travel wakes up",
+    "sheets: metro guard, lost kid, kid's mother, token uncle, ajji (citizens for the crowd from the shared sheets)",
+    "News app: the opening-day headline (data/phone/news.json, first use of the News app — or Reels if News is not built yet)",
+    "HUD timer plate reused for the ride (ui:timer)"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "the first sleep after scooter_decided sets metro_open; the street draws the finished station mouth, flags and crowd instead of the barricade and the caged pillar; the news/chat line lands",
+    "the station stairs on the street lead to the metro_station pocket; the guard's line says rides are free today",
+    "the lost kid can be walked to the guard or to his mother; both set lost_kid_returned, the mother route gives more rep",
+    "the token uncle's jam clears by any of the three options; lending ₹10 spends ₹10",
+    "the platform exit boards the coach; the 30 s ride holds while a passenger talks; the ajji's seat check sets seat_given (+rep) or seat_kept (−rep); the ride ends at Cubbon Park on its own",
+    "Maps shows the Purple Line as ridden and offers METRO · ₹N between visited station pockets — ₹0 on opening day, ₹10 + ₹2/km in ₹5 steps (cap ₹60) after",
+    "two of three challenges done → metro_tier = 1; the scooter stays parked at the station stairs (it cannot ride into a station pocket)"
   ],
   "open_questions": [
-    "Which new pocket opens first: Indiranagar or MG Road?",
-    "Is the train interior its own district like the bus (ride behaviour reused)?"
+    "WHEN does the line open? Draft: the first sleep after scooter_decided (so the event lands whether or not you bought the scooter). Alternative: the second salary day.",
+    "WHICH new pocket? Draft: none beyond the station concourse and the coach — the free first ride lands at the existing Cubbon Park (from its station side), MG Road opens with 2.3 Guitar (Church Street), Indiranagar when a beat needs it. Alternative: Indiranagar 100 Ft as the opening-day destination (one more pocket, one more session).",
+    "FARE after day one: tokens at the ADR-115 fare (₹10 + ₹2/km, ₹5 steps, ₹60 cap) — keep? A Namma Metro card (₹50, the 'metro card' sink in game_components §7) as a later convenience (2.4) or now?",
+    "CHALLENGES: all three in 2.2 (draft) or #3 only on the train and the concourse pair later? What does metro_tier 1 unlock — draft: Majestic becomes ridable for 2.4 IKEA (Green Line).",
+    "The COACH: its own district on the bus pattern, 30 s (draft) — or 20 s like the bus?",
+    "REP numbers for the seat check: draft +2 / −2 on the Whitefield district standing (ReputationManager); the kid's mother route +3, the guard route +1.",
+    "The story script contradicts itself (§3 says the metro opens in 2.3, §5 says 2.2) — draft takes 2.2.",
+    "Does Ananya text about the metro (she is met in 1.6 in the built game, the character sheet says 2.2)? Draft: Sameer only; Ananya's chat comes in 2.3."
   ]
 }
