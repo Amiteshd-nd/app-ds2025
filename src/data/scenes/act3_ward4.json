@@ -1,0 +1,39 @@
+{
+  "id": "act3_ward4",
+  "district": "TODO",
+  "act": 3,
+  "seq": "3.2",
+  "title": "Ward 4",
+  "status": "STUB",
+  "player_goal": "Immobile with a broken wrist; listen.",
+  "design_goal": "The nurse from the bus (callback, npc_bus_nurse), a sealed section, Ravi concussed in the next bed.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_bus_nurse",
+    "TODO: npc_ravi"
+  ],
+  "quests": [
+    "TODO: q_act3_ward4"
+  ],
+  "beats": [
+    "F1 — Ward pocket (TODO render).",
+    "F2 — Nurse callback.",
+    "F3 — Ravi talks."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Movement limited how: no running, one-handed phone?"
+  ]
+}

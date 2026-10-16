@@ -1,0 +1,37 @@
+{
+  "id": "act4_ravi",
+  "district": "TODO",
+  "act": 4,
+  "seq": "4.5",
+  "title": "Ravi",
+  "status": "STUB",
+  "player_goal": "HIVR, or his mother's bedside.",
+  "design_goal": "State by ravi_supported. No fight.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_ravi",
+    "TODO: npc_meera"
+  ],
+  "quests": [
+    "TODO: q_act4_ravi"
+  ],
+  "beats": [
+    "TODO"
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Both branches in the first build?"
+  ]
+}

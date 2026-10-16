@@ -1,0 +1,40 @@
+{
+  "id": "act3_corridor",
+  "district": "TODO",
+  "act": 3,
+  "seq": "3.3",
+  "title": "The Corridor",
+  "status": "STUB",
+  "player_goal": "Play as Ravi, the night of the call.",
+  "design_goal": "Playable flashback: the HIVR containment corridor; Appa calls; only 'Answer' is enabled; the glove-change station skipped; a checklist shows one unticked box; the ant animation; 'Ours stops at the climbing part.' Peak [Q].",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_ravi (as player)"
+  ],
+  "quests": [
+    "TODO: q_act3_corridor"
+  ],
+  "beats": [
+    "F1 — Player sprite = Ravi's sheet; the corridor pocket (TODO).",
+    "F2 — The call (dialogue card with a greyed Ignore).",
+    "F3 — Checklist UI.",
+    "F4 — Ant animation (TODO: hand-drawn frames or code)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Length: two minutes?",
+    "Ant animation style?"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "act3_three_nights",
+  "district": "TODO",
+  "act": 3,
+  "seq": "3.4",
+  "title": "Three Nights, Again",
+  "status": "STUB",
+  "player_goal": "Three sleep cycles in the ward.",
+  "design_goal": "Echo of 0.2: each night the phone gets quieter — News: curfew; Chats: Amma 'come home'; UPI: 'Server busy'. Ravi's bed empty on night three.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_bus_nurse"
+  ],
+  "quests": [
+    "TODO: q_act3_three_nights"
+  ],
+  "beats": [
+    "F1–F3 — hotelNightTimer pattern with phone degradation per night.",
+    "F4 — Empty bed, IV on the floor."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Does UPI actually fail (spend refused) from here on?"
+  ]
+}

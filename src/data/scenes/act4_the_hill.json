@@ -1,0 +1,37 @@
+{
+  "id": "act4_the_hill",
+  "district": "hill_flat",
+  "act": 4,
+  "seq": "4.2",
+  "title": "The Hill",
+  "status": "STUB",
+  "player_goal": "Reach Ambedkar Nagar; make the room a base.",
+  "design_goal": "Owner Aunty gone; room ransacked; guitar, induction, bed = first base; barter replaces UPI; the kitchen table is the crafting bench.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_manju (trader)"
+  ],
+  "quests": [
+    "TODO: q_act4_the_hill"
+  ],
+  "beats": [
+    "F1 — Hill pocket in its _ruined variant (ADR-105).",
+    "F2 — Base UI: barter table, 4 recipes, resource clock."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Base chain scope for the first Act 4 build: hill only?"
+  ]
+}

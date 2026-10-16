@@ -1,0 +1,41 @@
+{
+  "id": "act2_the_app",
+  "district": "cubbon_park",
+  "act": 2,
+  "seq": "2.6",
+  "title": "The App",
+  "status": "STUB",
+  "player_goal": "Match with Priya; face Ananya at the bandstand.",
+  "design_goal": "Controversy hook (ADR-07): the Dating app (unlocked at act2_started), 'Priya', the unlocked phone, break-up → relationship strained.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_priya",
+    "TODO: npc_ananya"
+  ],
+  "quests": [
+    "TODO: q_act2_the_app"
+  ],
+  "beats": [
+    "F1 — Dating app: swipe UI (TODO), match with Priya.",
+    "F2 — Phone left unlocked at the flat; Ananya sees.",
+    "F3 — Bandstand break-up scene → `strained`.",
+    "F4 — Can the player avoid it entirely? (ADR-07: one scene, consequences real)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Is the match avoidable?",
+    "Priya's one scene: where?"
+  ]
+}

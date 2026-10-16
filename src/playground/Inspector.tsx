@@ -185,7 +185,7 @@ function SceneInspector(props: Props & { scene: SceneComponent }) {
       <p>{scene.player_goal}</p>
       {base && <StateSummary base={base} override={override} />}
       <div className="pg-row">
-        <button className="pg-primary" disabled={!api} onClick={() => play({ kind: 'scene', sceneId: scene.id })}>▶ Play</button>
+        <button className="pg-primary" disabled={!api || scene.status === 'STUB'} title={scene.status === 'STUB' ? 'A stub: co-author it with the user first (HANDOFF §3)' : undefined} onClick={() => play({ kind: 'scene', sceneId: scene.id })}>▶ Play</button>
         <PresetPicker {...props} />
       </div>
       <Fold label="Edit starting state…">

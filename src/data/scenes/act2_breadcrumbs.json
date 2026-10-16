@@ -1,0 +1,40 @@
+{
+  "id": "act2_breadcrumbs",
+  "district": "TODO",
+  "act": 2,
+  "seq": "2.7",
+  "title": "Breadcrumbs",
+  "status": "STUB",
+  "player_goal": "Live the routine while the News app escalates.",
+  "design_goal": "Weekly News: mystery fever → HIVR denies leak → ward sealed at Hebbal → Yelahanka schools shut; Reels mirror; Sameer out sick 3 days; the guard salutes an empty gate (Severance beat).",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_sameer",
+    "TODO: npc_office_guard"
+  ],
+  "quests": [
+    "TODO: q_act2_breadcrumbs"
+  ],
+  "beats": [
+    "F1 — News app unlock (news_taught) and weekly headlines by day counter.",
+    "F2 — Sameer absent 3 days (NPC unlessFlag/requiresFlag by day).",
+    "F3 — Prakash's guard beat at the gate."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "How many in-game weeks does Act 2 span?",
+    "News as a phone app list (like Reels) — yes?"
+  ]
+}

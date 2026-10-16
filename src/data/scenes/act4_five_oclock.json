@@ -1,0 +1,38 @@
+{
+  "id": "act4_five_oclock",
+  "district": "TODO",
+  "act": 4,
+  "seq": "4.1",
+  "title": "Five O'Clock",
+  "status": "STUB",
+  "player_goal": "Walk home through Indiranagar at 16:58.",
+  "design_goal": "Plates and spoons on every balcony; the sound rolls; things come out of side lanes. First infected encounter is a run, not a fight (infected_behaviour_v1).",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: infected_*"
+  ],
+  "quests": [
+    "TODO: q_act4_five_oclock"
+  ],
+  "beats": [
+    "F1 — Indiranagar pocket at dusk.",
+    "F2 — 17:00 ritual trigger.",
+    "F3 — The run (chase mission type)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Infected sprites: pipeline?"
+  ]
+}

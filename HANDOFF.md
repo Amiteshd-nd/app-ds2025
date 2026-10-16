@@ -1,29 +1,29 @@
 # HANDOFF — resume here (read right after CLAUDE.md)
-Updated: 2026-10-16, P8 approved; P9 built (awaiting audit). A new chat picks up exactly here.
+Updated: 2026-10-16, P9 approved and pushed; Act 1 complete; Act 2–4 stubs scaffolded, 2.1 awaiting the user's words. A new chat picks up exactly here.
 
 ## 0. Where we are — in one breath
-Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P8 approved** (ADR-110…122; P8 approved 2026-10-16). **P9 Cubbon Park + Ananya + City Moments (T-014, ADR-123/124) is built and awaits the user's audit**: story 1.5 (the metro barricade on the Whitefield street, the 500-D on a visible 90-second interval with a HUD countdown, a 25-second bus interior with a nurse, an uncle's HIVR headline and a sleeping kid) and 1.6 (the Cubbon Park pocket on the bandstand, the Camera app's five City Moments, Ananya's ₹60 and number, the walk round the loop with her following, the Church Street guitar you cannot have yet in Notes, the bus home, Amma's call, the sleep that ends Act 1 and unlocks the Dating app). Browser-checked: Camera framing + SNAP, Ananya's three choices + the companion follow + the three stops, Contacts, the guitar → Notes, the barricade sign, the bus countdown → pull-in → boarding → interior → passengers, the ride clock holding while talking, the flat's Amma call + Ananya's ₹60 on the ledger. Breathing parked + OFF (T-029). Last push 2026-10-16 (f08f848 = P7); P8 (b1cb06e) and P9 are committed locally, push only when asked. 391 tests, typecheck, validators, `pnpm build` all green.
+Bangalore Times (docs' working title: NAMMA OUTBREAK). **P0 → P9 approved** (ADR-110…124; P9 approved and pushed 2026-10-16 as 6fdcb5b). **Act 1 is complete**: the web slice runs from the airport to the last Sunday sleep, which sets `act2_started` and unlocks the Dating app. **Acts 2–4 exist as STUBS** (`src/data/scenes/act2_*`, `act3_*`, `act4_*`, status STUB, seq 2.1…4.6) scaffolded from the story script — the user co-authors them one at a time, starting with **2.1 "Credited"** (the salary ping, the scooter showroom, the fuel gauge; draft + open questions in §3). Mobile smoke tests (T-016/T-017) are blocked on this machine (no Xcode, no Android SDK). Breathing parked + OFF (T-029). 391 tests, typecheck, validators, `pnpm build` all green.
 
 ## 1. Phase / task ledger
 | Item | State |
 |---|---|
-| P0–P8 (…HUD · menus · office · hill flat) | approved — ADR-110…122 |
-| **P9 Cubbon Park + Ananya + City Moments (T-014, ADR-123/124)** | **built 2026-10-16 — awaiting audit** |
-| Acts 2–4 | STUBS to co-author with the user (T-046); `act2_started` already fires on the last Act 1 sleep |
-| T-039 · T-040 · T-041 · T-042 · T-043 (place auto + van) · T-044 (seated passengers) · T-045 (crowd spawns in blocks) | open |
+| P0–P9 (Acts 0–1) | approved — ADR-110…124 |
+| **Act 2–4 stubs (T-047)** | **scaffolded 2026-10-16 — 2.1 awaits the user's words** |
+| P10 = 2.1 "Credited" build | after the user edits the 2.1 stub |
+| T-016 Android · T-017 iOS smoke tests | blocked: toolchain missing on this Mac |
+| T-039 · T-040 · T-041 · T-042 · T-043 · T-044 · T-045 | open |
 | Breathing (T-029) | parked, OFF |
 
 ## 2. Resume protocol
 1. Read `CLAUDE.md` §0, `TASKS.md` "Now", `DECISIONS.md` (ADR-118…124), `MEMORY.md`, `AUDIT_LOG.md`.
-2. If the user has audited P9: log corrections in AUDIT_LOG as rules, apply, then the web slice is at the end of Act 1 — **Acts 2–4 are co-authored with the user** (story script §5–7, ADR-58): propose the 2.1 scene component from the SCENE_TEMPLATE and STOP for the user's words before building. Mobile smoke test (M1 Android) is the other open gate.
-3. Voice review: the P9 lines (nurse, uncle, Ananya ×2 files, cycle man, ice-cream, jogger, guitar shop, Amma's news call, the barricade) are drafts in the user's register.
+2. **Co-author before building**: show the user the 2.1 stub (`src/data/scenes/act2_credited.json`) and the open questions in §3; take their words and numbers into the stub (status stays STUB until they say "build"); then P10 runs the usual recipe — spot chosen and logged (the scooter showroom's real street, OSM) → render → px spec → quest + dialogue → validate → browser → audit. Each later stub the same way.
+3. Voice: every line in Acts 2–4 is the user's register — drafts only until they edit.
 4. Art direction is delegated: decide, show, log. Ask only on a conflict with a logged decision.
 
-## 3. P9 — how to audit it (playground, 6175)
-- **Node 1.5 · Bus to Town** starts inside the bus (its cast rides); to see the street side load **1.4 Ambedkar Nagar**, take bus 335-E back to Whitefield (the road's west end) and walk: the blue barricade sheets and the pillar on the bottom pavement's east end (read the sign), the kerb stop on the top pavement mid-way (the HUD plate counts down "500-D in 1:08"; the bus pulls in from the east, stands 20 s, leaves west; step onto the kerb while it stands — ₹35). On the bus: talk to all three (the clock holds), or wait 25 s — "Cubbon Park. Everybody down."
-- **Node 1.6 · Cubbon Park**: arrival unlocks the Camera (phone → Camera, dock). Stand south of the bandstand, at the library steps, by the bamboo, under the red court building, beside the sleeping dog — the viewfinder names what it frames, SNAP. Ananya at the cycle shed (right lawn): pay ₹60 → number → "Lead the way" → she follows; walk to the bandstand's south path, the bamboo, the library steps — three lines, her photo of you lands in the Camera gallery; Contacts → Ananya reads "Friends". The guitar shop is the left shop on the pavement below the park wall (down the gate steps) → Notes shows "₹6,500 · ₹N to go". The jogger coughs near the bandstand. Bus home from the east gate (₹35, 50 min) → from the Whitefield street take 335-E to the hill → the flat: Amma calls on entry; Ananya's ₹60 arrives in Chats and on the ledger; sleep → "Sleep. Monday again." completes, APP UNLOCKED: DATING.
-- Snapshots from this build are in the session scratchpad (`camera-framed`, `camera-snapped`, `walk-library`, `contacts`, `street-bus2`, `bus-interior2`, `flat-call`).
-Decisions the user may want to overturn (ADR-123/124): the bus every 90 s / 20 s dwell and the 25 s ride; the HUD timer plate under the clock; the wishlist as a Note (not a Maps pin); the guitar "booked till Tuesday" instead of unaffordable; Ananya's refund arriving the same night; Cubbon compressed into one 43×29 m pocket (landmarks closer than life); passengers standing in the aisle (T-044); the three dogs as props; birds/squirrel/cycles/auto/van drawn but unused.
+## 3. 2.1 "Credited" — the draft to co-author (not built)
+Story: workday → phone ping "₹32,000 credited" → tutorial card about two-wheelers and fuel → the Whitefield scooter showroom: second-hand ₹38,000 on EMI (₹6,000 down) or save two months → **fuel gauge introduced** (ADR-06: scooter is fuel-gated; game_components §4: speed ×1.8, tank ≈ 3 Whitefield↔Indiranagar round trips, petrol bunk sink, parking zones, no metro areas, stolen in 4.0).
+Draft in the stub: F1 the salary already lands through `salaryCountdown` (₹42,000, ADR-122 — the script says ₹32,000: **pick one**); F2 Sameer's canteen line points you to a showroom on the Whitefield main road ("second-hand, ask for Noor"); F3 the showroom: a used scooter (parody make) ₹38,000 — buy outright, EMI (₹6,000 down, ₹3,200 × 10 on the salary day through a new `emi` behaviour), or walk; F4 first ride = a new transit kind on the map (scooter, fuel-gated, `fuel` counter, bunk NPCs at Whitefield and Indiranagar); F5 the fuel gauge appears on the HUD only while riding or at a bunk (ADR-118 rule: contextual).
+Open questions for the user: (1) ₹32,000 or ₹42,000 salary; (2) EMI or outright or both; (3) where the showroom is (Whitefield main road near Hope Farm? ITPL road?); (4) does the scooter unlock Indiranagar as the next pocket (2.2 metro opens later) or does 2.1 stay inside Whitefield; (5) the parody make's name; (6) is the tutorial card a phone message from Sameer or a HUD card.
 
 ## 4. What exists, where the next steps plug in
 - **Kit** `src/ui/kit/`: `pixel` · `icons` · `text` · `molecules` (phonePill, appTile, badge, dockBar, hudPlate, labelCard, blockRow, speechBubble, choicePill, tapZone; 5 states) · `focus` · `phaser` (bake, pxText, pxTextShadow). P6d menus reuse `labelCard` (selected inverts with ▶) and `blockRow` for sliders — add molecules here, with tests in `uikit.test.ts` / `hud.test.ts`.

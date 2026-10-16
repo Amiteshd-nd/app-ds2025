@@ -1,0 +1,37 @@
+{
+  "id": "act4_janata",
+  "district": "TODO",
+  "act": 4,
+  "seq": "4.0",
+  "title": "Janata",
+  "status": "STUB",
+  "player_goal": "Walk out into a locked-down city.",
+  "design_goal": "Shutters, police tape, a lone BMTC bus parked diagonally; scooter gone; phone: UPI dead, Maps cached, Chats one tick.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO"
+  ],
+  "quests": [
+    "TODO: q_act4_janata"
+  ],
+  "beats": [
+    "F1 — Hospital exterior pocket (TODO).",
+    "F2 — Phone degradation states (UPI dead, Maps cached)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Which hospital, really (Bowring? Baptist?)"
+  ]
+}

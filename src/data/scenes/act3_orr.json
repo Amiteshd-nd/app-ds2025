@@ -1,0 +1,38 @@
+{
+  "id": "act3_orr",
+  "district": "TODO",
+  "act": 3,
+  "seq": "3.1",
+  "title": "Outer Ring Road",
+  "status": "STUB",
+  "player_goal": "Ride home at night; crash at Hebbal junction.",
+  "design_goal": "The other rider is Ravi — he caused it. Same ambulance, same ward.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_ravi"
+  ],
+  "quests": [
+    "TODO: q_act3_orr"
+  ],
+  "beats": [
+    "F1 — Night ride on the scooter (fuel/wobble by stress, ADR-19).",
+    "F2 — The crash: scripted, no fight.",
+    "F3 — Fade to the ward."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Playable ride or a card like the workday?"
+  ]
+}

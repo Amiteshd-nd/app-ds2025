@@ -2,10 +2,14 @@
 Updated: 2026-10-16
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122 · P9 Cubbon ADR-123/124)
+## Now — Act 2 (stubs co-authored with the user; Act 1 complete 2026-10-16)
+- [ ] T-047 Act 2–4 scene STUBS scaffolded from the story script (`src/data/scenes/act2_*…act4_*`, status STUB) — **the user co-authors 2.1 "Credited" first** (draft beats + open questions in HANDOFF §3), then P10 builds it
+- [ ] T-016 / T-017 mobile smoke tests are blocked on this machine: no Xcode (Command Line Tools only) and no Android SDK — install one, then `pnpm cap:android` / `cap:ios`
+
+## Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122 · P9 Cubbon ADR-123/124)
 - [x] T-012 P7 Monday / office — approved 2026-10-16
 - [x] T-013 P8 Ambedkar Nagar hill flat — approved 2026-10-16 (ADR-122)
-- [ ] T-014 P9 Cubbon Park + Ananya + City Moments — **built 2026-10-16, awaiting P9 audit** (ADR-123 systems: `busSchedule` + HUD timer plate, `busRide`, Camera + `photoSpots`, RelationshipManager + Contacts, Notes wishlist, `companion`, NPC `tic`, chat `upi`; ADR-124 pockets: `cubbon_park` on the bandstand (OSM), `bus_interior`, the street's barricade + kerb stop, `street_props` + `animals` sheets, eight sheets; quests 1.5–1.6, scene components, Amma's call, Act 1 close → `act2_started`)
+- [x] T-014 P9 Cubbon Park + Ananya + City Moments — approved 2026-10-16 (ADR-123 systems: `busSchedule` + HUD timer plate, `busRide`, Camera + `photoSpots`, RelationshipManager + Contacts, Notes wishlist, `companion`, NPC `tic`, chat `upi`; ADR-124 pockets: `cubbon_park` on the bandstand (OSM), `bus_interior`, the street's barricade + kerb stop, `street_props` + `animals` sheets, eight sheets; quests 1.5–1.6, scene components, Amma's call, Act 1 close → `act2_started`)
 - [ ] T-043 Auto-rickshaw + HIVR van props — art done in `street_props` (cells 4–5, ADR-124); still to place at Prashanth's auto stand and the ITPL shuttle bay as `AUTO_RICKSHAW` / `VAN` objects
 - [ ] T-044 Bus passengers sit (draw the three on their seats instead of standing in the aisle) — a seated-pose row in the sheet template, or a `seated` NpcDef flag that lifts the sprite onto the seat and drops its body
 - [ ] T-045 Ambient crowd spawns can land inside Shapes blocks on generated maps (Cubbon's `ambient_area` overlaps hedges) — spawn on walkable ground only

@@ -1,0 +1,41 @@
+{
+  "id": "act2_guitar",
+  "district": "hill_flat",
+  "act": 2,
+  "seq": "2.3",
+  "title": "Guitar",
+  "status": "STUB",
+  "player_goal": "Buy the guitar; learn three chords.",
+  "design_goal": "Rhythm mini-game at home; the clip Ananya hears (relationship warm → …). Asset reused in Act 4 as noise lure / morale.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_guitar_shop",
+    "TODO: npc_ananya"
+  ],
+  "quests": [
+    "TODO: q_act2_guitar"
+  ],
+  "beats": [
+    "F1 — Church Street shop, Tuesday: ₹6,500 (guitar_wishlisted → guitar_owned).",
+    "F2 — Three chords: rhythm mini-game on the cot (TODO: design).",
+    "F3 — Ananya hears a clip (Chats).",
+    "F3b — Optional mature beat, fade-to-black only (ADR-08)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Mini-game shape: timed presses on the dialogue card's pills, or a new scene?",
+    "Does 2.3b exist at all?"
+  ]
+}

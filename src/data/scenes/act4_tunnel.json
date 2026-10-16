@@ -1,0 +1,36 @@
+{
+  "id": "act4_tunnel",
+  "district": "TODO",
+  "act": 4,
+  "seq": "4.6",
+  "title": "Tunnel",
+  "status": "STUB",
+  "player_goal": "The metro tunnels, the last route.",
+  "design_goal": "Endings TBD (ADR-10; act4_systems §9 ending axis proposal).",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO"
+  ],
+  "quests": [
+    "TODO: q_act4_tunnel"
+  ],
+  "beats": [
+    "TODO"
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Ending count and axis — confirm act4_systems_and_cast §9 (ADR-52)."
+  ]
+}

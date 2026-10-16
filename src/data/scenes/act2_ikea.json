@@ -1,0 +1,39 @@
+{
+  "id": "act2_ikea",
+  "district": "TODO",
+  "act": 2,
+  "seq": "2.4",
+  "title": "IKEA Run",
+  "status": "STUB",
+  "player_goal": "Carry flat-pack furniture home on the metro.",
+  "design_goal": "Nagasandra via the Green Line (requires Majestic unlock); capacity mechanic + comedy.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO"
+  ],
+  "quests": [
+    "TODO: q_act2_ikea"
+  ],
+  "beats": [
+    "F1 — Majestic interchange.",
+    "F2 — The parody furniture store (TODO name).",
+    "F3 — Flat-pack on the metro: capacity, 'Not enough space'.",
+    "F4 — Assembly at the flat: new objects by flag (ADR-122 pattern)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Which furniture, and does it matter in Act 4 (base)?"
+  ]
+}

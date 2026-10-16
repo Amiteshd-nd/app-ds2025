@@ -1,0 +1,39 @@
+{
+  "id": "act2_ravi_1am",
+  "district": "office_gate",
+  "act": 2,
+  "seq": "2.5",
+  "title": "Ravi, 1 AM",
+  "status": "STUB",
+  "player_goal": "Find Ravi at the shuttle stop at 1 AM.",
+  "design_goal": "The Electro night: sit with him / give ₹2,000 / leave → flag ravi_supported (drives Act 4).",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_ravi"
+  ],
+  "quests": [
+    "TODO: q_act2_ravi_1am"
+  ],
+  "beats": [
+    "F1 — Night-time office gate (tint), Ravi shaking at the shuttle bay.",
+    "F2 — Three choices; stress and wallet effects.",
+    "F3 — Walk / auto home at 1 AM (autos cost double)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "How does the player learn to be there (Sameer's chat? Ravi's own message?)",
+    "₹2,000 fixed or negotiable?"
+  ]
+}

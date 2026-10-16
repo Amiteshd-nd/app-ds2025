@@ -139,3 +139,7 @@ Updated: 2026-10-12
 - Decision: "approved, start P9" — the hill lane and flat pockets, the Reels signal test, Aunty's haggle, furniture by flag, the salary countdown and bus 335-E (ADR-122) stand with no corrections; the art-director calls listed in ADR-122 (three terraces, Reels as the meter, 0/1/2 bars, 4 s give-up, Aunty warm, ₹42,000, the balcony house kept for Kavya) are confirmed.
 - Rule going forward: **a story beat that spans two places is two scene components or one whose `district` is where its cast stands** (1.5's cast rides the bus, so `act1_bus_cubbon` is a `bus_interior` scene entered from the street) — the validator holds a scene's cast to its district.
 
+### [P9 Cubbon Park + Ananya + City Moments — approved] — 2026-10-16
+- Decision: "push and next start" — the bus on an interval, the ride, the Camera and City Moments, Ananya and the relationship word, the Notes wishlist, the Cubbon and bus pockets (ADR-123/124) stand with no corrections; the art-director calls listed in ADR-123/124 (90 s / 20 s / 25 s, the timer plate, the Note not a pin, "booked till Tuesday", one compressed pocket, standing passengers) are confirmed. Pushed as 6fdcb5b. Act 1 is complete.
+- Rule going forward: **Acts 2–4 are built scene by scene from STUBS the user has co-authored** (SCENE_TEMPLATE §E): Claude drafts the stub's beats, cast, economy and acceptance from the story script, the user edits the words and the numbers, then the build runs the usual recipe (pocket → quest → dialogue → validate → browser → audit).
+

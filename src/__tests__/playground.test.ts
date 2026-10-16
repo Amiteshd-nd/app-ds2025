@@ -20,8 +20,12 @@ const defaults = {
 };
 
 describe('prerequisite-state builder', () => {
-  it('orders scenes by seq', () => {
-    expect(sceneOrder(scenes).map((s) => s.id)).toEqual(['act0_arrivals', 'act0_hotel', 'act0_pg_hunt', 'act1_first_day', 'act1_ravi_intro', 'act1_pg_exit', 'act1_hill_flat', 'act1_bus_cubbon', 'act1_cubbon']);
+  it('orders scenes by seq; the Act 2–4 stubs follow the worked Acts 0–1', () => {
+    const ordered = sceneOrder(scenes).map((s) => s.id);
+    expect(ordered.slice(0, 9)).toEqual(['act0_arrivals', 'act0_hotel', 'act0_pg_hunt', 'act1_first_day', 'act1_ravi_intro', 'act1_pg_exit', 'act1_hill_flat', 'act1_bus_cubbon', 'act1_cubbon']);
+    expect(ordered.slice(9, 12)).toEqual(['act2_credited', 'act2_metro_opens', 'act2_guitar']);
+    expect(ordered[ordered.length - 1]).toBe('act4_tunnel');
+    for (const s of scenes) if (s.act >= 2) expect(s.status, s.id).toBe('STUB');
   });
 
   it('scene N gets every earlier scene\'s save_flags and completed quests, none of its own', () => {

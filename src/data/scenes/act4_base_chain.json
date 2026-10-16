@@ -1,0 +1,38 @@
+{
+  "id": "act4_base_chain",
+  "district": "TODO",
+  "act": 4,
+  "seq": "4.3",
+  "title": "Base Chain",
+  "status": "STUB",
+  "player_goal": "Hill → Rameshwaram Café (Uncle) → Cubbon bandstand (Ananya, if strained resolved) → Bangalore Palace → Lalbagh.",
+  "design_goal": "Each base: scavenge radius, 4 recipes, resource clock, relocation trigger as the district falls (fall order: Hebbal → Yelahanka → Yeshwanthpur → Majestic → MG Road/Cubbon → Indiranagar → Whitefield).",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_uncle",
+    "TODO: npc_ananya",
+    "TODO: npc_shanthamma"
+  ],
+  "quests": [
+    "TODO: q_act4_base_chain"
+  ],
+  "beats": [
+    "TODO per base"
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "How many bases ship in the first Act 4 slice?"
+  ]
+}

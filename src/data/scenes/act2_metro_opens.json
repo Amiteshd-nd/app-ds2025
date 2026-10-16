@@ -1,0 +1,42 @@
+{
+  "id": "act2_metro_opens",
+  "district": "whitefield_street",
+  "act": 2,
+  "seq": "2.2",
+  "title": "Metro Opens",
+  "status": "STUB",
+  "player_goal": "Ride the Purple Line on opening day.",
+  "design_goal": "World event: barricades gone, flags, crowd; first ride free; metro challenges begin (lost kid, token-machine jam, seat-for-elderly rep check). Purple Line Whitefield ↔ KR Puram ↔ Indiranagar ↔ MG Road ↔ Cubbon Park (ADR-115 fast travel on visited stations).",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: station staff",
+    "TODO: lost kid",
+    "TODO: elderly passenger"
+  ],
+  "quests": [
+    "TODO: q_act2_metro_opens"
+  ],
+  "beats": [
+    "F1 — The barricade sheets are gone; inauguration flags; a crowd on the street.",
+    "F2 — Station interior pocket (TODO), free token today.",
+    "F3 — Metro challenge #1 on the train.",
+    "F4 — MG Road / Indiranagar as new pockets (TODO: which first)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "Which new pocket opens first: Indiranagar or MG Road?",
+    "Is the train interior its own district like the bus (ride behaviour reused)?"
+  ]
+}

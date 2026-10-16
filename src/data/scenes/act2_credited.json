@@ -1,0 +1,67 @@
+{
+  "id": "act2_credited",
+  "district": "whitefield_street",
+  "act": 2,
+  "seq": "2.1",
+  "title": "Credited",
+  "status": "STUB",
+  "player_goal": "Buy (or decide not to buy) your first scooter.",
+  "design_goal": "Reveal #11: the scooter + fuel gauge (ADR-06). The first salary as a reward; EMI as the first standing cost.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_sameer",
+    "TODO: npc_noor (showroom)",
+    "TODO: npc_bunk_whitefield"
+  ],
+  "quests": [
+    "TODO: q_act2_credited"
+  ],
+  "beats": [
+    "F1 (Reward) — Workday → phone ping: the salary (script ₹32,000; game ₹42,000 via salaryCountdown, ADR-122 — pick one). Tutorial: 'A two-wheeler gets you to work and nearby areas fast — mind the fuel.'",
+    "F2 (Curious) — Sameer at the canteen / in Chats: 'Second-hand, Whitefield main road, ask for Noor. Don't pay sticker.'",
+    "F3 (Engaged/Tense) — The showroom: a used scooter (parody make, TODO name) ₹38,000 — outright, EMI (₹6,000 down + ₹3,200 × 10 on salary days → new `emi` behaviour), or save two months. Negotiation (ADR-95) on the down payment.",
+    "F4 (Reward) — First ride: `scooter` transit on the map, fuel counter (tank ≈ 3 Whitefield↔Indiranagar round trips), petrol bunks as NPCs; parking zones only; no metro areas.",
+    "F5 (Calm) — Fuel gauge on the HUD only while riding or at a bunk (ADR-118 contextual rule)."
+  ],
+  "economy": [
+    {
+      "trigger": "salary",
+      "spend": 0
+    },
+    {
+      "trigger": "scooter down payment",
+      "spend": 6000,
+      "canAfford": true
+    },
+    {
+      "trigger": "scooter outright",
+      "spend": 38000,
+      "canAfford": true
+    },
+    {
+      "trigger": "petrol",
+      "spend": "TODO",
+      "canAfford": true
+    }
+  ],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": [
+    "₹32,000 or ₹42,000?",
+    "EMI, outright, or both?",
+    "Where is the showroom (Whitefield main road / ITPL road / Hope Farm)?",
+    "Does the scooter open Indiranagar now or does 2.1 stay in Whitefield?",
+    "The parody make's name?",
+    "Tutorial as Sameer's chat or a HUD card?"
+  ]
+}

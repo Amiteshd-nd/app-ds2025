@@ -1,0 +1,34 @@
+{
+  "id": "act3_discharge",
+  "district": "TODO",
+  "act": 3,
+  "seq": "3.5",
+  "title": "Discharge",
+  "status": "STUB",
+  "player_goal": "Go home. Stay inside. Don't make noise after five.",
+  "design_goal": "No one explains.",
+  "pacing": [
+    "TODO"
+  ],
+  "cast": [
+    "TODO: npc_bus_nurse"
+  ],
+  "quests": [
+    "TODO: q_act3_discharge"
+  ],
+  "beats": [
+    "F1 — Nurse's line; exit to a locked-down city (4.0)."
+  ],
+  "economy": [],
+  "exits": [
+    "TODO"
+  ],
+  "save_flags": [],
+  "assets_needed": [
+    "TODO"
+  ],
+  "acceptance": [
+    "TODO — fill with the user before building"
+  ],
+  "open_questions": []
+}
