@@ -130,8 +130,8 @@ export function installDevApi(game: Phaser.Game): DevApi {
   const applyVisuals = () => {
     const scene = worldScene(game);
     if (!scene) return;
-    scene.time.timeScale = speed;
-    scene.tweens.timeScale = speed;
+    // Every running scene follows the speed (Movie Mode 1×/2×/4×): the HUD's typewriter, the transit card's timer, the phone.
+    for (const s of game.scene.getScenes(true)) { s.time.timeScale = speed; s.tweens.timeScale = speed; }
     scene.anims.globalTimeScale = speed;
     const world = scene.physics?.world;
     if (world) {
@@ -235,7 +235,8 @@ export function installDevApi(game: Phaser.Game): DevApi {
   };
 
   const startScene = (key: string, data?: object) => {
-    for (const s of game.scene.getScenes(true)) if (s.scene.key !== SCENE_KEYS.ORIENTATION && s.scene.key !== SCENE_KEYS.MENU) game.scene.stop(s.scene.key);
+    // Orientation and the menu are global; Movie Mode's overlay (if added) rides across node loads too.
+    for (const s of game.scene.getScenes(true)) if (s.scene.key !== SCENE_KEYS.ORIENTATION && s.scene.key !== SCENE_KEYS.MENU && s.scene.key !== 'MovieOverlayScene') game.scene.stop(s.scene.key);
     game.scene.start(key, data);
   };
 

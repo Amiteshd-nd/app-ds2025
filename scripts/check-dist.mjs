@@ -10,7 +10,7 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /** Strings that only exist in playground / dev-API code. */
-export const MARKERS = ['__nqDev', '__pg/', 'installDevApi', 'Test Playground', 'PLAYGROUND_SAVE_NAMESPACE', 'pg-toolbar', 'playground.html'];
+export const MARKERS = ['__nqDev', '__pg/', 'installDevApi', 'Test Playground', 'PLAYGROUND_SAVE_NAMESPACE', 'pg-toolbar', 'playground.html', 'MovieRunner', 'Movie Mode'];
 const TEXT = /\.(js|mjs|css|html|json|webmanifest|txt|map)$/;
 
 export function checkDist(dir) {

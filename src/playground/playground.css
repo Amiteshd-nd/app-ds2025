@@ -108,3 +108,15 @@ body.pg-resizing iframe, body.pg-resizing canvas { pointer-events: none; }
 .pg-pick dd { overflow-wrap: anywhere; }
 .pg-inspecting canvas { cursor: crosshair; }
 .pg-location .pg-icon { color: var(--pg-focus); }
+
+/* Movie Mode (T-054): the controller bar under the toolbar, the progress strip, the report. */
+.pg-movie { display: flex; flex-direction: column; gap: 4px; padding: 6px 16px; border-bottom: 1px solid var(--pg-edge); background: var(--pg-panel); }
+.pg-movie-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pg-movie-status { color: var(--pg-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 48ch; }
+.pg-movie-strip { display: flex; gap: 2px; height: 8px; }
+.pg-movie-block { flex: 1; min-width: 6px; padding: 0; border: 0; border-radius: 2px; cursor: pointer; }
+.pg-movie-block:disabled { cursor: default; opacity: 1; }
+.pg-movie-log { color: var(--pg-dim); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pg-movie-report { max-height: 40vh; overflow: auto; background: var(--pg-bg); border: 1px solid var(--pg-edge); border-radius: 4px; padding: 8px; }
+.pg-movie-steps { margin: 4px 0; padding-left: 16px; }
+.pg-movie-shot { display: block; max-width: 320px; image-rendering: pixelated; margin: 4px 0; border: 1px solid var(--pg-edge); }

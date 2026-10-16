@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT, TEMPERAMENTS } from '../src/utils/constants.ts';
 import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
 import { ICON_NAMES } from '../src/ui/kit/icons.ts';
+import { bfs, buildGrid, cellAt, FEET_DY, overlapsZone, rectsFromTmj, zoneOf } from '../src/playground/movie/walkgrid.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, '../src/data');
@@ -1010,62 +1011,26 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
  * blocked when any collision rect (object layer), collision tile, placed
  * object footprint or cutout footprint overlaps it. BFS from the spawn's cell
  * to any cell of the target zone. Returns null when the map has no collision
- * data at all (nothing to check).
+ * data at all (nothing to check). The grid itself lives in
+ * src/playground/movie/walkgrid.ts, shared with the Movie Mode bot: a path the
+ * bot walks is a path this rule accepts.
  */
 export function reachable(tmj: Json, def: Json, spawnName: string, zoneName: string): boolean | null {
-  const CELL = 8, FEET_W = 20, FEET_H = 12;
   const W = (tmj.width ?? 0) * 32, H = (tmj.height ?? 0) * 32;
   if (!W || !H) return null;
-  const rects: Array<[number, number, number, number]> = [];
-  const layers: Json[] = tmj.layers ?? [];
-  const collision = layers.find((l) => l.name === def.collisionLayer);
-  if (collision?.type === 'objectgroup') for (const o of collision.objects ?? []) rects.push([o.x, o.y, o.width, o.height]);
-  if (collision?.type === 'tilelayer') {
-    for (let i = 0; i < (collision.data ?? []).length; i++) if (collision.data[i]) rects.push([(i % collision.width) * 32, Math.floor(i / collision.width) * 32, 32, 32]);
-  }
-  const sorted = layers.find((l) => l.name === def.sortedLayer);
-  for (const o of sorted?.objects ?? []) {
-    const get = (n: string) => o.properties?.find((p: Json) => p.name === n)?.value;
-    if (o.type === 'cutout' && typeof get('footX') === 'number') rects.push([get('footX'), get('footY'), get('footW'), get('footH')]);
-  }
+  const rects = rectsFromTmj(tmj, def);
   if (!rects.length) return null;
-  const cols = Math.ceil(W / CELL), rows = Math.ceil(H / CELL);
-  const blocked = new Uint8Array(cols * rows);
-  for (const [x, y, w, h] of rects) {
-    const x0 = Math.max(0, Math.floor((x - FEET_W / 2) / CELL)), x1 = Math.min(cols - 1, Math.floor((x + w + FEET_W / 2 - 1) / CELL));
-    const y0 = Math.max(0, Math.floor((y - FEET_H / 2) / CELL)), y1 = Math.min(rows - 1, Math.floor((y + h + FEET_H / 2 - 1) / CELL));
-    for (let cy = y0; cy <= y1; cy++) for (let cx = x0; cx <= x1; cx++) blocked[cy * cols + cx] = 1;
-  }
+  const grid = buildGrid(rects, W, H);
+  const layers: Json[] = tmj.layers ?? [];
   const spawnLayer = layers.find((l) => l.name === def.spawnLayer);
   const spawn = (spawnLayer?.objects ?? []).find((o: Json) => o.name === spawnName);
   const zone = (spawnLayer?.objects ?? []).find((o: Json) => o.name === zoneName);
   if (!spawn || !zone) return null;
   // Spawns are sprite centres; the feet box sits 17px below.
-  const sx = Math.floor((spawn.x ?? 0) / CELL), sy = Math.floor(((spawn.y ?? 0) + 17) / CELL);
-  // Reached when the feet box standing on the cell overlaps the zone (zones often hug a wall's edge).
-  const inZone = (cx: number, cy: number) => {
-    const px = cx * CELL + CELL / 2, py = cy * CELL + CELL / 2;
-    const zw = zone.width || 96, zh = zone.height || 96, zx = zone.width ? zone.x : zone.x - zw / 2, zy = zone.height ? zone.y : zone.y - zh / 2;
-    return px + FEET_W / 2 > zx && px - FEET_W / 2 < zx + zw && py + FEET_H / 2 > zy && py - FEET_H / 2 < zy + zh;
-  };
-  const seen = new Uint8Array(cols * rows);
-  const queue: number[] = [];
-  const start = sy * cols + sx;
-  if (sx < 0 || sy < 0 || sx >= cols || sy >= rows) return null;
-  seen[start] = 1; queue.push(start);
-  while (queue.length) {
-    const k = queue.shift()!;
-    const cx = k % cols, cy = (k - cx) / cols;
-    if (inZone(cx, cy)) return true;
-    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-      const nx = cx + dx, ny = cy + dy;
-      if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) continue;
-      const n = ny * cols + nx;
-      if (seen[n] || blocked[n]) continue;
-      seen[n] = 1; queue.push(n);
-    }
-  }
-  return false;
+  const start = cellAt(grid, spawn.x ?? 0, (spawn.y ?? 0) + FEET_DY);
+  if (start < 0) return null;
+  const target = zoneOf(zone);
+  return bfs(grid, start, (i) => overlapsZone(grid, i, target));
 }
 
 function validateRequirement(file: string, where: string, requires: Json): string[] {
@@ -1153,6 +1118,100 @@ function detectPrerequisiteCycles(questFiles: Array<{ file: string; json: Json }
   return problems;
 }
 
+
+// ── Movie Mode walkthroughs (Test Playground, T-054) ────────────────────────
+const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
+const WALKTHROUGH_READY = ['scene_loaded', 'free', 'flag', 'dialogue', 'objective'];
+
+/**
+ * One walkthrough per built scene (src/data/walkthroughs/<scene>.json): every
+ * step is a known action, every target resolves against the district the bot
+ * stands in at that point (its placed NPCs, its map's spawns and zones — the
+ * district changes on `wait_for scene_loaded <district>`), beats exist in the
+ * scene, numbers are numbers. `set_flag` is allowed but counted: the report
+ * shows every use in yellow, and the console warns here.
+ */
+export function validateWalkthroughs(
+  files: Array<{ file: string; json: Json }>,
+  scenes: Json[],
+  districts: Json[],
+  npcs: Json[],
+  manifest: { maps: Record<string, Json> },
+  maps: Record<string, Json>,
+): { problems: string[]; warnings: string[] } {
+  const problems: string[] = [], warnings: string[] = [];
+  const sceneById = new Map(scenes.map((s) => [s.id, s]));
+  const districtById = new Map(districts.map((d) => [d.id, d]));
+  const npcIds = new Set(npcs.map((n) => n.id));
+  const seen = new Set<string>();
+  const objectsOf = (districtId: string): Set<string> => {
+    const d = districtById.get(districtId);
+    const def = d ? manifest.maps[d.map] : undefined;
+    return objectNames(def ? maps[d!.map] : undefined, def?.spawnLayer);
+  };
+  for (const { file, json } of files) {
+    const add = (msg: string) => problems.push(`${file}: ${msg}`);
+    if (typeof json?.scene !== 'string' || !json.scene) { add('needs a "scene" id'); continue; }
+    const scene = sceneById.get(json.scene);
+    if (!scene) { add(`scene "${json.scene}" does not exist`); continue; }
+    if (seen.has(json.scene)) add(`scene "${json.scene}" has two walkthroughs`);
+    seen.add(json.scene);
+    if (scene.status === 'STUB') add(`scene "${json.scene}" is a STUB — walkthroughs are for built scenes only`);
+    if (file !== `walkthroughs/${json.scene}.json`) add(`file name must match the scene: walkthroughs/${json.scene}.json`);
+    if (!Array.isArray(json.steps) || !json.steps.length) { add('needs a non-empty "steps" array'); continue; }
+    const beats = new Set(((scene.beats ?? []) as Json[]).filter((b) => typeof b === 'object').map((b) => b.id));
+    let district: string = scene.district;
+    let objects = objectsOf(district);
+    let cheats = 0;
+    const ids = new Set<string>();
+    (json.steps as Json[]).forEach((step, i) => {
+      const where = `step ${step?.id ?? i + 1}`;
+      if (!step || typeof step !== 'object') { add(`${where} is not an object`); return; }
+      if (step.id !== undefined) { if (typeof step.id !== 'string' || !step.id) add(`${where} id must be a string`); else if (ids.has(step.id)) add(`${where} id is used twice`); else ids.add(step.id); }
+      if (!WALKTHROUGH_ACTIONS.includes(step.do)) { add(`${where} has unknown action "${step.do}" (${WALKTHROUGH_ACTIONS.join(', ')})`); return; }
+      if (step.beat !== undefined && !beats.has(step.beat)) add(`${where} names beat "${step.beat}", which scene "${json.scene}" does not have`);
+      if (step.timeout !== undefined && (typeof step.timeout !== 'number' || step.timeout <= 0)) add(`${where} timeout must be a positive number of ms`);
+      const target = (t: unknown, what: string) => {
+        if (typeof t !== 'string' || !t) { add(`${where} ${what} must be a target string`); return; }
+        const [prefix, rest] = t.includes(':') ? [t.slice(0, t.indexOf(':')), t.slice(t.indexOf(':') + 1)] : ['', t];
+        const placed = new Set(((districtById.get(district)?.npcs ?? []) as Json[]).map((n) => n.id));
+        if (prefix === 'npc') { if (!npcIds.has(rest)) add(`${where} ${what} "${t}" is not an NPC`); else if (!placed.has(rest)) add(`${where} ${what} "${t}" is not placed in district "${district}"`); return; }
+        if (prefix === 'tile') { if (!/^\d+,\d+$/.test(rest)) add(`${where} ${what} "${t}" must be tile:x,y`); return; }
+        if (prefix === 'zone' || prefix === 'spawn' || prefix === 'exit') { if (!objects.has(rest)) add(`${where} ${what} "${t}" is not a spawn or zone of district "${district}"'s map`); return; }
+        if (prefix) { add(`${where} ${what} "${t}" has unknown prefix "${prefix}" (npc, zone, spawn, exit, tile)`); return; }
+        if (!placed.has(rest) && !objects.has(rest)) add(`${where} ${what} "${t}" is neither an NPC placed in "${district}" nor a spawn/zone of its map`);
+      };
+      switch (step.do) {
+        case 'wait_for':
+          if (!WALKTHROUGH_READY.includes(step.ready)) add(`${where} ready must be one of ${WALKTHROUGH_READY.join(', ')}`);
+          if (step.scene !== undefined) {
+            if (!districtById.has(step.scene)) add(`${where} waits for district "${step.scene}", which does not exist`);
+            else { district = step.scene; objects = objectsOf(district); }
+          }
+          break;
+        case 'goto': target(step.target, 'target'); break;
+        case 'interact': if (step.target !== undefined) target(step.target, 'target'); break;
+        case 'choose': if (!(typeof step.option === 'number' && step.option >= 0) && !(typeof step.option === 'string' && step.option)) add(`${where} option must be an index or a text/node id`); break;
+        case 'wait': if (typeof step.ms !== 'number' || step.ms < 0) add(`${where} ms must be a number`); break;
+        case 'phone': if (!['open', 'close', 'app', 'tap'].includes(step.action)) add(`${where} phone action must be open, close, app or tap`); break;
+        case 'pay': if (step.max !== undefined && typeof step.max !== 'number') add(`${where} max must be a number`); break;
+        case 'expect': {
+          const keys = ['flag', 'not_flag', 'wallet_lte', 'wallet_gte', 'district', 'scene', 'near'].filter((k) => step[k] !== undefined);
+          if (!keys.length) add(`${where} expects nothing — give it a flag, wallet bound, district, scene or near target`);
+          if (step.district !== undefined && !districtById.has(step.district)) add(`${where} expects district "${step.district}", which does not exist`);
+          if (step.near !== undefined) target(step.near, 'near');
+          break;
+        }
+        case 'set_flag': if (typeof step.flag !== 'string' || !step.flag) add(`${where} set_flag needs a flag`); cheats += 1; break;
+        case 'unresolved': if (typeof step.reason !== 'string' || !step.reason) add(`${where} unresolved needs a reason`); break;
+        default: break;
+      }
+    });
+    if (cheats) warnings.push(`${file}: ${cheats} set_flag step${cheats > 1 ? 's' : ''} — the movie will show ${cheats > 1 ? 'them' : 'it'} in yellow as cheated`);
+  }
+  return { problems, warnings };
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
   const dialogue = readJsonDir('dialogue');
   const quests = readJsonDir('quests');
@@ -1202,6 +1261,11 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const world = validateWorld(districts, { manifest, maps, sprites });
   problems.push(...world.problems);
   for (const w of world.warnings) console.warn(`  ⚠ ${w}`);
+  const walkDir = join(dataDir, 'walkthroughs');
+  const walkthroughs = existsSync(walkDir) ? readJsonDir('walkthroughs') : [];
+  const walks = validateWalkthroughs(walkthroughs, scenes.map((f) => f.json), districts, npcs.flatMap((f) => (Array.isArray(f.json) ? f.json : [])), manifest, maps);
+  problems.push(...walks.problems);
+  for (const w of walks.warnings) console.warn(`  ⚠ ${w}`);
 
   if (problems.length) {
     console.error(`\n✗ Content validation failed (${problems.length} problem${problems.length > 1 ? 's' : ''}):\n`);
@@ -1216,6 +1280,6 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     `✓ content valid — ${districts.length} districts, ${count(npcs)} NPCs, ` +
       `${count(objects)} objects, ${dialogue.length} dialogue, ` +
       `${quests.length} quest, ${count(items)} items, ${scenes.length} scene component${scenes.length === 1 ? '' : 's'}, ` +
-      `${negotiations.length} negotiation${negotiations.length === 1 ? '' : 's'}, ${phoneApps.length} phone apps, ${chats.length} chat threads, city map (${city.regions.length} regions, ${city.paths.length} paths, ${city.metro.length} metro lines)`,
+      `${negotiations.length} negotiation${negotiations.length === 1 ? '' : 's'}, ${phoneApps.length} phone apps, ${chats.length} chat threads, city map (${city.regions.length} regions, ${city.paths.length} paths, ${city.metro.length} metro lines), ${walkthroughs.length} walkthrough${walkthroughs.length === 1 ? '' : 's'}`,
   );
 }

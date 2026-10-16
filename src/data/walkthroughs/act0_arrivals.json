@@ -1,0 +1,21 @@
+{
+  "scene": "act0_arrivals",
+  "generated": "hand-authored 2026-10-16 from the scene's beats and q_act0_arrival (step 2 of Movie Mode; the generator lands in step 3)",
+  "seed": 7,
+  "steps": [
+    { "id": "arrive", "beat": "F1", "do": "wait_for", "ready": "scene_loaded", "scene": "airport", "timeout": 15000 },
+    { "id": "settle", "beat": "F1", "do": "wait", "ms": 600 },
+    { "id": "to_anna", "beat": "F2", "do": "goto", "target": "npc_chai_anna" },
+    { "id": "talk_anna", "beat": "F2", "do": "interact", "target": "npc_chai_anna" },
+    { "id": "buy_chai", "beat": "F2", "do": "choose", "option": "One chai" },
+    { "id": "chai_paid", "beat": "F2", "do": "expect", "wallet_lte": 34980 },
+    { "id": "to_tout", "beat": "F3", "do": "goto", "target": "npc_cab_tout_1" },
+    { "id": "talk_tout", "beat": "F3", "do": "interact", "target": "npc_cab_tout_1" },
+    { "id": "refuse_tout", "beat": "F3", "do": "choose", "option": "No thanks" },
+    { "id": "to_lanyard", "beat": "F4", "do": "goto", "target": "zone:hivr_zone" },
+    { "id": "lanyard_seen", "beat": "F4", "do": "expect", "flag": "seen_hivr_lanyard" },
+    { "id": "to_bus", "beat": "F5", "do": "goto", "target": "exit:zone_exit" },
+    { "id": "ride", "beat": "F5", "do": "wait_for", "ready": "scene_loaded", "scene": "whitefield_street", "timeout": 15000 },
+    { "id": "landed", "beat": "F5", "do": "expect", "flag": "act0_arrived", "wallet_lte": 34730, "district": "whitefield_street" }
+  ]
+}

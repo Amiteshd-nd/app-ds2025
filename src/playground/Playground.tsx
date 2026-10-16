@@ -1,4 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import MovieBar from './MovieBar';
+import { PhaserDriver } from './movie/driver';
+import { MovieRunner, type MovieScene } from './movie/runner';
+import { WALKTHROUGHS } from './movie/walkthroughs';
+import { sceneOrder } from '../dev/prereq';
+import type { SceneBeat } from '../utils/types';
 import type Phaser from 'phaser';
 import BangaloreTimes from '../BangaloreTimes';
 import { DISTRICTS, NPCS, SCENES } from '../data';
@@ -156,6 +162,26 @@ export default function Playground() {
   const visible = useMemo(() => filterTree(tree, query), [tree, query]);
   const selected = findNode(tree, selectedId);
 
+  // Movie Mode (T-054): one runner per game instance; built scenes in story order; reports go to /__pg/reports.
+  const runner = useMemo(() => {
+    if (!api || !game) return null;
+    const built: MovieScene[] = sceneOrder(Object.values(SCENES)).filter((s) => s.status !== 'STUB').map((s) => ({
+      id: s.id, title: s.title, act: s.act, place: DISTRICTS[s.district]?.name ?? s.district,
+      beats: (s.beats ?? []).filter((b): b is SceneBeat => typeof b === 'object').map((b) => b.id),
+    }));
+    const driver = new PhaserDriver(game, api);
+    const movie = new MovieRunner(driver, built, WALKTHROUGHS, {
+      seed: 7,
+      onReport: (report) => fetch('/__pg/reports', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ report }) }).then((r) => r.json()).then((j) => (j.file as string) ?? null).catch(() => null),
+    });
+    // Scriptable from the browser pane / a headless run (step 5 of the brief): window.__nqMovie.play().
+    (window as unknown as Record<string, unknown>).__nqMovie = movie;
+    return movie;
+  }, [api, game]);
+  const movieSelected = selected && (selected.kind === 'scene' || selected.kind === 'beat') && selected.ref && selected.scene?.status !== 'STUB'
+    ? { scene: selected.ref, beat: selected.kind === 'beat' ? selected.beat?.id : undefined }
+    : null;
+
   const play = useCallback((node: DevNode, extra: StateOverride = override) => {
     if (!api) return;
     api.loadNode(node, extra);
@@ -312,6 +338,7 @@ export default function Playground() {
           </details>
           <span className="pg-fps">{fps} fps</span>
         </div>
+        <MovieBar runner={runner} selected={movieSelected} />
         <div className={`pg-stage ${inspecting ? 'pg-inspecting' : ''}`} ref={stageRef} onClickCapture={onStageClick}>
           <div className={`pg-frame ${device.id === 'desktop' ? 'pg-desktop' : 'pg-phoneframe'}`} style={{ width: device.width * scale, height: device.height * scale }}>
             <div className="pg-screen" ref={screenRef} style={{ width: device.width, height: device.height, transform: `scale(${scale})` }}>

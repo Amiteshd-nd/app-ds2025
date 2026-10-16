@@ -8,6 +8,8 @@
  *   POST /__pg/export            { file, json }     → writes a scene file ONLY if the
  *                                                     content validator still passes;
  *                                                     otherwise restores it and returns problems
+ *   POST /__pg/reports           { report }         → writes playground/reports/<timestamp>.json
+ *                                                     (Movie Mode run reports; gitignored)
  *
  * Writing game data happens only through /export, which the playground calls
  * after showing a diff and getting the user's confirmation.
@@ -20,6 +22,16 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
 export const PRESETS_DIR = join(root, 'src/data/playground/presets');
+export const REPORTS_DIR = join(root, 'playground/reports');
+
+/** Movie Mode run report → playground/reports/<ISO timestamp>.json; returns the file name. */
+export function writeReport(report, dir = REPORTS_DIR) {
+  mkdirSync(dir, { recursive: true });
+  const stamp = String(report?.startedAt ?? new Date().toISOString()).replace(/[:.]/g, '-');
+  const file = `${stamp}.json`;
+  writeFileSync(join(dir, file), `${JSON.stringify(report, null, 2)}\n`);
+  return file;
+}
 
 /** "Act 1 broke (₹200)" → "act-1-broke-200". */
 export const presetFileName = (name) =>
@@ -82,6 +94,11 @@ export function playgroundPlugin() {
             const { name, preset } = await body(req);
             if (!name || !preset) return send(res, 400, { error: 'name and preset are required' });
             return send(res, 200, { id: writePreset(name, preset) });
+          }
+          if (req.method === 'POST' && req.url?.startsWith('/reports')) {
+            const { report } = await body(req);
+            if (!report) return send(res, 400, { error: 'report is required' });
+            return send(res, 200, { file: writeReport(report) });
           }
           if (req.method === 'POST' && req.url?.startsWith('/export')) {
             const { file, json } = await body(req);

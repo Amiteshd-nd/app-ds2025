@@ -5,3 +5,6 @@ dist
 
 # Intermediate files from the asset import pipeline — large, regenerable
 scripts/.work/
+
+# Movie Mode run reports (Test Playground, dev only)
+playground/reports/
