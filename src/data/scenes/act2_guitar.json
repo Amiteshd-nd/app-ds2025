@@ -1,41 +1,154 @@
 {
   "id": "act2_guitar",
-  "district": "hill_flat",
+  "district": "church_street",
   "act": 2,
   "seq": "2.3",
   "title": "Guitar",
   "status": "STUB",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §5 (2.3) + §4 (1.6 F4), dlg_guitar_shop ('come Tuesday, I'll keep one aside'), game_components §7 (guitar = sink, noise source), player_profile (guitar lowers stress), infected_behaviour (guitar = noise lure), act4_the_hill (the guitar is part of the first base). The user edits the words and the numbers; then P12 builds it.",
+  "time": "'Tuesday' — the first morning after act2_metro_done (the game has no weekdays; a sleep sets guitar_in_stock and the shop's text calls it Tuesday)",
   "player_goal": "Buy the guitar; learn three chords.",
-  "design_goal": "Rhythm mini-game at home; the clip Ananya hears (relationship warm → …). Asset reused in Act 4 as noise lure / morale.",
+  "design_goal": "Reward bought with the salary (mid-game rewards every 30–60 min, engagement_guidelines): the wishlist from 1.6 pays off. Reveal: the first mini-game (a rhythm lane) — it is also Act 4's noise lure and a stress valve, so it is built as a reusable system, not a one-off. Relationship: Ananya hears a clip → met becomes warm. Progress: MG Road / Church Street becomes a pocket on the Purple Line.",
   "pacing": [
-    "TODO"
+    "Curious",
+    "Reward",
+    "Engaged",
+    "Engaged",
+    "Reward",
+    "Calm"
   ],
+  "entry": {
+    "from": "metro_interior",
+    "spawn": "mg_road_station",
+    "after": ["F1"]
+  },
   "cast": [
-    "TODO: npc_guitar_shop",
-    "TODO: npc_ananya"
+    {
+      "npc": "npc_guitar_shop",
+      "tier": 2,
+      "spawn": "shop_counter",
+      "role": "The 1.6 shop owner, now behind his own counter (reuses his sheet). Remembers you: 'Tuesday. I said Tuesday and here you are.' Six-five, no bargaining (his own words in 1.6). Throws in a pick and a chord chart."
+    },
+    {
+      "npc": "npc_church_busker",
+      "tier": 2,
+      "spawn": "busker_corner",
+      "role": "A busker by the graffiti wall playing a three-chord song badly and happily. Optional: drop ₹10 in his case → he shows you the G shape (the first lesson starts one star up). Atmosphere otherwise."
+    },
+    {
+      "npc": "npc_ananya",
+      "tier": 3,
+      "spawn": null,
+      "role": "Phone only in 2.3 (Chats). Hears the clip; her reply moves met → warm."
+    },
+    {
+      "npc": "npc_church_crowd",
+      "tier": 3,
+      "spawn": "crowd",
+      "role": "Citizens from the shared sheets: café queue, two students with a bookshop bag, a man on a scooter that should not be on the pavement. Atmosphere only."
+    }
   ],
   "quests": [
-    "TODO: q_act2_guitar"
+    "q_act2_guitar"
   ],
   "beats": [
-    "F1 — Church Street shop, Tuesday: ₹6,500 (guitar_wishlisted → guitar_owned).",
-    "F2 — Three chords: rhythm mini-game on the cot (TODO: design).",
-    "F3 — Ananya hears a clip (Chats).",
-    "F3b — Optional mature beat, fade-to-black only (ADR-08)."
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "The morning after the metro ride: a text from an unknown number saved as 'Guitar shop' — 'Tuesday. Spruce top kept aside. Six-five.' The Notes entry from 1.6 updates to 'Ready — Church Street'. Maps marks MG Road · Church Street.",
+      "interact": "phone (Chats + Notes)",
+      "flag": "guitar_in_stock"
+    },
+    {
+      "id": "F2",
+      "pacing": "Reward",
+      "what": "Metro to MG Road (METRO · ₹N, ADR-115) or the scooter (RIDE, fuel). Up the station stairs onto Church Street: the new pocket — a pedestrianised lane, a bookshop, a café, the graffiti wall, the busker, and the guitar shop's window with the spruce top. Inside (a small shop interior): the owner, the guitar on the counter, ₹6,500. Pay → guitar_owned; the guitar joins your inventory and shows on your back on the walk home.",
+      "interact": "walk + dialogue + pay",
+      "flag": "church_street_visited, guitar_owned",
+      "economy": "₹6,500 (+ metro fare, + optional ₹10 to the busker)"
+    },
+    {
+      "id": "F3",
+      "pacing": "Engaged",
+      "what": "Home, on the cot (hill_flat): interact with the guitar on the wall → the rhythm lane. Lesson 1: G. A strum line, notes slide in on the beat, press (E / tap the big button) as each crosses the line; 8 bars, 70% hits passes. Missed notes buzz, they don't punish. One lesson per evening (sleep between lessons).",
+      "interact": "mini-game (new: RhythmScene)",
+      "flag": "chord_g"
+    },
+    {
+      "id": "F4",
+      "pacing": "Engaged",
+      "what": "Lessons 2 and 3 on the next two evenings: C, then D, each a little faster, the third mixing all three. Each session lowers stress (−10) and is loud: the neighbour's TV goes up through the wall (a line, foreshadowing Act 4's noise rule).",
+      "interact": "mini-game",
+      "flag": "chord_c, chord_d, three_chords"
+    },
+    {
+      "id": "F5",
+      "pacing": "Reward",
+      "what": "After the third chord the phone offers 'Record a clip?' (Camera, a 10 s take of you playing). Send it to Ananya in Chats or keep it. Sent → she replies ('Okay. That was not bad. That was almost a song.') and her state moves met → warm. Kept → it stays in Photos; she asks about it later.",
+      "interact": "phone (Camera → Chats)",
+      "flag": "guitar_clip_sent | guitar_clip_kept, ananya_warm"
+    },
+    {
+      "id": "F6",
+      "pacing": "Calm",
+      "what": "The guitar stays on the flat's wall as an object: play it any evening (no lesson, a short free strum) for −5 stress, once per night. Act 4 reads guitar_owned for the noise lure and the base.",
+      "interact": "object",
+      "flag": "act2_guitar_done"
+    }
   ],
-  "economy": [],
+  "economy": [
+    { "trigger": "guitar", "spend": 6500, "canAfford": true },
+    { "trigger": "metro Whitefield → MG Road (ADR-115 fare)", "spend": "≈45", "canAfford": true },
+    { "trigger": "busker's case (optional)", "spend": 10, "canAfford": true }
+  ],
   "exits": [
-    "TODO"
+    { "zone": "station_stairs", "to": "metro fast travel (Maps)", "spawn": "mg_road_station", "transit": "metro", "note": "church_street gets metroStation: stn_mg_road" },
+    { "zone": "shop_door", "to": "guitar_shop", "spawn": "shop_entry", "transit": "walk" },
+    { "zone": "shop_exit", "to": "church_street", "spawn": "shop_front", "transit": "walk", "note": "on guitar_shop" },
+    { "zone": "scooter_parking", "to": "Maps RIDE", "transit": "scooter", "requiresFlag": "scooter_owned" }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "guitar_in_stock",
+    "church_street_visited",
+    "guitar_owned",
+    "busker_tipped",
+    "chord_g",
+    "chord_c",
+    "chord_d",
+    "three_chords",
+    "guitar_clip_sent",
+    "guitar_clip_kept",
+    "act2_guitar_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "church_street pocket: one render + spec on the render model (ADR-125) — pedestrian lane, MG Road station stairs, bookshop + café fronts (parody names), the graffiti wall (art_pipeline: 'narrow music shop, guitars in window, graffiti wall adjacent'), benches, planters, the busker's corner; real street geometry from OSM (Church Street runs east–west north of MG Road, ADR-117)",
+    "guitar_shop interior: one small render + spec (Stardew-style interior like the PG room) — wall of guitars, counter, amp, stool",
+    "hill_flat: a guitar wall-hook object (sorted cut-out, requiresFlag guitar_owned)",
+    "player: the guitar carried on the back (art_pipeline: carried props are a separate layer) — or skip for now",
+    "sheets: busker; reuse npc_guitar_shop; crowd from the shared sheets",
+    "RhythmScene UI on the HUD kit tokens (lane, strum line, hit/miss marks, one big touch button, progress) — reduced motion: notes highlight in place instead of sliding",
+    "item: guitar (items/*.json) — inventory, Act 4 reads it",
+    "city.json: church_street on the Purple Line at stn_mg_road (place_church_street already exists)"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "the first sleep after act2_metro_done sets guitar_in_stock; the shop's text arrives and the 1.6 note reads 'Ready'",
+    "Maps offers METRO to MG Road (ADR-115 fare) and RIDE when the scooter is owned; both land on Church Street",
+    "the shop sells the guitar for ₹6,500 through spend(); a wallet under ₹6,500 shows 'Needs ₹6,500'; no bargaining option",
+    "the guitar on the flat's wall opens the rhythm lane; one lesson per night; 70% hits passes; a fail costs nothing but the night",
+    "three lessons → three_chords; each session −10 stress; touch and keyboard both play it; prefers-reduced-motion keeps the lane readable",
+    "the clip can be sent or kept; sent → Ananya replies and her state is warm",
+    "Movie Mode stays green: the generator learns the rhythm lane (a new walkthrough action that plays it through the real input path), and `pnpm movie` passes 13 of 13"
   ],
   "open_questions": [
-    "Mini-game shape: timed presses on the dialogue card's pills, or a new scene?",
-    "Does 2.3b exist at all?"
+    "WHERE is the shop? Draft: a new Church Street pocket at MG Road station (the Purple Line's next stop, as the 2.2 draft promised) + a small shop interior. Cheaper alternative: no new pocket — a shop door at Cubbon Park's Church Street edge where the owner already stands in 1.6, reached by METRO to Cubbon Park.",
+    "WHEN is 'Tuesday'? Draft: the first sleep after the metro ride. Alternative: the next payday (so the guitar is bought from the second salary).",
+    "PRICE: ₹6,500 flat, no bargaining (the owner said so in 1.6) — keep? Does the pick + chord chart come free?",
+    "The MINI-GAME shape: draft = a new RhythmScene (a lane, notes on the beat, E or a big touch button, 8 bars, 70% to pass). Alternative = timed presses on the dialogue card's pills (cheaper, less of a game). Any reference you like for its look (a rhythm game screenshot)? Otherwise I use the HUD kit.",
+    "Which THREE CHORDS? Draft G, C, D (the busker's song). Alternative Em, C, G.",
+    "PACE: one lesson per night (three nights, draft) or all three in one evening?",
+    "STRESS numbers: −10 per lesson, −5 per free strum once a night (draft).",
+    "ANANYA: does sending the clip move her straight to warm (draft), or only add to it so 2.6 can still break it? Her reply's words are yours to edit.",
+    "2.3b, the optional mature beat (ADR-08, fade to black): the story script mentions it only from 2.6. Draft: not in this build — decide when we co-author 2.6.",
+    "The OWNER's name (he is 'Guitar shop · Church Street' today) and the busker's song (must be original or public domain — no real song titles)."
   ]
 }

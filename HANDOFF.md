@@ -13,7 +13,8 @@ Bangalore Times (docs' working title: NAMMA OUTBREAK). Story scenes 0.1 → 2.2b
 | Movie Mode plan + step 2 (T-054, ADR-128) | approved 2026-10-16, pushed (b172add) |
 | **Movie Mode step 3 (T-054, ADR-129)** | **built 2026-10-17, committed locally 3b473a1 — awaiting the user's audit (see §3)** |
 | **Movie Mode step 4 (T-054, ADR-130)** — `pnpm movie` headless, `--twice` determinism, the bot haggles, per-scene seeds; step 5 docs done | **built 2026-10-17, committed locally — awaiting the user's audit with step 3** |
-| 2.3 "Guitar" … 4.6 | stubs — the user co-authors each before its build (2.3 is next after Movie Mode) |
+| 2.3 "Guitar" | **draft written 2026-10-17 — waiting for the user's answers to its open_questions**, then P12 |
+| 2.4 … 4.6 | stubs — the user co-authors each before its build |
 | T-016/T-017 mobile smoke tests | blocked: toolchain missing (T-018) |
 | T-039 … T-047, T-051 | open |
 
@@ -22,7 +23,7 @@ Bangalore Times (docs' working title: NAMMA OUTBREAK). Story scenes 0.1 → 2.2b
 2. `git status` — expect a clean tree, several commits ahead of origin. Do not push until the user approves steps 3–4. Run `corepack pnpm movie` first: it says in ~90 s whether every built scene still plays.
 3. **If the user approves steps 3–4:** log it in `AUDIT_LOG.md` (decision + a "rule going forward"), tick T-054 in `TASKS.md`, push. (Step 4 is built, 2026-10-17; what it covers: (a) `pnpm movie` — a headless run (Playwright or Puppeteer, MIT; add the dependency) that opens `playground.html`, drives the loop with the stepped clock (§6), calls `window.__nqMovie.play()`, waits for `state.status === 'done'`, prints the report and exits non-zero on any failed scene; (b) a two-run determinism test comparing `report.trace` (and per-scene `durationMs`, allowing for the pause-menu real-time event); (c) cheaper negotiation counters in the generator. Step 5 docs are current.)
 4. **If the user reports a red scene or a correction:** diagnose with the recipe in §6 ("diagnosing a failing step"), fix the game or the data, regenerate (`node scripts/generate-walkthroughs.ts`), validate, rerun. Never add `set_flag` to hide a failure — the brief forbids it unless flagged to the user.
-5. **After Movie Mode:** co-author **2.3 "Guitar"** from its stub (`src/data/scenes/act2_guitar.json`: Church Street guitar shop by MG Road — MG Road becomes the next pocket; the rhythm mini-game; Ananya hears a clip; the asset returns in Act 4). Draft the stub with defaults + `open_questions` as for 2.2 (AUDIT_LOG P9 rule), take the user's words and numbers, then build (P12) by the usual recipe and stop for audit.
+5. **After Movie Mode:** co-author **2.3 "Guitar"** — **the draft is written (2026-10-17, `src/data/scenes/act2_guitar.json`: six beats, cast, economy, exits, assets, acceptance, ten `open_questions`) and waits for the user's answers**; then build P12. Original note: co-author it from its stub (`src/data/scenes/act2_guitar.json`: Church Street guitar shop by MG Road — MG Road becomes the next pocket; the rhythm mini-game; Ananya hears a clip; the asset returns in Act 4). Draft the stub with defaults + `open_questions` as for 2.2 (AUDIT_LOG P9 rule), take the user's words and numbers, then build (P12) by the usual recipe and stop for audit.
 6. Art generation goes through a scratch Figma file (`create_new_file` on the personal plan `team::1113684943164685803`, then `generate_image` with `fileKey`, then `download_assets` → `rawImages[0].url` → curl). Current scratch file: `GlPqDksxrmJtftFFo6CJNl`. Art direction is delegated: decide, show, log; ask only on a conflict with a logged decision.
 
 ## 3. Movie Mode steps 3–4 — how to audit them
