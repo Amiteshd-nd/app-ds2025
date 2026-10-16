@@ -17,6 +17,8 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildPrereqState, sceneOrder } from '../src/dev/prereq.ts';
 import { HOTEL_NIGHTS, PG_NOTICE_DAYS, STARTING_WALLET } from '../src/utils/constants.ts';
+import { planHaggle } from '../src/systems/negotiationMath.ts';
+import type { NegotiationDef } from '../src/utils/types.ts';
 
 type Json = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 const here = dirname(fileURLToPath(import.meta.url));
@@ -282,7 +284,7 @@ class Gen {
    * Breadth-first through a dialogue from its entry (or `from`): the shortest
    * sequence of decisions to a node/choice the goal accepts. Choices with a
    * skill requirement or an unaffordable cost are not taken; a negotiation is
-   * accepted at the asking total when affordable (the `deal` branch), else walked.
+   * haggled down with `planHaggle` and agreed when affordable (the `deal` branch), else walked.
    */
   dialogueReaches(dialogueId: string, goal: (node: Json | null, choice: Json | null, nodeId: string) => boolean, from?: string): { found: boolean; decisions: Array<{ node: string; option: string; cost: number; flags: string[] }>; end: string } {
     const dlg = dialogues.get(dialogueId);
@@ -298,13 +300,15 @@ class Gen {
       if (!node) continue;
       const nodeFlags = flagsOf(node.effect);
       if (goal(node, null, cur.node)) return { found: true, decisions: cur.decisions, end: cur.node };
-      const nexts: Array<{ to: string; option: string; cost: number; flags: string[] }> = [];
+      const nexts: Array<{ to: string; option: string; cost: number; flags: string[]; pre?: string[] }> = [];
       if (node.negotiate) {
         const neg = negotiations.get(node.negotiate.id);
-        const total = (neg?.terms ?? []).reduce((n: number, t: Json) => n + (t.ask ?? 0), 0);
         const accept = String(neg?.acceptText ?? 'Agree — pay {total}').split('—')[0].split('{')[0].trim();
         const walk = String(neg?.walkText ?? 'Walk away');
-        if (total <= cur.wallet) nexts.push({ to: node.negotiate.deal, option: accept, cost: total, flags: [...(neg?.on_deal?.flags ?? [])] });
+        // Haggle like a careful player: the cheapest counters the rules allow (same arithmetic as the game), then agree.
+        const flags = Object.fromEntries([...this.known, ...cur.flags].map((f) => [f, true]));
+        const plan = neg ? planHaggle(neg as NegotiationDef, { flags, wallet: cur.wallet }) : null;
+        if (plan) nexts.push({ to: node.negotiate.deal, option: accept, cost: plan.total, flags: [...(neg?.on_deal?.flags ?? [])], pre: [...plan.counters.map((c) => c.text), ...(plan.walkFirst ? [walk] : [])] });
         nexts.push({ to: node.negotiate.walk, option: walk, cost: 0, flags: [] });
       } else if (node.choices?.length) {
         for (const c of node.choices as Json[]) {
@@ -315,7 +319,7 @@ class Gen {
         }
       } else if (node.next) nexts.push({ to: node.next, option: '', cost: 0, flags: [] });
       for (const n of nexts) {
-        const decision = n.option ? [{ node: cur.node, option: n.option, cost: n.cost, flags: n.flags }] : [];
+        const decision = n.option ? [...(n.pre ?? []).map((o) => ({ node: cur.node, option: o, cost: 0, flags: [] as string[] })), { node: cur.node, option: n.option, cost: n.cost, flags: n.flags }] : [];
         if (n.option && n.flags.length && goal(null, { effect: { flags: Object.fromEntries(n.flags.map((f) => [f, true])) } }, cur.node)) return { found: true, decisions: [...cur.decisions, ...decision], end: n.to };
         if (seen.has(n.to)) continue;
         seen.add(n.to);

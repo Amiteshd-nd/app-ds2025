@@ -78,34 +78,52 @@
       "id": "choose_13",
       "beat": "F4",
       "do": "choose",
+      "option": "Aunty, I join Monday — salary comes on the 1st. Deposit ₹5,000 now?"
+    },
+    {
+      "id": "choose_14",
+      "beat": "F4",
+      "do": "choose",
+      "option": "The green-gate PG said ₹6,000 rent with food."
+    },
+    {
+      "id": "choose_15",
+      "beat": "F4",
+      "do": "choose",
+      "option": "My amma will ask if I'm eating properly. Rent ₹6,500, and I'll eat whatever you cook."
+    },
+    {
+      "id": "choose_16",
+      "beat": "F4",
+      "do": "choose",
       "option": "Okay, Aunty"
     },
     {
-      "id": "goto_14",
+      "id": "goto_17",
       "beat": "F5",
       "do": "goto",
       "target": "npc:npc_darshini_raju"
     },
     {
-      "id": "interact_15",
+      "id": "interact_18",
       "beat": "F5",
       "do": "interact",
       "target": "npc:npc_darshini_raju"
     },
     {
-      "id": "choose_16",
+      "id": "choose_19",
       "beat": "F5",
       "do": "choose",
       "option": "idli"
     },
     {
-      "id": "goto_17",
+      "id": "goto_20",
       "beat": "F6",
       "do": "goto",
       "target": "exit:gate10"
     },
     {
-      "id": "wait_for_18",
+      "id": "wait_for_21",
       "beat": "F6",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -113,18 +131,18 @@
       "timeout": 20000
     },
     {
-      "id": "goto_19",
+      "id": "goto_22",
       "beat": "F6",
       "do": "goto",
       "target": "zone:bed"
     },
     {
-      "id": "advance_20",
+      "id": "advance_23",
       "beat": "F6",
       "do": "advance"
     },
     {
-      "id": "wait_for_21",
+      "id": "wait_for_24",
       "beat": "F6",
       "do": "wait_for",
       "ready": "flag",
@@ -132,7 +150,7 @@
       "timeout": 6000
     },
     {
-      "id": "expect_22",
+      "id": "expect_25",
       "do": "expect",
       "flag": "act0_pg_done",
       "timeout": 3000

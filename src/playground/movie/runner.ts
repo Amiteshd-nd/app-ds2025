@@ -95,6 +95,9 @@ export class MovieRunner {
     this.driver.overlay.title(`ACT ${scene.act} · ${scene.title.toUpperCase()} · ${scene.place.toUpperCase()}`);
     this.driver.overlay.pill(`${scene.id} · loading`);
     const flagsBefore = new Set(Object.keys(this.driver.state().flags).filter((f) => this.driver.state().flags[f]));
+    // Each scene draws from its own seed: a scene plays the same in the full movie and from "▶ from here",
+    // and a change to one scene's walkthrough never reshuffles the crowd in the scenes after it.
+    this.driver.seed?.(sceneSeed(this.state.report!.seed, scene.id));
     this.driver.loadScene(scene.id, beat);
     if (!walkthrough) {
       report.status = 'missing';
@@ -169,6 +172,13 @@ export class MovieRunner {
       if (file) this.log(`report written: ${file}`);
     }
   }
+}
+
+/** The run's seed mixed with the scene id (FNV-1a), so every scene has its own stream. */
+export function sceneSeed(seed: number, sceneId: string): number {
+  let h = (0x811c9dc5 ^ seed) >>> 0;
+  for (let i = 0; i < sceneId.length; i++) h = Math.imul(h ^ sceneId.charCodeAt(i), 0x01000193) >>> 0;
+  return h;
 }
 
 export const stepId = (step: Step, index: number): string => step.id ?? `#${index + 1}`;

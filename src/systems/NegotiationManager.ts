@@ -1,12 +1,8 @@
 import { gameEvents } from '../core/events';
 import { NEGOTIATIONS, NPCS } from '../data';
 import { useGameStore } from '../store';
-import {
-  NEGOTIATION_REP_CAP,
-  NEGOTIATION_REP_GIVE,
-  NEGOTIATION_STEP,
-  TEMPERAMENTS,
-} from '../utils/constants';
+import { NEGOTIATION_REP_CAP, NEGOTIATION_REP_GIVE } from '../utils/constants';
+import { callbackPrice, counterCost, counterPrice } from './negotiationMath';
 import type { NegotiationCounter, NegotiationDef } from '../utils/types';
 import { ReputationManager } from './ReputationManager';
 import { StatsManager } from './StatsManager';
@@ -132,26 +128,20 @@ export class Negotiation {
     const store = useGameStore.getState();
     store.setFlag(usedKey(this.def.id, c.id), true);
 
-    const t = TEMPERAMENTS[this.def.temperament];
-    const share = t.give[c.tactic];
-    this.patience -= t.cost[c.tactic];
+    this.patience -= counterCost(this.def, c);
 
     const term = this.def.terms.find((x) => x.id === c.term)!;
     const current = this.prices[term.id];
-    const target = Math.max(c.offer, term.floor);
+    const next = counterPrice(this.def, term, current, c, this.give);
 
     let line: string;
-    if (share === 0) {
+    if (next === null) {
       line = this.def.lines.offended;
+    } else if (next >= current) {
+      line = this.def.lines.hold;
     } else {
-      const raw = current - (share + this.give) * (current - target);
-      const next = Math.max(target, Math.round(raw / NEGOTIATION_STEP) * NEGOTIATION_STEP);
-      if (next >= current) {
-        line = this.def.lines.hold;
-      } else {
-        this.setPrice(term.id, next);
-        line = this.fill(this.def.lines.concede, term.label, next);
-      }
+      this.setPrice(term.id, next);
+      line = this.fill(this.def.lines.concede, term.label, next);
     }
 
     if (this.patience <= 0) {
@@ -176,18 +166,11 @@ export class Negotiation {
   }
 
   private walk(): NegotiationOutcome | null {
-    const mode = TEMPERAMENTS[this.def.temperament].walk;
-    if (mode !== 'stay' && !this.calledBack && this.def.lines.callback) {
+    if (!this.calledBack && this.def.terms.some((t) => callbackPrice(this.def, t, this.prices[t.id]) !== null)) {
       this.calledBack = true;
       this.final = true;
-      for (const term of this.def.terms) {
-        const current = this.prices[term.id];
-        const next = mode === 'drop'
-          ? term.floor
-          : Math.max(term.floor, Math.round((current - (current - term.floor) / 2) / NEGOTIATION_STEP) * NEGOTIATION_STEP);
-        this.setPrice(term.id, next);
-      }
-      this.line = this.fill(this.def.lines.callback, this.def.terms[0].label, this.prices[this.def.terms[0].id]);
+      for (const term of this.def.terms) this.setPrice(term.id, callbackPrice(this.def, term, this.prices[term.id]) ?? this.prices[term.id]);
+      this.line = this.fill(this.def.lines.callback!, this.def.terms[0].label, this.prices[this.def.terms[0].id]);
       return null;
     }
     gameEvents.emit('negotiation:ended', { negotiationId: this.def.id, outcome: 'walk', total: this.total });

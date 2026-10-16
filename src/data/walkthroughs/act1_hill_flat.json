@@ -166,55 +166,73 @@
       "id": "choose_26",
       "beat": "F3",
       "do": "choose",
-      "option": "Deal, Aunty"
+      "option": "The PG was ₹8,000 with food, Aunty. ₹8,000 here?"
     },
     {
-      "id": "goto_27",
-      "beat": "F4",
-      "do": "goto",
-      "target": "npc:npc_furniture_rafiq"
+      "id": "choose_27",
+      "beat": "F3",
+      "do": "choose",
+      "option": "I'm salaried, Aunty — one month deposit is enough, no?"
     },
     {
-      "id": "interact_28",
-      "beat": "F4",
-      "do": "interact",
-      "target": "npc:npc_furniture_rafiq"
+      "id": "choose_28",
+      "beat": "F3",
+      "do": "choose",
+      "option": "One month deposit. I'll pay the rent on the 1st, every month."
     },
     {
       "id": "choose_29",
-      "beat": "F4",
+      "beat": "F3",
       "do": "choose",
-      "option": "cot"
+      "option": "Deal, Aunty"
     },
     {
       "id": "goto_30",
       "beat": "F4",
       "do": "goto",
+      "target": "npc:npc_furniture_rafiq"
+    },
+    {
+      "id": "interact_31",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_furniture_rafiq"
+    },
+    {
+      "id": "choose_32",
+      "beat": "F4",
+      "do": "choose",
+      "option": "cot"
+    },
+    {
+      "id": "goto_33",
+      "beat": "F4",
+      "do": "goto",
       "target": "npc:npc_furniture_rafiq",
       "optional": true
     },
     {
-      "id": "interact_31",
+      "id": "interact_34",
       "beat": "F4",
       "do": "interact",
       "target": "npc:npc_furniture_rafiq",
       "optional": true
     },
     {
-      "id": "choose_32",
+      "id": "choose_35",
       "beat": "F4",
       "do": "choose",
       "option": "stove",
       "optional": true
     },
     {
-      "id": "goto_33",
+      "id": "goto_36",
       "beat": "F5",
       "do": "goto",
       "target": "exit:room3_door"
     },
     {
-      "id": "wait_for_34",
+      "id": "wait_for_37",
       "beat": "F5",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -222,12 +240,12 @@
       "timeout": 20000
     },
     {
-      "id": "sleep_35",
+      "id": "sleep_38",
       "beat": "F5",
       "do": "sleep"
     },
     {
-      "id": "wait_for_36",
+      "id": "wait_for_39",
       "beat": "F5",
       "do": "wait_for",
       "ready": "flag",
@@ -235,7 +253,7 @@
       "timeout": 6000
     },
     {
-      "id": "expect_37",
+      "id": "expect_40",
       "do": "expect",
       "flag": "act1_hill_done",
       "timeout": 3000

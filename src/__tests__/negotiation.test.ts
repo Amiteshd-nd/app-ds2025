@@ -3,6 +3,7 @@ import { gameEvents } from '../core/events';
 import { NEGOTIATIONS } from '../data';
 import { DialogueManager } from '../systems/DialogueManager';
 import { Negotiation, NegotiationManager } from '../systems/NegotiationManager';
+import { planHaggle, type HagglePlan } from '../systems/negotiationMath';
 import { ReputationManager } from '../systems/ReputationManager';
 import { StatsManager } from '../systems/StatsManager';
 import { useGameStore } from '../store';
@@ -184,5 +185,42 @@ describe('dialogue entry branches (NPCs remember)', () => {
     view = dm.choose(view.choices.findIndex((c) => c.text.includes('No room, no token')));
     expect(view.nodeId).toBe('refused');
     expect(ReputationManager.getInstance().standingIn('prashanth_layout')).toBe(2);
+  });
+});
+
+describe('planHaggle — the bot haggles with the game\'s own arithmetic (T-054 step 4)', () => {
+  /** Play a plan through the real Negotiation and return the bill it agrees. */
+  const play = (id: string, plan: HagglePlan) => {
+    const def = NEGOTIATIONS[id];
+    const n = new Negotiation(def);
+    for (const c of plan.counters) expect(n.choose(pick(n, c.text))).toBeNull();
+    if (plan.walkFirst) expect(n.choose(pick(n, def.walkText ?? 'Walk away'))).toBeNull();
+    return n.total;
+  };
+
+  it('every negotiation: the planned total is what the game agrees, and never above the ask', () => {
+    store().setFlag('pg_token_quoted', true);
+    for (const def of Object.values(NEGOTIATIONS)) {
+      const plan = planHaggle(def, { flags: store().flags })!;
+      expect(plan, def.id).not.toBeNull();
+      expect(plan.total, def.id).toBeLessThanOrEqual(def.terms.reduce((a, t) => a + t.ask, 0));
+      useGameStore.getState().reset();
+      store().setFlag('pg_token_quoted', true);
+      expect(play(def.id, plan), def.id).toBe(plan.total);
+    }
+  });
+
+  it('Shanthamma: three reasoned counters, never the lowball', () => {
+    const plan = planHaggle(NEGOTIATIONS.neg_shanthamma, { flags: { pg_token_quoted: true } })!;
+    expect(plan.counters.map((c) => c.id)).toEqual(['monday', 'corner_pg', 'amma']);
+    expect(plan.total).toBe(14300);
+  });
+
+  it('skips counters already used and ones whose knowledge is missing; respects the wallet', () => {
+    const def = NEGOTIATIONS.neg_shanthamma;
+    const plan = planHaggle(def, { flags: { 'neg.neg_shanthamma.used.monday': true } })!;
+    expect(plan.counters.map((c) => c.id)).not.toContain('monday');
+    expect(plan.counters.map((c) => c.id)).not.toContain('corner_pg');
+    expect(planHaggle(def, { wallet: 100 })).toBeNull();
   });
 });

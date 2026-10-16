@@ -4,7 +4,9 @@ import { join } from 'node:path';
 import { DISTRICTS, NPCS, SCENES } from '../data';
 import { MAPS } from '../assets/maps';
 import { runStep } from '../playground/movie/actions';
-import { MovieRunner, summarise } from '../playground/movie/runner';
+import { MovieRunner, sceneSeed, summarise } from '../playground/movie/runner';
+// @ts-expect-error — plain .mjs Node tooling, no types
+import { compareRuns, exitCode, formatReport } from '../../scripts/movie-report.mjs';
 import type { DriverState, MovieDriver, Step, Walkthrough } from '../playground/movie/types';
 import { astar, bfs, buildGrid, cellAt, cellCentre, corners, lineFree, nearestFree, overlapsZone, rectsFromTmj, smooth, zoneOf, FEET_DY } from '../playground/movie/walkgrid';
 import { reachable, validateWalkthroughs } from '../../scripts/validate-content.ts';
@@ -221,5 +223,41 @@ describe('Movie Mode never ships', () => {
     mkdirSync(join(dir, 'assets'));
     writeFileSync(join(dir, 'assets', 'index.js'), 'class MovieRunner {}');
     expect(checkDist(dir).some((p: string) => p.includes('MovieRunner'))).toBe(true);
+  });
+});
+
+describe('headless movie report (pnpm movie)', () => {
+  const scene = (id: string, status: string, durationMs: number, walletEnd = 100) => ({ scene: id, title: id, status, startedAt: 0, durationMs, steps: [{ index: 0, id: 's1', action: 'goto', summary: 'goto x', status: status === 'failed' ? 'failed' : 'passed', reason: status === 'failed' ? 'timeout' : undefined, ms: 10 }], failedStep: status === 'failed' ? { index: 0, id: 's1', action: 'goto', summary: 'goto x', status: 'failed', reason: 'timeout', ms: 10 } : undefined, cheats: status === 'cheated' ? 1 : 0, flagsSet: [], walletEnd });
+  const report = (scenes: ReturnType<typeof scene>[], trace = ['a:s1:passed', 'b:s1:passed']) => ({
+    version: 1, startedAt: 'x', seed: 7, speed: 1, scenes, trace,
+    totals: { scenes: scenes.length, passed: scenes.filter((s) => s.status === 'passed').length, failed: scenes.filter((s) => s.status === 'failed').length, cheated: scenes.filter((s) => s.status === 'cheated').length, missing: scenes.filter((s) => s.status === 'missing').length, playMs: 0, walletEnd: 0, flagsSet: 0 },
+  });
+
+  it('exits non-zero on a failed scene; --strict also on cheated or missing', () => {
+    expect(exitCode(report([scene('a', 'passed', 1), scene('b', 'cheated', 1)]))).toBe(0);
+    expect(exitCode(report([scene('a', 'passed', 1), scene('b', 'cheated', 1)]), { strict: true })).toBe(1);
+    expect(exitCode(report([scene('a', 'failed', 1)]))).toBe(1);
+  });
+
+  it('prints one line per scene and the failing step under a red one', () => {
+    const text = formatReport(report([scene('a', 'passed', 1500), scene('b', 'failed', 900)]));
+    expect(text).toMatch(/✓ a\s+passed/);
+    expect(text).toMatch(/✗ b\s+failed/);
+    expect(text).toContain('s1 goto x — timeout');
+    expect(text).toContain('2 scenes · 1 passed · 1 failed');
+  });
+
+  it('two runs agree when trace, status, wallet and time match; the first divergence is named', () => {
+    const a = report([scene('a', 'passed', 1000), scene('b', 'passed', 2000)]);
+    expect(compareRuns(a, report([scene('a', 'passed', 1000), scene('b', 'passed', 2000)]))).toEqual([]);
+    expect(compareRuns(a, report([scene('a', 'passed', 1000), scene('b', 'passed', 2100)]), { toleranceMs: 0 })).toEqual(['b: 2000 ms ≠ 2100 ms']);
+    const diffs = compareRuns(a, report([scene('a', 'passed', 1000), scene('b', 'passed', 2000, 50)], ['a:s1:passed', 'b:s1:failed']));
+    expect(diffs).toEqual(['trace[1]: b:s1:passed ≠ b:s1:failed', 'b: wallet ₹100 ≠ ₹50']);
+  });
+
+  it('every scene has its own seed stream, stable across runs', () => {
+    expect(sceneSeed(7, 'act1_cubbon')).toBe(sceneSeed(7, 'act1_cubbon'));
+    expect(sceneSeed(7, 'act1_cubbon')).not.toBe(sceneSeed(7, 'act1_hill_flat'));
+    expect(sceneSeed(7, 'act1_cubbon')).not.toBe(sceneSeed(8, 'act1_cubbon'));
   });
 });
