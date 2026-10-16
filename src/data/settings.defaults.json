@@ -3,6 +3,7 @@
   "audio": { "master": 80, "music": 70, "sfx": 80, "ambience": 70, "muted": false },
   "display": { "fullscreen": false, "pixelScale": "auto", "screenShake": true, "reduceFlashes": false },
   "gameplay": { "difficulty": "normal", "doNotDisturb": false, "tutorialHints": true, "dialogueSpeed": "normal", "autoRun": false },
+  "hud": { "objectiveAutoHide": true, "meters": "auto" },
   "controls": { "joystickSide": "left", "joystickSize": "medium", "haptics": true },
   "language": { "ui": "en" },
   "accessibility": { "colourblindIcons": false, "largerText": false, "holdToRun": true }

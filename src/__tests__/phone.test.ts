@@ -31,7 +31,7 @@ describe('chats', () => {
     phone();
     gameEvents.emit('district:entered', { districtId: 'airport' });
     expect(useGameStore.getState().phone.delivered).toContain('amma_1');
-    expect(t).toEqual(['📱 Amma: Landed? Call.']);
+    expect(t).toEqual(['Amma: Landed? Call.']);
   });
 
   it('delivers a thread in order: a later message waits for an earlier one\'s flag', () => {

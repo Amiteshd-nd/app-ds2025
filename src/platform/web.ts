@@ -130,6 +130,10 @@ export const webPlatform: Platform = {
       typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches,
   },
 
+  input: {
+    coarsePointer: () => typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches,
+  },
+
   network: {
     isOnline: () => navigator.onLine,
     onChange: (cb) => {

@@ -170,6 +170,14 @@ export const MOTION_TOKENS = {
   /** Buzz while closed: the corner phone icon wiggles ±1px, this many times, this fast. */
   'm.phone.wiggle.count': 6,
   'm.phone.wiggle.step': 70,
+  /** HUD (P6c, ADR-118): how long a plate stays up before it collapses or hides, ms. */
+  'm.hud.objective.hold': 4000, // the objective line, then ★ alone
+  'm.hud.card.hold': 5000,      // the location card on arrival
+  'm.hud.wallet.hold': 3000,    // the wallet + its tick after a payment
+  'm.hud.toast': 3200,          // one toast; the queue shows the next after
+  'm.hud.saved': 1200,          // the SAVED glyph
+  /** Prompt bubbles and the dialogue chevron bob 1px at this period, ms. */
+  'm.hud.bob': 500,
 };
 
 /**

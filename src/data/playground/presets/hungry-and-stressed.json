@@ -1,5 +1,5 @@
 {
-  "name": "Hungry and stressed",
-  "description": "Food under the hunger line (slower walk), stress showing in the HUD, late evening.",
+  "name": "HUD: hungry and stressed",
+  "description": "P6c audit — any outdoor node, late evening. Food 15 (under the hunger line: red bowl meter, slower walk) and stress 60 (bolt meter) stack under the location card; the moon glyph on the clock.",
   "state": { "stats": { "food": 15, "stress": 60 }, "clock": { "minute": 1260 } }
 }

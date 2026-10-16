@@ -1,0 +1,5 @@
+{
+  "name": "HUD: landing, first look",
+  "description": "P6c audit — node 0.1 Touchdown (airport), day 1 06:12, nothing visited. Objective under the ★ (collapses to the star after 4 s), the KEMPEGOWDA INTERNATIONAL card with NEW (leaves after 5 s), sunrise glyph on the clock, phone button top-right, SAVED on arrival. Walk to Chai Anna: the [E] TALK bubble appears over her; buy the chai and the wallet + its -₹20 tick show for 3 s.",
+  "state": { "clock": { "day": 1, "minute": 372 }, "flags": {} }
+}

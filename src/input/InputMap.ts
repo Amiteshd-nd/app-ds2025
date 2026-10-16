@@ -4,7 +4,7 @@
  * Keyboard, on-screen joystick and (later) gamepad all write the same four
  * values; Player reads only this. No scene ever asks "is this a phone?".
  *
- * Touch values are written by the React TouchControls overlay; keyboard is
+ * Touch values are written by HudScene's on-screen joystick and action button; keyboard is
  * read by Player itself and merged here, so a phone with a Bluetooth
  * keyboard just works.
  */

@@ -124,6 +124,8 @@ export class BootScene extends Phaser.Scene {
       SaveManager.getInstance().init().catch((err) => console.warn('[BootScene] save slots unreadable:', err)),
       useSettings.getState().load(),
     ]);
+    // "Rotate your phone" sits over every scene from here on (mobile foundation rule 4).
+    this.scene.launch(SCENE_KEYS.ORIENTATION);
     this.time.delayedCall(300, () => {
       void savesReady.then(() => {
         if (startDistrict) this.scene.start(SCENE_KEYS.WORLD, { districtId: startDistrict });

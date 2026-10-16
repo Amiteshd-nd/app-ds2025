@@ -10,7 +10,6 @@ import { MAPS, LAYER_ORDER } from '../assets/maps';
 import { getDistrict } from '../data';
 import { gameEvents } from '../core/events';
 import { characterZY, depthForZY } from '../core/depth';
-import { DialogueBox } from '../ui/DialogueBox';
 import * as Populate from '../world/Populate';
 import * as Exits from '../world/Exits';
 import * as Triggers from '../world/Triggers';
@@ -28,6 +27,7 @@ import {
   TILE_SIZE,
 } from '../utils/constants';
 import type { DistrictDef, DistrictExit } from '../utils/types';
+import type { HudScene, HudSceneData } from './HudScene';
 
 export interface WorldSceneData {
   districtId: string;
@@ -64,10 +64,11 @@ export class WorldScene extends Phaser.Scene {
   private crowd!: Populate.Crowd;
   private exits!: Exits.BoundExits;
   private triggers!: Triggers.BoundTriggers;
-  private dialogueBox!: DialogueBox;
   private teardowns: Array<() => void> = [];
   private leaving = false;
   private sleeping = false;
+  /** A conversation is up on the HUD's dialogue card; the player is frozen. */
+  private talking = false;
 
   constructor() {
     super(WorldScene.KEY);
@@ -78,6 +79,7 @@ export class WorldScene extends Phaser.Scene {
     this.teardowns = [];
     this.leaving = false;
     this.sleeping = false;
+    this.talking = false;
 
     // getDistrict throws on an unknown id — a content bug, not a soft state.
     this.district = getDistrict(data.districtId);
@@ -136,14 +138,6 @@ export class WorldScene extends Phaser.Scene {
     this.crowd = Populate.wander(this, this.district, this.map, def.spawnLayer, colliders);
     this.physics.add.collider(this.player, this.crowd.citizens);
 
-    // The dialogue box freezes the player while open; closing unfreezes on a
-    // short delay so the closing keystroke cannot double as movement/interact.
-    this.dialogueBox = new DialogueBox(this, {
-      onClose: () => {
-        this.time.delayedCall(80, () => this.player.setInteractionEnabled(true));
-        this.dismissLeavers();
-      },
-    });
     this.player.onInteract(() => this.tryInteract());
 
     // Quests this place begins. start() refuses if already active or done, so
@@ -174,6 +168,8 @@ export class WorldScene extends Phaser.Scene {
       if (teardown) this.teardowns.push(teardown);
     }
 
+    // First time here? Read before MapManager marks the visit on district:entered — the HUD's location card wears NEW.
+    const firstVisit = !store.flags[`visited:${this.district.id}`];
     gameEvents.emit('district:entered', {
       districtId: this.district.id,
       fromDistrict: data.fromDistrict,
@@ -197,11 +193,15 @@ export class WorldScene extends Phaser.Scene {
     // player standing on the exit zone they just used.
     this.persist();
 
-    // The phone runs above the world (ADR-114): its button while closed, the overlay when open.
+    // Above the world, in this order: the HUD (ADR-118), the phone (ADR-114), the fullscreen map (ADR-113),
+    // and the rotate-your-phone panel over everything.
+    this.scene.launch(SCENE_KEYS.HUD, { firstVisit } satisfies HudSceneData);
+    this.scene.bringToTop(SCENE_KEYS.HUD);
     this.scene.launch(SCENE_KEYS.PHONE);
     this.scene.bringToTop(SCENE_KEYS.PHONE);
     this.scene.launch(SCENE_KEYS.MAP);
     this.scene.bringToTop(SCENE_KEYS.MAP);
+    this.scene.bringToTop(SCENE_KEYS.ORIENTATION);
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this.game.events.once(Phaser.Core.Events.DESTROY, this.persist, this);
@@ -270,10 +270,8 @@ export class WorldScene extends Phaser.Scene {
     return collision;
   }
 
-  /** E pressed in the world: talk to the nearest NPC within reach. */
-  private tryInteract(): void {
-    if (this.dialogueBox.isOpen) return;
-
+  /** The nearest NPC within talking reach, or null. */
+  private nearestNpc(): Phaser.GameObjects.Sprite | null {
     let nearest: Phaser.GameObjects.Sprite | null = null;
     let nearestDist = INTERACT_RANGE_PX;
     for (const npc of this.npcs) {
@@ -283,6 +281,25 @@ export class WorldScene extends Phaser.Scene {
         nearestDist = dist;
       }
     }
+    return nearest;
+  }
+
+  /**
+   * What the HUD's prompt bubble points at: the NPC in reach who has something
+   * to say, with the top of their head in world px and the verb. Null while
+   * talking, leaving or asleep, or when nobody is near.
+   */
+  nearestInteractable(): { x: number; y: number; verb: string } | null {
+    if (this.talking || this.leaving || this.sleeping) return null;
+    const npc = this.nearestNpc();
+    if (!npc || !npc.getData('dialogueId')) return null;
+    return { x: npc.x, y: npc.y - npc.displayHeight / 2, verb: 'TALK' };
+  }
+
+  /** E pressed in the world: talk to the nearest NPC within reach. */
+  private tryInteract(): void {
+    if (this.talking) return;
+    const nearest = this.nearestNpc();
     if (!nearest) return;
 
     // Reported either way: an ambient NPC with no dialogue can still satisfy an
@@ -311,11 +328,26 @@ export class WorldScene extends Phaser.Scene {
     });
   }
 
-  /** Freeze the player and run a conversation — from an NPC or a trigger (a phone call). */
+  private hud(): HudScene {
+    return this.scene.get(SCENE_KEYS.HUD) as HudScene;
+  }
+
+  /**
+   * Freeze the player and run a conversation on the HUD's dialogue card — from
+   * an NPC or a trigger (a phone call). Closing unfreezes on a short delay so
+   * the closing keystroke cannot double as movement/interact.
+   */
   private openDialogue(dialogueId: string): void {
-    if (this.dialogueBox.isOpen) return;
+    if (this.talking) return;
+    this.talking = true;
     this.player.setInteractionEnabled(false);
-    this.dialogueBox.open(dialogueId);
+    this.hud().openDialogue(dialogueId, {
+      onClose: () => {
+        this.talking = false;
+        this.time.delayedCall(80, () => { if (!this.talking && !this.leaving && !this.sleeping) this.player.setInteractionEnabled(true); });
+        this.dismissLeavers();
+      },
+    });
   }
 
   /**
@@ -324,7 +356,7 @@ export class WorldScene extends Phaser.Scene {
    * an ADR-63 autosave trigger.
    */
   private sleep(): void {
-    if (this.leaving || this.sleeping || this.dialogueBox.isOpen) return;
+    if (this.leaving || this.sleeping || this.talking) return;
     this.sleeping = true;
     this.player.setInteractionEnabled(false);
     // Reset any fade still running (the previous night's fade-in): Phaser
@@ -365,7 +397,7 @@ export class WorldScene extends Phaser.Scene {
 
   /** The phone (and later the map / pause menu) may open only while the player is free to act. */
   canOpenOverlay(): boolean {
-    return !this.dialogueBox.isOpen && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null;
+    return !this.talking && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null;
   }
 
   /** Where the player stands, in tiles (feet), and which way they face — for the map's Area view (ADR-117). */
@@ -393,9 +425,11 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private shutdown(): void {
+    this.hud().closeDialogue();
+    this.talking = false;
+    this.scene.stop(SCENE_KEYS.HUD);
     this.scene.stop(SCENE_KEYS.PHONE);
     this.scene.stop(SCENE_KEYS.MAP);
-    this.dialogueBox.forceClose();
     for (const teardown of this.teardowns) teardown();
     this.teardowns = [];
     this.persist();
@@ -406,7 +440,7 @@ export class WorldScene extends Phaser.Scene {
     this.player.update();
     this.crowd.update(time);
     // The day only ages while the player is in the world and free to act.
-    if (!this.dialogueBox.isOpen && !this.leaving && !this.sleeping) TimeManager.getInstance().tick(delta);
+    if (!this.talking && !this.leaving && !this.sleeping) TimeManager.getInstance().tick(delta);
     SaveManager.getInstance().tick(delta);
     // Zones are not checked while asleep: the fade must finish before the bed
     // (or a door) can fire again.

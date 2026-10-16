@@ -7,6 +7,8 @@ import WorldScene from './scenes/WorldScene';
 import TransitScene from './scenes/TransitScene';
 import PhoneScene from './scenes/PhoneScene';
 import MapScene from './scenes/MapScene';
+import HudScene from './scenes/HudScene';
+import OrientationScene from './scenes/OrientationScene';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from './utils/constants';
 
 export interface PhaserGameProps {
@@ -18,6 +20,8 @@ export interface PhaserGameProps {
   startScene?: string;
   /** District to drop straight into (skips Title). Wins over startScene. */
   startDistrict?: string;
+  /** On-screen joystick + action button: 'auto' (touch devices only, the default) or 'always' (device simulation). */
+  touchControls?: 'auto' | 'always';
 }
 
 /**
@@ -28,7 +32,7 @@ export interface PhaserGameProps {
  * Scale.FIT, pixelArt on and every smoothing path off. Anything less and the
  * 32px tiles shimmer as the camera moves.
  */
-const PhaserGame = ({ startScene = SCENE_KEYS.TITLE, startDistrict }: PhaserGameProps) => {
+const PhaserGame = ({ startScene = SCENE_KEYS.TITLE, startDistrict, touchControls = 'auto' }: PhaserGameProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<Phaser.Game | null>(null);
 
@@ -60,12 +64,13 @@ const PhaserGame = ({ startScene = SCENE_KEYS.TITLE, startDistrict }: PhaserGame
       },
       // BootScene is listed first, so it is the scene Phaser starts with.
       // Places are not scenes: every district renders through WorldScene.
-      scene: [BootScene, TitleScene, CharacterSelectScene, WorldScene, TransitScene, PhoneScene, MapScene],
+      scene: [BootScene, TitleScene, CharacterSelectScene, WorldScene, TransitScene, HudScene, PhoneScene, MapScene, OrientationScene],
     });
 
     gameRef.current = game;
     game.registry.set('startScene', startScene);
     if (startDistrict) game.registry.set('startDistrict', startDistrict);
+    game.registry.set('touchControls', touchControls);
 
     // Dev-only handle. Phaser is bundled, so there is no global to reach for
     // when inspecting scene state from the console or a driver script.
@@ -91,6 +96,11 @@ const PhaserGame = ({ startScene = SCENE_KEYS.TITLE, startDistrict }: PhaserGame
     // startScene/startDistrict are read once at boot; changing them should not rebuild the game.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Touch mode can change while the game runs (the Test Playground's device picker): the HUD watches the registry.
+  useEffect(() => {
+    gameRef.current?.registry.set('touchControls', touchControls);
+  }, [touchControls]);
 
   return <div ref={containerRef} className="nq-canvas-host" />;
 };

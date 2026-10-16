@@ -1,5 +1,5 @@
 # Memory
-Updated: 2026-10-13
+Updated: 2026-10-16
 Facts about the project and the user that fit nowhere else. Design in `docs/design/`; the founder model is `docs/design/bangalore_rpg_founder_profile_and_vision.md`.
 
 ## About the user
@@ -45,6 +45,9 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - UI font (ADR-114): Pixelify Sans is NOT a clean 5×7 font — its "pixels" alternate ~80/101 units with steps and nubs, so browsers smear it and some glyphs read wrong at 1× (5≈S, Z≈2, B≈G, parens≈braces). `scripts/import-font.mjs` samples outline centres on a 93-unit grid; legibility fixes go in its `OVERRIDES` (hand-drawn rows), never by switching to browser text. The H's 1px tooth above the crossbar is the font's own design — keep it.
 - UI text in Phaser: `pxText(scene, x, y, text, {bold, tint, k, align})` puts the CAPS at y (line box has 2 empty rows above). Measure with `measure()` from `src/ui/kit/text.ts` — it reads the same metrics as BitmapText.
 - Driving the phone in the playground: hide the side panels so the canvas is big (`.pg-root` children other than `.pg-centre` → display:none, then dispatch `resize`), then send keys with `code` (PhoneScene reads `ev.code`): `new KeyboardEvent('keydown', {code:'KeyP', key:'p', keyCode:80})`. Ledger lines for a UPI check: `__nqStore.getState().addTransaction({...})`.
+
+- HUD (ADR-118): everything a player sees in play is in `HudScene`; no DOM. To add a plate: geometry in `ui/hud/layout.ts`, the pure view in `viewModel.ts` (test it), paint in `HudScene.render()` (chrome texture + `pxText`), and a deadline in `scheduleRefresh` if it times out. Per-frame work only in `update()`.
+- Browser-pane verification of the HUD: screenshots of a WebGL canvas go stale while the pane is hidden — take `g.renderer.snapshot(cb)` → data URL → decode to PNG in the scratchpad and Read it. Key presses need keydown and keyup ~90 ms apart (Phaser clears `_justDown` on keyup). `hud.cardUntil / objectiveUntil / savedUntil / wallet = {…until}` can be pushed out to hold plates for a screenshot.
 
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).

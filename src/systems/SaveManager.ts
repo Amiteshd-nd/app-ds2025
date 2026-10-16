@@ -1,3 +1,4 @@
+import { gameEvents } from '../core/events';
 import { platform } from '../platform';
 import { DISTRICTS } from '../data';
 import { initialClock, useGameStore } from '../store';
@@ -178,6 +179,7 @@ export class SaveManager {
     };
 
     this.cache.set(slot, data);
+    gameEvents.emit('save:written', { slot });
     try {
       void this.backend.write(this.key(slot), data as unknown as Record<string, unknown>).catch((err) => {
         console.warn(`[SaveManager] could not write ${slot}:`, err);

@@ -40,6 +40,8 @@ export interface DevApi {
   showCollision(on: boolean): void;
   showZones(on: boolean): void;
   fps(): number;
+  /** The HUD's touch zones in game px (joystick, action button) for the thumb overlay; empty on a keyboard. */
+  touchTargets(): Array<{ name: string; rect: { x: number; y: number; w: number; h: number } }>;
 }
 
 const defaults = () => {
@@ -129,7 +131,7 @@ export function installDevApi(game: Phaser.Game): DevApi {
   };
 
   const startScene = (key: string, data?: object) => {
-    for (const s of game.scene.getScenes(true)) game.scene.stop(s.scene.key);
+    for (const s of game.scene.getScenes(true)) if (s.scene.key !== SCENE_KEYS.ORIENTATION) game.scene.stop(s.scene.key);
     game.scene.start(key, data);
   };
 
@@ -197,6 +199,10 @@ export function installDevApi(game: Phaser.Game): DevApi {
       for (let i = 0; i < frames; i++) game.step(performance.now(), 1000 / 60);
     },
     isPaused: () => paused,
+    touchTargets() {
+      const hud = game.scene.getScene(SCENE_KEYS.HUD) as (Phaser.Scene & { touchTargets?: () => Array<{ name: string; rect: { x: number; y: number; w: number; h: number } }> }) | null;
+      return hud && game.scene.isActive(SCENE_KEYS.HUD) && hud.touchTargets ? hud.touchTargets() : [];
+    },
     showCollision(on) {
       collision = on;
       applyVisuals();

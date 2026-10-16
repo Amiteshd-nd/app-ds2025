@@ -60,6 +60,11 @@ export interface Platform {
     impact(level: 'light' | 'medium' | 'heavy'): void;
   };
 
+  /** How the player touches the game: a finger (phones, tablets) shows the on-screen joystick and action button. */
+  input: {
+    coarsePointer(): boolean;
+  };
+
   display: {
     /** Notch / Dynamic Island / gesture bar, in CSS px. */
     safeArea(): Insets;

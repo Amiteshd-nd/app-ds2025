@@ -68,7 +68,7 @@ export class PhoneManager {
     for (const { thread, message } of fresh) {
       gameEvents.emit('phone:message', { threadId: thread.id, messageId: message.id, contact: thread.contact, text: message.text });
       if (message.from === 'them' && !options.quiet && (!dnd || message.critical)) {
-        gameEvents.emit('ui:toast', { text: `📱 ${thread.contact}: ${message.text}` });
+        gameEvents.emit('ui:toast', { text: `${thread.contact}: ${message.text}`, icon: 'chats' });
         gameEvents.emit('phone:buzz', { reason: 'message', threadId: thread.id });
       }
     }

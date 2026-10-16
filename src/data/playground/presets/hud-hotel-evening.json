@@ -1,0 +1,10 @@
+{
+  "name": "HUD: hotel, last night, evening",
+  "description": "P6c audit — node 0.2 Three Nights (hotel), 20:30 on day 3: moon glyph, health 60 shows the heart meter, one hotel night left. Sleep in the bed: the morning toast, SAVED, the sunrise glyph.",
+  "state": {
+    "clock": { "day": 3, "minute": 1230 },
+    "stats": { "health": 60 },
+    "flags": { "hotel_checked_in": true, "divya_called": true, "hotel_slept_once": true, "visited:airport": true, "visited:whitefield_street": true, "visited:whitefield_hotel": true },
+    "counters": { "hotel_nights_left": 1, "nights_slept": 2 }
+  }
+}

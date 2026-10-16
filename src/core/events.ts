@@ -12,6 +12,8 @@
  * stays unit-testable in Node.
  */
 
+import type { IconName } from '../ui/kit/icons';
+
 export interface GameEvents {
   'dialogue:started': { dialogueId: string };
   'dialogue:ended': { dialogueId: string; triggeredQuests: string[] };
@@ -21,7 +23,8 @@ export interface GameEvents {
   'zone:reached': { zoneId: string; districtId: string };
   'district:entered': { districtId: string; fromDistrict?: string };
   'flag:set': { flag: string; value: boolean };
-  'ui:toast': { text: string };
+  /** One line of feedback for the HUD's toast queue; `icon` names a UI-kit icon drawn before the text. */
+  'ui:toast': { text: string; icon?: IconName };
   'time:advanced': { day: number; minute: number; deltaMinutes: number };
   'time:slept': { day: number; nights: number };
   'quest:started': { questId: string };
@@ -37,6 +40,8 @@ export interface GameEvents {
   'phone:buzz': { reason: 'message' | 'unlock'; threadId?: string; appId?: string };
   'phone:app-unlocked': { appId: string; name: string };
   'negotiation:ended': { negotiationId: string; outcome: 'deal' | 'walk'; total: number };
+  /** A slot was written (autosave or manual). The HUD shows its SAVED glyph. */
+  'save:written': { slot: string };
 }
 
 type Handler<T> = (payload: T) => void;

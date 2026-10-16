@@ -31,6 +31,8 @@ export interface TextOptions {
   /** Integer scale only (ADR-114). */
   k?: 1 | 2;
   align?: 'left' | 'center' | 'right';
+  /** A 1px drop shadow in this token under the text (HUD plates over a busy street). */
+  shadow?: TokenName;
 }
 
 /**
@@ -45,4 +47,11 @@ export function pxText(scene: Phaser.Scene, x: number, y: number, text: string, 
   t.setOrigin(0, 0).setScale(k);
   t.setTint(color(opts.tint ?? 'hud.text'));
   return t;
+}
+
+/** pxText with its shadow: two BitmapTexts, shadow first (1px down-right), text on top. */
+export function pxTextShadow(scene: Phaser.Scene, x: number, y: number, text: string, opts: TextOptions = {}): Phaser.GameObjects.BitmapText[] {
+  const k = opts.k ?? 1;
+  const shadow = pxText(scene, x + k, y + k, text, { ...opts, tint: opts.shadow ?? 'hud.shadow' });
+  return [shadow, pxText(scene, x, y, text, opts)];
 }

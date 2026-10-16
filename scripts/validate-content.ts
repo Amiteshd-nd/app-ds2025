@@ -205,6 +205,8 @@ export function validateContent(
       }
       if (exit.lockedText !== undefined && typeof exit.lockedText !== 'string') {
         add(where, `${d} exit "${exit.zone}" lockedText must be a string`);
+      } else if (exit.lockedText) {
+        drawable(where, `${d} exit "${exit.zone}" lockedText`, exit.lockedText);
       }
     }
 

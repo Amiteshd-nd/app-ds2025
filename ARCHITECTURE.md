@@ -1,5 +1,5 @@
 # Architecture (current state)
-Updated: 2026-10-12 — after P0 + P1 candidates. Places are data; no scene per place.
+Updated: 2026-10-16
 
 ## Scenes (`src/scenes/`)
 | Scene | Role | Status |
@@ -14,7 +14,7 @@ Updated: 2026-10-12 — after P0 + P1 candidates. Places are data; no scene per 
 | `TransitScene` | fade-to-black between places; ride card ("Vayu Vajra KIA-8 → Whitefield") for bus/metro/cab/scooter, plain fade for walk; lands `WorldScene{to, spawn}` | new (minimal) |
 
 ## Data flow
-`src/data/index.ts` globs `dialogue/ quests/ items/ npcs/ objects/` + `districts.json` → managers in `src/systems/` (Stats, Inventory, Quest, Dialogue, Reputation, Save — singletons, rules only) → `src/store.ts` (Zustand; same shape as `SaveData`; `activeDistrict`, `appearance`) → WorldScene + React HUD (`BangaloreTimes.tsx`, shown only in `WorldScene`).
+`src/data/index.ts` globs `dialogue/ quests/ items/ npcs/ objects/` + `districts.json` → managers in `src/systems/` (Stats, Inventory, Quest, Dialogue, Reputation, Save — singletons, rules only) → `src/store.ts` (Zustand; same shape as `SaveData`; `activeDistrict`, `appearance`) → WorldScene + the in-canvas `HudScene` (ADR-118; the React shell `BangaloreTimes.tsx` is only the canvas and the host's back pill).
 World modules emit facts on `src/core/events.ts` — `zone:reached {zoneId, districtId}`, `district:entered`, `entity:interacted`, `dialogue:ended`, `item:added` — and `QuestManager` draws conclusions. Exits emit `zone:reached` *before* checking `ReputationManager.canEnter(to)`, so a quest whose last objective is "reach the exit" completes and opens the gate in the same step.
 
 ## District entry (`src/data/districts.json`, type `DistrictDef`)
@@ -34,31 +34,38 @@ src/
 ├── core/          events.ts (typed bus), depth.ts (zY → depth)
 ├── data/          districts.json · dialogue/ quests/ items/ npcs/ objects/   (scenes/ arrives in P3)
 ├── entities/      Player.ts, PlacedObject.ts
-├── scenes/        Boot · Title · CharacterSelect · World · Transit
+├── scenes/        Boot · Title · CharacterSelect · World · Transit · Hud · Phone · Map · Orientation
 ├── systems/       Stats · Inventory · Quest · Dialogue · Reputation · Save
 ├── world/         Zones.ts (findObject, zoneFromObject, EntryWatcher) · Populate.ts (npcs/objects/wander) · Exits.ts · Triggers.ts · behaviours/{index,names}.ts
-├── ui/            DialogueBox.ts
+├── ui/            DialogueBox.ts (on the HUD's card) · kit/ · hud/ · phone/ · map/ · tokens.ts
 ├── utils/         constants.ts (SCENE_KEYS, LAYER_DEPTH, START_DISTRICT, FADE_MS…), types.ts, placeholders.ts, hue.ts
-├── store.ts · PhaserGame.tsx · BangaloreTimes.tsx (HUD) · main.tsx · index.ts (library entry)
+├── store.ts · PhaserGame.tsx · BangaloreTimes.tsx (canvas + host back pill only) · main.tsx · index.ts (library entry)
 │   └── _meta/     platform.json · style.json (P1 lock record) · style/ (candidates, .gpl palettes, swatches)
 scripts/           validate-*.{mjs,ts} · generate-art.mjs · generate-street-map.mjs · extract-palette.mjs · art/ (canvas, palette, tiles, character, quantize)
 ```
 
 ## Time (P4, ADR-91)
-`TimeManager` (singleton, engine-free) over `store.clock`; `tick(deltaMs)` from `WorldScene.update` while free; `advance()`, `sleep()`; `counters` for behaviours. HUD shows `Day N · HH:MM`.
+`TimeManager` (singleton, engine-free) over `store.clock`; `tick(deltaMs)` from `WorldScene.update` while free; `advance()`, `sleep()`; `counters` for behaviours. The HUD's clock plate shows `DAY N · HH:MM` with a sky glyph.
 
 ## Behaviours (ADR-93)
 `src/world/behaviours/`: `index.ts` registry + `names.ts` (validator list). `hotelNightTimer` is the worked example. Triggers: `setFlags`, `dialogue`, `action: 'sleep'`. Quest objectives: `interact | dialogue | collect | reach | flag`.
 
 ## Saves, settings, phone (P6 systems, ADR-110/111/112)
-`SaveManager`: slots `autosave|slot1|slot2|slot3` via `platform.saves`, read once at boot (`init()`), cached, written through; format 1.6.0; `summaries()` for the Load menu; autosave on area change, sleep, purchase, quest step. `SettingsManager` (`useSettings`): `data/settings.defaults.json`, persisted via `platform.storage`, live (difficulty → food drain, DND → buzzes, joystick side → TouchControls). `PhoneManager`: apps (`data/phone/apps.json`, flag-unlocked), chats (`data/phone/chats/*.json`, delivered on flags + district entry, toasts), UPI (`store.transactions`, labelled by spend/earn callers), Maps (district `realworld` + objective `destination`); emits `phone:buzz` (DND-aware) and `phone:app-unlocked`.
+`SaveManager`: slots `autosave|slot1|slot2|slot3` via `platform.saves`, read once at boot (`init()`), cached, written through; format 1.6.0; `summaries()` for the Load menu; autosave on area change, sleep, purchase, quest step. `SettingsManager` (`useSettings`): `data/settings.defaults.json`, persisted via `platform.storage`, live (difficulty → food drain, DND → buzzes, joystick side/size → the HUD's stick, `hud.*` → objective auto-hide and meters). `PhoneManager`: apps (`data/phone/apps.json`, flag-unlocked), chats (`data/phone/chats/*.json`, delivered on flags + district entry, toasts), UPI (`store.transactions`, labelled by spend/earn callers), Maps (district `realworld` + objective `destination`); emits `phone:buzz` (DND-aware) and `phone:app-unlocked`.
 
 ## UI kit + phone (P6a, ADR-113/114)
-- `src/ui/kit/` — atoms and molecules, pure over a `PixelCtx` (`fillStyle`/`globalAlpha`/`fillRect`), tested without Phaser: `pixel.ts` (rows-of-rects rounded boxes, rings, dither, bitmaps), `icons.ts` (our 2px-stroke set; `apps.json` `icon` must name one), `text.ts` (bitmap-font metrics: `measure`, `wrap`, `truncate`, `rupees` Indian grouping, `clockText`), `molecules.ts` (`phonePill`, `appTile`, `badge`, `dockBar`, `hudPlate`, `labelCard`, `blockRow`, `tapZone`; states default·focus·pressed·disabled·locked; `MIN_TAP` 44 game px), `focus.ts` (directional `nextFocus`), `phaser.ts` (`bake` paint → cached CanvasTexture, `pxText` places BitmapText by its cap line).
+- `src/ui/kit/` — atoms and molecules, pure over a `PixelCtx` (`fillStyle`/`globalAlpha`/`fillRect`), tested without Phaser: `pixel.ts` (rows-of-rects rounded boxes, rings, dither, bitmaps), `icons.ts` (our 2px-stroke set; `apps.json` `icon` must name one), `text.ts` (bitmap-font metrics: `measure`, `wrap`, `truncate`, `rupees` Indian grouping, `clockText`), `molecules.ts` (`phonePill`, `appTile`, `badge`, `dockBar`, `hudPlate`, `labelCard`, `blockRow`, `speechBubble`, `choicePill`, `tapZone`; states default·focus·pressed·disabled·locked; `MIN_TAP` 44 game px), `focus.ts` (directional `nextFocus`), `phaser.ts` (`bake` paint → cached CanvasTexture, `pxText` places BitmapText by its cap line, `pxTextShadow` adds the 1px drop shadow).
 - Font: `scripts/import-font.mjs` (in `pnpm art`) → `src/assets/fonts/px|pxb.{png,xml}` + `metrics.json`; BootScene loads them as `px` / `pxb`.
 - `src/ui/phone/` — `layout.ts` (geometry, safe bottom, slide steps), `viewModel.ts` (home tiles, status bar, chat rows, bubbles, UPI rows, map rows — no Phaser), `paint.ts` (frame, LCD + dot grid, wallpaper, status icons).
-- `PhoneScene` (launched by WorldScene, stopped with it): closed = phone button at the right edge (wiggles on `phone:buzz`); open = WorldScene paused + camera ColorMatrix (half desaturated, dimmed), `store.overlay = 'phone'` (React hides the HUD), 4-step slide-up, routes home · chats · thread · upi · maps (list until P6b) · stub. Redraws from state on every change. Keys: P, arrows/WASD, Enter/Space/E, Esc/Backspace (+ Android back); touch: tap, drag-scroll, tap outside closes. `WorldScene.canOpenOverlay()` / `overlayClosed()`.
+- `PhoneScene` (launched by WorldScene, stopped with it): closed = phone button in the HUD's top-right corner (`HUD.phoneButton`; wiggles on `phone:buzz`); open = WorldScene paused + camera ColorMatrix (half desaturated, dimmed), `store.overlay = 'phone'` (HudScene hides), 4-step slide-up, routes home · chats · thread · upi · maps (list until P6b) · stub. Redraws from state on every change. Keys: P, arrows/WASD, Enter/Space/E, Esc/Backspace (+ Android back); touch: tap, drag-scroll, tap outside closes. `WorldScene.canOpenOverlay()` / `overlayClosed()`.
 - Tokens: world `palette.gpl` (48) + UI `ui-palette.gpl` (12) → `tokens.json`; `rgba(token, a)` + `HUD_PLATE_ALPHA` for translucency. `validate-content` checks app icons, dock ≤ 4, grid ≤ 12, district `signal` 0–4, and that every player-visible string (dialogue, choices, chats, app names/hints, objectives) is drawable by the bitmap font.
+
+## HUD (P6c, ADR-118)
+- `src/ui/hud/` — `layout.ts` (plate geometry, phone-button corner, safe bottom 340, touch layout by joystick side/size, `plateWidth`, sky hours, typewriter ms), `viewModel.ts` (objective line = first open non-optional step of the oldest active quest · `clockGlyph` · `locationCard` · `walletView` · `meters` (shows: health < 70, food < 50, stress > 0; bites: 30 / `HUNGRY_AT` / 70) · `stackRows` · `promptLabel` · `ToastQueue` (one at a time, hold, dedupe, cap 8) · `revealedChars`), `dialogue.ts` (card layout: body wrap, bill line, choice pills flowing into rows, `pillAt` nearest-rect hit test, `onCard`), `glyphs.ts` (★ shared with the map, sky, tap, chevron, floppy, meter icons, cursor).
+- `HudScene` (launched by WorldScene with `{ firstVisit }`, above the world, below Phone/Map; hidden while `store.overlay` is set; torn down on SHUTDOWN *and* DESTROY): repaints one 640×360 chrome texture + BitmapTexts from state (store subscribe, `ui:toast`, `wallet:*`, `save:written`, settings, `changedata-touchControls`), one timer for the next plate to leave; per frame only the prompt bubble (`WorldScene.nearestInteractable()` → world camera → screen), the joystick knob and the 1px bob. Touch: `platform.input.coarsePointer()` or registry `touchControls = 'always'` → stick (pointer-captured, released on up/out/blur/overlay) + context action button (verb from the prompt, disabled when nobody is near) writing `InputMap`; `touchTargets()` for the Test Playground's thumb overlay.
+- `DialogueBox` (hosted by HudScene; `WorldScene.openDialogue` → `hud.openDialogue(id, callbacks)`, queued if the HUD has not created yet; WorldScene keeps `talking`): label card along the bottom, speaker pill, typewriter (`gameplay.dialogueSpeed`; reduced motion = instant; first press skips), bill in `hud.star`, pills (focus ▶ / locked dotted + reason), blinking chevron; keys arrows/WASD · E/Enter/Space; taps on pills (MIN_TAP zones) or the card.
+- `OrientationScene` (launched by Boot, WorldScene keeps it on top; the dev API never stops it): black panel + "ROTATE YOUR PHONE" while a coarse-pointer device is upright.
+- Presets for the audit: `hud-landing`, `hud-hotel-evening`, `hud-pg-lane-talk`, `hud-toast-burst`, `hungry-and-stressed`.
 
 ## Fullscreen map (P6b, ADR-113/115)
 `data/map/city.json` (`CITY_MAP`: bounds, 16 px/km, regions by kind, roads with optional `connects`, metro lines/stations — an interchange is one id on two lines —, teaser `places`, `pois`) + districts' `realworld` (nodes; interiors fold into parents) + exits (journeys; each must have a drawn path — validator). `systems/MapManager`: `nodes()`, `edges()`, `route()` (Dijkstra, cost = km × mode + fare/100), `here()`, `destination()` (player's `store.mapDestination`, else the quest objective's), `setDestination()`, arrival → `visited:<id>` / `travelled:<path>` flags + REROUTING… / ARRIVED toasts, `pathState()` (undiscovered · reveal · travelled; `map_seen:<path>` once animated), `familiarity()`, `danger()` (Act 4 + stability only), `pois()`, `fastTravel()` (pockets with `metroStation`). `ui/map/`: `projection` (project/snap/orthogonal/walk/cellsInside), `glyphs` (region atoms, POIs, arrows, padlock), `paint` (`paintBase`, `stroke`, `accent`), `view` (pan/zoom maths, `nodeAt`, `cardFor`, `LEGEND`). `MapScene`: launched with WorldScene; M / phone Maps (`open(true)` hand-off keeps the pause) / Pause → Map (P6d); base texture baked per open, overlay (route, reveal, nodes, icons) rebaked per change, screen UI (compass, cards, pills, legend) rebuilt; `WorldScene.travelTo()` for metro fast travel.
@@ -85,7 +92,7 @@ Dialogue `enter: [{flag, node}]` · district NPC `unlessFlag` (WorldScene fades 
 `PlayerStats` = health · wallet · social · stamina · food · stress · battery (`STAT_BOUNDS` clamps). `StatsManager.spend(cost, reason)` → `wallet:spent` or refusal; `earn()` → `wallet:earned`; `meet(npcId)` → social +1 once (`met` ledger). `applyEffect` routes negative `wallet` through `spend`. `DialogueManager` locks unaffordable choices with "Needs ₹N". Exits with `fare` spend on boarding. Save 1.4.0.
 
 ## Input (ADR-88)
-`src/input/InputMap.ts` — axis/run/interact written by `TouchControls.tsx` (joystick + A, coarse-pointer only, safe-area CSS) and merged with keyboard inside `Player.update()`.
+`src/input/InputMap.ts` — axis/run/interact written by HudScene's joystick + context action (ADR-118; coarse-pointer devices or `touchControls='always'`) and merged with keyboard inside `Player.update()`.
 
 ## Scene components (ADR-89)
 `src/data/scenes/*.json` per SCENE_TEMPLATE → `SCENES`; validated against districts/quests/NPCs/pacing. `act0_arrivals` is the worked M0 example. Triggers may `setFlags`; exits may charge `fare`.

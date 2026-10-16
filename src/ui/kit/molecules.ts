@@ -111,6 +111,38 @@ export function hudPlate(g: PixelCtx, x: number, y: number, w: number, h: number
   return { ink: state === 'disabled' ? 'hud.border' : 'hud.text', dy };
 }
 
+/** Height of a choice pill and a prompt bubble's plate. */
+export const PILL_H = 17;
+
+/**
+ * Speech bubble (image-4 construction): a HUD plate with a 3-row tail under
+ * its middle, pointing at whoever is speaking — the prompt over an NPC.
+ */
+export function speechBubble(g: PixelCtx, x: number, y: number, w: number, h: number, state: UiState = 'default'): Painted {
+  const painted = hudPlate(g, x, y, w, h, state, 4);
+  const cx = x + Math.floor(w / 2);
+  const fill = state === 'focus' || state === 'pressed' ? hex('hud.text') : rgba('hud.plate', HUD_PLATE_ALPHA);
+  const edge = state === 'disabled' || state === 'locked' ? hex('phone.bezel.edge') : hex('hud.border');
+  const by = y + h - 1 + painted.dy;
+  rect(g, cx - 3, by, 6, 1, fill);
+  rect(g, cx - 3, by, 2, 2, edge);
+  rect(g, cx + 1, by, 2, 2, edge);
+  rect(g, cx - 1, by + 1, 2, 1, fill);
+  rect(g, cx - 1, by + 2, 2, 1, edge);
+  return painted;
+}
+
+/**
+ * Dialogue choice pill: a small HUD plate; the chosen one inverts to white
+ * with a ▶ cursor, a pressed one sinks, a locked one is dotted (shown, not
+ * takeable), a disabled one goes mid-grey.
+ */
+export function choicePill(g: PixelCtx, x: number, y: number, w: number, state: UiState = 'default'): Painted {
+  const painted = hudPlate(g, x, y, w, PILL_H, state, 4);
+  if (state === 'focus' || state === 'pressed') bitmap(g, ['#..', '##.', '###', '##.', '#..'], x + 6, y + 6 + painted.dy, hex('hud.plate'));
+  return painted;
+}
+
 /**
  * Map-style label card: grey border top/left/bottom, open right edge, the
  * border continuing as a dotted trail (`trail` dots). Selected = inverted.

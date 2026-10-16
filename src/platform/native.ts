@@ -13,4 +13,6 @@ import { webPlatform } from './web';
 export const nativePlatform = (kind: Exclude<PlatformKind, 'web'>): Platform => ({
   ...webPlatform,
   kind,
+  // A phone or tablet build is always driven by touch.
+  input: { coarsePointer: () => true },
 });

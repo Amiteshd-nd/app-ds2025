@@ -6,6 +6,7 @@ import { SPRITE_URLS } from '../assets';
 import { installDevApi, type DevApi, type DevNode } from '../dev/devApi';
 import type { PlaygroundState, StateOverride } from '../dev/prereq';
 import { devUi, type DevTheme } from '../ui/tokens';
+import { GAME_WIDTH } from '../utils/constants';
 import { buildTree, filterTree, findNode, type TreeNode } from './tree';
 import { DEVICES, deviceById, type HandSize } from './ergonomics';
 import ThumbOverlay, { type Target } from './ThumbOverlay';
@@ -226,18 +227,21 @@ export default function Playground() {
   const [targets, setTargets] = useState<Target[]>([]);
   const simVisible = device.id !== 'desktop' && (selected?.kind === 'device' || sim.zones || sim.thumbs || sim.safe);
 
-  /** Touch controls' rectangles in the device viewport (CSS px), for the ergonomics checks. */
+  /**
+   * Touch controls' rectangles in the device viewport (CSS px), for the
+   * ergonomics checks. The controls live in the canvas HUD (P6c), so their
+   * game-px zones are mapped through the canvas's on-screen box.
+   */
   const measure = useCallback(() => {
     const screen = screenRef.current;
-    if (!screen) return [];
+    const canvas = screen?.querySelector('canvas');
+    if (!screen || !canvas || !api) return [];
     const origin = screen.getBoundingClientRect();
-    return (['.nq-stick', '.nq-action'] as const).flatMap((sel) => {
-      const el = screen.querySelector(sel);
-      if (!el) return [];
-      const r = el.getBoundingClientRect();
-      return [{ name: sel === '.nq-stick' ? 'Joystick (left thumb)' : 'A button (right thumb)', rect: { x: (r.left - origin.left) / scale, y: (r.top - origin.top) / scale, w: r.width / scale, h: r.height / scale } }];
-    });
-  }, [scale]);
+    const box = canvas.getBoundingClientRect();
+    const k = box.width / scale / GAME_WIDTH;
+    const ox = (box.left - origin.left) / scale, oy = (box.top - origin.top) / scale;
+    return api.touchTargets().map((t) => ({ name: t.name, rect: { x: ox + t.rect.x * k, y: oy + t.rect.y * k, w: t.rect.w * k, h: t.rect.h * k } }));
+  }, [scale, api]);
   // Keep the thumbs pointed at the controls as layout settles.
   useEffect(() => {
     if (device.id === 'desktop') { setTargets([]); return; }

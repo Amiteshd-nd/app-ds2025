@@ -1,0 +1,8 @@
+{
+  "name": "HUD: PG lane, haggling",
+  "description": "P6c audit — node 0.3 PG Hunt (Prashanth Layout), day 3 morning. Talk to the gate owner, Shanthamma or the provision store: the dialogue card with its speaker pill, typewriter line (one press skips), the bill in yellow, choice pills that wrap into two rows, a dotted locked choice with its reason, the blinking chevron. Toasts move above the card while it is up.",
+  "state": {
+    "clock": { "day": 3, "minute": 540 },
+    "flags": { "hotel_checked_in": true, "divya_called": true, "pg_lane_found": true, "visited:airport": true, "visited:whitefield_street": true, "visited:prashanth_layout": true }
+  }
+}

@@ -14,6 +14,7 @@ import { measure, rupees, truncate } from '../ui/kit/text';
 import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, listRows, slideSteps } from '../ui/phone/layout';
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
 import { BUBBLE, bubbleWindow, bubbles, chatRows, homeTiles, mapRows, statusBar, upiRows, type HomeTile } from '../ui/phone/viewModel';
+import { HUD } from '../ui/hud/layout';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import type { MapScene } from './MapScene';
 import type { WorldScene } from './WorldScene';
@@ -31,8 +32,8 @@ interface Focusable extends Box {
   activate: () => void;
 }
 
-/** The closed phone's button (until P6c moves it into the new HUD's top-right corner). */
-const BUTTON = { x: 604, y: 150, size: 28 } as const;
+/** The closed phone's button: the HUD's top-right corner (ADR-118). */
+const BUTTON = HUD.phoneButton;
 /** In-app navigation: the phone's own four destinations. */
 const NAV: Array<{ id: 'home' | 'chats' | 'maps' | 'upi'; icon: IconName }> = [
   { id: 'home', icon: 'home' }, { id: 'chats', icon: 'chats' }, { id: 'maps', icon: 'maps' }, { id: 'upi', icon: 'upi' },

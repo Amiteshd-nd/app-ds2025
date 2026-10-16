@@ -171,6 +171,10 @@ export const SCENE_KEYS = Object.freeze({
   PHONE: 'PhoneScene',
   /** The fullscreen map (ADR-113): M, the phone's Maps app, Pause → Map. */
   MAP: 'MapScene',
+  /** The in-canvas HUD (P6c, ADR-118): plates, prompt bubble, toasts, dialogue box, touch controls. Launched by WorldScene. */
+  HUD: 'HudScene',
+  /** "Rotate your phone" over everything while a touch device is held in portrait (mobile foundation rule 4). */
+  ORIENTATION: 'OrientationScene',
 });
 
 // --- Depth layers ----------------------------------------------------------

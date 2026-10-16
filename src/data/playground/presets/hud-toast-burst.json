@@ -1,0 +1,8 @@
+{
+  "name": "HUD: toast burst (phone catches up)",
+  "description": "P6c audit — node 0.3 PG Hunt (Prashanth Layout) with flags set but no chat delivered yet: on entry Amma, Divya, the brokers and the APP UNLOCKED lines all arrive at once and show one at a time, 3.2 s each, with the chats icon before a message. Open the phone (P): the HUD hides; close it: back.",
+  "state": {
+    "clock": { "day": 3, "minute": 600 },
+    "flags": { "hotel_checked_in": true, "divya_called": true, "pg_lane_found": true, "visited:airport": true, "visited:whitefield_street": true, "visited:prashanth_layout": true }
+  }
+}
