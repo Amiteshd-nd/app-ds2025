@@ -1,0 +1,87 @@
+{
+  "id": "q_act1_hill_flat",
+  "title": "Ambedkar Nagar",
+  "description": "Rent a room on the hill — but check the signal first. Then make it yours before the money runs out.",
+  "chapter": 1,
+  "district": "ambedkar_nagar_hill",
+  "type": "search",
+  "prerequisite_quests": [
+    "q_act1_pg_exit"
+  ],
+  "objectives": [
+    {
+      "id": "arrive",
+      "text": "Reach Ambedkar Nagar (bus 335-E from the Whitefield street)",
+      "type": "flag",
+      "target": "hill_arrived",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "manju",
+      "text": "Find Manju, the broker, at the slope",
+      "type": "flag",
+      "target": "manju_met",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "room1",
+      "text": "Test the signal at the ground-floor room (open Reels)",
+      "type": "flag",
+      "target": "room1_checked",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "room2",
+      "text": "Test the signal at the maroon door",
+      "type": "flag",
+      "target": "room2_checked",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "room3",
+      "text": "Test the signal at the green door on top",
+      "type": "flag",
+      "target": "room3_checked",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "deal",
+      "text": "Make a deal with the owner",
+      "type": "flag",
+      "target": "flat_signed",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "bed",
+      "text": "Buy a cot from Rafiq",
+      "type": "flag",
+      "target": "bed_bought",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "stove",
+      "text": "Buy an induction stove",
+      "type": "flag",
+      "target": "stove_bought",
+      "optional": true,
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "sleep",
+      "text": "Sleep in your own room",
+      "type": "flag",
+      "target": "slept_in_flat",
+      "destination": "hill_flat"
+    }
+  ],
+  "rewards": {
+    "xp": 60,
+    "xp_branch": "city_survival",
+    "reputation": 5
+  },
+  "on_complete": {
+    "set_flags": [
+      "act1_hill_done"
+    ]
+  }
+}

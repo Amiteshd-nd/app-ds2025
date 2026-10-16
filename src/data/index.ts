@@ -1,6 +1,7 @@
 import districtsJson from './districts.json';
 import phoneApps from './phone/apps.json';
 import settingsMenu from './menus/settings.json';
+import reels from './phone/reels.json';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
@@ -17,6 +18,7 @@ import type {
   PhoneApp,
   SceneComponent,
   SettingsMenu,
+  ReelClip,
 } from '../utils/types';
 
 /**
@@ -101,6 +103,9 @@ export const OBJECTS: Record<string, ObjectDef> = byId(
 export const SCENES: Record<string, SceneComponent> = byId(load<SceneComponent>(sceneModules), 'scene');
 
 /** Phone apps in home-screen order (P6). */
+/** Reels clips (ADR-122): parody handles, gated by flags, validated. */
+export const REELS: ReelClip[] = reels as ReelClip[];
+
 /** Settings menu sections (ADR-119): data, validated. */
 export const SETTINGS_MENU: SettingsMenu = settingsMenu as SettingsMenu;
 
@@ -120,6 +125,7 @@ export const STREET_TILE_IDS: Record<string, number> = tileIds.ids;
 
 /** Frame indices for one variant of an object, row-major. */
 export const objectFrames = (def: ObjectDef, variant = 'default'): number[] => {
+  if (!def.tiles) return [];
   const names = def.tiles[variant];
   if (!names) throw new Error(`Object "${def.id}" has no variant "${variant}"`);
   return names.map((name) => {

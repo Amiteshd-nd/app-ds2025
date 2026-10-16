@@ -1,6 +1,7 @@
 import { DISTRICTS } from '../../data';
+import { useGameStore } from '../../store';
 import type { GameClock, Transaction } from '../../store';
-import type { ChatMessage, ChatThread, PhoneApp } from '../../utils/types';
+import type { ChatMessage, ChatThread, PhoneApp, ReelClip } from '../../utils/types';
 import type { IconName } from '../kit/icons';
 import type { UiState } from '../kit/molecules';
 import { clockText, measure, rupees, truncate, wrap } from '../kit/text';
@@ -42,8 +43,9 @@ export function homeTiles(apps: AppView[], unread: number): { grid: HomeTile[]; 
   };
 }
 
-/** Signal bars where the player stands: the district's own value, else its parent's, else full. */
-export function signalAt(districtId: string | null): number {
+/** Signal bars where the player stands: a zone's override (the hill's rooms), else the district's own value, else its parent's, else full. */
+export function signalAt(districtId: string | null, override: number | null = useGameStore.getState().signalOverride): number {
+  if (override !== null && override !== undefined) return Math.max(0, Math.min(4, override));
   let d = districtId ? DISTRICTS[districtId] : undefined;
   for (let i = 0; d && i < 5; i++) {
     if (d.signal !== undefined) return Math.max(0, Math.min(4, d.signal));
@@ -161,3 +163,30 @@ export function mapRows(maps: {
   }
   return rows;
 }
+
+// ── Reels (ADR-122) ───────────────────────────────────────────────────────
+
+/** Clips the player can see: no `after`, or its flag set. Newest (last in data) first. */
+export const visibleReels = (clips: ReelClip[], flags: Record<string, boolean>): ReelClip[] =>
+  clips.filter((c) => !c.after || flags[c.after]).slice().reverse();
+
+export type ReelState = 'nosignal' | 'buffering' | 'failed' | 'playing';
+
+/** Bars until a clip plays: 2 bars buffer this long first. */
+export const REEL_BUFFER_MS = 1500;
+/** One bar: the clip buffers this long, then gives up — that is the test failing, visibly. */
+export const REEL_GIVEUP_MS = 4000;
+
+/**
+ * The signal test (story 1.4): no bars = no network; one bar buffers and
+ * gives up; two bars buffer, then play; three or more play at once.
+ */
+export function reelState(bars: number, elapsedMs: number): ReelState {
+  if (bars <= 0) return 'nosignal';
+  if (bars === 1) return elapsedMs >= REEL_GIVEUP_MS ? 'failed' : 'buffering';
+  if (bars === 2) return elapsedMs >= REEL_BUFFER_MS ? 'playing' : 'buffering';
+  return 'playing';
+}
+
+/** "Buffering", "Buffering.", "Buffering..", "Buffering..." — one step per 400 ms. */
+export const bufferingText = (elapsedMs: number): string => `Buffering${'.'.repeat(Math.floor(elapsedMs / 400) % 4)}`;

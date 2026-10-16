@@ -2,8 +2,9 @@
 Updated: 2026-10-16
 Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 
-## Now — P7 Monday / office (story 1.1–1.3, ADR-120)
-- [ ] T-012 P7 Monday / office — **built 2026-10-16, awaiting P7 audit** (ADR-120 systems + ADR-121 pocket): `office_gate` on the real Whitefield Road (OSM), gate render + spec, Act 1 cast sheets, WorkdayScene skyline card, exits with `minutes`/`requiresFlag`, NPC/trigger `requiresFlag`, transit `auto`; quests 1.1–1.3 + scene components live
+## Now — Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122)
+- [x] T-012 P7 Monday / office — approved 2026-10-16
+- [ ] T-013 P8 Ambedkar Nagar hill flat — **built 2026-10-16, awaiting P8 audit** (ADR-122: hill lane + flat pockets on Seetharampalya Road, Reels signal test, Aunty's haggle, furniture as sprite props by flag, salary countdown, deposit refund, bus 335-E) (ADR-120 systems + ADR-121 pocket): `office_gate` on the real Whitefield Road (OSM), gate render + spec, Act 1 cast sheets, WorkdayScene skyline card, exits with `minutes`/`requiresFlag`, NPC/trigger `requiresFlag`, transit `auto`; quests 1.1–1.3 + scene components live
 - [ ] T-043 Auto-rickshaw + HIVR van props (sprite-based placed objects) for the lane's auto stand and Ravi's shuttle (ADR-121 left them undrawn)
 
 ## Done — P6 Phone · fullscreen map · HUD · menus (style board, ADR-113/114)

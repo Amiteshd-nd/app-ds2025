@@ -93,6 +93,16 @@ export const FURNITURE_PRICE = 1800;
 /** What the meter would read Whitefield lane → office (story 1.1 autos). */
 export const AUTO_METER_FARE = 80;
 
+// --- Hill flat (story 1.4; ADR-122) -----------------------------------------
+/** Days from signing the flat to the first salary ping (story 1.4 F3). */
+export const SALARY_DAYS = 12;
+/** First month in hand, ₹ — a fresher's Bengaluru salary (my call, ADR-122; the user may retune). */
+export const SALARY = 42_000;
+/** Steel cot with mattress at the hill furniture shop. */
+export const COT_PRICE = 4_500;
+/** Induction stove at the hill furniture shop. */
+export const STOVE_PRICE = 2_200;
+
 // --- Food (profile doc §2, components §7; ADR-97) --------------------------
 /**
  * Game minutes per food point while awake. 6 → a full meter lasts ten game

@@ -3517,6 +3517,17 @@
      "height": 96
     },
     {
+     "id": 11,
+     "name": "hill_bus",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 32,
+     "y": 152,
+     "width": 48,
+     "height": 16
+    },
+    {
      "id": 5,
      "name": "ambient_area",
      "rotation": 0,

@@ -1,0 +1,63 @@
+{
+  "id": "dlg_owner_aunty",
+  "speaker": "Owner Aunty",
+  "portrait": "npc_owner_aunty",
+  "enter": [
+    {
+      "flag": "flat_signed",
+      "node": "signed"
+    },
+    {
+      "flag": "room3_checked",
+      "node": "start"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "You are the one testing phones at everyone's door? Good. Mine works — the tower is right there. One room, kitchen, attached bathroom, water at six. Rent nine thousand, deposit sixteen — two months, old rate. Manju told you? Then you know I don't bargain. Much.",
+      "choices": [
+        {
+          "text": "Can we talk about the price, Aunty?",
+          "next": "price"
+        },
+        {
+          "text": "Let me see it first.",
+          "next": "see"
+        }
+      ]
+    },
+    "see": {
+      "text": "See, see. The door is open. Red oxide floor — my husband did it in '94. Come back when you've seen.",
+      "effect": {
+        "flags": {
+          "flat_viewing": true
+        }
+      }
+    },
+    "price": {
+      "text": "Nine thousand rent. Sixteen thousand deposit — two months at what the last boy paid. Everybody on this hill pays this, and everybody on this hill has signal only in my house.",
+      "negotiate": {
+        "id": "neg_hill_flat",
+        "deal": "done",
+        "walk": "walked"
+      }
+    },
+    "done": {
+      "text": "Done. Key is yours. Lock the gate after ten, no loud music, no non-veg smell on Thursdays — the Hanuman is downstairs. Welcome, kanna. Your own room.",
+      "effect": {
+        "flags": {
+          "flat_viewing": true
+        },
+        "xp": 30,
+        "xp_branch": "city_survival",
+        "reputation": 3
+      }
+    },
+    "walked": {
+      "text": "Think. But think fast — the maroon-door boy's cousin is also looking."
+    },
+    "signed": {
+      "text": "Tank fills at six. If the light goes, the candle is on the loft shelf. Eat something."
+    }
+  }
+}

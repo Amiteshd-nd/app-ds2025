@@ -1,0 +1,114 @@
+{
+  "id": "dlg_hill_furniture",
+  "speaker": "Rafiq · Furniture",
+  "portrait": "npc_furniture_rafiq",
+  "enter": [
+    {
+      "flag": "stove_bought",
+      "node": "stocked"
+    },
+    {
+      "flag": "bed_bought",
+      "node": "bed_done"
+    },
+    {
+      "flag": "flat_signed",
+      "node": "start"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "New room, empty floor? I know that look. Steel cot with mattress, four thousand five hundred. Induction stove, two thousand two hundred — gas cylinder takes a month and a bribe. Delivery up the steps is free; my knees are not.",
+      "choices": [
+        {
+          "text": "The cot, with mattress. (₹4,500)",
+          "next": "cot",
+          "effect": {
+            "wallet": -4500,
+            "flags": {
+              "bed_bought": true
+            }
+          }
+        },
+        {
+          "text": "A second-hand cot? Anything cheaper?",
+          "next": "secondhand"
+        },
+        {
+          "text": "Induction stove. (₹2,200)",
+          "next": "stove",
+          "effect": {
+            "wallet": -2200,
+            "flags": {
+              "stove_bought": true
+            }
+          }
+        },
+        {
+          "text": "Not today.",
+          "next": "bye"
+        }
+      ]
+    },
+    "secondhand": {
+      "text": "One. The maroon-door boy's. Two thousand, mattress smells of his cousin. Take it?",
+      "choices": [
+        {
+          "text": "Take it. (₹2,000)",
+          "next": "cot",
+          "effect": {
+            "wallet": -2000,
+            "flags": {
+              "bed_bought": true
+            }
+          }
+        },
+        {
+          "text": "No. The new one. (₹4,500)",
+          "next": "cot",
+          "effect": {
+            "wallet": -4500,
+            "flags": {
+              "bed_bought": true
+            }
+          }
+        },
+        {
+          "text": "Let me think.",
+          "next": "bye"
+        }
+      ]
+    },
+    "cot": {
+      "text": "Boy will carry it up. Sleep well tonight — first night in your own room, nobody sleeps well. Tomorrow you will."
+    },
+    "stove": {
+      "text": "Two plates, one works properly. Don't put a steel glass on it, it screams."
+    },
+    "bed_done": {
+      "text": "Cot reached? Good. Stove, two thousand two hundred, when you're tired of Mani's chai for dinner.",
+      "choices": [
+        {
+          "text": "Induction stove. (₹2,200)",
+          "next": "stove",
+          "effect": {
+            "wallet": -2200,
+            "flags": {
+              "stove_bought": true
+            }
+          }
+        },
+        {
+          "text": "Later.",
+          "next": "bye"
+        }
+      ]
+    },
+    "stocked": {
+      "text": "Cot, stove — next is a fridge. Salary day, come. I'll keep the small white one."
+    },
+    "bye": {
+      "text": "Shop is open till the light goes. Literally — power cut at eight, usually."
+    }
+  }
+}

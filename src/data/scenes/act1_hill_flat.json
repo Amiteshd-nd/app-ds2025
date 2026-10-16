@@ -1,0 +1,175 @@
+{
+  "id": "act1_hill_flat",
+  "district": "ambedkar_nagar_hill",
+  "act": 1,
+  "seq": "1.4",
+  "title": "Ambedkar Nagar",
+  "status": "P8",
+  "time": "Weekend afternoon",
+  "player_goal": "Rent a room on the hill; check signal first.",
+  "design_goal": "Verticality (three terraces), a tiny tech-literacy joke (test the signal with Reels), the player's first own place; money dips near zero on purpose with the salary twelve days away.",
+  "pacing": [
+    "Curious",
+    "Engaged",
+    "Tense",
+    "Reward",
+    "Calm",
+    "Curious"
+  ],
+  "entry": {
+    "from": "whitefield_street",
+    "spawn": "bus_drop"
+  },
+  "cast": [
+    {
+      "npc": "npc_manju",
+      "tier": 2,
+      "spawn": "broker",
+      "role": "Three rooms; teaches the Reels signal test (reels_taught); points to Aunty after room3_checked"
+    },
+    {
+      "npc": "npc_owner_aunty",
+      "tier": 2,
+      "spawn": "owner",
+      "role": "Firm haggler: ₹9,000 + 2 months → ₹8,000 + 1 month (neg_hill_flat) → flat_signed"
+    },
+    {
+      "npc": "npc_hill_chai",
+      "tier": 2,
+      "spawn": "chai_stall",
+      "role": "Chai ₹15 (food, −stress); the slope's save point (purchases autosave)"
+    },
+    {
+      "npc": "npc_furniture_rafiq",
+      "tier": 2,
+      "spawn": "furniture_shop",
+      "role": "Cot ₹4,500 (or second-hand ₹2,000), induction ₹2,200 — after flat_signed"
+    },
+    {
+      "npc": "npc_hill_kid",
+      "tier": 1,
+      "spawn": "kid",
+      "role": "Cricket at the stumps; atmosphere"
+    }
+  ],
+  "quests": [
+    "q_act1_hill_flat"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "Bus 335-E from the Whitefield street drops you at the slope. Manju: test the signal at each door — open Reels. Reels unlocks.",
+      "interact": "dialogue",
+      "flag": "reels_taught"
+    },
+    {
+      "id": "F2",
+      "pacing": "Engaged",
+      "what": "Three doors on three terraces: ground floor (0 bars — no network), maroon door (1 bar — buffers forever), green door on top (2 bars — buffers, then plays). Standing in a door zone sets the phone's bars; opening a clip checks the room.",
+      "interact": "walk + phone",
+      "flag": "room1_checked, room2_checked, room3_checked"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "Aunty at the top: ₹9,000 + ₹16,000 (two months at the old rate). Compare with the PG, argue one month's deposit (the ID card helps), never lowball. Deal ≈ ₹16,500–18,000 → flat_signed; the salary countdown starts (12 days).",
+      "interact": "negotiation",
+      "flag": "flat_signed",
+      "economy": "₹16,500–25,000"
+    },
+    {
+      "id": "F4",
+      "pacing": "Reward",
+      "what": "The green door opens: your room. The godown box (table + chair) is already inside. Rafiq sells the cot (₹4,500 / ₹2,000 second-hand) and the induction (₹2,200); they appear in the room. Money near zero — deliberate.",
+      "interact": "dialogue",
+      "flag": "bed_bought, stove_bought",
+      "economy": "₹2,000–6,700"
+    },
+    {
+      "id": "F5",
+      "pacing": "Calm",
+      "what": "Sleep in your own room: heals, the countdown ticks, Amma and Sameer text.",
+      "interact": "walk onto the cot",
+      "flag": "slept_in_flat"
+    },
+    {
+      "id": "F6",
+      "pacing": "Curious",
+      "what": "Reels at night: the first fever clip from North Bangalore, a breadcrumb — scroll past.",
+      "interact": "phone",
+      "flag": "reels_reel_fever_seen"
+    }
+  ],
+  "economy": [
+    {
+      "trigger": "flat deal",
+      "spend": "16500–25000",
+      "canAfford": true
+    },
+    {
+      "trigger": "cot",
+      "spend": "2000–4500",
+      "canAfford": true
+    },
+    {
+      "trigger": "induction",
+      "spend": 2200,
+      "canAfford": true
+    },
+    {
+      "trigger": "chai",
+      "spend": 15,
+      "canAfford": true
+    }
+  ],
+  "conditions": [],
+  "pulse_slots": [],
+  "exits": [
+    {
+      "zone": "road_out",
+      "to": "whitefield_street",
+      "spawn": "bus_stop",
+      "transit": "bus"
+    },
+    {
+      "zone": "room3_door",
+      "to": "hill_flat",
+      "spawn": "door",
+      "transit": "walk"
+    }
+  ],
+  "save_flags": [
+    "hill_arrived",
+    "manju_met",
+    "reels_taught",
+    "room1_checked",
+    "room2_checked",
+    "room3_checked",
+    "manju_recommended",
+    "flat_viewing",
+    "flat_signed",
+    "bed_bought",
+    "stove_bought",
+    "hill_chai",
+    "slept_in_flat",
+    "first_salary",
+    "reels_reel_fever_seen",
+    "act1_hill_done"
+  ],
+  "assets_needed": [
+    "ambedkar_nagar_hill render + spec (done)",
+    "hill_flat render + spec (done)",
+    "furniture prop sheet (done)",
+    "sheets: Manju, Owner Aunty, Mani, Rafiq, kid (done)"
+  ],
+  "acceptance": [
+    "the bus from the Whitefield street lands at the slope and ticks 'Reach Ambedkar Nagar'",
+    "Manju's first line unlocks Reels",
+    "the phone shows 0 / 1 / 2 bars at the three doors and Reels buffers accordingly; opening a clip at a door sets roomN_checked",
+    "Aunty's bill starts at ₹25,000 and lands near ₹17,000 with a compare on rent and two reasons on the deposit; the green door is locked until flat_signed",
+    "the flat holds the godown box from the start, the cot after bed_bought, the stove after stove_bought",
+    "sleeping on the cot heals, sets slept_in_flat and counts the salary down; day 0 credits ₹42,000 on the UPI ledger",
+    "the fever reel appears after flat_signed and sets reels_reel_fever_seen when watched"
+  ]
+}

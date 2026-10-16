@@ -303,9 +303,10 @@ describe('Area view: real streets, proportional pocket (ADR-117)', async () => {
 
   it('validation: credit present, pocket inside, pocket as big as its tilemap', () => {
     const districts = Object.values(DISTRICTS) as unknown as Array<Record<string, any>>;
-    const areas = { prashanth_layout: area as unknown as Record<string, any>, office_gate: AREAS.office_gate as unknown as Record<string, any> };
-    expect(validateAreas(districts, areas, { prashanth_layout: [36, 24], office_gate: [36, 24] })).toEqual([]);
-    expect(validateAreas(districts, areas, { prashanth_layout: [40, 24], office_gate: [36, 24] }).join()).toMatch(/not be proportional/);
+    const areas = { prashanth_layout: area as unknown as Record<string, any>, office_gate: AREAS.office_gate as unknown as Record<string, any>, ambedkar_nagar_hill: AREAS.ambedkar_nagar_hill as unknown as Record<string, any> };
+    const sizes = { prashanth_layout: [36, 24] as [number, number], office_gate: [36, 24] as [number, number], ambedkar_nagar_hill: [36, 24] as [number, number] };
+    expect(validateAreas(districts, areas, sizes)).toEqual([]);
+    expect(validateAreas(districts, areas, { ...sizes, prashanth_layout: [40, 24] }).join()).toMatch(/not be proportional/);
     expect(validateAreas(districts, { prashanth_layout: { ...areas.prashanth_layout, $comment: 'x' } }, {}).join()).toMatch(/ODbL/);
     expect(validateAreas(districts, {}, {}).join()).toMatch(/fetch-osm-area/);
   });

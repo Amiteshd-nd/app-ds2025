@@ -97,6 +97,10 @@ export interface GameState {
   overlay: 'phone' | 'map' | 'menu' | null;
   /** A destination the player set on the map (district id); wins over the quest's. Not saved. */
   mapDestination: string | null;
+  /** Phone signal bars where the player stands when a zone says so (the hill's rooms, ADR-122); null = the district's. Not saved. */
+  signalOverride: number | null;
+  /** Flag the current signal zone sets when a Reel is tested there (room1_checked…). Not saved. */
+  signalZoneFlag: string | null;
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -127,6 +131,7 @@ export interface GameState {
   setPhone: (phone: PhoneState) => void;
   setOverlay: (overlay: 'phone' | 'map' | 'menu' | null) => void;
   setMapDestination: (districtId: string | null) => void;
+  setSignalOverride: (bars: number | null, flag?: string | null) => void;
 
   hydrate: (partial: Partial<GameState>) => void;
   reset: () => void;
@@ -191,6 +196,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   phone: initialPhone(),
   overlay: null,
   mapDestination: null,
+  signalOverride: null,
+  signalZoneFlag: null,
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -249,6 +256,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   setPhone: (phone) => set({ phone }),
   setOverlay: (overlay) => set({ overlay }),
   setMapDestination: (mapDestination) => set({ mapDestination }),
+  setSignalOverride: (signalOverride, flag = null) => set({ signalOverride, signalZoneFlag: signalOverride === null ? null : flag }),
 
   hydrate: (partial) => set(partial),
 
@@ -271,5 +279,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       phone: initialPhone(),
       overlay: null,
       mapDestination: null,
+      signalOverride: null,
+      signalZoneFlag: null,
     }),
 }));

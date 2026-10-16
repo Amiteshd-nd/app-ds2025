@@ -1,0 +1,229 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 render) \u2192 36x24 tiles, 1.2 m/tile (ADR-122). The colony climbs in terraces: the bottom road (y 905-1024, x 0-1050) with the chai stall and furniture shop on its pavement; the stair-lane x 760-940 up to the upper lane (y 430-505, x 20-1290); the long stair x 1125-1280 up to the top walkway (y 100-200, x 760-1290). Three doors: room 1 (green, ground floor, beside the shop), room 2 (maroon, upper lane), room 3 (green, top walkway \u2014 the flat). Everything else is houses, walls and hedges.",
+  "name": "ambedkar_nagar_hill",
+  "cols": 36,
+  "rows": 24,
+  "units": "px",
+  "blocks": [
+    [
+      0,
+      0,
+      1536,
+      100
+    ],
+    [
+      0,
+      100,
+      760,
+      330
+    ],
+    [
+      1290,
+      100,
+      246,
+      330
+    ],
+    [
+      0,
+      505,
+      760,
+      335
+    ],
+    [
+      1000,
+      505,
+      290,
+      100
+    ],
+    [
+      1290,
+      505,
+      246,
+      400
+    ],
+    [
+      940,
+      540,
+      596,
+      365
+    ],
+    [
+      1050,
+      820,
+      250,
+      204
+    ],
+    [
+      760,
+      200,
+      365,
+      230
+    ],
+    [
+      50,
+      820,
+      120,
+      50
+    ],
+    [
+      80,
+      878,
+      95,
+      42
+    ],
+    [
+      290,
+      790,
+      230,
+      90
+    ],
+    [
+      600,
+      850,
+      30,
+      55
+    ],
+    [
+      995,
+      440,
+      40,
+      260
+    ],
+    [
+      965,
+      560,
+      90,
+      100
+    ],
+    [
+      760,
+      20,
+      160,
+      80
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "slope_base",
+      "x": 640,
+      "y": 960
+    },
+    {
+      "name": "bus_drop",
+      "x": 60,
+      "y": 960
+    },
+    {
+      "name": "chai_stall",
+      "x": 215,
+      "y": 875
+    },
+    {
+      "name": "furniture_shop",
+      "x": 530,
+      "y": 885
+    },
+    {
+      "name": "broker",
+      "x": 700,
+      "y": 880
+    },
+    {
+      "name": "owner",
+      "x": 900,
+      "y": 165
+    },
+    {
+      "name": "kid",
+      "x": 1150,
+      "y": 480
+    },
+    {
+      "name": "room3_out",
+      "x": 880,
+      "y": 185
+    }
+  ],
+  "zones": [
+    {
+      "name": "road_out",
+      "x": 0,
+      "y": 905,
+      "w": 40,
+      "h": 119
+    },
+    {
+      "name": "hill_arrival",
+      "x": 0,
+      "y": 905,
+      "w": 800,
+      "h": 119
+    },
+    {
+      "name": "room1_door",
+      "x": 555,
+      "y": 835,
+      "w": 60,
+      "h": 55
+    },
+    {
+      "name": "room2_door",
+      "x": 765,
+      "y": 462,
+      "w": 60,
+      "h": 43
+    },
+    {
+      "name": "room3_door",
+      "x": 775,
+      "y": 135,
+      "w": 70,
+      "h": 55
+    },
+    {
+      "name": "ambient_area",
+      "x": 60,
+      "y": 430,
+      "w": 1200,
+      "h": 75
+    }
+  ],
+  "occluders": [
+    {
+      "name": "pole",
+      "rect": [
+        985,
+        430,
+        60,
+        270
+      ],
+      "base": 700,
+      "mode": "key",
+      "bg": [
+        [
+          880,
+          600,
+          50,
+          50
+        ]
+      ],
+      "seeds": [
+        [
+          1012,
+          470
+        ]
+      ]
+    },
+    {
+      "name": "awning",
+      "rect": [
+        255,
+        670,
+        310,
+        110
+      ],
+      "base": 790,
+      "mode": "rect"
+    }
+  ]
+}

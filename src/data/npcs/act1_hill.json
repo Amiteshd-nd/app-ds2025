@@ -1,0 +1,36 @@
+[
+  {
+    "id": "npc_manju",
+    "name": "Manju (Broker)",
+    "tier": 2,
+    "dialogue": "dlg_manju",
+    "sheet": "npc_manju"
+  },
+  {
+    "id": "npc_owner_aunty",
+    "name": "Owner Aunty",
+    "tier": 2,
+    "dialogue": "dlg_owner_aunty",
+    "sheet": "npc_owner_aunty"
+  },
+  {
+    "id": "npc_hill_chai",
+    "name": "Mani · Chai",
+    "tier": 2,
+    "dialogue": "dlg_hill_chai",
+    "sheet": "npc_hill_chai"
+  },
+  {
+    "id": "npc_furniture_rafiq",
+    "name": "Rafiq · Furniture",
+    "tier": 2,
+    "dialogue": "dlg_hill_furniture",
+    "sheet": "npc_furniture_rafiq"
+  },
+  {
+    "id": "npc_hill_kid",
+    "name": "Kid with a bat",
+    "tier": 1,
+    "sheet": "npc_hill_kid"
+  }
+]

@@ -120,6 +120,15 @@
         "transit": "walk",
         "minutes": 40,
         "card": "Walk → ITPL Gate · 40 min"
+      },
+      {
+        "zone": "hill_bus",
+        "to": "ambedkar_nagar_hill",
+        "spawn": "bus_drop",
+        "transit": "bus",
+        "fare": 20,
+        "minutes": 25,
+        "card": "BMTC 335-E → Ambedkar Nagar · ₹20"
       }
     ],
     "realworld": {
@@ -462,5 +471,188 @@
     "behaviours": [
       "officeClockIn"
     ]
+  },
+  {
+    "id": "ambedkar_nagar_hill",
+    "name": "Ambedkar Nagar",
+    "map": "ambedkar_nagar_hill",
+    "defaultSpawn": "slope_base",
+    "fadeMs": 400,
+    "realworld": {
+      "lat": 12.987006,
+      "lng": 77.718434,
+      "label": "Ambedkar Nagar",
+      "area": {
+        "radiusM": 600,
+        "pocket": {
+          "anchor": [
+            12.987006,
+            77.718434
+          ],
+          "anchorTile": [
+            15,
+            22.5
+          ],
+          "bearing": 95,
+          "metresPerTile": 1.2,
+          "tiles": [
+            36,
+            24
+          ],
+          "streets": [
+            "Seetharampalya Road"
+          ]
+        }
+      }
+    },
+    "signal": 1,
+    "unlock": {
+      "quest": "q_act1_pg_exit"
+    },
+    "quests": [
+      "q_act1_hill_flat"
+    ],
+    "npcs": [
+      {
+        "id": "npc_manju",
+        "spawn": "broker"
+      },
+      {
+        "id": "npc_owner_aunty",
+        "spawn": "owner"
+      },
+      {
+        "id": "npc_hill_chai",
+        "spawn": "chai_stall"
+      },
+      {
+        "id": "npc_furniture_rafiq",
+        "spawn": "furniture_shop"
+      },
+      {
+        "id": "npc_hill_kid",
+        "spawn": "kid"
+      }
+    ],
+    "ambient": {
+      "base": [
+        "crowd_homemaker",
+        "crowd_elder",
+        "crowd_student",
+        "crowd_hoodie"
+      ],
+      "count": 3,
+      "area": "ambient_area"
+    },
+    "signalZones": [
+      {
+        "zone": "room1_door",
+        "bars": 0,
+        "flag": "room1_checked"
+      },
+      {
+        "zone": "room2_door",
+        "bars": 1,
+        "flag": "room2_checked"
+      },
+      {
+        "zone": "room3_door",
+        "bars": 2,
+        "flag": "room3_checked"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "hill_arrival",
+        "setFlags": [
+          "hill_arrived"
+        ],
+        "unlessFlag": "hill_arrived"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "road_out",
+        "to": "whitefield_street",
+        "spawn": "bus_stop",
+        "transit": "bus",
+        "fare": 20,
+        "minutes": 25,
+        "card": "BMTC 335-E → Whitefield · ₹20"
+      },
+      {
+        "zone": "room3_door",
+        "to": "hill_flat",
+        "spawn": "door",
+        "transit": "walk",
+        "lockedText": "Aunty's door. Make a deal with her first."
+      }
+    ],
+    "behaviours": [
+      "signalZones"
+    ]
+  },
+  {
+    "id": "hill_flat",
+    "name": "Your room, Ambedkar Nagar",
+    "map": "hill_flat",
+    "defaultSpawn": "door",
+    "fadeMs": 300,
+    "signal": 2,
+    "unlock": {
+      "flags": [
+        "flat_signed"
+      ]
+    },
+    "objects": [
+      {
+        "id": "CARDBOARD_BOX",
+        "at": "box_spot",
+        "requiresFlag": "flat_signed"
+      },
+      {
+        "id": "WATER_DRUM",
+        "at": "drum_spot"
+      },
+      {
+        "id": "COT",
+        "at": "cot_spot",
+        "requiresFlag": "bed_bought"
+      },
+      {
+        "id": "TABLE_CHAIR",
+        "at": "table_spot",
+        "requiresFlag": "bed_bought"
+      },
+      {
+        "id": "INDUCTION",
+        "at": "stove_spot",
+        "requiresFlag": "stove_bought"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "bed",
+        "action": "sleep",
+        "requiresFlag": "bed_bought",
+        "setFlags": [
+          "slept_in_flat"
+        ]
+      }
+    ],
+    "exits": [
+      {
+        "zone": "front_door",
+        "to": "ambedkar_nagar_hill",
+        "spawn": "room3_out",
+        "transit": "walk"
+      }
+    ],
+    "behaviours": [
+      "salaryCountdown"
+    ],
+    "realworld": {
+      "parent": "ambedkar_nagar_hill"
+    }
   }
 ]

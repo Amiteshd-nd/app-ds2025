@@ -1,0 +1,70 @@
+{
+  "id": "dlg_manju",
+  "speaker": "Manju · Broker",
+  "portrait": "npc_manju",
+  "enter": [
+    {
+      "flag": "flat_signed",
+      "node": "signed"
+    },
+    {
+      "flag": "room3_checked",
+      "node": "all_checked"
+    },
+    {
+      "flag": "reels_taught",
+      "node": "checking"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Boss! Room, no? Three rooms free on this hill, all mine to show. One tip, free of cost: before you say yes to any room, stand at the door, open Reels, and see if the video plays. Signal on this hill is like my cousin — present only sometimes.",
+      "choices": [
+        {
+          "text": "Reels? Show me how.",
+          "next": "teach",
+          "effect": {
+            "flags": {
+              "reels_taught": true,
+              "manju_met": true
+            }
+          }
+        },
+        {
+          "text": "Which rooms?",
+          "next": "rooms",
+          "effect": {
+            "flags": {
+              "reels_taught": true,
+              "manju_met": true
+            }
+          }
+        }
+      ]
+    },
+    "teach": {
+      "text": "Phone, Reels app — the one with the little play sign. If it buffers, the room buffers. Ground floor is here by Rafiq's shop. Second is up the lane, maroon door. Third is top of the steps, green door with the plants. Aunty owns that one. Go, go, test.",
+      "effect": {
+        "xp": 10,
+        "xp_branch": "city_survival"
+      }
+    },
+    "rooms": {
+      "text": "Ground floor here next to Rafiq — cheap, no sun. Up the lane, maroon door — nice, but the tower hides behind the tank. Top of the steps, green door with plants — Aunty's. Test the signal at each door first. Reels, boss. Reels."
+    },
+    "checking": {
+      "text": "Tested? Ground floor, maroon door, green door. Stand AT the door. The phone knows."
+    },
+    "all_checked": {
+      "text": "See? Only Aunty's room plays. I told you. Go talk to her — she is at the top. Tell her Manju sent; she'll charge the same, but she'll smile.",
+      "effect": {
+        "flags": {
+          "manju_recommended": true
+        }
+      }
+    },
+    "signed": {
+      "text": "Congratulations, boss. Brokerage is half a month — joke, joke. Aunty pays me. Enjoy the signal."
+    }
+  }
+}

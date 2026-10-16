@@ -2,9 +2,35 @@
   "id": "amma",
   "contact": "Amma",
   "messages": [
-    { "id": "amma_1", "from": "them", "text": "Landed? Call.", "critical": true },
-    { "id": "amma_2", "from": "them", "text": "Hotel is okay? Eat something hot, not only chai.", "after": "hotel_checked_in" },
-    { "id": "amma_3", "from": "them", "text": "Veg-only aunty? Good. At least someone will make you eat.", "after": "pg_signed" },
-    { "id": "amma_4", "from": "them", "text": "Sleep early. Iron your clothes for Monday.", "after": "amma_called" }
+    {
+      "id": "amma_1",
+      "from": "them",
+      "text": "Landed? Call.",
+      "critical": true
+    },
+    {
+      "id": "amma_2",
+      "from": "them",
+      "text": "Hotel is okay? Eat something hot, not only chai.",
+      "after": "hotel_checked_in"
+    },
+    {
+      "id": "amma_3",
+      "from": "them",
+      "text": "Veg-only aunty? Good. At least someone will make you eat.",
+      "after": "pg_signed"
+    },
+    {
+      "id": "amma_4",
+      "from": "them",
+      "text": "Sleep early. Iron your clothes for Monday.",
+      "after": "amma_called"
+    },
+    {
+      "id": "amma_5",
+      "from": "them",
+      "text": "Own room? Send photo. Lock the door at night, and buy a bed before a TV.",
+      "after": "flat_signed"
+    }
   ]
 }

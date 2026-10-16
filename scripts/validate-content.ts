@@ -60,7 +60,7 @@ export function validateContent(
   tileIds: Record<string, number> = {},
   sceneFiles: JsonFile[] = [],
   negotiationFiles: JsonFile[] = [],
-  phone: { apps?: Json[]; chats?: JsonFile[] } = {},
+  phone: { apps?: Json[]; chats?: JsonFile[]; reels?: Json[] } = {},
   /** Characters the UI bitmap font can draw (src/assets/fonts/metrics.json). Omitted = not checked. */
   glyphs?: Set<string>,
 ): string[] {
@@ -181,6 +181,7 @@ export function validateContent(
 
     for (const ref of district.objects ?? []) {
       if (!ref.id || !ref.at) add(where, `${d} has an object entry without id or at`);
+      if (ref.requiresFlag !== undefined && (typeof ref.requiresFlag !== 'string' || !ref.requiresFlag)) add(where, `${d} object "${ref.id}" requiresFlag must be a flag name`);
       if (ref.requires && !itemIds.has(ref.requires)) {
         add(where, `${d} object "${ref.id}" requires unknown item "${ref.requires}"`);
       }
@@ -233,6 +234,11 @@ export function validateContent(
       }
     }
 
+    for (const z of district.signalZones ?? []) {
+      if (!z.zone || typeof z.zone !== 'string') add(where, `${d} has a signalZone without a zone name`);
+      if (!(Number.isInteger(z.bars) && z.bars >= 0 && z.bars <= 4)) add(where, `${d} signalZone "${z.zone}" bars must be 0–4`);
+      if (z.flag !== undefined && (typeof z.flag !== 'string' || !z.flag)) add(where, `${d} signalZone "${z.zone}" flag must be a flag name`);
+    }
     if (district.signal !== undefined && !(Number.isInteger(district.signal) && district.signal >= 0 && district.signal <= 4)) {
       add(where, `${d} signal must be a whole number of bars, 0–4`);
     }
@@ -329,6 +335,11 @@ export function validateContent(
         add(file, `object "${obj.id}" has no boolean colorEditable`);
       }
 
+      if (obj.sprite !== undefined) {
+        if (typeof obj.sprite !== 'string' || !obj.sprite) add(file, `object "${obj.id}" sprite must name a prop (src/assets/props/<name>.png)`);
+        else if (!existsSync(join(here, '../src/assets/props', `${obj.sprite}.png`))) add(file, `object "${obj.id}" sprite "${obj.sprite}" has no src/assets/props/${obj.sprite}.png — add it to a prop sheet and run pnpm art`);
+        continue; // a sprite object has no tiles
+      }
       const variants = obj.tiles ?? {};
       if (!variants.default) add(file, `object "${obj.id}" has no "default" tile variant`);
 
@@ -487,6 +498,21 @@ export function validateContent(
       if (m.from !== 'them' && m.from !== 'me') add(file, `message "${m.id}" from must be "them" or "me"`);
       if (m.after !== undefined && (typeof m.after !== 'string' || !m.after)) add(file, `message "${m.id}" after must be a flag name`);
     }
+  }
+
+  // ── Reels (ADR-122) ──────────────────────────────────────────────────────
+  const reelIds = new Set<string>();
+  for (const clip of phone.reels ?? []) {
+    const rw = `reel "${clip.id}"`;
+    if (!clip.id) { add('phone/reels.json', 'a clip has no id'); continue; }
+    if (reelIds.has(clip.id)) add('phone/reels.json', `${rw} is listed twice`);
+    reelIds.add(clip.id);
+    for (const k of ['handle', 'title', 'caption'] as const) {
+      if (typeof clip[k] !== 'string' || !clip[k]) add('phone/reels.json', `${rw} needs a ${k}`);
+      else drawable('phone/reels.json', `${rw} ${k}`, clip[k]);
+    }
+    if (typeof clip.handle === 'string' && !clip.handle.startsWith('@')) add('phone/reels.json', `${rw} handle should start with @`);
+    if (clip.after !== undefined && (typeof clip.after !== 'string' || !clip.after)) add('phone/reels.json', `${rw} after must be a flag name`);
   }
 
   // ── Dialogue ─────────────────────────────────────────────────────────────
@@ -988,7 +1014,8 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   ).ids;
   const fontMetrics = JSON.parse(readFileSync(resolve(here, '../src/assets/fonts/metrics.json'), 'utf8'));
   const glyphs = new Set(Object.keys(fontMetrics.advance as Record<string, number>));
-  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations, { apps: phoneApps, chats }, glyphs);
+  const reels = JSON.parse(readFileSync(join(dataDir, 'phone/reels.json'), 'utf8'));
+  const problems = validateContent(dialogue, quests, items, districts, npcs, objects, tileIds, scenes, negotiations, { apps: phoneApps, chats, reels }, glyphs);
 
   const assetsDir = resolve(here, '../src/assets');
   const manifest = JSON.parse(readFileSync(join(assetsDir, 'maps.manifest.json'), 'utf8'));

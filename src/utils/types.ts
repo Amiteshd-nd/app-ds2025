@@ -250,6 +250,8 @@ export interface DistrictObjectRef {
   at: string;
   /** Item the player must hold for the object to exist — a delivered table, say. */
   requires?: string;
+  /** Flag that must be set for the object to exist — the cot once bought (ADR-122). */
+  requiresFlag?: string;
 }
 
 /** Ambient crowd: random-walk bots drawn from a pool of sprite sheets. */
@@ -312,6 +314,8 @@ export interface DistrictDef {
   defaultSpawn: string;
   fadeMs?: number;
   unlock?: DistrictUnlock;
+  /** Phone signal bars inside these zones (the hill's three doors, ADR-122); elsewhere the district's `signal`. */
+  signalZones?: Array<{ zone: string; bars: number; flag?: string }>;
   /** Quests started on entry; QuestManager.start is idempotent. */
   quests?: string[];
   npcs?: DistrictNpcRef[];
@@ -422,8 +426,10 @@ export interface ObjectDef {
   solid: boolean;
   /** Whether a runtime hue shift is offered for this object. */
   colorEditable: boolean;
-  /** Named variants — orientations, on/off states. A simple item has `default`. */
-  tiles: Record<string, string[]>;
+  /** Named variants — orientations, on/off states. A simple item has `default`. Absent for sprite objects. */
+  tiles?: Record<string, string[]>;
+  /** A prop image (src/assets/props/<sprite>.png, from scripts/import-props.mjs) drawn instead of tiles — furniture (ADR-122). */
+  sprite?: string;
 }
 
 // --- Quests ----------------------------------------------------------------
@@ -665,4 +671,17 @@ export interface SettingsMenuSection {
 
 export interface SettingsMenu {
   sections: SettingsMenuSection[];
+}
+
+// --- Reels (ADR-122) -------------------------------------------------------
+export interface ReelClip {
+  id: string;
+  /** Who posted it, parody handles only. */
+  handle: string;
+  title: string;
+  caption: string;
+  /** Shown once this flag is set; always when absent. */
+  after?: string;
+  /** A breadcrumb (the fever clip): watching it sets `reels_<id>_seen` and this is a story beat. */
+  critical?: boolean;
 }

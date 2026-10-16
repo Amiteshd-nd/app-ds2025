@@ -1,0 +1,66 @@
+{
+  "id": "neg_hill_flat",
+  "npc": "npc_owner_aunty",
+  "temperament": "warm",
+  "patience": 4,
+  "terms": [
+    {
+      "id": "rent",
+      "label": "Rent",
+      "ask": 9000,
+      "floor": 8000
+    },
+    {
+      "id": "deposit",
+      "label": "Deposit",
+      "ask": 16000,
+      "floor": 8000
+    }
+  ],
+  "counters": [
+    {
+      "id": "pg_rent",
+      "text": "The PG was ₹8,000 with food, Aunty. ₹8,000 here?",
+      "term": "rent",
+      "offer": 8000,
+      "tactic": "compare"
+    },
+    {
+      "id": "salaried",
+      "text": "I'm salaried, Aunty — one month deposit is enough, no?",
+      "term": "deposit",
+      "offer": 9000,
+      "tactic": "reason",
+      "requiresFlag": "id_card_issued"
+    },
+    {
+      "id": "one_month",
+      "text": "One month deposit. I'll pay the rent on the 1st, every month.",
+      "term": "deposit",
+      "offer": 8000,
+      "tactic": "reason"
+    },
+    {
+      "id": "lowball",
+      "text": "₹6,000 and no deposit.",
+      "term": "rent",
+      "offer": 6000,
+      "tactic": "lowball"
+    }
+  ],
+  "lines": {
+    "concede": "Hmm. {amount}. Because Manju sent you — and because you look like you eat properly.",
+    "hold": "That is the rate, kanna. Water is free, signal is free. {total}.",
+    "offended": "No deposit? Then no room. This is not a dharamshala.",
+    "final": "{total}. Final. The tank fills at six, don't waste.",
+    "callback": "Wait — okay, {amount}. Go and come back with the money."
+  },
+  "acceptText": "Deal, Aunty — {total}",
+  "walkText": "Let me think about it",
+  "reason": "hill_flat",
+  "on_deal": {
+    "flags": [
+      "flat_signed"
+    ]
+  }
+}

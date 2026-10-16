@@ -638,5 +638,115 @@
    "waist_y": 32,
    "enabled": false
   }
+ },
+ "npc_manju": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_owner_aunty": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_hill_kid": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_hill_chai": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
+ },
+ "npc_furniture_rafiq": {
+  "down": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "left": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "right": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  },
+  "up": {
+   "head_y": 24,
+   "waist_y": 32,
+   "enabled": false
+  }
  }
 }

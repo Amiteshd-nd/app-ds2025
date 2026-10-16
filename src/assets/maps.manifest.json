@@ -151,6 +151,65 @@
         "office_door"
       ],
       "shapeLayer": "Shapes"
+    },
+    "ambedkar_nagar_hill": {
+      "file": "ambedkar_nagar_hill.tmj",
+      "requiredLayers": [
+        "Ground",
+        "Walls",
+        "Objects",
+        "Collision",
+        "Above Player"
+      ],
+      "collisionLayer": "Collision",
+      "spawnLayer": "Spawns",
+      "optionalLayers": [
+        "Effects",
+        "Foreground"
+      ],
+      "shapeLayer": "Shapes",
+      "requiredSpawns": [
+        "slope_base",
+        "bus_drop",
+        "chai_stall",
+        "furniture_shop",
+        "broker",
+        "owner",
+        "kid",
+        "room3_out",
+        "road_out",
+        "hill_arrival",
+        "room1_door",
+        "room2_door",
+        "room3_door"
+      ]
+    },
+    "hill_flat": {
+      "file": "hill_flat.tmj",
+      "requiredLayers": [
+        "Ground",
+        "Walls",
+        "Objects",
+        "Collision",
+        "Above Player"
+      ],
+      "collisionLayer": "Collision",
+      "spawnLayer": "Spawns",
+      "optionalLayers": [
+        "Effects",
+        "Foreground"
+      ],
+      "shapeLayer": "Shapes",
+      "requiredSpawns": [
+        "door",
+        "cot_spot",
+        "table_spot",
+        "stove_spot",
+        "drum_spot",
+        "box_spot",
+        "front_door",
+        "bed"
+      ]
     }
   },
   "layerOrder": [

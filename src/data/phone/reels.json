@@ -1,0 +1,29 @@
+[
+  {
+    "id": "reel_traffic",
+    "handle": "@namma_whitefield",
+    "title": "Whitefield traffic, 9 AM, sped up",
+    "caption": "Three signals, forty minutes. The auto uncle knows."
+  },
+  {
+    "id": "reel_dog",
+    "handle": "@blr_strays",
+    "title": "Dog vs pigeon, Cubbon Park",
+    "caption": "The pigeon won. Again."
+  },
+  {
+    "id": "reel_pg_food",
+    "handle": "@pg_life_blr",
+    "title": "PG food rating: Sunday special",
+    "caption": "Payasam 10/10. Everything else: no comment.",
+    "after": "pg_signed"
+  },
+  {
+    "id": "reel_fever",
+    "handle": "@north_blr_updates",
+    "title": "Mysterious fever in North Bangalore?",
+    "caption": "Three wards in Hebbal reporting the same thing. Officials: 'seasonal'.",
+    "after": "flat_signed",
+    "critical": true
+  }
+]

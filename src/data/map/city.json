@@ -777,6 +777,33 @@
           77.7366
         ]
       ]
+    },
+    {
+      "id": "bus_hill",
+      "kind": "road",
+      "label": "BMTC 335-E",
+      "connects": [
+        "whitefield_street",
+        "ambedkar_nagar_hill"
+      ],
+      "points": [
+        [
+          12.9698,
+          77.75
+        ],
+        [
+          12.9745,
+          77.742
+        ],
+        [
+          12.981,
+          77.73
+        ],
+        [
+          12.987,
+          77.7185
+        ]
+      ]
     }
   ],
   "metro": [
@@ -1003,14 +1030,6 @@
     }
   ],
   "places": [
-    {
-      "id": "place_ambedkar_nagar",
-      "label": "Ambedkar Nagar",
-      "at": [
-        12.987,
-        77.7185
-      ]
-    },
     {
       "id": "place_mg_brigade",
       "label": "MG Road · Brigade",

@@ -1,0 +1,68 @@
+[
+  {
+    "id": "COT",
+    "label": "Steel cot",
+    "category": "furniture",
+    "tilesWide": 2,
+    "tilesTall": 2,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "furniture_01"
+  },
+  {
+    "id": "TABLE_CHAIR",
+    "label": "Folding table and chair",
+    "category": "furniture",
+    "tilesWide": 2,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "furniture_02"
+  },
+  {
+    "id": "FRIDGE",
+    "label": "Small fridge",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "furniture_03"
+  },
+  {
+    "id": "INDUCTION",
+    "label": "Induction stove",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "furniture_04"
+  },
+  {
+    "id": "WATER_DRUM",
+    "label": "Water drum",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "furniture_05"
+  },
+  {
+    "id": "CARDBOARD_BOX",
+    "label": "Cardboard box",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "furniture_06"
+  }
+]

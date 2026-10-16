@@ -57,7 +57,8 @@ describe('object manifests', () => {
 
   it('lists exactly tilesWide * tilesTall frames for every variant', () => {
     for (const def of Object.values(OBJECTS)) {
-      for (const [variant, names] of Object.entries(def.tiles)) {
+      if (def.sprite) continue; // a prop image, no tiles (ADR-122)
+      for (const [variant, names] of Object.entries(def.tiles ?? {})) {
         expect(names, `${def.id}/${variant}`).toHaveLength(def.tilesWide * def.tilesTall);
       }
     }

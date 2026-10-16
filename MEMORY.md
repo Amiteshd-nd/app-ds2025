@@ -54,6 +54,8 @@ Facts about the project and the user that fit nowhere else. Design in `docs/desi
 - Content that names a district which does not exist yet goes to `src/data/_drafts/<phase>/` (not globbed, not validated) with a README — never a placeholder map. Move it live when the pocket lands (done for P7).
 - New pocket recipe (P7, ~1 session): district stub with `realworld` + `area.radiusM` → `node scripts/fetch-osm-area.mjs <id>` → read the extract for the nearest named road, anchor on its kerb, bearing along it → one 1536×1024 render (README prompt rules; look-only Google photos for architecture) → gridded copy (100 px lines) to author the px spec → `import-map.mjs` + a debug preview (blocks magenta, zones cyan, occluders orange, spawns yellow) → walk routes in the browser by teleport + static-body probe (zones count as hits — ignore them).
 
+- Furniture and other "things you buy" are sprite objects (ADR-122): a cell in a props sheet (`import-props.mjs` SHEETS, per-cell `heights`) → `data/objects/*.json` with `sprite` → a district `objects` ref with `requiresFlag`. Rooms are rendered empty.
+
 ## Gotchas
 - `src/assets/tilemaps/whitefield_street.tmj` is **generated** by `scripts/generate-street-map.mjs` — edit the generator, run `pnpm art`, never hand-edit the .tmj. `airport_interior.tmj` is hand-authored (ported reference art, provenance unresolved — see `CREDITS.md`).
 - `scripts/validate-content.ts` runs as raw TS under Node 24 and imports `src/utils/constants.ts` and `src/ui/kit/icons.ts` — keep those free of Vite-only syntax and of JSON imports (Node needs `with { type: 'json' }`); the validator reads `fonts/metrics.json` with `readFileSync` instead.

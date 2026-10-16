@@ -13,7 +13,9 @@ import { nextFocus, type Box, type Direction } from '../ui/kit/focus';
 import { measure, rupees, truncate } from '../ui/kit/text';
 import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, listRows, slideSteps } from '../ui/phone/layout';
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
-import { BUBBLE, bubbleWindow, bubbles, chatRows, homeTiles, mapRows, statusBar, upiRows, type HomeTile } from '../ui/phone/viewModel';
+import { BUBBLE, bubbleWindow, bubbles, bufferingText, chatRows, homeTiles, mapRows, reelState, signalAt, statusBar, upiRows, visibleReels, type HomeTile, type ReelState } from '../ui/phone/viewModel';
+import { REELS } from '../data';
+import type { ReelClip } from '../utils/types';
 import { hudLayout, hudScale } from '../ui/hud/layout';
 import { attachGamepad, PAD } from '../ui/kit/gamepad';
 import { useSettings } from '../systems/SettingsManager';
@@ -28,6 +30,8 @@ type Route =
   | { app: 'thread'; threadId: string }
   | { app: 'upi' }
   | { app: 'maps' }
+  | { app: 'reels' }
+  | { app: 'reel'; clipId: string; since: number }
   | { app: 'stub'; appId: string };
 
 interface Focusable extends Box {
@@ -177,6 +181,7 @@ export class PhoneScene extends Phaser.Scene {
   }
 
   private finishClose(): void {
+    this.stopReel();
     this.phase = 'closed';
     this.root.setVisible(false).setY(GAME_HEIGHT);
     this.dim.setVisible(false);
@@ -270,6 +275,7 @@ export class PhoneScene extends Phaser.Scene {
     else if (id === 'upi') this.go({ app: 'upi' });
     else if (id === 'maps') this.handToMap();
     else if (id === 'settings') this.handToMenu();
+    else if (id === 'reels') this.go({ app: 'reels' });
     else this.go({ app: 'stub', appId: id });
   }
 
@@ -309,6 +315,7 @@ export class PhoneScene extends Phaser.Scene {
   }
 
   private back(): void {
+    if (this.route.app === 'reel') { this.stopReel(); this.go({ app: 'reels' }); return; }
     if (this.route.app === 'thread') this.go({ app: 'chats' });
     else if (this.route.app === 'home') this.close();
     else this.go({ app: 'home' });
@@ -340,7 +347,7 @@ export class PhoneScene extends Phaser.Scene {
   private move(dir: Direction): void {
     this.focusVisible = true;
     const inNav = this.focusId?.startsWith('nav:');
-    const scrolls = this.route.app === 'thread' || this.route.app === 'upi' || this.route.app === 'maps';
+    const scrolls = this.route.app === 'thread' || this.route.app === 'upi' || this.route.app === 'maps' || this.route.app === 'reels';
     if (scrolls && (dir === 'up' || dir === 'down')) { this.scrollBy(dir === 'up' ? -1 : 1); return; }
     if (this.route.app === 'chats' && !inNav && (dir === 'up' || dir === 'down')) {
       const rows = this.focusables.filter((f) => f.id.startsWith('thread:'));
@@ -440,6 +447,8 @@ export class PhoneScene extends Phaser.Scene {
       case 'thread': this.drawThread(this.route.threadId); break;
       case 'upi': this.drawUpi(); break;
       case 'maps': this.drawMaps(); break;
+      case 'reels': this.drawReels(); break;
+      case 'reel': this.drawReel(this.route.clipId, this.route.since); break;
       case 'stub': this.drawStub(this.route.appId); break;
     }
     if (this.hint) this.drawHint(this.hint);
@@ -670,6 +679,83 @@ export class PhoneScene extends Phaser.Scene {
       if (detail) this.text(LIST.x + 8, y + 22, truncate(detail, LIST.w - 16), painted.ink);
     });
     this.arrows({ up: this.scroll > 0, down: this.scroll + visible < rows.length }, APP.contentTop, APP.contentTop + visible * LIST.pitch - 4);
+  }
+
+  // Reels (ADR-122) ───────────────────────────────────────────────────────
+
+  private reelTimer: Phaser.Time.TimerEvent | null = null;
+  private reelResolved = false;
+
+  private drawReels(): void {
+    this.drawChrome('reels', 'REELS', null, 'phone.accent.chat');
+    const clips = visibleReels(REELS, useGameStore.getState().flags);
+    const visible = listRows();
+    this.clampScroll(clips.length - visible);
+    clips.slice(this.scroll, this.scroll + visible).forEach((clip, k) => {
+      const y = APP.contentTop + k * LIST.pitch;
+      const id = `reel:${clip.id}`;
+      const state = this.stateOf(id);
+      const painted = this.pill(LIST.x, y, LIST.w, LIST.rowH, state);
+      const seen = Boolean(useGameStore.getState().flags[`reels_${clip.id}_seen`]);
+      this.text(LIST.x + 8, y + 8 + painted.dy, truncate(clip.title, LIST.w - 16, true), painted.ink, { bold: true });
+      this.text(LIST.x + 8, y + 22 + painted.dy, truncate(`${clip.handle}${seen ? ' · seen' : clip.critical ? ' · NEW' : ''}`, LIST.w - 16), painted.ink);
+      this.focusable(id, { x: LIST.x, y: y - 2, w: LIST.w, h: LIST.pitch }, () => this.openReel(clip.id));
+    });
+    this.arrows({ up: this.scroll > 0, down: this.scroll + visible < clips.length }, APP.contentTop, APP.contentTop + visible * LIST.pitch - 4);
+  }
+
+  private openReel(clipId: string): void {
+    this.stopReel();
+    this.reelResolved = false;
+    this.go({ app: 'reel', clipId, since: this.time.now });
+    // The buffering dots and the 2-bar wait need a clock: redraw a few times a second while the clip is up.
+    this.reelTimer = this.time.addEvent({ delay: 200, loop: true, callback: () => { if (this.phase === 'open' && this.route.app === 'reel') this.render(); } });
+  }
+
+  private stopReel(): void {
+    this.reelTimer?.remove();
+    this.reelTimer = null;
+  }
+
+  /** The signal test, resolved: a clip that plays or fails at a room's door checks that room off. */
+  private resolveReel(clip: ReelClip, state: ReelState): void {
+    if (this.reelResolved || state === 'buffering') return;
+    this.reelResolved = true;
+    const store = useGameStore.getState();
+    if (state === 'playing' && !store.flags[`reels_${clip.id}_seen`]) store.setFlag(`reels_${clip.id}_seen`, true);
+    if (store.signalZoneFlag && !store.flags[store.signalZoneFlag]) store.setFlag(store.signalZoneFlag, true);
+    this.stopReel();
+  }
+
+  private drawReel(clipId: string, since: number): void {
+    const clip = REELS.find((c) => c.id === clipId);
+    this.drawChrome('reels', 'REELS', null, 'phone.accent.chat');
+    if (!clip) { this.text(PHONE.screen.w / 2, 130, 'Clip gone.', 'phone.lcd.mid', { align: 'center' }); return; }
+    const store = useGameStore.getState();
+    const bars = signalAt(store.activeDistrict);
+    const elapsed = this.time.now - since;
+    const state = reelState(bars, elapsed);
+    // The "video": a frame with the LCD's dark tone; playing shows the clip's card, buffering the spinner text.
+    const fx = LIST.x, fy = APP.contentTop, fw = LIST.w, fh = 120;
+    this.image(fx, fy, bake(this, `ph:reelframe:${state}`, fw, fh, (g) => {
+      roundRect(g, 0, 0, fw, fh, 6, hex('phone.lcd.ink'));
+      if (state === 'playing') { roundRect(g, 3, 3, fw - 6, fh - 6, 4, hex('phone.lcd.mid')); for (let i = 0; i < 6; i++) rect(g, 8 + i * 26, 60 + (i % 2) * 8, 18, 30 - (i % 3) * 6, hex('phone.lcd.bg')); }
+    }));
+    if (state === 'playing') {
+      this.text(fx + 8, fy + 8, truncate(clip.title, fw - 16, true), 'phone.lcd.bg', { bold: true });
+      this.text(fx + 8, fy + 22, truncate(clip.handle, fw - 16), 'phone.lcd.bg');
+      this.text(fx + 8, fy + fh + 8, truncate(clip.caption, fw - 16), 'phone.lcd.ink');
+    } else if (state === 'nosignal') {
+      this.text(fx + fw / 2, fy + fh / 2 - 8, 'No network.', 'phone.lcd.bg', { bold: true, align: 'center' });
+      this.text(fx + fw / 2, fy + fh / 2 + 6, 'Try near a window.', 'phone.lcd.mid', { align: 'center' });
+    } else if (state === 'failed') {
+      this.text(fx + fw / 2, fy + fh / 2 - 8, "Didn't load.", 'phone.lcd.bg', { bold: true, align: 'center' });
+      this.text(fx + fw / 2, fy + fh / 2 + 6, 'One bar is a rumour of a network.', 'phone.lcd.mid', { align: 'center' });
+    } else {
+      this.text(fx + fw / 2, fy + fh / 2 - 3, bufferingText(elapsed), 'phone.lcd.bg', { bold: true, align: 'center' });
+    }
+    this.text(fx, fy + fh + 24, `Signal here: ${bars} bar${bars === 1 ? '' : 's'}`, 'phone.lcd.mid');
+    this.resolveReel(clip, state);
   }
 
   private drawStub(appId: string): void {

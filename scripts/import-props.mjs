@@ -18,9 +18,11 @@ const assets = resolve(here, '../src/assets');
 const RAW = join(assets, '_raw/props');
 const OUT = join(assets, 'props');
 
-/** Grid and target height (game px) per prop sheet. */
+/** Grid and target height (game px) per prop sheet; `heights` gives one height per cell when the items differ in size. */
 export const SHEETS = {
   luggage: { cols: 4, rows: 3, height: 18 },
+  // Hill-flat furniture (ADR-122): cot · table + chair · fridge / induction stove · water drum · cardboard box.
+  furniture: { cols: 3, rows: 2, height: 40, heights: [56, 40, 40, 20, 28, 22] },
 };
 
 const keyMagenta = (d) => {
@@ -34,7 +36,7 @@ export async function importProps() {
   const palette = readGpl(readFileSync(join(assets, '_meta/palette.gpl'), 'utf8'));
   mkdirSync(OUT, { recursive: true });
   let made = 0;
-  for (const [name, { cols, rows, height }] of Object.entries(SHEETS)) {
+  for (const [name, { cols, rows, height, heights }] of Object.entries(SHEETS)) {
     for (const f of readdirSync(OUT)) if (f.startsWith(`${name}_`)) rmSync(join(OUT, f));
     const meta = await sharp(join(RAW, `${name}.png`)).metadata();
     const cw = Math.floor(meta.width / cols), ch = Math.floor(meta.height / rows);
@@ -45,11 +47,12 @@ export async function importProps() {
       keyMagenta(data);
       const trimmed = await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } }).png().toBuffer()
         .then((b) => sharp(b).trim({ threshold: 0 }).toBuffer({ resolveWithObject: true }));
-      const w = Math.max(1, Math.round(trimmed.info.width * (height / trimmed.info.height)));
-      const small = await sharp(trimmed.data).resize(w, height, { kernel: 'lanczos3' }).ensureAlpha().raw().toBuffer();
+      const h = heights?.[i] ?? height;
+      const w = Math.max(1, Math.round(trimmed.info.width * (h / trimmed.info.height)));
+      const small = await sharp(trimmed.data).resize(w, h, { kernel: 'lanczos3' }).ensureAlpha().raw().toBuffer();
       for (let p = 3; p < small.length; p += 4) small[p] = small[p] >= 128 ? 255 : 0;
       applyPaletteRGBA(small, palette);
-      await sharp(small, { raw: { width: w, height, channels: 4 } }).png({ compressionLevel: 9 })
+      await sharp(small, { raw: { width: w, height: h, channels: 4 } }).png({ compressionLevel: 9 })
         .toFile(join(OUT, `${name}_${String(i + 1).padStart(2, '0')}.png`));
       made++;
     }

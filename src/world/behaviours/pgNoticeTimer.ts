@@ -1,5 +1,6 @@
 import { gameEvents } from '../../core/events';
 import { useGameStore } from '../../store';
+import { StatsManager } from '../../systems/StatsManager';
 import { PG_NOTICE_DAYS } from '../../utils/constants';
 import type { Behaviour } from './index';
 
@@ -33,7 +34,10 @@ export const pgNoticeTimer: Behaviour = {
       if (next > 0) gameEvents.emit('ui:toast', { text: `${next} night${next === 1 ? '' : 's'} left at Shanthamma's.` });
       else {
         store().setFlag(FLAG_NOTICE_DUE, true);
-        gameEvents.emit('ui:toast', { text: 'Notice is up. Shanthamma has your deposit ready.' });
+        // The deposit comes back — whatever was haggled (NegotiationManager's saved price), else the opening ask.
+        const deposit = store().counters['neg.neg_shanthamma.deposit'] ?? 10_000;
+        StatsManager.getInstance().earn(deposit, 'pg_deposit_back', "Shanthamma (deposit)");
+        gameEvents.emit('ui:toast', { text: `Notice is up. Shanthamma returned your ₹${deposit.toLocaleString('en-IN')} deposit.`, icon: 'upi' });
       }
     };
     const offs = [gameEvents.on('flag:set', onFlag), gameEvents.on('time:slept', onSlept)];

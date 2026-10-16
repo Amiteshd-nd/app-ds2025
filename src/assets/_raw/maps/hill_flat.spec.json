@@ -1,0 +1,130 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 render) \u2192 24x16 tiles, interior at character scale (ADR-100). One room x 25-1050 y 200-810 with the kitchen x 1095-1500 behind a partition (doorway y 600-700), the bathroom and balcony not walkable. Furniture is placed by the game (sprite objects, ADR-122) at the *_spot spawns, so the floor is left empty here.",
+  "name": "hill_flat",
+  "cols": 24,
+  "rows": 16,
+  "units": "px",
+  "blocks": [
+    [
+      0,
+      0,
+      1536,
+      200
+    ],
+    [
+      0,
+      200,
+      25,
+      624
+    ],
+    [
+      1050,
+      200,
+      45,
+      400
+    ],
+    [
+      1050,
+      700,
+      45,
+      110
+    ],
+    [
+      1095,
+      340,
+      200,
+      190
+    ],
+    [
+      1290,
+      410,
+      246,
+      120
+    ],
+    [
+      1265,
+      530,
+      120,
+      70
+    ],
+    [
+      1405,
+      555,
+      80,
+      110
+    ],
+    [
+      1500,
+      200,
+      36,
+      624
+    ],
+    [
+      0,
+      810,
+      790,
+      214
+    ],
+    [
+      910,
+      810,
+      626,
+      214
+    ],
+    [
+      790,
+      830,
+      120,
+      194
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "door",
+      "x": 850,
+      "y": 735
+    },
+    {
+      "name": "cot_spot",
+      "x": 150,
+      "y": 330
+    },
+    {
+      "name": "table_spot",
+      "x": 560,
+      "y": 300
+    },
+    {
+      "name": "stove_spot",
+      "x": 1300,
+      "y": 380
+    },
+    {
+      "name": "drum_spot",
+      "x": 960,
+      "y": 720
+    },
+    {
+      "name": "box_spot",
+      "x": 420,
+      "y": 720
+    }
+  ],
+  "zones": [
+    {
+      "name": "front_door",
+      "x": 790,
+      "y": 790,
+      "w": 120,
+      "h": 40
+    },
+    {
+      "name": "bed",
+      "x": 120,
+      "y": 300,
+      "w": 150,
+      "h": 160
+    }
+  ],
+  "occluders": []
+}

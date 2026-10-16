@@ -31,6 +31,8 @@ import { beh_breathing } from './breathing';
 import { beh_carousel } from './carousel';
 import { officeClockIn } from './officeClockIn';
 import { pgNoticeTimer } from './pgNoticeTimer';
+import { signalZones } from './signalZones';
+import { salaryCountdown } from './salaryCountdown';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -39,6 +41,8 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   beh_carousel,
   officeClockIn,
   pgNoticeTimer,
+  signalZones,
+  salaryCountdown,
 };
 
 /**
