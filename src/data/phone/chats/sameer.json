@@ -25,6 +25,12 @@
       "from": "them",
       "text": "Monday. Canteen. Don't be late twice - Divya counts.",
       "after": "act1_done"
+    },
+    {
+      "id": "sameer_5",
+      "from": "them",
+      "text": "Salary day! Celebrate by buying a scooter, like a proper Whitefield person. Second-hand - ITPL Main Road, Noor Motors, ask for Noor. Don't pay sticker.",
+      "after": "first_salary"
     }
   ]
 }

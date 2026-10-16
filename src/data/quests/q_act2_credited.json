@@ -1,0 +1,65 @@
+{
+  "id": "q_act2_credited",
+  "title": "Credited",
+  "description": "The first salary. Sameer knows a man on ITPL Main Road who sells scooters that start.",
+  "chapter": 2,
+  "district": "scooter_showroom",
+  "type": "search",
+  "prerequisite_quests": [
+    "q_act1_cubbon"
+  ],
+  "objectives": [
+    {
+      "id": "salary",
+      "text": "Wait for the salary to land",
+      "type": "flag",
+      "target": "first_salary"
+    },
+    {
+      "id": "showroom",
+      "text": "Find Noor Motors on ITPL Main Road (bus from the Whitefield street)",
+      "type": "flag",
+      "target": "showroom_arrived",
+      "destination": "scooter_showroom"
+    },
+    {
+      "id": "noor",
+      "text": "Talk to Noor about the grey scooter",
+      "type": "flag",
+      "target": "noor_met",
+      "destination": "scooter_showroom"
+    },
+    {
+      "id": "decide",
+      "text": "Buy it outright, take the EMI, or walk away",
+      "type": "flag",
+      "target": "scooter_decided",
+      "destination": "scooter_showroom"
+    },
+    {
+      "id": "fuel",
+      "text": "Fill the tank at the bunk next door",
+      "type": "flag",
+      "target": "fuel_filled",
+      "optional": true,
+      "destination": "scooter_showroom"
+    },
+    {
+      "id": "ride",
+      "text": "Ride it somewhere (Maps → RIDE)",
+      "type": "flag",
+      "target": "scooter_ridden",
+      "optional": true
+    }
+  ],
+  "rewards": {
+    "xp": 50,
+    "xp_branch": "city_survival",
+    "reputation": 3
+  },
+  "on_complete": {
+    "set_flags": [
+      "act2_credited_done"
+    ]
+  }
+}

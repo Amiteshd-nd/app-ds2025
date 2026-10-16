@@ -3,6 +3,8 @@ import { CITY_MAP, DISTRICTS, QUESTS } from '../data';
 import { useGameStore } from '../store';
 import type { CityMapData, DistrictDef, LatLng, MapPoiKind, TransitKind } from '../utils/types';
 import { ReputationManager } from './ReputationManager';
+import { FUEL_COUNTER } from './StatsManager';
+import { FUEL_PER_KM, SCOOTER_MINUTES_PER_KM } from '../utils/constants';
 
 /**
  * MapManager — the fullscreen map's rules, no pixels (P6b, ADR-113/115).
@@ -304,6 +306,35 @@ export class MapManager {
       .filter((p) => (!p.showIf || flags[p.showIf]) && (!p.hideIf || !flags[p.hideIf]))
       .filter((p) => (p.kind !== 'uv' && p.kind !== 'skull') || flags.act4_started)
       .map((p) => ({ kind: p.kind, node: p.node }));
+  }
+
+  /**
+   * The scooter (story 2.1, ADR-126): once owned, ride to any visited outdoor
+   * pocket from here; the cost is fuel (FUEL_PER_KM of the tank per km, at
+   * least 1 point) and game minutes. Null when there is no scooter, no
+   * route distance, or the tank is too low.
+   */
+  scooterRide(toDistrictId: string): { fuel: number; minutes: number; km: number; enough: boolean } | null {
+    const store = useGameStore.getState();
+    if (!store.flags.scooter_owned) return null;
+    const here = this.here();
+    const from = here ? this.districts[here] : undefined, to = this.districts[toDistrictId];
+    if (!from || !to || from.id === to.id || !to.realworld || !('lat' in to.realworld)) return null;
+    if (!store.flags[FLAG.visited(to.id)]) return null;
+    const km = kmBetween(this.at(from), this.at(to));
+    const fuel = Math.max(1, Math.ceil(km * FUEL_PER_KM));
+    const tank = store.counters[FUEL_COUNTER] ?? 0;
+    return { fuel, minutes: Math.max(2, Math.round(km * SCOOTER_MINUTES_PER_KM)), km, enough: tank >= fuel };
+  }
+
+  /** Spend the fuel for a ride (the map's RIDE button); false when the tank is short. */
+  rideScooter(toDistrictId: string): boolean {
+    const ride = this.scooterRide(toDistrictId);
+    if (!ride || !ride.enough) return false;
+    const store = useGameStore.getState();
+    store.setCounter(FUEL_COUNTER, Math.max(0, (store.counters[FUEL_COUNTER] ?? 0) - ride.fuel));
+    if (!store.flags.scooter_ridden) store.setFlag('scooter_ridden', true);
+    return true;
   }
 
   /**

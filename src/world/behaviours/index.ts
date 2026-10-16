@@ -41,6 +41,8 @@ import { busSchedule } from './busSchedule';
 import { busRide } from './busRide';
 import { photoSpots } from './photoSpots';
 import { companion } from './companion';
+import { emi } from './emi';
+import { fuelSpots } from './fuelSpots';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -55,6 +57,8 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   busRide,
   photoSpots,
   companion,
+  emi,
+  fuelSpots,
 };
 
 /**

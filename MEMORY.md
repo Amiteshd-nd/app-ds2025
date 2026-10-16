@@ -74,3 +74,8 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Seven layers from the manifest; `sorted` = cut-outs with footprints + placed objects; `above` = overhead cut-outs; `collision` rects (kind) on generated maps; `FEET_BOX` token; `feetY` from the body. Migrate a map = re-author its spec (`buildings` / `sorted` / `above`), `sop: true`, re-import, A5 walk, AUDIT_LOG line.
 - The reachability rule (8 px BFS with the feet box) is strict on purpose: it found the hill pole and the ITPL autos blocking whole lanes. Block only where a thing meets the ground.
 - Keying thin poles against a noisy road needs `bgShare` 0.03–0.06; small solid things (benches, bins, tables, pots) are fine in `rect` mode; canopies that will not key go `rect` with a tight rect. Cables never key cleanly — leave them (T-051).
+
+## P10 (2026-10-16) — 2.1 "Credited", built, awaiting audit
+- Paydays, Noor Motors on ITPL Main Road, outright haggle vs EMI (`emi` behaviour on `wallet:earned` reason salary), fuel as a counter + `StatEffect.fuel`, Maps RIDE through `MapManager.scooterRide`, contextual fuel gauge (`fuelSpots` zones + `fuel:show`). User's decisions: ₹42,000, both EMI and outright, ITPL road, stay in Whitefield.
+- Figma `generate_image` lost its planKey URL mode mid-session: create a scratch design file (`create_new_file` on the personal plan), generate with `fileKey`, then `download_assets` and curl the raw image URL.
+

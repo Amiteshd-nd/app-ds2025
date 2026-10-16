@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { getDistrict } from '../data';
 import { useGameStore } from '../store';
 import { TimeManager } from '../systems/TimeManager';
+import { FUEL_COUNTER } from '../systems/StatsManager';
+import { gameEvents } from '../core/events';
 import { FADE_MS, GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS, TRANSIT_CARD_MS } from '../utils/constants';
 import type { TransitSceneData, WorldSceneData } from './WorldScene';
 
@@ -41,7 +43,8 @@ export class TransitScene extends Phaser.Scene {
     }
 
     const destination = getDistrict(data.exit.to);
-    const label = data.exit.card ?? `${data.exit.transit} → ${destination.name}`;
+    const fuel = useGameStore.getState().counters[FUEL_COUNTER] ?? 0;
+    const label = (data.exit.card ?? `${data.exit.transit} → ${destination.name}`) + (data.exit.transit === 'scooter' ? `\nFuel ${Math.round(fuel)}%` : '');
 
     this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 8, label, {
@@ -79,6 +82,8 @@ export class TransitScene extends Phaser.Scene {
         spawnId: this.transit.exit.spawn,
         fromDistrict: this.transit.fromDistrict,
       } satisfies WorldSceneData);
+      // The gauge shows for a moment after a ride (ADR-126, contextual meters).
+      if (this.transit.exit.transit === 'scooter') gameEvents.emit('fuel:show', { fuel: useGameStore.getState().counters[FUEL_COUNTER] ?? 0 });
     });
   }
 }

@@ -117,6 +117,25 @@ export const CYCLE_FEE = 60;
 /** The Church Street guitar, ₹ (story 1.6 F4). */
 export const GUITAR_PRICE = 6_500;
 
+// Story 2.1 "Credited" (ADR-126): the scooter, the EMI, the fuel.
+/** Nights between salaries after the first (the routine). */
+export const PAYDAY_DAYS = 30;
+/** Noor's sticker price for the second-hand scooter, ₹ (floor in neg_scooter). */
+export const SCOOTER_PRICE = 38_000;
+/** EMI: down payment, instalment on each salary day, number of instalments. */
+export const EMI_DOWN = 6_000;
+export const EMI_INSTALMENT = 3_200;
+export const EMI_MONTHS = 10;
+/** Fuel gauge 0–100; a full tank is about three Whitefield ↔ Indiranagar round trips (≈ 60 km). */
+export const FUEL_TANK = 100;
+export const FUEL_PER_KM = 100 / 60;
+/** A full tank at the bunk, ₹; a ₹100 top-up adds FUEL_TOPUP points. */
+export const FUEL_FULL_PRICE = 350;
+export const FUEL_TOPUP_PRICE = 100;
+export const FUEL_TOPUP = 30;
+/** Scooter: game minutes per km (about 24 km/h through Whitefield traffic). */
+export const SCOOTER_MINUTES_PER_KM = 2.5;
+
 // --- Food (profile doc §2, components §7; ADR-97) --------------------------
 /**
  * Game minutes per food point while awake. 6 → a full meter lasts ten game

@@ -1,7 +1,7 @@
 import { gameEvents } from '../../core/events';
 import { useGameStore } from '../../store';
 import { StatsManager } from '../../systems/StatsManager';
-import { SALARY, SALARY_DAYS } from '../../utils/constants';
+import { PAYDAY_DAYS, SALARY, SALARY_DAYS } from '../../utils/constants';
 import type { Behaviour } from './index';
 
 export const FLAG_FLAT_SIGNED = 'flat_signed';
@@ -19,7 +19,8 @@ export const salaryCountdown: Behaviour = {
   attach() {
     const store = () => useGameStore.getState();
     const start = () => {
-      if (store().counters[SALARY_DAYS_LEFT] !== undefined || store().flags[FLAG_FIRST_SALARY]) return;
+      if (store().counters[SALARY_DAYS_LEFT] !== undefined) return;
+      if (store().flags[FLAG_FIRST_SALARY]) { store().setCounter(SALARY_DAYS_LEFT, PAYDAY_DAYS); return; }
       store().setCounter(SALARY_DAYS_LEFT, SALARY_DAYS);
       gameEvents.emit('ui:toast', { text: `Salary in ${SALARY_DAYS} days. Spend like it.` });
     };
@@ -31,9 +32,13 @@ export const salaryCountdown: Behaviour = {
       const next = left - 1;
       store().setCounter(SALARY_DAYS_LEFT, next);
       if (next === 0) {
+        const first = !store().flags[FLAG_FIRST_SALARY];
         StatsManager.getInstance().earn(SALARY, 'salary', 'Salary');
         store().setFlag(FLAG_FIRST_SALARY, true);
-        gameEvents.emit('ui:toast', { text: 'Salary credited. First one.', icon: 'upi' });
+        gameEvents.emit('ui:toast', { text: first ? 'Salary credited. First one.' : 'Salary credited.', icon: 'upi' });
+        // The routine (story 2.1, ADR-126): the next payday is a month away; the first one brings the two-wheeler tutorial.
+        store().setCounter(SALARY_DAYS_LEFT, PAYDAY_DAYS);
+        if (first) gameEvents.emit('ui:toast', { text: 'A two-wheeler gets you to work and nearby areas fast — mind the fuel.' });
       } else if (next === 7 || next === 3 || next === 1) {
         gameEvents.emit('ui:toast', { text: `Salary in ${next} day${next === 1 ? '' : 's'}.` });
       }

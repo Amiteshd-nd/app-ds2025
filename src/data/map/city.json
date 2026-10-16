@@ -851,6 +851,48 @@
      77.5949
     ]
    ]
+  },
+  {
+   "id": "bus_itpl",
+   "kind": "road",
+   "label": "BMTC 500-D",
+   "connects": [
+    "whitefield_street",
+    "scooter_showroom"
+   ],
+   "points": [
+    [
+     12.9698,
+     77.75
+    ],
+    [
+     12.9775,
+     77.7395
+    ],
+    [
+     12.9862,
+     77.729
+    ]
+   ]
+  },
+  {
+   "id": "walk_itpl_road",
+   "kind": "walk",
+   "label": "ITPL Main Road",
+   "connects": [
+    "scooter_showroom",
+    "office_gate"
+   ],
+   "points": [
+    [
+     12.9862,
+     77.729
+    ],
+    [
+     12.9874,
+     77.7366
+    ]
+   ]
   }
  ],
  "metro": [

@@ -85,10 +85,10 @@ export function walletView(balance: number, moved: number | null): WalletView {
 
 // ── Meters ───────────────────────────────────────────────────────────────
 
-export type MeterId = 'health' | 'food' | 'stress';
+export type MeterId = 'health' | 'food' | 'stress' | 'fuel';
 export interface Meter {
   id: MeterId;
-  icon: Extract<HudGlyphName, 'heart' | 'bowl' | 'bolt'>;
+  icon: Extract<HudGlyphName, 'heart' | 'bowl' | 'bolt' | 'fuel'>;
   /** Filled blocks out of 5. */
   blocks: number;
   /** Drawn in the alert colour: the stat bites now. */
@@ -102,11 +102,16 @@ export const METER_BITES = { health: 30, food: HUNGRY_AT, stress: 70 } as const;
 
 const blocksOf = (v: number): number => Math.max(0, Math.min(5, Math.ceil(v / 20)));
 
-export function meters(stats: Pick<PlayerStats, 'health' | 'food' | 'stress'>, mode: 'auto' | 'always'): Meter[] {
+/** Fuel bites at a fifth of a tank (ADR-126). */
+export const FUEL_BITES = 20;
+
+export function meters(stats: Pick<PlayerStats, 'health' | 'food' | 'stress'>, mode: 'auto' | 'always', fuel: number | null = null): Meter[] {
   const out: Meter[] = [];
   if (mode === 'always' || stats.health < METER_SHOWS.health) out.push({ id: 'health', icon: 'heart', blocks: blocksOf(stats.health), critical: stats.health < METER_BITES.health });
   if (mode === 'always' || stats.food < METER_SHOWS.food) out.push({ id: 'food', icon: 'bowl', blocks: blocksOf(stats.food), critical: stats.food < METER_BITES.food });
   if (mode === 'always' || stats.stress > 0) out.push({ id: 'stress', icon: 'bolt', blocks: blocksOf(stats.stress), critical: stats.stress >= METER_BITES.stress });
+  // The fuel gauge is contextual: the caller passes it only at a bunk or just after a ride (ADR-118/126).
+  if (fuel !== null) out.push({ id: 'fuel', icon: 'fuel', blocks: blocksOf(fuel), critical: fuel < FUEL_BITES });
   return out;
 }
 

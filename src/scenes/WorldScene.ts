@@ -477,9 +477,11 @@ export class WorldScene extends Phaser.Scene {
    * Fast travel from the map (ADR-115): ride straight to a district's default
    * spawn. The fare is already paid by the caller.
    */
-  travelTo(districtId: string, transit: DistrictExit['transit']): void {
+  travelTo(districtId: string, transit: DistrictExit['transit'], minutes?: number): void {
     this.scene.resume();
-    this.leaveVia({ zone: '', to: districtId, spawn: getDistrict(districtId).defaultSpawn, transit });
+    const name = getDistrict(districtId).name;
+    const card = transit === 'scooter' ? `Scooter → ${name}` : undefined;
+    this.leaveVia({ zone: '', to: districtId, spawn: getDistrict(districtId).defaultSpawn, transit, ...(minutes ? { minutes } : {}), ...(card ? { card } : {}) });
   }
 
   /**

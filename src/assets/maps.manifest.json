@@ -192,6 +192,24 @@
         "ambient_area"
       ],
       "sop": true
+    },
+    "scooter_showroom": {
+      "file": "scooter_showroom.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "bus_drop",
+        "showroom",
+        "bunk",
+        "scooter_park",
+        "showroom_arrival",
+        "bus_out",
+        "road_east",
+        "bunk_zone",
+        "ambient_area"
+      ],
+      "sop": true
     }
   }
 }

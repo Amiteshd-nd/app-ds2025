@@ -96,6 +96,8 @@ export interface StatEffect {
   reputation?: number;
   /** Move a named NPC's relationship to a state — Ananya's number exchanged (ADR-123). */
   relationship?: { npc: string; state: RelationshipState };
+  /** Fuel added to (or taken from) the scooter's tank, 0–100 (ADR-126). */
+  fuel?: number;
 }
 
 // --- Relationships (game_components §8, ADR-123) ---------------------------
@@ -350,6 +352,8 @@ export interface DistrictDef {
   photoSpots?: Array<{ zone: string; photo: string }>;
   /** An NPC who walks with the player while `whileFlag` is set and `untilFlag` is not (Ananya's loop, ADR-123) — run by `companion`. */
   companion?: CompanionDef;
+  /** Zones where the fuel gauge shows (a petrol bunk's forecourt, ADR-126) — run by `fuelSpots`. */
+  fuelSpots?: string[];
 }
 
 /**

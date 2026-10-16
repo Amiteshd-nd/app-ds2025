@@ -48,6 +48,8 @@ export interface GameEvents {
   'ui:timer': { text: string | null };
   /** A named NPC's relationship moved (ADR-123). */
   'relationship:changed': { npcId: string; state: string };
+  /** Show the fuel gauge for a moment (after a ride lands, ADR-126). */
+  'fuel:show': { fuel: number };
   /** A City Moments photo was taken (ADR-123). `done`/`total` are the set's progress. */
   'photo:taken': { photoId: string; set: string | null; done: number; total: number };
 }

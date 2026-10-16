@@ -4,6 +4,7 @@ import { QUESTS, getDistrict } from '../data';
 import { pressInteract, setAxis } from '../input/InputMap';
 import { platform } from '../platform';
 import { useGameStore } from '../store';
+import { FUEL_COUNTER } from '../systems/StatsManager';
 import { settings, useSettings } from '../systems/SettingsManager';
 import { DialogueBox, type DialogueBoxCallbacks } from '../ui/DialogueBox';
 import { HUD_GLYPHS } from '../ui/hud/glyphs';
@@ -84,6 +85,8 @@ export class HudScene extends Phaser.Scene {
   private savedUntil = 0;
   /** A countdown under the clock ("500-D in 1:12"), from `ui:timer`; null = no plate (ADR-123). */
   private timer: string | null = null;
+  /** The fuel gauge shows while standing at a bunk, and for a moment after a ride (ADR-126). */
+  private fuelUntil = 0;
   private bob = false;
   private refreshTimer: Phaser.Time.TimerEvent | null = null;
   private off: Array<() => void> = [];
@@ -136,6 +139,7 @@ export class HudScene extends Phaser.Scene {
       gameEvents.on('wallet:earned', ({ amount }) => this.moved(amount)),
       gameEvents.on('save:written', () => { this.savedUntil = this.time.now + motion('m.hud.saved'); this.render(); }),
       gameEvents.on('ui:timer', ({ text }) => { if (text !== this.timer) { this.timer = text; this.render(); } }),
+      gameEvents.on('fuel:show', () => { this.fuelUntil = this.time.now + motion('m.hud.wallet.hold'); this.render(); }),
       // Gamepad while walking: A talks (the dialogue card takes A itself while it is up).
       attachGamepad(this, { button: (b) => { if (b === PAD.A && !this.dialogueOpen && this.root.visible) pressInteract(); } }, () => this.alive),
     );
@@ -257,7 +261,8 @@ export class HudScene extends Phaser.Scene {
     if (line !== this.objective) { this.objective = line; this.objectiveUntil = now + motion('m.hud.objective.hold'); }
     const expanded = this.objective !== null && (!prefs.hud.objectiveAutoHide || now < this.objectiveUntil);
     const showCard = now < this.cardUntil && store.activeDistrict !== null;
-    const meterList = meters(store.stats, prefs.hud.meters as 'auto' | 'always');
+    const fuelShown = store.flags.scooter_owned && (store.fuelContext || now < this.fuelUntil);
+    const meterList = meters(store.stats, prefs.hud.meters as 'auto' | 'always', fuelShown ? (store.counters[FUEL_COUNTER] ?? 0) : null);
     const rows = stackRows({ objective: this.objective !== null, location: showCard, meters: meterList });
     const card = showCard ? locationCard(getDistrict(store.activeDistrict!).name, this.firstVisit, L.locationMaxTextW) : null;
     const objective = this.objective !== null ? objectiveText(this.objective, L.objective.maxTextW) : '';
@@ -352,7 +357,7 @@ export class HudScene extends Phaser.Scene {
 
   /** One timer for the next plate that leaves (objective collapse, card, wallet, SAVED, toast). */
   private scheduleRefresh(now: number): void {
-    const deadlines = [this.objectiveUntil, this.cardUntil, this.wallet?.until ?? 0, this.savedUntil, this.toasts.nextChange() ?? 0].filter((t) => t > now);
+    const deadlines = [this.objectiveUntil, this.cardUntil, this.wallet?.until ?? 0, this.savedUntil, this.fuelUntil, this.toasts.nextChange() ?? 0].filter((t) => t > now);
     this.refreshTimer?.remove();
     this.refreshTimer = null;
     if (!deadlines.length) return;

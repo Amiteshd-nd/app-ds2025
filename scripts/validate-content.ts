@@ -26,7 +26,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship'];
+const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -281,6 +281,7 @@ export function validateContent(
       if (!spot.photo || (phone.photos && !photoIds.has(spot.photo))) add(where, `${d} photoSpot "${spot.zone}" frames unknown photo "${spot.photo}" (phone/photos.json)`);
     }
     if ((district.photoSpots?.length ?? 0) > 0 && !(district.behaviours ?? []).includes('photoSpots')) add(where, `${d} lists photoSpots but not the "photoSpots" behaviour`);
+    if ((district.fuelSpots?.length ?? 0) > 0 && !(district.behaviours ?? []).includes('fuelSpots')) add(where, `${d} lists fuelSpots but not the "fuelSpots" behaviour`);
     if (district.companion !== undefined) {
       const c = district.companion;
       if (!(district.npcs ?? []).some((ref: Json) => ref.id === c.npc)) add(where, `${d} companion "${c.npc}" is not an NPC placed in this district`);
@@ -915,6 +916,7 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     for (const trigger of district.triggers ?? []) need(trigger.zone, 'trigger zone');
     for (const bus of district.buses ?? []) for (const k of ['from', 'stop', 'to'] as const) need(bus[k], `bus "${bus.id}" ${k} spawn`);
     for (const spot of district.photoSpots ?? []) need(spot.zone, `photoSpot "${spot.photo}" zone`);
+    for (const z of district.fuelSpots ?? []) need(z, 'fuel zone');
     for (const z of district.signalZones ?? []) need(z.zone, 'signal zone');
 
     for (const exit of district.exits ?? []) {

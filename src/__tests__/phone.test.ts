@@ -103,7 +103,7 @@ describe('apps, UPI and Maps', () => {
     useGameStore.getState().setQuests({ active: { q_act0_pg_hunt: ['find_lane'] }, completed: ['q_act0_arrival'] });
     useGameStore.getState().setActiveDistrict('whitefield_hotel');
     const m = phone().maps();
-    expect(m.pins.map((p) => p.districtId).sort()).toEqual(['airport', 'ambedkar_nagar_hill', 'cubbon_park', 'office_gate', 'prashanth_layout', 'whitefield_street']);
+    expect(m.pins.map((p) => p.districtId).sort()).toEqual(['airport', 'ambedkar_nagar_hill', 'cubbon_park', 'office_gate', 'prashanth_layout', 'scooter_showroom', 'whitefield_street']);
     expect(m.here).toBe('whitefield_street');
     expect(m.pins.find((p) => p.districtId === 'whitefield_street')!.state).toBe('here');
     expect(m.destination).toMatchObject({ districtId: 'prashanth_layout', label: 'Prashanth Layout' });

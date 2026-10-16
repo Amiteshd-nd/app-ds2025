@@ -106,6 +106,8 @@ export interface GameState {
   relationships: Record<string, RelationshipState>;
   /** The photo framed where the player stands (a photoSpots zone), or null. Not saved. */
   photoSpot: string | null;
+  /** Standing at a petrol bunk: the HUD shows the fuel gauge (ADR-126). Not saved. */
+  fuelContext: boolean;
 
   setBotCount: (botCount: number) => void;
   setPlayerName: (playerName: string) => void;
@@ -139,6 +141,7 @@ export interface GameState {
   setSignalOverride: (bars: number | null, flag?: string | null) => void;
   setRelationship: (npcId: string, state: RelationshipState) => void;
   setPhotoSpot: (photoId: string | null) => void;
+  setFuelContext: (on: boolean) => void;
 
   hydrate: (partial: Partial<GameState>) => void;
   reset: () => void;
@@ -207,6 +210,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   signalZoneFlag: null,
   relationships: {},
   photoSpot: null,
+  fuelContext: false,
 
   setBotCount: (botCount) => set({ botCount }),
   setPlayerName: (playerName) => set({ playerName }),
@@ -268,6 +272,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   setSignalOverride: (signalOverride, flag = null) => set({ signalOverride, signalZoneFlag: signalOverride === null ? null : flag }),
   setRelationship: (npcId, state) => set((s) => ({ relationships: { ...s.relationships, [npcId]: state } })),
   setPhotoSpot: (photoSpot) => set({ photoSpot }),
+  setFuelContext: (fuelContext) => set({ fuelContext }),
 
   hydrate: (partial) => set(partial),
 
@@ -294,5 +299,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       signalZoneFlag: null,
       relationships: {},
       photoSpot: null,
+      fuelContext: false,
     }),
 }));

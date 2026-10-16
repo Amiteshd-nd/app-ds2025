@@ -2,6 +2,10 @@ import { gameEvents } from '../core/events';
 import { useGameStore } from '../store';
 import { InventoryManager } from './InventoryManager';
 import { RelationshipManager } from './RelationshipManager';
+import { FUEL_TANK } from '../utils/constants';
+
+/** Store counter holding the scooter's fuel, 0–100 (ADR-126). */
+export const FUEL_COUNTER = 'fuel';
 import { ReputationManager } from './ReputationManager';
 import type { AdjustableStat, PlayerStats, SkillBranchName, StatEffect } from '../utils/types';
 
@@ -116,6 +120,10 @@ export class StatsManager {
       ReputationManager.getInstance().add(effect.reputation, district);
     }
     if (effect.relationship) RelationshipManager.getInstance().set(effect.relationship.npc, effect.relationship.state);
+    if (effect.fuel) {
+      const store = useGameStore.getState();
+      store.setCounter(FUEL_COUNTER, Math.max(0, Math.min(FUEL_TANK, (store.counters[FUEL_COUNTER] ?? 0) + effect.fuel)));
+    }
 
     if (effect.item_add) {
       const added = InventoryManager.getInstance().add(effect.item_add);

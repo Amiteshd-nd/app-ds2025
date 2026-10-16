@@ -1,0 +1,122 @@
+{
+  "id": "dlg_noor",
+  "speaker": "Noor · Noor Motors",
+  "portrait": "npc_noor",
+  "enter": [
+    {
+      "flag": "scooter_paid_off",
+      "node": "paid_off"
+    },
+    {
+      "flag": "emi_started",
+      "node": "emi_customer"
+    },
+    {
+      "flag": "scooter_owned",
+      "node": "owner"
+    },
+    {
+      "flag": "noor_met",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Sameer's friend? Good, good. Second-hand, but I keep them like my own - service record, new battery, tyres I'll argue about. This grey one: thirty-eight thousand. Outright, or EMI - six down, thirty-two hundred a month for ten months, deducted on your salary day.",
+      "effect": {
+        "flags": {
+          "noor_met": true
+        }
+      },
+      "choices": [
+        {
+          "text": "Outright. Let's talk price.",
+          "next": "haggle"
+        },
+        {
+          "text": "EMI. ₹6,000 down. (₹6,000)",
+          "next": "emi_deal",
+          "effect": {
+            "wallet": -6000,
+            "flags": {
+              "scooter_owned": true,
+              "emi_started": true,
+              "scooter_decided": true
+            },
+            "fuel": 30
+          }
+        },
+        {
+          "text": "Let me think about it.",
+          "next": "think",
+          "effect": {
+            "flags": {
+              "scooter_decided": true
+            }
+          }
+        }
+      ]
+    },
+    "haggle": {
+      "text": "Thirty-eight. Tell me why it should be less.",
+      "negotiate": {
+        "id": "neg_scooter",
+        "deal": "outright_done",
+        "walk": "walked"
+      }
+    },
+    "outright_done": {
+      "text": "Keys. Papers in the glovebox, RC transfer I'll do by Friday. Four litres in the tank - the bunk next door is mine too, so don't go anywhere else. Ride slow the first week; the clutch-less ones fool you.",
+      "effect": {
+        "fuel": 30,
+        "flags": {
+          "scooter_decided": true
+        }
+      }
+    },
+    "emi_deal": {
+      "text": "Six thousand received. Ten more on ten salary days - I know Sameer's company pays on the first, I know everyone's company. Keys. Four litres in the tank; the bunk next door is mine too."
+    },
+    "walked": {
+      "text": "Think, think. The grey one will be here. Or it won't - Tuesdays are busy."
+    },
+    "think": {
+      "text": "Take your time. Walk once around, look at the red one also. Everyone looks at the red one and buys the grey one."
+    },
+    "again": {
+      "text": "Decided? Outright we can talk; EMI is six down, thirty-two hundred a month.",
+      "choices": [
+        {
+          "text": "Outright. Let's talk price.",
+          "next": "haggle"
+        },
+        {
+          "text": "EMI. ₹6,000 down. (₹6,000)",
+          "next": "emi_deal",
+          "effect": {
+            "wallet": -6000,
+            "flags": {
+              "scooter_owned": true,
+              "emi_started": true,
+              "scooter_decided": true
+            },
+            "fuel": 30
+          }
+        },
+        {
+          "text": "Not yet.",
+          "next": "think"
+        }
+      ]
+    },
+    "owner": {
+      "text": "How is she running? Any noise from the back, bring it Sunday, no charge. Fuel is next door."
+    },
+    "emi_customer": {
+      "text": "EMI customer! Don't worry, I don't call. The bank calls. Petrol is next door, tell him Noor sent you - same price, but he will smile."
+    },
+    "paid_off": {
+      "text": "Ten out of ten. She is fully yours now. Come for the service, not for the EMI."
+    }
+  }
+}

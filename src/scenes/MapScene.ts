@@ -466,6 +466,9 @@ export class MapScene extends Phaser.Scene {
         }]);
         const ft = mm.fastTravel(sel.id);
         if (ft) actions.push(['fast', `METRO · ₹${ft.fare}`, () => this.fastTravel(sel.id, ft.fare)]);
+        // The scooter (ADR-126): fuel, not fare.
+        const ride = mm.scooterRide(sel.id);
+        if (ride) actions.push(['ride', `RIDE · FUEL -${ride.fuel}%`, () => this.rideScooter(sel.id)]);
       }
     }
     let ax = Math.round(SCREEN.w / 2 - actions.reduce((w, [, l]) => w + measure(l, true) + 16 + 6, -6) / 2);
@@ -552,6 +555,14 @@ export class MapScene extends Phaser.Scene {
       this.img(x + 8, gy + Math.max(0, Math.floor((8 - row.glyph.length) / 2)), bake(this, `map:legend:g${i}`, gw, row.glyph.length, (g) => bitmap(g, row.glyph, 0, 0, hex(row.tint))));
       this.text(x + 22, gy + 1, row.label, 'hud.text');
     });
+  }
+
+  private rideScooter(districtId: string): void {
+    const world = this.world();
+    if (!world) return;
+    if (!MapManager.getInstance().rideScooter(districtId)) { this.hint = 'Tank is empty. Find a bunk.'; this.render(); return; }
+    this.finishClose();
+    world.travelTo(districtId, 'scooter', MapManager.getInstance().scooterRide(districtId)?.minutes);
   }
 
   private fastTravel(districtId: string, fare: number): void {

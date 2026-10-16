@@ -9,7 +9,8 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 - [x] T-050 Street tileset: tag `tall` and `door` tile properties in `street.tiles.json` so rule 2 and rule 4 bite on tile-built maps; move the street's awnings to `props_above`
 
 ## Act 2 (stubs co-authored with the user; Act 1 complete 2026-10-16)
-- [ ] T-047 Act 2–4 scene STUBS scaffolded from the story script (`src/data/scenes/act2_*…act4_*`, status STUB) — **the user co-authors 2.1 "Credited" first** (draft beats + open questions in HANDOFF §3), then P10 builds it
+- [ ] T-052 P10 = 2.1 "Credited" — **built 2026-10-16, awaiting the user's audit** (ADR-126: paydays, Noor Motors pocket on ITPL Main Road, outright haggle + EMI, fuel + bunk, Maps RIDE, contextual fuel gauge, parked scooter by flag)
+- [x] T-047 Act 2–4 scene STUBS scaffolded; 2.1 decided by the user and built as P10 (T-052); 2.2+ remain stubs to co-author
 - [ ] T-016 / T-017 mobile smoke tests are blocked on this machine: no Xcode (Command Line Tools only) and no Android SDK — install one, then `pnpm cap:android` / `cap:ios`
 
 ## Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122 · P9 Cubbon ADR-123/124)

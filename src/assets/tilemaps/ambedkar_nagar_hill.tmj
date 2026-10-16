@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 25,
+     "id": 26,
      "name": "pole",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 27,
      "name": "transformer",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 28,
      "name": "chai_table",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 29,
      "name": "stools",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 30,
      "name": "shop_display",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 31,
      "name": "pot_room1",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 32,
      "name": "awning",
      "type": "above",
      "rotation": 0,
@@ -2916,7 +2916,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 33,
      "name": "tarp",
      "type": "above",
      "rotation": 0,
@@ -3823,7 +3823,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 15,
+     "id": 16,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3841,7 +3841,7 @@
      ]
     },
     {
-     "id": 16,
+     "id": 17,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3859,7 +3859,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 18,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3877,7 +3877,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 19,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3895,7 +3895,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 20,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3913,7 +3913,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 21,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3931,7 +3931,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 22,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3949,7 +3949,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 23,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3967,7 +3967,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 24,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3985,7 +3985,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 25,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4989,6 +4989,18 @@
     },
     {
      "id": 9,
+     "name": "scooter_park",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 420,
+     "y": 702,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 10,
      "name": "road_out",
      "rotation": 0,
      "type": "",
@@ -4999,7 +5011,7 @@
      "height": 89
     },
     {
-     "id": 10,
+     "id": 11,
      "name": "hill_arrival",
      "rotation": 0,
      "type": "",
@@ -5010,7 +5022,7 @@
      "height": 89
     },
     {
-     "id": 11,
+     "id": 12,
      "name": "room1_door",
      "rotation": 0,
      "type": "",
@@ -5021,7 +5033,7 @@
      "height": 42
     },
     {
-     "id": 12,
+     "id": 13,
      "name": "room2_door",
      "rotation": 0,
      "type": "",
@@ -5032,7 +5044,7 @@
      "height": 32
     },
     {
-     "id": 13,
+     "id": 14,
      "name": "room3_door",
      "rotation": 0,
      "type": "",
@@ -5043,7 +5055,7 @@
      "height": 42
     },
     {
-     "id": 14,
+     "id": 15,
      "name": "ambient_area",
      "rotation": 0,
      "type": "",
@@ -5062,7 +5074,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 33,
+ "nextobjectid": 34,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

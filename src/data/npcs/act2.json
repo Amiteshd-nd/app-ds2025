@@ -1,0 +1,16 @@
+[
+  {
+    "id": "npc_noor",
+    "name": "Noor · Noor Motors",
+    "tier": 2,
+    "dialogue": "dlg_noor",
+    "sheet": "npc_noor"
+  },
+  {
+    "id": "npc_bunk_attendant",
+    "name": "Bunk attendant",
+    "tier": 2,
+    "dialogue": "dlg_bunk_attendant",
+    "sheet": "npc_bunk_attendant"
+  }
+]

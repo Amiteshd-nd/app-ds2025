@@ -45,6 +45,11 @@
       "name": "room3_out",
       "x": 880,
       "y": 185
+    },
+    {
+      "name": "scooter_park",
+      "x": 560,
+      "y": 958
     }
   ],
   "zones": [

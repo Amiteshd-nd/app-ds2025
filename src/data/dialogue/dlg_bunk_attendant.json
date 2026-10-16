@@ -1,0 +1,56 @@
+{
+  "id": "dlg_bunk_attendant",
+  "speaker": "Bunk attendant",
+  "portrait": "npc_bunk_attendant",
+  "enter": [
+    {
+      "flag": "scooter_owned",
+      "node": "owner_start"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Petrol, for what? Buy the scooter first - Noor's, next door. Then come, I'll fill it."
+    },
+    "owner_start": {
+      "text": "Full tank, three-fifty. Hundred rupees worth, if it's that kind of month. Check the air also, free.",
+      "choices": [
+        {
+          "text": "Full tank. (₹350)",
+          "next": "full",
+          "effect": {
+            "wallet": -350,
+            "fuel": 100,
+            "flags": {
+              "fuel_filled": true
+            }
+          }
+        },
+        {
+          "text": "Hundred rupees worth. (₹100)",
+          "next": "hundred",
+          "effect": {
+            "wallet": -100,
+            "fuel": 30,
+            "flags": {
+              "fuel_filled": true
+            }
+          }
+        },
+        {
+          "text": "Just looking.",
+          "next": "bye"
+        }
+      ]
+    },
+    "full": {
+      "text": "Full. Zero the meter - see, I zeroed it. Air is fine. Go."
+    },
+    "hundred": {
+      "text": "Hundred. Enough for the office and back twice, if you don't race the autos."
+    },
+    "bye": {
+      "text": "Looking is free. Petrol is not."
+    }
+  }
+}

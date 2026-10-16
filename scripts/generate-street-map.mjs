@@ -220,6 +220,10 @@ const map = {
         { id: 16, name: 'barricade_spot', point: true, rotation: 0, type: '', visible: true, x: 23 * T, y: (BOTTOM_WALK[0] + 1) * T, width: 0, height: 0 },
         { id: 17, name: 'pillar_spot', point: true, rotation: 0, type: '', visible: true, x: 26 * T, y: BOTTOM_WALK[0] * T, width: 0, height: 0 },
         { id: 18, name: 'metro_sign', rotation: 0, type: '', visible: true, x: 23 * T, y: (BOTTOM_WALK[0] + 2) * T, width: 3 * T, height: 24 },
+        // BMTC towards ITPL Main Road (story 2.1, ADR-126): the next bay along the top pavement's top edge.
+        { id: 20, name: 'itpl_bus', rotation: 0, type: '', visible: true, x: 4 * T, y: TOP_WALK[0] * T - 8, width: T + 16, height: 16 },
+        // Where your scooter stands once you own one (ADR-126): by the kerb, east of the 500-D stop.
+        { id: 21, name: 'scooter_park', point: true, rotation: 0, type: '', visible: true, x: 10 * T, y: TOP_WALK[1] * T, width: 0, height: 0 },
         // Where the 500-D home drops you: the kerb by the stop.
         { id: 19, name: 'cubbon_return', point: true, rotation: 0, type: '', visible: true, x: 6 * T + 16, y: TOP_WALK[1] * T + 8, width: 0, height: 0 },
         // The walkable band (pavement, kerb, road) that ambient citizens stay inside.
@@ -267,5 +271,5 @@ writeFileSync(join(assets, 'tilemaps/whitefield_street.tmj'), `${JSON.stringify(
 const solid = collision.filter(Boolean).length;
 console.log(
   `✓ whitefield_street.tmj — ${W}x${H} tiles, ${solid} solid tiles, ` +
-    `${placed.length} placed objects, 19 spawn objects`,
+    `${placed.length} placed objects, 21 spawn objects`,
 );

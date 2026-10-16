@@ -140,6 +140,15 @@
         "card": "BMTC 500-D → Cubbon Park · ₹35",
         "requiresFlag": "bus_500d_here",
         "lockedText": "500-D stops here. Wait for it - the clock is on the HUD."
+      },
+      {
+        "zone": "itpl_bus",
+        "to": "scooter_showroom",
+        "spawn": "bus_drop",
+        "transit": "bus",
+        "fare": 20,
+        "minutes": 15,
+        "card": "BMTC 500-D → ITPL Main Road · ₹20"
       }
     ],
     "realworld": {
@@ -162,7 +171,9 @@
       }
     ],
     "behaviours": [
-      "busSchedule"
+      "busSchedule",
+      "emi",
+      "salaryCountdown"
     ],
     "triggers": [
       {
@@ -180,6 +191,11 @@
       {
         "id": "METRO_PILLAR",
         "at": "pillar_spot"
+      },
+      {
+        "id": "SCOOTER_GREY",
+        "at": "scooter_park",
+        "requiresFlag": "scooter_owned"
       }
     ],
     "quests": [
@@ -639,6 +655,13 @@
     ],
     "behaviours": [
       "signalZones"
+    ],
+    "objects": [
+      {
+        "id": "SCOOTER_GREY",
+        "at": "scooter_park",
+        "requiresFlag": "scooter_owned"
+      }
     ]
   },
   {
@@ -715,7 +738,8 @@
       }
     ],
     "behaviours": [
-      "salaryCountdown"
+      "salaryCountdown",
+      "emi"
     ],
     "realworld": {
       "parent": "ambedkar_nagar_hill"
@@ -951,5 +975,111 @@
         }
       }
     }
+  },
+  {
+    "id": "scooter_showroom",
+    "name": "ITPL Main Road",
+    "map": "scooter_showroom",
+    "defaultSpawn": "bus_drop",
+    "fadeMs": 400,
+    "unlock": {
+      "flags": [
+        "act2_started"
+      ]
+    },
+    "signal": 4,
+    "realworld": {
+      "lat": 12.9862,
+      "lng": 77.729,
+      "label": "ITPL Main Road",
+      "area": {
+        "radiusM": 600,
+        "pocket": {
+          "anchor": [
+            12.9862,
+            77.729
+          ],
+          "anchorTile": [
+            18,
+            7
+          ],
+          "bearing": 78,
+          "metresPerTile": 1.2,
+          "tiles": [
+            36,
+            24
+          ],
+          "streets": [
+            "ITPL Main Road"
+          ]
+        }
+      }
+    },
+    "quests": [
+      "q_act2_credited"
+    ],
+    "npcs": [
+      {
+        "id": "npc_noor",
+        "spawn": "showroom"
+      },
+      {
+        "id": "npc_bunk_attendant",
+        "spawn": "bunk"
+      }
+    ],
+    "objects": [
+      {
+        "id": "SCOOTER_GREY",
+        "at": "scooter_park",
+        "requiresFlag": "scooter_owned"
+      }
+    ],
+    "ambient": {
+      "area": "ambient_area",
+      "base": [
+        "crowd_techie",
+        "crowd_officegoer",
+        "crowd_hoodie",
+        "crowd_autodriver"
+      ],
+      "count": 5
+    },
+    "fuelSpots": [
+      "bunk_zone"
+    ],
+    "behaviours": [
+      "fuelSpots",
+      "emi",
+      "salaryCountdown"
+    ],
+    "triggers": [
+      {
+        "zone": "showroom_arrival",
+        "setFlags": [
+          "showroom_arrived"
+        ],
+        "unlessFlag": "showroom_arrived"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "bus_out",
+        "to": "whitefield_street",
+        "spawn": "cubbon_return",
+        "transit": "bus",
+        "fare": 20,
+        "minutes": 15,
+        "card": "BMTC 500-D → Whitefield · ₹20"
+      },
+      {
+        "zone": "road_east",
+        "to": "office_gate",
+        "spawn": "auto_drop",
+        "transit": "walk",
+        "minutes": 10,
+        "card": "Walk → ITPL Gate · 10 min"
+      }
+    ]
   }
 ]

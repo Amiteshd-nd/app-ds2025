@@ -27,6 +27,8 @@ export const SHEETS = {
   street_props: { cols: 3, rows: 2, height: 40, heights: [44, 30, 60, 34, 42, 26] },
   // Cubbon Park animals (ADR-123): sleeping dog · sitting dog · standing dog · pigeon · crow · squirrel.
   animals: { cols: 3, rows: 2, height: 20, heights: [16, 24, 20, 10, 12, 12] },
+  // The player's scooter (P10, ADR-126): grey facing down · side · back; red and white side views; a petrol pump.
+  scooters: { cols: 3, rows: 2, height: 30, heights: [34, 28, 34, 28, 28, 30] },
 };
 
 const keyMagenta = (d) => {

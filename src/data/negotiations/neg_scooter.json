@@ -1,0 +1,64 @@
+{
+  "id": "neg_scooter",
+  "npc": "npc_noor",
+  "temperament": "slick",
+  "patience": 3,
+  "terms": [
+    {
+      "id": "price",
+      "label": "Scooter (second-hand)",
+      "ask": 38000,
+      "floor": 35000
+    }
+  ],
+  "counters": [
+    {
+      "id": "online",
+      "text": "The same model is ₹34,000 online, with photos.",
+      "term": "price",
+      "offer": 34000,
+      "tactic": "compare"
+    },
+    {
+      "id": "cash",
+      "text": "Cash today, no EMI, no paperwork from your side — ₹35,000.",
+      "term": "price",
+      "offer": 35000,
+      "tactic": "reason"
+    },
+    {
+      "id": "dents",
+      "text": "That dent on the panel, and the tyres are done. ₹36,000.",
+      "term": "price",
+      "offer": 36000,
+      "tactic": "reason"
+    },
+    {
+      "id": "lowball",
+      "text": "₹30,000. It is second-hand.",
+      "term": "price",
+      "offer": 30000,
+      "tactic": "lowball"
+    }
+  ],
+  "lines": {
+    "concede": "Hmm. For you — {amount}. Don't tell the next fellow.",
+    "hold": "Boss, {term} at {amount} is already a favour. The engine alone is worth that.",
+    "offended": "Thirty? Go to the online fellows, let them deliver it in a photo.",
+    "final": "Final. {total}. Keys, papers, a tank with four litres. Yes or no?",
+    "callback": "Wait, wait — sit, have tea. We will find a number."
+  },
+  "acceptText": "Deal — pay {total}",
+  "walkText": "Let me think.",
+  "reason": "scooter",
+  "on_deal": {
+    "flags": [
+      "scooter_owned",
+      "scooter_bought_outright",
+      "scooter_decided"
+    ],
+    "counters": {
+      "neg.neg_scooter.price": "price"
+    }
+  }
+}
