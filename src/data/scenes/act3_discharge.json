@@ -1,34 +1,103 @@
 {
   "id": "act3_discharge",
-  "district": "TODO",
+  "district": "ward4",
   "act": 3,
   "seq": "3.5",
   "title": "Discharge",
   "status": "STUB",
-  "player_goal": "Go home. Stay inside. Don't make noise after five.",
-  "design_goal": "No one explains.",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §6 (3.5: the nurse — 'Go home. Stay inside. Don't make noise after five.' No one explains. [Q]) and §7 (4.0 Janata: walk out; the city is locked down, not empty; the scooter gone from hospital parking; the phone — UPI dead, Maps cached, Chats one tick; 4.1: at 16:58 the plates-and-spoons ritual is the trigger), 3.2–3.4 (Ward 4, Sister Lalitha, the isolation door, the ward boy at the door, Ravi 'moved'), 3.1 (a held card until the next place exists), ADR-11 (interiors as reveals). The user edits the words and the numbers; then P21 builds it.",
+  "time": "Thursday morning, 08:00 — the morning 3.4 ends (Ravi's bed empty, 'Discharge · today')",
+  "player_goal": "Get your discharge slip and walk out of Ward 4.",
+  "design_goal": "Act 3 ends on an instruction nobody explains. The ward that held you lets you go too easily: the slip is already signed, the door at the end stands open and clean, the ward boy's chair is empty. The one piece of advice — don't make noise after five — is the rule Act 4 will teach the hard way (4.1's plates and spoons). The player leaves with a cast, a plastic bag of their things, and a question.",
   "pacing": [
-    "TODO"
+    "Calm",
+    "Curious",
+    "Tense",
+    "Calm"
   ],
+  "entry": {
+    "from": "ward4",
+    "spawn": "your_bed",
+    "after": []
+  },
   "cast": [
-    "TODO: npc_bus_nurse"
+    {
+      "npc": "npc_ward_nurse",
+      "tier": 3,
+      "spawn": "nurse_station",
+      "role": "Hands over the slip and a plastic bag: 'Doctor signed at six. You're done.' Then, without looking up: 'Go home. Stay inside. Don't make noise after five.' Asked 'Why five?' she looks at the isolation door, then back at her register: 'Go home.' Asked about Ravi again: nothing."
+    }
   ],
   "quests": [
-    "TODO: q_act3_discharge"
+    "q_act3_discharge"
   ],
   "beats": [
-    "F1 — Nurse's line; exit to a locked-down city (4.0)."
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "08:00, Thursday. Sister Lalitha: 'Doctor signed at six. You're done.' A discharge slip and a plastic bag of your things — the shirt from the crash, folded; a scooter key that opens nothing now (or Sameer's, with the mirror still on the ring). The countdown plate goes.",
+      "interact": "dialogue",
+      "flag": "discharged"
+    },
+    {
+      "id": "F2",
+      "pacing": "Curious",
+      "what": "The advice nobody explains: 'Go home. Stay inside. Don't make noise after five.' — 'Why five?' → she looks at the isolation door, then at her register: 'Go home.' (No mention of the plates and spoons — that is 4.1's reveal.)",
+      "interact": "dialogue (choice)",
+      "flag": "five_warning"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "The isolation door at the end stands ajar: the newspaper gone, the lights on, the room behind it empty, the beds stripped, the floor still wet — bleach. Nobody there. (Optional.)",
+      "interact": "zone",
+      "flag": "isolation_empty_seen"
+    },
+    {
+      "id": "F4",
+      "pacing": "Calm",
+      "what": "The ward door: the ward boy's plastic chair is empty, his phone face-down on it. Through the door, a card: the corridor, the stairs, a guard who doesn't look up, the glass doors of Hebbal General, the heat, no autos at the gate. Then the title: ACT 4 — CURFEW. It holds until 4.0 Janata builds the hospital gate (as 3.1 held for the ward).",
+      "interact": "exit → card",
+      "flag": "act3_done"
+    }
   ],
   "economy": [],
   "exits": [
-    "TODO"
+    {
+      "zone": "ward_exit",
+      "to": "(card)",
+      "transit": "walk",
+      "note": "the ward door plays the leaving card once `discharged` is set; it lands in 4.0's hospital gate pocket when that is built"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "discharged",
+    "five_warning",
+    "isolation_empty_seen",
+    "act3_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "no new place: Ward 4",
+    "the isolation door open: a small prop or an overlay over the taped doors (the room behind lit and empty), shown once `discharged`",
+    "the ward boy's empty plastic chair with a phone on it (a small prop) by the door",
+    "a leaving card (text over black, like the HIVR day) and an ACT 4 — CURFEW title card",
+    "the countdown plate cleared on `discharged`"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "after morning 3 the nurse hands over the slip and says the line; 'Why five?' gets no answer",
+    "the isolation door is open and the room behind it empty (optional to look)",
+    "the ward door is no longer 'Not discharged': it plays the leaving card and ACT 4 — CURFEW, then holds",
+    "the walkthrough bot plays it; the headless run stays green (22 of 22)"
   ],
-  "open_questions": []
+  "open_questions": [
+    "THE SLIP AND THE BAG: draft = 'Doctor signed at six. You're done.' + a plastic bag (the shirt from the crash, a scooter key that opens nothing — or Sameer's key). Keep?",
+    "HER LINE: draft = 'Go home. Stay inside. Don't make noise after five.' and 'Why five?' → she looks at the isolation door → 'Go home.' Keep the words?",
+    "THE RITUAL: draft = no hint of the plates and spoons here (4.1 reveals it). Or one line — a ward TV clip of the government's 'show of solidarity at five'?",
+    "THE ISOLATION DOOR: draft = ajar, the room behind lit, empty, beds stripped, wet with bleach. Reveal it now, or keep it shut for ever?",
+    "THE WARD BOY: draft = his chair empty, his phone face-down on it. Keep?",
+    "LEAVING: draft = a short card (corridor, stairs, a guard who doesn't look up, the glass doors, no autos) → ACT 4 — CURFEW → hold until 4.0 is built. Or end Act 3 in the ward with no card?",
+    "THE CAST: draft = it stays on (slower walk) into Act 4 — running from the first infected in 4.1 with a cast. Keep it, or the doctor takes it off?",
+    "THE PHONE: draft = nothing new in 3.5 (no messages; 'Chats one tick' and 'UPI dead' are 4.0's). OK?",
+    "TIME: draft = Thursday 08:00, the morning 3.4 ends; 4.1's 'five o'clock' is the same day. OK?"
+  ]
 }
