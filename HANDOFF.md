@@ -3,8 +3,7 @@ Updated: 2026-10-17, end of a long session (the context window filled up; the us
 
 ## 0. Where we are — in one breath
 Bangalore Times (the docs' working title: NAMMA OUTBREAK). **Acts 0–3 are built** (22 scenes, 0.1 airport → 3.5 Discharge) and **the game has sound** (audio A1–A3 batch 1). `corepack pnpm movie --twice` plays all 22 scenes headless: **22/22 green, identical 490-step trace**. 557 tests, validators, typecheck and `pnpm build` are green.
-- **Pushed to origin:** P0–P16 (through 2.7, Act 2 complete) and Movie Mode 2–4. The user approved P0–P11 + Movie Mode step 2; **everything after that is still awaiting their audit.**
-- **Local, NOT pushed (13 commits, `git log origin/main..HEAD`):** P17–P21 (Act 3), audio A1, A2, A3 batch 1, the drafts, `NEED_TO_AUDIT.md`. **Push only on an explicit "approved, push".**
+- **Everything is pushed to origin** (the user: "commit and push", 2026-10-17). The user approved P0–P11 + Movie Mode step 2; **everything after that is pushed but still awaiting their audit** (pushing was not an approval). Push future work only when they say so.
 - **The user's audit list is `NEED_TO_AUDIT.md`** (repo root) — they refer to it for every audit. Every build that stops for audit adds its row + check steps + calls to confirm there; approvals move rows to "already approved".
 
 ## 1. The very next step
@@ -17,7 +16,7 @@ The user's last words: *"Okay, write whatever you need to and we shall proceed"*
 
 ## 2. Resume protocol
 1. Read `CLAUDE.md` §0 (golden rules), this file, `NEED_TO_AUDIT.md`, the last rows of `DECISIONS.md` (ADR-136…143; each opens with a plain-English "For you"), the 2026-10-17 entries at the end of `AUDIT_LOG.md`, the end of `MEMORY.md` (3.1 → 3.5 and audio), `TASKS.md` (T-060 … T-066), `docs/audio_plan_v1.md`.
-2. `git status` → clean, 13 ahead of origin. Optionally `corepack pnpm movie` (~4 min) — it must say 22/22. `--twice` takes ~25 min: run it in the background and **touch no files under the repo while it runs** (a Vite reload kills the run: "Execution context was destroyed").
+2. `git status` → clean, level with origin. Optionally `corepack pnpm movie` (~4 min) — it must say 22/22. `--twice` takes ~25 min: run it in the background and **touch no files under the repo while it runs** (a Vite reload kills the run: "Execution context was destroyed").
 3. **How this user works** (auto-memory `amitesh-working-style`): one phase at a time, stop for audit; scenes are drafted first with defaults + `open_questions`, and the user usually answers "take the defaults" (= build every default); "Proceed" after a build = draft the next thing and stop; audits are deferred and stack in `NEED_TO_AUDIT.md`; "approved, push" approves the stack. Engineering and art direction are delegated (decide, show, log an ADR with a plain-English first line); story and taste calls go to them as options with a recommended default. Drift guard: quote the ADR when something conflicts and ask. Final messages: plain English, what they'll see, the calls to confirm, the next step as a question.
 
 ## 3. Build recipe (every scene)
