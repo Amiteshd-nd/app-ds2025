@@ -8,7 +8,7 @@ import { AUDIO_URLS } from '../assets';
 import { PLAYER_SPEED, SCENE_KEYS, TILE_SIZE } from '../utils/constants';
 import { AUDIO, audioKey, type AudioToken, type Bus } from './data';
 import { DUCK, busGain } from './buses';
-import { mixFor, surfaceOf, type Mix, type MixContext, type Pacing } from './mix';
+import { mixFor, sourceScale, surfaceOf, type Mix, type MixContext, type Pacing } from './mix';
 
 /** A beat's flags: "a, b" both, "a | b" the first of alternatives (same reading as the Playground's). */
 const beatFlags = (flag: string | undefined): string[] => (flag ?? '').split(',').map((p) => p.split('|')[0]?.trim() ?? '').filter((f) => f && f !== '-');
@@ -23,7 +23,10 @@ const FADE = { district: 1500, approach: 3000, back: 5000 } as const;
 const POSITIONAL_RADIUS_TILES = 8;
 
 interface Live { token: string; sound: Phaser.Sound.BaseSound; gain: number; target: number; fadeMs: number }
-interface Source { token: string; x: number; y: number; radius: number; every: [number, number] | null; next: number; live: Live | null }
+interface Source { token: string; x: number; y: number; radius: number; every: [number, number] | null; next: number; live: Live | null; kind?: 'human' | 'machine'; uncanny?: string }
+
+/** Playground test bench (ADR-140): Act 4's inputs before Act 4 exists. */
+export interface AudioDebug { stability?: number; chaseActive?: boolean; nearestInfected?: number | null }
 
 /** The files to load at boot (BootScene). */
 export const eagerAudio = (): Array<[string, string]> => Object.values(AUDIO)
@@ -59,6 +62,15 @@ export class AudioSystem {
   private delayed: Array<{ at: number; run: () => void }> = [];
   /** This place's positional sources (district `audioSources`). */
   private sources: Source[] = [];
+  private debug: AudioDebug = {};
+  /** Only this bus is heard (the Playground's solo); null = all. */
+  private solo: Bus | null = null;
+  private wasChasing = false;
+  private reliefUntil = 0;
+  /** One-shots still sounding, for the bus meters. */
+  private oneShots: Array<{ sound: Phaser.Sound.BaseSound; bus: Bus }> = [];
+  /** Loops asked for but still loading — asked once, never twice (else duplicates start when the file lands). */
+  private pendingLoops = new Set<string>();
   private off: Array<() => void> = [];
 
   static start(game: Phaser.Game): AudioSystem {
@@ -122,7 +134,7 @@ export class AudioSystem {
     for (const src of getDistrict(districtId).audioSources ?? []) {
       const at = world?.pointOf?.(src.at);
       if (!at) continue;
-      const s: Source = { token: src.token, x: at.x, y: at.y, radius: src.radius ?? POSITIONAL_RADIUS_TILES, every: src.every ?? null, next: this.now + (src.every ? src.every[0] * 1000 * rng() : 0), live: null };
+      const s: Source = { token: src.token, x: at.x, y: at.y, radius: src.radius ?? POSITIONAL_RADIUS_TILES, every: src.every ?? null, next: this.now + (src.every ? src.every[0] * 1000 * rng() : 0), live: null, kind: src.kind, uncanny: src.uncanny };
       this.sources.push(s);
       if (AUDIO[src.token]?.loop) this.startLoop(src.token, (sound) => { if (this.sources.includes(s)) s.live = { token: src.token, sound, gain: 0, target: 0, fadeMs: 1 }; else sound.destroy(); });
     }
@@ -130,10 +142,14 @@ export class AudioSystem {
 
   private updateSources(): void {
     if (!this.world()) return;
+    // A place that turns loses its people first (ADR-140): half at warning, silent (or uncanny) from infected on.
+    const band = this.mix?.band ?? 'normal';
     for (const s of this.sources) {
-      if (s.live) { const p = this.positional(s, s.radius); s.live.gain = p.gain; (s.live.sound as Phaser.Sound.WebAudioSound).setPan?.(p.pan); continue; }
+      const scale = sourceScale(s.kind, band);
+      if (s.live) { const p = this.positional(s, s.radius); s.live.gain = p.gain * scale; (s.live.sound as Phaser.Sound.WebAudioSound).setPan?.(p.pan); continue; }
       if (s.every && this.now >= s.next) {
-        this.cue(s.token, { x: s.x, y: s.y }, 1, s.radius);
+        const token = scale > 0 ? s.token : s.uncanny;
+        if (token) this.cue(token, { x: s.x, y: s.y }, scale || 1, s.radius);
         s.next = this.now + (s.every[0] + (s.every[1] - s.every[0]) * rng()) * 1000;
       }
     }
@@ -142,11 +158,44 @@ export class AudioSystem {
   // ── The mix ──────────────────────────────────────────────────────────────
   private context(): MixContext {
     const s = useGameStore.getState();
+    const chaseActive = this.debug.chaseActive ?? false;
+    // A chase ends → 6 s of relief, the escape chord; a chase starts → the detect sting (ADR-29/49/50).
+    if (chaseActive && !this.wasChasing) this.cue('a.sting.detect');
+    if (!chaseActive && this.wasChasing) { this.reliefUntil = this.now + 6000; this.cue('a.sfx.combat.escape_resolve'); }
+    this.wasChasing = chaseActive;
     return {
       districtId: s.activeDistrict, transit: this.transit, workday: this.workday, minute: s.clock.minute,
-      stability: 100, pacing: this.pacing(), chaseActive: false, reliefMs: 0, nearestInfected: null, stress: s.stats.stress,
+      stability: this.debug.stability ?? 100, pacing: this.pacing(), chaseActive, reliefMs: Math.max(0, this.reliefUntil - this.now),
+      nearestInfected: this.debug.nearestInfected ?? null, stress: s.stats.stress,
     };
   }
+
+  /** Where this place's sounds come from — the Playground's speaker icons. */
+  sourcesView(): Array<{ token: string; x: number; y: number; radius: number; kind?: string; loop: boolean }> {
+    return this.sources.map((s) => ({ token: s.token, x: s.x, y: s.y, radius: s.radius * TILE_SIZE, kind: s.kind, loop: Boolean(s.live) }));
+  }
+
+  /** Playground test bench: Act 4's inputs (stability, a chase, an infected's distance) before Act 4 exists. */
+  setDebug(debug: AudioDebug): void { this.debug = { ...this.debug, ...debug }; this.sinceMix = MIX_EVERY_MS; }
+  getDebug(): AudioDebug { return { ...this.debug }; }
+  /** Hear only one bus (null = all). */
+  setSolo(bus: Bus | null): void { this.solo = bus; this.applyVolumes(); }
+  getSolo(): Bus | null { return this.solo; }
+
+  /** Rough per-bus loudness right now (sum of live volumes) — the Playground's meters. */
+  busLevels(): Record<Bus, number> {
+    const out: Record<Bus, number> = { music: 0, ambience: 0, sfx: 0, ui: 0, voice: 0 };
+    const add = (bus: Bus, v: number) => { out[bus] += v; };
+    for (const l of this.beds.values()) add('ambience', (l.sound as Phaser.Sound.WebAudioSound).volume ?? 0);
+    for (const l of [...(this.music ? [this.music] : []), ...this.fadingMusic]) add('music', (l.sound as Phaser.Sound.WebAudioSound).volume ?? 0);
+    for (const s of this.sources) if (s.live) add(AUDIO[s.token].bus, (s.live.sound as Phaser.Sound.WebAudioSound).volume ?? 0);
+    this.oneShots = this.oneShots.filter((o) => o.sound.isPlaying);
+    for (const o of this.oneShots) add(o.bus, (o.sound as Phaser.Sound.WebAudioSound).volume ?? 0);
+    return out;
+  }
+
+  /** The Playground's ▶: play a token now, ignoring its cooldown. */
+  preview(token: string): void { this.lastPlayed.delete(token); this.cue(token); }
 
   /** The current beat's pacing tag (ADR-24): the first active quest's next objective, matched to its scene's beat. */
   private pacing(): Pacing | null {
@@ -199,11 +248,15 @@ export class AudioSystem {
       for (const [token, gain] of Object.entries(mix.bed)) {
         const live = this.beds.get(token);
         if (live) { live.target = gain; live.fadeMs = FADE.district; continue; }
-        this.startLoop(token, (sound) => this.beds.set(token, { token, sound, gain: 0, target: gain, fadeMs: placeChanged === false ? FADE.back : FADE.district }));
+        if (this.pendingLoops.has(token)) continue;
+        this.startLoop(token, (sound) => {
+          if (this.beds.has(token)) { sound.destroy(); return; }
+          this.beds.set(token, { token, sound, gain: 0, target: this.mix?.bed[token] ?? 0, fadeMs: placeChanged === false ? FADE.back : FADE.district });
+        });
       }
       for (const [token, l] of this.beds) if (!(token in mix.bed)) { l.target = 0; l.fadeMs = FADE.district; }
     }
-    if ((this.music?.token ?? null) !== mix.music) {
+    if ((this.music?.token ?? null) !== mix.music && !(mix.music && this.pendingLoops.has(mix.music))) {
       const toward = mix.state === 'normal' ? FADE.back : FADE.approach;
       if (this.music) { this.music.target = 0; this.music.fadeMs = toward; this.fadingMusic.push(this.music); this.music = null; }
       if (mix.music) {
@@ -220,7 +273,9 @@ export class AudioSystem {
     const def = AUDIO[token];
     if (!def?.files.length) return;
     const file = def.files[Math.floor(rng() * def.files.length)];
+    this.pendingLoops.add(token);
     this.ensure(file, () => {
+      this.pendingLoops.delete(token);
       const sound = this.game.sound.add(audioKey(file), { loop: true, volume: 0 });
       sound.play();
       then(sound);
@@ -244,8 +299,11 @@ export class AudioSystem {
     const detune = def.pitchVar ? 1200 * Math.log2(1 + (rng() * 2 - 1) * def.pitchVar) : 0;
     if (def.sting) this.stingUntil = this.now + 1200;
     this.ensure(file, () => {
-      const v = def.volume * volume * pos.gain * busGain(def.bus, settings().audio) * (def.bus === 'music' || def.sting ? 1 : this.duckFor(def.bus));
-      this.game.sound.play(audioKey(file), { volume: v, detune, pan: pos.pan });
+      const v = def.volume * volume * pos.gain * this.busGain(def.bus) * (def.bus === 'music' || def.sting ? 1 : this.duckFor(def.bus));
+      const sound = this.game.sound.add(audioKey(file), { volume: v, detune, pan: pos.pan });
+      sound.once(Phaser.Sound.Events.COMPLETE, () => sound.destroy());
+      sound.play();
+      this.oneShots.push({ sound, bus: def.bus });
     });
   }
 
@@ -257,7 +315,7 @@ export class AudioSystem {
     const file = base.files[0];
     const detune = 1200 * Math.log2(u.pitch);
     this.ensure(file, () => {
-      const v = def.volume * busGain(def.bus, settings().audio);
+      const v = def.volume * this.busGain(def.bus);
       this.game.sound.play(audioKey(file), { volume: v, detune });
       this.delayed.push({ at: this.now + u.gapMs, run: () => this.game.sound.play(audioKey(file), { volume: v * 0.7, detune }) });
     });
@@ -273,12 +331,18 @@ export class AudioSystem {
   }
 
   /** Footsteps (audio plan §2.8): the place's surface, a quieter step indoors is the recipe's job. */
-  private step(_x: number, _y: number, running: boolean): void {
-    const surface = surfaceOf(useGameStore.getState().activeDistrict);
+  private step(x: number, y: number, running: boolean): void {
+    const world = this.world() as (Phaser.Scene & { surfaceAt?: (x: number, y: number) => string | null }) | null;
+    const surface = world?.surfaceAt?.(x, y) ?? surfaceOf(useGameStore.getState().activeDistrict);
     this.cue(`a.sfx.player.step.${surface}`, undefined, running ? 1.3 : 1);
   }
 
   // ── Volumes ──────────────────────────────────────────────────────────────
+  private busGain(bus: Bus, s = settings().audio): number {
+    if (this.solo && bus !== this.solo) return 0;
+    return busGain(bus, s);
+  }
+
   private duckFor(bus: Bus): number {
     if (this.now < this.stingUntil) return DUCK.sting;
     if (bus === 'music' && this.dialogueOpen) return DUCK.dialogue;
@@ -289,7 +353,7 @@ export class AudioSystem {
     const s = settings().audio;
     const set = (l: Live) => {
       const def = AUDIO[l.token];
-      (l.sound as Phaser.Sound.WebAudioSound).setVolume?.(def.volume * l.gain * busGain(def.bus, s) * this.duckFor(def.bus));
+      (l.sound as Phaser.Sound.WebAudioSound).setVolume?.(def.volume * l.gain * this.busGain(def.bus, s) * this.duckFor(def.bus));
     };
     for (const l of this.beds.values()) set(l);
     if (this.music) set(this.music);

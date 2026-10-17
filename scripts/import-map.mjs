@@ -16,6 +16,7 @@
  *     "blocks":    [[x, y, w, h], ...],        // other things feet cannot cross (kind prop)
  *     "spawns":    [{ "name": "door", "x": 1000, "y": 900 }],   // where the FEET stand
  *     "zones":     [{ "name": "bed", "x": 540, "y": 400, "w": 300, "h": 60 }],
+ *     "surfaces":  [{ "surface": "gravel", "rect": [x, y, w, h] }],   // footsteps (ADR-140); first match wins, else the place's default
  *     "sorted":    [{ "name": "pole", "rect": [x, y, w, h], "base": y, "footprint": [x, y, w, h],
  *                     "mode": "key" | "rect", "bg": [[x, y, w, h]], "seeds": [[x, y]] }],
  *     "above":     [{ "name": "wires", "rect": [x, y, w, h], "mode": ..., "bg": ..., "seeds": ... }] }
@@ -121,6 +122,11 @@ export async function importMap(specPath) {
     ...(spec.zones ?? []).map((z) => ({
       id: objectId++, name: z.name, rotation: 0, type: z.type ?? '', visible: true,
       x: X(z.x), y: Y(z.y), width: Math.max(1, X(z.x + z.w) - X(z.x)), height: Math.max(1, Y(z.y + z.h) - Y(z.y)),
+    })),
+    // Footstep surfaces (ADR-139/140): rects named surface_<kind>_<n>, type "surface"; the first that holds the feet wins.
+    ...(spec.surfaces ?? []).map((s, i) => ({
+      id: objectId++, name: `surface_${s.surface}_${i + 1}`, rotation: 0, type: 'surface', visible: true,
+      x: X(s.rect[0]), y: Y(s.rect[1]), width: Math.max(1, X(s.rect[0] + s.rect[2]) - X(s.rect[0])), height: Math.max(1, Y(s.rect[1] + s.rect[3]) - Y(s.rect[1])),
     })),
   ];
 

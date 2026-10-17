@@ -84,7 +84,9 @@
           9,
           15
         ],
-        "radius": 9
+        "radius": 9,
+        "kind": "human",
+        "uncanny": "a.uncanny.chai_whistle_empty"
       },
       {
         "at": "chai_stall",
@@ -93,7 +95,8 @@
           5,
           9
         ],
-        "radius": 6
+        "radius": 6,
+        "kind": "human"
       },
       {
         "at": "cab_tout",
@@ -102,12 +105,14 @@
           8,
           14
         ],
-        "radius": 8
+        "radius": 8,
+        "kind": "human"
       },
       {
         "at": "zone_exit",
         "token": "a.sfx.vehicle.bus.idle",
-        "radius": 10
+        "radius": 10,
+        "kind": "machine"
       },
       {
         "at": "zone_exit",
@@ -116,7 +121,9 @@
           14,
           24
         ],
-        "radius": 12
+        "radius": 12,
+        "kind": "machine",
+        "uncanny": "a.uncanny.bus_bell_no_bus"
       }
     ]
   },
@@ -310,6 +317,34 @@
         "spawn": "crowd_c",
         "requiresFlag": "metro_open"
       }
+    ],
+    "audioSources": [
+      {
+        "at": "vendor",
+        "token": "a.sfx.npc.vendor_call",
+        "every": [
+          7,
+          13
+        ],
+        "radius": 10,
+        "kind": "human"
+      },
+      {
+        "at": "auto_driver",
+        "token": "a.sfx.vehicle.auto.idle",
+        "radius": 6,
+        "kind": "machine"
+      },
+      {
+        "at": "auto_driver",
+        "token": "a.sfx.vehicle.auto.horn",
+        "every": [
+          10,
+          20
+        ],
+        "radius": 10,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -488,6 +523,50 @@
     },
     "behaviours": [
       "pgNoticeTimer"
+    ],
+    "audioSources": [
+      {
+        "at": "darshini",
+        "token": "a.sfx.world.plates_stack",
+        "every": [
+          4,
+          8
+        ],
+        "radius": 7,
+        "kind": "human"
+      },
+      {
+        "at": "darshini",
+        "token": "a.sfx.world.dosa_sizzle",
+        "radius": 5,
+        "kind": "human"
+      },
+      {
+        "at": "provision",
+        "token": "a.sfx.world.cash_count",
+        "every": [
+          12,
+          20
+        ],
+        "radius": 6,
+        "kind": "human"
+      },
+      {
+        "at": "neighbour",
+        "token": "a.sfx.world.pressure_cooker",
+        "every": [
+          25,
+          40
+        ],
+        "radius": 10,
+        "kind": "human"
+      },
+      {
+        "at": "auto_stand",
+        "token": "a.sfx.vehicle.auto.idle",
+        "radius": 6,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -696,6 +775,20 @@
     ],
     "behaviours": [
       "officeClockIn"
+    ],
+    "audioSources": [
+      {
+        "at": "office_door",
+        "token": "a.sfx.world.keyboard_typing",
+        "radius": 4,
+        "kind": "human"
+      },
+      {
+        "at": "auto_stand",
+        "token": "a.sfx.vehicle.auto.idle",
+        "radius": 6,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -833,6 +926,49 @@
         "id": "SCOOTER_GREY",
         "at": "scooter_park",
         "requiresFlag": "scooter_owned"
+      }
+    ],
+    "audioSources": [
+      {
+        "at": "chai_stall",
+        "token": "a.sfx.npc.sig.chai_whistle",
+        "every": [
+          10,
+          16
+        ],
+        "radius": 9,
+        "kind": "human",
+        "uncanny": "a.uncanny.chai_whistle_empty"
+      },
+      {
+        "at": "chai_stall",
+        "token": "a.sfx.npc.sig.ladle",
+        "every": [
+          6,
+          10
+        ],
+        "radius": 6,
+        "kind": "human"
+      },
+      {
+        "at": "room1_door",
+        "token": "a.sfx.world.pressure_cooker",
+        "every": [
+          30,
+          50
+        ],
+        "radius": 10,
+        "kind": "human"
+      },
+      {
+        "at": "kid",
+        "token": "a.sfx.npc.laugh",
+        "every": [
+          12,
+          20
+        ],
+        "radius": 8,
+        "kind": "human"
       }
     ]
   },
@@ -1154,6 +1290,18 @@
     },
     "quests": [
       "q_act1_bus_cubbon"
+    ],
+    "audioSources": [
+      {
+        "at": "door",
+        "token": "a.sfx.vehicle.bus.bell",
+        "every": [
+          15,
+          25
+        ],
+        "radius": 8,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -1342,7 +1490,29 @@
         }
       }
     },
-    "metroStation": "stn_cubbon_park"
+    "metroStation": "stn_cubbon_park",
+    "audioSources": [
+      {
+        "at": "icecream_cart",
+        "token": "a.sfx.vehicle.cycle_bell",
+        "every": [
+          8,
+          14
+        ],
+        "radius": 9,
+        "kind": "human"
+      },
+      {
+        "at": "cycle_rental",
+        "token": "a.sfx.vehicle.cycle_bell",
+        "every": [
+          15,
+          25
+        ],
+        "radius": 7,
+        "kind": "human"
+      }
+    ]
   },
   {
     "id": "scooter_showroom",
@@ -1448,6 +1618,18 @@
         "minutes": 10,
         "card": "Walk → ITPL Gate · 10 min"
       }
+    ],
+    "audioSources": [
+      {
+        "at": "showroom",
+        "token": "a.sfx.vehicle.scooter.rev",
+        "every": [
+          12,
+          20
+        ],
+        "radius": 9,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -1530,6 +1712,39 @@
     ],
     "behaviours": [
       "companion"
+    ],
+    "audioSources": [
+      {
+        "at": "gates",
+        "token": "a.sfx.world.metro_gate_beep",
+        "every": [
+          3,
+          6
+        ],
+        "radius": 7,
+        "kind": "human"
+      },
+      {
+        "at": "token_machine",
+        "token": "a.sfx.world.ticket_machine",
+        "every": [
+          8,
+          14
+        ],
+        "radius": 6,
+        "kind": "machine"
+      },
+      {
+        "at": "platform",
+        "token": "a.sfx.vehicle.metro.chime",
+        "every": [
+          20,
+          30
+        ],
+        "radius": 12,
+        "kind": "machine",
+        "uncanny": "a.uncanny.vayu_vajra_announcement_loop"
+      }
     ]
   },
   {
@@ -1589,6 +1804,18 @@
     },
     "behaviours": [
       "busRide"
+    ],
+    "audioSources": [
+      {
+        "at": "coach_door",
+        "token": "a.sfx.vehicle.metro.doors",
+        "every": [
+          25,
+          35
+        ],
+        "radius": 8,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -1690,7 +1917,39 @@
         }
       }
     },
-    "metroStation": "stn_mg_road"
+    "metroStation": "stn_mg_road",
+    "audioSources": [
+      {
+        "at": "busker_corner",
+        "token": "a.sfx.world.guitar.g",
+        "every": [
+          3,
+          5
+        ],
+        "radius": 9,
+        "kind": "human"
+      },
+      {
+        "at": "busker_corner",
+        "token": "a.sfx.world.guitar.c",
+        "every": [
+          3.5,
+          5.5
+        ],
+        "radius": 9,
+        "kind": "human"
+      },
+      {
+        "at": "cafe_table",
+        "token": "a.sfx.world.plates_stack",
+        "every": [
+          6,
+          10
+        ],
+        "radius": 6,
+        "kind": "human"
+      }
+    ]
   },
   {
     "id": "guitar_shop",
@@ -1723,7 +1982,19 @@
     ],
     "realworld": {
       "parent": "church_street"
-    }
+    },
+    "audioSources": [
+      {
+        "at": "shop_counter",
+        "token": "a.sfx.world.guitar.e",
+        "every": [
+          8,
+          14
+        ],
+        "radius": 8,
+        "kind": "human"
+      }
+    ]
   },
   {
     "id": "majestic_interchange",
@@ -1797,6 +2068,18 @@
     "metroStation": "stn_majestic",
     "behaviours": [
       "companion"
+    ],
+    "audioSources": [
+      {
+        "at": "green_stairs_top",
+        "token": "a.sfx.vehicle.metro.chime",
+        "every": [
+          18,
+          26
+        ],
+        "radius": 12,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -1845,6 +2128,18 @@
     },
     "behaviours": [
       "busRide"
+    ],
+    "audioSources": [
+      {
+        "at": "coach_door",
+        "token": "a.sfx.vehicle.metro.doors",
+        "every": [
+          25,
+          35
+        ],
+        "radius": 8,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -1926,7 +2221,29 @@
       "lng": 77.5003,
       "label": "Nagasandra"
     },
-    "metroStation": "stn_nagasandra"
+    "metroStation": "stn_nagasandra",
+    "audioSources": [
+      {
+        "at": "tills",
+        "token": "a.sfx.world.ticket_machine",
+        "every": [
+          6,
+          10
+        ],
+        "radius": 7,
+        "kind": "human"
+      },
+      {
+        "at": "cafe",
+        "token": "a.sfx.world.plates_stack",
+        "every": [
+          5,
+          9
+        ],
+        "radius": 6,
+        "kind": "human"
+      }
+    ]
   },
   {
     "id": "green_coach_home",
@@ -1985,6 +2302,18 @@
     },
     "behaviours": [
       "busRide"
+    ],
+    "audioSources": [
+      {
+        "at": "coach_door",
+        "token": "a.sfx.vehicle.metro.doors",
+        "every": [
+          25,
+          35
+        ],
+        "radius": 8,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -2046,6 +2375,14 @@
         "zone": "ward_exit",
         "dialogue": "dlg_ward_door"
       }
+    ],
+    "audioSources": [
+      {
+        "at": "tv_zone",
+        "token": "a.sfx.npc.crowd_murmur",
+        "radius": 4,
+        "kind": "machine"
+      }
     ]
   },
   {
@@ -2089,6 +2426,14 @@
         "unlessFlag": "tray_unsealed"
       }
     ],
-    "nightTint": 0.4
+    "nightTint": 0.4,
+    "audioSources": [
+      {
+        "at": "tray_zone",
+        "token": "a.sfx.world.uv_lamp.hum",
+        "radius": 4,
+        "kind": "machine"
+      }
+    ]
   }
 ]

@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 50,
+     "id": 62,
      "name": "tree_left",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 51,
+     "id": 63,
      "name": "tree_top",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 52,
+     "id": 64,
      "name": "bandstand",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 53,
+     "id": 65,
      "name": "lamp_1",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 54,
+     "id": 66,
      "name": "lamp_2",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 55,
+     "id": 67,
      "name": "lamp_3",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 56,
+     "id": 68,
      "name": "lamp_4",
      "type": "cutout",
      "rotation": 0,
@@ -2941,7 +2941,7 @@
      ]
     },
     {
-     "id": 57,
+     "id": 69,
      "name": "bench_top",
      "type": "cutout",
      "rotation": 0,
@@ -2984,7 +2984,7 @@
      ]
     },
     {
-     "id": 58,
+     "id": 70,
      "name": "bench_left",
      "type": "cutout",
      "rotation": 0,
@@ -3027,7 +3027,7 @@
      ]
     },
     {
-     "id": 59,
+     "id": 71,
      "name": "bench_right",
      "type": "cutout",
      "rotation": 0,
@@ -3070,7 +3070,7 @@
      ]
     },
     {
-     "id": 60,
+     "id": 72,
      "name": "bench_bottom",
      "type": "cutout",
      "rotation": 0,
@@ -3113,7 +3113,7 @@
      ]
     },
     {
-     "id": 61,
+     "id": 73,
      "name": "cycle_shed",
      "type": "cutout",
      "rotation": 0,
@@ -3156,7 +3156,7 @@
      ]
     },
     {
-     "id": 62,
+     "id": 74,
      "name": "icecream_cart",
      "type": "cutout",
      "rotation": 0,
@@ -3199,7 +3199,7 @@
      ]
     },
     {
-     "id": 63,
+     "id": 75,
      "name": "bin",
      "type": "cutout",
      "rotation": 0,
@@ -3242,7 +3242,7 @@
      ]
     },
     {
-     "id": 64,
+     "id": 76,
      "name": "tap",
      "type": "cutout",
      "rotation": 0,
@@ -3285,7 +3285,7 @@
      ]
     },
     {
-     "id": 65,
+     "id": 77,
      "name": "sign",
      "type": "cutout",
      "rotation": 0,
@@ -3328,7 +3328,7 @@
      ]
     },
     {
-     "id": 66,
+     "id": 78,
      "name": "gate_pillar_1",
      "type": "cutout",
      "rotation": 0,
@@ -3371,7 +3371,7 @@
      ]
     },
     {
-     "id": 67,
+     "id": 79,
      "name": "gate_pillar_2",
      "type": "cutout",
      "rotation": 0,
@@ -3414,7 +3414,7 @@
      ]
     },
     {
-     "id": 68,
+     "id": 80,
      "name": "gate_pillar_3",
      "type": "cutout",
      "rotation": 0,
@@ -3457,7 +3457,7 @@
      ]
     },
     {
-     "id": 69,
+     "id": 81,
      "name": "gate_pillar_4",
      "type": "cutout",
      "rotation": 0,
@@ -4389,7 +4389,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 25,
+     "id": 37,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4407,7 +4407,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 38,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4425,7 +4425,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 39,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4443,7 +4443,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 40,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4461,7 +4461,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 41,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4479,7 +4479,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 42,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4497,7 +4497,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 43,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4515,7 +4515,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 44,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4533,7 +4533,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 45,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4551,7 +4551,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 46,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4569,7 +4569,7 @@
      ]
     },
     {
-     "id": 35,
+     "id": 47,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4587,7 +4587,7 @@
      ]
     },
     {
-     "id": 36,
+     "id": 48,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4605,7 +4605,7 @@
      ]
     },
     {
-     "id": 37,
+     "id": 49,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4623,7 +4623,7 @@
      ]
     },
     {
-     "id": 38,
+     "id": 50,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4641,7 +4641,7 @@
      ]
     },
     {
-     "id": 39,
+     "id": 51,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4659,7 +4659,7 @@
      ]
     },
     {
-     "id": 40,
+     "id": 52,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4677,7 +4677,7 @@
      ]
     },
     {
-     "id": 41,
+     "id": 53,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4695,7 +4695,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 54,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4713,7 +4713,7 @@
      ]
     },
     {
-     "id": 43,
+     "id": 55,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4731,7 +4731,7 @@
      ]
     },
     {
-     "id": 44,
+     "id": 56,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4749,7 +4749,7 @@
      ]
     },
     {
-     "id": 45,
+     "id": 57,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4767,7 +4767,7 @@
      ]
     },
     {
-     "id": 46,
+     "id": 58,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4785,7 +4785,7 @@
      ]
     },
     {
-     "id": 47,
+     "id": 59,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4803,7 +4803,7 @@
      ]
     },
     {
-     "id": 48,
+     "id": 60,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4821,7 +4821,7 @@
      ]
     },
     {
-     "id": 49,
+     "id": 61,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -6002,6 +6002,138 @@
      "y": 405,
      "width": 83,
      "height": 60
+    },
+    {
+     "id": 25,
+     "name": "surface_concrete_1",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 0,
+     "y": 664,
+     "width": 1152,
+     "height": 104
+    },
+    {
+     "id": 26,
+     "name": "surface_concrete_2",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 536,
+     "y": 589,
+     "width": 83,
+     "height": 75
+    },
+    {
+     "id": 27,
+     "name": "surface_concrete_3",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 1080,
+     "y": 248,
+     "width": 53,
+     "height": 420
+    },
+    {
+     "id": 28,
+     "name": "surface_gravel_4",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 113,
+     "y": 146,
+     "width": 105,
+     "height": 98
+    },
+    {
+     "id": 29,
+     "name": "surface_gravel_5",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 210,
+     "y": 161,
+     "width": 240,
+     "height": 83
+    },
+    {
+     "id": 30,
+     "name": "surface_gravel_6",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 375,
+     "y": 214,
+     "width": 375,
+     "height": 60
+    },
+    {
+     "id": 31,
+     "name": "surface_gravel_7",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 353,
+     "y": 255,
+     "width": 75,
+     "height": 225
+    },
+    {
+     "id": 32,
+     "name": "surface_gravel_8",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 705,
+     "y": 248,
+     "width": 75,
+     "height": 247
+    },
+    {
+     "id": 33,
+     "name": "surface_gravel_9",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 390,
+     "y": 435,
+     "width": 360,
+     "height": 68
+    },
+    {
+     "id": 34,
+     "name": "surface_gravel_10",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 0,
+     "y": 225,
+     "width": 150,
+     "height": 195
+    },
+    {
+     "id": 35,
+     "name": "surface_gravel_11",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 750,
+     "y": 338,
+     "width": 330,
+     "height": 63
+    },
+    {
+     "id": 36,
+     "name": "surface_gravel_12",
+     "rotation": 0,
+     "type": "surface",
+     "visible": true,
+     "x": 548,
+     "y": 480,
+     "width": 63,
+     "height": 113
     }
    ],
    "opacity": 1,
@@ -6012,7 +6144,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 70,
+ "nextobjectid": 82,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

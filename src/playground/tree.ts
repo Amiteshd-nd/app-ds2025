@@ -8,7 +8,7 @@
 import { sceneOrder } from '../dev/prereq';
 import type { NpcDef, SceneBeat, SceneComponent } from '../utils/types';
 
-export type NodeKind = 'group' | 'intro' | 'act' | 'arc' | 'scene' | 'beat' | 'character' | 'device' | 'location';
+export type NodeKind = 'group' | 'intro' | 'act' | 'arc' | 'scene' | 'beat' | 'character' | 'device' | 'location' | 'audio';
 export type NodeStatus = 'built' | 'stub' | 'failing';
 
 export interface TreeNode {
@@ -149,7 +149,9 @@ export function buildTree(
   // B1: every map/pocket, labelled by the district that renders it.
   const locationsGroup: TreeNode = { id: 'group:locations', label: 'Locations', kind: 'group', children: locations.map((l) => locationNode(l, problems)) };
 
-  return locations.length ? [intro, chapters, locationsGroup, characters, devices] : [intro, chapters, characters, devices];
+  // Audio (ADR-140): every token, the bus meters, the mix readout, the Act 4 test bench.
+  const audio: TreeNode = { id: 'audio', label: 'Audio', kind: 'audio', status: 'built' };
+  return locations.length ? [intro, chapters, locationsGroup, characters, audio, devices] : [intro, chapters, characters, audio, devices];
 }
 
 /**

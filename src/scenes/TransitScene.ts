@@ -6,6 +6,7 @@ import { FUEL_COUNTER } from '../systems/StatsManager';
 import { gameEvents } from '../core/events';
 import { FADE_MS, GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS, TRANSIT_CARD_MS } from '../utils/constants';
 import type { TransitSceneData, WorldSceneData } from './WorldScene';
+import { cue } from '../audio/cue';
 
 /**
  * TransitScene — the space between two places.
@@ -36,6 +37,9 @@ export class TransitScene extends Phaser.Scene {
 
     // The ride's bed replaces the place's while the card is up (ADR-139); arriving resets it.
     gameEvents.emit('audio:mode', { transit: data.exit.transit });
+    // How the ride starts (ADR-140): doors, a horn, the scooter's kick.
+    const start = { bus: 'a.sfx.vehicle.bus.door_hiss', metro: 'a.sfx.vehicle.metro.doors', auto: 'a.sfx.vehicle.auto.horn', scooter: 'a.sfx.vehicle.scooter.start', cab: 'a.sfx.world.door.metal' }[data.exit.transit as string];
+    if (start) cue(start);
 
     // The journey takes game time (ADR-121): a 40-minute walk can make you late.
     if (data.exit.minutes) TimeManager.getInstance().advance(data.exit.minutes);

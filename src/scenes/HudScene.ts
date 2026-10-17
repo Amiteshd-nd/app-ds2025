@@ -46,7 +46,8 @@ type Rect = { x: number; y: number; w: number; h: number };
  * Fixed layout, contextual content:
  *   top-left   ★ objective (one line, collapses to ★ after 4 s) · location
  *              card with NEW on arrival (5 s) · meters only when they matter
- *   top-right  clock with the sky glyph (tap: pause) · the phone button
+ *   top-right  clock with the sky glyph (tap: pause) · the settings gear
+ *              (tap: pause, always shown — also in a minimal HUD) · the phone button
  *              (PhoneScene) · wallet + tick for 3 s after money moves · SAVED
  *   world      a speech-bubble prompt over the NPC in reach ("[E] TALK" / tap)
  *   bottom     one toast at a time (queue), above the dialogue card when up
@@ -72,6 +73,7 @@ export class HudScene extends Phaser.Scene {
   private bubble!: Phaser.GameObjects.Container;
   private bubbleKey = '';
   private clockZone: Rect | null = null;
+  private gearZone: Rect | null = null;
   private controls: { root: Phaser.GameObjects.Container; ring: Phaser.GameObjects.Image; knob: Phaser.GameObjects.Image; action: Phaser.GameObjects.Container; stick: { cx: number; cy: number; r: number }; actionBox: { x: number; y: number; size: number } } | null = null;
   private actionKey = '';
   private stickPointer: number | null = null;
@@ -275,6 +277,8 @@ export class HudScene extends Phaser.Scene {
     const clockW = plateWidth(measure(clockText, true), bitmapWidth(sky));
     const clockX = L.right - clockW;
     this.clockZone = tapZone(clockX * L.k, L.pad * L.k, clockW * L.k, L.plateH * L.k);
+    const gear = L.settingsButton;
+    this.gearZone = tapZone(gear.x * L.k, gear.y * L.k, gear.size * L.k, gear.size * L.k);
     // The timer plate (a bus countdown) sits under the clock; the wallet moves down a row while it is up.
     // Boxes carried share the plate under the clock with a ride's countdown (story 2.4).
     const timer = [this.timer, carryText(store.counters[CARRY_COUNTER] ?? 0)].filter(Boolean).join(' · ') || null;
@@ -314,6 +318,9 @@ export class HudScene extends Phaser.Scene {
           blockRow(g, L.pad + L.meter.blocksX, row.y + 5, row.meter.blocks, 5, { on: tone });
         }
       }
+      // The settings gear: the phone button's plate, its icon centred (always up — the one visible way to pause on touch).
+      hudPlate(g, gear.x, gear.y, gear.size, gear.size, 'default', 4);
+      bitmap(g, ICONS.settings, gear.x + Math.round((gear.size - bitmapWidth(ICONS.settings)) / 2), gear.y + Math.round((gear.size - bitmapHeight(ICONS.settings)) / 2), hex('hud.text'));
       if (!minimal) {
         hudPlate(g, clockX, L.pad, clockW, L.plateH);
         bitmap(g, sky, clockX + 6, L.pad + 6, hex('hud.star'));
@@ -473,7 +480,11 @@ export class HudScene extends Phaser.Scene {
 
   private onPointerDown(p: Phaser.Input.Pointer): void {
     if (!this.root.visible || this.dialogueOpen) return;
-    // The clock plate is the touch way into the pause menu (ADR-119); the phone button keeps its own corner.
+    // The gear (and the clock plate, ADR-119) are the touch ways into the pause menu; the phone button keeps its own corner.
+    if (this.gearZone && this.inZone(p, this.gearZone)) {
+      (this.scene.get(SCENE_KEYS.MENU) as MenuScene | null)?.open();
+      return;
+    }
     if (this.clockZone && this.inZone(p, this.clockZone) && p.x < GAME_WIDTH - 44) {
       (this.scene.get(SCENE_KEYS.MENU) as MenuScene | null)?.open();
       return;

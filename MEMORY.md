@@ -145,3 +145,8 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Placeholders are data: `src/data/audio/synth/*.json` recipes + `songs/*.json` → `pnpm audio` (byte-identical). macOS filenames ignore case: the pipeline deletes stale renders before writing.
 - district:entered fires inside WorldScene.create, when the scene is not yet "active": read WorldScene via `game.scene.getScene`, not an active check.
 - Verify audio by the mix readout (`window.__nqAudio.inspect()`, `game.sound.sounds` volumes) and by wrapping `game.sound.play` to log keys — the pane can't be heard. A real click on the title is needed to unlock the AudioContext.
+
+## Audio A2 (2026-10-17, ADR-140)
+- A loop that is still loading must be asked for once (`pendingLoops`), or the 100 ms mix starts duplicates when it lands.
+- Footsteps: spec `surfaces` → zones of type `surface` (first match wins); tile-built streets read the ground tile; else the place's `surface` in beds.json.
+- Editing a Playground file hot-reloads the Playground page: any open map is gone — reopen before reading audio state. After a reload the AudioContext is suspended until a real click.

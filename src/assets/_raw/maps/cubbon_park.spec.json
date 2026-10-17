@@ -1010,5 +1010,115 @@
    ]
   }
  ],
- "above": []
+ "above": [],
+ "surfaces": [
+  {
+   "surface": "concrete",
+   "rect": [
+    0,
+    885,
+    1536,
+    139
+   ]
+  },
+  {
+   "surface": "concrete",
+   "rect": [
+    715,
+    785,
+    110,
+    100
+   ]
+  },
+  {
+   "surface": "concrete",
+   "rect": [
+    1440,
+    330,
+    70,
+    560
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    150,
+    195,
+    140,
+    130
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    280,
+    215,
+    320,
+    110
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    500,
+    285,
+    500,
+    80
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    470,
+    340,
+    100,
+    300
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    940,
+    330,
+    100,
+    330
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    520,
+    580,
+    480,
+    90
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    0,
+    300,
+    200,
+    260
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    1000,
+    450,
+    440,
+    85
+   ]
+  },
+  {
+   "surface": "gravel",
+   "rect": [
+    730,
+    640,
+    85,
+    150
+   ]
+  }
+ ]
 }

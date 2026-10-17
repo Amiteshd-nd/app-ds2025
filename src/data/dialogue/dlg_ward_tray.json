@@ -9,7 +9,8 @@
         "food": 30,
         "flags": {
           "ward_tray_eaten": true
-        }
+        },
+        "cue": "a.sfx.player.eat"
       }
     }
   }

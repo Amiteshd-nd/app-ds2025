@@ -5,6 +5,7 @@ import { useGameStore } from '../../store';
 import { LAYERS } from '../../utils/constants';
 import { findObject } from '../Zones';
 import type { Behaviour } from './index';
+import { cue } from '../../audio/cue';
 
 /** Seconds the bus takes to pull in / pull out (reduced motion: it simply appears). */
 export const BUS_MOVE_MS = 2500;
@@ -84,9 +85,13 @@ export const busSchedule: Behaviour = {
               open();
             }
             gameEvents.emit('ui:toast', { text: `${bus.label} pulling in.`, icon: 'bus' });
+            // Heard from the stop (ADR-140): the horn as it pulls in, the doors' hiss.
+            if (stop) { cue('a.sfx.vehicle.bus.horn', stop); cue('a.sfx.vehicle.bus.door_hiss', stop); }
           } else {
             store().setFlag(bus.flag, false);
             const to = point(bus.to);
+            const at = point(bus.stop);
+            if (at) cue('a.sfx.vehicle.bus.pass', at);
             if (sprite) scene.tweens.killTweensOf(sprite);
             if (sprite && to) {
               if (reducedMotion) sprite.setVisible(false);

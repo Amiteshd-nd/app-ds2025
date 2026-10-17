@@ -12,6 +12,7 @@ import { DEVICES, MIN_TARGET_MM, checkControl, type DevicePreset, type HandSize 
 import type { Target } from './ThumbOverlay';
 import type { TreeNode } from './tree';
 import { lineDiff } from './diff';
+import { AUDIO, type Bus } from '../audio/data';
 
 interface Props {
   node: TreeNode;
@@ -28,8 +29,8 @@ interface Props {
   sim: SimOptions;
   setSim(s: SimOptions): void;
   targets: Target[];
-  /** Part B: open a location (free-roam) and select its node; the last click-to-inspect pick; validator problems. */
-  openLocation(mapKey: string): void;
+  /** Part B: open a location (free-roam) and select its node (or keep the current one); the last click-to-inspect pick; validator problems. */
+  openLocation(mapKey: string, keepSelection?: boolean): void;
   pick: Pick | null;
   inspecting: boolean;
   setInspecting(on: boolean): void;
@@ -53,6 +54,7 @@ export default function Inspector(props: Props) {
       {node.kind === 'character' && <CharacterViewer node={node} />}
       {node.kind === 'device' && <DeviceInspector {...props} />}
       {node.kind === 'location' && node.location && <LocationInspector {...props} location={node.location} />}
+      {node.kind === 'audio' && <AudioInspector {...props} />}
       {(node.kind === 'group' || node.kind === 'act' || node.kind === 'arc') && (
         <p className="pg-dim">{node.children?.length ?? 0} item{node.children?.length === 1 ? '' : 's'} — select one to inspect or play it.</p>
       )}
@@ -250,6 +252,7 @@ const OVERLAYS: Array<{ kind: OverlayKind; label: string; tint: string }> = [
   { kind: 'tintSorted', label: 'Tint the sorted band', tint: 'pg-warnline' },
   { kind: 'tintAbove', label: 'Tint props_above', tint: 'pg-blue' },
   { kind: 'zones', label: 'Spawns + zones', tint: 'pg-dim' },
+  { kind: 'audio', label: 'Sound sources + footstep surfaces', tint: 'pg-blue' },
 ];
 
 /** B3/B4: a map opened alone — layer eyes, overlays, click-to-inspect, validator results, spawns and exits. */
@@ -521,6 +524,86 @@ function CharacterViewer({ node }: { node: TreeNode }) {
         <div className="pg-sub">Not in the game yet</div>
         {['Attire layers', 'Infected / _ruined variants', 'Ground shadow'].map((n) => <div key={n} className="pg-notyet">{n}</div>)}
       </Fold>
+    </>
+  );
+}
+
+// ── Audio (ADR-140) ─────────────────────────────────────────────────────────
+
+interface AudioHandle {
+  inspect(): { mix: { state: string; band: string; bed: Record<string, number>; music: string | null } | null; noise: number; beds: Record<string, number>; music: string | null };
+  busLevels(): Record<Bus, number>;
+  setSolo(bus: Bus | null): void;
+  getSolo(): Bus | null;
+  setDebug(d: { stability?: number; chaseActive?: boolean; nearestInfected?: number | null }): void;
+  getDebug(): { stability?: number; chaseActive?: boolean; nearestInfected?: number | null };
+  preview(token: string): void;
+}
+const audioHandle = (): AudioHandle | null => (window as unknown as { __nqAudio?: AudioHandle }).__nqAudio ?? null;
+const BUSES: Bus[] = ['music', 'ambience', 'sfx', 'ui', 'voice'];
+
+/** Every token with ▶, the bus meters with solo, the live mix, and the Act 4 test bench (stability, a chase, an infected's distance). */
+function AudioInspector({ openLocation }: Props) {
+  const [view, setView] = useState<{ mix: ReturnType<AudioHandle['inspect']>; levels: Record<Bus, number>; solo: Bus | null; debug: ReturnType<AudioHandle['getDebug']> } | null>(null);
+  const [filter, setFilter] = useState('');
+  useEffect(() => {
+    const tick = () => { const a = audioHandle(); setView(a ? { mix: a.inspect(), levels: a.busLevels(), solo: a.getSolo(), debug: a.getDebug() } : null); };
+    tick();
+    const timer = window.setInterval(tick, 250);
+    return () => window.clearInterval(timer);
+  }, []);
+  const a = audioHandle();
+  const tokens = Object.entries(AUDIO).filter(([t]) => !filter || t.includes(filter.toLowerCase()));
+  const placeholders = Object.values(AUDIO).filter((e) => e.tier === 'placeholder').length;
+  const stability = view?.debug.stability;
+  const infected = view?.debug.nearestInfected;
+  return (
+    <>
+      <p className="pg-dim">{Object.keys(AUDIO).length} tokens · {placeholders} placeholder · {Object.keys(AUDIO).length - placeholders} final. Click the game once first — browsers start sound only after a click.</p>
+      {!a ? <p className="pg-dim">The game has not started its sound yet.</p> : null}
+      <h3>Now</h3>
+      <div className="pg-kv">
+        <div>State</div><div><b>{view?.mix.mix?.state ?? '—'}</b> · band {view?.mix.mix?.band ?? '—'}</div>
+        <div>Music</div><div>{view?.mix.music ?? 'none (the city only)'}</div>
+        <div>Beds</div><div>{Object.entries(view?.mix.beds ?? {}).map(([t, g]) => `${t.replace('a.bed.', '')} ${g}`).join(' · ') || '—'}</div>
+        <div>Noise</div><div>{view?.mix.noise ?? 0} tiles</div>
+      </div>
+      <h3>Buses</h3>
+      {BUSES.map((b) => (
+        <div key={b} className="pg-row">
+          <label style={{ width: 90 }}><input type="radio" name="solo" checked={view?.solo === b} onChange={() => a?.setSolo(b)} /> {b}</label>
+          <div style={{ flex: 1, height: 8, background: 'var(--pg-edge)' }}><div style={{ width: `${Math.min(100, Math.round((view?.levels[b] ?? 0) * 100))}%`, height: 8, background: 'var(--pg-good)' }} /></div>
+        </div>
+      ))}
+      <div className="pg-row"><label><input type="radio" name="solo" checked={!view?.solo} onChange={() => a?.setSolo(null)} /> all buses</label></div>
+      <h3>Act 4 test bench</h3>
+      <p className="pg-dim">Act 4 doesn't exist yet — these stand in for its inputs. Open the test map, walk, and turn the city.</p>
+      <button disabled={!a} onClick={() => openLocation('whitefield_street', true)}>▶ Open the test map (Whitefield street)</button>
+      <div className="pg-row">
+        <label style={{ width: 90 }}>Stability</label>
+        <input type="range" min={0} max={100} step={5} value={stability ?? 100} onChange={(e) => a?.setDebug({ stability: Number(e.target.value) })} />
+        <span>{stability ?? 100} · {view?.mix.mix?.band ?? ''}</span>
+      </div>
+      <div className="pg-row">
+        <label style={{ width: 90 }}>Infected</label>
+        <input type="range" min={0} max={12} step={1} value={infected ?? 12} onChange={(e) => a?.setDebug({ nearestInfected: Number(e.target.value) >= 12 ? null : Number(e.target.value) })} />
+        <span>{infected === null || infected === undefined ? 'none near' : `${infected} tiles`}</span>
+      </div>
+      <div className="pg-row">
+        <label><input type="checkbox" checked={view?.debug.chaseActive ?? false} onChange={(e) => a?.setDebug({ chaseActive: e.target.checked })} /> Chase</label>
+        <button onClick={() => a?.setDebug({ stability: undefined, chaseActive: false, nearestInfected: null })}>Reset</button>
+      </div>
+      <h3>Tokens</h3>
+      <input placeholder="filter (e.g. step, bed., chai)" value={filter} onChange={(e) => setFilter(e.target.value)} />
+      <div className="pg-layers" style={{ maxHeight: 320, overflow: 'auto' }}>
+        {tokens.map(([t, e]) => (
+          <div key={t} className="pg-layer">
+            <button disabled={!a || e.loop} title={e.loop ? 'A loop — hear it in a place' : 'Play once'} onClick={() => a?.preview(t)}>▶</button>
+            <span>{t}</span>
+            <span className="pg-dim">{e.bus} · {e.tier} · {e.licence}{e.loop ? ' · loop' : ''}</span>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

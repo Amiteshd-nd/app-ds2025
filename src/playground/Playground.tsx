@@ -18,6 +18,7 @@ import { buildLocations, buildTree, filterTree, findNode, type TreeNode } from '
 import { DEVICES, deviceById, type HandSize } from './ergonomics';
 import ThumbOverlay, { type Target } from './ThumbOverlay';
 import Inspector from './Inspector';
+import { useSettings } from '../systems/SettingsManager';
 
 export interface Preset {
   id: string;
@@ -211,10 +212,10 @@ export default function Playground() {
   }, [api]);
 
   /** B3: open a map alone at its first district's default spawn — free-roam, no quest state. */
-  const openLocation = useCallback((mapKey: string) => {
+  const openLocation = useCallback((mapKey: string, keepSelection = false) => {
     const district = Object.values(DISTRICTS).find((d) => d.map === mapKey);
     if (!district) return;
-    setSelectedId(`loc:${mapKey}`);
+    if (!keepSelection) setSelectedId(`loc:${mapKey}`);
     setPick(null);
     play({ kind: 'district', districtId: district.id }, {});
   }, [play]);
@@ -304,6 +305,11 @@ export default function Playground() {
     return () => window.clearInterval(timer);
   }, [device, measure]);
 
+  // Sound controls in the toolbar: the game's own Settings → Audio (master, step 10; mute), so the pause menu agrees.
+  const muted = useSettings((st) => st.settings.audio.muted);
+  const master = useSettings((st) => st.settings.audio.master);
+  const setAudio = useSettings((st) => st.set);
+
   return (
     <div className="pg-root" style={{ gridTemplateColumns: `${widths.left}px 6px 1fr 6px ${widths.right}px` }}>
       <aside className="pg-left">
@@ -325,6 +331,12 @@ export default function Playground() {
           <button disabled={!api} onClick={() => { if (!api) return; if (paused) api.resume(); else api.pause(); setPaused(!paused); }}>{paused ? '▶' : '❚❚'}</button>
           <button disabled={!api || !lastNode} title="Restart node" onClick={() => lastNode && play(lastNode.node, lastNode.override)}>↻</button>
           <button disabled={!api || !paused} title="Step one frame" onClick={() => api?.step(1)}>⏭</button>
+          <span className="pg-sound">
+            <button title={muted ? 'Unmute' : 'Mute'} aria-pressed={muted} onClick={() => setAudio('audio', 'muted', !muted)}>{muted ? '🔇' : '🔊'}</button>
+            <button title="Volume down" disabled={master <= 0} onClick={() => setAudio('audio', 'master', Math.max(0, master - 10))}>−</button>
+            <span className="pg-dim" title="Master volume">{master}</span>
+            <button title="Volume up" disabled={master >= 100} onClick={() => setAudio('audio', 'master', Math.min(100, master + 10))}>+</button>
+          </span>
           <select title="Speed" value={speed} onChange={(e) => { const v = Number(e.target.value); setSpeed(v); api?.setSpeed(v); }}>
             {SPEEDS.map((s) => <option key={s} value={s}>{s}×</option>)}
           </select>

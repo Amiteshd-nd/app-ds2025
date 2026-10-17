@@ -158,3 +158,34 @@ describe('voices', () => {
     expect(voiceOf('dlg_sealed_door')).toEqual({});
   });
 });
+
+describe('A2: every scene, the Act 4 states (ADR-140)', () => {
+  it('footsteps by area: street tiles and spec surfaces', async () => {
+    const { streetSurface } = await import('../audio/mix');
+    expect(['road', 'road_dash_h', 'paver_crack', 'kerb_top', 'puddle', 'bench'].map(streetSurface)).toEqual(['asphalt', 'asphalt', 'concrete', 'concrete', 'puddle', null]);
+    const tmj = JSON.parse(readFileSync(join(src, 'assets/tilemaps/cubbon_park.tmj'), 'utf8'));
+    const surfaces = tmj.layers.find((l: { name: string }) => l.name === 'spawns').objects.filter((o: { type: string }) => o.type === 'surface').map((o: { name: string }) => o.name.split('_')[1]);
+    expect(new Set(surfaces)).toEqual(new Set(['concrete', 'gravel']));
+    expect(surfaceOf('cubbon_park')).toBe('grass');
+  });
+
+  it('people fall silent as a place turns; machines carry on', async () => {
+    const { sourceScale } = await import('../audio/mix');
+    expect(['normal', 'warning', 'infected', 'deep'].map((b) => sourceScale('human', b as never))).toEqual([1, 0.5, 0, 0]);
+    expect(sourceScale('machine', 'deep')).toBe(1);
+    // …and the chai stall turns uncanny: the whistle with nobody there.
+    expect(DISTRICTS.airport.audioSources!.find((s) => s.token === 'a.sfx.npc.sig.chai_whistle')!.uncanny).toBe('a.uncanny.chai_whistle_empty');
+  });
+
+  it('the heartbeat rises as an infected comes closer', () => {
+    expect(mixFor(ctx({ nearestInfected: 8 })).bed['a.bed.heartbeat_bed'] ?? 0).toBe(0);
+    expect(mixFor(ctx({ nearestInfected: 4 })).bed['a.bed.heartbeat_bed']).toBeCloseTo(0.5);
+    expect(mixFor(ctx({ nearestInfected: 0 })).bed['a.bed.heartbeat_bed']).toBe(1);
+  });
+
+  it('most places have sound sources, each on a spot their map has (validated) and a real token', () => {
+    const withSources = Object.values(DISTRICTS).filter((d) => d.audioSources?.length).map((d) => d.id);
+    expect(withSources.length).toBeGreaterThanOrEqual(18);
+    for (const d of Object.values(DISTRICTS)) for (const s of d.audioSources ?? []) expect(AUDIO[s.token], `${d.id} ${s.token}`).toBeDefined();
+  });
+});

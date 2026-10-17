@@ -107,6 +107,8 @@ export interface StatEffect {
   minutes?: number;
   /** A card sequence that plays when the conversation closes ("Tell me." → the corridor, ADR-138). */
   card?: string;
+  /** An audio token played when the line shows (the glass tapping in Ward 4, ADR-140). */
+  cue?: string;
 }
 
 // --- Relationships (game_components §8, ADR-123) ---------------------------
@@ -364,7 +366,7 @@ export interface DistrictDef {
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
   nightTint?: number;
   /** Sounds that come from a spot (ADR-139): a looping token fades with distance; a one-shot repeats every `every` [min, max] seconds. `at` = a spawn/zone in the map. */
-  audioSources?: Array<{ at: string; token: string; every?: [number, number]; radius?: number }>;
+  audioSources?: Array<{ at: string; token: string; every?: [number, number]; radius?: number; /** `human` sources fall silent once the place turns (stability < 40, ADR-140)… */ kind?: 'human' | 'machine'; /** …and this token plays instead (ADR-29 uncanny reuse). */ uncanny?: string }>;
   fadeMs?: number;
   unlock?: DistrictUnlock;
   /** Phone signal bars inside these zones (the hill's three doors, ADR-122); elsewhere the district's `signal`. */

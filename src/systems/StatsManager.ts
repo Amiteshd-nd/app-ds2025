@@ -105,6 +105,7 @@ export class StatsManager {
    */
   applyEffect(effect: StatEffect, label?: string): void {
     if (effect.card) gameEvents.emit('card:requested', { cardId: effect.card });
+    if (effect.cue) gameEvents.emit('audio:cue', { token: effect.cue });
     if (effect.health) this.adjust('health', effect.health);
     if (effect.food) this.adjust('food', effect.food);
     if (effect.stress) this.adjust('stress', effect.stress);

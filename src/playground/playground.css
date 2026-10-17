@@ -31,6 +31,8 @@ label { display: inline-flex; gap: 4px; align-items: center; }
 
 .pg-centre { display: flex; flex-direction: column; min-width: 0; }
 .pg-toolbar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 8px 16px; border-bottom: 1px solid var(--pg-edge); background: var(--pg-panel); }
+.pg-sound { display: inline-flex; align-items: center; gap: 4px; }
+.pg-sound .pg-dim { min-width: 3ch; text-align: center; font-variant-numeric: tabular-nums; }
 .pg-fps { margin-left: auto; color: var(--pg-focus); }
 .pg-status { padding: 4px 16px; color: var(--pg-warn); }
 .pg-stage { flex: 1; display: grid; place-items: center; min-height: 0; overflow: hidden; }
@@ -120,3 +122,7 @@ body.pg-resizing iframe, body.pg-resizing canvas { pointer-events: none; }
 .pg-movie-report { max-height: 40vh; overflow: auto; background: var(--pg-bg); border: 1px solid var(--pg-edge); border-radius: 4px; padding: 8px; }
 .pg-movie-steps { margin: 4px 0; padding-left: 16px; }
 .pg-movie-shot { display: block; max-width: 320px; image-rendering: pixelated; margin: 4px 0; border: 1px solid var(--pg-edge); }
+
+/* Audio inspector (ADR-140): a two-column readout. */
+.pg-kv { display: grid; grid-template-columns: 70px 1fr; gap: 2px 8px; font-size: 12px; }
+.pg-kv > div:nth-child(odd) { color: var(--pg-dim); }

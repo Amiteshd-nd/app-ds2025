@@ -10,6 +10,7 @@ import {
   COUNT_IN_BARS, HIT_WINDOW_MS, beatMs, hits, notesFor, passShare, passed, press, songMs, sweep,
   type RhythmLesson, type RhythmNote,
 } from '../systems/rhythm';
+import { cue } from '../audio/cue';
 
 export interface RhythmSceneData {
   lesson: RhythmLesson;
@@ -113,7 +114,10 @@ export class RhythmScene extends Phaser.Scene {
   private act(): void {
     if (this.phase === 'intro') { this.phase = 'count'; this.t = -COUNT_IN_BARS * 4 * beatMs(this.d.lesson.bpm); return; }
     if (this.phase === 'play') {
+      const due = this.notes.find((n) => !n.hit && !n.missed);
       const r = press(this.notes, this.t);
+      // The strum is heard (ADR-140): the chord on a hit, a dead thunk on a miss.
+      cue(r === 'clean' || r === 'hit' ? `a.sfx.world.guitar.${(due?.chord ?? 'G').toLowerCase()}` : 'a.sfx.player.bump_wall');
       this.flash = { text: r === 'clean' ? 'CLEAN' : r === 'hit' ? 'GOOD' : '·', until: this.t + 300 };
       return;
     }

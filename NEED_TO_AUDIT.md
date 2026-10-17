@@ -29,6 +29,8 @@ corepack pnpm movie
 | 9 | P18 · 3.2 "Ward 4" (ADR-137) | 2026-10-17 | local commit, not pushed | waiting |
 | 10 | P19 · 3.3 "The Corridor" (ADR-138) | 2026-10-17 | local commit, not pushed | waiting |
 | 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | local commit, not pushed | waiting |
+| 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | local commit, not pushed | waiting |
+| 13 | HUD settings gear + Playground mute/volume (ADR-141) | 2026-10-17 | local, not committed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -157,3 +159,32 @@ corepack pnpm dev
   - Footsteps don't change between pavement and road within a place yet (that's audio step A2).
   - Offline, a sound plays only after it has played once online.
 - **Your homework for later steps:** the recording list in `docs/audio_plan_v1.md` §5.4 (20 short recordings). Also: install ffmpeg, and OK the Kenney downloads when we reach A3.
+
+## 12. Audio A2: every scene, footstep areas, the Act 4 test bench
+- **What:**
+  - **Sounds from a spot in 19 of 21 places:** the Darshini's plates and dosa tawa, a pressure cooker, the hill chai stall, the ice-cream bell, the busker, metro gates, the coach doors, the ward TV, the corridor's fume hood.
+  - **Footsteps follow the ground:** pavement versus road on Whitefield, and gravel paths, grass and stone in Cubbon.
+  - **Guitar lessons** sound like a guitar.
+  - **Vehicles:** buses honk and hiss as they pull in, and every ride starts with a sound.
+  - **Key lines have sounds:** the ward's glass tapping, the TV, and the APPA ring in the corridor.
+- **Check in the game:** walk Whitefield from the pavement onto the road, walk Cubbon's paths and lawns, play a guitar lesson in the flat, and wait for a bus at Whitefield.
+- **Check in the Playground:** click **Audio** in the tree, then:
+  - Press ▶ on any sound.
+  - Watch the bus meters, or pick one bus to hear it alone.
+  - Press **Open the test map**, click the game once, and drag **Stability** from 100 to 0. The people go first; then it's wind, flies and one crow; at the bottom, a heartbeat and groans.
+  - Slide **Infected** closer to hear the heartbeat rise. Tick **Chase** for the chase music, and untick it for the relief chord.
+  - In any map's Layer lines, tick **Sound sources + footstep surfaces** to see the speakers and their hearing range.
+- **Calls to confirm:**
+  - Which places got which sounds (my picks).
+  - The busker only plays G and C.
+  - People get half as loud at "warning".
+  - The "uncanny" chai whistle is the real one, slightly flat, with a long gap.
+  - Cubbon's path areas are rectangles over curved paths, so a few steps at the curves sound wrong.
+
+## 13. HUD settings gear + Playground mute/volume
+- **What:** a gear on the HUD, top-right just left of the phone button, that pauses the game into the menu (Settings is one tap further). In the Playground toolbar: 🔊/🔇 mute, and − / + master volume in steps of 10.
+- **Check:** in the Playground, play any scene and tap the gear (try **Accessibility → Larger text** too, and 3.3 "The Corridor", where the clock is hidden but the gear stays). Use 🔊 − + in the toolbar and open **Settings → Audio** in the pause menu: it shows the same values.
+- **Calls to confirm:**
+  - The gear opens the pause menu rather than going straight to Settings.
+  - A 16px gap between the gear and the phone; the clock moved left to make room.
+  - The gear stays visible in the corridor.

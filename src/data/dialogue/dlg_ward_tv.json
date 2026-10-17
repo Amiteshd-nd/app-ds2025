@@ -8,7 +8,8 @@
       "effect": {
         "flags": {
           "ward_tv_seen": true
-        }
+        },
+        "cue": "a.sfx.world.tv_on"
       }
     }
   }

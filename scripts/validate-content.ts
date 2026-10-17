@@ -27,7 +27,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['card', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes'];
+const EFFECT_KEYS = ['card', 'cue', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -935,6 +935,7 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     };
 
     need(district.defaultSpawn, 'defaultSpawn');
+    for (const src of district.audioSources ?? []) need(src.at, `audioSources (${src.token}) at`);
     // Someone else's body and a slim HUD (Ravi in the corridor, ADR-138).
     if (district.playerSheet !== undefined && !sprites.has(district.playerSheet)) add(`${d} playerSheet "${district.playerSheet}" has no PNG in src/assets/sprites`);
     if (district.hud !== undefined && district.hud !== 'minimal') add(`${d} hud must be "minimal"`);
@@ -1341,7 +1342,7 @@ export function validateCards(files: JsonFile[], districts: Json[], stills: Set<
  * a token, every place has a bed, footstep surfaces exist, LICENSES.md lists
  * every file, and the total stays under 15 MB.
  */
-export function validateAudio(manifest: Json, beds: Json, districts: Json[], cards: Json[], files: Map<string, number>, licences: string): string[] {
+export function validateAudio(manifest: Json, beds: Json, districts: Json[], cards: Json[], files: Map<string, number>, licences: string, dialogues: Json[] = []): string[] {
   const problems: string[] = [];
   const tokens = (manifest?.tokens ?? {}) as Record<string, Json>;
   const add = (m: string) => problems.push(m);
@@ -1372,9 +1373,18 @@ export function validateAudio(manifest: Json, beds: Json, districts: Json[], car
   for (const band of Object.values((beds?.bands ?? {}) as Record<string, Json>)) layerList('audio/beds.json: bands', band.add);
   for (const d of districts) {
     if (!beds?.districts?.[d.id]?.day) add(`audio/beds.json: district "${d.id}" has no day bed — every place needs one (no silent place)`);
-    for (const s of d.audioSources ?? []) tok(s.token, `districts.json: district "${d.id}" audioSources`);
+    for (const s of d.audioSources ?? []) {
+      tok(s.token, `districts.json: district "${d.id}" audioSources`);
+      if (s.uncanny) tok(s.uncanny, `districts.json: district "${d.id}" audioSources (uncanny)`);
+      if (s.kind !== undefined && !['human', 'machine'].includes(s.kind)) add(`districts.json: district "${d.id}" audioSource kind must be human or machine`);
+      if (s.every && !(Array.isArray(s.every) && s.every.length === 2 && s.every[0] > 0 && s.every[1] >= s.every[0])) add(`districts.json: district "${d.id}" audioSource every must be [min, max] seconds`);
+      if (s.radius !== undefined && !(s.radius > 0 && s.radius <= 12)) add(`districts.json: district "${d.id}" audioSource radius must be 1–12 tiles`);
+    }
   }
   for (const c of cards) for (const pnl of c.panels ?? []) if (pnl.cue) tok(pnl.cue, `cards/${c.id}`);
+  for (const dlg of dialogues) for (const [id, node] of Object.entries((dlg?.nodes ?? {}) as Record<string, Json>)) {
+    for (const src of [node, ...((node.choices ?? []) as Json[])]) if (src?.effect?.cue) tok(src.effect.cue, `dialogue/${dlg.id}.json node "${id}"`);
+  }
   const bytes = [...files.values()].reduce((n, b) => n + b, 0);
   if (bytes > 15 * 1024 * 1024) add(`src/assets/audio is ${(bytes / 1048576).toFixed(1)} MB — over the 15 MB budget`);
   return problems;
@@ -1445,6 +1455,7 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     JSON.parse(readFileSync(join(dataDir, 'audio/beds.json'), 'utf8')),
     districts, cardFiles.map((f) => f.json), audioFiles,
     existsSync(join(audioDir, 'LICENSES.md')) ? readFileSync(join(audioDir, 'LICENSES.md'), 'utf8') : '',
+    dialogue.map((f) => f.json),
   ));
 
   const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])), npcCards });

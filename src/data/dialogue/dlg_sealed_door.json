@@ -15,7 +15,10 @@
     },
     "tap": {
       "text": "(Something on the other side taps on the glass. Slow. Patient. Tap. ... Tap.)",
-      "next": "stop"
+      "next": "stop",
+      "effect": {
+        "cue": "a.sfx.world.glass_tap"
+      }
     },
     "stop": {
       "text": "(You step back. It stops.)",

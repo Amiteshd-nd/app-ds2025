@@ -28,7 +28,9 @@ export interface HudLayout {
   safeBottom: number;
   /** The closed phone's button, top-right (PhoneScene draws it at scale k; the HUD lays out around it). */
   phoneButton: { x: number; y: number; size: number };
-  /** Right edge shared by the clock and wallet plates: 6px clear of the phone button. */
+  /** The settings gear, left of the phone button, same plate (tap: the pause menu). */
+  settingsButton: { x: number; y: number; size: number };
+  /** Right edge shared by the clock and wallet plates: 6px clear of the settings gear. */
   right: number;
   /** Objective plate: ★ + one line; its text is truncated to keep clear of the clock. */
   objective: { x: number; y: number; maxTextW: number };
@@ -51,12 +53,14 @@ const CLOCK_W_MAX = 130;
 
 export function hudLayout(k: HudScale = 1): HudLayout {
   const W = GAME_WIDTH / k, H = GAME_HEIGHT / k;
-  const pad = 8, btn = 28, plateH = 19;
-  const right = W - pad - btn - 6;
+  const pad = 8, btn = 28, plateH = 19, btnGap = 16; // the two 44px touch zones meet, never overlap
+  const gearX = W - pad - btn - btnGap - btn;
+  const right = gearX - 6;
   return {
     k, W, H, pad, plateH,
     safeBottom: H - 20 / k,
     phoneButton: { x: W - pad - btn, y: pad, size: btn },
+    settingsButton: { x: gearX, y: pad, size: btn },
     right,
     objective: { x: pad, y: pad, maxTextW: Math.min(300, right - CLOCK_W_MAX - pad - 25 - 8) },
     stackGap: 4,

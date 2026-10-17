@@ -49,6 +49,16 @@ describe('HUD layout promises (ADR-118)', () => {
     expect(HUD.right).toBeLessThan(HUD.phoneButton.x);
   });
 
+  it.each([1, 2] as const)('the settings gear sits left of the phone button; their touch zones never overlap (%d×)', (k) => {
+    const L = hudLayout(k);
+    const zone = (b: { x: number; y: number; size: number }) => tapZone(b.x * k, b.y * k, b.size * k, b.size * k);
+    const gear = zone(L.settingsButton), phone = zone(L.phoneButton);
+    expect(gear.w).toBeGreaterThanOrEqual(MIN_TAP);
+    expect(gear.x + gear.w).toBeLessThanOrEqual(phone.x);
+    expect(L.settingsButton.y).toBe(L.phoneButton.y);
+    expect(L.right).toBeLessThan(L.settingsButton.x);
+  });
+
   it('the longest objective line still clears the clock plate', () => {
     const longest = Math.max(...Object.values(QUESTS).flatMap((q) => q.objectives.map((o) => measure(objectiveText(o.text)))));
     const objectiveRight = HUD.objective.x + plateWidth(longest, 7);

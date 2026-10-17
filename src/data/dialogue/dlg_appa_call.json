@@ -16,7 +16,10 @@
           "requiresFlag": "ravi_could_ignore",
           "lockedText": "It's Appa."
         }
-      ]
+      ],
+      "effect": {
+        "cue": "a.sfx.npc.sig.appa_ringtone"
+      }
     },
     "appa1": {
       "text": "Appa: Ravi? Sorry, sorry, I know it's late. Your Amma's in the hospital again - no, don't come, it's nothing, it's the sugar. I just wanted to hear you.",

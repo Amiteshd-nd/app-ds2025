@@ -10,6 +10,7 @@
  */
 import type Phaser from 'phaser';
 import { OVERLAY_URLS } from '../assets';
+import { MAPS } from '../assets/maps';
 import { zYForDepth } from '../core/depth';
 import { DISTRICTS, SCENES } from '../data';
 import { SaveManager } from '../systems/SaveManager';
@@ -58,7 +59,7 @@ export interface DevApi {
   mapInfo(): MapInfo | null;
 }
 
-export type OverlayKind = 'collision' | 'ysort' | 'feet' | 'tintSorted' | 'tintAbove' | 'zones';
+export type OverlayKind = 'collision' | 'ysort' | 'feet' | 'tintSorted' | 'tintAbove' | 'zones' | 'audio';
 
 export interface LayerInfo {
   name: string;
@@ -164,7 +165,7 @@ export function installDevApi(game: Phaser.Game): DevApi {
   };
 
   // ── Part B: layer inspection (ADR-125) ──────────────────────────────────
-  const overlayState: Record<OverlayKind, boolean> = { collision: false, ysort: false, feet: false, tintSorted: false, tintAbove: false, zones: false };
+  const overlayState: Record<OverlayKind, boolean> = { collision: false, ysort: false, feet: false, tintSorted: false, tintAbove: false, zones: false, audio: false };
   let overlayGfx: Phaser.GameObjects.Graphics | null = null;
   let overlayLabels: Phaser.GameObjects.Text[] = [];
   const hidden = new Set<string>();
@@ -195,11 +196,31 @@ export function installDevApi(game: Phaser.Game): DevApi {
     for (const o of props) o.each((c: Phaser.GameObjects.GameObject) => { const sp = c as Phaser.GameObjects.Sprite; if (sp.setTint) sp.setTint(overlayState.tintSorted ? 0xffdd44 : 0xffffff); });
     for (const o of above) o.setTint(overlayState.tintAbove ? 0x4488ff : 0xffffff);
   };
+  /** Audio (ADR-140): footstep surface rects tinted by kind, each sound source as a speaker with its hearing radius. */
+  const SURFACE_TINT: Record<string, number> = { concrete: 0x9a9a9a, asphalt: 0x444455, gravel: 0xc0602f, grass: 0x44aa44, mud: 0x6b4a2b, puddle: 0x3388ff, metal: 0xb0c4de, tile: 0xeeeeee, wood: 0xa0702f };
+  const drawAudio = (w: W, g: Phaser.GameObjects.Graphics) => {
+    const layer = w.map.getObjectLayer(MAPS[DISTRICTS[useGameStore.getState().activeDistrict ?? '']?.map ?? '']?.spawnLayer ?? '');
+    for (const o of layer?.objects ?? []) {
+      if (o.type !== 'surface') continue;
+      const kind = (o.name ?? '').split('_')[1] ?? '';
+      g.fillStyle(SURFACE_TINT[kind] ?? 0xffffff, 0.22).fillRect(o.x ?? 0, o.y ?? 0, o.width ?? 0, o.height ?? 0);
+    }
+    const audio = (window as unknown as { __nqAudio?: { sourcesView(): Array<{ token: string; x: number; y: number; radius: number; kind?: string; loop: boolean }> } }).__nqAudio;
+    for (const s of audio?.sourcesView() ?? []) {
+      const tint = s.kind === 'human' ? 0xffaa33 : 0x33ccff;
+      g.lineStyle(1, tint, 0.7).strokeCircle(s.x, s.y, s.radius);
+      g.fillStyle(tint, 1).fillRect(s.x - 3, s.y - 2, 3, 4).fillTriangle(s.x, s.y - 4, s.x, s.y + 4, s.x + 4, s.y);
+      const t = w.add.text(s.x + 6, s.y - 4, s.token.replace(/^a\.(sfx\.)?/, ''), { fontSize: '7px', color: s.kind === 'human' ? '#ffaa33' : '#33ccff' }).setDepth(10_002);
+      overlayLabels.push(t);
+    }
+  };
+
   const drawOverlays = (w: W) => {
     if (!overlayGfx || overlayGfx.scene !== w) { overlayGfx?.destroy(); overlayGfx = w.add.graphics().setDepth(10_001); }
     for (const t of overlayLabels) t.destroy();
     overlayLabels = [];
     const g = overlayGfx; g.clear();
+    if (overlayState.audio) drawAudio(w, g);
     if (!overlayState.collision && !overlayState.ysort && !overlayState.feet) return;
     const bodies = w.physics.world;
     if (overlayState.collision) { g.lineStyle(1, 0xff3344, 0.9); for (const b of bodies.staticBodies.entries as Phaser.Physics.Arcade.StaticBody[]) g.strokeRect(b.x, b.y, b.width, b.height); }

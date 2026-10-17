@@ -7,7 +7,10 @@ import { TimeManager } from '../systems/TimeManager';
 import { useGameStore } from '../store';
 import { TILESET_URLS } from '../assets';
 import { MAPS, LAYER_ORDER } from '../assets/maps';
-import { CARDS, getDistrict, MINIGAMES } from '../data';
+import { CARDS, getDistrict, MINIGAMES, STREET_TILE_IDS } from '../data';
+
+/** Street tile id → name, for footstep surfaces on tile-built streets (ADR-140). */
+const STREET_TILE_NAMES: Record<number, string> = Object.fromEntries(Object.entries(STREET_TILE_IDS).map(([n, id]) => [id, n]));
 import { gameEvents } from '../core/events';
 import { depthForZY, feetY } from '../core/depth';
 import * as Populate from '../world/Populate';
@@ -23,6 +26,7 @@ import {
   FADE_MS,
   INTERACT_RANGE_PX,
   LAYER_DEPTH,
+  LAYERS,
   METRO_RIDE_MINUTES,
   SCENE_KEYS,
   TILE_SIZE,
@@ -34,6 +38,7 @@ import { outcome as rhythmOutcome, pick as pickRhythm } from '../systems/rhythm'
 import type { WorkdaySceneData } from './WorkdayScene';
 import type { CardSceneData } from './CardScene';
 import { outcome as cardOutcome } from '../systems/cards';
+import { streetSurface } from '../audio/mix';
 
 export interface WorldSceneData {
   districtId: string;
@@ -554,6 +559,23 @@ export class WorldScene extends Phaser.Scene {
   /** The phone (and later the map / pause menu) may open only while the player is free to act. */
   canOpenOverlay(): boolean {
     return !this.talking && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null;
+  }
+
+  /**
+   * The footstep surface under the feet (ADR-140): a `surface` rect from the map
+   * spec first; on a tile-built street, the ground tile itself (road → asphalt,
+   * pavers and kerbs → concrete, a puddle → puddle); else null (the place's default).
+   */
+  surfaceAt(x: number, y: number): string | null {
+    const layer = this.map.getObjectLayer(MAPS[this.district.map].spawnLayer ?? '');
+    for (const o of layer?.objects ?? []) {
+      if (o.type !== 'surface' || o.x === undefined || o.y === undefined) continue;
+      if (x >= o.x && x < o.x + (o.width ?? 0) && y >= o.y && y < o.y + (o.height ?? 0)) return (o.name ?? '').split('_')[1] ?? null;
+    }
+    const tile = this.map.getTileAtWorldXY(x, y, false, undefined, LAYERS.ground);
+    const set = tile ? this.map.tilesets.find((t) => t.name === 'street') : undefined;
+    if (!tile || !set) return null;
+    return streetSurface(STREET_TILE_NAMES[tile.index - set.firstgid] ?? '');
   }
 
   /** A named spawn/zone's centre in world px — where a sound comes from (ADR-139). */

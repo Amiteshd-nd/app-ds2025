@@ -102,8 +102,23 @@ export function musicFor(state: MusicState, ctx: Pick<MixContext, 'districtId' |
 
 export function mixFor(ctx: MixContext, beds: BedsFile = BEDS): Mix {
   const state = musicState(ctx);
-  return { state, band: bandFor(ctx.stability, beds), bed: bedFor(ctx, beds), music: musicFor(state, ctx, beds) };
+  const bed = bedFor(ctx, beds);
+  // The heartbeat layer rises as an infected comes closer (8 tiles → 0, touching → full) — ADR-29's heartbeat, proximity-led.
+  if (ctx.nearestInfected !== null && ctx.nearestInfected <= 8) bed['a.bed.heartbeat_bed'] = Math.max(bed['a.bed.heartbeat_bed'] ?? 0, Math.round((1 - ctx.nearestInfected / 8) * 100) / 100);
+  return { state, band: bandFor(ctx.stability, beds), bed, music: musicFor(state, ctx, beds) };
 }
+
+/** Footstep surface of a street tile by its name (ADR-140): road → asphalt, pavers and kerbs → concrete, a puddle → puddle. */
+export function streetSurface(tileName: string): string | null {
+  if (tileName.startsWith('road')) return 'asphalt';
+  if (tileName.startsWith('paver') || tileName.startsWith('kerb')) return 'concrete';
+  if (tileName === 'puddle') return 'puddle';
+  return null;
+}
+
+/** How loud a positional source is in a band (ADR-140): people halve at warning and fall silent once the place turns; machines carry on. */
+export const sourceScale = (kind: 'human' | 'machine' | undefined, band: keyof BedsFile['bands']): number =>
+  kind !== 'human' ? 1 : band === 'normal' ? 1 : band === 'warning' ? 0.5 : 0;
 
 /** Footstep surface for a place (a spec `surfaces` rect can refine it later). */
 export const surfaceOf = (districtId: string | null, beds: BedsFile = BEDS): string => (districtId && beds.districts[districtId]?.surface) || 'concrete';
