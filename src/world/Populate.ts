@@ -1,4 +1,6 @@
 import { isNight } from '../systems/night';
+import { gradeLook } from '../systems/stability';
+import { stabilityNow } from '../systems/stabilityNow';
 import Phaser from 'phaser';
 import { DIALOGUE, NPCS, OBJECTS } from '../data';
 import { PlacedObject } from '../entities/PlacedObject';
@@ -244,7 +246,9 @@ export function wander(
     ? new Phaser.Geom.Rectangle(area.x ?? 0, area.y ?? 0, area.width, area.height)
     : new Phaser.Geom.Rectangle(0, 0, map.widthInPixels, map.heightInPixels);
 
-  const count = isNight(useGameStore.getState().clock.minute) ? (ambient.nightCount ?? 0) : ambient.count;
+  // The grade thins the crowd (ADR-144): half out at "warning", nobody once the place has turned.
+  const people = gradeLook(stabilityNow(district.id)).people;
+  const count = Math.round((isNight(useGameStore.getState().clock.minute) ? (ambient.nightCount ?? 0) : ambient.count) * people);
   for (let i = 0; i < count; i++) {
     // Stride the index so neighbouring spawns do not share a look.
     const sheet = sheets[(i * 3) % sheets.length];

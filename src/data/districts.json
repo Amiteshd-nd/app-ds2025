@@ -4,6 +4,9 @@
     "name": "Kempegowda International",
     "map": "airport_map",
     "defaultSpawn": "player_spawn",
+    "act4": {
+      "fallDay": 2
+    },
     "fadeMs": 400,
     "quests": [
       "q_act0_arrival"
@@ -132,6 +135,9 @@
     "name": "Whitefield",
     "map": "whitefield_street",
     "defaultSpawn": "player_spawn",
+    "act4": {
+      "fallDay": 12
+    },
     "fadeMs": 400,
     "unlock": {
       "quest": "q_act0_arrival"
@@ -397,6 +403,9 @@
     "name": "Prashanth Layout",
     "map": "prashanth_layout",
     "defaultSpawn": "lane_mouth",
+    "act4": {
+      "fallDay": 12
+    },
     "fadeMs": 400,
     "unlock": {
       "quest": "q_act0_arrival"
@@ -618,6 +627,9 @@
     "name": "ITPL Gate",
     "map": "office_gate",
     "defaultSpawn": "auto_drop",
+    "act4": {
+      "fallDay": 12
+    },
     "fadeMs": 400,
     "realworld": {
       "lat": 12.98741,
@@ -796,6 +808,9 @@
     "name": "Ambedkar Nagar",
     "map": "ambedkar_nagar_hill",
     "defaultSpawn": "slope_base",
+    "act4": {
+      "fallDay": 13
+    },
     "fadeMs": 400,
     "realworld": {
       "lat": 12.987006,
@@ -1309,6 +1324,9 @@
     "name": "Cubbon Park",
     "map": "cubbon_park",
     "defaultSpawn": "bus_drop",
+    "act4": {
+      "fallDay": 8
+    },
     "fadeMs": 400,
     "unlock": {
       "flags": [
@@ -1519,6 +1537,9 @@
     "name": "ITPL Main Road",
     "map": "scooter_showroom",
     "defaultSpawn": "bus_drop",
+    "act4": {
+      "fallDay": 12
+    },
     "fadeMs": 400,
     "unlock": {
       "flags": [
@@ -1823,6 +1844,9 @@
     "name": "Church Street",
     "map": "church_street",
     "defaultSpawn": "mg_road_station",
+    "act4": {
+      "fallDay": 8
+    },
     "fadeMs": 400,
     "knownIf": "guitar_in_stock",
     "unlock": {
@@ -2001,6 +2025,9 @@
     "name": "Majestic interchange",
     "map": "majestic_interchange",
     "defaultSpawn": "purple_arrival",
+    "act4": {
+      "fallDay": 6
+    },
     "fadeMs": 400,
     "knownIf": "ikea_planned",
     "unlock": {
@@ -2147,6 +2174,9 @@
     "name": "Hyggeland",
     "map": "hyggeland",
     "defaultSpawn": "store_entrance",
+    "act4": {
+      "fallDay": 4
+    },
     "fadeMs": 400,
     "unlock": {
       "flags": [
@@ -2321,6 +2351,10 @@
     "name": "Ward 4, Hebbal General",
     "map": "ward4",
     "defaultSpawn": "your_bed",
+    "act4": {
+      "fallDay": 0,
+      "floor": 10
+    },
     "fadeMs": 400,
     "realworld": {
       "lat": 13.0418,
@@ -2492,15 +2526,15 @@
     "stabilityIf": [
       {
         "flag": "wn_curfew",
-        "stability": 75
+        "stability": 85
       },
       {
         "flag": "wn_amma",
-        "stability": 55
+        "stability": 70
       },
       {
         "flag": "ravi_gone",
-        "stability": 45
+        "stability": 62
       }
     ]
   },

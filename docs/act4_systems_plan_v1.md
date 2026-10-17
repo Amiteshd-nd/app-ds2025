@@ -1,6 +1,6 @@
 # Act 4 systems plan v1 — what "CURFEW" runs on
 
-Status: **PLAN — waiting for your OK** (2026-10-17). Nothing below is built.
+Status: **PLAN — approved with the defaults** (the user, 2026-10-17: "default" — every §8 default taken). **S1 built** (ADR-144, awaiting audit): the dial, the look, the sound band, the crowd, the harsh survival table, the Playground dial. Changes made while building S1: the phone's Act 4 state moved from S1 to 4.0's build (it is story data); the ward's `stabilityIf` became 85/70/62 (not 75/68/62) so it sounds exactly as built.
 Extends, does not redesign: `act4_systems_and_cast_v1` (zone levels, actions, AI states, damage, encounters, economy, recipes, Pulse Gun, endings), `infected_behaviour_v1` (stages, packs, UV, former NPCs), `game_components_v1` §3/§5/§7/§9, `player_profile_and_stats_v1` §2–3 (stats, the harsh Act 4 table), `chapter_board_merge_v1` §B (4a/4b economy, safe places, first encounter), `landmarks_and_retention_v1` §3.1 (mechanic reveals #19–24), `design_system_v1` §5/§7/§9 (`grade(stability)`, HUD, encounter motion), `city_pulse_v1` (same overlay machinery), story_script §7 (4.0 → 4.end), ADR-10/20/26/27/29/31/33/34/45/46/48/49/50, and the audio plan (`noise`, bands, the Act 4 test bench).
 
 ---
@@ -139,7 +139,7 @@ UPI: dead (§3.8 for how it dies) · Maps: **cached**, so pins are stale and inf
 
 | Step | What | You'll be able to |
 |---|---|---|
-| **S1 The dial** | Act 4 day, `stabilityFor`, `grade()` (visual matrix + overlays, audio bands re-pointed to it, people density), the harsh survival table, the phone's Act 4 state, Playground day slider | drag a slider and watch any built place go from normal to ground zero; see and hear it |
+| **S1 The dial** ✅ built (ADR-144) | Act 4 day, `stabilityFor`, `grade()` (visual matrix + overlays, audio bands re-pointed to it, people density), the harsh survival table, Playground day slider (the phone's Act 4 state moved to P22) | drag a slider and watch any built place go from normal to ground zero; see and hear it |
 | **D1** | Draft **4.0 "Janata"** (stub, defaults, open questions) | answer it |
 | **S2 The run** | energy, crouch, hide; infected AI with one Fresh pack on a Playground test map; detection, chase, search, zone edges, UV; harm + fail-forward; encounters from cover; Movie `flee` / `hide` | be chased, lose them, get hurt, wake at a base |
 | **P22** | Build **4.0** (gate pocket, locked-down city, `card_leaving_ward` gets its `then`), then draft and build **4.1 "Five O'Clock"** (plates at 16:58 → the first run) | play from discharge to the first run |
@@ -152,7 +152,7 @@ Each step: pure modules with vitest tests (grade boundaries, stability by day, A
 ---
 
 ## 7. Decided (engineering, delegated — each goes into the step's ADR)
-- **One threshold set.** `grade()` uses the act4 doc's five levels (80/60/40/20); the audio bands (today 70/40/20) are re-pointed to them: L0 normal · L1 warning · L2 infected · L3–4 deep. To keep 3.4's ward sounding the same, its `stabilityIf` values move from 75/55/45 to 75/68/62 (all "warning"). The mix's "drone below 70" becomes "drone at level ≥ 1".
+- **One threshold set.** `grade()` uses the act4 doc's five levels (80/60/40/20); the audio bands (today 70/40/20) are re-pointed to them: L0 normal · L1 warning · L2 infected · L3–4 deep. To keep 3.4's ward sounding the same, its `stabilityIf` values move from 75/55/45 to 85/70/62 (normal, warning, warning, as built). The mix's "drone below 70" becomes "drone at level ≥ 1".
 - **ADR-49 wins where ADR-32 differs**: wander 0.4×, chase 8 s → search 3 s (not "lose LOS for 6 s"). Chase speed is set to **0.9× run (171 px/s)**: the board's "1.5× walk" (180 px/s) would be faster than "barely outrun". Run stays 190 px/s (1.58×, which rounds to the doc's 1.6×).
 - **Recipes**: act4 doc §7's four (resolves the open item), not game_components §9's older list.
 - **Zones, cover and hide spots are map-spec rects and points**, not Tiled tile properties (generated maps have none), as with footstep surfaces.

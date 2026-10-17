@@ -245,6 +245,13 @@ export function validateContent(
     }
     for (const s of district.signalIf ?? []) if (typeof s.flag !== 'string' || !(Number.isInteger(s.bars) && s.bars >= 0 && s.bars <= 4)) add(where, `${d} signalIf needs a flag and bars 0–4`);
     for (const s of district.stabilityIf ?? []) if (typeof s.flag !== 'string' || !(typeof s.stability === 'number' && s.stability >= 0 && s.stability <= 100)) add(where, `${d} stabilityIf needs a flag and a stability 0–100`);
+    // Act 4's fall (ADR-144): a whole Act 4 day ≥ 0 and a floor 0–100; an interior falls with its parent pocket instead.
+    if (district.act4 !== undefined) {
+      const a = district.act4;
+      if (!a || !Number.isInteger(a.fallDay) || a.fallDay < 0) add(where, `${d} act4.fallDay must be a whole day ≥ 0`);
+      if (a?.floor !== undefined && !(typeof a.floor === 'number' && a.floor >= 0 && a.floor <= 100)) add(where, `${d} act4.floor must be 0–100`);
+      if (district.realworld && 'parent' in district.realworld) add(where, `${d} has act4 but is an interior — it falls with "${district.realworld.parent}"`);
+    }
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
       if (trigger.action !== undefined && !['sleep', 'workday', 'rhythm', 'card'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday | rhythm | card)`);
@@ -1372,7 +1379,7 @@ export function validateAudio(manifest: Json, beds: Json, districts: Json[], car
     if (!Array.isArray(e.files)) { add(`${w} needs a files list`); continue; }
     if (!e.files.length && !e.uncanny) add(`${w} has no files`);
     if (e.uncanny && !tokens[e.uncanny.of]) add(`${w} is uncanny of "${e.uncanny.of}", which is not a token`);
-    // A real sound (ADR-141): its raw files exist, one per output, and each sits beside the licence it came with.
+    // A real sound (ADR-141b): its raw files exist, one per output, and each sits beside the licence it came with.
     if (e.tier === 'final' && e.licence !== 'original') {
       if (!Array.isArray(e.raw) || e.raw.length !== e.files.length) add(`${w} is final but does not list one raw source per file`);
       for (const r of e.raw ?? []) {

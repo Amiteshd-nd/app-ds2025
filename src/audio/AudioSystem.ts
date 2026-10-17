@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
 import { QUESTS, SCENES, getDistrict } from '../data';
+import { stabilityNow } from '../systems/stabilityNow';
+import { setStabilityOverride } from '../systems/stability';
 import { useGameStore } from '../store';
 import { settings, useSettings } from '../systems/SettingsManager';
 import { NOISE, feedNoise, noise, tickNoise } from '../systems/noise';
@@ -176,15 +178,18 @@ export class AudioSystem {
     return this.sources.map((s) => ({ token: s.token, x: s.x, y: s.y, radius: s.radius * TILE_SIZE, kind: s.kind, loop: Boolean(s.live) }));
   }
 
-  /** This place's stability from its data (`stabilityIf`, the last set flag wins), else 100. */
+  /** This place's stability (ADR-144): the shared dial — story flags, the Act 4 curve, the Playground override. */
   private stabilityHere(): number {
-    const s = useGameStore.getState();
-    const d = s.activeDistrict ? getDistrict(s.activeDistrict) : null;
-    return (d?.stabilityIf ?? []).filter((x) => s.flags[x.flag]).pop()?.stability ?? 100;
+    return stabilityNow();
   }
 
   /** Playground test bench: Act 4's inputs (stability, a chase, an infected's distance) before Act 4 exists. */
-  setDebug(debug: AudioDebug): void { this.debug = { ...this.debug, ...debug }; this.sinceMix = MIX_EVERY_MS; }
+  setDebug(debug: AudioDebug): void {
+    this.debug = { ...this.debug, ...debug };
+    // The bench's stability is the shared dial (ADR-144): the look and the crowd follow it too.
+    if ('stability' in debug) setStabilityOverride(debug.stability ?? null);
+    this.sinceMix = MIX_EVERY_MS;
+  }
   getDebug(): AudioDebug { return { ...this.debug }; }
   /** Hear only one bus (null = all). */
   setSolo(bus: Bus | null): void { this.solo = bus; this.applyVolumes(); }

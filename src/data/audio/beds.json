@@ -1,5 +1,5 @@
 {
- "$comment": "Ambience beds per place (audio plan v1 §2.4, §4.1, ADR-139): layers of `a.bed.*` with a gain, by time of day (dawn 05:30–07:30 · day · evening 17:30–20:30 · night 20:30–05:30; a missing time falls back to day). `kinds` sort layers for the stability bands (grade(stability), design system: ≥70 normal · 40–69 warning · 20–39 infected · <20 deep — the city goes quiet, not louder). `surface` = footsteps; `music: false` = the city only (a bus, a room). Transit cards play their own bed.",
+ "$comment": "Ambience beds per place (audio plan v1 §2.4, §4.1, ADR-139): layers of `a.bed.*` with a gain, by time of day (dawn 05:30–07:30 · day · evening 17:30–20:30 · night 20:30–05:30; a missing time falls back to day). `kinds` sort layers for the stability bands; the band is the place's grade (`systems/stability.ts`, ADR-144: ≥80 normal · 60–79 warning · 40–59 infected · <40 deep — the city goes quiet, not louder). `surface` = footsteps; `music: false` = the city only (a bus, a room). Transit cards play their own bed.",
  "kinds": {
   "human": [
    "people_murmur",
@@ -49,7 +49,6 @@
  },
  "bands": {
   "normal": {
-   "min": 70,
    "scale": {
     "human": 1,
     "traffic": 1,
@@ -60,7 +59,6 @@
    "add": []
   },
   "warning": {
-   "min": 40,
    "scale": {
     "human": 0.4,
     "traffic": 0.5,
@@ -84,7 +82,6 @@
    ]
   },
   "infected": {
-   "min": 20,
    "scale": {
     "human": 0,
     "traffic": 0,
@@ -112,7 +109,6 @@
    ]
   },
   "deep": {
-   "min": 0,
    "scale": {
     "human": 0,
     "traffic": 0,

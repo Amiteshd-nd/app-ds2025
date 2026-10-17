@@ -31,9 +31,9 @@ describe('the mix (audio plan v1 §2.4, ADR-29/139)', () => {
   });
 
   it('stability bands make the city quieter, never louder: people go first, then everything but the eerie', () => {
-    expect(['normal', 'warning', 'infected', 'deep'].map((b) => bandFor({ normal: 80, warning: 50, infected: 25, deep: 5 }[b]!))).toEqual(['normal', 'warning', 'infected', 'deep']);
+    expect(['normal', 'warning', 'infected', 'deep'].map((b) => bandFor({ normal: 80, warning: 70, infected: 50, deep: 10 }[b]!))).toEqual(['normal', 'warning', 'infected', 'deep']);
     const sum = (b: Record<string, number>, kind: keyof typeof BEDS.kinds) => Object.entries(b).filter(([t]) => BEDS.kinds[kind].includes(t.slice(6))).reduce((n, [, g]) => n + g, 0);
-    const n = bedFor(ctx()), w = bedFor(ctx({ stability: 50 })), i = bedFor(ctx({ stability: 25 })), d = bedFor(ctx({ stability: 5 }));
+    const n = bedFor(ctx()), w = bedFor(ctx({ stability: 70 })), i = bedFor(ctx({ stability: 50 })), d = bedFor(ctx({ stability: 10 }));
     expect(sum(w, 'human')).toBeLessThan(sum(n, 'human'));
     expect(sum(i, 'human')).toBe(0);
     expect(sum(i, 'traffic')).toBe(0);
@@ -46,7 +46,8 @@ describe('the mix (audio plan v1 §2.4, ADR-29/139)', () => {
     expect(musicState(ctx({ nearestInfected: 5 }))).toBe('heartbeat');
     expect(musicState(ctx({ pacing: 'Tense' }))).toBe('heartbeat');
     expect(musicState(ctx({ pacing: 'Curious' }))).toBe('drone');
-    expect(musicState(ctx({ stability: 60 }))).toBe('drone');
+    expect(musicState(ctx({ stability: 79 }))).toBe('drone');
+    expect(musicState(ctx({ stability: 80 }))).toBe('normal');
     expect(musicState(ctx())).toBe('normal');
   });
 
@@ -190,7 +191,7 @@ describe('A2: every scene, the Act 4 states (ADR-140)', () => {
   });
 });
 
-describe('A3: real sounds (ADR-141)', () => {
+describe('A3: real sounds (ADR-141b)', () => {
   it('Kenney batch: final, CC0, one raw source per file, each beside its pack licence', () => {
     const finals = Object.entries(AUDIO).filter(([, e]) => e.tier === 'final');
     expect(finals.length).toBeGreaterThanOrEqual(60);

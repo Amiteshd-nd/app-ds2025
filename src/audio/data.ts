@@ -32,7 +32,7 @@ export interface BedLayer { bed: string; gain: number }
 export type TimeOfDay = 'dawn' | 'day' | 'evening' | 'night';
 export interface DistrictBeds { surface?: string; music?: boolean; dawn?: BedLayer[]; day?: BedLayer[]; evening?: BedLayer[]; night?: BedLayer[] }
 export type LayerKind = 'human' | 'traffic' | 'nature' | 'machine' | 'eerie';
-export interface Band { min: number; scale: Record<LayerKind, number>; add: BedLayer[] }
+export interface Band { scale: Record<LayerKind, number>; add: BedLayer[] }
 export interface BedsFile {
   kinds: Record<LayerKind, string[]>;
   bands: Record<'normal' | 'warning' | 'infected' | 'deep', Band>;

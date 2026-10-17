@@ -129,7 +129,7 @@ describe('content tree', () => {
   const tree = buildTree(scenes, ['player_m_1', 'player_m_2', 'npc_shanthamma', 'npc_shanthamma__breath', 'crowd_techie'], Object.values(NPCS), ['scenes/act0_hotel.json: something is wrong']);
 
   it('is built from data: intro, chapters (act → scene → beat), characters', () => {
-    expect(tree.map((n) => n.label)).toEqual(['Intro', 'Chapters', 'Characters', 'Audio', 'Devices']);
+    expect(tree.map((n) => n.label)).toEqual(['Intro', 'Chapters', 'Characters', 'Audio', 'Act 4 · stability dial', 'Devices']);
     const act0 = findNode(tree, 'act:0')!;
     expect(act0.children!.map((c) => c.ref)).toEqual(['act0_arrivals', 'act0_hotel', 'act0_pg_hunt']);
     expect(findNode(tree, 'beat:act0_pg_hunt:F4')).not.toBeNull();
@@ -233,7 +233,7 @@ describe('phone-in-landscape ergonomics', async () => {
     expect(locations.find((l) => l.mapKey === 'cubbon_park')!.scenes).toContain('act1_cubbon');
     expect(locations.find((l) => l.mapKey === 'bus_interior')!.scenes).toContain('act1_bus_cubbon');
     const t = buildTree(scenes, [], [], ['airport_map: layer "fx" is missing'], locations);
-    expect(t.map((n) => n.label)).toEqual(['Intro', 'Chapters', 'Locations', 'Characters', 'Audio', 'Devices']);
+    expect(t.map((n) => n.label)).toEqual(['Intro', 'Chapters', 'Locations', 'Characters', 'Audio', 'Act 4 · stability dial', 'Devices']);
     expect(findNode(t, 'loc:airport_map')!.status).toBe('failing');
     expect(findNode(t, 'loc:cubbon_park')!.status).toBe('built');
     expect(findNode(t, 'scene-locs:act1_cubbon')!.children!.map((c) => c.ref).sort()).toEqual(['cubbon_park', 'whitefield_street']);

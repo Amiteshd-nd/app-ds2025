@@ -151,7 +151,7 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Footsteps: spec `surfaces` → zones of type `surface` (first match wins); tile-built streets read the ground tile; else the place's `surface` in beds.json.
 - Editing a Playground file hot-reloads the Playground page: any open map is gone — reopen before reading audio state. After a reload the AudioContext is suspended until a real click.
 
-## Audio A3 batch 1 (2026-10-17, ADR-141)
+## Audio A3 batch 1 (2026-10-17, ADR-141b)
 - No ffmpeg on this Mac and none installed: compressed audio is decoded in headless Chromium (`scripts/audio/decode-browser.mjs`, playwright-core) → `prepare()` → 16-bit WAV. Check every npm dependency's own dependencies' licences — `@wasm-audio-decoders/ogg-vorbis` pulls LGPL `codec-parser`.
 - Kenney packs: the zips stay in the scratchpad; only used files go to `src/assets/_raw/audio/kenney/<pack>/` with `License.txt`.
 
@@ -163,3 +163,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 ## 3.5 Discharge (2026-10-17, P21, ADR-143) — Act 3 complete
 - Dialogue node ids collide silently when added by script (JSON objects merge): 3.5's `discharge` replaced 3.2's. Check `nodes[id]` is free first.
 - A behaviour's first `ui:*` message at attach time is lost (the HUD launches after behaviours): defer one tick with `scene.time.delayedCall(0, …)`.
+
+## Act 4 S1 — the dial (2026-10-17, ADR-144)
+- One dial: anything that changes with danger reads `grade(stabilityNow())`; never grade a place by hand. Story flags (`stabilityIf`) beat the Act 4 curve; the Playground override beats both.
+- Camera postFX (ColorMatrix) greys everything the world camera draws — screen-space overlays that must keep their colour go in `GradeScene` (just above WorldScene in PhaserGame's scene list) or the HUD. Post FX controllers live in `camera.postPipelines`, not `postFX.list`.
+- Crowds are counted when a map opens: re-open a map after moving the dial to see the crowd change.
+- Another session may push while you work: check `git log origin/main..HEAD` before saying what is local.

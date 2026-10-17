@@ -369,12 +369,14 @@ export interface DistrictDef {
   countdown?: { after: string; nights: number; label: string; /** The plate goes once this flag is set (the slip is signed). */ until?: string };
   /** Signal bars by flag, the last set one wins over `signal` (the ward's signal dies, ADR-142). */
   signalIf?: Array<{ flag: string; bars: number }>;
-  /** This place's stability by flag, the last set one wins (default 100) — the ward thins night by night (ADR-142); Act 4's grade() later. */
+  /** This place's stability by flag, the last set one wins (default 100) — the ward thins night by night (ADR-142); it overrides the Act 4 curve (`systems/stability.ts`, ADR-144). */
   stabilityIf?: Array<{ flag: string; stability: number }>;
+  /** Act 4 (ADR-144): the Act 4 day this pocket falls on (locked order, Hebbal first) and how low it sinks; interiors fall with their `realworld.parent`. */
+  act4?: { fallDay: number; floor?: number };
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
   nightTint?: number;
   /** Sounds that come from a spot (ADR-139): a looping token fades with distance; a one-shot repeats every `every` [min, max] seconds. `at` = a spawn/zone in the map. */
-  audioSources?: Array<{ at: string; token: string; every?: [number, number]; radius?: number; /** `human` sources fall silent once the place turns (stability < 40, ADR-140)… */ kind?: 'human' | 'machine'; /** …and this token plays instead (ADR-29 uncanny reuse). */ uncanny?: string }>;
+  audioSources?: Array<{ at: string; token: string; every?: [number, number]; radius?: number; /** `human` sources fall silent once the place turns (grade ≥ 2, stability < 60; ADR-140/144)… */ kind?: 'human' | 'machine'; /** …and this token plays instead (ADR-29 uncanny reuse). */ uncanny?: string }>;
   fadeMs?: number;
   unlock?: DistrictUnlock;
   /** Phone signal bars inside these zones (the hill's three doors, ADR-122); elsewhere the district's `signal`. */

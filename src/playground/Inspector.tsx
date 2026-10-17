@@ -13,6 +13,9 @@ import type { Target } from './ThumbOverlay';
 import type { TreeNode } from './tree';
 import { lineDiff } from './diff';
 import { AUDIO, type Bus } from '../audio/data';
+import { useGameStore } from '../store';
+import { ACT4_DAY, ACT4_FLAG, GRADES, act4Curve, act4DayOf, grade, setStabilityOverride, stabilityOverride } from '../systems/stability';
+import { stabilityNow } from '../systems/stabilityNow';
 
 interface Props {
   node: TreeNode;
@@ -38,7 +41,7 @@ interface Props {
 }
 
 /** Things the inspector will show once they exist (ADR-105) — never faked. */
-const NOT_YET = ['District stability → grade()', 'Active City Pulse slots', 'Relationships', 'Difficulty (Relaxed / Normal)'];
+const NOT_YET = ['Active City Pulse slots', 'Relationships', 'Difficulty (Relaxed / Normal)'];
 
 export default function Inspector(props: Props) {
   const { node } = props;
@@ -55,6 +58,7 @@ export default function Inspector(props: Props) {
       {node.kind === 'device' && <DeviceInspector {...props} />}
       {node.kind === 'location' && node.location && <LocationInspector {...props} location={node.location} />}
       {node.kind === 'audio' && <AudioInspector {...props} />}
+      {node.kind === 'act4' && <Act4Inspector {...props} />}
       {(node.kind === 'group' || node.kind === 'act' || node.kind === 'arc') && (
         <p className="pg-dim">{node.children?.length ?? 0} item{node.children?.length === 1 ? '' : 's'} — select one to inspect or play it.</p>
       )}
@@ -577,7 +581,7 @@ function AudioInspector({ openLocation }: Props) {
       ))}
       <div className="pg-row"><label><input type="radio" name="solo" checked={!view?.solo} onChange={() => a?.setSolo(null)} /> all buses</label></div>
       <h3>Act 4 test bench</h3>
-      <p className="pg-dim">Act 4 doesn't exist yet — these stand in for its inputs. Open the test map, walk, and turn the city.</p>
+      <p className="pg-dim">Stand-ins for Act 4's inputs. Stability here is the shared dial (ADR-144): the look and the crowd follow it too — the <b>Act 4 · stability dial</b> node has the real Act 4 day.</p>
       <button disabled={!a} onClick={() => openLocation('whitefield_street', true)}>▶ Open the test map (Whitefield street)</button>
       <div className="pg-row">
         <label style={{ width: 90 }}>Stability</label>
@@ -603,6 +607,68 @@ function AudioInspector({ openLocation }: Props) {
             <span className="pg-dim">{e.bus} · {e.tier} · {e.licence}{e.loop ? ' · loop' : ''}</span>
           </div>
         ))}
+      </div>
+    </>
+  );
+}
+
+/**
+ * Act 4's dial (ADR-144, Act 4 systems plan §3.1): start Act 4, move its day,
+ * and watch every place's stability and grade; or hold one stability over
+ * everything. Open any map to see and hear it (the crowd is counted when a
+ * map opens, so re-open it after a change).
+ */
+function Act4Inspector({ openLocation }: Props) {
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const timer = window.setInterval(() => setTick((n) => n + 1), 250);
+    return () => window.clearInterval(timer);
+  }, []);
+  const s = useGameStore.getState();
+  const day = act4DayOf(s);
+  const held = stabilityOverride();
+  const here = s.activeDistrict;
+  const hereStability = here ? stabilityNow(here) : null;
+  const hold = (v: number | null) => {
+    const a = audioHandle();
+    if (a) a.setDebug({ stability: v ?? undefined }); else setStabilityOverride(v);
+  };
+  const setDay = (d: number | null) => {
+    s.setFlag(ACT4_FLAG, d !== null);
+    s.setCounter(ACT4_DAY, d ?? 0);
+  };
+  const pockets = Object.values(DISTRICTS).filter((d) => d.act4).sort((x, y) => x.act4!.fallDay - y.act4!.fallDay);
+  return (
+    <>
+      <p className="pg-dim">One number per place, one function for everything it drives: ≥80 safe · 60–79 warning · 40–59 infected · 20–39 hot · &lt;20 ground zero. Story flags (<code>stabilityIf</code>) win over the curve; the dial below wins over both.</p>
+      <button onClick={() => openLocation('whitefield_street', true)}>▶ Open a map to look (Whitefield street)</button>
+      <h3>Now</h3>
+      <div className="pg-kv">
+        <div>Place</div><div>{here ?? '— (open a map)'}</div>
+        <div>Stability</div><div>{hereStability ?? '—'}{hereStability !== null ? ` · level ${grade(hereStability)} ${GRADES[grade(hereStability)].name}` : ''}</div>
+        <div>Act 4</div><div>{day === null ? 'not started' : `day ${day}`}</div>
+      </div>
+      <h3>Act 4 day</h3>
+      <div className="pg-row">
+        <label><input type="checkbox" checked={day !== null} onChange={(e) => setDay(e.target.checked ? 0 : null)} /> Act 4 has begun</label>
+      </div>
+      <div className="pg-row">
+        <label style={{ width: 90 }}>Day</label>
+        <input type="range" min={0} max={20} step={1} disabled={day === null} value={day ?? 0} onChange={(e) => setDay(Number(e.target.value))} />
+        <span>{day ?? '—'}</span>
+      </div>
+      <h3>Hold one stability everywhere</h3>
+      <div className="pg-row">
+        <label><input type="checkbox" checked={held !== null} onChange={(e) => hold(e.target.checked ? 50 : null)} /> Hold</label>
+        <input type="range" min={0} max={100} step={5} disabled={held === null} value={held ?? 100} onChange={(e) => hold(Number(e.target.value))} />
+        <span>{held === null ? 'off' : `${held} · ${GRADES[grade(held)].name}`}</span>
+      </div>
+      <h3>The fall, by place</h3>
+      <div className="pg-layers">
+        {pockets.map((d) => {
+          const v = day === null ? 100 : act4Curve(d.act4!, day);
+          return <div key={d.id} className="pg-layer">{d.name} · falls day {d.act4!.fallDay} · {v} · {GRADES[grade(v)].name}</div>;
+        })}
       </div>
     </>
   );

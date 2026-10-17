@@ -9,7 +9,7 @@ Full detail for each item is in `AUDIT_LOG.md` (its "built, awaiting audit" entr
 ```bash
 corepack pnpm playground
 ```
-It opens at http://localhost:6175/playground.html. To run the whole thing headless instead (it says 20/20 when everything passes):
+It opens at http://localhost:6175/playground.html. To run the whole thing headless instead (it says 22/22 when everything passes):
 ```bash
 corepack pnpm movie
 ```
@@ -25,15 +25,16 @@ corepack pnpm movie
 | 5 | P14 · 2.5 "Ravi, 1 AM" (ADR-133) | 2026-10-17 | on GitHub | waiting |
 | 6 | P15 · 2.6 "The App" (ADR-134) | 2026-10-17 | on GitHub | waiting |
 | 7 | P16 · 2.7 "Breadcrumbs" (ADR-135), Act 2 complete | 2026-10-17 | on GitHub | waiting |
-| 8 | P17 · 3.1 "Outer Ring Road" (ADR-136), Act 3 opens | 2026-10-17 | local commit, not pushed | waiting |
-| 9 | P18 · 3.2 "Ward 4" (ADR-137) | 2026-10-17 | local commit, not pushed | waiting |
-| 10 | P19 · 3.3 "The Corridor" (ADR-138) | 2026-10-17 | local commit, not pushed | waiting |
-| 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | local commit, not pushed | waiting |
-| 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | local commit, not pushed | waiting |
-| 13 | Audio A3 batch 1 · Kenney's real sounds replace 60 placeholders (ADR-141) | 2026-10-17 | local commit, not pushed | waiting |
-| 14 | P20 · 3.4 "Three Nights, Again" (ADR-142) | 2026-10-17 | local commit, not pushed | waiting |
-| 15 | P21 · 3.5 "Discharge" (ADR-143) — Act 3 complete | 2026-10-17 | local commit, not pushed | waiting |
-| 13 | HUD settings gear + Playground mute/volume (ADR-141) | 2026-10-17 | local, not committed | waiting |
+| 8 | P17 · 3.1 "Outer Ring Road" (ADR-136), Act 3 opens | 2026-10-17 | on GitHub | waiting |
+| 9 | P18 · 3.2 "Ward 4" (ADR-137) | 2026-10-17 | on GitHub | waiting |
+| 10 | P19 · 3.3 "The Corridor" (ADR-138) | 2026-10-17 | on GitHub | waiting |
+| 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | on GitHub | waiting |
+| 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | on GitHub | waiting |
+| 13 | Audio A3 batch 1 · Kenney's real sounds replace 60 placeholders (ADR-141b) | 2026-10-17 | on GitHub | waiting |
+| 14 | P20 · 3.4 "Three Nights, Again" (ADR-142) | 2026-10-17 | on GitHub | waiting |
+| 15 | P21 · 3.5 "Discharge" (ADR-143) — Act 3 complete | 2026-10-17 | on GitHub | waiting |
+| 13a | HUD settings gear + Playground mute/volume (ADR-141a) | 2026-10-17 | on GitHub | waiting |
+| 16 | Act 4 S1 · the stability dial (ADR-144) | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -184,7 +185,7 @@ corepack pnpm dev
   - The "uncanny" chai whistle is the real one, slightly flat, with a long gap.
   - Cubbon's path areas are rectangles over curved paths, so a few steps at the curves sound wrong.
 
-## 13. HUD settings gear + Playground mute/volume
+## 13a. HUD settings gear + Playground mute/volume
 - **What:** a gear on the HUD, top-right just left of the phone button, that pauses the game into the menu (Settings is one tap further). In the Playground toolbar: 🔊/🔇 mute, and − / + master volume in steps of 10.
 - **Check:** in the Playground, play any scene and tap the gear (try **Accessibility → Larger text** too, and 3.3 "The Corridor", where the clock is hidden but the gear stays). Use 🔊 − + in the toolbar and open **Settings → Audio** in the pause menu: it shows the same values.
 - **Calls to confirm:**
@@ -229,4 +230,17 @@ corepack pnpm dev
   - The isolation room is seen through the doors, not entered.
   - The slip comes on your second talk with the nurse that morning (after "Moved.").
   - Your cast stays on into Act 4.
+
+## 16. Act 4 S1: the stability dial
+- **What:** every place has a stability (0–100) that falls day by day in Act 4, and one rule turns it into five levels that decide the look, the sound and how many people are out. Act 4 also makes hunger harsher.
+- **Check:** in the Playground, pick **Act 4 · stability dial**, then **▶ Open a map to look**.
+  - Tick **Act 4 has begun** and slide **Day**: the list shows each place's stability and level. Re-open the map to see the crowd change (people are counted when a map opens).
+  - Or tick **Hold** and slide one stability over everything: 75 (warning, slightly grey), 50 (infected, greyer, green edges), 30 (hot, a red rim, a small shake every few seconds), 10 (ground zero).
+  - The Audio node's Act 4 bench slider now moves the look too.
+- **Calls to confirm:**
+  - The fall days: Hebbal 0 · airport 2 · Nagasandra 4 · Majestic 6 · Cubbon and Church Street 8 · Whitefield 12 · the hill 13.
+  - The curve: 85 on the first day and −2 a day before a place falls, 55 on the day, −8 a day after, down to 25 (Hebbal to 10).
+  - How strong each level looks, and the glitch being a small screen shake.
+  - The 3.4 ward now also looks a little paler on its last two nights (its sound was already "warning").
+  - Harsh hunger: half a health point a minute at empty food; sleep gives 15 health and no free food. Nothing happens at 0 health yet (that comes with step S2).
 

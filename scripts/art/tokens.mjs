@@ -65,6 +65,9 @@ export const TOKEN_INDEX = {
   'sky.night': 1,        // near-black warm
   // The night look (ADR-133): a multiply by the palette's one blue keeps blues and cuts reds — moonlight, not murk.
   'world.night': 15,
+  // The stability grade (design system §9, ADR-27/144): a sick green creeping in from the edges, a red rim when it is hot.
+  'world.fog': 10,
+  'world.vignette': 12,
   'sky.sun': 44,
   'sky.moon': 47,
   'sky.silhouette': 0,

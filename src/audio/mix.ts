@@ -1,3 +1,4 @@
+import { grade, gradeLook } from '../systems/stability';
 import { BEDS, bedToken, type Band, type BedsFile, type BedLayer, type LayerKind, type TimeOfDay } from './data';
 
 /**
@@ -15,7 +16,7 @@ export interface MixContext {
   /** The workday card is up. */
   workday: boolean;
   minute: number;
-  /** 0–100 per district; 100 until Act 4's grade() exists. */
+  /** 0–100 per district (`stabilityNow`, ADR-144); its grade() picks the band. */
   stability: number;
   /** The current beat's pacing tag (ADR-24), or null. */
   pacing: Pacing | null;
@@ -44,9 +45,9 @@ export const timeOfDay = (minute: number): TimeOfDay => {
   return 'day';
 };
 
-export function bandFor(stability: number, beds: BedsFile = BEDS): keyof BedsFile['bands'] {
-  const order: Array<keyof BedsFile['bands']> = ['normal', 'warning', 'infected', 'deep'];
-  return order.find((b) => stability >= beds.bands[b].min) ?? 'deep';
+/** The bed's band is the grade's (ADR-144): L0 normal · L1 warning · L2 infected · L3–4 deep. */
+export function bandFor(stability: number): keyof BedsFile['bands'] {
+  return gradeLook(stability).band;
 }
 
 const kindOf = (bed: string, beds: BedsFile): LayerKind | null => {
@@ -63,7 +64,7 @@ export function bedFor(ctx: Pick<MixContext, 'districtId' | 'transit' | 'workday
     const d = beds.districts[ctx.districtId];
     if (d) layers = d[timeOfDay(ctx.minute)] ?? d.day ?? [];
   }
-  const band: Band = beds.bands[bandFor(ctx.stability, beds)];
+  const band: Band = beds.bands[bandFor(ctx.stability)];
   const out: Record<string, number> = {};
   for (const l of layers) {
     const k = kindOf(l.bed, beds);
@@ -79,7 +80,7 @@ export function musicState(ctx: MixContext): MusicState {
   if (ctx.chaseActive) return 'chase';
   if (ctx.reliefMs > 0) return 'relief';
   if ((ctx.nearestInfected !== null && ctx.nearestInfected <= 8) || ctx.pacing === 'Tense' || ctx.pacing === 'Engaged' || ctx.stress >= 70) return 'heartbeat';
-  if (ctx.stability < 70 || ctx.pacing === 'Curious') return 'drone';
+  if (grade(ctx.stability) >= 1 || ctx.pacing === 'Curious') return 'drone';
   return 'normal';
 }
 
@@ -105,7 +106,7 @@ export function mixFor(ctx: MixContext, beds: BedsFile = BEDS): Mix {
   const bed = bedFor(ctx, beds);
   // The heartbeat layer rises as an infected comes closer (8 tiles → 0, touching → full) — ADR-29's heartbeat, proximity-led.
   if (ctx.nearestInfected !== null && ctx.nearestInfected <= 8) bed['a.bed.heartbeat_bed'] = Math.max(bed['a.bed.heartbeat_bed'] ?? 0, Math.round((1 - ctx.nearestInfected / 8) * 100) / 100);
-  return { state, band: bandFor(ctx.stability, beds), bed, music: musicFor(state, ctx, beds) };
+  return { state, band: bandFor(ctx.stability), bed, music: musicFor(state, ctx, beds) };
 }
 
 /** Footstep surface of a street tile by its name (ADR-140): road → asphalt, pavers and kerbs → concrete, a puddle → puddle. */

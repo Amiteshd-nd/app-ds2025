@@ -235,6 +235,8 @@ export const SCENE_KEYS = Object.freeze({
   TITLE: 'TitleScene',
   CHARACTER_SELECT: 'CharacterSelectScene',
   WORLD: 'WorldScene',
+  /** The grade's screen edges (ADR-144): just above the world, so the world's colour drain never greys them; below everything else. Launched by `stabilityLook`. */
+  GRADE: 'GradeScene',
   TRANSIT: 'TransitScene',
   /** Runs above WorldScene: the closed phone button, and the phone overlay (ADR-114). */
   PHONE: 'PhoneScene',
