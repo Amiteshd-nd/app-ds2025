@@ -1,3 +1,4 @@
+import { carried } from '../systems/carry';
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
 import { ReputationManager } from '../systems/ReputationManager';
@@ -60,7 +61,9 @@ export function bind(
         // The fare is the first real money sink (game_components §7).
         // Ledger label: the ride's name from its card ("Vayu Vajra KIA-8 → Whitefield · ₹250").
         const label = exit.card?.split('·')[0].trim() ?? `${exit.transit} fare`;
-        if (exit.fare && !StatsManager.getInstance().spend(exit.fare, `fare:${exit.transit}`, label)) return;
+        // Boxes ride on a luggage ticket (story 2.4): the fare grows per box carried.
+        const fare = (exit.fare ?? 0) + (exit.farePerBox ? exit.farePerBox * carried() : 0);
+        if (fare && !StatsManager.getInstance().spend(fare, `fare:${exit.transit}`, label)) return;
         go(exit);
       }),
     );

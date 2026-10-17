@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 \u2192 24x16) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; furniture is placed by flag as sprite objects. 2.3 (ADR-131): guitar_spot (the guitar on its stand, placed by guitar_owned) and guitar_zone in front of it (the rhythm lane). The painted ceiling fan was removed from the render (user audit 2026-10-17: a fan seen from above reads as an object on the floor).",
+  "$comment": "Source-pixel spec (1536x1024 \u2192 24x16) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; furniture is placed by flag as sprite objects. 2.3 (ADR-131): guitar_spot (the guitar on its stand, placed by guitar_owned) and guitar_zone in front of it (the rhythm lane). The painted ceiling fan was removed from the render (user audit 2026-10-17: a fan seen from above reads as an object on the floor). 2.4 (ADR-132): boxes_spot, shelf/lamp/rug/folded table spots and the assembly_zone.",
   "name": "hill_flat",
   "cols": 24,
   "rows": 16,
@@ -40,6 +40,31 @@
       "name": "guitar_spot",
       "x": 985,
       "y": 232
+    },
+    {
+      "name": "boxes_spot",
+      "x": 700,
+      "y": 725
+    },
+    {
+      "name": "shelf_spot",
+      "x": 770,
+      "y": 232
+    },
+    {
+      "name": "lamp_spot",
+      "x": 330,
+      "y": 290
+    },
+    {
+      "name": "rug_spot",
+      "x": 560,
+      "y": 610
+    },
+    {
+      "name": "folded_spot",
+      "x": 100,
+      "y": 770
     }
   ],
   "zones": [
@@ -70,6 +95,13 @@
       "y": 262,
       "w": 140,
       "h": 90
+    },
+    {
+      "name": "assembly_zone",
+      "x": 620,
+      "y": 640,
+      "w": 170,
+      "h": 110
     }
   ],
   "buildings": [

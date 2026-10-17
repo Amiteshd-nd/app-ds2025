@@ -1,3 +1,4 @@
+import { carryRefuses } from './carry';
 import { gameEvents } from '../core/events';
 import { DIALOGUE_ENTRY_NODE, getDialogue } from '../data';
 import { StatsManager } from './StatsManager';
@@ -118,7 +119,7 @@ export class DialogueManager {
     if (!choice) throw new Error(`Choice ${index} does not exist on node "${this.nodeId}"`);
 
     const cost = choice.effect?.wallet !== undefined && choice.effect.wallet < 0 ? -choice.effect.wallet : 0;
-    if (!this.meetsRequirement(choice.requires) || !StatsManager.getInstance().canAfford(cost)) {
+    if (!this.meetsRequirement(choice.requires) || !StatsManager.getInstance().canAfford(cost) || this.flagLock(choice)) {
       throw new Error(`Choice ${index} on node "${this.nodeId}" is locked`);
     }
 
@@ -182,12 +183,11 @@ export class DialogueManager {
       const skillOk = this.meetsRequirement(choice.requires);
       const cost = choice.effect?.wallet !== undefined && choice.effect.wallet < 0 ? -choice.effect.wallet : 0;
       const walletOk = cost === 0 || StatsManager.getInstance().canAfford(cost);
-      const enabled = skillOk && walletOk;
+      const flagLock = this.flagLock(choice);
+      const enabled = skillOk && walletOk && !flagLock;
       const lockedReason = !skillOk
         ? this.describeRequirement(choice.requires!)
-        : !walletOk
-          ? `Needs ₹${cost.toLocaleString('en-IN')}`
-          : undefined;
+        : flagLock ?? (!walletOk ? `Needs ₹${cost.toLocaleString('en-IN')}` : undefined);
       return {
         index,
         text: choice.text,
@@ -232,6 +232,15 @@ export class DialogueManager {
     if (source.quest_trigger && !this.questTriggers.includes(source.quest_trigger)) {
       this.questTriggers.push(source.quest_trigger);
     }
+  }
+
+  /** A flag- or carry-locked choice's reason (ADR-132), or null when it is open. */
+  private flagLock(choice: DialogueChoice): string | null {
+    const flags = useGameStore.getState().flags;
+    if (choice.unlessFlag && flags[choice.unlessFlag]) return choice.lockedText ?? 'Done';
+    if (choice.requiresFlag && !flags[choice.requiresFlag]) return choice.lockedText ?? 'Not yet';
+    if (choice.effect?.carry && carryRefuses(choice.effect.carry)) return 'Not enough space';
+    return null;
   }
 
   private meetsRequirement(requires?: SkillRequirement): boolean {

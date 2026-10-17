@@ -75,5 +75,40 @@
     "tier": 2,
     "dialogue": "dlg_busker",
     "sheet": "npc_church_busker"
+  },
+  {
+    "id": "npc_majestic_uncle",
+    "name": "Uncle with a jute sack",
+    "tier": 2,
+    "dialogue": "dlg_majestic_uncle",
+    "sheet": "npc_majestic_uncle"
+  },
+  {
+    "id": "npc_hygge_staff",
+    "name": "Hyggeland staff",
+    "tier": 2,
+    "dialogue": "dlg_hygge_staff",
+    "sheet": "npc_hygge_staff"
+  },
+  {
+    "id": "npc_hygge_cafe",
+    "name": "Hyggeland café",
+    "tier": 2,
+    "dialogue": "dlg_hygge_cafe",
+    "sheet": "npc_hygge_staff"
+  },
+  {
+    "id": "npc_hygge_cashier",
+    "name": "Hyggeland tills",
+    "tier": 2,
+    "dialogue": "dlg_hygge_cashier",
+    "sheet": "npc_hygge_staff"
+  },
+  {
+    "id": "npc_metro_aunty_boxes",
+    "name": "Aunty by the door",
+    "tier": 2,
+    "dialogue": "dlg_aunty_boxes",
+    "sheet": "crowd_homemaker"
   }
 ]

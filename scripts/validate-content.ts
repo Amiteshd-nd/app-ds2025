@@ -27,7 +27,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel'];
+const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -845,7 +845,9 @@ export function validateCityMap(city: Json, districts: Json[], colourTokens: Set
     for (const exit of d.exits ?? []) {
       const to = anchor(exit.to);
       if (!from || !to || from.id === to.id) continue;
-      const drawn = (city.paths ?? []).some((p: Json) => p.connects?.includes(from.id) && p.connects?.includes(to.id));
+      // A ride between two pockets that sit on metro stations is drawn by the metro lines themselves (ADR-132).
+      const byMetro = Boolean(districts.find((x) => x.id === from.id)?.metroStation && districts.find((x) => x.id === to.id)?.metroStation);
+      const drawn = byMetro || (city.paths ?? []).some((p: Json) => p.connects?.includes(from.id) && p.connects?.includes(to.id));
       if (!drawn) add(`the journey ${from.id} → ${to.id} (exit "${exit.zone}" of ${d.id}) has no path with connects [${from.id}, ${to.id}]`);
     }
   }

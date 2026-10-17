@@ -1,0 +1,18 @@
+{
+  "id": "dlg_majestic_uncle_thanks",
+  "speaker": "Uncle with a jute sack",
+  "portrait": "npc_majestic_uncle",
+  "nodes": {
+    "start": {
+      "text": "Green! I can see the green! (He presses a guava from the sack into your hand.) From our tree. Don't say no.",
+      "effect": {
+        "flags": {
+          "majestic_helped": true,
+          "uncle_following": false
+        },
+        "reputation": 1,
+        "food": 5
+      }
+    }
+  }
+}

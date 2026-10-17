@@ -1,0 +1,258 @@
+{
+  "scene": "act2_ikea",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_ikea + majestic_interchange + entry.after F1",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "majestic_interchange",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "ikea_planned",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:majestic_arrival"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "majestic_visited",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_6",
+      "do": "goto",
+      "target": "npc:npc_majestic_uncle",
+      "optional": true
+    },
+    {
+      "id": "interact_7",
+      "do": "interact",
+      "target": "npc:npc_majestic_uncle",
+      "optional": true
+    },
+    {
+      "id": "choose_8",
+      "do": "choose",
+      "option": "walk",
+      "optional": true
+    },
+    {
+      "id": "goto_9",
+      "do": "goto",
+      "target": "zone:green_stairs_top",
+      "optional": true
+    },
+    {
+      "id": "advance_10",
+      "do": "advance",
+      "optional": true
+    },
+    {
+      "id": "wait_for_11",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "majestic_helped",
+      "timeout": 6000,
+      "optional": true
+    },
+    {
+      "id": "goto_12",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:green_stairs"
+    },
+    {
+      "id": "wait_for_13",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "green_coach",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_14",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:boarded"
+    },
+    {
+      "id": "wait_for_15",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "green_line_ridden",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_16",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hyggeland",
+      "timeout": 90000
+    },
+    {
+      "id": "goto_17",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:hyggeland_arrival"
+    },
+    {
+      "id": "wait_for_18",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "hyggeland_entered",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_19",
+      "do": "goto",
+      "target": "zone:aisle"
+    },
+    {
+      "id": "choose_20",
+      "do": "choose",
+      "option": "got_table"
+    },
+    {
+      "id": "wait_for_21",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ikea_bought_table",
+      "timeout": 6000
+    },
+    {
+      "id": "choose_22",
+      "beat": "F4",
+      "do": "choose",
+      "option": "done"
+    },
+    {
+      "id": "goto_23",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_hygge_cashier"
+    },
+    {
+      "id": "interact_24",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_hygge_cashier"
+    },
+    {
+      "id": "choose_25",
+      "beat": "F4",
+      "do": "choose",
+      "option": "bag"
+    },
+    {
+      "id": "goto_26",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:store_exit"
+    },
+    {
+      "id": "wait_for_27",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "green_coach_home",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_28",
+      "beat": "F5",
+      "do": "goto",
+      "target": "zone:boarded"
+    },
+    {
+      "id": "wait_for_29",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ikea_rode_home",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_30",
+      "beat": "F6",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 90000
+    },
+    {
+      "id": "goto_31",
+      "beat": "F6",
+      "do": "goto",
+      "target": "exit:hill_bus"
+    },
+    {
+      "id": "wait_for_32",
+      "beat": "F6",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_33",
+      "beat": "F6",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_34",
+      "beat": "F6",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_35",
+      "beat": "F6",
+      "do": "goto",
+      "target": "zone:assembly_zone"
+    },
+    {
+      "id": "choose_36",
+      "beat": "F6",
+      "do": "choose",
+      "option": "step3_table"
+    },
+    {
+      "id": "wait_for_37",
+      "beat": "F6",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ikea_assembled",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_38",
+      "do": "expect",
+      "flag": "act2_ikea_done",
+      "timeout": 3000
+    }
+  ]
+}

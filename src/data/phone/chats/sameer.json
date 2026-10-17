@@ -37,6 +37,32 @@
       "from": "them",
       "text": "METRO. Finally. Whitefield to Cubbon, forty minutes, no 500-D smell. Free till midnight - go before the whole of Whitefield goes. Barricades are already down.",
       "after": "metro_open"
+    },
+    {
+      "id": "sameer_ikea_1",
+      "from": "them",
+      "text": "Hyggeland opened at Nagasandra. Green Line from Majestic. Saturday? I need a shoe rack and a reason to leave the house.",
+      "after": "ikea_planned"
+    },
+    {
+      "id": "sameer_ikea_2",
+      "from": "them",
+      "text": "Bro. Mom's here, surprise visit. Can't come. Bring me a shoe rack? I'll pay you back, promise.",
+      "after": "ikea_planned"
+    },
+    {
+      "id": "sameer_ikea_3",
+      "from": "them",
+      "text": "Did you survive Hyggeland? Did you get my shoe rack?",
+      "after": "ikea_assembled"
+    },
+    {
+      "id": "sameer_ikea_4",
+      "from": "them",
+      "text": "LEGEND. Sent ₹699. Mom says you're a good influence. Don't tell her anything.",
+      "after": "ikea_bought_shoerack",
+      "upi": 699,
+      "optional": true
     }
   ]
 }

@@ -33,6 +33,8 @@ export const SHEETS = {
   metro_props: { cols: 3, rows: 2, height: 40, heights: [64, 30, 62, 22, 26, 62] },
   // 2.3 Guitar (P12, ADR-131): guitar on a stand · on a wall hook · open case with coins · practice amp · chord chart + pick · music stand.
   guitar_props: { cols: 3, rows: 2, height: 30, heights: [36, 34, 20, 20, 12, 34] },
+  // 2.4 IKEA Run (P13, ADR-132): two flat-pack boxes · one small box · the folded kitchen table · a bookshelf · a floor lamp · a striped rug.
+  ikea_props: { cols: 3, rows: 2, height: 30, heights: [28, 16, 38, 40, 40, 22] },
 };
 
 const keyMagenta = (d) => {

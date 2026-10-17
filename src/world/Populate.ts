@@ -110,6 +110,8 @@ function cough(scene: Phaser.Scene, sprite: Phaser.GameObjects.Sprite): void {
 
 export interface PlacedObjects {
   placed: PlacedObject[];
+  /** Re-check the district's flag-gated objects: newly due ones appear, spent ones leave (assembly at the flat, ADR-132). */
+  sync(): void;
   /** Static bodies over every solid footprint — collide the player with this. */
   solids: Phaser.Physics.Arcade.StaticGroup;
 }
@@ -134,15 +136,16 @@ export function objects(
   const tile = map.tileWidth;
   const placed: PlacedObject[] = [];
 
-  const add = (id: string, tileX: number, tileY: number, hueShift?: number): void => {
+  const add = (id: string, tileX: number, tileY: number, hueShift?: number): PlacedObject | null => {
     const objectDef = OBJECTS[id];
     if (!objectDef) {
       console.error(`[Populate] placed object "${id}" has no manifest`);
-      return;
+      return null;
     }
     const item = new PlacedObject(scene, objectDef, tileX, tileY, tile, { hueShift });
     item.addCollision(scene, solids, tile);
     placed.push(item);
+    return item;
   };
 
   // Typed placed objects in the sorted band; `cutout` / `above` images are Shapes.bind's.
@@ -160,20 +163,31 @@ export function objects(
     );
   }
 
-  const flagsNow = useGameStore.getState().flags;
-  for (const ref of district.objects ?? []) {
-    if (ref.requires && !InventoryManager.getInstance().has(ref.requires)) continue;
-    if (ref.requiresFlag && !flagsNow[ref.requiresFlag]) continue;
-    if (ref.unlessFlag && flagsNow[ref.unlessFlag]) continue;
-    const at = findObject(map, def.spawnLayer, ref.at);
-    if (!at) {
-      console.error(`[Populate] object "${ref.id}" wants spawn "${ref.at}", which is not in the map`);
-      continue;
-    }
-    add(ref.id, Math.round((at.x ?? 0) / tile), Math.round((at.y ?? 0) / tile));
-  }
+  const due = (ref: NonNullable<DistrictDef['objects']>[number], flags: Record<string, boolean>): boolean =>
+    !(ref.requires && !InventoryManager.getInstance().has(ref.requires))
+    && !(ref.requiresFlag && !flags[ref.requiresFlag])
+    && !(ref.unlessFlag && flags[ref.unlessFlag])
+    && !(ref.requiresFlags && !ref.requiresFlags.every((f) => flags[f]));
+  const byRef = new Map<number, PlacedObject>();
+  const sync = (): void => {
+    const flags = useGameStore.getState().flags;
+    (district.objects ?? []).forEach((ref, i) => {
+      const want = due(ref, flags), have = byRef.get(i);
+      if (want && !have) {
+        const at = findObject(map, def.spawnLayer, ref.at);
+        if (!at) { console.error(`[Populate] object "${ref.id}" wants spawn "${ref.at}", which is not in the map`); return; }
+        const item = add(ref.id, Math.round((at.x ?? 0) / tile), Math.round((at.y ?? 0) / tile));
+        if (item) byRef.set(i, item);
+      } else if (!want && have) {
+        have.destroy();
+        byRef.delete(i);
+        placed.splice(placed.indexOf(have), 1);
+      }
+    });
+  };
+  sync();
 
-  return { placed, solids };
+  return { placed, solids, sync };
 }
 
 /** Ambient citizen: a sprite that walks and knows which way it is facing. */

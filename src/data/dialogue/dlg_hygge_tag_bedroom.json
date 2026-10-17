@@ -1,0 +1,15 @@
+{
+  "id": "dlg_hygge_tag_bedroom",
+  "speaker": "Price tag",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Bedroom — double bed ₹18,999. Two hundred pieces. Delivery only. You look at your wallet. The wallet looks back.",
+      "effect": {
+        "flags": {
+          "hygge_tag_bedroom": true
+        }
+      }
+    }
+  }
+}

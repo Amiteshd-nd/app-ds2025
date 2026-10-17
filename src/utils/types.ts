@@ -1,5 +1,6 @@
 import type { NPC_TIERS, QUEST_TYPES } from './constants';
 import type { Degree, Gender, SkinTone } from './profile';
+import type { IconName } from '../ui/kit/icons';
 
 // Direction for player movement and NPC facing.
 export type Direction = 'down' | 'left' | 'right' | 'up';
@@ -98,6 +99,10 @@ export interface StatEffect {
   relationship?: { npc: string; state: RelationshipState };
   /** Fuel added to (or taken from) the scooter's tank, 0–100 (ADR-126). */
   fuel?: number;
+  /** Box slots picked up (flat-pack, story 2.4, ADR-132); a choice past the carry limit is locked "Not enough space". */
+  carry?: number;
+  /** Put every box down (assembly at home). */
+  carry_clear?: boolean;
 }
 
 // --- Relationships (game_components §8, ADR-123) ---------------------------
@@ -115,6 +120,12 @@ export interface DialogueChoice {
   effect?: StatEffect;
   requires?: SkillRequirement;
   quest_trigger?: string;
+  /** Locked (shown greyed with `lockedText`) once this flag is set — a box already in the trolley (ADR-132). */
+  unlessFlag?: string;
+  /** Locked until this flag is set — the tills need a box first. */
+  requiresFlag?: string;
+  /** Why it is locked; default "Done" / "Not yet". */
+  lockedText?: string;
 }
 
 /**
@@ -262,6 +273,8 @@ export interface DistrictObjectRef {
   requiresFlag?: string;
   /** The object is gone once this flag is set — the metro barricade on opening day (ADR-127). */
   unlessFlag?: string;
+  /** Every one of these flags must be set — a bookshelf both bought and assembled (ADR-132). */
+  requiresFlags?: string[];
 }
 
 /** Ambient crowd: random-walk bots drawn from a pool of sprite sheets. */
@@ -291,6 +304,8 @@ export interface DistrictExit {
   requiresFlag?: string;
   /** Game minutes the journey takes — the clock jumps on arrival (a 40-minute walk makes you late; ADR-121). */
   minutes?: number;
+  /** ₹ more per box carried — the conductor's luggage ticket (story 2.4, ADR-132). */
+  farePerBox?: number;
 }
 
 /** A zone that announces itself on the bus (`zone:reached`) so quests can react. */
@@ -324,6 +339,8 @@ export interface DistrictDef {
   map: string;
   /** Maps offers METRO / RIDE here before the first visit once this flag is set — the shop's text named the stop (story 2.3, ADR-131). */
   knownIf?: string;
+  /** "The first sleep here after `after`, set `set`" — the sleepEvents behaviour (ADR-132). */
+  sleepEvents?: Array<{ after: string; set: string[]; toast?: string; icon?: IconName }>;
   /** Spawn object used when no spawn is named by the exit that led here. */
   defaultSpawn: string;
   fadeMs?: number;

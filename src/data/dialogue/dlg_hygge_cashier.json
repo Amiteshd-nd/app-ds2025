@@ -1,0 +1,53 @@
+{
+  "id": "dlg_hygge_cashier",
+  "speaker": "Hyggeland tills",
+  "portrait": "npc_hygge_staff",
+  "enter": [
+    {
+      "flag": "ikea_paid",
+      "node": "paid"
+    },
+    {
+      "flag": "ikea_boxed",
+      "node": "checkout"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Trolley empty, saar. The aisle is that side — follow the arrows. Everyone tries to skip the arrows."
+    },
+    "checkout": {
+      "text": "All scanned. Three boxes on the metro, saar. Four if you are brave. Blue bag for the small things?",
+      "choices": [
+        {
+          "text": "A blue bag too (₹20).",
+          "next": "bag",
+          "effect": {
+            "wallet": -20,
+            "flags": {
+              "ikea_paid": true
+            }
+          }
+        },
+        {
+          "text": "No bag. Just the boxes.",
+          "next": "nobag",
+          "effect": {
+            "flags": {
+              "ikea_paid": true
+            }
+          }
+        }
+      ]
+    },
+    "bag": {
+      "text": "Big blue bag. You will use it for everything except furniture. Exit is through that lane — the Green Line is across the road."
+    },
+    "nobag": {
+      "text": "Strong arms. Exit is through that lane — the Green Line is across the road."
+    },
+    "paid": {
+      "text": "Already paid, saar. The metro is that side. Good luck with the doors."
+    }
+  }
+}

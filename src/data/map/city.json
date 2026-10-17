@@ -1235,6 +1235,24 @@
         12.925,
         77.5838
       ]
+    },
+    {
+      "id": "place_majestic_metro",
+      "label": "Majestic interchange",
+      "at": [
+        12.9757,
+        77.5728
+      ],
+      "districtId": "majestic_interchange"
+    },
+    {
+      "id": "place_nagasandra",
+      "label": "Hyggeland · Nagasandra",
+      "at": [
+        13.0479,
+        77.5003
+      ],
+      "districtId": "hyggeland"
     }
   ],
   "pois": [

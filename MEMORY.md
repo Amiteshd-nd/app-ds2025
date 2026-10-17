@@ -98,3 +98,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Chats deliver in order and stop at the first unset `after`; an optional branch must be `optional: true` or it blocks every later message in the thread.
 - Long district names collide with the wallet plate in the HUD; keep interior names short ("Guitar shop").
 
+## 2.4 IKEA Run (2026-10-17, P13, ADR-132)
+- A spawn beside an exit zone is a trap for the bot even if humans walk away from it: arrivals from a coach should land where Maps' METRO arrivals land (`player_spawn` on the street), never on `station_mouth`.
+- Dialogue choices are locked, never hidden: the movie driver maps view choices to `node.choices[i]` by index.
+- Two districts may share one map (`green_coach`, `green_coach_home` on `metro_interior`) — each has its own `ride` flag, so a ride never inherits another's `*_ride_over`.
+- An exit's `requiresFlag` is spent on boarding (the auto fare); to gate an exit on a lasting flag use the destination's `unlock` instead (`green_coach_home.unlock: ikea_paid`).
+

@@ -1200,7 +1200,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 20,
+     "id": 26,
      "name": "sink_counter",
      "type": "cutout",
      "rotation": 0,
@@ -1243,7 +1243,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 27,
      "name": "hob_counter",
      "type": "cutout",
      "rotation": 0,
@@ -1286,7 +1286,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 28,
      "name": "low_counter",
      "type": "cutout",
      "rotation": 0,
@@ -1329,7 +1329,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 29,
      "name": "cylinder",
      "type": "cutout",
      "rotation": 0,
@@ -1781,7 +1781,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 12,
+     "id": 18,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1799,7 +1799,7 @@
      ]
     },
     {
-     "id": 13,
+     "id": 19,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1817,7 +1817,7 @@
      ]
     },
     {
-     "id": 14,
+     "id": 20,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1835,7 +1835,7 @@
      ]
     },
     {
-     "id": 15,
+     "id": 21,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1853,7 +1853,7 @@
      ]
     },
     {
-     "id": 16,
+     "id": 22,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1871,7 +1871,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 23,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1889,7 +1889,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 24,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1907,7 +1907,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 25,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -2419,6 +2419,66 @@
     },
     {
      "id": 8,
+     "name": "boxes_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 350,
+     "y": 346,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 9,
+     "name": "shelf_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 385,
+     "y": 99,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 10,
+     "name": "lamp_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 165,
+     "y": 128,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 11,
+     "name": "rug_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 280,
+     "y": 288,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 12,
+     "name": "folded_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 50,
+     "y": 368,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 13,
      "name": "front_door",
      "rotation": 0,
      "type": "",
@@ -2429,7 +2489,7 @@
      "height": 20
     },
     {
-     "id": 9,
+     "id": 14,
      "name": "bed",
      "rotation": 0,
      "type": "",
@@ -2440,7 +2500,7 @@
      "height": 80
     },
     {
-     "id": 10,
+     "id": 15,
      "name": "flat_arrival",
      "rotation": 0,
      "type": "",
@@ -2451,7 +2511,7 @@
      "height": 35
     },
     {
-     "id": 11,
+     "id": 16,
      "name": "guitar_zone",
      "rotation": 0,
      "type": "",
@@ -2460,6 +2520,17 @@
      "y": 131,
      "width": 70,
      "height": 45
+    },
+    {
+     "id": 17,
+     "name": "assembly_zone",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 310,
+     "y": 320,
+     "width": 85,
+     "height": 55
     }
    ],
    "opacity": 1,
@@ -2470,7 +2541,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 24,
+ "nextobjectid": 30,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

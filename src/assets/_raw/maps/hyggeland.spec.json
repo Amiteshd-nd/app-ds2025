@@ -1,0 +1,235 @@
+{
+ "$comment": "Source-pixel spec (1536x1024 \u2192 24x16) \u2014 Hyggeland, the parody flat-pack store at Nagasandra (story 2.4, ADR-132): the wall band is `buildings`; the three room sets, the caf\u00e9 counter and tables, the help desk, the benches, the racks, the tills and their barriers are blocks; you walk the arrows between them. Zones: the price tags in front of each room set, the self-serve aisle between the first two racks, the exit lane past the tills.",
+ "name": "hyggeland",
+ "cols": 24,
+ "rows": 16,
+ "units": "px",
+ "buildings": [
+  [
+   0,
+   0,
+   1536,
+   58
+  ]
+ ],
+ "blocks": [
+  [
+   91,
+   56,
+   286,
+   279
+  ],
+  [
+   468,
+   56,
+   293,
+   279
+  ],
+  [
+   855,
+   56,
+   297,
+   279
+  ],
+  [
+   1278,
+   60,
+   258,
+   180
+  ],
+  [
+   1330,
+   258,
+   115,
+   90
+  ],
+  [
+   1330,
+   380,
+   115,
+   90
+  ],
+  [
+   1330,
+   500,
+   115,
+   95
+  ],
+  [
+   492,
+   394,
+   213,
+   111
+  ],
+  [
+   70,
+   419,
+   237,
+   77
+  ],
+  [
+   908,
+   419,
+   237,
+   77
+  ],
+  [
+   77,
+   558,
+   139,
+   370
+  ],
+  [
+   310,
+   558,
+   140,
+   370
+  ],
+  [
+   547,
+   558,
+   140,
+   370
+  ],
+  [
+   957,
+   650,
+   70,
+   230
+  ],
+  [
+   1134,
+   650,
+   67,
+   230
+  ],
+  [
+   1313,
+   650,
+   70,
+   230
+  ],
+  [
+   866,
+   831,
+   91,
+   77
+  ],
+  [
+   1383,
+   831,
+   83,
+   77
+  ],
+  [
+   0,
+   920,
+   60,
+   104
+  ],
+  [
+   690,
+   920,
+   50,
+   104
+  ],
+  [
+   1470,
+   920,
+   66,
+   104
+  ],
+  [
+   747,
+   940,
+   30,
+   84
+  ],
+  [
+   830,
+   940,
+   30,
+   84
+  ]
+ ],
+ "spawns": [
+  {
+   "name": "store_entrance",
+   "x": 40,
+   "y": 540
+  },
+  {
+   "name": "help_desk",
+   "x": 745,
+   "y": 455
+  },
+  {
+   "name": "cafe",
+   "x": 1235,
+   "y": 175
+  },
+  {
+   "name": "tills",
+   "x": 1250,
+   "y": 760
+  },
+  {
+   "name": "store_return",
+   "x": 1082,
+   "y": 930
+  }
+ ],
+ "zones": [
+  {
+   "name": "hyggeland_arrival",
+   "x": 0,
+   "y": 480,
+   "w": 76,
+   "h": 120
+  },
+  {
+   "name": "tag_kitchen",
+   "x": 150,
+   "y": 338,
+   "w": 170,
+   "h": 36
+  },
+  {
+   "name": "tag_living",
+   "x": 530,
+   "y": 338,
+   "w": 170,
+   "h": 36
+  },
+  {
+   "name": "tag_bedroom",
+   "x": 920,
+   "y": 338,
+   "w": 170,
+   "h": 36
+  },
+  {
+   "name": "aisle",
+   "x": 222,
+   "y": 620,
+   "w": 82,
+   "h": 200
+  },
+  {
+   "name": "store_exit",
+   "x": 1035,
+   "y": 985,
+   "w": 95,
+   "h": 30
+  },
+  {
+   "name": "ambient_area",
+   "x": 100,
+   "y": 380,
+   "w": 1150,
+   "h": 160
+  }
+ ],
+ "sorted": [],
+ "above": []
+}

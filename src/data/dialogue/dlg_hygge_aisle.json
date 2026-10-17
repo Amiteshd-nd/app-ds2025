@@ -1,0 +1,111 @@
+{
+  "id": "dlg_hygge_aisle",
+  "speaker": "Self-serve aisle",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Tall racks, cardboard to the ceiling. Every box has a shape on its tag. Scan as you take; the tills just check you out.",
+      "choices": [
+        {
+          "text": "Kitchen table + 2 chairs — ₹4,999 (2 boxes)",
+          "next": "got_table",
+          "unlessFlag": "ikea_bought_table",
+          "lockedText": "In your trolley",
+          "effect": {
+            "wallet": -4999,
+            "carry": 2,
+            "flags": {
+              "ikea_bought_table": true,
+              "ikea_boxed": true
+            }
+          }
+        },
+        {
+          "text": "Bookshelf — ₹2,499 (2 boxes)",
+          "next": "got_shelf",
+          "unlessFlag": "ikea_bought_shelf",
+          "lockedText": "In your trolley",
+          "effect": {
+            "wallet": -2499,
+            "carry": 2,
+            "flags": {
+              "ikea_bought_shelf": true,
+              "ikea_boxed": true
+            }
+          }
+        },
+        {
+          "text": "Floor lamp — ₹999 (1 box)",
+          "next": "got_lamp",
+          "unlessFlag": "ikea_bought_lamp",
+          "lockedText": "In your trolley",
+          "effect": {
+            "wallet": -999,
+            "carry": 1,
+            "flags": {
+              "ikea_bought_lamp": true,
+              "ikea_boxed": true
+            }
+          }
+        },
+        {
+          "text": "Striped rug — ₹1,499 (1 box)",
+          "next": "got_rug",
+          "unlessFlag": "ikea_bought_rug",
+          "lockedText": "In your trolley",
+          "effect": {
+            "wallet": -1499,
+            "carry": 1,
+            "flags": {
+              "ikea_bought_rug": true,
+              "ikea_boxed": true
+            }
+          }
+        },
+        {
+          "text": "Shoe rack (for Sameer) — ₹699 (1 box)",
+          "next": "got_shoerack",
+          "unlessFlag": "ikea_bought_shoerack",
+          "lockedText": "In your trolley",
+          "effect": {
+            "wallet": -699,
+            "carry": 1,
+            "flags": {
+              "ikea_bought_shoerack": true,
+              "ikea_boxed": true
+            }
+          }
+        },
+        {
+          "text": "That's enough. To the tills.",
+          "next": "done",
+          "requiresFlag": "ikea_boxed",
+          "lockedText": "Your trolley is empty"
+        }
+      ]
+    },
+    "got_table": {
+      "text": "Two long boxes, heavier than they look. The trolley groans like a Bengaluru autorickshaw.",
+      "next": "start"
+    },
+    "got_shelf": {
+      "text": "Two flat boxes. Somewhere inside, forty-two screws are waiting for you.",
+      "next": "start"
+    },
+    "got_lamp": {
+      "text": "One slim box. The picture on it is of a much happier flat.",
+      "next": "start"
+    },
+    "got_rug": {
+      "text": "A rolled rug in a tube of cardboard. It smells of the future.",
+      "next": "start"
+    },
+    "got_shoerack": {
+      "text": "Sameer's shoe rack. You are a good friend. Or a pushover.",
+      "next": "start"
+    },
+    "done": {
+      "text": "You push the trolley toward the tills. It pulls left. Everything here pulls left."
+    }
+  }
+}

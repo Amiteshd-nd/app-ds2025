@@ -1,0 +1,42 @@
+{
+  "id": "dlg_hygge_cafe",
+  "speaker": "Hyggeland café",
+  "portrait": "npc_hygge_staff",
+  "nodes": {
+    "start": {
+      "text": "Cinnamon bun or masala meatballs? The meatballs are Swedish. The masala is from Hosur.",
+      "choices": [
+        {
+          "text": "Cinnamon bun (₹49)",
+          "next": "bun",
+          "effect": {
+            "wallet": -49,
+            "food": 15,
+            "stress": -2
+          }
+        },
+        {
+          "text": "Masala meatballs (₹79)",
+          "next": "meatballs",
+          "effect": {
+            "wallet": -79,
+            "food": 30
+          }
+        },
+        {
+          "text": "Just looking.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bun": {
+      "text": "One bun. Eat it before the arrows take you."
+    },
+    "meatballs": {
+      "text": "Six meatballs, one lingonberry, a lot of chutney. Enjoy."
+    },
+    "bye": {
+      "text": "Come back when the boxes make you hungry."
+    }
+  }
+}

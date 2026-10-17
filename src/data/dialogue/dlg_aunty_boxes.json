@@ -1,0 +1,83 @@
+{
+  "id": "dlg_aunty_boxes",
+  "speaker": "Aunty by the door",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "carry_overloaded",
+      "node": "overloaded"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(The train lurches. Your box lands on an aunty's foot.) Aiyyo! Whose furniture is this? Is this a metro or a godown?",
+      "choices": [
+        {
+          "text": "Sorry, aunty — I'll hold it up till Majestic.",
+          "next": "hold",
+          "effect": {
+            "flags": {
+              "aunty_decided": true
+            },
+            "reputation": 1,
+            "stress": 2
+          }
+        },
+        {
+          "text": "It's the metro, aunty. Everyone has bags.",
+          "next": "argue",
+          "effect": {
+            "flags": {
+              "aunty_decided": true
+            },
+            "reputation": -1
+          }
+        },
+        {
+          "text": "Give her the spot by the door.",
+          "next": "move",
+          "effect": {
+            "flags": {
+              "aunty_decided": true
+            },
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "overloaded": {
+      "text": "(Four boxes. On the brake before Majestic, the top one slides, hits the pole, and the whole coach laughs — the aunty loudest.) Next time take two trips, beta!",
+      "choices": [
+        {
+          "text": "Laugh along and restack.",
+          "next": "hold",
+          "effect": {
+            "flags": {
+              "aunty_decided": true
+            },
+            "stress": -2
+          }
+        },
+        {
+          "text": "Apologise to the whole coach.",
+          "next": "move",
+          "effect": {
+            "flags": {
+              "aunty_decided": true
+            },
+            "reputation": 1
+          }
+        }
+      ]
+    },
+    "hold": {
+      "text": "Hmph. Good boy. My son would have left it on my foot and checked his phone."
+    },
+    "argue": {
+      "text": "Everyone has bags. Not everyone has a table. (She moves her foot. The glare stays.)"
+    },
+    "move": {
+      "text": "(You shuffle into the corner with the boxes. The aunty takes the door spot like a throne.) Thank you, beta."
+    }
+  }
+}

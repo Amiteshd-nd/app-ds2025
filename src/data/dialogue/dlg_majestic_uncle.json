@@ -1,0 +1,45 @@
+{
+  "id": "dlg_majestic_uncle",
+  "speaker": "Uncle with a jute sack",
+  "portrait": "npc_majestic_uncle",
+  "enter": [
+    {
+      "flag": "uncle_following",
+      "node": "walking"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Yeshwantpur? Green? This side, that side, everyone is running. I came for my son's wedding shopping and the station ate me.",
+      "choices": [
+        {
+          "text": "Come, uncle. I'm going the same way.",
+          "next": "walk",
+          "effect": {
+            "flags": {
+              "uncle_following": true
+            }
+          }
+        },
+        {
+          "text": "The green stairs, uncle — over there, top right.",
+          "next": "point",
+          "effect": {
+            "flags": {
+              "majestic_helped": true
+            }
+          }
+        }
+      ]
+    },
+    "walk": {
+      "text": "God bless. Walk slowly, my knees are from the village, not from the gym."
+    },
+    "point": {
+      "text": "Green. Top right. Green. (He repeats it all the way there, a little louder each time.)"
+    },
+    "walking": {
+      "text": "Still walking, still walking. You young people walk like the train is chasing you."
+    }
+  }
+}

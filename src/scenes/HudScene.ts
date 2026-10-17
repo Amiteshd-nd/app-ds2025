@@ -1,3 +1,4 @@
+import { CARRY_COUNTER, carryText } from '../systems/carry';
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
 import { QUESTS, getDistrict } from '../data';
@@ -139,6 +140,7 @@ export class HudScene extends Phaser.Scene {
       gameEvents.on('wallet:earned', ({ amount }) => this.moved(amount)),
       gameEvents.on('save:written', () => { this.savedUntil = this.time.now + motion('m.hud.saved'); this.render(); }),
       gameEvents.on('ui:timer', ({ text }) => { if (text !== this.timer) { this.timer = text; this.render(); } }),
+      gameEvents.on('ui:carry', () => this.render()),
       gameEvents.on('fuel:show', () => { this.fuelUntil = this.time.now + motion('m.hud.wallet.hold'); this.render(); }),
       // Gamepad while walking: A talks (the dialogue card takes A itself while it is up).
       attachGamepad(this, { button: (b) => { if (b === PAD.A && !this.dialogueOpen && this.root.visible) pressInteract(); } }, () => this.alive),
@@ -272,7 +274,8 @@ export class HudScene extends Phaser.Scene {
     const clockX = L.right - clockW;
     this.clockZone = tapZone(clockX * L.k, L.pad * L.k, clockW * L.k, L.plateH * L.k);
     // The timer plate (a bus countdown) sits under the clock; the wallet moves down a row while it is up.
-    const timer = this.timer;
+    // Boxes carried share the plate under the clock with a ride's countdown (story 2.4).
+    const timer = [this.timer, carryText(store.counters[CARRY_COUNTER] ?? 0)].filter(Boolean).join(' · ') || null;
     const timerW = timer ? plateWidth(measure(timer, true), bitmapWidth(ICONS.bus)) : 0;
     const timerX = L.right - timerW;
     const timerY = L.pad + L.plateH + L.stackGap;

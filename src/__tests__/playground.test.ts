@@ -29,7 +29,7 @@ describe('prerequisite-state builder', () => {
     // "2.2b" (the ride, the second half of a beat that spans two places) follows "2.2" and precedes "2.3".
     expect(ordered.slice(9, 13)).toEqual(['act2_credited', 'act2_metro_opens', 'act2_metro_ride', 'act2_guitar']);
     expect(ordered[ordered.length - 1]).toBe('act4_tunnel');
-    const built = ['act2_credited', 'act2_metro_opens', 'act2_metro_ride', 'act2_guitar'];
+    const built = ['act2_credited', 'act2_metro_opens', 'act2_metro_ride', 'act2_guitar', 'act2_ikea'];
     for (const s of scenes) if (s.act >= 2 && !built.includes(s.id)) expect(s.status, s.id).toBe('STUB');
   });
 

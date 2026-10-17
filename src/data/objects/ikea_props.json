@@ -1,0 +1,8 @@
+[
+  { "id": "FLATPACK_BOXES", "label": "Flat-pack boxes", "category": "furniture", "tilesWide": 1, "tilesTall": 1, "backgroundTiles": 0, "solid": true, "colorEditable": false, "sprite": "ikea_props_01" },
+  { "id": "FLATPACK_SMALL", "label": "A small flat-pack box", "category": "furniture", "tilesWide": 1, "tilesTall": 1, "backgroundTiles": 0, "solid": true, "colorEditable": false, "sprite": "ikea_props_02" },
+  { "id": "FOLDED_TABLE", "label": "The kitchen table that didn't fit", "category": "furniture", "tilesWide": 1, "tilesTall": 2, "backgroundTiles": 1, "solid": true, "colorEditable": false, "sprite": "ikea_props_03" },
+  { "id": "BOOKSHELF", "label": "Bookshelf", "category": "furniture", "tilesWide": 1, "tilesTall": 2, "backgroundTiles": 1, "solid": true, "colorEditable": false, "sprite": "ikea_props_04" },
+  { "id": "FLOOR_LAMP", "label": "Floor lamp", "category": "furniture", "tilesWide": 1, "tilesTall": 2, "backgroundTiles": 1, "solid": true, "colorEditable": false, "sprite": "ikea_props_05" },
+  { "id": "RUG", "label": "Striped rug", "category": "furniture", "tilesWide": 2, "tilesTall": 1, "backgroundTiles": 0, "solid": false, "colorEditable": false, "sprite": "ikea_props_06" }
+]

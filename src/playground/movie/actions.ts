@@ -246,11 +246,19 @@ async function interact(d: MovieDriver, target: Target | undefined, ctx: ActionC
 async function choose(d: MovieDriver, option: string | number, ctx: ActionContext, deadline: number): Promise<ActionResult> {
   const opened = await until(d, ctx, () => d.state().dialogueOpen, Math.min(deadline, d.now() + 1500));
   if (opened !== 'ok') return outcome(opened, 'dialogue_not_open') ?? ok();
-  // Let the line finish (one E skips the typewriter).
-  const settled = await until(d, ctx, () => { const g = d.dialogue(); return Boolean(g && (!g.typing || g.choices.length > 0)); }, Math.min(deadline, d.now() + 4000));
-  if (settled !== 'ok') return outcome(settled, 'dialogue_stuck_typing') ?? ok();
+  // Let the line finish (one E skips the typewriter); lines without choices before the decision (a manual's
+  // "Step 1", a call's greeting) are stepped through until the choices appear.
   let dlg = d.dialogue();
-  if (dlg?.typing) { await press(d, 'E'); await d.frames(2); dlg = d.dialogue(); }
+  for (let guard = 0; guard < 12; guard++) {
+    if (ctx.cancelled()) return { status: 'skipped', reason: 'cancelled' };
+    const settled = await until(d, ctx, () => { const g = d.dialogue(); return Boolean(g && (!g.typing || g.choices.length > 0)); }, Math.min(deadline, d.now() + 4000));
+    if (settled === 'cancelled') return { status: 'skipped', reason: 'cancelled' };
+    dlg = d.dialogue();
+    if (!dlg || !dlg.open) return fail('dialogue_closed_early');
+    if (dlg.choices.length && !dlg.typing) break;
+    await press(d, 'E'); await d.frames(2);
+  }
+  dlg = d.dialogue();
   if (!dlg || !dlg.open) return fail('dialogue_closed_early');
   if (!dlg.choices.length) return fail(`no_choices_here (${dlg.text.slice(0, 40)})`);
   const index = typeof option === 'number'

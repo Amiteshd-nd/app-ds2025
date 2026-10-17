@@ -1,3 +1,4 @@
+import { CARRY_COUNTER } from './carry';
 import { gameEvents } from '../core/events';
 import { CITY_MAP, DISTRICTS, QUESTS } from '../data';
 import { useGameStore } from '../store';
@@ -321,6 +322,8 @@ export class MapManager {
   scooterRide(toDistrictId: string): { fuel: number; minutes: number; km: number; enough: boolean } | null {
     const store = useGameStore.getState();
     if (!store.flags.scooter_owned) return null;
+    // Flat-pack does not ride a scooter (story 2.4): no RIDE while boxes are carried.
+    if ((store.counters[CARRY_COUNTER] ?? 0) > 0) return null;
     const here = this.here();
     const from = here ? this.districts[here] : undefined, to = this.districts[toDistrictId];
     if (!from || !to || from.id === to.id || !to.realworld || !('lat' in to.realworld)) return null;

@@ -1,0 +1,15 @@
+{
+  "id": "dlg_hygge_tag_kitchen",
+  "speaker": "Price tag",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Kitchen set — table + two chairs ₹4,999. Seats four if two are thin. Flat-pack: two boxes, aisle with the red circle.",
+      "effect": {
+        "flags": {
+          "hygge_tag_kitchen": true
+        }
+      }
+    }
+  }
+}

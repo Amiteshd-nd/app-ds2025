@@ -46,6 +46,8 @@ export interface GameEvents {
   'save:written': { slot: string };
   /** A countdown for the HUD's timer plate ("500-D in 1:12"); null clears it (ADR-123). */
   'ui:timer': { text: string | null };
+  /** Boxes carried changed (story 2.4, ADR-132). */
+  'ui:carry': { slots: number };
   /** A named NPC's relationship moved (ADR-123). */
   'relationship:changed': { npcId: string; state: string };
   /** Show the fuel gauge for a moment (after a ride lands, ADR-126). */

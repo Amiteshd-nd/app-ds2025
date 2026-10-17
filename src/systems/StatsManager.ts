@@ -1,3 +1,4 @@
+import { carry } from './carry';
 import { gameEvents } from '../core/events';
 import { useGameStore } from '../store';
 import { InventoryManager } from './InventoryManager';
@@ -125,6 +126,7 @@ export class StatsManager {
       store.setCounter(FUEL_COUNTER, Math.max(0, Math.min(FUEL_TANK, (store.counters[FUEL_COUNTER] ?? 0) + effect.fuel)));
     }
 
+    if (effect.carry || effect.carry_clear) carry(effect.carry ?? 0, Boolean(effect.carry_clear));
     if (effect.item_add) {
       const added = InventoryManager.getInstance().add(effect.item_add);
       // A full stack is a soft failure the player can see; say so in dev.

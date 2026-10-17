@@ -1100,5 +1100,49 @@
       "waist_y": 32,
       "enabled": false
     }
+  },
+  "npc_majestic_uncle": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "npc_hygge_staff": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
   }
 }

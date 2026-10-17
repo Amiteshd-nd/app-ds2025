@@ -1,0 +1,15 @@
+{
+  "id": "dlg_hygge_tag_living",
+  "speaker": "Price tag",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Living room — bookshelf ₹2,499 (two boxes) · floor lamp ₹999 (one) · striped rug ₹1,499 (one). Aisle with the blue square.",
+      "effect": {
+        "flags": {
+          "hygge_tag_living": true
+        }
+      }
+    }
+  }
+}

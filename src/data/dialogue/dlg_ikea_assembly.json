@@ -1,0 +1,80 @@
+{
+  "id": "dlg_ikea_assembly",
+  "speaker": "The manual",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "ikea_bought_table",
+      "node": "start_table"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(The manual has no words. A smiling cartoon person holds a screw. You are not smiling.) Step 1: lay everything out.",
+      "next": "step2"
+    },
+    "start_table": {
+      "text": "(The manual has no words. A smiling cartoon person holds a screw.) Step 1: lay everything out. The kitchen table's box takes half the floor before it's even open.",
+      "next": "step2_table"
+    },
+    "step2": {
+      "text": "Step 2: the picture shows a panel, a dowel, and an arrow.",
+      "choices": [
+        {
+          "text": "Dowel first, then the panel.",
+          "next": "step3"
+        },
+        {
+          "text": "Panel first. How hard can it be?",
+          "next": "wrong"
+        }
+      ]
+    },
+    "wrong": {
+      "text": "(Twenty minutes later, the shelf is upside down and the cartoon person is laughing at you.) Back to Step 2.",
+      "next": "step2"
+    },
+    "step3": {
+      "text": "Step 3: tighten everything. One screw is left over. There is always one screw left over.",
+      "next": "done",
+      "effect": {
+        "flags": {
+          "ikea_assembled": true
+        },
+        "carry_clear": true,
+        "stress": -5
+      }
+    },
+    "step2_table": {
+      "text": "Step 2: the picture shows a panel, a dowel, and an arrow.",
+      "choices": [
+        {
+          "text": "Dowel first, then the panel.",
+          "next": "step3_table"
+        },
+        {
+          "text": "Panel first. How hard can it be?",
+          "next": "wrong_table"
+        }
+      ]
+    },
+    "wrong_table": {
+      "text": "(Twenty minutes later, the shelf is upside down and the cartoon person is laughing at you.) Back to Step 2.",
+      "next": "step2_table"
+    },
+    "step3_table": {
+      "text": "Step 3: tighten everything. One screw left over. Then the table: cot, table-chair, stove — there is no floor left for a kitchen table. You fold it and lean it against the wall. One day you'll have a kitchen. Or a reason.",
+      "effect": {
+        "flags": {
+          "ikea_assembled": true,
+          "table_folded": true
+        },
+        "carry_clear": true,
+        "stress": -5
+      }
+    },
+    "done": {
+      "text": "The flat looks like somebody lives here on purpose."
+    }
+  }
+}

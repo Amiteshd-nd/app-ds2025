@@ -145,7 +145,13 @@
         "bed",
         "flat_arrival",
         "guitar_spot",
-        "guitar_zone"
+        "guitar_zone",
+        "boxes_spot",
+        "shelf_spot",
+        "lamp_spot",
+        "rug_spot",
+        "folded_spot",
+        "assembly_zone"
       ],
       "sop": true
     },
@@ -273,6 +279,38 @@
         "shop_entry",
         "shop_counter",
         "shop_exit"
+      ],
+      "sop": true
+    },
+    "majestic_interchange": {
+      "file": "majestic_interchange.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "purple_arrival",
+        "interchange_stairs",
+        "majestic_arrival",
+        "green_stairs_top",
+        "green_stairs",
+        "ambient_area"
+      ],
+      "sop": true
+    },
+    "hyggeland": {
+      "file": "hyggeland.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "store_entrance",
+        "help_desk",
+        "cafe",
+        "tills",
+        "hyggeland_arrival",
+        "aisle",
+        "store_exit",
+        "ambient_area"
       ],
       "sop": true
     }

@@ -1,0 +1,32 @@
+{
+  "id": "q_act2_ikea",
+  "title": "IKEA Run",
+  "description": "Sameer bailed. Hyggeland is at the end of the Green Line, and whatever you buy, you carry.",
+  "chapter": 2,
+  "district": "hyggeland",
+  "type": "delivery",
+  "prerequisite_quests": [
+    "q_act2_guitar"
+  ],
+  "objectives": [
+    { "id": "planned", "text": "Read Sameer's plan", "type": "flag", "target": "ikea_planned" },
+    { "id": "majestic", "text": "Change at Majestic", "type": "flag", "target": "majestic_visited", "destination": "majestic_interchange" },
+    { "id": "uncle", "text": "Help the uncle find the Green Line", "type": "flag", "target": "majestic_helped", "optional": true, "destination": "majestic_interchange" },
+    { "id": "green", "text": "Take the Green Line to Nagasandra", "type": "flag", "target": "green_line_ridden", "destination": "green_coach" },
+    { "id": "store", "text": "Follow the arrows into Hyggeland", "type": "flag", "target": "hyggeland_entered", "destination": "hyggeland" },
+    { "id": "table", "text": "Pick up the kitchen table", "type": "flag", "target": "ikea_bought_table", "destination": "hyggeland" },
+    { "id": "pay", "text": "Check out at the tills", "type": "flag", "target": "ikea_paid", "destination": "hyggeland" },
+    { "id": "home", "text": "Get the boxes home on the metro", "type": "flag", "target": "ikea_rode_home", "destination": "green_coach_home" },
+    { "id": "assemble", "text": "Assemble it all at the flat", "type": "flag", "target": "ikea_assembled", "destination": "hill_flat" }
+  ],
+  "rewards": {
+    "xp": 40,
+    "xp_branch": "city_survival",
+    "reputation": 1
+  },
+  "on_complete": {
+    "set_flags": [
+      "act2_ikea_done"
+    ]
+  }
+}

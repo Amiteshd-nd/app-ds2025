@@ -128,7 +128,8 @@
         "transit": "bus",
         "fare": 20,
         "minutes": 25,
-        "card": "BMTC 335-E → Ambedkar Nagar · ₹20"
+        "card": "BMTC 335-E → Ambedkar Nagar · ₹20",
+        "farePerBox": 10
       },
       {
         "zone": "bus_500d",
@@ -774,6 +775,41 @@
         "id": "GUITAR_STAND",
         "at": "guitar_spot",
         "requiresFlag": "guitar_owned"
+      },
+      {
+        "id": "FLATPACK_BOXES",
+        "at": "boxes_spot",
+        "requiresFlag": "ikea_rode_home",
+        "unlessFlag": "ikea_assembled"
+      },
+      {
+        "id": "BOOKSHELF",
+        "at": "shelf_spot",
+        "requiresFlags": [
+          "ikea_bought_shelf",
+          "ikea_assembled"
+        ]
+      },
+      {
+        "id": "FLOOR_LAMP",
+        "at": "lamp_spot",
+        "requiresFlags": [
+          "ikea_bought_lamp",
+          "ikea_assembled"
+        ]
+      },
+      {
+        "id": "RUG",
+        "at": "rug_spot",
+        "requiresFlags": [
+          "ikea_bought_rug",
+          "ikea_assembled"
+        ]
+      },
+      {
+        "id": "FOLDED_TABLE",
+        "at": "folded_spot",
+        "requiresFlag": "table_folded"
       }
     ],
     "triggers": [
@@ -809,6 +845,12 @@
         "minigame": "guitar",
         "requiresFlag": "guitar_owned",
         "once": false
+      },
+      {
+        "zone": "assembly_zone",
+        "dialogue": "dlg_ikea_assembly",
+        "requiresFlag": "ikea_rode_home",
+        "unlessFlag": "ikea_assembled"
       }
     ],
     "exits": [
@@ -823,13 +865,25 @@
       "salaryCountdown",
       "emi",
       "metroOpening",
-      "guitarNights"
+      "guitarNights",
+      "sleepEvents"
     ],
     "realworld": {
       "parent": "ambedkar_nagar_hill"
     },
     "quests": [
-      "q_act2_guitar"
+      "q_act2_guitar",
+      "q_act2_ikea"
+    ],
+    "sleepEvents": [
+      {
+        "after": "act2_guitar_done",
+        "set": [
+          "ikea_planned"
+        ],
+        "toast": "Sameer: \"Hyggeland opened at Nagasandra. Saturday?\"",
+        "icon": "chats"
+      }
     ]
   },
   {
@@ -1453,5 +1507,267 @@
     "realworld": {
       "parent": "church_street"
     }
+  },
+  {
+    "id": "majestic_interchange",
+    "name": "Majestic interchange",
+    "map": "majestic_interchange",
+    "defaultSpawn": "purple_arrival",
+    "fadeMs": 400,
+    "knownIf": "ikea_planned",
+    "unlock": {
+      "flags": [
+        "metro_tier_1"
+      ]
+    },
+    "signal": 1,
+    "quests": [
+      "q_act2_ikea"
+    ],
+    "npcs": [
+      {
+        "id": "npc_majestic_uncle",
+        "spawn": "interchange_stairs",
+        "unlessFlag": "majestic_helped"
+      }
+    ],
+    "ambient": {
+      "area": "ambient_area",
+      "base": [
+        "crowd_student",
+        "crowd_techie",
+        "crowd_homemaker",
+        "crowd_elder",
+        "crowd_officegoer",
+        "crowd_hoodie"
+      ],
+      "count": 7
+    },
+    "companion": {
+      "npc": "npc_majestic_uncle",
+      "whileFlag": "uncle_following",
+      "untilFlag": "majestic_helped"
+    },
+    "triggers": [
+      {
+        "zone": "majestic_arrival",
+        "setFlags": [
+          "majestic_visited"
+        ],
+        "unlessFlag": "majestic_visited"
+      },
+      {
+        "zone": "green_stairs_top",
+        "dialogue": "dlg_majestic_uncle_thanks",
+        "requiresFlag": "uncle_following",
+        "unlessFlag": "majestic_helped"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "green_stairs",
+        "to": "green_coach",
+        "spawn": "coach_door",
+        "transit": "metro",
+        "card": "Green Line → Nagasandra"
+      }
+    ],
+    "realworld": {
+      "lat": 12.9757,
+      "lng": 77.5728,
+      "label": "Majestic (Kempegowda) metro"
+    },
+    "metroStation": "stn_majestic",
+    "behaviours": [
+      "companion"
+    ]
+  },
+  {
+    "id": "green_coach",
+    "name": "Green Line coach",
+    "map": "metro_interior",
+    "defaultSpawn": "coach_door",
+    "fadeMs": 300,
+    "unlock": {
+      "flags": [
+        "metro_tier_1"
+      ]
+    },
+    "signal": 1,
+    "realworld": {
+      "parent": "majestic_interchange"
+    },
+    "quests": [
+      "q_act2_ikea"
+    ],
+    "triggers": [
+      {
+        "zone": "boarded",
+        "setFlags": [
+          "green_line_ridden"
+        ],
+        "unlessFlag": "green_line_ridden"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "coach_door",
+        "to": "hyggeland",
+        "spawn": "store_entrance",
+        "transit": "walk",
+        "minutes": 35,
+        "requiresFlag": "green_ride_over",
+        "lockedText": "The doors are shut. Next stop, Nagasandra."
+      }
+    ],
+    "ride": {
+      "seconds": 25,
+      "exit": "coach_door",
+      "flag": "green_ride_over",
+      "label": "Nagasandra"
+    },
+    "behaviours": [
+      "busRide"
+    ]
+  },
+  {
+    "id": "hyggeland",
+    "name": "Hyggeland",
+    "map": "hyggeland",
+    "defaultSpawn": "store_entrance",
+    "fadeMs": 400,
+    "unlock": {
+      "flags": [
+        "ikea_planned"
+      ]
+    },
+    "signal": 3,
+    "quests": [
+      "q_act2_ikea"
+    ],
+    "npcs": [
+      {
+        "id": "npc_hygge_staff",
+        "spawn": "help_desk"
+      },
+      {
+        "id": "npc_hygge_cafe",
+        "spawn": "cafe"
+      },
+      {
+        "id": "npc_hygge_cashier",
+        "spawn": "tills"
+      }
+    ],
+    "ambient": {
+      "area": "ambient_area",
+      "base": [
+        "crowd_homemaker",
+        "crowd_techie",
+        "crowd_student",
+        "crowd_elder"
+      ],
+      "count": 5
+    },
+    "triggers": [
+      {
+        "zone": "hyggeland_arrival",
+        "setFlags": [
+          "hyggeland_entered"
+        ],
+        "unlessFlag": "hyggeland_entered"
+      },
+      {
+        "zone": "tag_kitchen",
+        "dialogue": "dlg_hygge_tag_kitchen"
+      },
+      {
+        "zone": "tag_living",
+        "dialogue": "dlg_hygge_tag_living"
+      },
+      {
+        "zone": "tag_bedroom",
+        "dialogue": "dlg_hygge_tag_bedroom"
+      },
+      {
+        "zone": "aisle",
+        "dialogue": "dlg_hygge_aisle",
+        "unlessFlag": "ikea_paid"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "store_exit",
+        "to": "green_coach_home",
+        "spawn": "coach_door",
+        "transit": "metro",
+        "card": "Green Line → Majestic → Purple Line → Whitefield"
+      }
+    ],
+    "realworld": {
+      "lat": 13.0479,
+      "lng": 77.5003,
+      "label": "Nagasandra"
+    },
+    "metroStation": "stn_nagasandra"
+  },
+  {
+    "id": "green_coach_home",
+    "name": "The ride home",
+    "map": "metro_interior",
+    "defaultSpawn": "coach_door",
+    "fadeMs": 300,
+    "unlock": {
+      "flags": [
+        "ikea_paid"
+      ]
+    },
+    "signal": 1,
+    "realworld": {
+      "parent": "hyggeland"
+    },
+    "quests": [
+      "q_act2_ikea"
+    ],
+    "npcs": [
+      {
+        "id": "npc_metro_aunty_boxes",
+        "spawn": "coach_standing"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "boarded",
+        "setFlags": [
+          "ikea_rode_home"
+        ],
+        "unlessFlag": "ikea_rode_home"
+      },
+      {
+        "zone": "seat_zone",
+        "dialogue": "dlg_aunty_boxes",
+        "unlessFlag": "aunty_decided"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "coach_door",
+        "to": "whitefield_street",
+        "spawn": "player_spawn",
+        "transit": "walk",
+        "minutes": 70,
+        "requiresFlag": "home_ride_over",
+        "lockedText": "Whitefield is the last stop. Hold the boxes."
+      }
+    ],
+    "ride": {
+      "seconds": 30,
+      "exit": "coach_door",
+      "flag": "home_ride_over",
+      "label": "Whitefield"
+    },
+    "behaviours": [
+      "busRide"
+    ]
   }
 ]

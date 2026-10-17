@@ -1,0 +1,40 @@
+{
+  "id": "dlg_hygge_staff",
+  "speaker": "Hyggeland staff",
+  "portrait": "npc_hygge_staff",
+  "enter": [
+    {
+      "flag": "hygge_staff_met",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "Welcome to Hyggeland! Follow the yellow arrows — showroom first, café, then the self-serve aisle where you pick up the boxes yourself. Tills at the end. No shortcuts, the arrows are the law.",
+      "effect": {
+        "flags": {
+          "hygge_staff_met": true
+        }
+      },
+      "choices": [
+        {
+          "text": "Do you deliver? Ambedkar Nagar.",
+          "next": "delivery"
+        },
+        {
+          "text": "Got it. Arrows.",
+          "next": "bye"
+        }
+      ]
+    },
+    "delivery": {
+      "text": "Delivery is ₹1,499, next Thursday... maybe. Most people carry it on the metro. Three boxes is comfortable. Four if you are brave. Five, the guard stops you."
+    },
+    "bye": {
+      "text": "Happy hygge!"
+    },
+    "again": {
+      "text": "Arrows, then aisle, then tills. You'll be fine. Probably."
+    }
+  }
+}

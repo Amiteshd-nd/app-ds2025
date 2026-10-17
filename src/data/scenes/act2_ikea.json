@@ -1,11 +1,10 @@
 {
   "id": "act2_ikea",
-  "district": "hyggeland",
+  "district": "majestic_interchange",
   "act": 2,
   "seq": "2.4",
   "title": "IKEA Run",
-  "status": "STUB",
-  "draft": "Claude's draft 2026-10-17 from story_script_v1 §5 (2.4) + 4.2 ('crafting bench = kitchen table, the one that didn't fit'), game_components §5–7 (furniture = capacity + crafting stations, IKEA a money sink), art_pipeline ('big-box blue+yellow warehouse, logo-free'), the 1.3 flat-pack joke at Shanthamma's gate, ADR-115 (metro fares) and ADR-127 (metro_tier_1 opens Majestic). The user edits the words and the numbers; then P13 builds it.",
+  "status": "P13",
   "time": "A Saturday — the first sleep after act2_guitar_done (Sameer's chat sets it up)",
   "player_goal": "Buy flat-pack furniture at Nagasandra and get it home on the metro.",
   "design_goal": "Progress: the Green Line opens to you (metro_tier_1 from 2.2 → Majestic interchange → Nagasandra) — the map grows past one line. Challenge: a carry limit (box slots) turns shopping into choosing, and the boxes make the metro ride a comedy. Reward: the flat gains furniture by flag (ADR-122). Seed for Act 4: the kitchen table does not fit — it waits folded against the wall and becomes the crafting bench in 4.2.",
@@ -19,40 +18,46 @@
     "Calm"
   ],
   "entry": {
-    "from": "majestic_interchange",
-    "spawn": "store_entrance",
-    "after": ["F1", "F2"]
+    "from": "whitefield_street",
+    "spawn": "purple_arrival",
+    "after": [
+      "F1"
+    ]
   },
   "cast": [
-    {
-      "npc": "npc_sameer",
-      "tier": 3,
-      "spawn": null,
-      "role": "Phone only: sets up the trip ('Hyggeland opened at Nagasandra. Saturday? I need a shoe rack and a reason to leave the house.'), then cancels at the last minute ('Mom's here. Bring me a shoe rack?') — so you go alone and carry alone."
-    },
     {
       "npc": "npc_majestic_uncle",
       "tier": 2,
       "spawn": "interchange_stairs",
-      "role": "Majestic interchange: a farmer-ish uncle with a jute sack, lost between the Purple and Green platforms. Walk him to the Green Line stairs (+1 rep, majestic_helped) or point and go."
+      "role": "Lost between the Purple and Green stairs with a jute sack. Walk him (companion) to the Green stairs: +1 rep, a guava (majestic_helped). Or point: he goes alone, muttering 'green'."
     },
     {
       "npc": "npc_hygge_staff",
       "tier": 2,
+      "district": "hyggeland",
       "spawn": "help_desk",
-      "role": "Hyggeland staffer in a yellow polo: explains the arrows on the floor, the aisle-and-bin numbers, and that home delivery to Ambedkar Nagar is ₹1,499 and 'next Thursday, maybe'. You carry it yourself."
+      "role": "Yellow polo: the arrows are the law; delivery ₹1,499 'next Thursday, maybe'; three boxes comfortable, four brave, five the guard stops you."
+    },
+    {
+      "npc": "npc_hygge_cafe",
+      "tier": 2,
+      "district": "hyggeland",
+      "spawn": "cafe",
+      "role": "Café: cinnamon bun ₹49, masala meatballs ₹79."
     },
     {
       "npc": "npc_hygge_cashier",
       "tier": 2,
+      "district": "hyggeland",
       "spawn": "tills",
-      "role": "Till: rings up the boxes, offers a blue bag (₹20). Says the carry limit out loud: 'Three boxes on the metro, saar. Four if you are brave.'"
+      "role": "Tills: checks you out (ikea_paid), blue bag ₹20; empty trolley → back to the aisle."
     },
     {
       "npc": "npc_metro_aunty_boxes",
       "tier": 2,
-      "spawn": "coach_door",
-      "role": "Green Line coach: an aunty whose feet your boxes keep landing on. The comedy beat — apologise, hold the box up, or give up your spot by the door."
+      "district": "green_coach_home",
+      "spawn": "coach_standing",
+      "role": "The ride home: your box lands on her foot. Hold it up (+1), argue (−1), give her the door spot (+1); with four boxes the top one slides and the coach laughs."
     }
   ],
   "quests": [
@@ -83,7 +88,7 @@
     {
       "id": "F4",
       "pacing": "Engaged",
-      "what": "The carry limit: 3 box slots (the HUD shows ▢▢▢). Kitchen table + two chairs ₹4,999 (2 slots) · bookshelf ₹2,499 (2 slots) · floor lamp ₹999 (1) · rug ₹1,499 (1) · shoe rack for Sameer ₹699 (1). Pick at the aisle, pay at the till; a fourth slot is possible but the metro beat gets harder. Delivery (₹1,499, 'next Thursday') is offered and refused by default — the scene is about carrying.",
+      "what": "The carry limit: 3 box slots (the HUD shows ▢▢▢). Kitchen table + two chairs ₹4,999 (2 slots) · bookshelf ₹2,499 (2 slots) · floor lamp ₹999 (1) · rug ₹1,499 (1) · shoe rack for Sameer ₹699 (1). Pick at the self-serve aisle (each box is paid as you scan it), check out at the till; a fourth slot is possible but the metro beat gets harder. Delivery (₹1,499, 'next Thursday') is offered and refused by default — the scene is about carrying.",
       "interact": "dialogue choices + pay",
       "flag": "ikea_bought_table / _shelf / _lamp / _rug / _shoerack, ikea_paid"
     },
@@ -110,22 +115,84 @@
     }
   ],
   "economy": [
-    { "trigger": "metro to Majestic + Green Line to Nagasandra (ADR-115 fare, one fare for the trip)", "spend": "≈60", "canAfford": true },
-    { "trigger": "kitchen table + chairs", "spend": 4999, "canAfford": true },
-    { "trigger": "bookshelf", "spend": 2499, "canAfford": true },
-    { "trigger": "floor lamp", "spend": 999, "canAfford": true },
-    { "trigger": "rug", "spend": 1499, "canAfford": true },
-    { "trigger": "shoe rack (for Sameer; ₹699 back by UPI)", "spend": 699, "canAfford": true },
-    { "trigger": "café: cinnamon bun / masala meatballs", "spend": "49 / 79", "canAfford": true },
-    { "trigger": "blue bag", "spend": 20, "canAfford": true },
-    { "trigger": "home delivery (offered, not needed)", "spend": 1499, "canAfford": true },
-    { "trigger": "luggage ticket on the hill bus, per box", "spend": 10, "canAfford": true }
+    {
+      "trigger": "metro to Majestic + Green Line to Nagasandra (ADR-115 fare, one fare for the trip)",
+      "spend": "≈60",
+      "canAfford": true
+    },
+    {
+      "trigger": "kitchen table + chairs",
+      "spend": 4999,
+      "canAfford": true
+    },
+    {
+      "trigger": "bookshelf",
+      "spend": 2499,
+      "canAfford": true
+    },
+    {
+      "trigger": "floor lamp",
+      "spend": 999,
+      "canAfford": true
+    },
+    {
+      "trigger": "rug",
+      "spend": 1499,
+      "canAfford": true
+    },
+    {
+      "trigger": "shoe rack (for Sameer; ₹699 back by UPI)",
+      "spend": 699,
+      "canAfford": true
+    },
+    {
+      "trigger": "café: cinnamon bun / masala meatballs",
+      "spend": "49 / 79",
+      "canAfford": true
+    },
+    {
+      "trigger": "blue bag",
+      "spend": 20,
+      "canAfford": true
+    },
+    {
+      "trigger": "home delivery (offered, not needed)",
+      "spend": 1499,
+      "canAfford": true
+    },
+    {
+      "trigger": "luggage ticket on the hill bus, per box",
+      "spend": 10,
+      "canAfford": true
+    }
   ],
   "exits": [
-    { "zone": "(Maps)", "to": "majestic_interchange", "transit": "metro", "note": "Majestic sits on stn_majestic; knownIf ikea_planned; METRO needs metro_tier_1" },
-    { "zone": "green_stairs", "to": "green_coach", "transit": "metro", "note": "Green Line coach on the metro_interior pattern, ride ends at Nagasandra (hyggeland)" },
-    { "zone": "store_exit", "to": "green_coach_home", "transit": "metro", "requiresFlag": "ikea_paid", "note": "home: Green → Majestic card → Purple → whitefield_street" },
-    { "zone": "(Maps)", "to": "hyggeland", "transit": "metro", "note": "later visits: Nagasandra on the Green Line" }
+    {
+      "zone": "(Maps)",
+      "to": "majestic_interchange",
+      "transit": "metro",
+      "note": "knownIf ikea_planned, unlock metro_tier_1"
+    },
+    {
+      "zone": "green_stairs",
+      "to": "green_coach",
+      "spawn": "coach_door",
+      "transit": "metro",
+      "note": "25 s Green Line ride (busRide, green_ride_over) → hyggeland store_entrance"
+    },
+    {
+      "zone": "store_exit",
+      "to": "green_coach_home",
+      "spawn": "coach_door",
+      "transit": "metro",
+      "note": "unlock ikea_paid; 30 s ride (home_ride_over) → whitefield_street player_spawn (where METRO arrivals land; station_mouth sits on the stairs exit)"
+    },
+    {
+      "zone": "hill_bus",
+      "to": "ambedkar_nagar_hill",
+      "transit": "bus",
+      "note": "fare ₹20 + farePerBox ₹10"
+    }
   ],
   "save_flags": [
     "ikea_planned",
@@ -146,12 +213,12 @@
     "act2_ikea_done"
   ],
   "assets_needed": [
-    "majestic_interchange pocket: one compressed underground concourse render + spec (render model, ADR-125) — tiled floor, pillars, two signed staircases (Purple / Green bands, no text), crowd barriers, a kiosk; no ceiling fans",
-    "hyggeland pocket: one big-box interior render + spec — arrows on the floor, three room sets, a café counter, a self-serve aisle of numbered racks (numbers drawn as shapes, no text), tills; logo-free blue-and-yellow; no ceiling fans",
-    "green_coach: the metro_interior render with a green stripe (a recolour of the Purple Line coach, or a new render)",
-    "props sheet: flat-pack boxes (big / small), a folded kitchen table against a wall, a bookshelf, a floor lamp, a rug, a shoe rack",
-    "sheets: the Majestic uncle (jute sack), Hyggeland staffer and cashier (yellow polos), the aunty on the coach",
-    "HUD: a box-slot meter (▢▢▢) while carrying (kit atoms)"
+    "majestic_interchange render + spec (done)",
+    "hyggeland render + spec (done)",
+    "green coaches reuse the metro_interior map (no recolour in this build)",
+    "ikea_props sheet: boxes, small box, folded table, bookshelf, lamp, rug (done)",
+    "npc_majestic_uncle, npc_hygge_staff (one sheet for staff, café and tills) (done); the aunty uses crowd_homemaker",
+    "HUD: BOXES n/3 on the plate under the clock (done)"
   ],
   "acceptance": [
     "the first sleep after act2_guitar_done sets ikea_planned; Sameer's chat lands; Maps offers METRO to Majestic (metro_tier_1) before the first visit",
@@ -163,15 +230,6 @@
     "Sameer pays back ₹699 if you brought the shoe rack",
     "the walkthrough bot plays 2.4 and the headless run stays green (14 of 14)"
   ],
-  "open_questions": [
-    "The STORE's name: draft 'Hyggeland' (a parody, no real brand, blue-and-yellow, logo-free). Your pick?",
-    "MAJESTIC: draft = a small interchange pocket with the lost uncle (one more render). Cheaper alternative = a transit card 'Change at Majestic' with no pocket.",
-    "The CARRY LIMIT: draft 3 box slots (a 4th allowed, the ride gets harder). Or a hard 3? Or no limit and the comedy only?",
-    "The FURNITURE and prices: kitchen table + chairs ₹4,999 (2) · bookshelf ₹2,499 (2) · floor lamp ₹999 (1) · rug ₹1,499 (1) · shoe rack ₹699 (1). Add a fridge (game_components says 'fridge later')?",
-    "The TABLE that doesn't fit: draft = it always stays folded against the wall (the Act 4 crafting bench, story 4.2). Or let the player swap out the old table-chair to make room?",
-    "SAMEER: draft = he cancels, you go alone, the shoe rack is a favour. Or he comes along and carries (+2 slots, more chat on the ride)?",
-    "ASSEMBLY: draft = a three-step dialogue 'manual' with one wrong step and the leftover screw. Or reuse the rhythm lane as an Allen-key mini-game?",
-    "WHEN: draft = the first sleep after the guitar. Or the next payday (the second salary)?",
-    "The RIDE HOME: Green → Majestic (card) → Purple → Whitefield → hill bus with a ₹10/box luggage ticket. Keep the luggage ticket? And the scooter cannot carry flat-pack (one line from Noor if you try) — keep?"
-  ]
+  "open_questions": [],
+  "decided": "User 2026-10-17: 'Take the defaults.' — every open question resolved by the draft's default (ADR-132)."
 }
