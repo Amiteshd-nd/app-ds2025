@@ -27,6 +27,13 @@
       "from": "them",
       "text": "Good first day. Laptop comes Wednesday — IT is IT. 9:30 tomorrow again.",
       "after": "act1_first_day_done"
+    },
+    {
+      "id": "divya_amr07",
+      "from": "them",
+      "text": "Can you check why Batch AMR-07 shows 'status overwritten' in the HIVR tracker? Client's asking. Don't escalate yet.",
+      "after": "clue_amr07",
+      "optional": true
     }
   ]
 }

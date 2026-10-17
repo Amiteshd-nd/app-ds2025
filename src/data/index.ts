@@ -7,6 +7,7 @@ import photos from './phone/photos.json';
 import contacts from './phone/contacts.json';
 import notes from './phone/notes.json';
 import jodi from './phone/jodi.json';
+import news from './phone/news.json';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
@@ -205,3 +206,6 @@ export const AREAS: Record<string, AreaData> = Object.fromEntries(Object.values(
 
 /** Jodi's profile cards, in order (story 2.6, ADR-134). */
 export const JODI_PROFILES = (jodi as { profiles: import('../systems/jodi').JodiProfile[] }).profiles;
+
+/** The News app's headlines in delivery order (story 2.7, ADR-135). */
+export const NEWS = news as import('../utils/types').NewsItem[];

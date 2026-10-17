@@ -1,0 +1,20 @@
+{
+  "id": "dlg_guard_salute",
+  "speaker": "Night guard",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The guard stands at attention by the boom barrier, saluting the empty gate. Nobody is there. A minute passes. He doesn't move, doesn't blink.)",
+      "effect": {
+        "flags": {
+          "guard_salute_seen": true
+        },
+        "minutes": 1
+      },
+      "next": "after"
+    },
+    "after": {
+      "text": "(Then he lowers his hand, looks at you as if you just arrived.) Ah, saar. Had your dinner?"
+    }
+  }
+}

@@ -69,6 +69,13 @@
       "from": "them",
       "text": "Installed Jodi on your phone while you were in the loo. You're welcome. You can't live on chai and guitar forever.",
       "after": "dating_installed"
+    },
+    {
+      "id": "sameer_sick",
+      "from": "them",
+      "text": "fever 102. doctor says viral. dont tell divya i'm watching reels.",
+      "after": "sameer_sick",
+      "optional": true
     }
   ]
 }

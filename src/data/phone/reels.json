@@ -54,5 +54,33 @@
     "title": "Hebbal: a second building taped off",
     "caption": "Nobody in a mask will say what for. The chai stall moved two streets down.",
     "after": "ananya_strained"
+  },
+  {
+    "id": "reel_queue",
+    "handle": "@north_blr_updates",
+    "title": "Hebbal General, 2 AM, sped up",
+    "caption": "The queue goes round the building twice. Everyone says 'just a fever'.",
+    "after": "bc_fever"
+  },
+  {
+    "id": "reel_hivr_gate",
+    "handle": "@blr_explained",
+    "title": "What does HIVR even do? (60s)",
+    "caption": "Crops, apparently. Comments turned off.",
+    "after": "bc_denial"
+  },
+  {
+    "id": "reel_taped_door",
+    "handle": "@north_blr_updates",
+    "title": "Ward 4, taped",
+    "caption": "A nurse shakes her head at the camera and walks off. 2.1M views.",
+    "after": "bc_sealed"
+  },
+  {
+    "id": "reel_rice",
+    "handle": "@pg_life_blr",
+    "title": "Two aunties vs the last rice bag",
+    "caption": "Yelahanka schools shut and suddenly everyone needs 25 kilos of sona masoori.",
+    "after": "bc_schools"
   }
 ]

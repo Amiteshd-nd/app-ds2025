@@ -1,0 +1,33 @@
+{
+  "id": "dlg_amma_worried",
+  "speaker": "Amma (phone)",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Hello? You're eating? ... They're showing Bangalore on the news here. Hebbal, schools, something. Come home for a few weeks? Your father won't say it, so I'm saying it.",
+      "choices": [
+        {
+          "text": "Work won't let me, Amma.",
+          "next": "bye",
+          "effect": {
+            "flags": {
+              "amma_worried_called": true
+            }
+          }
+        },
+        {
+          "text": "Maybe next month.",
+          "next": "bye",
+          "effect": {
+            "flags": {
+              "amma_worried_called": true
+            }
+          }
+        }
+      ]
+    },
+    "bye": {
+      "text": "Okay, okay. Next month. Eat properly. Don't go to that Hebbal side. (She hangs up before you can say bye.)"
+    }
+  }
+}

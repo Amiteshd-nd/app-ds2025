@@ -115,3 +115,8 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - An error thrown inside a Phaser keyboard handler is swallowed into the console and can leave a state machine half-way ("opening" forever) — when a scene "doesn't respond", read the console first.
 - Station rings and place nodes overlap on the city map; tap handling must prefer places.
 
+## 2.7 Breadcrumbs (2026-10-17, P16, ADR-135)
+- The walkthrough generator must know the time of day once exits depend on it (`onlyAt`, buses at night): it keeps `minute` (scene start, 07:00 after sleep, 18:00 after a workday).
+- A failure that only shows in the full movie but not alone is usually crowd placement: read the failing step's screenshot in the report first (the morning office-gate crowd pinned the bot; it now replans up to ten times, waiting longer each time). The planner never drops a live world-taking zone (bed, office door, guitar lane) unless it is or overlaps the target.
+- `sleepEvents` with `nights` count only sleeps in districts that list the behaviour — the flat; a night in the PG would not move the news.
+

@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { buildPrereqState, sceneOrder } from '../src/dev/prereq.ts';
 import { HOTEL_NIGHTS, PG_NOTICE_DAYS, STARTING_WALLET } from '../src/utils/constants.ts';
 import { planHaggle } from '../src/systems/negotiationMath.ts';
+import { exitRuns } from '../src/systems/night.ts';
 import type { NegotiationDef } from '../src/utils/types.ts';
 
 type Json = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -60,6 +61,10 @@ class Gen {
   open: { dialogue: string; node: string } | null = null;
   /** A rhythm session has been played since the last sleep (one a night, ADR-131). */
   playedTonight = false;
+  /** Nights the walkthrough has slept since a flag became known (flags known at the start count from 0). */
+  sleepsSince = new Map<string, number>();
+  /** The game minute the walkthrough believes it is (the scene's start; 07:00 after a sleep; 18:00 after a workday) — exits that only run by day or night (ADR-133/135). */
+  minute = 370;
   private counter = 0;
   private optional = false;
   /** The objective's `destination`: where to look first when the flag is set elsewhere. */
@@ -74,13 +79,18 @@ class Gen {
     this.scene = scene;
     const state = buildPrereqState(scene.id, scenes as never, { stats: { health: 100, wallet: STARTING_WALLET, social: 0, stamina: 3, food: 100, stress: 0, battery: 100 } as never, clock: { day: 1, minute: 370 } });
     this.known = new Set(Object.keys(state.flags).filter((f) => state.flags[f]));
+    this.minute = state.clock.minute;
     this.completed = new Set(state.questsCompleted);
     this.wallet = state.stats.wallet;
     this.district = scene.district;
   }
 
   push(step: Step): void {
-    if (step.do === 'sleep') this.playedTonight = false;
+    if (step.do === 'sleep') {
+      this.playedTonight = false;
+      this.minute = 7 * 60;
+      for (const f of this.known) this.sleepsSince.set(f, (this.sleepsSince.get(f) ?? 0) + 1);
+    }
     const id = step.id ?? `${step.do}_${++this.counter}`;
     this.steps.push({ id, ...(this.beat ? { beat: this.beat } : {}), ...step, ...(this.optional ? { optional: true } : {}) });
   }
@@ -168,7 +178,10 @@ class Gen {
     const event = [...districts.values()].find((d) => (d.sleepEvents ?? []).some((e: Json) => e.set.includes(f) && this.known.has(e.after)));
     if (event) {
       if (event.id !== this.district && !this.travelTo(event.id, who)) return false;
-      return this.viaSleep(f, 1, who, depth);
+      // "The n-th night after X" (ADR-135): as many nights as are still owed since X was known.
+      const e = (event.sleepEvents as Json[]).find((x) => x.set.includes(f) && this.known.has(x.after))!;
+      const owed = Math.max(1, (e.nights ?? 1) - (this.sleepsSince.get(e.after) ?? 0));
+      return this.viaSleep(f, owed, who, depth);
     }
     // 3. the phone: a room's signal check, a reel, the camera set
     const signal = (districts.get(this.district)?.signalZones ?? []).find((z: Json) => z.flag === f);
@@ -217,6 +230,9 @@ class Gen {
     this.closeConversation();
     if (t.action === 'sleep' && !t.dialogue) { this.push({ do: 'sleep' }); }
     else this.push({ do: 'goto', target: `zone:${t.zone}` });
+    // The office door on the same zone runs the workday: the walk home starts at closing time.
+    const workday = (districts.get(this.district)?.triggers ?? []).some((x: Json) => x.zone === t.zone && x.action === 'workday');
+    if (workday) this.minute = 18 * 60;
     for (const g of t.setFlags ?? []) this.known.add(g);
     if (t.dialogue) {
       const path = this.dialogueReaches(t.dialogue, (node, choice) => this.setsFlag(node, choice, f));
@@ -225,6 +241,8 @@ class Gen {
     }
     this.known.add(f);
     this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: 6000 });
+    // The day passes behind the office door (fade, the skyline card): wait until the evening is playable.
+    if (workday) this.push({ do: 'wait_for', ready: 'free', timeout: 20000 });
     return true;
   }
 
@@ -519,6 +537,7 @@ class Gen {
         : [];
       for (const exit of [...(districts.get(cur)?.exits ?? []), ...metro]) {
         const dest = districts.get(exit.to); if (!dest || seen.has(exit.to)) continue;
+        if (!exit.metro && !exitRuns(exit, this.minute)) continue;
         const unlock = dest.unlock;
         if (unlock?.flags?.some((fl: string) => !this.known.has(fl))) continue;
         seen.add(exit.to); prev.set(exit.to, { from: cur, exit }); queue.push(exit.to);

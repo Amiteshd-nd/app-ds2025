@@ -289,9 +289,18 @@ export class PhaserDriver implements MovieDriver {
     const districtId = useGameStore.getState().activeDistrict;
     const district = districtId ? DISTRICTS[districtId] : undefined;
     const targetName = target ? target.slice(target.indexOf(':') + 1) : '';
-    const taboo = [...(district?.exits ?? []).map((e) => e.zone), ...(district?.triggers ?? []).filter((t) => t.action).map((t) => t.zone)].filter((z) => z !== targetName);
+    // Exits are soft (dropped when they seal the only way); a live zone that takes the world over (a bed, the office
+    // door's workday, the guitar lane) is hard — never walked through by accident, crowd or no crowd (ADR-135).
+    const flags = useGameStore.getState().flags;
+    const live = (t: { requiresFlag?: string; unlessFlag?: string }) => (!t.requiresFlag || flags[t.requiresFlag]) && !(t.unlessFlag && flags[t.unlessFlag]);
+    // ...unless it overlaps the target (the hotel's guest-room zone lies under its bed zone).
+    const rectOf = (name: string) => { const o = w.map.getObjectLayer(LAYERS.spawns)?.objects.find((x) => x.name === name); return o && o.width && o.height ? { x: o.x ?? 0, y: o.y ?? 0, w: o.width, h: o.height } : null; };
+    const tr = target?.startsWith('zone:') ? rectOf(targetName) : null;
+    const overlapsTarget = (name: string) => { const r = rectOf(name); return Boolean(tr && r && r.x < tr.x + tr.w && tr.x < r.x + r.w && r.y < tr.y + tr.h && tr.y < r.y + r.h); };
+    const hard = (district?.triggers ?? []).filter((t) => t.action && live(t)).map((t) => t.zone).filter((z) => z !== targetName && !overlapsTarget(z));
+    const soft = [...(district?.exits ?? []).map((e) => e.zone), ...(district?.triggers ?? []).filter((t) => t.action && !live(t)).map((t) => t.zone)].filter((z) => z !== targetName);
     const tabooRects: Rect[] = [];
-    for (const name of avoidZones ? taboo : []) {
+    for (const name of [...hard, ...(avoidZones ? soft : [])]) {
       const obj = w.map.getObjectLayer(LAYERS.spawns)?.objects.find((o) => o.name === name);
       if (obj && obj.width && obj.height) tabooRects.push([obj.x ?? 0, obj.y ?? 0, obj.width, obj.height]);
     }

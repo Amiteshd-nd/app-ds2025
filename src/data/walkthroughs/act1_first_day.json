@@ -1,6 +1,6 @@
 {
   "scene": "act1_first_day",
-  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_first_day + office_gate + entry.after F1",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act1_first_day + office_gate + entry.after F1",
   "seed": 7,
   "notes": [
     "q_act1_first_day/leave (reach main_road in prashanth_layout) lies before the scene's entry — skipped",
@@ -80,6 +80,13 @@
       "ready": "flag",
       "flag": "act1_first_day_done",
       "timeout": 6000
+    },
+    {
+      "id": "wait_for_13",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "free",
+      "timeout": 20000
     }
   ]
 }

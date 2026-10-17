@@ -531,7 +531,8 @@
     "quests": [
       "q_act1_first_day",
       "q_act1_ravi_intro",
-      "q_act2_ravi_1am"
+      "q_act2_ravi_1am",
+      "q_act2_breadcrumbs"
     ],
     "npcs": [
       {
@@ -552,7 +553,8 @@
         "id": "npc_sameer",
         "spawn": "gate_evening",
         "requiresFlag": "act1_first_day_done",
-        "onlyAt": "day"
+        "onlyAt": "day",
+        "unlessFlag": "sameer_sick"
       },
       {
         "id": "npc_ravi",
@@ -594,6 +596,20 @@
         ],
         "requiresFlag": "ravi_called",
         "unlessFlag": "ravi_night_trip"
+      },
+      {
+        "zone": "office_door",
+        "setFlags": [
+          "clue_amr07"
+        ],
+        "requiresFlag": "bc_denial",
+        "unlessFlag": "clue_amr07"
+      },
+      {
+        "zone": "office_arrival",
+        "dialogue": "dlg_guard_salute",
+        "requiresFlag": "bc_sealed",
+        "unlessFlag": "guard_salute_seen"
       }
     ],
     "exits": [
@@ -885,6 +901,12 @@
         "dialogue": "dlg_ikea_assembly",
         "requiresFlag": "ikea_rode_home",
         "unlessFlag": "ikea_assembled"
+      },
+      {
+        "zone": "flat_arrival",
+        "dialogue": "dlg_amma_worried",
+        "requiresFlag": "bc_schools",
+        "unlessFlag": "amma_worried_called"
       }
     ],
     "exits": [
@@ -909,7 +931,8 @@
       "q_act2_guitar",
       "q_act2_ikea",
       "q_act2_ravi_1am",
-      "q_act2_the_app"
+      "q_act2_the_app",
+      "q_act2_breadcrumbs"
     ],
     "sleepEvents": [
       {
@@ -957,6 +980,54 @@
         "after": "app_settled",
         "set": [
           "jodi_gone"
+        ]
+      },
+      {
+        "after": "act2_app_done",
+        "nights": 1,
+        "set": [
+          "news_taught",
+          "bc_fever"
+        ],
+        "toast": "News: Mystery fever — 11 admitted at Hebbal General",
+        "icon": "news"
+      },
+      {
+        "after": "act2_app_done",
+        "nights": 2,
+        "set": [
+          "bc_denial",
+          "sameer_sick"
+        ],
+        "toast": "News: HIVR calls leak rumours 'baseless'",
+        "icon": "news"
+      },
+      {
+        "after": "act2_app_done",
+        "nights": 3,
+        "set": [
+          "bc_sealed"
+        ],
+        "toast": "News: Ward sealed at Hebbal General",
+        "icon": "news"
+      },
+      {
+        "after": "act2_app_done",
+        "nights": 4,
+        "set": [
+          "bc_schools",
+          "sameer_back"
+        ],
+        "clear": [
+          "sameer_sick"
+        ],
+        "toast": "News: Yelahanka schools shut 'as a precaution'",
+        "icon": "news"
+      },
+      {
+        "after": "amma_worried_called",
+        "set": [
+          "act2_done"
         ]
       }
     ]

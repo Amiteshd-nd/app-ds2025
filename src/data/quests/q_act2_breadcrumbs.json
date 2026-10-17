@@ -1,0 +1,78 @@
+{
+  "id": "q_act2_breadcrumbs",
+  "title": "Breadcrumbs",
+  "description": "Work, the bus, the flat. The news gets a little worse every morning.",
+  "chapter": 2,
+  "district": "office_gate",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act2_the_app"
+  ],
+  "objectives": [
+    {
+      "id": "news",
+      "text": "Read the morning news",
+      "type": "flag",
+      "target": "news_taught",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "denial",
+      "text": "Another morning, another headline",
+      "type": "flag",
+      "target": "bc_denial",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "clue",
+      "text": "Go to work",
+      "type": "flag",
+      "target": "clue_amr07",
+      "destination": "office_gate"
+    },
+    {
+      "id": "sealed",
+      "text": "Another morning",
+      "type": "flag",
+      "target": "bc_sealed",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "salute",
+      "text": "Go to work",
+      "type": "flag",
+      "target": "guard_salute_seen",
+      "destination": "office_gate"
+    },
+    {
+      "id": "schools",
+      "text": "Another morning",
+      "type": "flag",
+      "target": "bc_schools",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "amma",
+      "text": "Answer Amma",
+      "type": "flag",
+      "target": "amma_worried_called",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "end",
+      "text": "Sleep",
+      "type": "flag",
+      "target": "act2_done",
+      "destination": "hill_flat"
+    }
+  ],
+  "rewards": {
+    "xp": 20,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act2_breadcrumbs_done"
+    ]
+  }
+}

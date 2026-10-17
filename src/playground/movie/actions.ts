@@ -93,7 +93,7 @@ async function waitFor(d: MovieDriver, step: Extract<Step, { do: 'wait_for' }>, 
  * each corner of the route. No progress for 1.2 s → replan (the crowd
  * wanders; a citizen in the way moves on) — three replans, then stuck.
  */
-const MAX_REPLANS = 5;
+const MAX_REPLANS = 10;
 const STUCK_MS = 1200;
 async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?: number): Promise<ActionResult> {
   // Already there with the target's own conversation open (Amma's call at the flat door): nothing to walk.
@@ -196,8 +196,9 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
         const side = sides.find((sg) => d.freeAt(feet[0] + perp[0] * sg * 16, feet[1] + perp[1] * sg * 16));
         if (side !== undefined) { for (let i = 0; i < 12 && !ctx.cancelled(); i++) { d.walk(perp[0] * side, perp[1] * side); await d.frames(1); } }
         d.walk(0, 0);
-        for (let i = 0; i < 20 && !ctx.cancelled(); i++) await d.frames(1);
-        deadline += 2000; // a replan buys time: the clock measured the planned walk, not the crowd
+        // Wait longer each time: a citizen pressed against the player keeps wandering only once its timer turns.
+        for (let i = 0; i < 20 + replans * 10 && !ctx.cancelled(); i++) await d.frames(1);
+        deadline += 2000 + replans * 200; // a replan buys time: the clock measured the planned walk, not the crowd
         const s3 = d.state();
         if (s3.activeScene !== 'WorldScene' || s3.district !== startDistrict) return target.startsWith('exit:') || target.startsWith('zone:') ? ok() : fail(`carried_off: an exit fired while sidestepping near ${Math.round(feet[0])},${Math.round(feet[1])}`);
         route = d.route(target);

@@ -37,6 +37,7 @@ type Route =
   | { app: 'contacts' }
   | { app: 'notes' }
   | { app: 'jodi' }
+  | { app: 'news' }
   | { app: 'stub'; appId: string };
 
 interface Focusable extends Box {
@@ -285,6 +286,7 @@ export class PhoneScene extends Phaser.Scene {
     else if (id === 'contacts') this.go({ app: 'contacts' });
     else if (id === 'notes') this.go({ app: 'notes' });
     else if (id === 'dating') this.go({ app: 'jodi' });
+    else if (id === 'news') this.go({ app: 'news' });
     else this.go({ app: 'stub', appId: id });
   }
 
@@ -356,7 +358,7 @@ export class PhoneScene extends Phaser.Scene {
   private move(dir: Direction): void {
     this.focusVisible = true;
     const inNav = this.focusId?.startsWith('nav:');
-    const scrolls = this.route.app === 'thread' || this.route.app === 'upi' || this.route.app === 'maps' || this.route.app === 'reels' || this.route.app === 'camera' || this.route.app === 'contacts' || this.route.app === 'notes';
+    const scrolls = this.route.app === 'news' || this.route.app === 'thread' || this.route.app === 'upi' || this.route.app === 'maps' || this.route.app === 'reels' || this.route.app === 'camera' || this.route.app === 'contacts' || this.route.app === 'notes';
     if (scrolls && (dir === 'up' || dir === 'down')) { this.scrollBy(dir === 'up' ? -1 : 1); return; }
     if (this.route.app === 'chats' && !inNav && (dir === 'up' || dir === 'down')) {
       const rows = this.focusables.filter((f) => f.id.startsWith('thread:'));
@@ -462,6 +464,7 @@ export class PhoneScene extends Phaser.Scene {
       case 'contacts': this.drawContacts(); break;
       case 'notes': this.drawNotes(); break;
       case 'jodi': this.drawJodi(); break;
+      case 'news': this.drawNews(); break;
       case 'stub': this.drawStub(this.route.appId); break;
     }
     if (this.hint) this.drawHint(this.hint);
@@ -847,6 +850,34 @@ export class PhoneScene extends Phaser.Scene {
       if (detail) this.text(LIST.x + 8, y + 22, truncate(detail, LIST.w - 16), painted.ink);
     });
     this.arrows({ up: this.scroll > 0, down: this.scroll + visible < rows.length }, APP.contentTop, APP.contentTop + visible * LIST.pitch - 4);
+  }
+
+  // News — the weekly headlines (story 2.7, ADR-135) ────────────────────
+
+  private newsOpen: string | null = null;
+
+  private drawNews(): void {
+    this.drawChrome('news', 'NEWS', null);
+    const rows = PhoneManager.getInstance().news();
+    if (!rows.length) { this.text(PHONE.screen.w / 2, 130, 'No news is good news.', 'phone.lcd.mid', { align: 'center' }); return; }
+    const visible = listRows();
+    this.clampScroll(rows.length - visible);
+    let y = APP.contentTop;
+    for (const n of rows.slice(this.scroll, this.scroll + visible)) {
+      const id = `news:${n.id}`;
+      const open = this.newsOpen === n.id;
+      // Open: the whole headline (wrapped) and the two-line story; closed: one truncated line.
+      const head = open ? wrap(n.headline, LIST.w - 16, true).slice(0, 2) : [truncate(n.headline, LIST.w - 16, true)];
+      const lines = open ? wrap(n.body, LIST.w - 16).slice(0, 3) : [];
+      const h = LIST.rowH + (head.length - 1) * 11 + lines.length * 11;
+      const painted = this.pill(LIST.x, y, LIST.w, h, this.stateOf(id));
+      this.text(LIST.x + 8, y + 6, truncate(`${n.date} · ${n.source.toUpperCase()}`, LIST.w - 16), painted.ink);
+      head.forEach((l, k) => this.text(LIST.x + 8, y + 18 + k * 11, l, painted.ink, { bold: true }));
+      lines.forEach((l, k) => this.text(LIST.x + 8, y + 31 + (head.length - 1) * 11 + k * 11, l, painted.ink));
+      this.focusable(id, { x: LIST.x, y, w: LIST.w, h }, () => { this.newsOpen = open ? null : n.id; this.render(); });
+      y += h + (LIST.pitch - LIST.rowH);
+    }
+    this.arrows({ up: this.scroll > 0, down: this.scroll + visible < rows.length }, APP.contentTop, y - 4);
   }
 
   // Jodi — the parody dating app (story 2.6, ADR-134) ────────────────────

@@ -4,6 +4,14 @@
   "portrait": "npc_placeholder",
   "enter": [
     {
+      "flag": "sameer_back",
+      "node": "back_pale"
+    },
+    {
+      "flag": "bc_fever",
+      "node": "coughing"
+    },
+    {
       "flag": "met_sameer",
       "node": "again"
     }
@@ -46,6 +54,12 @@
     },
     "again": {
       "text": "Tomorrow. One PM. Don't eat before."
+    },
+    "coughing": {
+      "text": "(Sameer coughs into his elbow, then again.) PG food. It's always the PG food. Don't come close, I'm a biohazard. Kidding. Mostly."
+    },
+    "back_pale": {
+      "text": "(Sameer, paler, a mask folded in his shirt pocket that he isn't wearing.) Tested for everything. Negative for everything. They said viral. Everyone's 'viral' this month."
     }
   }
 }

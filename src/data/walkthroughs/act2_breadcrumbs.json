@@ -1,0 +1,318 @@
+{
+  "scene": "act2_breadcrumbs",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_breadcrumbs + hill_flat + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "sleep_3",
+      "beat": "F1",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_4",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "news_taught",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_5",
+      "beat": "F2",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bc_denial",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_7",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:front_door"
+    },
+    {
+      "id": "wait_for_8",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_9",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:road_out"
+    },
+    {
+      "id": "wait_for_10",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_11",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:office_walk"
+    },
+    {
+      "id": "wait_for_12",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "office_gate",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_13",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:office_door"
+    },
+    {
+      "id": "wait_for_14",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "clue_amr07",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_15",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "free",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_16",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:auto_stand"
+    },
+    {
+      "id": "wait_for_17",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_18",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:hill_bus"
+    },
+    {
+      "id": "wait_for_19",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_20",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_21",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "sleep_22",
+      "beat": "F3",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_23",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bc_sealed",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_24",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:front_door"
+    },
+    {
+      "id": "wait_for_25",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_26",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:road_out"
+    },
+    {
+      "id": "wait_for_27",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_28",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:office_walk"
+    },
+    {
+      "id": "wait_for_29",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "office_gate",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_30",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:office_arrival"
+    },
+    {
+      "id": "advance_31",
+      "beat": "F3",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_32",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "guard_salute_seen",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_33",
+      "beat": "F4",
+      "do": "goto",
+      "target": "exit:auto_stand"
+    },
+    {
+      "id": "wait_for_34",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_35",
+      "beat": "F4",
+      "do": "goto",
+      "target": "exit:hill_bus"
+    },
+    {
+      "id": "wait_for_36",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_37",
+      "beat": "F4",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_38",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "sleep_39",
+      "beat": "F4",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_40",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bc_schools",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_41",
+      "beat": "F5",
+      "do": "goto",
+      "target": "zone:flat_arrival"
+    },
+    {
+      "id": "choose_42",
+      "beat": "F5",
+      "do": "choose",
+      "option": "bye"
+    },
+    {
+      "id": "wait_for_43",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "amma_worried_called",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_44",
+      "beat": "F5",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_45",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "act2_done",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_46",
+      "do": "expect",
+      "flag": "act2_breadcrumbs_done",
+      "timeout": 3000
+    }
+  ]
+}

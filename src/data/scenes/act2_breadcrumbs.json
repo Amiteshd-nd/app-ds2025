@@ -4,23 +4,17 @@
   "act": 2,
   "seq": "2.7",
   "title": "Breadcrumbs",
-  "status": "STUB",
-  "draft": "Claude's draft 2026-10-17 from story_script_v1 §5 (2.7), outbreak_origin_v1 §3 (incubation & misdiagnosis: 'acute viral encephalitis', the cover-up works for months), §5 (delivered only through the News app, Reels and chatter — no exposition), §6 (the player's IT firm builds HIVR's sample-tracking software: 'Batch AMR-07: status overwritten'), game_components §3 (News: weekly headline escalation; Reels mirror it). The user edits the words and the numbers; then P16 builds it.",
-  "time": "Four working days after 2.6 — each night in the flat moves the story one 'week' on (the headlines are dated a week apart); the last evening closes Act 2",
+  "status": "P16",
+  "time": "21:00 — the evening 2.6 ends; four nights in the flat bring four mornings of news (nights 1–4 after act2_app_done)",
   "player_goal": "Live the routine while the News app escalates.",
   "design_goal": "Quiet dread (the Feed / World War Z method): nothing happens to you, everything happens around you. Each morning the News app has one more headline, a Reel echoes it, and something small at the office is off — Sameer's cough, his empty desk, a data glitch the client wants buried, the night guard saluting nobody. Reveal: the News app. Progress: Act 2 closes; Act 3 opens on the Outer Ring Road.",
   "pacing": [
     "Calm",
     "Curious",
     "Tense",
-    "Tense",
+    "Engaged",
     "Calm"
   ],
-  "entry": {
-    "from": "hill_flat",
-    "spawn": "door",
-    "after": ["F1"]
-  },
   "cast": [
     {
       "npc": "npc_sameer",
@@ -65,14 +59,14 @@
     {
       "id": "F3",
       "pacing": "Tense",
-      "what": "Morning 3: 'Ward sealed at Hebbal General; families wait outside overnight.' A Reel: a taped door, a nurse shaking her head at the camera. Evening at the gate: the guard saluting nobody, a full minute.",
+      "what": "Morning 3: 'Ward sealed at Hebbal General; families wait outside overnight.' A Reel: a taped door, a nurse shaking her head at the camera. At the gate when you arrive: the guard saluting nobody, a full minute.",
       "interact": "phone + workday + zone",
       "flag": "bc_sealed, guard_salute_seen"
     },
     {
       "id": "F4",
-      "pacing": "Tense",
-      "what": "Morning 4: 'Yelahanka schools shut as a precaution after staff fall ill.' Sameer is back, pale. On the bus home, two aunties argue about whether to stock rice. Reel: a supermarket aisle with no rice.",
+      "pacing": "Engaged",
+      "what": "Morning 4: 'Yelahanka schools shut as a precaution after staff fall ill.' Sameer is back, pale. Reel: two aunties versus the last rice bag.",
       "interact": "phone + workday",
       "flag": "bc_schools, sameer_back"
     },
@@ -85,10 +79,19 @@
     }
   ],
   "economy": [
-    { "trigger": "bus / auto to the office and back, four days (existing fares)", "spend": "existing", "canAfford": true }
+    {
+      "trigger": "bus / auto to the office and back, four days (existing fares)",
+      "spend": "existing",
+      "canAfford": true
+    }
   ],
   "exits": [
-    { "zone": "(existing)", "to": "office_gate", "transit": "auto", "note": "no new places: the flat, the hill, the office gate" }
+    {
+      "zone": "(existing)",
+      "to": "office_gate",
+      "transit": "auto",
+      "note": "no new places: the flat, the hill, the office gate"
+    }
   ],
   "save_flags": [
     "news_taught",
@@ -104,27 +107,19 @@
     "act2_done"
   ],
   "assets_needed": [
-    "no new art: the flat, the hill, the office gate",
-    "the News app screen on the phone kit (a list of dated headlines, newest first, tap for two lines) — like Notes",
-    "four new Reels (text cards, as the existing ones)",
-    "sleepEvents gains 'the n-th night after X' (nights) so one flag can schedule four mornings"
+    "no new art",
+    "the News app screen (done)",
+    "four Reels (done)",
+    "sleepEvents 'nights' (done)"
   ],
   "acceptance": [
     "the first night after act2_app_done unlocks News with headline 1; each later night in the flat adds one headline (four in all) and a matching Reel",
     "Sameer: coughing at the gate (day 1), absent with a chat (days 2–3), back pale (day 4)",
     "Divya's AMR-07 message after the day-2 workday sets clue_amr07",
-    "day 3 evening: the guard's salute at the gate (once)",
+    "day 3 at the gate: the guard's salute (once)",
     "day 4 evening at the flat: Amma's call; both answers set act2_done",
     "the walkthrough bot plays the four days and the headless run stays green (17 of 17)"
   ],
-  "open_questions": [
-    "HOW MANY DAYS: draft = four working days, each night = one 'week' in the headlines (compressed). Or play four real weeks with a 'week passes' card between them (like the workday card)?",
-    "The HEADLINES' words (draft above) — and should the HIVR director be named in a headline already (Dr. Meera Krishnamurthy), or only in Act 3?",
-    "SAMEER: draft = sick and back, negative for everything ('viral'). Or does he stay off and not come back (darker)?",
-    "The GUARD: draft = a full-minute salute, then normal, never explained. Keep? (It's an early symptom only the player notices.)",
-    "AMR-07: draft = Divya's chat sets a clue flag and nothing else yet (the investigate thread is Act 3). Or a small task now (open the tracker at the office)?",
-    "DEEPA, the hill neighbour who works night shifts at HIVR (outbreak bible §6): introduce her now (comes home at dawn, scared, says nothing) or wait for Act 3? Draft: wait.",
-    "ACT 2's ENDING: draft = Amma's call, then sleep → act2_done. Or end on the guard / on a Reel?",
-    "The NEWS APP: draft = a list like Notes (tap a headline for two lines). Or headlines only?"
-  ]
+  "open_questions": [],
+  "decided": "User 2026-10-17: 'take the defaults.' — every open question resolved by the draft's default (ADR-135)."
 }

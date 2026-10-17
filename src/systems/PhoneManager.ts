@@ -1,7 +1,7 @@
 import { gameEvents } from '../core/events';
-import { CHATS, CONTACTS, DISTRICTS, NOTES, PHONE_APPS, PHOTOS, QUESTS } from '../data';
+import { CHATS, CONTACTS, DISTRICTS, NOTES, PHONE_APPS, PHOTOS, QUESTS, NEWS } from '../data';
 import { useGameStore } from '../store';
-import type { ChatMessage, ChatThread, ContactDef, DistrictDef, NoteDef, PhoneApp, PhotoDef, RelationshipState } from '../utils/types';
+import type { ChatMessage, ChatThread, ContactDef, DistrictDef, NoteDef, PhoneApp, PhotoDef, RelationshipState, NewsItem } from '../utils/types';
 import { RELATIONSHIP_LABEL } from './RelationshipManager';
 import { StatsManager } from './StatsManager';
 import { ReputationManager } from './ReputationManager';
@@ -175,6 +175,12 @@ export class PhoneManager {
       const note = c.noteIf && flags[c.noteIf.flag] ? c.noteIf.note : c.note;
       return { ...c, note, relationship, status: relationship ? RELATIONSHIP_LABEL[relationship] : null };
     });
+  }
+
+  /** News (story 2.7, ADR-135): delivered headlines, newest first. */
+  news(): NewsItem[] {
+    const { flags } = useGameStore.getState();
+    return NEWS.filter((n) => !n.after || flags[n.after]).reverse();
   }
 
   /** Notes (the wishlist): flag-gated; a priced note says how far the wallet is from it. */

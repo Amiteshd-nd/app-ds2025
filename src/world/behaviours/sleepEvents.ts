@@ -9,14 +9,21 @@ import type { Behaviour } from './index';
  * set fires once — its flags are set and its toast shows. Everything the
  * event changes in the world is data keyed on those flags (the P11 rule).
  */
+/** Store counter: nights slept (in a district with sleepEvents) since `after` was set. */
+export const nightsKey = (after: string): string => `nights_since:${after}`;
+
 export const sleepEvents: Behaviour = {
   attach({ district }) {
     const events = district.sleepEvents ?? [];
     if (!events.length) return;
+    // "The n-th night after X" (2.7's four mornings, ADR-135): nights slept here since X, one counter per X.
+    const counted = [...new Set(events.filter((e) => e.nights).map((e) => e.after))];
     const onSlept = () => {
       const store = useGameStore.getState();
+      for (const after of counted) if (store.flags[after]) store.setCounter(nightsKey(after), (store.counters[nightsKey(after)] ?? 0) + 1);
       for (const e of events) {
         if (!store.flags[e.after] || store.flags[e.set[0]]) continue;
+        if (e.nights && (useGameStore.getState().counters[nightsKey(e.after)] ?? 0) < e.nights) continue;
         for (const f of e.set) store.setFlag(f, true);
         for (const f of e.clear ?? []) store.setFlag(f, false);
         // A night cut short (Ravi's message at 00:50): the clock goes back to that minute of the new day.

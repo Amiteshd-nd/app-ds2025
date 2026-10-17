@@ -348,7 +348,7 @@ export interface DistrictDef {
   /** Maps offers METRO / RIDE here before the first visit once this flag is set — the shop's text named the stop (story 2.3, ADR-131). */
   knownIf?: string;
   /** "The first sleep here after `after`, set `set`" — the sleepEvents behaviour (ADR-132). */
-  sleepEvents?: Array<{ after: string; set: string[]; clear?: string[]; toast?: string; icon?: IconName; /** Wake at this minute past midnight instead of the morning (ADR-133). */ wakeAt?: number }>;
+  sleepEvents?: Array<{ after: string; set: string[]; clear?: string[]; toast?: string; icon?: IconName; /** Wake at this minute past midnight instead of the morning (ADR-133). */ wakeAt?: number; /** Fire on the n-th night after `after` (ADR-135). */ nights?: number }>;
   /** Spawn object used when no spawn is named by the exit that led here. */
   defaultSpawn: string;
   fadeMs?: number;
@@ -808,6 +808,16 @@ export interface ContactDef {
   note?: string;
   /** A different line once a flag is set — Ananya's after the bandstand (ADR-134). */
   noteIf?: { flag: string; note: string };
+}
+
+/** A headline in the News app (story 2.7, ADR-135): delivered once `after` is set; newest first. */
+export interface NewsItem {
+  id: string;
+  date: string;
+  source: string;
+  headline: string;
+  body: string;
+  after?: string;
 }
 
 /** A note in the Notes app — the wishlist (story 1.6 F4). `price` draws "₹N to go" against the wallet. */
