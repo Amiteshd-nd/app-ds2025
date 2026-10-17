@@ -1,0 +1,9 @@
+{
+  "$comment": "Jodi, the parody dating app (story 2.6, ADR-134): one card at a time, in this order. A LIKE on the profile with `match` is the match; a NOPE on everyone is the way out — the beat never happens.",
+  "profiles": [
+    { "id": "sunsets", "name": "Meghana, 24", "line": "Sunsets. Only sunsets. Ask me about sunsets.", "portrait": "jodi_portraits_01" },
+    { "id": "cofounder", "name": "Arjun, 29", "line": "Looking for a co-founder. Also love. Mostly a co-founder.", "portrait": "jodi_portraits_02" },
+    { "id": "cousin", "name": "Rohit, 25", "line": "Sameer's cousin. Yes, that Sameer. He said you'd swipe.", "portrait": "jodi_portraits_03" },
+    { "id": "tanvi", "name": "Tanvi, 26", "line": "UX at a startup. Will judge your font choices.", "portrait": "jodi_portraits_04", "match": true }
+  ]
+}

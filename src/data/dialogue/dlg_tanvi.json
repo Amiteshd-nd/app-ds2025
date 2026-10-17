@@ -1,0 +1,94 @@
+{
+  "id": "dlg_tanvi",
+  "speaker": "Tanvi",
+  "portrait": "npc_tanvi",
+  "enter": [
+    {
+      "flag": "tanvi_date_done",
+      "node": "after"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Tanvi at a table outside the café, a cold coffee half gone.) Your profile photo is a bus. Bold. Sit — I ordered for you. Filter coffee. You looked like a filter-coffee person.",
+      "effect": {
+        "flags": {
+          "tanvi_met": true
+        }
+      },
+      "next": "city"
+    },
+    "city": {
+      "text": "So. First year in Bangalore. Let me guess: a PG, then a flat, and the flat has one bar of signal and a cot.",
+      "choices": [
+        {
+          "text": "Ambedkar Nagar. On a hill. The signal goes there to die.",
+          "next": "hill"
+        },
+        {
+          "text": "How did you know?",
+          "next": "hill"
+        }
+      ]
+    },
+    "hill": {
+      "text": "Pune girl, same first year, two years ago. A terrace room in Koramangala with a water tank for a neighbour. It gets better. Then it gets weird. Then it gets better.",
+      "next": "guitar"
+    },
+    "guitar": {
+      "text": "Your profile says 'guitar, three chords'. Which three?",
+      "choices": [
+        {
+          "text": "G, C, D.",
+          "next": "gcd"
+        },
+        {
+          "text": "The easy ones.",
+          "next": "gcd"
+        }
+      ]
+    },
+    "gcd": {
+      "text": "The holy trinity. You'll be playing at weddings by March. (She laughs at her own joke first, which somehow makes it funnier.)",
+      "next": "bill"
+    },
+    "bill": {
+      "text": "(The bill arrives on a little steel plate: ₹480.)",
+      "choices": [
+        {
+          "text": "I've got it.",
+          "next": "bye",
+          "effect": {
+            "wallet": -480
+          }
+        },
+        {
+          "text": "Split? ₹240 each.",
+          "next": "bye",
+          "effect": {
+            "wallet": -240
+          }
+        },
+        {
+          "text": "You said you'd insist, remember?",
+          "next": "she_pays"
+        }
+      ]
+    },
+    "she_pays": {
+      "text": "I did say that. Fine. Next one's yours.",
+      "next": "bye"
+    },
+    "bye": {
+      "text": "(At the metro stairs, a quick hug.) Text me when you reach. I mean it — this city eats people at night.",
+      "effect": {
+        "flags": {
+          "tanvi_date_done": true
+        }
+      }
+    },
+    "after": {
+      "text": "(Someone else has Tanvi's table now.)"
+    }
+  }
+}

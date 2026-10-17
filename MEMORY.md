@@ -110,3 +110,8 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Sleep keeps the day before 07:00 — any scene that ends after midnight relies on it.
 - A scene that happens at night starts at its `time` (first HH:MM) in the Playground; anchor it where the night begins (the flat) so the movie plays the whole night.
 
+## 2.6 The App (2026-10-17, P15, ADR-134)
+- MapScene is stopped and relaunched on every district change and Phaser reuses the instance: any cached GameObject field must be reset in `create()`.
+- An error thrown inside a Phaser keyboard handler is swallowed into the console and can leave a state machine half-way ("opening" forever) — when a scene "doesn't respond", read the console first.
+- Station rings and place nodes overlap on the city map; tap handling must prefer places.
+

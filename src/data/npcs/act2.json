@@ -110,5 +110,12 @@
     "tier": 2,
     "dialogue": "dlg_aunty_boxes",
     "sheet": "crowd_homemaker"
+  },
+  {
+    "id": "npc_tanvi",
+    "name": "Tanvi",
+    "tier": 2,
+    "dialogue": "dlg_tanvi",
+    "sheet": "npc_tanvi"
   }
 ]

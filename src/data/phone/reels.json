@@ -47,5 +47,12 @@
     "title": "Purple Line, Whitefield stretch: first train, 6 AM",
     "caption": "Four years of barricades. The uncle in the front coach cried. We all did a bit.",
     "after": "metro_open"
+  },
+  {
+    "id": "reel_hebbal_ward",
+    "handle": "@north_blr_updates",
+    "title": "Hebbal: a second building taped off",
+    "caption": "Nobody in a mask will say what for. The chai stall moved two streets down.",
+    "after": "ananya_strained"
   }
 ]

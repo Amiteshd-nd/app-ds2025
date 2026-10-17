@@ -32,6 +32,7 @@ const npcs = new Map<string, Json>(readDir('npcs').flatMap((f) => (Array.isArray
 const dialogues = new Map<string, Json>(readDir('dialogue').map((d) => [d.id, d]));
 const negotiations = new Map<string, Json>(readDir('negotiations').map((n) => [n.id, n]));
 const minigames = new Map<string, Json>(readDir('minigames').map((m) => [m.id, m]));
+const jodi: Json = JSON.parse(readFileSync(join(dataDir, 'phone/jodi.json'), 'utf8'));
 const reels: Json[] = JSON.parse(readFileSync(join(dataDir, 'phone/reels.json'), 'utf8'));
 const manifest = JSON.parse(readFileSync(resolve(here, '../src/assets/maps.manifest.json'), 'utf8'));
 const mapObjects = (districtId: string): Set<string> => {
@@ -147,6 +148,17 @@ class Gen {
     if (trig) {
       if (trig.needs && !this.flag(trig.needs, `${who} (so zone ${trig.trigger.zone}'s conversation opens at the right line)`, depth + 1)) return false;
       return this.viaTrigger(trig.trigger, f, who, depth);
+    }
+    // 1a. Jodi, the dating app (ADR-134): NOPE until the match, then LIKE — through the phone's real taps.
+    if (f === 'tanvi_matched' || f === 'jodi_decided') {
+      this.closeConversation();
+      this.push({ do: 'phone', action: 'app', app: 'dating' });
+      for (const p of jodi.profiles as Json[]) { if (p.match) break; this.push({ do: 'phone', action: 'tap', target: 'jodi:no' }); }
+      this.push({ do: 'phone', action: 'tap', target: 'jodi:yes' });
+      this.push({ do: 'wait_for', ready: 'flag', flag: 'tanvi_matched', timeout: 4000 });
+      this.push({ do: 'phone', action: 'close' });
+      for (const k of ['tanvi_matched', 'jodi_decided', 'dating_opened']) this.known.add(k);
+      return true;
     }
     // 1b. a rhythm lesson on a trigger here (the flat's guitar)
     const lesson = this.rhythmSetting(this.district, f);
@@ -501,7 +513,11 @@ class Gen {
         while (at !== from) { const p = prev.get(at)!; hops.unshift({ from: p.from, exit: p.exit }); at = p.from; }
         return hops;
       }
-      for (const exit of districts.get(cur)?.exits ?? []) {
+      // Exits first; then Maps METRO between station pockets (open line, destination visited or known — ADR-115/131).
+      const metro = districts.get(cur)?.metroStation && this.known.has('metro_open')
+        ? [...districts.values()].filter((d) => d.id !== cur && d.metroStation && (this.known.has(`visited:${d.id}`) || (d.knownIf && this.known.has(d.knownIf)))).map((d) => ({ metro: true, to: d.id, zone: '(Maps)', transit: 'metro' }))
+        : [];
+      for (const exit of [...(districts.get(cur)?.exits ?? []), ...metro]) {
         const dest = districts.get(exit.to); if (!dest || seen.has(exit.to)) continue;
         const unlock = dest.unlock;
         if (unlock?.flags?.some((fl: string) => !this.known.has(fl))) continue;
@@ -521,6 +537,13 @@ class Gen {
 
   takeExit(exit: Json, who: string): boolean {
     const d = districts.get(this.district)!;
+    if (exit.metro) {
+      // Maps → the destination's node → METRO, through the real map input (a tap on the node, F).
+      this.push({ do: 'travel', to: exit.to, by: 'metro' });
+      this.push({ do: 'wait_for', ready: 'scene_loaded', scene: exit.to, timeout: 60000 });
+      this.district = exit.to; this.open = null; this.known.add(`visited:${exit.to}`);
+      return true;
+    }
     if (exit.requiresFlag) {
       if (d.ride?.flag === exit.requiresFlag) {
         // A ride that ends on its own: the door opens at the destination.

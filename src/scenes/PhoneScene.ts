@@ -1,3 +1,4 @@
+import { JODI_INDEX, jodiState, swipe } from '../systems/jodi';
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
 import { platform } from '../platform';
@@ -10,11 +11,11 @@ import { appTile, badge, dockBar, hudPlate, phonePill, APP_TILE, type Painted, t
 import { bitmap, bitmapHeight, bitmapWidth, rect, ring, roundRect, type PixelCtx } from '../ui/kit/pixel';
 import { bake, pxText } from '../ui/kit/phaser';
 import { nextFocus, type Box, type Direction } from '../ui/kit/focus';
-import { measure, rupees, truncate } from '../ui/kit/text';
+import { measure, rupees, truncate, wrap } from '../ui/kit/text';
 import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, listRows, slideSteps } from '../ui/phone/layout';
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
 import { BUBBLE, bubbleWindow, bubbles, bufferingText, cameraView, chatRows, homeTiles, mapRows, noteDetail, reelState, signalAt, statusBar, upiRows, visibleReels, type HomeTile, type ReelState } from '../ui/phone/viewModel';
-import { REELS } from '../data';
+import { JODI_PROFILES, REELS } from '../data';
 import type { ReelClip } from '../utils/types';
 import { hudLayout, hudScale } from '../ui/hud/layout';
 import { attachGamepad, PAD } from '../ui/kit/gamepad';
@@ -35,6 +36,7 @@ type Route =
   | { app: 'camera' }
   | { app: 'contacts' }
   | { app: 'notes' }
+  | { app: 'jodi' }
   | { app: 'stub'; appId: string };
 
 interface Focusable extends Box {
@@ -282,6 +284,7 @@ export class PhoneScene extends Phaser.Scene {
     else if (id === 'camera') this.go({ app: 'camera' });
     else if (id === 'contacts') this.go({ app: 'contacts' });
     else if (id === 'notes') this.go({ app: 'notes' });
+    else if (id === 'dating') this.go({ app: 'jodi' });
     else this.go({ app: 'stub', appId: id });
   }
 
@@ -458,6 +461,7 @@ export class PhoneScene extends Phaser.Scene {
       case 'camera': this.drawCamera(); break;
       case 'contacts': this.drawContacts(); break;
       case 'notes': this.drawNotes(); break;
+      case 'jodi': this.drawJodi(); break;
       case 'stub': this.drawStub(this.route.appId); break;
     }
     if (this.hint) this.drawHint(this.hint);
@@ -843,6 +847,53 @@ export class PhoneScene extends Phaser.Scene {
       if (detail) this.text(LIST.x + 8, y + 22, truncate(detail, LIST.w - 16), painted.ink);
     });
     this.arrows({ up: this.scroll > 0, down: this.scroll + visible < rows.length }, APP.contentTop, APP.contentTop + visible * LIST.pitch - 4);
+  }
+
+  // Jodi — the parody dating app (story 2.6, ADR-134) ────────────────────
+
+  private drawJodi(): void {
+    this.drawChrome('dating', 'JODI', null);
+    const store = useGameStore.getState();
+    const index = store.counters[JODI_INDEX] ?? 0;
+    const state = jodiState(JODI_PROFILES, index, store.flags);
+    const cx = PHONE.screen.w / 2, top = APP.contentTop;
+    const button = (id: string, x: number, y: number, w: number, label: string, run: () => void) => {
+      const painted = this.pill(x, y, w, 22, this.stateOf(id));
+      this.text(x + w / 2, y + 7 + painted.dy, label, painted.ink, { bold: true, align: 'center' });
+      this.focusable(id, { x, y: y - 11, w, h: 44 }, run);
+    };
+    if (state.kind === 'card') {
+      const p = state.profile;
+      if (this.textures.exists(p.portrait)) this.image(cx - 28, top + 2, p.portrait);
+      this.text(cx, top + 66, p.name.toUpperCase(), 'phone.lcd.ink', { bold: true, align: 'center' });
+      for (const [k, line] of wrap(p.line, LIST.w - 8).slice(0, 3).entries()) this.text(cx, top + 80 + k * 12, line, 'phone.lcd.mid', { align: 'center' });
+      const decide = (like: boolean) => {
+        const r = swipe(JODI_PROFILES, index, like);
+        const s = useGameStore.getState();
+        s.setCounter(JODI_INDEX, r.index);
+        for (const f of ['dating_opened', ...r.flags]) s.setFlag(f, true);
+        this.render();
+      };
+      const by = top + 122, bw = (LIST.w - 10) / 2;
+      button('jodi:no', LIST.x, by, bw, 'NOPE', () => decide(false));
+      button('jodi:yes', LIST.x + bw + 10, by, bw, 'LIKE', () => decide(true));
+      this.text(cx, by + 30, `${state.index + 1} / ${JODI_PROFILES.length} near you`, 'phone.lcd.mid', { align: 'center' });
+    } else if (state.kind === 'matched') {
+      if (this.textures.exists(state.profile.portrait)) this.image(cx - 28, top + 2, state.profile.portrait);
+      this.text(cx, top + 70, "IT'S A JODI!", 'phone.lcd.ink', { bold: true, align: 'center' });
+      this.text(cx, top + 84, `You and ${state.profile.name.split(',')[0]} liked each other.`, 'phone.lcd.mid', { align: 'center' });
+      button('jodi:chat', LIST.x + 20, top + 104, LIST.w - 40, 'OPEN CHAT', () => this.go({ app: 'thread', threadId: 'tanvi' }));
+    } else if (state.kind === 'empty') {
+      this.text(cx, top + 40, "That's everyone near you.", 'phone.lcd.ink', { bold: true, align: 'center' });
+      this.text(cx, top + 54, 'Come back tomorrow.', 'phone.lcd.mid', { align: 'center' });
+    }
+    if (store.flags.app_settled && !store.flags.jodi_gone) {
+      button('jodi:uninstall', LIST.x + 20, APP.nav.y - 40, LIST.w - 40, 'UNINSTALL JODI', () => {
+        const s = useGameStore.getState();
+        s.setFlag('jodi_deleted', true); s.setFlag('jodi_gone', true);
+        this.go({ app: 'home' });
+      });
+    }
   }
 
   private drawStub(appId: string): void {

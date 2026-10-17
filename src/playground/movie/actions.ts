@@ -52,6 +52,7 @@ export async function runStep(d: MovieDriver, step: Step, ctx: ActionContext): P
       case 'phone': return phone(d, step, ctx, deadline);
       case 'sleep': return sleep(d, ctx, deadline);
       case 'rhythm': return rhythm(d, ctx, deadline);
+      case 'travel': return travel(d, step, ctx, deadline);
       case 'pay': return pay(d, step.max ?? Infinity, ctx, deadline);
       case 'expect': return expect(d, step, ctx);
       case 'set_flag': d.setFlag(step.flag, step.value ?? true); return { status: 'cheated', reason: `set_flag ${step.flag}=${step.value ?? true}` };
@@ -306,6 +307,33 @@ async function rhythm(d: MovieDriver, ctx: ActionContext, deadline: number): Pro
   const closed = await until(d, ctx, () => !d.rhythm!(), Math.min(deadline + 90_000, d.now() + 3000));
   if (closed !== 'ok') return outcome(closed, 'rhythm_did_not_close') ?? ok();
   return v.passed === false ? fail(`rhythm_not_learned:${v.hits}/${v.total}`) : ok();
+}
+
+/**
+ * Maps METRO (ADR-134), as a player does it: M opens the city map, a tap on
+ * the destination's node selects it, F rides. Fails with a reason when the
+ * node is not on screen or METRO is not offered (not visited / known, line
+ * closed) — never by calling the travel code.
+ */
+async function travel(d: MovieDriver, step: Extract<Step, { do: 'travel' }>, ctx: ActionContext, deadline: number): Promise<ActionResult> {
+  if (!d.map) return fail('driver_has_no_map');
+  const free = await until(d, ctx, () => d.state().free, Math.min(deadline, d.now() + 3000));
+  if (free !== 'ok') return outcome(free, 'not_free') ?? ok();
+  const startDistrict = d.state().district;
+  await d.key('KeyM', 'm', 77);
+  const opened = await until(d, ctx, () => d.map!()?.phase === 'open', Math.min(deadline, d.now() + 3000));
+  if (opened !== 'ok') return outcome(opened, 'map_not_open') ?? ok();
+  if (d.map()!.view !== 'city') await d.key('KeyV', 'v', 86);
+  const node = d.map()!.nodes.find((n) => n.id === step.to);
+  if (!node) return fail(`no_map_node:${step.to}`);
+  if (node.x < 4 || node.x > 636 || node.y < 4 || node.y > 356) return fail(`map_node_off_screen:${step.to}`);
+  await d.tap(node.x, node.y);
+  const picked = await until(d, ctx, () => d.map!()?.selected === step.to, Math.min(deadline, d.now() + 2000));
+  if (picked !== 'ok') return outcome(picked, `map_select_failed:${step.to}`) ?? ok();
+  if (!d.map()!.buttons.includes('fast')) { await d.key('Escape', 'Escape', 27); return fail(`metro_not_offered:${step.to}`); }
+  await d.key('KeyF', 'f', 70);
+  const left = await until(d, ctx, () => d.state().district !== startDistrict || d.state().activeScene !== 'WorldScene', Math.min(deadline, d.now() + 5000));
+  return outcome(left, 'metro_did_not_leave') ?? ok();
 }
 
 /** Step through lines with no choices until the box closes or a choice appears. */

@@ -1,3 +1,4 @@
+import type { MapScene } from '../../scenes/MapScene';
 import type { RhythmScene } from '../../scenes/RhythmScene';
 import Phaser from 'phaser';
 import { DIALOGUE, DISTRICTS, NPCS } from '../../data';
@@ -204,6 +205,12 @@ export class PhaserDriver implements MovieDriver {
       return { text: c.text, enabled: c.enabled, next: raw?.next, cost: wallet < 0 ? -wallet : 0 };
     });
     return { open: true, typing: Boolean(box.typing), selected: box.selected, choices, text: view.text };
+  }
+
+  map() {
+    const scene = this.game.scene.getScene(SCENE_KEYS.MAP) as MapScene | null;
+    if (!scene || useGameStore.getState().overlay !== 'map') return null;
+    return scene.inspect();
   }
 
   rhythm() {

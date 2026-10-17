@@ -628,6 +628,8 @@ export interface PhoneApp {
   unlock?: string;
   /** Shown on the greyed icon. */
   hint?: string;
+  /** Gone from the phone once this flag is set — Jodi uninstalls itself (ADR-134). */
+  until?: string;
 }
 
 export interface ChatMessage {
@@ -804,6 +806,8 @@ export interface ContactDef {
   after?: string;
   /** One line under the name ("Team lead", "Owner Aunty"). */
   note?: string;
+  /** A different line once a flag is set — Ananya's after the bandstand (ADR-134). */
+  noteIf?: { flag: string; note: string };
 }
 
 /** A note in the Notes app — the wishlist (story 1.6 F4). `price` draws "₹N to go" against the wallet. */

@@ -1,5 +1,5 @@
 {
- "$comment": "Source-pixel spec (1536x1024 \u2192 36x24, 1.2 m/tile) \u2014 Church Street off MG Road (story 2.3, ADR-131): the shop row across the top is `buildings` (bookshop, caf\u00e9, the guitar shop with its door between two pots, the graffiti mural, a pastry shop); the caf\u00e9 tables, book stands and pots are blocks; lamps, trees, benches and the right planter are `sorted` cut-outs; the MG Road station canopy and its side walls are solid, the stairs under it walkable (you come up them); the bus shelter's roof is solid, its bench a block, the road along the bottom blocked.",
+ "$comment": "Source-pixel spec (1536x1024 → 36x24, 1.2 m/tile) — Church Street off MG Road (story 2.3, ADR-131): the shop row across the top is `buildings` (bookshop, café, the guitar shop with its door between two pots, the graffiti mural, a pastry shop); the café tables, book stands and pots are blocks; lamps, trees, benches and the right planter are `sorted` cut-outs; the MG Road station canopy and its side walls are solid, the stairs under it walkable (you come up them); the bus shelter's roof is solid, its bench a block, the road along the bottom blocked.",
  "name": "church_street",
  "cols": 36,
  "rows": 24,
@@ -201,6 +201,11 @@
    "name": "busker_case",
    "x": 1150,
    "y": 440
+  },
+  {
+   "name": "cafe_table",
+   "x": 480,
+   "y": 398
   }
  ],
  "zones": [

@@ -63,6 +63,12 @@
       "after": "ikea_bought_shoerack",
       "upi": 699,
       "optional": true
+    },
+    {
+      "id": "sameer_jodi",
+      "from": "them",
+      "text": "Installed Jodi on your phone while you were in the loo. You're welcome. You can't live on chai and guitar forever.",
+      "after": "dating_installed"
     }
   ]
 }

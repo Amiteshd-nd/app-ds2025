@@ -908,7 +908,8 @@
     "quests": [
       "q_act2_guitar",
       "q_act2_ikea",
-      "q_act2_ravi_1am"
+      "q_act2_ravi_1am",
+      "q_act2_the_app"
     ],
     "sleepEvents": [
       {
@@ -942,6 +943,20 @@
         "after": "ravi_supported",
         "set": [
           "ravi_thanked"
+        ]
+      },
+      {
+        "after": "act2_ravi_done",
+        "set": [
+          "dating_installed"
+        ],
+        "toast": "Sameer: \"Installed Jodi on your phone while you were in the loo. You're welcome.\"",
+        "icon": "chats"
+      },
+      {
+        "after": "app_settled",
+        "set": [
+          "jodi_gone"
         ]
       }
     ]
@@ -1023,7 +1038,8 @@
     "quests": [
       "q_act1_bus_cubbon",
       "q_act1_cubbon",
-      "q_act2_metro_opens"
+      "q_act2_metro_opens",
+      "q_act2_the_app"
     ],
     "npcs": [
       {
@@ -1032,7 +1048,8 @@
       },
       {
         "id": "npc_ananya",
-        "spawn": "ananya_spot"
+        "spawn": "ananya_spot",
+        "unlessFlag": "ananya_found_out"
       },
       {
         "id": "npc_icecream",
@@ -1455,12 +1472,19 @@
     },
     "signal": 4,
     "quests": [
-      "q_act2_guitar"
+      "q_act2_guitar",
+      "q_act2_the_app"
     ],
     "npcs": [
       {
         "id": "npc_church_busker",
         "spawn": "busker_corner"
+      },
+      {
+        "id": "npc_tanvi",
+        "spawn": "cafe_table",
+        "requiresFlag": "tanvi_matched",
+        "unlessFlag": "tanvi_date_done"
       }
     ],
     "objects": [

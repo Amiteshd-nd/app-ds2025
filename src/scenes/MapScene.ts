@@ -94,6 +94,14 @@ export class MapScene extends Phaser.Scene {
 
   create(): void {
     this.phase = 'closed';
+    // The scene is stopped and relaunched with every district change, and the instance keeps its fields:
+    // drop every cached display object, or the next open draws into a destroyed image (ADR-134).
+    this.areaImage = null;
+    this.arrow = undefined as unknown as Phaser.GameObjects.Image;
+    this.base = undefined as unknown as Phaser.GameObjects.Image;
+    this.overlay = undefined as unknown as Phaser.GameObjects.Image;
+    this.timers = [];
+    this.buttons = [];
     this.cameras.main.setRoundPixels(true);
     this.proj = project(CITY_MAP);
     this.bg = this.add.rectangle(0, 0, SCREEN.w, SCREEN.h, Phaser.Display.Color.HexStringToColor(hex('map.bg')).color).setOrigin(0);
@@ -457,7 +465,8 @@ export class MapScene extends Phaser.Scene {
     const actions: Array<[string, string, () => void]> = [];
     if (sel?.kind === 'district' && sel.id !== mm.here()) {
       const chosen = useGameStore.getState().mapDestination === sel.id;
-      const reachable = Boolean(mm.here() && mm.route(mm.here()!, sel.id));
+      // Reachable by road / exits, or by METRO or RIDE (Church Street has no road from Whitefield, only the line — ADR-134).
+      const reachable = Boolean(mm.here() && (mm.route(mm.here()!, sel.id) || mm.fastTravel(sel.id) || mm.scooterRide(sel.id)));
       if (sel.state !== 'locked' && !reachable && !chosen) this.hint = 'No way there from here yet.';
       else if (sel.state !== 'locked') {
         actions.push(['dest', chosen ? 'CLEAR DESTINATION' : 'SET DESTINATION', () => {
@@ -623,6 +632,12 @@ export class MapScene extends Phaser.Scene {
     this.render();
   }
 
+  /** What the map shows right now, for the walkthrough bot (read-only; it taps and presses keys like a player). */
+  inspect(): { phase: string; view: 'city' | 'area'; selected: string | null; nodes: Array<{ id: string; x: number; y: number }>; buttons: string[] } {
+    const nodes = MapManager.getInstance().nodes().map((n) => { const [x, y] = toScreen(this.nodePt(n), this.pan, this.zoom); return { id: n.id, x, y }; });
+    return { phase: this.phase, view: this.view, selected: this.selected, nodes, buttons: this.buttons.map((b) => b.id) };
+  }
+
   private onDown(p: Phaser.Input.Pointer): void {
     if (this.phase !== 'open') return;
     const ps = this.input.manager.pointers.filter((x) => x.isDown);
@@ -666,8 +681,10 @@ export class MapScene extends Phaser.Scene {
     const drag = this.drag;
     this.drag = null;
     if (drag?.moved || this.view === 'area') { this.render(); return; }
-    const nodes = MapManager.getInstance().nodes().map((n) => ({ id: n.id, screen: toScreen(this.nodePt(n), this.pan, this.zoom) }));
-    this.select(nodeAt(nodes, [p.x, p.y]));
+    const all = MapManager.getInstance().nodes();
+    const pts = (list: typeof all) => list.map((n) => ({ id: n.id, screen: toScreen(this.nodePt(n), this.pan, this.zoom) }));
+    // A place wins over the station ring it sits on (Church Street over MG Road, ADR-134); bare stations next.
+    this.select(nodeAt(pts(all.filter((n) => n.kind === 'district')), [p.x, p.y]) ?? nodeAt(pts(all), [p.x, p.y]));
   }
 }
 

@@ -1,0 +1,30 @@
+{
+  "id": "tanvi",
+  "contact": "Tanvi (Jodi)",
+  "messages": [
+    {
+      "id": "tanvi_1",
+      "from": "them",
+      "text": "Your profile photo is a bus. Bold.",
+      "after": "tanvi_matched"
+    },
+    {
+      "id": "tanvi_2",
+      "from": "me",
+      "text": "It's a good bus.",
+      "after": "tanvi_matched"
+    },
+    {
+      "id": "tanvi_3",
+      "from": "them",
+      "text": "Coffee? Church Street, the café with the green chairs. Saturday, five?",
+      "after": "tanvi_matched"
+    },
+    {
+      "id": "tanvi_4",
+      "from": "them",
+      "text": "Had fun! Same time next week? :)",
+      "after": "ananya_found_out"
+    }
+  ]
+}

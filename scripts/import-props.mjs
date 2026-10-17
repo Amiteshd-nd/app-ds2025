@@ -35,6 +35,8 @@ export const SHEETS = {
   guitar_props: { cols: 3, rows: 2, height: 30, heights: [36, 34, 20, 20, 12, 34] },
   // 2.4 IKEA Run (P13, ADR-132): two flat-pack boxes · one small box · the folded kitchen table · a bookshelf · a floor lamp · a striped rug.
   ikea_props: { cols: 3, rows: 2, height: 30, heights: [28, 16, 38, 40, 40, 22] },
+  // 2.6 The App (P15, ADR-134): four profile-card portraits for the Jodi phone screen.
+  jodi_portraits: { cols: 2, rows: 2, height: 56 },
 };
 
 const keyMagenta = (d) => {

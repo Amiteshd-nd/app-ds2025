@@ -120,7 +120,7 @@ export class PhoneManager {
 
   apps(): Array<PhoneApp & { unlocked: boolean }> {
     const { flags } = useGameStore.getState();
-    return PHONE_APPS.map((app) => ({ ...app, unlocked: !app.unlock || Boolean(flags[app.unlock]) }));
+    return PHONE_APPS.filter((app) => !(app.until && flags[app.until])).map((app) => ({ ...app, unlocked: !app.unlock || Boolean(flags[app.unlock]) }));
   }
 
   // ── UPI ──────────────────────────────────────────────────────────────────
@@ -172,7 +172,8 @@ export class PhoneManager {
     const { flags, relationships } = useGameStore.getState();
     return CONTACTS.filter((c) => !c.after || flags[c.after]).map((c) => {
       const relationship = c.npc ? relationships[c.npc] ?? null : null;
-      return { ...c, relationship, status: relationship ? RELATIONSHIP_LABEL[relationship] : null };
+      const note = c.noteIf && flags[c.noteIf.flag] ? c.noteIf.note : c.note;
+      return { ...c, note, relationship, status: relationship ? RELATIONSHIP_LABEL[relationship] : null };
     });
   }
 

@@ -6,6 +6,7 @@ import reels from './phone/reels.json';
 import photos from './phone/photos.json';
 import contacts from './phone/contacts.json';
 import notes from './phone/notes.json';
+import jodi from './phone/jodi.json';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
@@ -201,3 +202,6 @@ export const CITY_MAP: CityMapData = cityMap as unknown as CityMapData;
 const areaModules = import.meta.glob('./map/areas/*.json', { eager: true, import: 'default' }) as Record<string, AreaData>;
 /** OpenStreetMap neighbourhoods by district id (ADR-117). */
 export const AREAS: Record<string, AreaData> = Object.fromEntries(Object.values(areaModules).map((a) => [a.district, a]));
+
+/** Jodi's profile cards, in order (story 2.6, ADR-134). */
+export const JODI_PROFILES = (jodi as { profiles: import('../systems/jodi').JodiProfile[] }).profiles;

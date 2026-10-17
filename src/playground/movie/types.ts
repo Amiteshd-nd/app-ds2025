@@ -32,6 +32,8 @@ export type Step = Base & (
   | { do: 'sleep' }
   /** Play the rhythm lane that is open (or opening) through the real keys: E to start, E on every note, E to close (ADR-131). */
   | { do: 'rhythm' }
+  /** Maps → tap the destination's node → METRO (F), through the real map input (ADR-134). */
+  | { do: 'travel'; to: string; by: 'metro' }
   | { do: 'pay'; max?: number }
   | { do: 'expect'; flag?: string; not_flag?: string; wallet_lte?: number; wallet_gte?: number; district?: string; scene?: string; near?: Target }
   | { do: 'set_flag'; flag: string; value?: boolean }
@@ -142,6 +144,8 @@ export interface MovieDriver {
   phone(): { app: string; focusId: string | null; origin: [number, number]; focusables: Array<{ id: string; x: number; y: number; w: number; h: number }> } | null;
   /** The rhythm lane right now (phase, ms to the next note, hits), or null when it is not open (ADR-131). */
   rhythm?(): { phase: 'intro' | 'count' | 'play' | 'result'; nextNoteInMs: number | null; hits: number; total: number; passed: boolean | null } | null;
+  /** The fullscreen map right now (phase, view, selected node, node screen points), or null when closed. */
+  map?(): { phase: string; view: 'city' | 'area'; selected: string | null; nodes: Array<{ id: string; x: number; y: number }>; buttons: string[] } | null;
   /** A tap on the canvas at game coordinates (the touch path). */
   tap(gameX: number, gameY: number): Promise<void>;
   /** Subscribe to one game event; returns the unsubscribe. */

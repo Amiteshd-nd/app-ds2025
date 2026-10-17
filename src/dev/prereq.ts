@@ -89,6 +89,8 @@ export function buildPrereqState(
   for (const earlier of ordered.slice(0, index)) {
     for (const flag of earlier.save_flags ?? []) flags[flag] = true;
     for (const quest of earlier.quests ?? []) if (!questsCompleted.includes(quest)) questsCompleted.push(quest);
+    // Places an earlier scene stood in have been visited — Maps offers METRO / RIDE there (ADR-134).
+    for (const d of [earlier.district, ...((earlier.cast ?? []) as Array<{ district?: string } | string>).map((c) => (typeof c === 'object' ? c.district : undefined))]) if (d) flags[`visited:${d}`] = true;
   }
 
   // Beats that happen before the scene's entry (the bus ride before the office gate, the opening before the station stairs): their flags are already true when the scene starts.

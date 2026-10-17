@@ -10,7 +10,7 @@
   { "id": "jobs", "name": "Jobs", "icon": "jobs", "order": 9, "unlock": "jobs_taught", "hint": "You already have a job. For now." },
   { "id": "calendar", "name": "Calendar", "icon": "calendar", "order": 10 },
   { "id": "food", "name": "Food", "icon": "food", "order": 11, "unlock": "food_app_taught", "hint": "Find a darshini first." },
-  { "id": "dating", "name": "Dating", "icon": "dating", "order": 12, "unlock": "act2_started", "hint": "Settle in first." },
+  { "id": "dating", "name": "Jodi", "icon": "dating", "order": 12, "unlock": "dating_installed", "until": "jodi_gone", "hint": "Not installed." },
   { "id": "notes", "name": "Notes", "icon": "notes", "order": 13 },
   { "id": "settings", "name": "Settings", "icon": "settings", "order": 14 }
 ]

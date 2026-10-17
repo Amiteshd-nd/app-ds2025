@@ -1140,7 +1140,7 @@ function detectPrerequisiteCycles(questFiles: Array<{ file: string; json: Json }
 
 
 // ── Movie Mode walkthroughs (Test Playground, T-054) ────────────────────────
-const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'rhythm', 'pay', 'expect', 'set_flag', 'unresolved'];
+const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'rhythm', 'travel', 'pay', 'expect', 'set_flag', 'unresolved'];
 const WALKTHROUGH_READY = ['scene_loaded', 'free', 'flag', 'dialogue', 'objective'];
 
 /**

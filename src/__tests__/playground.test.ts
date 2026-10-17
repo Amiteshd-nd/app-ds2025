@@ -29,7 +29,7 @@ describe('prerequisite-state builder', () => {
     // "2.2b" (the ride, the second half of a beat that spans two places) follows "2.2" and precedes "2.3".
     expect(ordered.slice(9, 13)).toEqual(['act2_credited', 'act2_metro_opens', 'act2_metro_ride', 'act2_guitar']);
     expect(ordered[ordered.length - 1]).toBe('act4_tunnel');
-    const built = ['act2_credited', 'act2_metro_opens', 'act2_metro_ride', 'act2_guitar', 'act2_ikea', 'act2_ravi_1am'];
+    const built = ['act2_credited', 'act2_metro_opens', 'act2_metro_ride', 'act2_guitar', 'act2_ikea', 'act2_ravi_1am', 'act2_the_app'];
     for (const s of scenes) if (s.act >= 2 && !built.includes(s.id)) expect(s.status, s.id).toBe('STUB');
   });
 
@@ -74,7 +74,7 @@ describe('prerequisite-state builder', () => {
     });
     const chain = [mk('c', '1.3', ['f3']), mk('a', '1.1', ['f1']), mk('b', '1.2', ['f2'])];
     const s = buildPrereqState('c', chain, defaults);
-    expect(s.flags).toEqual({ f1: true, f2: true });
+    expect(s.flags).toEqual({ f1: true, f2: true, 'visited:d': true }); // earlier scenes' places are visited (ADR-134)
     expect(s.questsCompleted).toEqual(['q_a', 'q_b']);
   });
 });

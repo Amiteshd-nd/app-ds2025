@@ -1,0 +1,57 @@
+{
+  "id": "q_act2_the_app",
+  "title": "The App",
+  "description": "Sameer installed Jodi on your phone. You can swipe left on everyone. You can also not.",
+  "chapter": 2,
+  "district": "cubbon_park",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act2_ravi_1am"
+  ],
+  "objectives": [
+    {
+      "id": "installed",
+      "text": "Find Jodi on your phone",
+      "type": "flag",
+      "target": "dating_installed"
+    },
+    {
+      "id": "decide",
+      "text": "Swipe — or don't",
+      "type": "flag",
+      "target": "jodi_decided",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "date",
+      "text": "Coffee with Tanvi on Church Street",
+      "type": "flag",
+      "target": "tanvi_date_done",
+      "optional": true,
+      "destination": "church_street"
+    },
+    {
+      "id": "sunday",
+      "text": "Sunday, four o'clock, the bandstand",
+      "type": "flag",
+      "target": "ananya_found_out",
+      "optional": true,
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "settle",
+      "text": "Live with it",
+      "type": "flag",
+      "target": "app_settled"
+    }
+  ],
+  "rewards": {
+    "xp": 20,
+    "xp_branch": "soft_skills"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act2_app_done"
+    ]
+  }
+}

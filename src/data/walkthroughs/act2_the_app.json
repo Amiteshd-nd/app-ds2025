@@ -1,0 +1,202 @@
+{
+  "scene": "act2_the_app",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_the_app + hill_flat + entry.after F1",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "dating_installed",
+      "timeout": 3000
+    },
+    {
+      "id": "phone_4",
+      "do": "phone",
+      "action": "app",
+      "app": "dating"
+    },
+    {
+      "id": "phone_5",
+      "do": "phone",
+      "action": "tap",
+      "target": "jodi:no"
+    },
+    {
+      "id": "phone_6",
+      "do": "phone",
+      "action": "tap",
+      "target": "jodi:no"
+    },
+    {
+      "id": "phone_7",
+      "do": "phone",
+      "action": "tap",
+      "target": "jodi:no"
+    },
+    {
+      "id": "phone_8",
+      "do": "phone",
+      "action": "tap",
+      "target": "jodi:yes"
+    },
+    {
+      "id": "wait_for_9",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "tanvi_matched",
+      "timeout": 4000
+    },
+    {
+      "id": "phone_10",
+      "do": "phone",
+      "action": "close"
+    },
+    {
+      "id": "goto_11",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:front_door",
+      "optional": true
+    },
+    {
+      "id": "wait_for_12",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 20000,
+      "optional": true
+    },
+    {
+      "id": "goto_13",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:road_out",
+      "optional": true
+    },
+    {
+      "id": "wait_for_14",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 60000,
+      "optional": true
+    },
+    {
+      "id": "travel_15",
+      "beat": "F3",
+      "do": "travel",
+      "to": "church_street",
+      "by": "metro",
+      "optional": true
+    },
+    {
+      "id": "wait_for_16",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "church_street",
+      "timeout": 60000,
+      "optional": true
+    },
+    {
+      "id": "goto_17",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_tanvi",
+      "optional": true
+    },
+    {
+      "id": "interact_18",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_tanvi",
+      "optional": true
+    },
+    {
+      "id": "choose_19",
+      "beat": "F3",
+      "do": "choose",
+      "option": "hill",
+      "optional": true
+    },
+    {
+      "id": "choose_20",
+      "beat": "F3",
+      "do": "choose",
+      "option": "gcd",
+      "optional": true
+    },
+    {
+      "id": "choose_21",
+      "beat": "F3",
+      "do": "choose",
+      "option": "bye",
+      "optional": true
+    },
+    {
+      "id": "travel_22",
+      "beat": "F4",
+      "do": "travel",
+      "to": "cubbon_park",
+      "by": "metro",
+      "optional": true
+    },
+    {
+      "id": "wait_for_23",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 60000,
+      "optional": true
+    },
+    {
+      "id": "goto_24",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_ananya",
+      "optional": true
+    },
+    {
+      "id": "interact_25",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_ananya",
+      "optional": true
+    },
+    {
+      "id": "choose_26",
+      "beat": "F4",
+      "do": "choose",
+      "option": "truth",
+      "optional": true
+    },
+    {
+      "id": "expect_27",
+      "do": "expect",
+      "flag": "app_settled",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_28",
+      "do": "expect",
+      "flag": "act2_app_done",
+      "timeout": 3000
+    }
+  ]
+}
