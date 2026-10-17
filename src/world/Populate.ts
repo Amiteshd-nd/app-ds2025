@@ -2,7 +2,7 @@ import { isNight } from '../systems/night';
 import { gradeLook } from '../systems/stability';
 import { stabilityNow } from '../systems/stabilityNow';
 import Phaser from 'phaser';
-import { DIALOGUE, NPCS, OBJECTS } from '../data';
+import { hasDialogue, NPCS, OBJECTS } from '../data';
 import { PlacedObject } from '../entities/PlacedObject';
 import { InventoryManager } from '../systems/InventoryManager';
 import { useGameStore } from '../store';
@@ -61,7 +61,7 @@ export function npcs(
       console.error(`[Populate] NPC "${ref.id}" wants spawn "${ref.spawn}", which is not in the map`);
       continue;
     }
-    if (npc.dialogue && !DIALOGUE[npc.dialogue]) {
+    if (npc.dialogue && !hasDialogue(npc.dialogue)) {
       console.error(`[Populate] NPC "${npc.id}" wants dialogue "${npc.dialogue}", which does not exist`);
       continue;
     }

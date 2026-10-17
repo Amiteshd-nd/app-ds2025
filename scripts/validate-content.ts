@@ -117,7 +117,8 @@ export function validateContent(
       if (!NPC_TIER_LIST.includes(npc.tier)) {
         add(file, `NPC "${npc.id}" has tier ${npc.tier}, expected one of ${NPC_TIER_LIST.join(', ')}`);
       }
-      if (npc.dialogue && !dialogueIds.has(npc.dialogue)) {
+      // `trade:<trader>` and the other built-from-data conversations are checked by validateTrade (ADR-149).
+      if (npc.dialogue && !dialogueIds.has(npc.dialogue) && !/^(trade|search|base|craft):/.test(npc.dialogue)) {
         add(file, `NPC "${npc.id}" points at dialogue "${npc.dialogue}", which does not exist`);
       }
       // Tier 1 is atmosphere; tiers 2 and 3 exist to be talked to.
@@ -1305,6 +1306,52 @@ export function validateWalkthroughs(
  * (chords, a sane tempo, strums on beats 1–4, a pass share), its follow-up
  * conversation exists, and every `rhythm` trigger names a set that exists.
  */
+/**
+ * The base's data (ADR-149): every item has an Act 4 value; recipes, deals and loot name real items; no deal
+ * asks less than its trader's margin, or haggles down below even; built-from-data conversations point at something real;
+ * a base names a real spawn and its lamps sit inside the map.
+ */
+export function validateTrade(recipes: Json, barter: Json, loot: Json, itemFiles: JsonFile[], districts: Json[], npcFiles: JsonFile[], tmjFor: (d: Json) => Json | null): string[] {
+  const problems: string[] = [];
+  const items = new Map<string, Json>();
+  for (const f of itemFiles) for (const it of (Array.isArray(f.json) ? f.json : []) as Json[]) items.set(it.id, it);
+  for (const [id, it] of items) if (typeof it.act4_value !== 'number' || it.act4_value < 0) problems.push(`items: "${id}" needs an act4_value ≥ 0 (barter, plan Q7)`);
+  const bag = (where: string, b: Json) => { for (const [id, n] of Object.entries(b ?? {})) { if (!items.has(id)) problems.push(`${where}: unknown item "${id}"`); if (!(Number.isInteger(n) && (n as number) > 0)) problems.push(`${where}: "${id}" count must be a whole number > 0`); } };
+  const value = (b: Json) => Object.entries(b ?? {}).reduce((v, [id, n]) => v + (items.get(id)?.act4_value ?? 0) * (n as number), 0);
+  for (const r of (recipes?.recipes ?? []) as Json[]) { bag(`recipes.json "${r.id}" needs`, r.needs); bag(`recipes.json "${r.id}" makes`, r.makes); }
+  const traders = (barter?.traders ?? {}) as Record<string, Json>;
+  for (const [tid, t] of Object.entries(traders)) {
+    for (const d of (t.deals ?? []) as Json[]) {
+      for (const k of ['give', 'get', 'better']) bag(`barter.json ${tid}/${d.id} ${k}`, d[k]);
+      // A trader asks `margin` × what he gives (plan Q7); haggled, it comes down to even — never better than even.
+      if (value(d.get) * (t.margin ?? 1) > value(d.give)) problems.push(`barter.json ${tid}/${d.id}: get is worth ${value(d.get)}; at a ${t.margin}× margin you'd have to give ${value(d.get) * (t.margin ?? 1)}, not ${value(d.give)}`);
+      if (value(d.better) > value(d.give)) problems.push(`barter.json ${tid}/${d.id}: the haggled deal (${value(d.better)}) is worth more than what you give (${value(d.give)})`);
+      for (const [id] of Object.entries(d.give ?? {})) if (items.get(id)?.tradeable === false) problems.push(`barter.json ${tid}/${d.id}: "${id}" is never traded`);
+    }
+  }
+  const lootIds = new Set(Object.keys(loot?.loot ?? {}));
+  for (const [lid, l] of Object.entries((loot?.loot ?? {}) as Record<string, Json>)) bag(`loot.json "${lid}"`, l.items);
+  const virtualOk = (id: string, d?: Json): boolean => {
+    if (id === 'craft:bench') return ((recipes?.recipes ?? []) as Json[]).length > 0;
+    const kind = id.slice(0, id.indexOf(':')), key = id.slice(id.indexOf(':') + 1);
+    if (kind === 'trade') return Boolean(traders[key]);
+    if (kind === 'search') return lootIds.has(key);
+    if (kind === 'base') return Boolean(districts.find((x) => x.id === key)?.base) && (!d || d.id === key);
+    return false;
+  };
+  for (const f of npcFiles) for (const n of (Array.isArray(f.json) ? f.json : []) as Json[]) if (typeof n.dialogue === 'string' && /^(trade|search|base|craft):/.test(n.dialogue) && !virtualOk(n.dialogue)) problems.push(`npcs: "${n.id}" points at "${n.dialogue}", which no recipe/trader/loot/base provides`);
+  for (const d of districts) {
+    for (const t of (d.triggers ?? []) as Json[]) if (typeof t.dialogue === 'string' && /^(trade|search|base|craft):/.test(t.dialogue) && !virtualOk(t.dialogue, d)) problems.push(`districts.json: "${d.id}" trigger "${t.zone}" opens "${t.dialogue}", which no recipe/trader/loot/base provides`);
+    if (!d.base) continue;
+    const tmj = tmjFor(d);
+    const names = new Set(((tmj?.layers ?? []) as Json[]).flatMap((l) => (l.objects ?? []).map((o: Json) => o.name)));
+    if (!names.has(d.base.spawn)) problems.push(`districts.json: "${d.id}" base spawn "${d.base.spawn}" is not in its map`);
+    for (const u of (d.base.uv ?? []) as Json[]) if (!Array.isArray(u.at) || u.at[0] < 0 || u.at[1] < 0 || u.at[0] >= (tmj?.width ?? 0) || u.at[1] >= (tmj?.height ?? 0) || !(u.radius > 0 && u.radius <= 12)) problems.push(`districts.json: "${d.id}" base lamp needs a point inside the map and a radius 1–12`);
+    if (d.base.lampFailsOnNight !== undefined && !(Number.isInteger(d.base.lampFailsOnNight) && d.base.lampFailsOnNight >= 1)) problems.push(`districts.json: "${d.id}" base lampFailsOnNight must be a night ≥ 1`);
+  }
+  return problems;
+}
+
 export function validateMinigames(files: JsonFile[], dialogueIds: Set<string>, districts: Json[], glyphs?: Set<string>): string[] {
   const problems: string[] = [];
   const ids = new Set<string>();
@@ -1498,6 +1545,12 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   problems.push(...validateAreas(districts, areas, mapSizes));
 
   const minigameDir = join(dataDir, 'minigames');
+  {
+    const read = (n: string) => existsSync(join(dataDir, n)) ? JSON.parse(readFileSync(join(dataDir, n), 'utf8')) : {};
+    const manifestMaps = JSON.parse(readFileSync(resolve(here, '../src/assets/maps.manifest.json'), 'utf8')).maps as Record<string, Json>;
+    const tmjFor = (d: Json) => { const m = manifestMaps[d.map]; const p = m ? resolve(here, '../src/assets/tilemaps', m.file) : ''; return p && existsSync(p) ? JSON.parse(readFileSync(p, 'utf8')) : null; };
+    problems.push(...validateTrade(read('recipes.json'), read('barter.json'), read('loot.json'), items, districts, npcs, tmjFor));
+  }
   problems.push(...validateMinigames(existsSync(minigameDir) ? readJsonDir('minigames') : [], new Set(dialogue.map((f) => f.json?.id)), districts, glyphs));
 
   const cardDir = join(dataDir, 'cards');

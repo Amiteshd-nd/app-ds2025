@@ -9,6 +9,10 @@ import contacts from './phone/contacts.json';
 import notes from './phone/notes.json';
 import jodi from './phone/jodi.json';
 import news from './phone/news.json';
+import recipesJson from './recipes.json';
+import barterJson from './barter.json';
+import lootJson from './loot.json';
+import { baseDialogue, craftDialogue, searchDialogue, tradeDialogue, type Loot, type Recipe, type Trader } from '../systems/trade';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
@@ -163,9 +167,30 @@ export const objectFrames = (def: ObjectDef, variant = 'default'): number[] => {
 /** The node every dialogue tree starts from. */
 export const DIALOGUE_ENTRY_NODE = 'start';
 
+/** The four recipes, the traders' deals, what containers hold (ADR-149). */
+export const RECIPES: Recipe[] = (recipesJson as unknown as { recipes: Recipe[] }).recipes;
+export const TRADERS: Record<string, Trader> = (barterJson as unknown as { traders: Record<string, Trader> }).traders;
+export const LOOT: Record<string, Loot> = (lootJson as unknown as { loot: Record<string, Loot> }).loot;
+
+/**
+ * Conversations built from data rather than written (ADR-149): `craft:bench`, `trade:<trader>`, `search:<loot>`,
+ * `base:<district>` (its stock needs the store's counters, passed in by DialogueManager). Null when `id` is not one.
+ */
+export function virtualDialogue(id: string, counters: Record<string, number> = {}): DialogueFile | null {
+  if (id === 'craft:bench') return craftDialogue(RECIPES, ITEMS);
+  const kind = id.slice(0, id.indexOf(':')), key = id.slice(id.indexOf(':') + 1);
+  if (kind === 'trade' && TRADERS[key]) return tradeDialogue(id, TRADERS[key], ITEMS);
+  if (kind === 'search' && LOOT[key]) return searchDialogue(id, key, LOOT[key], ITEMS);
+  if (kind === 'base' && DISTRICTS[key]?.base) return baseDialogue(id, DISTRICTS[key], counters, ITEMS);
+  return null;
+}
+
+/** Written or built from data. */
+export const hasDialogue = (id: string): boolean => Boolean(DIALOGUE[id] ?? virtualDialogue(id));
+
 /** Lookup that fails loudly — a missing id is a content bug, not a soft state. */
-export const getDialogue = (id: string): DialogueFile => {
-  const file = DIALOGUE[id];
+export const getDialogue = (id: string, counters?: Record<string, number>): DialogueFile => {
+  const file = DIALOGUE[id] ?? virtualDialogue(id, counters);
   if (!file) throw new Error(`Unknown dialogue "${id}" (have: ${Object.keys(DIALOGUE).join(', ')})`);
   return file;
 };

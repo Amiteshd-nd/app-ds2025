@@ -74,5 +74,13 @@
     "name": "Neighbour",
     "tier": 1,
     "sheet": "crowd_elder"
+  },
+  {
+    "id": "npc_bench_manju",
+    "name": "Manju",
+    "tier": 2,
+    "dialogue": "trade:trader_manju",
+    "sheet": "npc_manju",
+    "voice": "adult_m"
   }
 ]

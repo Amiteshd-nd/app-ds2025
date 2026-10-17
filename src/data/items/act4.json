@@ -1,0 +1,198 @@
+[
+  {
+    "id": "bottle",
+    "name": "Empty bottle",
+    "description": "A glass bottle. Smash it, fill it, stuff it.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 6,
+    "act4_value": 1
+  },
+  {
+    "id": "cloth",
+    "name": "Cloth",
+    "description": "A clean strip of cotton. Bandages, wicks, a mask.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 6,
+    "act4_value": 1
+  },
+  {
+    "id": "stones",
+    "name": "Stones",
+    "description": "A pocketful of road gravel. Throw them and something listens.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 6,
+    "act4_value": 0
+  },
+  {
+    "id": "steel_tumbler",
+    "name": "Steel tumbler",
+    "description": "Every kitchen has one. Loud when it falls.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 3,
+    "act4_value": 1
+  },
+  {
+    "id": "food_packet",
+    "name": "Food packet",
+    "description": "Rice, dal mix, a sachet of pickle. One day.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 6,
+    "act4_value": 2,
+    "effect": {
+      "food": 40
+    }
+  },
+  {
+    "id": "canned_food",
+    "name": "Canned food",
+    "description": "Heavy, dented, priceless.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 4,
+    "act4_value": 3,
+    "effect": {
+      "food": 60
+    }
+  },
+  {
+    "id": "flashlight",
+    "name": "Flashlight",
+    "description": "Plastic, two batteries, a weak yellow beam.",
+    "icon": "item_placeholder",
+    "type": "equipment",
+    "stackable": false,
+    "act4_value": 3
+  },
+  {
+    "id": "batteries",
+    "name": "Batteries",
+    "description": "A strip of four. More valuable than money now.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 4,
+    "act4_value": 4
+  },
+  {
+    "id": "power_bank",
+    "name": "Power bank",
+    "description": "Half charged. It will charge a phone twice.",
+    "icon": "item_placeholder",
+    "type": "equipment",
+    "stackable": false,
+    "act4_value": 4
+  },
+  {
+    "id": "uv_led",
+    "name": "UV LED",
+    "description": "Pulled from a phone-repair shop's tester. Purple.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 2,
+    "act4_value": 5
+  },
+  {
+    "id": "fuel_can",
+    "name": "Fuel can",
+    "description": "A litre of petrol in a water bottle. Don't smoke.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 3,
+    "act4_value": 4
+  },
+  {
+    "id": "medkit",
+    "name": "Medkit",
+    "description": "Gauze, antiseptic, paracetamol. A hospital's leftovers.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 2,
+    "act4_value": 5,
+    "effect": {
+      "health": 40
+    }
+  },
+  {
+    "id": "kitchen_knife",
+    "name": "Kitchen knife",
+    "description": "Your own. Not a weapon. Not yet.",
+    "icon": "item_placeholder",
+    "type": "equipment",
+    "stackable": false,
+    "act4_value": 3
+  },
+  {
+    "id": "cricket_bat",
+    "name": "Cricket bat",
+    "description": "Taped handle, a signature in marker. Heavy.",
+    "icon": "item_placeholder",
+    "type": "equipment",
+    "stackable": false,
+    "act4_value": 4
+  },
+  {
+    "id": "smoke_bomb",
+    "name": "Smoke bomb",
+    "description": "A bottle of something that burns badly. Breaks a line of sight.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 3,
+    "act4_value": 3
+  },
+  {
+    "id": "noise_maker",
+    "name": "Noise maker",
+    "description": "A tumbler of stones on a string. Throw it, run the other way.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 3,
+    "act4_value": 2
+  },
+  {
+    "id": "uv_torch",
+    "name": "UV torch",
+    "description": "A flashlight that glows purple. They flinch from it.",
+    "icon": "item_placeholder",
+    "type": "equipment",
+    "stackable": false,
+    "act4_value": 8
+  },
+  {
+    "id": "bandage",
+    "name": "Bandage",
+    "description": "Clean cloth, boiled water. Stops a bleed.",
+    "icon": "item_placeholder",
+    "type": "consumable",
+    "stackable": true,
+    "max_stack": 4,
+    "act4_value": 2,
+    "effect": {
+      "health": 10
+    }
+  },
+  {
+    "id": "laptop",
+    "name": "Your laptop",
+    "description": "The office laptop. No network, half a battery. A battery is a battery.",
+    "icon": "item_placeholder",
+    "type": "equipment",
+    "stackable": false,
+    "act4_value": 3
+  }
+]

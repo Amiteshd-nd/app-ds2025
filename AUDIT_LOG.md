@@ -368,3 +368,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way (fixed): the shop row faces the bottom pavement in the art and my first collision sealed it (now a gap beside the last shop); collision rects snap to whole tiles, which closed the strip under the tea stall (the balcony trigger moved into the gap); from the lane the camera never shows the balconies (the neighbours moved to their gates and terraces); a scene whose `time` reads 16:40 seeds the bot's clock at 16:40 (4.1's says 16:57); the Playground on :6175 (another session's server) lost its game instance to hot reload mid-check — verified on my own server instead.
 - Calls to confirm: NEED_TO_AUDIT #22.
 - Rule going forward: **trace a generated map against the art's facing** (which pavement a shop opens onto), and remember collision snaps to whole tiles.
+
+### [Act 4 S3 "the base" — built, awaiting audit] — 2026-10-17
+- Decision: "take the defaults and proceed with S3". ADR-149.
+- Built: items (19 new, act4_value on all), recipes, barter, loot, built-from-data conversations (bench, trader, containers, stock), the base (stock nights, the lamp, home, sleep rule, fail-forward home), the base bench + Playground button, validator `validateTrade`, `act4_base.test.ts` (9).
+- Verified in the browser pane (my :6174, by script): the stock shelf's conversation opens from data; three nights take one food/water/fuel each, night 2 "No water.", night 3 "Nothing to eat. No water. The lamp failed in the night. Something tried the door." (stress +15), home set, Act 4 day 0 → 3; the lane refuses sleep ("Not here. Not safe."). Crafting, trading and searching are covered by the tests (locks, swaps, the haggle's skill lock, found-once).
+- Found on the way (fixed): the barter check's margin was backwards at first (a trader asks 1.5×, it doesn't give 1.5×); the 4.2 draft's first trade broke the plan's values (changed, call to confirm); standing in a repeating trigger's zone keeps reopening its conversation, which blocks sleep — the bench's zones are small and apart.
+- Calls to confirm: NEED_TO_AUDIT #23.
+- Rule going forward: **every item has an `act4_value`; every deal passes the value check** (validator).

@@ -136,6 +136,17 @@ export class StatsManager {
       // A full stack is a soft failure the player can see; say so in dev.
       if (!added) console.warn(`[StatsManager] could not add item "${effect.item_add}" (stack full?)`);
     }
+    // Several at once (ADR-149): a recipe, a trade, a container. Removals first, so a trade never overfills.
+    for (const [id, n] of Object.entries(effect.items_remove ?? {})) {
+      if (!InventoryManager.getInstance().remove(id, n)) console.warn(`[StatsManager] could not remove ${n} × "${id}"`);
+    }
+    for (const [id, n] of Object.entries(effect.items_add ?? {})) {
+      for (let k = 0; k < n; k++) if (!InventoryManager.getInstance().add(id)) { gameEvents.emit('ui:toast', { text: 'No room in the bag. You leave the rest.' }); break; }
+    }
+    if (effect.counters) {
+      const store = useGameStore.getState();
+      for (const [c, n] of Object.entries(effect.counters)) store.setCounter(c, Math.max(0, (store.counters[c] ?? 0) + n));
+    }
     if (effect.item_remove) {
       const removed = InventoryManager.getInstance().remove(effect.item_remove);
       if (!removed) console.warn(`[StatsManager] could not remove item "${effect.item_remove}" (not held)`);

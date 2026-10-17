@@ -1,0 +1,54 @@
+{
+  "$comment": "The four recipes (act4 doc §7, plan §3.9, ADR-149) — crafted at a base's bench (the kitchen table that didn't fit). The bench's conversation is built from this file (`craft:bench`).",
+  "recipes": [
+    {
+      "id": "smoke_bomb",
+      "name": "Smoke bomb",
+      "needs": {
+        "bottle": 1,
+        "cloth": 1
+      },
+      "makes": {
+        "smoke_bomb": 1
+      },
+      "line": "Cloth into the bottle, something that burns badly. It will smoke for half a minute."
+    },
+    {
+      "id": "noise_maker",
+      "name": "Noise maker",
+      "needs": {
+        "steel_tumbler": 1,
+        "stones": 1
+      },
+      "makes": {
+        "noise_maker": 1
+      },
+      "line": "Stones in the tumbler, a string round the rim. It will be loud where you throw it."
+    },
+    {
+      "id": "uv_torch",
+      "name": "UV torch",
+      "needs": {
+        "flashlight": 1,
+        "uv_led": 1,
+        "power_bank": 1
+      },
+      "makes": {
+        "uv_torch": 1
+      },
+      "line": "The LED soldered where the bulb was, the power bank taped on. It glows purple. They flinch from purple."
+    },
+    {
+      "id": "bandage",
+      "name": "Bandage",
+      "needs": {
+        "cloth": 1,
+        "water_bottle": 1
+      },
+      "makes": {
+        "bandage": 2
+      },
+      "line": "Boil the water, boil the cloth, tear it in two."
+    }
+  ]
+}

@@ -91,6 +91,11 @@ export interface StatEffect {
   xp_branch?: SkillBranchName;
   item_add?: string;
   item_remove?: string;
+  /** Several items at once (a recipe's yield, a trade, a container's loot, ADR-149). */
+  items_add?: Record<string, number>;
+  items_remove?: Record<string, number>;
+  /** Store counters moved by these amounts (the base's stock, ADR-149). */
+  counters?: Record<string, number>;
   /** Flags to set (true) or clear (false) — e.g. hotel_checked_in on the receptionist's line. */
   flags?: Record<string, boolean>;
   /** Reputation earned here, credited to the current district and the total (refusing the token scam). */
@@ -132,6 +137,8 @@ export interface DialogueChoice {
   requiresFlag?: string;
   /** Why it is locked; default "Done" / "Not yet". */
   lockedText?: string;
+  /** Locked unless you carry these (a recipe's ingredients, a trade's price, ADR-149). */
+  requiresItems?: Record<string, number>;
 }
 
 /**
@@ -390,6 +397,12 @@ export interface DistrictDef {
   liveArrivals?: boolean;
   /** The card played when you fail forward here (default `card_fail_forward`, ADR-148). */
   failCard?: string;
+  /**
+   * A base (Act 4 plan §3.9, ADR-149): once `act4` (and `requiresFlag`) is set, you can only sleep in bases; each
+   * night here eats 1 food, 1 water and 1 fuel from the stock; the generator's fuel keeps `uv` lit (the infected never
+   * come in); on `lampFailsOnNight` the lamp fails anyway. Waking here makes it your home (fail-forward lands here).
+   */
+  base?: { spawn: string; uv: Array<{ at: [number, number]; radius: number }>; lampFailsOnNight?: number; requiresFlag?: string };
   /** UV lamps (ADR-33/145): infected never come within `radius` tiles; you can't be seen inside it and ambushes never roll. */
   uv?: Array<{ at: [number, number]; radius: number }>;
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
@@ -673,6 +686,10 @@ export interface ItemDef {
   effect?: StatEffect;
   stackable: boolean;
   max_stack?: number;
+  /** Barter weight once money dies (game_components §2, plan Q7: 1 = a water bottle; 0 = worthless). */
+  act4_value?: number;
+  /** Never traded (the guitar is your lure and your comfort, plan Q7). */
+  tradeable?: boolean;
 }
 
 // --- Save ------------------------------------------------------------------

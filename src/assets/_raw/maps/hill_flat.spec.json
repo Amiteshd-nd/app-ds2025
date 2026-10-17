@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 \u2192 12x8) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; furniture is placed by flag as sprite objects. 2.3 (ADR-131): guitar_spot (the guitar on its stand, placed by guitar_owned) and guitar_zone in front of it (the rhythm lane). The painted ceiling fan was removed from the render (user audit 2026-10-17: a fan seen from above reads as an object on the floor). 2.4 (ADR-132): boxes_spot, shelf/lamp/rug/folded table spots and the assembly_zone. Re-scaled 24x16 \u2192 12x8 (user audit 2026-10-17: the room was twice too big for the 32x48 characters; at 12x8 the front door is ~34 px, the design-system door). Object spots sit on the 128-source-px grid (one tile): cot (0,2), table (2,1), shelf (4,1), guitar (5,1), drum (6,2), lamp (7,1), rug (3,4), boxes (5,4), folded table (0,4), box (1,5).",
+  "$comment": "Source-pixel spec (1536x1024 \u2192 12x8) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; furniture is placed by flag as sprite objects. 2.3 (ADR-131): guitar_spot (the guitar on its stand, placed by guitar_owned) and guitar_zone in front of it (the rhythm lane). The painted ceiling fan was removed from the render (user audit 2026-10-17: a fan seen from above reads as an object on the floor). 2.4 (ADR-132): boxes_spot, shelf/lamp/rug/folded table spots and the assembly_zone. Re-scaled 24x16 \u2192 12x8 (user audit 2026-10-17: the room was twice too big for the 32x48 characters; at 12x8 the front door is ~34 px, the design-system door). Object spots sit on the 128-source-px grid (one tile): cot (0,2), table (2,1), shelf (4,1), guitar (5,1), drum (6,2), lamp (7,1), rug (3,4), boxes (5,4), folded table (0,4), box (1,5). Act 4 (ADR-149): small zones at the folded table (bench), the water drum (stock), the induction (kitchen), the shelf (drawer) and by the boxes (a bag) \u2014 the base's bench and containers.",
   "name": "hill_flat",
   "cols": 12,
   "rows": 8,
@@ -102,6 +102,41 @@
       "y": 650,
       "w": 230,
       "h": 110
+    },
+    {
+      "name": "bench_zone",
+      "x": 150,
+      "y": 545,
+      "w": 90,
+      "h": 95
+    },
+    {
+      "name": "stock_zone",
+      "x": 780,
+      "y": 420,
+      "w": 110,
+      "h": 60
+    },
+    {
+      "name": "kitchen_zone",
+      "x": 1180,
+      "y": 430,
+      "w": 110,
+      "h": 80
+    },
+    {
+      "name": "drawer_zone",
+      "x": 530,
+      "y": 300,
+      "w": 110,
+      "h": 60
+    },
+    {
+      "name": "bag_zone",
+      "x": 285,
+      "y": 690,
+      "w": 100,
+      "h": 70
     }
   ],
   "buildings": [

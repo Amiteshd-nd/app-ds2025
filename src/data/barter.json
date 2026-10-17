@@ -1,0 +1,92 @@
+{
+  "$comment": "Traders (Act 4 plan §3.8, Q7, ADR-149): curated deals in item value (1 = a water bottle). A trader asks `margin` × what he gives; one haggle per deal brings it to `better` (never past even) — it needs City Survival at `haggleTier`. A trader's conversation is built from this file (`trade:<id>`); the validator checks every deal against the values.",
+  "traders": {
+    "trader_manju": {
+      "name": "Manju",
+      "temperament": "hustler",
+      "margin": 1.5,
+      "haggleTier": 1,
+      "greeting": "Your phone is a brick now, boss. What else have you got?",
+      "deals": [
+        {
+          "id": "laptop_deal",
+          "give": {
+            "laptop": 1
+          },
+          "get": {
+            "food_packet": 1
+          },
+          "better": {
+            "food_packet": 1,
+            "cloth": 1
+          }
+        },
+        {
+          "id": "bottles_deal",
+          "give": {
+            "bottle": 2
+          },
+          "get": {
+            "water_bottle": 1
+          },
+          "better": {
+            "food_packet": 1
+          }
+        },
+        {
+          "id": "batteries_deal",
+          "give": {
+            "batteries": 1
+          },
+          "get": {
+            "water_bottle": 2
+          },
+          "better": {
+            "water_bottle": 2,
+            "cloth": 1
+          }
+        },
+        {
+          "id": "power_bank_deal",
+          "give": {
+            "batteries": 2
+          },
+          "get": {
+            "power_bank": 1
+          },
+          "better": {
+            "power_bank": 1,
+            "water_bottle": 1
+          }
+        },
+        {
+          "id": "fuel_deal",
+          "give": {
+            "food_packet": 3
+          },
+          "get": {
+            "fuel_can": 1
+          },
+          "better": {
+            "fuel_can": 1,
+            "cloth": 1
+          }
+        },
+        {
+          "id": "tumbler_deal",
+          "give": {
+            "water_bottle": 2
+          },
+          "get": {
+            "steel_tumbler": 1,
+            "stones": 1
+          },
+          "better": {
+            "steel_tumbler": 1,
+            "stones": 2
+          }
+        }
+      ]
+    }
+  }
+}

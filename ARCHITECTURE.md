@@ -140,6 +140,9 @@ Pure: `systems/energy.ts` (pips = stamina), `playerState.ts` (move mode, crouch,
 ## Act 4 — 4.0 + 4.1 (P22, ADR-148)
 Districts `hebbal_gate`, `indiranagar_lane` (unlock `act4`). Behaviour `clockEvents` (district `clockEvents` at a minute → flags/toast/cue; `cueLoops` → seeded positional cues while a flag holds). District `liveArrivals` (WorldScene re-runs arrivals + leavers on every flag) and `failCard`. Packs: `startMode`, `leadOptions` + `awayFrom`, `drawnTo`, placed late when `requiresFlag` turns on. Phone: any app's `noticeIf` draws its banner (PhoneScene.drawChrome). MapManager: no metro/ride once `act4` is set. Generator: clock-event flags → `wait_for`, `flee` where packs exist.
 
+## Act 4 — the base (S3, ADR-149)
+`systems/trade.ts` (pure) builds conversations from data: `craft:bench` (recipes.json), `trade:<trader>` (barter.json), `search:<loot>` (loot.json), `base:<district>` (stock counters `stock_food/water/fuel`), and `baseNight`. `data.virtualDialogue` / `hasDialogue` resolve them; DialogueManager passes the counters. Choices: `requiresItems`; effects: `items_add`, `items_remove`, `counters`. District `base` + core behaviour `act4Base` (nights, the lamp, `base_home:<id>`); WorldScene.sleep refuses outside a base in Act 4; act4Threat lights the base's UV while fuel lasts and fails forward to home (`playCard(id, landing)`). Validator: `validateTrade`.
+
 ## Shapes: collision + occlusion for generated maps (ADR-99/100)
 `_raw/maps/<name>.spec.json` in source pixels → `import-map.mjs` → `.tmj` `Shapes` layer (`solid` rects, `occluder` objects with `image` + `baseY`) + `src/assets/overlays/<map>__<name>.png`. `world/Shapes.ts` builds static bodies and depth-sorted images (same band as characters, `depthForZY(baseY)`). NPCs join a static group with 20×12 feet bodies; the crowd (`crowd_*` sheets) collides with the player. Maps smaller than the screen are centred on black (`WorldScene.frameCamera`).
 

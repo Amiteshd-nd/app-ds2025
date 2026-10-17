@@ -3094,5 +3094,133 @@
         "radius": 3
       }
     ]
+  },
+  {
+    "id": "act4_base_bench",
+    "name": "Act 4 base bench",
+    "dev": true,
+    "map": "hill_flat",
+    "defaultSpawn": "door",
+    "$comment": "Dev bench for Act 4's base (ADR-149): the hill flat as a working base — the bench (folded table), the stock (water drum), three containers, Manju trading, a UV lamp kept lit by fuel, the lamp failing on night 3. Opened from the Playground's Act 4 node with `act4`.",
+    "realworld": {
+      "parent": "ambedkar_nagar_hill"
+    },
+    "base": {
+      "spawn": "door",
+      "uv": [
+        {
+          "at": [
+            6,
+            6
+          ],
+          "radius": 3
+        }
+      ],
+      "lampFailsOnNight": 3
+    },
+    "npcs": [
+      {
+        "id": "npc_bench_manju",
+        "spawn": "boxes_spot"
+      }
+    ],
+    "objects": [
+      {
+        "id": "CARDBOARD_BOX",
+        "at": "box_spot",
+        "requiresFlag": "flat_signed"
+      },
+      {
+        "id": "WATER_DRUM",
+        "at": "drum_spot"
+      },
+      {
+        "id": "COT",
+        "at": "cot_spot",
+        "requiresFlag": "bed_bought"
+      },
+      {
+        "id": "TABLE_CHAIR",
+        "at": "table_spot",
+        "requiresFlag": "bed_bought"
+      },
+      {
+        "id": "INDUCTION",
+        "at": "stove_spot",
+        "requiresFlag": "stove_bought"
+      },
+      {
+        "id": "GUITAR_STAND",
+        "at": "guitar_spot",
+        "requiresFlag": "guitar_owned"
+      },
+      {
+        "id": "FLATPACK_BOXES",
+        "at": "boxes_spot",
+        "requiresFlag": "ikea_rode_home",
+        "unlessFlag": "ikea_assembled"
+      },
+      {
+        "id": "BOOKSHELF",
+        "at": "shelf_spot",
+        "requiresFlags": [
+          "ikea_bought_shelf",
+          "ikea_assembled"
+        ]
+      },
+      {
+        "id": "FLOOR_LAMP",
+        "at": "lamp_spot",
+        "requiresFlags": [
+          "ikea_bought_lamp",
+          "ikea_assembled"
+        ]
+      },
+      {
+        "id": "RUG",
+        "at": "rug_spot",
+        "requiresFlags": [
+          "ikea_bought_rug",
+          "ikea_assembled"
+        ]
+      },
+      {
+        "id": "FOLDED_TABLE",
+        "at": "folded_spot",
+        "requiresFlag": "table_folded"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "bed",
+        "action": "sleep",
+        "once": false
+      },
+      {
+        "zone": "bench_zone",
+        "dialogue": "craft:bench",
+        "once": false
+      },
+      {
+        "zone": "stock_zone",
+        "dialogue": "base:act4_base_bench",
+        "once": false
+      },
+      {
+        "zone": "kitchen_zone",
+        "dialogue": "search:bench_kitchen",
+        "unlessFlag": "looted:bench_kitchen"
+      },
+      {
+        "zone": "drawer_zone",
+        "dialogue": "search:bench_drawer",
+        "unlessFlag": "looted:bench_drawer"
+      },
+      {
+        "zone": "bag_zone",
+        "dialogue": "search:bench_bag",
+        "unlessFlag": "looted:bench_bag"
+      }
+    ]
   }
 ]

@@ -41,6 +41,8 @@ import { outcome as cardOutcome } from '../systems/cards';
 import { streetSurface } from '../audio/mix';
 import { playerState } from '../systems/playerState';
 import { ACT4_FLAG } from '../systems/stability';
+import { baseActive } from '../world/behaviours/act4Base';
+import type { CardLanding } from '../systems/cards';
 
 export interface WorldSceneData {
   districtId: string;
@@ -198,7 +200,7 @@ export class WorldScene extends Phaser.Scene {
           if (!exit) { console.error(`[WorldScene] district "${this.district.id}" has no exit on zone "${zone}"`); return; }
           this.leaveVia(exit);
         },
-        playCard: (id) => this.playCard(id),
+        playCard: (id, landing) => this.playCard(id, landing),
       });
       if (teardown) this.teardowns.push(teardown);
     }
@@ -413,6 +415,9 @@ export class WorldScene extends Phaser.Scene {
    */
   private sleep(): void {
     if (this.leaving || this.sleeping || this.talking) return;
+    // Act 4 (ADR-149): you only sleep where it's lit and watched — a base.
+    const flags = useGameStore.getState().flags;
+    if (flags[ACT4_FLAG] && !baseActive(this.district, flags)) { gameEvents.emit('ui:toast', { text: 'Not here. Not safe.' }); return; }
     this.sleeping = true;
     this.player.setInteractionEnabled(false);
     // Reset any fade still running (the previous night's fade-in): Phaser
@@ -505,8 +510,9 @@ export class WorldScene extends Phaser.Scene {
    * sequence that holds on its last panel (the story continues in a scene not
    * built yet), as that panel appears; then the world stays held under it.
    */
-  playCard(cardId: string): void {
-    const seq = CARDS[cardId];
+  playCard(cardId: string, landing?: CardLanding): void {
+    const found = CARDS[cardId];
+    const seq = found && landing ? { ...found, then: landing } : found;
     if (!seq) { console.error(`[WorldScene] unknown card sequence "${cardId}"`); return; }
     if (this.leaving || this.scene.isActive(SCENE_KEYS.CARD)) return;
     this.talking = true;

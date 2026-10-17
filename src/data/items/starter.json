@@ -5,9 +5,12 @@
     "description": "One litre, sealed. Worth more than it looks.",
     "icon": "item_placeholder",
     "type": "consumable",
-    "effect": { "food": 10 },
+    "effect": {
+      "food": 10
+    },
     "stackable": true,
-    "max_stack": 6
+    "max_stack": 6,
+    "act4_value": 1
   },
   {
     "id": "cutting_chai",
@@ -15,9 +18,13 @@
     "description": "Half a glass, twice the sugar. The city runs on it.",
     "icon": "item_placeholder",
     "type": "consumable",
-    "effect": { "food": 15, "stress": -5 },
+    "effect": {
+      "food": 15,
+      "stress": -5
+    },
     "stackable": true,
-    "max_stack": 4
+    "max_stack": 4,
+    "act4_value": 0
   },
   {
     "id": "sim_card",
@@ -25,7 +32,8 @@
     "description": "A local number. Nothing here works without one.",
     "icon": "item_placeholder",
     "type": "key_item",
-    "stackable": false
+    "stackable": false,
+    "act4_value": 0
   },
   {
     "id": "phone_charger",
@@ -33,7 +41,8 @@
     "description": "Two-pin. Fits about half the sockets you'll meet.",
     "icon": "item_placeholder",
     "type": "equipment",
-    "stackable": false
+    "stackable": false,
+    "act4_value": 1
   },
   {
     "id": "degree_certificate",
@@ -41,7 +50,8 @@
     "description": "Laminated by your mother. You will be asked for it more than you expect.",
     "icon": "item_placeholder",
     "type": "key_item",
-    "stackable": false
+    "stackable": false,
+    "act4_value": 0
   },
   {
     "id": "id_card",
@@ -49,7 +59,8 @@
     "description": "Your name, spelt right on the second try. Opens the gate, the lift and the canteen queue.",
     "icon": "item_placeholder",
     "type": "key_item",
-    "stackable": false
+    "stackable": false,
+    "act4_value": 0
   },
   {
     "id": "folding_table_chair",
@@ -57,6 +68,7 @@
     "description": "Flat-packed hope. Needs a floor that is yours.",
     "icon": "item_placeholder",
     "type": "key_item",
-    "stackable": false
+    "stackable": false,
+    "act4_value": 2
   }
 ]

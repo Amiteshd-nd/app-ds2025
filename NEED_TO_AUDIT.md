@@ -41,6 +41,7 @@ corepack pnpm movie
 | 20 | Infected sprites step 1 · three bases (ADR-146) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
 | 21 | Infected step 2 (the recipe) + the Evolved (ADR-147) | 2026-10-17 | local commit, not pushed | waiting |
 | 22 | P22 · 4.0 "Janata" + 4.1 "Five O'Clock" (ADR-148) — Act 4 opens | 2026-10-17 | local commit, not pushed | waiting |
+| 23 | Act 4 S3 · the base (ADR-149) | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -385,4 +386,22 @@ corepack pnpm dev
   - Prices at the shutter: water ₹60, biscuits ₹90. UPI fails once, then goes through.
   - Both places are fictional over real areas (Hebbal, Indiranagar). They have map pins but no real-street drawing (no OpenStreetMap fetch this time).
   - The bot plays both scenes and flees to the main road (in the full run it also buys water at the shutter).
+
+## 23. Act 4 S3: the base
+- **What:** in Act 4 you sleep only at a base. A base has a stock (food, water, fuel) that each night uses, a UV lamp kept lit by fuel, a bench for the four recipes, containers to search and a trader. Waking there makes it home.
+- **Check:** in the Playground, open **Act 4 · stability dial** → **▶ Open the base bench** (the hill flat as a base; you start with your laptop, two waters and a fuel can).
+  - Search the kitchen (right), the shelf (top) and the bag by the boxes (bottom left). Each is found once.
+  - Craft at the folded table (left): recipes are locked until you carry what they need.
+  - Trade with Manju.
+  - Stock the water drum (top middle).
+  - Sleep in the bed a few times: watch the stock go down; on night 3 the lamp fails.
+- **Calls to confirm:**
+  - **Barter is a list of fixed deals plus one haggle,** not the offer / counter / walk haggling mini-game the plan named. Manju asks 1.5× what he gives; the haggle brings it to even and needs a little City Survival.
+  - **The first trade changed:** the 4.2 draft had your laptop → a power bank + two food packets. By the plan's own values (laptop 3, power bank 4, food packet 2) that's 8 for 3, so it's now laptop → a food packet (haggled: + a cloth). Or raise the laptop's value?
+  - **A night with no food** gives no breakfast; **no water** costs 10 health; **no fuel** means a dark lamp, "Something tried the door." and +15 stress. Nothing attacks you yet in the night.
+  - **The bench's layout** (which spot is the bench, the stock, the containers) is mine; 4.2 will reuse it in the real hill flat.
+  - **Not built yet:**
+    - The 8-slot bag (only stack limits for now).
+    - Using items from the bag: eat, bandage, throw a noise maker or smoke bomb. That comes with S4.
+    - Moving between bases.
 

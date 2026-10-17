@@ -143,7 +143,7 @@ UPI: dead (§3.8 for how it dies) · Maps: **cached**, so pins are stale and inf
 | **D1** | Draft **4.0 "Janata"** (stub, defaults, open questions) | answer it |
 | **S2 The run** ✅ built (ADR-145; zones/cover/hide as district data, not map-spec rects) | energy, crouch, hide; infected AI with one Fresh pack on a Playground test map; detection, chase, search, zone edges, UV; harm + fail-forward; encounters from cover; Movie `flee` / `hide` | be chased, lose them, get hurt, wake at a base |
 | **P22** | Build **4.0** (gate pocket, locked-down city, `card_leaving_ward` gets its `then`), then draft and build **4.1 "Five O'Clock"** (plates at 16:58 → the first run) | play from discharge to the first run |
-| **S3 The base** | containers, inventory pressure, four recipes at the bench, barter table, base stock + generator + UV, the sleep rule | scavenge, craft, trade, and spend a night at the base |
+| **S3 The base** ✅ built (ADR-149; barter = curated deals + one haggle) | containers, inventory pressure, four recipes at the bench, barter table, base stock + generator + UV, the sleep rule | scavenge, craft, trade, and spend a night at the base |
 | **P23** | Draft and build **4.2 "The Hill"** | reach the hill and make it home |
 | S4+ (after the slice) | melee stun (ADR-48), decoys and smoke, packs + Degraded/Evolved/Host, relocation + the base chain, former NPCs, Maps zone overlay, the cast's missions, Pulse Gun, endings | — |
 

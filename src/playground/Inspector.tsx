@@ -650,6 +650,9 @@ function Act4Inspector({ openLocation, play }: Props) {
       <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true }, clock: { minute: 12 * 60 } })}>▶ Open the Act 4 test bench</button>
       <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true, bench_evolved: true, base_cafe_set: true }, clock: { minute: 12 * 60 } })}>▶ Bench: a pack with one Evolved</button>
       <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true, bench_flank: true, base_cafe_set: true }, clock: { minute: 12 * 60 } })}>▶ Bench: flank test (two Evolved)</button>
+      <h3>The base (S3)</h3>
+      <p className="pg-dim">The hill flat as a base: search the kitchen, the shelf and the bag by the boxes; craft at the folded table; trade with Manju; stock the water drum (food, water, fuel); sleep in the bed — a night eats one of each, the lamp needs fuel and fails on night 3. You start with your laptop, two waters and a fuel can.</p>
+      <button onClick={() => play({ kind: 'district', districtId: 'act4_base_bench' }, { flags: { [ACT4_FLAG]: true }, clock: { minute: 18 * 60 }, inventory: ['laptop', 'water_bottle', 'water_bottle', 'fuel_can'], counters: { stock_food: 1, stock_water: 1, stock_fuel: 0 } })}>▶ Open the base bench</button>
       <div className="pg-row">
         <label><input type="checkbox" checked={threatDebug.draw} onChange={(e) => { threatDebug.draw = e.target.checked; setTick((n) => n + 1); }} /> Show zones, cover, hide spots, paths and your detection ring</label>
       </div>

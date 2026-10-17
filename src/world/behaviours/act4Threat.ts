@@ -8,6 +8,8 @@ import { ENCOUNTER, ambushSize, pickCover, rolls } from '../../systems/encounter
 import { FAIL_FORWARD, HARM, hitKind, itemsLost, startBleed, tickBleed, type Bleed } from '../../systems/harm';
 import { EVOLVED, INFECTED, brain, detects, evolvedAllowed, hears, struck, think, type InfectedBrain, type Point, type Tier } from '../../systems/infected';
 import { DISTRICTS } from '../../data';
+import { STOCK } from '../../systems/trade';
+import { baseActive } from './act4Base';
 import LOOKS from '../../data/infected/looks.json';
 import { InventoryManager } from '../../systems/InventoryManager';
 import { isNight } from '../../systems/night';
@@ -84,7 +86,9 @@ export const act4Threat: Behaviour = {
     playerState.onHideSpot = false;
     const zonesDef = district.act4Zones ?? [];
     const packs = district.infected?.packs ?? [];
-    const uvs = (district.uv ?? []).map((u) => ({ x: tiles(u.at)[0], y: tiles(u.at)[1], r: u.radius * TILE_SIZE }));
+    // A base's lamp burns while the generator has fuel and it isn't the night it fails (ADR-149).
+    const baseUV = district.base && baseActive(district, useGameStore.getState().flags) && (useGameStore.getState().counters[STOCK.fuel] ?? 0) > 0 ? district.base.uv : [];
+    const uvs = [...(district.uv ?? []), ...baseUV].map((u) => ({ x: tiles(u.at)[0], y: tiles(u.at)[1], r: u.radius * TILE_SIZE }));
     if (!zonesDef.length && !packs.length && !uvs.length) return;
 
     const store = () => useGameStore.getState();
@@ -231,7 +235,10 @@ export const act4Threat: Behaviour = {
       stats.adjust('health', FAIL_FORWARD.wakeHealth - store().stats.health);
       // A place with its own fail card tells the night itself (4.1's lane holds at the hill); otherwise a night passes here.
       if (!district.failCard) TimeManager.getInstance().sleep();
-      playCard(district.failCard ?? 'card_fail_forward');
+      // Home is the base you last woke in (ADR-149); the card's own landing until you have one.
+      const home = Object.keys(store().flags).find((f) => f.startsWith('base_home:') && store().flags[f])?.slice('base_home:'.length);
+      const homeDef = home ? DISTRICTS[home] : undefined;
+      playCard(district.failCard ?? 'card_fail_forward', !district.failCard && homeDef?.base ? { district: homeDef.id, spawn: homeDef.base.spawn } : undefined);
     };
     const hurt = (inf: Infected, now: number) => {
       const kind = hitKind(lastHit, now);

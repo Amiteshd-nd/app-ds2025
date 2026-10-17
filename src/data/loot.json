@@ -1,0 +1,29 @@
+{
+  "$comment": "Containers (Act 4 plan §3.9, ADR-149): what a place holds, found once (`looted:<id>`). A trigger opens `search:<id>`; what doesn't fit stays behind.",
+  "loot": {
+    "bench_kitchen": {
+      "label": "the kitchen shelf",
+      "items": {
+        "steel_tumbler": 1,
+        "cloth": 2,
+        "bottle": 1
+      }
+    },
+    "bench_drawer": {
+      "label": "the drawer",
+      "items": {
+        "flashlight": 1,
+        "batteries": 1
+      }
+    },
+    "bench_bag": {
+      "label": "a bag by the door",
+      "items": {
+        "food_packet": 2,
+        "water_bottle": 1,
+        "stones": 1,
+        "uv_led": 1
+      }
+    }
+  }
+}

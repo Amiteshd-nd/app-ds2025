@@ -1,6 +1,7 @@
 import type Phaser from 'phaser';
 import type { Player } from '../../entities/Player';
 import type { DistrictDef } from '../../utils/types';
+import type { CardLanding } from '../../systems/cards';
 
 /** What a behaviour gets to work with. */
 export interface BehaviourContext {
@@ -16,8 +17,8 @@ export interface BehaviourContext {
   playerFree(): boolean;
   /** Leave the district through one of its exits, by zone name (the bus ride ending). */
   leave(exitZone: string): void;
-  /** Play a card sequence over the world (ADR-136): the world holds until it ends. */
-  playCard(cardId: string): void;
+  /** Play a card sequence over the world (ADR-136): the world holds until it ends. `landing` replaces its `then` (failing forward to your base, ADR-149). */
+  playCard(cardId: string, landing?: CardLanding): void;
 }
 
 /**
@@ -53,6 +54,7 @@ import { countdown } from './countdown';
 import { stabilityLook } from './stabilityLook';
 import { act4Threat } from './act4Threat';
 import { clockEvents } from './clockEvents';
+import { act4Base } from './act4Base';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -77,6 +79,7 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   stabilityLook,
   act4Threat,
   clockEvents,
+  act4Base,
 };
 
 /**
@@ -88,4 +91,5 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
 // nightLook (ADR-133): every district wears the night between 23:00 and 05:30.
 // stabilityLook (ADR-144): every district wears its grade — colour, edges, a glitch.
 // act4Threat (ADR-145): the infected, ambushes and UV lamps of any place whose data has them (a no-op elsewhere).
-export const CORE_BEHAVIOURS: readonly string[] = ['nightLook', 'stabilityLook', 'act4Threat'];
+// act4Base (ADR-149): a base's nights — the stock, the lamp, home (a no-op without a base).
+export const CORE_BEHAVIOURS: readonly string[] = ['nightLook', 'stabilityLook', 'act4Threat', 'act4Base'];

@@ -855,6 +855,30 @@
      "gain": 0.3
     }
    ]
+  },
+  "act4_base_bench": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    },
+    {
+     "bed": "hill_wind",
+     "gain": 0.3
+    }
+   ],
+   "night": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.3
+    }
+   ]
   }
  }
 }

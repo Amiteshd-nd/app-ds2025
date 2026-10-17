@@ -1,4 +1,5 @@
 import { carryRefuses } from './carry';
+import { InventoryManager } from './InventoryManager';
 import { gameEvents } from '../core/events';
 import { DIALOGUE_ENTRY_NODE, getDialogue } from '../data';
 import { StatsManager } from './StatsManager';
@@ -79,7 +80,7 @@ export class DialogueManager {
 
   /** Begin a conversation. Applies the entry node's effect, if any. */
   start(dialogueId: string): DialogueView {
-    this.file = getDialogue(dialogueId);
+    this.file = getDialogue(dialogueId, useGameStore.getState().counters);
     this.questTriggers = [];
     this.negotiation = null;
 
@@ -240,6 +241,11 @@ export class DialogueManager {
     if (choice.unlessFlag && flags[choice.unlessFlag]) return choice.lockedText ?? 'Done';
     if (choice.requiresFlag && !flags[choice.requiresFlag]) return choice.lockedText ?? 'Not yet';
     if (choice.effect?.carry && carryRefuses(choice.effect.carry)) return 'Not enough space';
+    // A recipe's ingredients, a trade's price (ADR-149): locked unless you carry them.
+    if (choice.requiresItems) {
+      const inv = InventoryManager.getInstance();
+      if (Object.entries(choice.requiresItems).some(([id, n]) => inv.count(id) < n)) return choice.lockedText ?? 'Not carried';
+    }
     return null;
   }
 

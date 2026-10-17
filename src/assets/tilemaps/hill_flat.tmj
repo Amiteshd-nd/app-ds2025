@@ -336,7 +336,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 26,
+     "id": 31,
      "name": "sink_counter",
      "type": "cutout",
      "rotation": 0,
@@ -379,7 +379,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 32,
      "name": "hob_counter",
      "type": "cutout",
      "rotation": 0,
@@ -422,7 +422,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 33,
      "name": "low_counter",
      "type": "cutout",
      "rotation": 0,
@@ -465,7 +465,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 34,
      "name": "cylinder",
      "type": "cutout",
      "rotation": 0,
@@ -629,7 +629,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 18,
+     "id": 23,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -647,7 +647,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 24,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -665,7 +665,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 25,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -683,7 +683,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 26,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -701,7 +701,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 27,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -719,7 +719,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 28,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -737,7 +737,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 29,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -755,7 +755,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 30,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -1091,6 +1091,61 @@
      "y": 163,
      "width": 57,
      "height": 27
+    },
+    {
+     "id": 18,
+     "name": "bench_zone",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 38,
+     "y": 136,
+     "width": 22,
+     "height": 24
+    },
+    {
+     "id": 19,
+     "name": "stock_zone",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 195,
+     "y": 105,
+     "width": 28,
+     "height": 15
+    },
+    {
+     "id": 20,
+     "name": "kitchen_zone",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 295,
+     "y": 108,
+     "width": 28,
+     "height": 20
+    },
+    {
+     "id": 21,
+     "name": "drawer_zone",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 133,
+     "y": 75,
+     "width": 27,
+     "height": 15
+    },
+    {
+     "id": 22,
+     "name": "bag_zone",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 71,
+     "y": 173,
+     "width": 25,
+     "height": 17
     }
    ],
    "opacity": 1,
@@ -1101,7 +1156,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 30,
+ "nextobjectid": 35,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

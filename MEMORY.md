@@ -188,3 +188,8 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - The 640×360 camera shows ~480 source px of a 1024 px-tall map: anything the player must SEE from the middle (balconies) has to be within ~240 source px of where they stand.
 - A scene's `time` seeds the Playground/bot clock (prereq parses the first HH:MM) — keep it equal to the landing card's minute.
 - The other session's Playground (:6175) can lose its game instance to hot reload; verify on your own :6174 by script when that happens.
+
+## S3 the base (2026-10-17, ADR-149)
+- Built-from-data conversations (`craft:`, `trade:`, `search:`, `base:`) are ordinary dialogue trees — test them through DialogueManager, not the UI.
+- A `once: false` dialogue trigger reopens while you stand in its zone — keep such zones small and apart, and step out before scripting a sleep.
+- Barter rule: value(get) × margin ≤ value(give); haggled `better` ≤ value(give). The validator enforces it — fix data, not the rule.
