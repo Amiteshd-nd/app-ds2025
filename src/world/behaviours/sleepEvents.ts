@@ -18,6 +18,9 @@ export const sleepEvents: Behaviour = {
       for (const e of events) {
         if (!store.flags[e.after] || store.flags[e.set[0]]) continue;
         for (const f of e.set) store.setFlag(f, true);
+        for (const f of e.clear ?? []) store.setFlag(f, false);
+        // A night cut short (Ravi's message at 00:50): the clock goes back to that minute of the new day.
+        if (e.wakeAt !== undefined) store.setClock({ day: store.clock.day, minute: e.wakeAt });
         if (e.toast) gameEvents.emit('ui:toast', { text: e.toast, ...(e.icon ? { icon: e.icon } : {}) });
       }
     };

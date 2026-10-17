@@ -4,6 +4,14 @@
   "portrait": "npc_placeholder",
   "enter": [
     {
+      "flag": "ravi_decided",
+      "node": "after_night"
+    },
+    {
+      "flag": "ravi_called",
+      "node": "night"
+    },
+    {
       "flag": "met_ravi",
       "node": "again"
     }
@@ -45,6 +53,128 @@
     },
     "again": {
       "text": "Shuttle's late again. Stipend's late again. I'm early for everything, that's my problem."
+    },
+    "night": {
+      "text": "(Ravi, hood up, on the shuttle-bay bench under the one light that still works. The whole park is dark; a generator hums somewhere behind the gate.) You came. I didn't think... sorry. Sorry for messaging so late.",
+      "effect": {
+        "flags": {
+          "ravi_found": true
+        }
+      },
+      "next": "night_2"
+    },
+    "night_2": {
+      "text": "Thirty hours. They put me on the agri-samples alone — the senior went home at six. 'You can manage, no?' I managed. I don't know if I managed.",
+      "next": "night_3"
+    },
+    "night_3": {
+      "text": "Akka's wedding is in March. The loan is in my name — three lakh. First instalment is Friday, and the stipend is still 'processing'.",
+      "next": "night_4"
+    },
+    "night_4": {
+      "text": "And Appa calls. Always at the worst time. In the corridor, gloves on, the phone buzzing in my pocket... I can't not pick up. He's alone at home.",
+      "next": "choice"
+    },
+    "choice": {
+      "text": "(He's shaking. The first shuttle back to Hebbal is at two-thirty.)",
+      "choices": [
+        {
+          "text": "I'll sit with you till the shuttle comes.",
+          "next": "sat",
+          "unlessFlag": "ravi_sat",
+          "lockedText": "You're already here",
+          "effect": {
+            "flags": {
+              "ravi_sat": true,
+              "ravi_supported": true
+            },
+            "stress": 5,
+            "minutes": 60
+          }
+        },
+        {
+          "text": "Take this — ₹2,000. For Friday.",
+          "next": "paid",
+          "unlessFlag": "ravi_paid",
+          "lockedText": "Already given",
+          "effect": {
+            "wallet": -2000,
+            "flags": {
+              "ravi_paid": true,
+              "ravi_supported": true
+            }
+          }
+        },
+        {
+          "text": "I have work tomorrow, Ravi. Get some sleep.",
+          "next": "left",
+          "effect": {
+            "flags": {
+              "ravi_left": true,
+              "ravi_decided": true
+            }
+          }
+        }
+      ]
+    },
+    "sat": {
+      "text": "(You sit. An hour goes. He talks about the village, the mango tree, the cricket bat his father carved for him. The shaking slows.)",
+      "choices": [
+        {
+          "text": "Take this — ₹2,000. For Friday.",
+          "next": "paid",
+          "unlessFlag": "ravi_paid",
+          "lockedText": "Already given",
+          "effect": {
+            "wallet": -2000,
+            "flags": {
+              "ravi_paid": true,
+              "ravi_supported": true
+            }
+          }
+        },
+        {
+          "text": "The shuttle's here. Go home, Ravi.",
+          "next": "bye"
+        }
+      ]
+    },
+    "paid": {
+      "text": "No. No, no — (He refuses twice. Then he takes it, hands shaking, and holds it like it might fly away.) I'll pay you back. After the processing.",
+      "choices": [
+        {
+          "text": "I'll sit with you till the shuttle comes.",
+          "next": "sat",
+          "unlessFlag": "ravi_sat",
+          "lockedText": "You're already here",
+          "effect": {
+            "flags": {
+              "ravi_sat": true,
+              "ravi_supported": true
+            },
+            "stress": 5,
+            "minutes": 60
+          }
+        },
+        {
+          "text": "Get some sleep, Ravi.",
+          "next": "bye"
+        }
+      ]
+    },
+    "bye": {
+      "text": "(The shuttle's headlights swing in. He gets on and waves once from the window.) Message me when you reach. I mean it.",
+      "effect": {
+        "flags": {
+          "ravi_decided": true
+        }
+      }
+    },
+    "left": {
+      "text": "(He nods too fast.) Yeah. Yeah, of course. Sorry. Go, go. (At the auto stand you look back. He's still on the bench.)"
+    },
+    "after_night": {
+      "text": "(Ravi nods at you across the shuttle bay. Neither of you mentions that night.)"
     }
   }
 }

@@ -13,6 +13,20 @@
       "from": "them",
       "text": "Stipend came. Half of it. They said the other half is 'processing'.",
       "after": "act1_first_day_done"
+    },
+    {
+      "id": "ravi_3",
+      "from": "them",
+      "text": "u up? im at the shuttle stop. cant go back in. cant go home.",
+      "after": "ravi_called",
+      "critical": true
+    },
+    {
+      "id": "ravi_4",
+      "from": "them",
+      "text": "thank you. dont tell anyone i cried. i'll pay you back after the processing finishes.",
+      "after": "ravi_thanked",
+      "optional": true
     }
   ]
 }

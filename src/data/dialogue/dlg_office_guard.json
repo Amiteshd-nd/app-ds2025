@@ -4,6 +4,14 @@
   "portrait": "npc_placeholder",
   "enter": [
     {
+      "flag": "ravi_decided",
+      "node": "badge"
+    },
+    {
+      "flag": "ravi_called",
+      "node": "night"
+    },
+    {
       "flag": "id_card_issued",
       "node": "badge"
     }
@@ -19,6 +27,9 @@
     },
     "badge": {
       "text": "Ah, card is there. Tap, tap. Lift is on the right. Welcome, saar-madam."
+    },
+    "night": {
+      "text": "(The night guard's torch finds you.) That boy has been there since eleven. I gave him tea. He didn't drink it. Generator's only for the gate — whole Whitefield is dark tonight."
     }
   }
 }

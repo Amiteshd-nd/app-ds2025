@@ -936,6 +936,29 @@
           77.6045
         ]
       ]
+    },
+    {
+      "id": "auto_night_hill",
+      "kind": "road",
+      "label": "Night auto",
+      "connects": [
+        "ambedkar_nagar_hill",
+        "office_gate"
+      ],
+      "points": [
+        [
+          12.987006,
+          77.718434
+        ],
+        [
+          12.9873,
+          77.727
+        ],
+        [
+          12.98741,
+          77.7366
+        ]
+      ]
     }
   ],
   "metro": [

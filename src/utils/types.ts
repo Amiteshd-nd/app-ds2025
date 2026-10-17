@@ -103,6 +103,8 @@ export interface StatEffect {
   carry?: number;
   /** Put every box down (assembly at home). */
   carry_clear?: boolean;
+  /** Game minutes that pass (an hour on a bench at 1 AM, ADR-133). */
+  minutes?: number;
 }
 
 // --- Relationships (game_components §8, ADR-123) ---------------------------
@@ -259,6 +261,8 @@ export interface DistrictNpcRef {
   unlessFlag?: string;
   /** The NPC is here only once this flag is set — Sameer and Ravi at the gate after the workday (ADR-121). */
   requiresFlag?: string;
+  /** Only by day or only by night (23:00–05:30) — the office crowd goes home (ADR-133). */
+  onlyAt?: 'day' | 'night';
 }
 
 /** A placed object positioned by data rather than in Tiled. */
@@ -281,6 +285,8 @@ export interface DistrictObjectRef {
 export interface DistrictAmbient {
   base: string[];
   count: number;
+  /** How many are still out between 23:00 and 05:30 (default none, ADR-133). */
+  nightCount?: number;
   /** Rectangle object in the spawn layer that bounds the crowd; whole map when absent. */
   area?: string;
 }
@@ -306,6 +312,8 @@ export interface DistrictExit {
   minutes?: number;
   /** ₹ more per box carried — the conductor's luggage ticket (story 2.4, ADR-132). */
   farePerBox?: number;
+  /** Runs only by day or only by night (23:00–05:30) — the hill's night auto (ADR-133). Buses never run at night. */
+  onlyAt?: 'day' | 'night';
 }
 
 /** A zone that announces itself on the bus (`zone:reached`) so quests can react. */
@@ -340,7 +348,7 @@ export interface DistrictDef {
   /** Maps offers METRO / RIDE here before the first visit once this flag is set — the shop's text named the stop (story 2.3, ADR-131). */
   knownIf?: string;
   /** "The first sleep here after `after`, set `set`" — the sleepEvents behaviour (ADR-132). */
-  sleepEvents?: Array<{ after: string; set: string[]; toast?: string; icon?: IconName }>;
+  sleepEvents?: Array<{ after: string; set: string[]; clear?: string[]; toast?: string; icon?: IconName; /** Wake at this minute past midnight instead of the morning (ADR-133). */ wakeAt?: number }>;
   /** Spawn object used when no spawn is named by the exit that led here. */
   defaultSpawn: string;
   fadeMs?: number;

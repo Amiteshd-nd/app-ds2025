@@ -1,0 +1,128 @@
+{
+  "scene": "act2_ravi_1am",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_ravi_1am + hill_flat + entry.after F1",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "ravi_called",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:front_door"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_6",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:road_out"
+    },
+    {
+      "id": "wait_for_7",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "office_gate",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_8",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:office_arrival"
+    },
+    {
+      "id": "wait_for_9",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ravi_night_trip",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_10",
+      "do": "goto",
+      "target": "npc:npc_ravi"
+    },
+    {
+      "id": "interact_11",
+      "do": "interact",
+      "target": "npc:npc_ravi"
+    },
+    {
+      "id": "advance_12",
+      "do": "advance"
+    },
+    {
+      "id": "choose_13",
+      "do": "choose",
+      "option": "left"
+    },
+    {
+      "id": "goto_14",
+      "do": "goto",
+      "target": "exit:auto_stand"
+    },
+    {
+      "id": "wait_for_15",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_16",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_17",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "sleep_18",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_19",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ravi_night_over",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_20",
+      "do": "expect",
+      "flag": "act2_ravi_done",
+      "timeout": 3000
+    }
+  ]
+}

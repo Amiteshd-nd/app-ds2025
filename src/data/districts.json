@@ -530,7 +530,8 @@
     },
     "quests": [
       "q_act1_first_day",
-      "q_act1_ravi_intro"
+      "q_act1_ravi_intro",
+      "q_act2_ravi_1am"
     ],
     "npcs": [
       {
@@ -539,16 +540,19 @@
       },
       {
         "id": "npc_prakash",
-        "spawn": "admin_desk"
+        "spawn": "admin_desk",
+        "onlyAt": "day"
       },
       {
         "id": "npc_divya",
-        "spawn": "lobby"
+        "spawn": "lobby",
+        "onlyAt": "day"
       },
       {
         "id": "npc_sameer",
         "spawn": "gate_evening",
-        "requiresFlag": "act1_first_day_done"
+        "requiresFlag": "act1_first_day_done",
+        "onlyAt": "day"
       },
       {
         "id": "npc_ravi",
@@ -582,6 +586,14 @@
         "setFlags": [
           "act1_first_day_done"
         ]
+      },
+      {
+        "zone": "office_arrival",
+        "setFlags": [
+          "ravi_night_trip"
+        ],
+        "requiresFlag": "ravi_called",
+        "unlessFlag": "ravi_night_trip"
       }
     ],
     "exits": [
@@ -592,7 +604,8 @@
         "transit": "auto",
         "fare": 80,
         "minutes": 15,
-        "card": "Auto → Whitefield · ₹80"
+        "card": "Auto → Whitefield · ₹80",
+        "onlyAt": "day"
       },
       {
         "zone": "walk_out",
@@ -601,6 +614,16 @@
         "transit": "walk",
         "minutes": 40,
         "card": "Walk → Whitefield · 40 min"
+      },
+      {
+        "zone": "auto_stand",
+        "to": "ambedkar_nagar_hill",
+        "spawn": "bus_drop",
+        "transit": "auto",
+        "fare": 80,
+        "minutes": 15,
+        "onlyAt": "night",
+        "card": "Night auto → Ambedkar Nagar · double after midnight"
       }
     ],
     "behaviours": [
@@ -645,7 +668,8 @@
       "quest": "q_act1_pg_exit"
     },
     "quests": [
-      "q_act1_hill_flat"
+      "q_act1_hill_flat",
+      "q_act2_ravi_1am"
     ],
     "npcs": [
       {
@@ -721,6 +745,16 @@
         "spawn": "door",
         "transit": "walk",
         "lockedText": "Aunty's door. Make a deal with her first."
+      },
+      {
+        "zone": "road_out",
+        "to": "office_gate",
+        "spawn": "auto_drop",
+        "transit": "auto",
+        "fare": 80,
+        "minutes": 15,
+        "onlyAt": "night",
+        "card": "Night auto → ITPL gate · double after midnight"
       }
     ],
     "behaviours": [
@@ -873,7 +907,8 @@
     },
     "quests": [
       "q_act2_guitar",
-      "q_act2_ikea"
+      "q_act2_ikea",
+      "q_act2_ravi_1am"
     ],
     "sleepEvents": [
       {
@@ -883,6 +918,31 @@
         ],
         "toast": "Sameer: \"Hyggeland opened at Nagasandra. Saturday?\"",
         "icon": "chats"
+      },
+      {
+        "after": "act2_ikea_done",
+        "set": [
+          "ravi_called",
+          "power_cut"
+        ],
+        "wakeAt": 50,
+        "toast": "Ravi: \"u up? im at the shuttle stop. cant go back in. cant go home.\"",
+        "icon": "chats"
+      },
+      {
+        "after": "ravi_decided",
+        "set": [
+          "ravi_night_over"
+        ],
+        "clear": [
+          "power_cut"
+        ]
+      },
+      {
+        "after": "ravi_supported",
+        "set": [
+          "ravi_thanked"
+        ]
       }
     ]
   },

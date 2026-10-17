@@ -1,3 +1,4 @@
+import { TimeManager } from './TimeManager';
 import { carry } from './carry';
 import { gameEvents } from '../core/events';
 import { useGameStore } from '../store';
@@ -126,6 +127,7 @@ export class StatsManager {
       store.setCounter(FUEL_COUNTER, Math.max(0, Math.min(FUEL_TANK, (store.counters[FUEL_COUNTER] ?? 0) + effect.fuel)));
     }
 
+    if (effect.minutes) TimeManager.getInstance().advance(effect.minutes);
     if (effect.carry || effect.carry_clear) carry(effect.carry ?? 0, Boolean(effect.carry_clear));
     if (effect.item_add) {
       const added = InventoryManager.getInstance().add(effect.item_add);

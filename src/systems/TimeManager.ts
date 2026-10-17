@@ -99,8 +99,9 @@ export class TimeManager {
    * what the hotel's three-night timer listens for.
    */
   sleep(): GameClock {
-    const { day } = this.clock;
-    const next = { day: day + 1, minute: WAKE_MINUTE };
+    const { day, minute } = this.clock;
+    // Bed after midnight (home at 3 AM, ADR-133) wakes you the same morning, not the one after.
+    const next = { day: minute < WAKE_MINUTE ? day : day + 1, minute: WAKE_MINUTE };
     useGameStore.getState().setClock(next);
     this.foodCarry = 0;
 

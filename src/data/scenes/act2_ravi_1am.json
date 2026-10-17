@@ -1,12 +1,11 @@
 {
   "id": "act2_ravi_1am",
-  "district": "office_gate",
+  "district": "hill_flat",
   "act": 2,
   "seq": "2.5",
   "title": "Ravi, 1 AM",
-  "status": "STUB",
-  "draft": "Claude's draft 2026-10-17 from story_script_v1 §5 (2.5) + §4 (1.2, Ravi as a peer), 3.1–3.4 and 4.x (ravi_supported changes the ending), ADR-03 (an accident, not a villain — the system is the antagonist), ADR-19 (stress: the player carries Ravi's meter), ADR-36 (the Appa call in the corridor), whiteboard_salvage (stress, identity fading). The user edits the words and the numbers; then P14 builds it.",
-  "time": "The night after 2.4: the first sleep after act2_ikea_done is cut short — Ravi's message wakes you at 00:50",
+  "status": "P14",
+  "time": "00:50 — the first sleep after act2_ikea_done is cut short by Ravi's message (sleepEvents wakeAt 50); the Electro night = a power cut across Whitefield (power_cut)",
   "player_goal": "Find Ravi at the shuttle stop at 1 AM.",
   "design_goal": "Conflict + Quiet dread: the first scene at night, and the first choice that has no right answer, only a cost. The player meets Ravi at his lowest — unpaid, sleepless, alone on the agri-samples — and decides what kind of friend to be. `ravi_supported` drives 3.x and the ending (act4 Ground Zero). Reveal: night-time (a reusable night look), autos at double fare after midnight.",
   "pacing": [
@@ -16,22 +15,26 @@
     "Calm"
   ],
   "entry": {
-    "from": "whitefield_street",
-    "spawn": "walk_in",
-    "after": ["F1"]
+    "from": "hill_flat",
+    "spawn": "door",
+    "after": [
+      "F1"
+    ]
   },
   "cast": [
     {
       "npc": "npc_ravi",
       "tier": 3,
+      "district": "office_gate",
       "spawn": "shuttle_bay",
       "role": "Sitting on the shuttle-bay bench under the one working light, hood up, shaking. Thirty hours awake; the lab put him on the agri-samples alone; his sister's wedding loan (₹3 lakh, his name on it); the stipend still 'processing'. One line of foreshadowing: Appa calls at the worst times, even in the corridor."
     },
     {
       "npc": "npc_office_guard",
       "tier": 2,
+      "district": "office_gate",
       "spawn": "guard",
-      "role": "The night guard with a torch: 'That boy has been there since eleven. I gave him tea. He didn't drink it.'"
+      "role": "The night guard with a torch: 'That boy has been there since eleven. I gave him tea. He didn't drink it. Generator's only for the gate — whole Whitefield is dark tonight.'"
     }
   ],
   "quests": [
@@ -43,7 +46,7 @@
       "pacing": "Tense",
       "what": "The first sleep after the IKEA run is cut short: at 00:50 the phone buzzes (critical, through Do Not Disturb) — Ravi: 'u up? im at the shuttle stop. cant go back in. cant go home.' The clock says 00:50; the flat is dark (the night look).",
       "interact": "sleep → phone",
-      "flag": "ravi_called"
+      "flag": "ravi_called, power_cut"
     },
     {
       "id": "F2",
@@ -68,31 +71,67 @@
     }
   ],
   "economy": [
-    { "trigger": "give Ravi the instalment", "spend": 2000, "canAfford": true },
-    { "trigger": "night auto, hill → office gate (double fare after midnight)", "spend": 160, "canAfford": true },
-    { "trigger": "night auto home", "spend": 160, "canAfford": true },
-    { "trigger": "scooter instead (fuel)", "spend": "fuel", "canAfford": true }
+    {
+      "trigger": "give Ravi the instalment",
+      "spend": 2000,
+      "canAfford": true
+    },
+    {
+      "trigger": "night auto, hill → office gate (double fare after midnight)",
+      "spend": 160,
+      "canAfford": true
+    },
+    {
+      "trigger": "night auto home",
+      "spend": 160,
+      "canAfford": true
+    },
+    {
+      "trigger": "scooter instead (fuel)",
+      "spend": "fuel",
+      "canAfford": true
+    }
   ],
   "exits": [
-    { "zone": "auto_out (hill)", "to": "office_gate", "transit": "auto", "note": "new: a night auto from the hill road, fare ₹160 after midnight; the hill bus is locked at night ('Last bus left at 11')" },
-    { "zone": "auto_stand (office_gate)", "to": "ambedkar_nagar_hill", "transit": "auto", "note": "night fare doubles (₹80 → ₹160 to Whitefield; straight home at night)" }
+    {
+      "zone": "road_out",
+      "to": "office_gate",
+      "spawn": "auto_drop",
+      "transit": "auto",
+      "note": "ambedkar_nagar_hill; onlyAt night; ₹80 ×2 after midnight = ₹160; the hill bus on the same zone is closed at night"
+    },
+    {
+      "zone": "auto_stand",
+      "to": "ambedkar_nagar_hill",
+      "spawn": "bus_drop",
+      "transit": "auto",
+      "note": "office_gate; onlyAt night (the day auto to Whitefield is onlyAt day); ₹160 after midnight"
+    },
+    {
+      "zone": "(Maps)",
+      "to": "office_gate",
+      "transit": "scooter",
+      "note": "RIDE if the scooter is owned (fuel)"
+    }
   ],
   "save_flags": [
     "ravi_called",
+    "power_cut",
     "ravi_night_trip",
     "ravi_found",
     "ravi_sat",
     "ravi_paid",
     "ravi_supported",
     "ravi_left",
+    "ravi_decided",
+    "ravi_night_over",
+    "ravi_thanked",
     "act2_ravi_done"
   ],
   "assets_needed": [
-    "no new renders: office_gate and the hill as they are, with a night look",
-    "night look: a reusable world tint (deep blue multiply, lamps and lit windows left bright) between 23:00 and 05:30 — a behaviour every district gets, reduced-motion safe (no flicker)",
-    "Ravi's sheet (exists, 1.2) — a sitting pose is not in this build; he stands by the bench",
-    "the guard with a torch: the existing office guard sheet",
-    "HUD: none new (the clock shows 00:50)"
+    "no new art: office_gate, the hill and the flat as they are",
+    "nightLook: a core behaviour, a deep-blue multiply over the world 23:00–05:30 (half-hour ramps), deeper during the power cut (done)",
+    "Ravi stands by the bench (no sitting pose in this build)"
   ],
   "acceptance": [
     "the first sleep after act2_ikea_done wakes you at 00:50 with Ravi's message (critical: it rings through Do Not Disturb); the flat is in the night look",
@@ -102,15 +141,6 @@
     "home and sleep: Ravi's morning chat only if supported",
     "the walkthrough bot plays 2.5 and the headless run stays green (15 of 15)"
   ],
-  "open_questions": [
-    "\"The Electro night\" is in the story script but defined nowhere. Draft: a power cut across Whitefield that night — street lights out, the tech park on its generator, the guard's torch, the shuttle bay's single emergency light. Or does it mean something else to you (an Electronic City link, a song, a party)?",
-    "HOW does the player learn to go: draft = Ravi's own message wakes you at 00:50. Alternative: Sameer's chat ('Ravi posted something weird, is he ok?').",
-    "The MONEY: draft = a fixed ₹2,000 (the script's number). Or a choice of ₹500 / ₹2,000 / ₹5,000?",
-    "Sit AND give both allowed (draft), or one choice only?",
-    "LEAVING: draft = no morning message and nothing said — the silence is the consequence. Or a stress hit / a guilt line later?",
-    "NIGHT TRAVEL: buses stop at 23:00 and autos double after midnight (draft, a reusable rule) — or keep it to this scene only?",
-    "The NIGHT LOOK: draft = a reusable night tint for every district from 23:00 to 05:30. Or only for this scene?",
-    "FORESHADOWING: one line about Appa's calls in the corridor (ADR-36, the 3.3 flashback) — keep, more, or none?",
-    "Ravi's WORDS: the loan (₹3 lakh, sister's wedding), thirty hours awake, the stipend 'processing'. Edit freely — this is his biggest scene before Act 3."
-  ]
+  "open_questions": [],
+  "decided": "User 2026-10-17: 'take the defaults.' — every open question resolved by the draft's default (ADR-133)."
 }

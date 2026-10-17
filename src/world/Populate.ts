@@ -1,3 +1,4 @@
+import { isNight } from '../systems/night';
 import Phaser from 'phaser';
 import { DIALOGUE, NPCS, OBJECTS } from '../data';
 import { PlacedObject } from '../entities/PlacedObject';
@@ -43,6 +44,8 @@ export function npcs(
     if (ref.unlessFlag && flags[ref.unlessFlag]) continue;
     // Not here until their flag is set (ADR-121) — Sameer and Ravi appear at the gate after the workday.
     if (ref.requiresFlag && !flags[ref.requiresFlag]) continue;
+    // Day and night (ADR-133): the office crowd is not at the gate at 1 AM.
+    if (ref.onlyAt && (ref.onlyAt === 'night') !== isNight(useGameStore.getState().clock.minute)) continue;
     const npc = NPCS[ref.id];
     const obj = findObject(map, spawnLayer, ref.spawn);
 
@@ -241,7 +244,8 @@ export function wander(
     ? new Phaser.Geom.Rectangle(area.x ?? 0, area.y ?? 0, area.width, area.height)
     : new Phaser.Geom.Rectangle(0, 0, map.widthInPixels, map.heightInPixels);
 
-  for (let i = 0; i < ambient.count; i++) {
+  const count = isNight(useGameStore.getState().clock.minute) ? (ambient.nightCount ?? 0) : ambient.count;
+  for (let i = 0; i < count; i++) {
     // Stride the index so neighbouring spawns do not share a look.
     const sheet = sheets[(i * 3) % sheets.length];
 

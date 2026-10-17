@@ -1,3 +1,4 @@
+import { exitRuns, fareAt } from '../systems/night';
 import { carried } from '../systems/carry';
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
@@ -44,6 +45,14 @@ export function bind(
     watchers.push(
       new EntryWatcher(scene, player, zone, () => {
         gameEvents.emit('zone:reached', { zoneId: exit.zone, districtId: district.id });
+        // Night (ADR-133): buses stop at 23:00; a day- or night-only exit waits. A sibling exit on the same zone that
+        // does run (the night auto on the hill road) takes over silently; otherwise say why.
+        const minute = useGameStore.getState().clock.minute;
+        if (!exitRuns(exit, minute)) {
+          const sibling = (district.exits ?? []).some((e) => e !== exit && e.zone === exit.zone && exitRuns(e, minute));
+          if (!sibling && exit.transit === 'bus') gameEvents.emit('ui:toast', { text: 'Last bus left at 11. Next one at 5:30.' });
+          return;
+        }
         if (!ReputationManager.getInstance().canEnter(exit.to)) {
           // A locked door says why, once per approach (the watcher re-arms on step-out).
           if (exit.lockedText) gameEvents.emit('ui:toast', { text: exit.lockedText });
@@ -61,8 +70,8 @@ export function bind(
         // The fare is the first real money sink (game_components §7).
         // Ledger label: the ride's name from its card ("Vayu Vajra KIA-8 → Whitefield · ₹250").
         const label = exit.card?.split('·')[0].trim() ?? `${exit.transit} fare`;
-        // Boxes ride on a luggage ticket (story 2.4): the fare grows per box carried.
-        const fare = (exit.fare ?? 0) + (exit.farePerBox ? exit.farePerBox * carried() : 0);
+        // Boxes ride on a luggage ticket (story 2.4): the fare grows per box carried; autos double after midnight.
+        const fare = fareAt(exit, minute) + (exit.farePerBox ? exit.farePerBox * carried() : 0);
         if (fare && !StatsManager.getInstance().spend(fare, `fare:${exit.transit}`, label)) return;
         go(exit);
       }),

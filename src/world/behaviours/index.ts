@@ -46,6 +46,7 @@ import { fuelSpots } from './fuelSpots';
 import { metroOpening } from './metroOpening';
 import { guitarNights } from './guitarNights';
 import { sleepEvents } from './sleepEvents';
+import { nightLook } from './nightLook';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -65,6 +66,7 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   metroOpening,
   guitarNights,
   sleepEvents,
+  nightLook,
 };
 
 /**
@@ -73,4 +75,5 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
  * and proceed; we can come back to this") — the baked-frame pipeline stays
  * (ADR-107, T-029). Re-enable by adding it back here.
  */
-export const CORE_BEHAVIOURS: readonly string[] = [];
+// nightLook (ADR-133): every district wears the night between 23:00 and 05:30.
+export const CORE_BEHAVIOURS: readonly string[] = ['nightLook'];

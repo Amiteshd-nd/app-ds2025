@@ -63,6 +63,8 @@ export const TOKEN_INDEX = {
   'sky.evening': 38,     // amber
   'sky.dusk': 11,        // brick red
   'sky.night': 1,        // near-black warm
+  // The night look (ADR-133): a multiply by the palette's one blue keeps blues and cuts reds — moonlight, not murk.
+  'world.night': 15,
   'sky.sun': 44,
   'sky.moon': 47,
   'sky.silhouette': 0,

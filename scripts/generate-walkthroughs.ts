@@ -151,8 +151,13 @@ class Gen {
     // 1b. a rhythm lesson on a trigger here (the flat's guitar)
     const lesson = this.rhythmSetting(this.district, f);
     if (lesson) return this.viaRhythm(lesson.trigger, lesson.set, lesson.index, who, depth);
-    // 2. a sleep-driven timer
+    // 2. a sleep-driven timer, or a district's sleepEvents ("the first sleep after X sets Y", ADR-132/133)
     if (SLEEP_FLAGS[f] !== undefined) return this.viaSleep(f, SLEEP_FLAGS[f], who, depth);
+    const event = [...districts.values()].find((d) => (d.sleepEvents ?? []).some((e: Json) => e.set.includes(f) && this.known.has(e.after)));
+    if (event) {
+      if (event.id !== this.district && !this.travelTo(event.id, who)) return false;
+      return this.viaSleep(f, 1, who, depth);
+    }
     // 3. the phone: a room's signal check, a reel, the camera set
     const signal = (districts.get(this.district)?.signalZones ?? []).find((z: Json) => z.flag === f);
     if (signal) return this.viaSignalZone(signal, f);

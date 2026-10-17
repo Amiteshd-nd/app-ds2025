@@ -104,3 +104,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Two districts may share one map (`green_coach`, `green_coach_home` on `metro_interior`) — each has its own `ride` flag, so a ride never inherits another's `*_ride_over`.
 - An exit's `requiresFlag` is spent on boarding (the auto fare); to gate an exit on a lasting flag use the destination's `unlock` instead (`green_coach_home.unlock: ikea_paid`).
 - The hill flat was imported at 24×16 in P8 and nobody caught it until the user's audit: game px per source px = cols/48, so check a room's door width (≈32 px) before anything else. The flat is 12×8 now.
+
+## 2.5 Ravi, 1 AM (2026-10-17, P14, ADR-133)
+- Judge a full-screen tint by a pixel value, never by eye: an evenly darkened frame looks "normal" in a screenshot. `renderer.snapshot` → draw to a canvas → `getImageData`.
+- Sleep keeps the day before 07:00 — any scene that ends after midnight relies on it.
+- A scene that happens at night starts at its `time` (first HH:MM) in the Playground; anchor it where the night begins (the flat) so the movie plays the whole night.
+

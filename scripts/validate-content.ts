@@ -27,7 +27,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear'];
+const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -215,6 +215,7 @@ export function validateContent(
       if (exit.minutes !== undefined && (!Number.isInteger(exit.minutes) || exit.minutes < 0 || exit.minutes > 600)) {
         add(where, `${d} exit "${exit.zone}" minutes must be a whole number of game minutes, 0–600`);
       }
+      if (exit.onlyAt !== undefined && !['day', 'night'].includes(exit.onlyAt)) add(where, `${d} exit "${exit.zone}" onlyAt must be day or night`);
       if (exit.requiresFlag !== undefined && (typeof exit.requiresFlag !== 'string' || !exit.requiresFlag)) {
         add(where, `${d} exit "${exit.zone}" requiresFlag must be a flag name`);
       }
@@ -225,6 +226,13 @@ export function validateContent(
       }
     }
 
+    for (const n of district.npcs ?? []) if (n.onlyAt !== undefined && !['day', 'night'].includes(n.onlyAt)) add(where, `${d} npc "${n.id}" onlyAt must be day or night`);
+    for (const e of district.sleepEvents ?? []) {
+      if (typeof e.after !== 'string' || !Array.isArray(e.set) || !e.set.length) add(where, `${d} sleepEvent needs an "after" flag and a non-empty "set"`);
+      if (e.wakeAt !== undefined && !(Number.isInteger(e.wakeAt) && e.wakeAt >= 0 && e.wakeAt < 7 * 60)) add(where, `${d} sleepEvent wakeAt must be a minute between midnight and 07:00`);
+      if (e.toast) drawable(where, `${d} sleepEvent toast`, e.toast);
+    }
+    if (district.sleepEvents?.length && !(district.behaviours ?? []).includes('sleepEvents')) add(where, `${d} has sleepEvents but not the "sleepEvents" behaviour`);
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
       if (trigger.action !== undefined && !['sleep', 'workday', 'rhythm'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday | rhythm)`);

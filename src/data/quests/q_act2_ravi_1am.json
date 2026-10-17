@@ -1,0 +1,56 @@
+{
+  "id": "q_act2_ravi_1am",
+  "title": "Ravi, 1 AM",
+  "description": "A message at 00:50. Whitefield is dark, the buses are done, and Ravi is on the shuttle-bay bench.",
+  "chapter": 2,
+  "district": "office_gate",
+  "type": "rescue",
+  "prerequisite_quests": [
+    "q_act2_ikea"
+  ],
+  "objectives": [
+    {
+      "id": "called",
+      "text": "Read Ravi's message",
+      "type": "flag",
+      "target": "ravi_called"
+    },
+    {
+      "id": "trip",
+      "text": "Get to the ITPL gate (night auto or scooter)",
+      "type": "flag",
+      "target": "ravi_night_trip",
+      "destination": "office_gate"
+    },
+    {
+      "id": "find",
+      "text": "Find Ravi at the shuttle bay",
+      "type": "flag",
+      "target": "ravi_found",
+      "destination": "office_gate"
+    },
+    {
+      "id": "decide",
+      "text": "Decide what kind of friend to be",
+      "type": "flag",
+      "target": "ravi_decided",
+      "destination": "office_gate"
+    },
+    {
+      "id": "home",
+      "text": "Get home and sleep",
+      "type": "flag",
+      "target": "ravi_night_over",
+      "destination": "hill_flat"
+    }
+  ],
+  "rewards": {
+    "xp": 30,
+    "xp_branch": "soft_skills"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act2_ravi_done"
+    ]
+  }
+}
