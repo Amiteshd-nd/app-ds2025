@@ -1,37 +1,119 @@
 {
   "id": "act3_three_nights",
-  "district": "TODO",
+  "district": "ward4",
   "act": 3,
   "seq": "3.4",
   "title": "Three Nights, Again",
   "status": "STUB",
-  "player_goal": "Three sleep cycles in the ward.",
-  "design_goal": "Echo of 0.2: each night the phone gets quieter — News: curfew; Chats: Amma 'come home'; UPI: 'Server busy'. Ravi's bed empty on night three.",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §6 (3.4: three sleep cycles in the ward, an echo of 0.2; each night the phone gets quieter — News: curfew; Chats: Amma 'come home'; UPI: 'Server busy.'; Ravi's bed empty on night three, the IV line on the floor), 0.2 'Three Nights' (the hotel's three-night countdown plate, the bed → 07:00), 3.2/3.3 (Ward 4, Sister Lalitha, the isolation door, Ravi after the corridor), ADR-37 (the slow burn: the ward TV, the drains), act4_systems §UPI (UPI alive but failing in 4a, dead in 4b), audio ADR-139/140 (stability bands — first heard in the story here). The user edits the words and the numbers; then P20 builds it.",
+  "time": "18:30 the evening 3.3 ends, then three nights in Ward 4 (sleep → 07:00 each morning, as at the hotel)",
+  "player_goal": "Get through three nights in the ward until the doctor signs.",
+  "design_goal": "An echo of the first week (0.2: three hotel nights, a countdown, the city opening up) played backwards: three ward nights, the same countdown, and the city closing down. Nothing attacks; the phone simply gets quieter each morning, the ward empties, the sounds outside thin out, and on the third morning Ravi's bed is empty. Dread by subtraction.",
   "pacing": [
-    "TODO"
+    "Calm",
+    "Curious",
+    "Tense",
+    "Calm"
   ],
+  "entry": {
+    "from": "hivr_corridor",
+    "spawn": "your_bed",
+    "after": []
+  },
   "cast": [
-    "TODO: npc_bus_nurse"
+    {
+      "npc": "npc_ward_nurse",
+      "tier": 3,
+      "spawn": "nurse_station",
+      "role": "Evening 1: 'Three nights. Then the doctor signs — Thursday.' Day 2: busier, shorter. Day 3, asked about Ravi: 'Moved. Another ward. Don't ask me which.'"
+    },
+    {
+      "npc": "npc_ravi_ward",
+      "tier": 3,
+      "spawn": "ravi_bed",
+      "role": "Day 1: 'They took my phone. For tests, they said.' Day 2: asleep, a cough he didn't have before. Night 3: gone — the bed stripped, the IV line on the floor."
+    }
   ],
   "quests": [
-    "TODO: q_act3_three_nights"
+    "q_act3_three_nights"
   ],
   "beats": [
-    "F1–F3 — hotelNightTimer pattern with phone degradation per night.",
-    "F4 — Empty bed, IV on the floor."
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "18:30, back from the corridor. Sister Lalitha: 'Three nights. Then the doctor signs.' The hotel's countdown plate comes back under the clock: 'Discharge · 3 nights'. Your bed now works (sleep → 07:00), as the hotel's did.",
+      "interact": "dialogue + bed",
+      "flag": "ward_nights_started"
+    },
+    {
+      "id": "F2",
+      "pacing": "Curious",
+      "what": "Morning 1. News: 'BBMP announces night curfew, 10 PM–6 AM, \"as a precaution\"' (the TV ticker says the same). Ravi: 'They took my phone. For tests, they said.' The city through the window is quieter (fewer horns).",
+      "interact": "sleep + phone + dialogue",
+      "flag": "wn_curfew"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "Morning 2. Amma: 'Come home. Please. Your father is asking.' — two replies, both kind, neither a yes. The woman's bed across the aisle is empty. The tapping at the isolation door has stopped. Ravi asleep, a cough he didn't have. The UPI app: 'Server busy. Try again later.' (payments still go through).",
+      "interact": "sleep + chat + phone",
+      "flag": "wn_amma, wn_server_busy"
+    },
+    {
+      "id": "F4",
+      "pacing": "Calm",
+      "what": "Morning 3. Ravi's bed stripped; his IV line on the floor; the green lanyard gone from the locker. Sister Lalitha: 'Moved. Another ward. Don't ask me which.' The signal drops to nothing. The countdown reads 'Discharge · today'. (3.5 Discharge starts here.)",
+      "interact": "sleep + zone + dialogue",
+      "flag": "ravi_gone, act3_three_nights_done"
+    }
   ],
-  "economy": [],
+  "economy": [
+    {
+      "trigger": "UPI 'Server busy' (banner only)",
+      "spend": "nothing new",
+      "canAfford": true
+    }
+  ],
   "exits": [
-    "TODO"
+    {
+      "zone": "ward_exit",
+      "to": "ward4",
+      "transit": "walk",
+      "note": "still 'Not discharged.' — 3.5 opens the door"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "ward_nights_started",
+    "wn_curfew",
+    "wn_amma",
+    "wn_server_busy",
+    "ravi_gone",
+    "act3_three_nights_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "no new place: Ward 4",
+    "a bed zone by your bed (the ward spec), the sleepEvents behaviour on the ward with three nights",
+    "the hotel's countdown plate reused for 'Discharge · N nights'",
+    "an IV line on the floor + a stripped bed for Ravi's spot (one small generated prop)",
+    "News item (curfew), Amma's message with two replies, a UPI 'Server busy' banner, the signal dropping to 0 (all data)",
+    "sound: the ward's stability falls night by night (normal → warning: fewer horns, distant sirens) — the first time the bands are heard in the story"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "after 3.3 the nurse starts the countdown; the ward bed sleeps to 07:00 three times",
+    "morning 1 the curfew headline; morning 2 Amma's message, the empty bed across the aisle, the door silent, UPI 'Server busy'; morning 3 Ravi gone, the IV line on the floor, no signal",
+    "the ward sounds thinner each night (the stability bands)",
+    "the walkthrough bot plays the three nights; the headless run stays green (21 of 21)"
   ],
   "open_questions": [
-    "Does UPI actually fail (spend refused) from here on?"
+    "THE ECHO: draft = the hotel's countdown plate returns as 'Discharge · 3 nights'. Keep, or no plate?",
+    "SLEEPING: draft = the bed works any time after the nurse's line (like the hotel). Or only after 21:00?",
+    "THE PHONE, night by night: draft = (1) News: curfew 10 PM–6 AM; (2) Amma 'Come home. Please. Your father is asking.'; (3) UPI 'Server busy' and the signal drops to none. Keep the order and words?",
+    "UPI: draft = a 'Server busy' banner only — payments still work until Act 4 (act4_systems: UPI fails in 4a, dies in 4b). Or refuse payments from here?",
+    "RAVI between nights: draft = day 1 'They took my phone. For tests, they said.'; day 2 asleep with a new cough. More, or silent?",
+    "THE WARD EMPTIES: draft = the woman's bed across the aisle is empty on morning 2. Keep?",
+    "NIGHT 3: draft = Ravi's bed stripped, the IV line on the floor, the lanyard gone; Sister Lalitha: 'Moved. Another ward. Don't ask me which.' Keep?",
+    "THE ISOLATION DOOR: draft = the tapping stops from morning 2 (the silence is worse). Keep?",
+    "SOUND: draft = the ward's sound thins night by night — night 2 at the stability 'warning' band (fewer horns, distant sirens), the first time the bands are heard in the story. Keep, or hold the bands for Act 4?",
+    "THE END: draft = after morning 3 the scene ends in the ward; 3.5 Discharge starts with Sister Lalitha. OK?"
   ]
 }
