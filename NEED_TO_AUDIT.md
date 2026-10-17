@@ -35,6 +35,8 @@ corepack pnpm movie
 | 15 | P21 · 3.5 "Discharge" (ADR-143) — Act 3 complete | 2026-10-17 | on GitHub | waiting |
 | 13a | HUD settings gear + Playground mute/volume (ADR-141a) | 2026-10-17 | on GitHub | waiting |
 | 16 | Act 4 S1 · the stability dial (ADR-144) | 2026-10-17 | local commit, not pushed | waiting |
+| 17 | Act 4 plan defaults you took (`docs/act4_systems_plan_v1.md` §8) | 2026-10-17 | local commit, not pushed | waiting |
+| 18 | Act 4 drafts 4.0 → 4.end (six stubs, your calls) | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -244,3 +246,63 @@ corepack pnpm dev
   - The 3.4 ward now also looks a little paler on its last two nights (its sound was already "warning").
   - Harsh hunger: half a health point a minute at empty food; sleep gives 15 health and no free food. Nothing happens at 0 health yet (that comes with step S2).
 
+## 17. Act 4 plan: the defaults you took
+- **What:** you answered the plan's eight questions with "default". They're listed here so you can overturn any of them later. Full detail is in `docs/act4_systems_plan_v1.md` §7–8.
+- **Calls to confirm:**
+  - **Build order:** a vertical slice. S1 the dial (built) → draft 4.0 → S2 the run → build 4.0 + 4.1 → S3 the base → 4.2. Fighting, the Pulse Gun, the cast's missions and the endings come after.
+  - **The opening:** the story script's order (walk out of the hospital, the plates in Indiranagar). The chapter board's best moment moves into 4.1: the map changes live, a figure in khaki breaks from behind a car, and there's no tutorial text.
+  - **Money:** UPI flickers through 4.0–4.1 (one shop at triple price, it works on the second try) and dies for good at the hill, where the barter table opens.
+  - **Getting hurt:** the infected hurt you. At 0 health you wake at your base the next morning, with half of what you carried lost and stress +20 (this replaces "game over"). A hit never infects you.
+  - **Played or told:** travel between places is told by cards; the places and every chase are played.
+  - **The cast:** Suresh and the neighbours are at the hill (4.2), Deepa is bitten in 4.3, Kumar's rescue is the first step of the base chain, Priya and Major Rathore are at Cubbon / Vidhana Soudha.
+  - **Barter values (1 = a water bottle):** water 1, food packet 2, canned food 3, cloth 1, bottle 1, flashlight 3, batteries 4, power bank 4, fuel 4, medkit 5, kitchen knife 3, cricket bat 4, UV LED 5, laptop 3, offer letter 0. The guitar is not for trade. Traders ask 1.5× and you haggle them down.
+  - **References:** I need yours for the infected look and the touch buttons before step S2's art. Without them I'll show you options first.
+  - **Engineering calls** (§7): the infected chase at 90 % of your run speed, crouch is the C key, water is an item (not a new stat), and Act 4 counts its own days from the hospital gate.
+
+## 18. Act 4 drafts: 4.0 → 4.end
+- **What:** all six Act 4 scenes are drafted as stubs (`src/data/scenes/act4_*.json`), each with its beats, cast, places and the art it needs. Each question below has my default in its wording. When you've decided, say "take the defaults" or tell me what to change. Nothing here is built.
+- **Check:** the Playground tree, Act 4: each scene's inspector shows its draft. Or open the JSON files.
+- **Things in the drafts that are new, not from the design docs:** a constable checking your ID at the hospital gate, a milk van lift, Suresh back from Mysuru, Karthik already packing, Ravi's voice note "Okay. Okay.", and 'Rameshwara Tiffin Room' as the café's parody name.
+- **4.0 "Janata" (the hospital gate → the walk)** — Get out of Hebbal and start for home — the hill at Ambedkar Nagar, across the city.
+  - **The pocket:** draft = the gate of the fictional Hebbal General and one street outside it, on real Hebbal streets (near the ward's map pin). Keep, or a different spot?
+  - **The scooter:** draft = only the chain lock left in your bay (3.1 wrecked it, or Sameer's bike was collected). Keep?
+  - **The constable:** draft = checks your ID card and the slip, says 'Stay inside after five' — the second person to say 'five'. Keep, or no police at all (only tape)?
+  - **The slot shop:** draft = water ₹60, biscuits ₹90, UPI fails once then works (plan Q3: money flickers until the hill). Keep the prices?
+  - **The walk:** draft = told by a card (the empty flyover, a milk van to Shivajinagar, the walk east), landing in Indiranagar at 16:40. Keep, or play part of it?
+  - **The look:** draft = already at 'warning' (a fifth of the colour gone) on the first morning. Or full colour until five o'clock, so the plates are the first change?
+- **4.1 "Five O'Clock" (Indiranagar, the plates, the first run)** — Get through Indiranagar and out to the main road before dark.
+  - **The ritual:** draft = the News push at 16:58 says 'thank our frontline workers' (no leader, no date); the plates are shown with respect — the horror is only that it calls them. Keep the words?
+  - **The khaki shirt:** draft = an auto driver from Kumar's airport stand (foreshadows Kumar's rescue in 4.3). Or someone the player knew (chai Anna, the Majestic uncle)?
+  - **How many:** draft = the khaki shirt chases; 3–4 others only walk toward the balconies. Keep it to one chaser?
+  - **The balconies:** draft = no one is shown being hurt — a plate drops, a door slams. Keep?
+  - **The first UV lamp:** draft = a purple lamp flickering at a petrol bunk on the main road, unexplained until the hill. Keep?
+  - **Energy with a cast:** draft = you can run in Act 4 even with the cast (3.2's slow walk ends at discharge). Or keep the cast slowing you for this one chase?
+- **4.2 "The Hill" (the first base, UPI dies, barter)** — Get up the hill to the flat, and make it somewhere you can survive the night.
+  - **Owner aunty:** draft = gone ('She went to the temple on Tuesday' — nothing more); her door stays locked. Do we ever learn what happened (an infected aunty later is possible but cruel)? Default: never shown.
+  - **Suresh:** draft = her husband, back from their daughter's in Mysuru, keeping the generator and the lamp; the base protector (may sacrifice himself in the Hold ending). Keep?
+  - **The still figures:** draft = two infected standing facing a wall at the foot of the hill (the first crouch). Or no infected on the hill on day 0 (safe all night)?
+  - **Manju the trader:** draft = the broker from 1.4 runs the barter table on the terrace. Keep?
+  - **The first trade:** draft = laptop → power bank + two food packets. Keep?
+  - **Raju:** the act4 doc names 'Raju, chai wallah, 60s, knows everything' as the info hub; the hill's chai man in the game is Mani, and a Raju already runs the Whitefield Darshini. Draft = Mani is the hill's info hub; the Darshini's Raju is the one who gets trapped (4.3). Keep?
+  - **Deepa:** draft = not seen at the hill on day 0 ('hasn't come home since the lab'); she turns up bitten in 4.3. Keep?
+- **4.3 "Base Chain" (hill → café → Cubbon → Palace → Lalbagh)** — Keep moving from one lit place to the next, keep your people alive, and decide what you're fighting for.
+  - **Scope:** draft = the first Act 4 build ships the hill only (S3 + 4.2); the chain is built one base per phase after that. Keep?
+  - **Direction (drift guard):** the locked base chain walks toward the centre (Indiranagar → Cubbon → Palace → Lalbagh) while the locked fall order sends the infection outward (Hebbal first, Whitefield last) — so you move into places that fell earlier. Draft = every base is a lit island (army/BBMP UV lamps, a café generator) inside a fallen district, and you relocate because of each base's lamp failure plus a story pull (Deepa's medicine, Rathore's camp), not because of the fall. Keep, or reverse the chain?
+  - **The café:** ADR-47 (proposed) says rename 'Rameshwaram Café' (a real brand) → draft 'Rameshwara Tiffin Room'. Accept the parody name?
+  - **Kumar:** draft = save (costs items + risk) → he drives you between bases; walk away → his line ends. Keep?
+  - **Deepa:** draft = bitten on day 2; medicine slows the turn; she survives injured if the medicine run succeeds and her data is needed for Ground Zero. Keep, or can she turn (the cure 'for early exposure only' failing)?
+  - **The five runs:** draft = all five as in the act4 doc, with Priya; the Pulse Gun needs all five. Keep all five?
+  - **The office return (ADR-44):** draft = from the café base; colleagues infected at their desks; the AMR-07 log is a clue. Who do you recognise — Sameer? Default: Sameer is NOT infected (he leaves the city with his family in 4.0's chats); Prakash is.
+  - **Former NPCs:** draft = chai Anna (airport), Prakash, Vikram, the HIVR guard (the first Host). Ananya, Ravi, Amma never. Anyone else on or off the list?
+- **4.5 "Ravi"** — Find Ravi.
+  - **The branches:** draft = supported → HIVR, working with Meera, he gives you the calibration notes; not supported → his mother's bedside, he gives you nothing (or his ID). Keep, or swap (bedside as the kinder ending)?
+  - **Ravi's family (design decisions open #8):** draft = his mother is ill, Appa is far away; the subplot resolves only by 'Tell Appa I picked up.' Keep?
+  - **Meera:** draft = seen once, through glass, one line. Does she survive to the Ground Zero ending?
+  - **Both branches in the first build:** draft = yes (the bot plays 'supported', a test covers the other). Keep?
+- **4.6 "Tunnel" (the endings)** — Get your people through the tunnel to where you chose to go.
+  - **The endings (ADR-52, proposed):** draft = three — Evacuate / Hold the hill / Ground Zero — as in the act4 doc. Accept three?
+  - **The tunnel for all three:** draft = every ending starts in the tunnel; they split at Majestic. Or the tunnel is the Ground Zero route only?
+  - **Rathore's betrayal:** draft = only in Evacuate, only if trust is low. Keep?
+  - **Suresh's sacrifice:** draft = in Hold, he stays at the gate. Can it be avoided?
+  - **Ananya's fate:** draft = with you if the relationship is resolved; otherwise a photo she left at the bandstand; never infected. Keep?
+  - **After the ending:** draft = 'My Bangalore' card, then the title (no New Game+). Keep?

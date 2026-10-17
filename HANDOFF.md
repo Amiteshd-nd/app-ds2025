@@ -7,7 +7,7 @@ Bangalore Times (the docs' working title: NAMMA OUTBREAK). **Acts 0–3 are buil
 - **The user's audit list is `NEED_TO_AUDIT.md`** (repo root) — they refer to it for every audit. Every build that stops for audit adds its row + check steps + calls to confirm there; approvals move rows to "already approved".
 
 ## 1. The very next step
-**2026-10-17 later: the plan is approved ("default") and S1 "the dial" is BUILT (ADR-144, `NEED_TO_AUDIT.md` #16, local commit). Next (plan §6): D1 = draft 4.0 "Janata" as a STUB (the hospital gate pocket; UPI flickers until the hill; travel by cards; the phone's Act 4 state is 4.0's data), stop for the user. Then S2 "the run".**
+**2026-10-17 later: the plan is approved ("default") and S1 "the dial" is BUILT (ADR-144, `NEED_TO_AUDIT.md` #16, local commit). **ALL of Act 4 is now drafted as stubs (4.0 → 4.6, T-068); every call is in `NEED_TO_AUDIT.md` #17–18 — the user audits later. Next: wait for their answers or "take the defaults"; then S2 "the run" (plan §6), then build 4.0 + 4.1.**
 
 The brief the plan was written from:
 The user's last words: *"Okay, write whatever you need to and we shall proceed"* — about this:

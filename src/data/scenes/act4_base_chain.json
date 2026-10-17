@@ -1,38 +1,173 @@
 {
   "id": "act4_base_chain",
-  "district": "TODO",
+  "district": "(several)",
   "act": 4,
   "seq": "4.3",
   "title": "Base Chain",
   "status": "STUB",
-  "player_goal": "Hill → Rameshwaram Café (Uncle) → Cubbon bandstand (Ananya, if strained resolved) → Bangalore Palace → Lalbagh.",
-  "design_goal": "Each base: scavenge radius, 4 recipes, resource clock, relocation trigger as the district falls (fall order: Hebbal → Yelahanka → Yeshwanthpur → Majestic → MG Road/Cubbon → Indiranagar → Whitefield).",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.3+: Hill → Rameshwaram Café (Uncle) → Cubbon bandstand (Ananya, if strained resolved) → Bangalore Palace → Lalbagh; each base: scavenge radius, 4 recipes, resource clock, relocation trigger as the district falls), act4 doc §1 (Kumar's rescue, Deepa bitten early, Priya the fight-back ally, Major Rathore at Vidhana Soudha, Raju trapped), §8 (the five supply runs → the Pulse Gun), §9 (the ending axis), infected doc §3 (UV lamps fail once per base → relocation) and §5 (former NPCs), chapter_board_merge §B3 (underground stations and the Vidhana Soudha checkpoint are military UV camps) and §B5 (Kumar save-or-walk-away; Deepa's medicine run into the hospital of Act 3), ADR-44 (office return: infected colleagues, the HIVR data in the server room), ADR-47 (Rameshwaram Café is a real brand → parody), landmarks doc §1, Act 4 systems plan v1 (approved 'default', 2026-10-17) §3.9 and §8 Q6. This is the spine of Act 4: one stub with one section per base; each base becomes its own scene when it is built.",
+  "time": "Act 4 days 1 → ~16",
+  "player_goal": "Keep moving from one lit place to the next, keep your people alive, and decide what you're fighting for.",
+  "design_goal": "The macro loop of Act 4: each base is a meso loop (scavenge → craft → trade → sleep → the lamp fails → move) that brings one character arc and one place you knew. Relocation pulls the player toward the centre — where the army's UV camps are — while the fall order pushes the infection outward: every base is a lit island inside a fallen district. The ending choice (Karthik / Suresh / Priya) is built from what happens along the chain.",
   "pacing": [
-    "TODO"
+    "Calm",
+    "Engaged",
+    "Tense",
+    "Reward"
   ],
+  "entry": {
+    "from": "act4_the_hill",
+    "spawn": "hill_base",
+    "after": [
+      "hill_base_set"
+    ]
+  },
   "cast": [
-    "TODO: npc_uncle",
-    "TODO: npc_ananya",
-    "TODO: npc_shanthamma"
+    {
+      "npc": "npc_auto_kannada",
+      "tier": 3,
+      "spawn": "(road between hill and Indiranagar)",
+      "role": "KUMAR (the airport's Kannada auto driver, now named). Trapped in his auto, surrounded. Save him (costs items, a risk) → he becomes transport between bases (fast travel through danger). Walk away → his line ends. Namma reputation makes it easier: he honks the signal you know."
+    },
+    {
+      "npc": "npc_deepa",
+      "tier": 3,
+      "spawn": "hill",
+      "role": "NEW. Deepa, HIVR contract lab assistant, the hill neighbour, Vikram's shift partner. Comes back bitten on day 2. Medicine slows her turning; her lab knowledge is a treatment for early exposure only (the turned are never curable, ADR-34). Her medicine run is into Hebbal General — Ward 4, ruined."
+    },
+    {
+      "npc": "npc_uncle",
+      "tier": 3,
+      "spawn": "cafe",
+      "role": "NEW (the Café regular from the NPC roster). Holds the Indiranagar café base: a generator, steel tumblers, a shutter that half-closes. Informant."
+    },
+    {
+      "npc": "npc_ananya",
+      "tier": 3,
+      "spawn": "bandstand",
+      "role": "At the Cubbon bandstand base if the relationship was not strained or has been resolved; otherwise you hear she is there and she isn't (she left a photo). Never infected (hard rule)."
+    },
+    {
+      "npc": "npc_priya",
+      "tier": 3,
+      "spawn": "vidhana_soudha_camp",
+      "role": "NEW. Priya, a software engineer turned fighter at the Vidhana Soudha camp: wants to take the fight to HIVR. The Ground Zero voice. Your closest ally if trust is built."
+    },
+    {
+      "npc": "npc_rathore",
+      "tier": 3,
+      "spawn": "vidhana_soudha_camp",
+      "role": "NEW. Major Rathore (fictional individual, not an institution), checkpoint commander: gives the five supply runs; his engineer builds the Pulse Gun. Morally grey: may betray the group in the Evacuate ending."
+    },
+    {
+      "npc": "npc_darshini_raju",
+      "tier": 2,
+      "spawn": "whitefield darshini",
+      "role": "Raju (the Whitefield Darshini, 2.x) — the Darshini shelter, the first barter hub after Manju; later trapped → a rescue mission."
+    },
+    {
+      "npc": "former NPCs (infected)",
+      "tier": 2,
+      "spawn": "their own places",
+      "role": "Kept in their own clothes and props, name tag faint up close (ADR-34): chai Anna at the airport (kettle), office colleagues on the office return (ADR-44), Vikram in the Malleswaram PG, the HIVR guard as the first Host. Namma-rep ones hesitate 1 s."
+    }
   ],
   "quests": [
-    "TODO: q_act4_base_chain"
+    "q_act4_kumar",
+    "q_act4_deepa_medicine",
+    "q_act4_supply_runs",
+    "q_act4_raju",
+    "q_act4_office_return",
+    "q_act4_relocate_*"
   ],
   "beats": [
-    "TODO per base"
+    {
+      "id": "B1",
+      "pacing": "Calm",
+      "what": "BASE 1 — THE HILL (days 1–4). Scavenge runs to the colony and the Whitefield pockets (still 'warning'); Deepa comes back bitten (day 2) → the medicine run to Hebbal General (Ward 4 ruined: the beds, Ravi's stripped bed, the isolation room open, infected in scrubs; the ward boy's chair). Night 4: the hill's lamp fails (scripted) → the hill turns for a night → relocate.",
+      "interact": "base loop + investigate/deliver",
+      "flag": "base_hill_done"
+    },
+    {
+      "id": "B2",
+      "pacing": "Engaged",
+      "what": "On the road west: Kumar trapped in his auto (save → transport ally; walk away → line closes). BASE 2 — THE INDIRANAGAR CAFÉ ('Rameshwara Tiffin Room', parody, ADR-47) with Uncle (days 5–7): the office return from here (ADR-44: infected colleagues at their desks; the server room's AMR-07 log — your own code in the paper trail, a clue). Raju's rescue at the Darshini. The café's generator runs dry → relocate.",
+      "interact": "dilemma + base loop",
+      "flag": "base_cafe_done"
+    },
+    {
+      "id": "B3",
+      "pacing": "Tense",
+      "what": "BASE 3 — CUBBON BANDSTAND (days 8–11), on the army's lamp line next to the Vidhana Soudha camp and the underground station (a military UV camp, safe). Ananya (by relationship state). Major Rathore's five supply runs begin: 1 medical supplies (Hebbal General), 2 radio equipment (a telecom tower, level 2), 3 battery cores ('Reliable Digital', parody, level 2), 4 UV emitter parts (HIVR outer campus, level 3), 5 calibration data (Dr. Krishnamurthy's house, Malleswaram, ground zero). Priya joins the runs. The survivor group's argument starts: Karthik (evacuate) vs Priya (fight) vs Suresh (hold).",
+      "interact": "base loop + 5 deliver/investigate runs",
+      "flag": "base_cubbon_done"
+    },
+    {
+      "id": "B4",
+      "pacing": "Tense",
+      "what": "BASE 4 — BANGALORE PALACE grounds (days 12–14): the engineer assembles the Pulse Gun overnight (20 shots; recharge only at a powered safe zone). Run 5 into Malleswaram: Vikram's PG (patient zero, in his raincoat). The Palace's lamp line is cut → relocate.",
+      "interact": "base loop + Pulse Gun",
+      "flag": "base_palace_done"
+    },
+    {
+      "id": "B5",
+      "pacing": "Reward",
+      "what": "BASE 5 — LALBAGH GLASS HOUSE (day 15+), barricaded glass, UV-lit: the last base. The group decides (the ending axis): this is where 4.5 (Ravi) and 4.6 (the tunnel) start from.",
+      "interact": "choice",
+      "flag": "base_lalbagh_set"
+    }
   ],
-  "economy": [],
+  "economy": [
+    {
+      "item": "barter (all bases)",
+      "price": 0,
+      "note": "plan Q7 values; traders ask 1.5×"
+    },
+    {
+      "item": "per base night",
+      "price": 0,
+      "note": "1 food + 1 water + 1 fuel; the scripted lamp failure once per base"
+    }
+  ],
   "exits": [
-    "TODO"
+    {
+      "zone": "(per base)",
+      "to": "the next base",
+      "transit": "walk / Kumar's auto if saved",
+      "note": "relocation is a card + a played arrival"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "kumar_saved",
+    "kumar_left",
+    "deepa_bitten",
+    "deepa_medicine",
+    "raju_saved",
+    "office_clue_amr07",
+    "supply_run_1..5",
+    "pulse_gun",
+    "priya_trust",
+    "karthik_trust",
+    "suresh_trust",
+    "base_*_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "pockets: the Indiranagar café, the Hebbal General ward ruined (objects by flag over Ward 4), the office ruined (ADR-44), Cubbon bandstand at night with the army lamp line, the Vidhana Soudha checkpoint (silhouette only, no real insignia), a telecom tower yard, 'Reliable Digital', HIVR outer campus, a Malleswaram lane + Vikram's PG, Bangalore Palace grounds (silhouette), Lalbagh Glass House (silhouette)",
+    "NPC sheets: Kumar named (existing auto driver), Deepa (new + bitten variant), Uncle, Priya, Major Rathore, the engineer; infected variants of chai Anna, office colleagues, Vikram, the HIVR guard (Host)",
+    "the Pulse Gun (item + muzzle flash), UV lamps, generators",
+    "S4 systems: melee stun, decoys, smoke, packs + Degraded/Evolved/Host, relocation, the Maps zone overlay"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "each base is its own built scene with its own audit; this stub is split base by base"
   ],
   "open_questions": [
-    "How many bases ship in the first Act 4 slice?"
+    "SCOPE: draft = the first Act 4 build ships the hill only (S3 + 4.2); the chain is built one base per phase after that. Keep?",
+    "DIRECTION (drift guard): the locked base chain walks toward the centre (Indiranagar → Cubbon → Palace → Lalbagh) while the locked fall order sends the infection outward (Hebbal first, Whitefield last) — so you move into places that fell earlier. Draft = every base is a lit island (army/BBMP UV lamps, a café generator) inside a fallen district, and you relocate because of each base's lamp failure plus a story pull (Deepa's medicine, Rathore's camp), not because of the fall. Keep, or reverse the chain?",
+    "THE CAFÉ: ADR-47 (proposed) says rename 'Rameshwaram Café' (a real brand) → draft 'Rameshwara Tiffin Room'. Accept the parody name?",
+    "KUMAR: draft = save (costs items + risk) → he drives you between bases; walk away → his line ends. Keep?",
+    "DEEPA: draft = bitten on day 2; medicine slows the turn; she survives injured if the medicine run succeeds and her data is needed for Ground Zero. Keep, or can she turn (the cure 'for early exposure only' failing)?",
+    "THE FIVE RUNS: draft = all five as in the act4 doc, with Priya; the Pulse Gun needs all five. Keep all five?",
+    "THE OFFICE RETURN (ADR-44): draft = from the café base; colleagues infected at their desks; the AMR-07 log is a clue. Who do you recognise — Sameer? Default: Sameer is NOT infected (he leaves the city with his family in 4.0's chats); Prakash is.",
+    "FORMER NPCs: draft = chai Anna (airport), Prakash, Vikram, the HIVR guard (the first Host). Ananya, Ravi, Amma never. Anyone else on or off the list?"
   ]
 }

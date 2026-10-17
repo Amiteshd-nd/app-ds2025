@@ -1,37 +1,147 @@
 {
   "id": "act4_the_hill",
-  "district": "hill_flat",
+  "district": "ambedkar_nagar_hill",
   "act": 4,
   "seq": "4.2",
   "title": "The Hill",
   "status": "STUB",
-  "player_goal": "Reach Ambedkar Nagar; make the room a base.",
-  "design_goal": "Owner Aunty gone; room ransacked; guitar, induction, bed = first base; barter replaces UPI; the kitchen table is the crafting bench.",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.2: reach Ambedkar Nagar; owner aunty gone; room ransacked; guitar, induction, bed = first base; the barter table replaces UPI; the crafting bench = the kitchen table that didn't fit [P]), act4 doc §1 (Suresh = the hill landlord, owner aunty's husband, the base's protector; Deepa a hill neighbour; Karthik a neighbour, the evacuate voice), §7 (the four recipes), chapter_board_merge §B2 (4b: UPI dies), Act 4 systems plan v1 (approved 'default', 2026-10-17) §3.6–3.9 (harsh survival, barter as negotiation, base stock, generator + UV, sleep only in a base) and §8 Q3 (UPI dies for good here), Q6 (the cast at the hill), Q7 (barter values), landmarks doc §3.1 (reveals #20–22). Needs S3 (the base) before it can be built.",
+  "time": "Act 4 day 0, 21:30 → the morning of day 1",
+  "player_goal": "Get up the hill to the flat, and make it somewhere you can survive the night.",
+  "design_goal": "The housing ladder pays off: the room you signed for in 1.4, furnished in 2.4, becomes the first base. Money dies on screen (UPI's last 'Server busy' becomes 'This service is no longer available'), and a different economy starts at a neighbour's table. Every object the player bought in Acts 1–2 gets a second use: the table is a bench, the guitar a lure and a comfort, the scooter's fuel feeds a generator. Progress + Reward after 4.1's Tense (ADR-24).",
   "pacing": [
-    "TODO"
+    "Tense",
+    "Calm",
+    "Curious",
+    "Reward"
   ],
+  "entry": {
+    "from": "card_walk_east",
+    "spawn": "hill_foot",
+    "after": [
+      "act4_five_done"
+    ]
+  },
   "cast": [
-    "TODO: npc_manju (trader)"
+    {
+      "npc": "npc_suresh",
+      "tier": 3,
+      "spawn": "terrace_gate",
+      "role": "NEW. Suresh, 50s, owner aunty's husband, the landlord (he was at their daughter's in Mysuru until the curfew). Strict, frightened, kind underneath. Has kept the colony's diesel generator and one UV lamp running on the terrace. On aunty: 'She went to the temple on Tuesday.' Nothing more. Gives you the first water and rice, and a rule: 'No noise after five. No lights facing the road.'"
+    },
+    {
+      "npc": "npc_manju",
+      "tier": 2,
+      "spawn": "manju_table",
+      "role": "Manju the broker (1.4) is now a trader at a folding table on the terrace: the barter table. Takes things, not money: 'Your phone is a brick now, boss. What else have you got?' Haggles like the negotiation mini-game, in item value."
+    },
+    {
+      "npc": "npc_neighbour_leela",
+      "tier": 2,
+      "spawn": "leela_door",
+      "role": "Leela (existing neighbour) stays behind her grille; trades a candle for the news you bring; tells you Deepa from the end flat 'hasn't come home since the lab'."
+    },
+    {
+      "npc": "npc_karthik",
+      "tier": 2,
+      "spawn": "stairs",
+      "role": "NEW. Karthik, 20s, the startup-dreamer neighbour, already packing: 'The army's evacuating from Vidhana Soudha. We should go.' The evacuate voice (endings, 4.6)."
+    },
+    {
+      "npc": "npc_hill_chai",
+      "tier": 2,
+      "spawn": "chai_stall_shut",
+      "role": "Mani's chai stall is shut and chained; Mani himself sits behind it on a crate, and tells you which lanes are quiet. (He stays Mani — see the Raju question.)"
+    }
   ],
   "quests": [
-    "TODO: q_act4_the_hill"
+    "q_act4_the_hill"
   ],
   "beats": [
-    "F1 — Hill pocket in its _ruined variant (ADR-105).",
-    "F2 — Base UI: barter table, 4 recipes, resource clock."
+    {
+      "id": "F1",
+      "pacing": "Tense",
+      "what": "21:30, the foot of the hill in the dark: the terraces silent, one purple light at the top (the UV lamp on the terrace). Two figures standing still in the lower lane facing a wall; you have to crouch past (S2: crouch + noise). The first use of crouch, again without text — the purple light is the goal.",
+      "interact": "stealth",
+      "flag": "hill_climbed"
+    },
+    {
+      "id": "F2",
+      "pacing": "Calm",
+      "what": "The flat: the door forced, the room ransacked — drawers out, the mattress slit, the fridge open and empty. What's still there: the bed, the induction stove, the guitar (if bought) behind the door, and the kitchen table that didn't fit, still folded against the wall. Owner aunty's slippers outside her door; her door locked.",
+      "interact": "walk + objects",
+      "flag": "flat_found"
+    },
+    {
+      "id": "F3",
+      "pacing": "Curious",
+      "what": "Suresh on the terrace with the generator and the UV lamp: who he is, aunty ('She went to the temple on Tuesday'), the rules (no noise after five, no lights to the road). He explains the lamp in one line: 'They don't come into the purple. The BBMP put them up at the camps.' He gives water + rice (base stock starts: food 2, water 2, fuel 1) and asks for fuel: your scooter's petrol is the generator's now (the fuel counter).",
+      "interact": "dialogue",
+      "flag": "met_suresh"
+    },
+    {
+      "id": "F4",
+      "pacing": "Curious",
+      "what": "UPI dies: the phone's UPI app now says 'This service is no longer available.' (the last money moment; the wallet shows its number in grey). Manju at his folding table: the barter table opens (negotiation in item value; plan Q7 values). First trade suggested: your laptop for a power bank and two food packets.",
+      "interact": "phone + barter",
+      "flag": "upi_dead"
+    },
+    {
+      "id": "F5",
+      "pacing": "Reward",
+      "what": "Base setup: unfold the kitchen table → the crafting bench (the four recipes appear, the first one craftable with what's in the flat: a bandage from the torn bedsheet + water); the bed = the only place you can sleep in Act 4; the stock shelf shows food / water / fuel. Sleep: the night uses 1 of each; the generator hums; the morning is Act 4 day 1.",
+      "interact": "objects + sleep",
+      "flag": "hill_base_set"
+    }
   ],
-  "economy": [],
+  "economy": [
+    {
+      "item": "laptop → power bank + 2 food packets",
+      "price": 0,
+      "note": "barter (act4_value laptop 3 ≈ power bank 4? Manju asks 1.5× and haggles)"
+    },
+    {
+      "item": "base stock per night",
+      "price": 0,
+      "note": "1 food + 1 water + 1 fuel"
+    }
+  ],
   "exits": [
-    "TODO"
+    {
+      "zone": "hill_foot",
+      "to": "(base chain, 4.3)",
+      "transit": "walk",
+      "note": "scavenge runs out from the base; relocation is 4.3"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "hill_climbed",
+    "flat_found",
+    "met_suresh",
+    "upi_dead",
+    "hill_base_set"
+  ],
   "assets_needed": [
-    "TODO"
+    "the hill and the flat in a ransacked state (objects by flag over the existing maps, not new maps): forced door, drawers out, slit mattress, open fridge, aunty's slippers",
+    "terrace props: a diesel generator, a UV lamp (purple glow, ADR-25 Lights2D-style glow sprite), Manju's folding table",
+    "NPC sheets: Suresh, Karthik (new); Manju, Leela, Mani reused",
+    "the UPI app's 'no longer available' state; the wallet greyed",
+    "S3 systems: base block for the hill, the bench, stock, generator + UV radius, barter table, the four recipes, harsh sleep rule"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "the foot of the hill needs a crouch past two still figures; the terrace's purple light is a safe zone",
+    "the flat is ransacked, the table is a bench, the bed sleeps only here",
+    "UPI dies on screen; the barter table trades in item values",
+    "a night uses the stock and moves Act 4 to day 1",
+    "the walkthrough bot plays it with `crouch_to`, `barter`, `craft` (S3); the headless run stays green"
   ],
   "open_questions": [
-    "Base chain scope for the first Act 4 build: hill only?"
+    "OWNER AUNTY: draft = gone ('She went to the temple on Tuesday' — nothing more); her door stays locked. Do we ever learn what happened (an infected aunty later is possible but cruel)? Default: never shown.",
+    "SURESH: draft = her husband, back from their daughter's in Mysuru, keeping the generator and the lamp; the base protector (may sacrifice himself in the Hold ending). Keep?",
+    "THE STILL FIGURES: draft = two infected standing facing a wall at the foot of the hill (the first crouch). Or no infected on the hill on day 0 (safe all night)?",
+    "MANJU THE TRADER: draft = the broker from 1.4 runs the barter table on the terrace. Keep?",
+    "THE FIRST TRADE: draft = laptop → power bank + two food packets. Keep?",
+    "RAJU: the act4 doc names 'Raju, chai wallah, 60s, knows everything' as the info hub; the hill's chai man in the game is Mani, and a Raju already runs the Whitefield Darshini. Draft = Mani is the hill's info hub; the Darshini's Raju is the one who gets trapped (4.3). Keep?",
+    "DEEPA: draft = not seen at the hill on day 0 ('hasn't come home since the lab'); she turns up bitten in 4.3. Keep?"
   ]
 }

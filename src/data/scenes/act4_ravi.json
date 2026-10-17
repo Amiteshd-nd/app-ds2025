@@ -1,37 +1,106 @@
 {
   "id": "act4_ravi",
-  "district": "TODO",
+  "district": "(by branch)",
   "act": 4,
   "seq": "4.5",
   "title": "Ravi",
   "status": "STUB",
-  "player_goal": "HIVR, or his mother's bedside.",
-  "design_goal": "State by ravi_supported. No fight.",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.x 'Ravi': HIVR or his mother's bedside; state by `ravi_supported`; no fight), §2 (Ravi's arc: peer → broken → flashback → mirror; never a villain, never a boss), 2.5 (`ravi_supported`: you sat with him / gave money / left), 3.1–3.4 (the crash, the ward, 'Appa called. I answered.', 'Moved. Another ward.'), outbreak_origin §2 (Ravi caused the breach, he is not infected — that is why he can tell it), design decisions open #8 (does Ravi's family subplot resolve), infected doc §5 (Ravi is never infected without an explicit story decision), act4 doc §9 (Ravi's state changes Ground Zero's final scene).",
+  "time": "Act 4, after Lalbagh is set (about day 15)",
+  "player_goal": "Find Ravi.",
+  "design_goal": "The mirror: Ravi is what the player could have been — a newcomer the city ground down, who made one human mistake. No fight, no infected in the room. What the player did for him in 2.5 decides where he is and what he can give back. Calm after the chain's Tense (ADR-24).",
   "pacing": [
-    "TODO"
+    "Curious",
+    "Calm",
+    "Reward"
   ],
+  "entry": {
+    "from": "act4_base_chain",
+    "spawn": "(by branch)",
+    "after": [
+      "base_lalbagh_set"
+    ]
+  },
   "cast": [
-    "TODO: npc_ravi",
-    "TODO: npc_meera"
+    {
+      "npc": "npc_ravi",
+      "tier": 3,
+      "spawn": "(by branch)",
+      "role": "Alive, not infected, exhausted, clear-headed for the first time in the game."
+    },
+    {
+      "npc": "npc_meera",
+      "tier": 3,
+      "spawn": "hivr_quarantine (supported branch)",
+      "role": "Dr. Meera Krishnamurthy, seen once, through glass, working. Not a villain: 'I wanted it to heal people.'"
+    },
+    {
+      "npc": "npc_ravi_amma",
+      "tier": 2,
+      "spawn": "bedside (not-supported branch)",
+      "role": "NEW. Ravi's mother, ill (not infected), asleep."
+    }
   ],
   "quests": [
-    "TODO: q_act4_ravi"
+    "q_act4_ravi"
   ],
   "beats": [
-    "TODO"
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "A message gets through (one bar of signal on the Lalbagh glass roof): from a number you don't know — 'It's Ravi. Don't reply.' and a location.",
+      "interact": "phone",
+      "flag": "ravi_msg"
+    },
+    {
+      "id": "F2a",
+      "pacing": "Calm",
+      "what": "IF `ravi_supported`: HIVR's quarantine block (the outer campus, lit, guarded by the army). Ravi has been working with Meera since 'Moved. Another ward.' He tells you what happened in his words, once, and gives you the calibration notes (counts as supply run 5 if not done) and asks one thing: 'Tell Appa I picked up.'",
+      "interact": "dialogue",
+      "flag": "ravi_met_hivr"
+    },
+    {
+      "id": "F2b",
+      "pacing": "Calm",
+      "what": "IF NOT: a rented room in Yelahanka, his mother asleep. He walked out of quarantine to be with her. He doesn't want to talk about HIVR. He makes you tea on a gas stove. When you leave, he says: 'You were right not to stay that night. I wouldn't have.' You leave with nothing — or with his ID card (a pass through one checkpoint).",
+      "interact": "dialogue",
+      "flag": "ravi_met_home"
+    },
+    {
+      "id": "F3",
+      "pacing": "Reward",
+      "what": "The way back: a card. The phone has a voice note from Ravi you can play — the APPA ringtone sound, then his voice: 'Okay. Okay.'",
+      "interact": "card + phone",
+      "flag": "act4_ravi_done"
+    }
   ],
   "economy": [],
   "exits": [
-    "TODO"
+    {
+      "zone": "(by branch)",
+      "to": "lalbagh base",
+      "transit": "card"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "ravi_msg",
+    "ravi_met_hivr",
+    "ravi_met_home",
+    "act4_ravi_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "HIVR quarantine block interior (lit, glass), or a small rented room in Yelahanka",
+    "Ravi's mother (sheet)",
+    "Meera seen through glass (sheet)",
+    "a voice-note entry in Chats"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "the branch follows `ravi_supported`; no fight, no infected; the voice note plays"
   ],
   "open_questions": [
-    "Both branches in the first build?"
+    "THE BRANCHES: draft = supported → HIVR, working with Meera, he gives you the calibration notes; not supported → his mother's bedside, he gives you nothing (or his ID). Keep, or swap (bedside as the kinder ending)?",
+    "RAVI'S FAMILY (design decisions open #8): draft = his mother is ill, Appa is far away; the subplot resolves only by 'Tell Appa I picked up.' Keep?",
+    "MEERA: draft = seen once, through glass, one line. Does she survive to the Ground Zero ending?",
+    "BOTH BRANCHES IN THE FIRST BUILD: draft = yes (the bot plays 'supported', a test covers the other). Keep?"
   ]
 }

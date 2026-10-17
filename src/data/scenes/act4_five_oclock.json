@@ -1,38 +1,124 @@
 {
   "id": "act4_five_oclock",
-  "district": "TODO",
+  "district": "indiranagar_lane",
   "act": 4,
   "seq": "4.1",
   "title": "Five O'Clock",
   "status": "STUB",
-  "player_goal": "Walk home through Indiranagar at 16:58.",
-  "design_goal": "Plates and spoons on every balcony; the sound rolls; things come out of side lanes. First infected encounter is a run, not a fight (infected_behaviour_v1).",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.1: walking home through Indiranagar at 16:58; plates and spoons on every balcony; the sound rolls; things come out of side lanes toward it; the ritual is the trigger; the first encounter is a run, not a fight [C,F]), ADR-10 (respect: no mockery of the ritual, no real leaders or dates), chapter_board_merge §B1 (merged by plan Q2: the map re-renders live — desaturate, green fog, music to heartbeat — a figure in auto-driver khaki sprints from behind a car, no tutorial text, the player must figure out RUN), Act 4 systems plan v1 (approved 'default', 2026-10-17) §3.2–3.5 (run costs energy, crouch, hide; infected numbers ADR-49; encounters from cover; fail-forward), infected doc §5 (former NPCs keep their clothes), act4 doc §1 (Kumar = npc_auto_kannada; his stand colleague). Needs step S2 (the run) before it can be built.",
+  "time": "Act 4 day 0 — 16:40 to about 17:10",
+  "player_goal": "Get through Indiranagar and out to the main road before dark.",
+  "design_goal": "Mechanic reveal #19 (run / energy / noise / hiding) with no tutorial text. The kindest sound in the city — a whole street banging plates together for the doctors — is what calls them. The player learns 'noise = danger' by watching it happen, then has to run with a cast on one wrist. Escapable, never comfortable: one chase, short, survivable; the khaki shirt tells them who these people were.",
   "pacing": [
-    "TODO"
+    "Calm",
+    "Curious",
+    "Tense",
+    "Tense",
+    "Reward"
   ],
+  "entry": {
+    "from": "card_janata_walk",
+    "spawn": "lane_top",
+    "after": [
+      "act4_janata_done"
+    ]
+  },
   "cast": [
-    "TODO: infected_*"
+    {
+      "npc": "npc_balcony_*",
+      "tier": 1,
+      "spawn": "balconies",
+      "role": "NEW (crowd on balconies, data like the ambient crowd but fixed): a family, a grandmother with a ladle, two kids, a man in a vest with a thali, a woman filming on her phone. At 16:58 they come out; at 17:00 they bang. When the first figure appears they stop, one by one, and go in. Some don't see in time — no harm shown, a plate drops, a door shuts."
+    },
+    {
+      "npc": "inf_khaki",
+      "tier": 2,
+      "spawn": "behind_car",
+      "role": "NEW infected (Fresh): a man in an auto driver's khaki shirt, the same shirt as Kumar's stand at the airport (a name tag faintly visible up close: the stand's number). Breaks from behind a parked car and chases — the first chase of the game."
+    },
+    {
+      "npc": "inf_fresh_*",
+      "tier": 1,
+      "spawn": "side_lanes",
+      "role": "NEW infected (Fresh), 3–4: office clothes, a delivery jacket, a cricket jersey — walking out of side lanes toward the balconies' noise, not at you, until you are loud."
+    }
   ],
   "quests": [
-    "TODO: q_act4_five_oclock"
+    "q_act4_five_oclock"
   ],
   "beats": [
-    "F1 — Indiranagar pocket at dusk.",
-    "F2 — 17:00 ritual trigger.",
-    "F3 — The run (chase mission type)."
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "16:40, a tree-lined Indiranagar residential lane, low sun, every gate shut. A cat, a scooter under a cover, a water tanker abandoned with its tap dripping. Quiet; the city sound bed already thin.",
+      "interact": "walk",
+      "flag": "five_lane_in"
+    },
+    {
+      "id": "F2",
+      "pacing": "Curious",
+      "what": "16:58: doors open on the balconies; people step out with steel plates, spoons, a ladle, a thali. A grandmother says to nobody: 'For the doctors.' A phone notification on yours (it got through): News — 'At 5 PM, thank our frontline workers from your balconies.'",
+      "interact": "watch",
+      "flag": "plates_out"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "17:00: the banging starts and rolls down the lane and across the city (a huge noise event: everyone's `noise` peak). The map re-renders live — a `stabilityIf` flag drops the lane to 'infected' (≈50): colour drains, green at the edges, music to heartbeat. From the side lanes, figures walk out toward the sound. One by one the balconies see them and go quiet.",
+      "interact": "watch (the player is free; standing still and crouching is safe for now)",
+      "flag": "plates_started"
+    },
+    {
+      "id": "F4",
+      "pacing": "Tense",
+      "what": "The khaki shirt breaks from behind a parked car — growl (0.5 s), then the chase. No text. The player must run (energy pips appear the first time they run), break line of sight, or hide (an open shutter, an auto). Being touched costs health and stress and gives a second to keep running. Reaching the lane's far end (the main road) ends it.",
+      "interact": "chase (S2)",
+      "flag": "first_run_done"
+    },
+    {
+      "id": "F5",
+      "pacing": "Reward",
+      "what": "The main road, dusk: empty in both directions, a UV street lamp flickering purple at a petrol bunk (the first UV light, unexplained). Relief music. Card: the long walk east in the dark along the old airport road, every balcony shut, a single bike passing without lights. It lands at the foot of the hill at 21:30 (4.2). If caught (health 0): the fail-forward card lands at the same place, 'You don't remember the way back.'",
+      "interact": "exit → card",
+      "flag": "act4_five_done"
+    }
   ],
   "economy": [],
   "exits": [
-    "TODO"
+    {
+      "zone": "main_road",
+      "to": "(card) → ambedkar_nagar_hill",
+      "transit": "walk",
+      "note": "card_walk_east; lands 21:30 Act 4 day 0; fail-forward lands at the same spot"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "five_lane_in",
+    "plates_out",
+    "plates_started",
+    "first_run_done",
+    "act4_five_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "a new pocket: an Indiranagar residential lane with balconies on both sides (real street via OSM, e.g. a cross road off 12th Main), ~36×24 tiles, side-lane mouths, parked cars as cover, an open shutter and an abandoned auto as hide spots",
+    "balcony NPCs (sitting/standing on balcony tiles), plates-and-spoons animation frames (2 frames: up/down)",
+    "infected sheets: the khaki shirt + 3–4 Fresh (ADR-28 recipe over existing sheets; references from the user first, plan §5)",
+    "audio: the plates-and-spoons wave (original, many layered metal clangs rolling in from a distance), the growl, chase music (exists as a placeholder)",
+    "map spec `zones` (level, cover, hide) — S2 data",
+    "card_walk_east + the fail-forward card"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "at 16:58 the balconies fill; at 17:00 the noise wave plays and the lane's stability drops live",
+    "the khaki shirt chases; running, line of sight, hiding and the lane end all work; no tutorial text",
+    "being caught sends you on with the fail-forward card; reaching the road plays the relief and the card",
+    "the walkthrough bot plays it with `flee` (S2); the headless run stays green and deterministic"
   ],
   "open_questions": [
-    "Infected sprites: pipeline?"
+    "THE RITUAL: draft = the News push at 16:58 says 'thank our frontline workers' (no leader, no date); the plates are shown with respect — the horror is only that it calls them. Keep the words?",
+    "THE KHAKI SHIRT: draft = an auto driver from Kumar's airport stand (foreshadows Kumar's rescue in 4.3). Or someone the player knew (chai Anna, the Majestic uncle)?",
+    "HOW MANY: draft = the khaki shirt chases; 3–4 others only walk toward the balconies. Keep it to one chaser?",
+    "THE BALCONIES: draft = no one is shown being hurt — a plate drops, a door slams. Keep?",
+    "THE FIRST UV LAMP: draft = a purple lamp flickering at a petrol bunk on the main road, unexplained until the hill. Keep?",
+    "ENERGY WITH A CAST: draft = you can run in Act 4 even with the cast (3.2's slow walk ends at discharge). Or keep the cast slowing you for this one chase?"
   ]
 }

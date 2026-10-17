@@ -1,37 +1,136 @@
 {
   "id": "act4_janata",
-  "district": "TODO",
+  "district": "hebbal_gate",
   "act": 4,
   "seq": "4.0",
   "title": "Janata",
   "status": "STUB",
-  "player_goal": "Walk out into a locked-down city.",
-  "design_goal": "Shutters, police tape, a lone BMTC bus parked diagonally; scooter gone; phone: UPI dead, Maps cached, Chats one tick.",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.0: walk out; locked down, not empty; shutters, police tape, a lone BMTC bus parked diagonally; the scooter gone from hospital parking; phone: UPI dead, Maps cached, Chats one tick [C]), ADR-10 (a locked-down city, Janata Curfew memory, treated with respect, no real dates or leaders), chapter_board_merge §B2 (4a inflation, barricaded shops selling through a slot) + Act 4 systems plan v1 (approved 'default', 2026-10-17) §8 Q3 (UPI flickers until the hill) and Q5 (travel told by cards), profile doc §4 (the ID card as a lockdown pass), 3.5's leaving card (holds on CURFEW until this pocket exists), ADR-117 (real streets via OSM; the hospital stays fictional). The user edits the words and numbers; then it is built after S2.",
+  "time": "Act 4 day 0 — Thursday, 08:30, straight after 3.5's leaving card",
+  "player_goal": "Get out of Hebbal and start for home — the hill at Ambedkar Nagar, across the city.",
+  "design_goal": "The city is not empty, it is shut: people behind grilles and balconies, nobody on the road. Every system the player learned in Acts 0–2 answers wrongly — UPI says 'Server busy', Maps shows yesterday, Chats deliver one tick, no auto stops, the bus is parked across the road. No infected are seen: 4.0 is dread, 4.1 is the run. Calm surface, Curious underneath (ADR-24).",
   "pacing": [
-    "TODO"
+    "Calm",
+    "Curious",
+    "Curious",
+    "Calm"
   ],
+  "entry": {
+    "from": "card_leaving_ward",
+    "spawn": "hospital_steps",
+    "after": [
+      "act3_done"
+    ],
+    "note": "card_leaving_ward gets a `then` to this pocket and sets `act4` (Act 4 day 0 starts here)"
+  },
   "cast": [
-    "TODO"
+    {
+      "npc": "npc_gate_constable",
+      "tier": 2,
+      "spawn": "barricade",
+      "role": "NEW. A constable at a steel barricade with a register. Checks your ID card (the 'Aadhaar-ish' game ID from the starter kit) and the discharge slip: 'Where are you going?' — 'Home.' — 'Then go straight there. Stay inside after five.' The second person to say 'five' without saying why."
+    },
+    {
+      "npc": "npc_slot_shop",
+      "tier": 2,
+      "spawn": "slot_shop",
+      "role": "NEW. A medical-and-provisions store with its shutter three-quarters down; a hand through the gap. Water ₹60 (was ₹20), biscuits ₹90. UPI: 'Server busy' first, then it goes through. 'Cash is better. Nobody has cash.'"
+    },
+    {
+      "npc": "npc_balcony_watcher",
+      "tier": 1,
+      "spawn": "balcony_1",
+      "role": "NEW. An old man on a first-floor balcony with a steel tumbler of coffee who watches you walk the whole length of the street and says nothing until you look up: 'You're from the hospital?' — and goes inside."
+    }
   ],
   "quests": [
-    "TODO: q_act4_janata"
+    "q_act4_janata"
   ],
   "beats": [
-    "F1 — Hospital exterior pocket (TODO).",
-    "F2 — Phone degradation states (UPI dead, Maps cached)."
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "The hospital steps, 08:30. Bright, quiet. The ambulance bay empty. The two-wheeler parking: a row of bikes under dust covers — your bay has only the chain lock on the ground (the wreck was taken, or Sameer's bike was collected; the line follows 3.1's flag). The phone in your bag: 7 % battery.",
+      "interact": "zone + object",
+      "flag": "janata_out"
+    },
+    {
+      "id": "F2",
+      "pacing": "Curious",
+      "what": "The phone, opened for the first time in Act 4 (phone: Act 4 state as data — 'network' token): UPI 'Server busy · try later'; Maps opens on a grey 'Showing saved map' banner with yesterday's pins; Chats — your messages to Amma show one tick; Calls 'Network busy'; News: the last push, 'CURFEW: stay indoors. Essential services only.'; Reels: the last clip loops. Battery drains while it is open.",
+      "interact": "phone",
+      "flag": "janata_phone_seen"
+    },
+    {
+      "id": "F3",
+      "pacing": "Curious",
+      "what": "The street: shutters down on every shop, police tape across a lane mouth, a BMTC bus parked diagonally across two lanes with its doors open and nobody in it (step in: the ticket machine's screen still on), a dog asleep in the middle of the road, laundry still on a line. The constable at the barricade checks your ID and slip (F3a). People only behind things: grilles, balconies, a half-open door that closes as you pass.",
+      "interact": "walk + dialogue",
+      "flag": "janata_pass_checked"
+    },
+    {
+      "id": "F4",
+      "pacing": "Curious",
+      "what": "The slot shop (optional, the first Act 4 purchase): the price is three times, UPI fails once and goes through on the second try (4a inflation, plan Q3). Water ₹60, biscuits ₹90. This is the last place money works until the hill.",
+      "interact": "dialogue + pay",
+      "flag": "janata_bought"
+    },
+    {
+      "id": "F5",
+      "pacing": "Calm",
+      "what": "The end of the street: no autos at the stand (one auto with its hood tied down). A card: the walk — the Hebbal flyover empty in both directions, Mekhri Circle, a milk van that gives you a lift as far as Shivajinagar ('Don't tell anyone I stopped'), the long walk east, a man hosing a temple's steps who stops to watch you pass. It lands in Indiranagar at 16:40 (4.1).",
+      "interact": "exit → card",
+      "flag": "act4_janata_done"
+    }
   ],
-  "economy": [],
+  "economy": [
+    {
+      "item": "water (slot shop)",
+      "price": 60,
+      "note": "4a inflation: 3× the Act 1 price; UPI fails once first"
+    },
+    {
+      "item": "biscuits (slot shop)",
+      "price": 90
+    }
+  ],
   "exits": [
-    "TODO"
+    {
+      "zone": "street_end",
+      "to": "(card) → indiranagar_lane",
+      "transit": "walk",
+      "note": "card_janata_walk; lands at 16:40 Act 4 day 0"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "act4",
+    "janata_out",
+    "janata_phone_seen",
+    "janata_pass_checked",
+    "janata_bought",
+    "act4_janata_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "a new pocket: Hebbal General's gate and the street outside (fictional hospital on real Hebbal streets via OSM, ADR-117) — ~36×24 tiles, shutters, a barricade, a lane with police tape, the bus parked diagonally, the two-wheeler parking",
+    "props: a BMTC-style bus at an angle (parody livery), police tape, a steel barricade, a slot shop shutter at three-quarters, dust-covered bikes, a chain lock",
+    "NPC sheets: the constable, the shop hand (or reuse a shopkeeper sheet behind the shutter), the balcony man",
+    "the phone's Act 4 state as data: UPI busy-then-ok rule, Maps 'saved map' banner, one-tick chats, 'Network busy' calls, the curfew push, the looping reel",
+    "card_janata_walk (text over a still of the empty flyover)",
+    "stability: this pocket starts at Act 4 day 0 = 85 on the curve; a `stabilityIf` keeps it at 'warning' (70) so the look is already a little drained"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "3.5's leaving card lands here at 08:30 with `act4` set (Act 4 day 0)",
+    "the phone shows the Act 4 state in every app; battery drains while open",
+    "the constable checks the ID card; the slot shop sells at 3× with UPI failing once",
+    "no infected anywhere; the street end plays the walk card into 4.1",
+    "the walkthrough bot plays it; the headless run stays green"
   ],
   "open_questions": [
-    "Which hospital, really (Bowring? Baptist?)"
+    "THE POCKET: draft = the gate of the fictional Hebbal General and one street outside it, on real Hebbal streets (near the ward's map pin). Keep, or a different spot?",
+    "THE SCOOTER: draft = only the chain lock left in your bay (3.1 wrecked it, or Sameer's bike was collected). Keep?",
+    "THE CONSTABLE: draft = checks your ID card and the slip, says 'Stay inside after five' — the second person to say 'five'. Keep, or no police at all (only tape)?",
+    "THE SLOT SHOP: draft = water ₹60, biscuits ₹90, UPI fails once then works (plan Q3: money flickers until the hill). Keep the prices?",
+    "THE WALK: draft = told by a card (the empty flyover, a milk van to Shivajinagar, the walk east), landing in Indiranagar at 16:40. Keep, or play part of it?",
+    "THE LOOK: draft = already at 'warning' (a fifth of the colour gone) on the first morning. Or full colour until five o'clock, so the plates are the first change?"
   ]
 }
