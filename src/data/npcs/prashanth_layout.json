@@ -4,41 +4,47 @@
     "name": "Shanthamma",
     "tier": 3,
     "dialogue": "dlg_shanthamma",
-    "sheet": "npc_shanthamma"
+    "sheet": "npc_shanthamma",
+    "voice": "adult_f"
   },
   {
     "id": "npc_gate_owner",
     "name": "PG Owner",
     "tier": 2,
     "dialogue": "dlg_pg_token",
-    "sheet": "npc_gate_owner"
+    "sheet": "npc_gate_owner",
+    "voice": "adult_m"
   },
   {
     "id": "npc_neighbour_leela",
     "name": "Leela Aunty",
     "tier": 2,
     "dialogue": "dlg_neighbour_leela",
-    "sheet": "npc_neighbour_leela"
+    "sheet": "npc_neighbour_leela",
+    "voice": "adult_f"
   },
   {
     "id": "npc_coliving_rhea",
     "name": "Rhea (HiveNest)",
     "tier": 2,
     "dialogue": "dlg_coliving",
-    "sheet": "npc_coliving_rhea"
+    "sheet": "npc_coliving_rhea",
+    "voice": "adult_f"
   },
   {
     "id": "npc_darshini_raju",
     "name": "Raju (Darshini)",
     "tier": 2,
     "dialogue": "dlg_darshini",
-    "sheet": "npc_darshini_raju"
+    "sheet": "npc_darshini_raju",
+    "voice": "adult_m"
   },
   {
     "id": "npc_provision_basava",
     "name": "Basavaraj (Provisions)",
     "tier": 2,
     "dialogue": "dlg_provision",
-    "sheet": "npc_provision_basava"
+    "sheet": "npc_provision_basava",
+    "voice": "adult_m"
   }
 ]

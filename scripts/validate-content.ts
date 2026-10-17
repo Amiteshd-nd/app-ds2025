@@ -13,7 +13,7 @@
  *
  * Exit 0 = content is sound. 1 = at least one problem.
  */
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT, TEMPERAMENTS } from '../src/utils/constants.ts';
@@ -1335,6 +1335,51 @@ export function validateCards(files: JsonFile[], districts: Json[], stills: Set<
   return problems;
 }
 
+/**
+ * Audio (ADR-139): every token has its files and an allowed licence (CC0 /
+ * user-recording / original), every bed layer, place source and card cue names
+ * a token, every place has a bed, footstep surfaces exist, LICENSES.md lists
+ * every file, and the total stays under 15 MB.
+ */
+export function validateAudio(manifest: Json, beds: Json, districts: Json[], cards: Json[], files: Map<string, number>, licences: string): string[] {
+  const problems: string[] = [];
+  const tokens = (manifest?.tokens ?? {}) as Record<string, Json>;
+  const add = (m: string) => problems.push(m);
+  for (const [t, e] of Object.entries(tokens)) {
+    const w = `audio/manifest.json: ${t}`;
+    if (!/^a\.(bed|music|sfx|ui|phone|hud|sting|uncanny)\.[a-z0-9_.]+$/.test(t)) add(`${w} is not a token name (a.<group>.<name>)`);
+    if (!['music', 'ambience', 'sfx', 'ui', 'voice'].includes(e.bus)) add(`${w} bus must be music, ambience, sfx, ui or voice`);
+    if (!['CC0', 'user-recording', 'original'].includes(e.licence)) add(`${w} licence "${e.licence}" is not allowed (CC0, user-recording, original only)`);
+    if (!['placeholder', 'final'].includes(e.tier)) add(`${w} tier must be placeholder or final`);
+    if (!(typeof e.volume === 'number' && e.volume >= 0 && e.volume <= 1)) add(`${w} volume must be 0–1`);
+    if (!Array.isArray(e.files)) { add(`${w} needs a files list`); continue; }
+    if (!e.files.length && !e.uncanny) add(`${w} has no files`);
+    if (e.uncanny && !tokens[e.uncanny.of]) add(`${w} is uncanny of "${e.uncanny.of}", which is not a token`);
+    for (const f of e.files) {
+      if (!files.has(`${f}.wav`) && !(files.has(`${f}.ogg`) && files.has(`${f}.m4a`))) add(`${w} file "${f}" is not in src/assets/audio (run pnpm audio)`);
+      if (!licences.includes(`\`${f}.wav\``) && !licences.includes(`\`${f}.ogg\``)) add(`${w} file "${f}" has no row in src/assets/audio/LICENSES.md`);
+    }
+  }
+  const tok = (t: string, where: string) => { if (!tokens[t]) add(`${where} names audio token "${t}", which is not in the manifest`); };
+  const layerList = (where: string, list: Json[] | undefined) => { for (const l of list ?? []) tok(`a.bed.${l.bed}`, where); };
+  for (const [id, d] of Object.entries((beds?.districts ?? {}) as Record<string, Json>)) {
+    if (!districts.some((x) => x.id === id)) add(`audio/beds.json: district "${id}" does not exist`);
+    for (const t of ['dawn', 'day', 'evening', 'night']) layerList(`audio/beds.json: ${id}.${t}`, d[t]);
+    if (d.surface) tok(`a.sfx.player.step.${d.surface}`, `audio/beds.json: ${id}.surface`);
+  }
+  for (const [k, list] of Object.entries((beds?.transit ?? {}) as Record<string, Json[]>)) layerList(`audio/beds.json: transit.${k}`, list);
+  layerList('audio/beds.json: workday', beds?.workday);
+  for (const band of Object.values((beds?.bands ?? {}) as Record<string, Json>)) layerList('audio/beds.json: bands', band.add);
+  for (const d of districts) {
+    if (!beds?.districts?.[d.id]?.day) add(`audio/beds.json: district "${d.id}" has no day bed — every place needs one (no silent place)`);
+    for (const s of d.audioSources ?? []) tok(s.token, `districts.json: district "${d.id}" audioSources`);
+  }
+  for (const c of cards) for (const pnl of c.panels ?? []) if (pnl.cue) tok(pnl.cue, `cards/${c.id}`);
+  const bytes = [...files.values()].reduce((n, b) => n + b, 0);
+  if (bytes > 15 * 1024 * 1024) add(`src/assets/audio is ${(bytes / 1048576).toFixed(1)} MB — over the 15 MB budget`);
+  return problems;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
   const dialogue = readJsonDir('dialogue');
   const quests = readJsonDir('quests');
@@ -1393,6 +1438,15 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const cardsOf = (dlg: Json | undefined): string[] => Object.values((dlg?.nodes ?? {}) as Record<string, Json>).flatMap((n) => [n, ...((n.choices ?? []) as Json[])]).map((x) => x?.effect?.card).filter((c): c is string => typeof c === 'string');
   const dialogueById = new Map(dialogue.map((f) => [f.json?.id, f.json]));
   const npcCards = Object.fromEntries(npcs.flatMap((f) => (Array.isArray(f.json) ? f.json : [])).map((n: Json) => [n.id, cardsOf(dialogueById.get(n.dialogue))]));
+  const audioDir = join(assetsDir, 'audio');
+  const audioFiles = new Map<string, number>(existsSync(audioDir) ? readdirSync(audioDir).filter((f) => /\.(wav|ogg|m4a)$/.test(f)).map((f) => [f, statSync(join(audioDir, f)).size] as [string, number]) : []);
+  problems.push(...validateAudio(
+    JSON.parse(readFileSync(join(dataDir, 'audio/manifest.json'), 'utf8')),
+    JSON.parse(readFileSync(join(dataDir, 'audio/beds.json'), 'utf8')),
+    districts, cardFiles.map((f) => f.json), audioFiles,
+    existsSync(join(audioDir, 'LICENSES.md')) ? readFileSync(join(audioDir, 'LICENSES.md'), 'utf8') : '',
+  ));
+
   const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])), npcCards });
   problems.push(...world.problems);
   for (const w of world.warnings) console.warn(`  ⚠ ${w}`);

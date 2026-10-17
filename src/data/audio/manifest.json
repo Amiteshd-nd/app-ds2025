@@ -1,0 +1,3296 @@
+{
+ "$comment": "Every sound in the game is a token here (audio plan v1 §3, ADR-139). files = basenames in src/assets/audio/ (variants picked at random); bus = music | ambience | sfx | ui | voice; tier placeholder | final; licence CC0 | user-recording | original. Rendered by `pnpm audio` from `source`.",
+ "tokens": {
+  "a.bed.airport_interior": {
+   "files": [
+    "bed_airport_interior"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.announcement_distant": {
+   "files": [
+    "bed_announcement_distant"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.bike_single": {
+   "files": [
+    "bed_bike_single"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.birds_crows": {
+   "files": [
+    "bed_birds_crows"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.city_traffic": {
+   "files": [
+    "bed_city_traffic"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.construction": {
+   "files": [
+    "bed_construction"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.crickets": {
+   "files": [
+    "bed_crickets"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.cubbon_park": {
+   "files": [
+    "bed_cubbon_park"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.darshini": {
+   "files": [
+    "bed_darshini"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.dogs_distant": {
+   "files": [
+    "bed_dogs_distant"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.drip": {
+   "files": [
+    "bed_drip"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.flies": {
+   "files": [
+    "bed_flies"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.fm_radio_window": {
+   "files": [
+    "bed_fm_radio_window"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.generator": {
+   "files": [
+    "bed_generator"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.groans_sporadic": {
+   "files": [
+    "bed_groans_sporadic"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.heartbeat_bed": {
+   "files": [
+    "bed_heartbeat_bed"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.hill_wind": {
+   "files": [
+    "bed_hill_wind"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.hotel_room": {
+   "files": [
+    "bed_hotel_room"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.lab_corridor": {
+   "files": [
+    "bed_lab_corridor"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.metro_coach": {
+   "files": [
+    "bed_metro_coach"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.metro_platform": {
+   "files": [
+    "bed_metro_platform"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.office": {
+   "files": [
+    "bed_office"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.people_murmur": {
+   "files": [
+    "bed_people_murmur"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.pg_room": {
+   "files": [
+    "bed_pg_room"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.pressure_cooker": {
+   "files": [
+    "bed_pressure_cooker"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.rain": {
+   "files": [
+    "bed_rain"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.shop_interior": {
+   "files": [
+    "bed_shop_interior"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.silence_room_tone": {
+   "files": [
+    "bed_silence_room_tone"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.sirens_distant": {
+   "files": [
+    "bed_sirens_distant"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.temple_bell": {
+   "files": [
+    "bed_temple_bell"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.tube_light_hum": {
+   "files": [
+    "bed_tube_light_hum"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.vayu_vajra_bus": {
+   "files": [
+    "bed_vayu_vajra_bus"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.vendor_calls": {
+   "files": [
+    "bed_vendor_calls"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.ward": {
+   "files": [
+    "bed_ward"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.bed.wind": {
+   "files": [
+    "bed_wind"
+   ],
+   "bus": "ambience",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/bed.json",
+   "sampleRate": 11025
+  },
+  "a.hud.autosave_tick": {
+   "files": [
+    "hud_autosave_tick"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/hud.json"
+  },
+  "a.hud.location_card_in": {
+   "files": [
+    "hud_location_card_in"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/hud.json"
+  },
+  "a.hud.meter_warning": {
+   "files": [
+    "hud_meter_warning"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/hud.json"
+  },
+  "a.hud.money_in": {
+   "files": [
+    "hud_money_in"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/hud.json"
+  },
+  "a.hud.money_out": {
+   "files": [
+    "hud_money_out"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/hud.json"
+  },
+  "a.hud.objective_done": {
+   "files": [
+    "hud_objective_done"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/hud.json"
+  },
+  "a.hud.objective_new": {
+   "files": [
+    "hud_objective_new"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/hud.json"
+  },
+  "a.music.base_night": {
+   "files": [
+    "music_base_night"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/base_night.json"
+  },
+  "a.music.calm": {
+   "files": [
+    "music_calm"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/calm.json"
+  },
+  "a.music.chase": {
+   "files": [
+    "music_chase"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/chase.json"
+  },
+  "a.music.curious": {
+   "files": [
+    "music_curious"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/curious.json"
+  },
+  "a.music.ending_evacuate": {
+   "files": [
+    "music_ending_evacuate"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/ending_evacuate.json"
+  },
+  "a.music.ending_groundzero": {
+   "files": [
+    "music_ending_groundzero"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/ending_groundzero.json"
+  },
+  "a.music.ending_hold": {
+   "files": [
+    "music_ending_hold"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/ending_hold.json"
+  },
+  "a.music.evening": {
+   "files": [
+    "music_evening"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/evening.json"
+  },
+  "a.music.relief": {
+   "files": [
+    "music_relief"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/relief.json"
+  },
+  "a.music.tense": {
+   "files": [
+    "music_tense"
+   ],
+   "bus": "music",
+   "loop": true,
+   "volume": 0.45,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "songs/tense.json"
+  },
+  "a.phone.app_unlock_pop": {
+   "files": [
+    "phone_app_unlock_pop"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.buzz_long": {
+   "files": [
+    "phone_buzz_long"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.buzz_short": {
+   "files": [
+    "phone_buzz_short"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.camera_shutter": {
+   "files": [
+    "phone_camera_shutter"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.chat_in": {
+   "files": [
+    "phone_chat_in"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.chat_out": {
+   "files": [
+    "phone_chat_out"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.low_battery": {
+   "files": [
+    "phone_low_battery"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.maps_reroute": {
+   "files": [
+    "phone_maps_reroute"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.no_signal": {
+   "files": [
+    "phone_no_signal"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.ringtone": {
+   "files": [
+    "phone_ringtone"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.slide_down": {
+   "files": [
+    "phone_slide_down"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.slide_up": {
+   "files": [
+    "phone_slide_up"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.tap": {
+   "files": [
+    "phone_tap"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.upi_fail": {
+   "files": [
+    "phone_upi_fail"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.phone.upi_success": {
+   "files": [
+    "phone_upi_success"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/phone.json"
+  },
+  "a.sfx.combat.base_enter_safe": {
+   "files": [
+    "sfx_combat_base_enter_safe"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.block": {
+   "files": [
+    "sfx_combat_block"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 8,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.charge_low": {
+   "files": [
+    "sfx_combat_charge_low"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.escape_resolve": {
+   "files": [
+    "sfx_combat_escape_resolve"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.heartbeat": {
+   "files": [
+    "sfx_combat_heartbeat"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.hit_pipe": {
+   "files": [
+    "sfx_combat_hit_pipe"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 12,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.hit_plate": {
+   "files": [
+    "sfx_combat_hit_plate"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 12,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.pulse_charge": {
+   "files": [
+    "sfx_combat_pulse_charge"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 4,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.pulse_empty": {
+   "files": [
+    "sfx_combat_pulse_empty"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.pulse_fire": {
+   "files": [
+    "sfx_combat_pulse_fire"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 10,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.combat.swing": {
+   "files": [
+    "sfx_combat_swing"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 6,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/combat.json"
+  },
+  "a.sfx.infected.breath": {
+   "files": [
+    "sfx_infected_breath"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.breath_ruined": {
+   "files": [
+    "sfx_infected_breath_ruined"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.chase_breath": {
+   "files": [
+    "sfx_infected_chase_breath"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.fall": {
+   "files": [
+    "sfx_infected_fall"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.groan": {
+   "files": [
+    "sfx_infected_groan"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.groan_ruined": {
+   "files": [
+    "sfx_infected_groan_ruined"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.hit": {
+   "files": [
+    "sfx_infected_hit"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.recover": {
+   "files": [
+    "sfx_infected_recover"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.shriek": {
+   "files": [
+    "sfx_infected_shriek"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.sniff": {
+   "files": [
+    "sfx_infected_sniff"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.step_drag": {
+   "files": [
+    "sfx_infected_step_drag"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.infected.stun": {
+   "files": [
+    "sfx_infected_stun"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.08,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/infected.json"
+  },
+  "a.sfx.npc.bleep.adult_f": {
+   "files": [
+    "sfx_npc_bleep_adult_f"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.08,
+   "cooldown": 55,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.bleep.adult_m": {
+   "files": [
+    "sfx_npc_bleep_adult_m"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.08,
+   "cooldown": 55,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.bleep.elder": {
+   "files": [
+    "sfx_npc_bleep_elder"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.08,
+   "cooldown": 55,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.bleep.kid": {
+   "files": [
+    "sfx_npc_bleep_kid"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.08,
+   "cooldown": 55,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.crowd_murmur": {
+   "files": [
+    "sfx_npc_crowd_murmur"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.4,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.greet": {
+   "files": [
+    "sfx_npc_greet"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.06,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.laugh": {
+   "files": [
+    "sfx_npc_laugh"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.06,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.shout": {
+   "files": [
+    "sfx_npc_shout"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.06,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.sig.appa_ringtone": {
+   "files": [
+    "sfx_npc_sig_appa_ringtone"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.sig.bangles": {
+   "files": [
+    "sfx_npc_sig_bangles"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.sig.chai_whistle": {
+   "files": [
+    "sfx_npc_sig_chai_whistle"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.sig.kumar_horn": {
+   "files": [
+    "sfx_npc_sig_kumar_horn"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.sig.ladle": {
+   "files": [
+    "sfx_npc_sig_ladle"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.sig.rathore_static": {
+   "files": [
+    "sfx_npc_sig_rathore_static"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.npc.vendor_call": {
+   "files": [
+    "sfx_npc_vendor_call_1",
+    "sfx_npc_vendor_call_2",
+    "sfx_npc_vendor_call_3",
+    "sfx_npc_vendor_call_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.45,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/npc.json"
+  },
+  "a.sfx.player.bump_wall": {
+   "files": [
+    "sfx_player_bump_wall"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 3,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.crouch_down": {
+   "files": [
+    "sfx_player_crouch_down"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.drink": {
+   "files": [
+    "sfx_player_drink"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.drop": {
+   "files": [
+    "sfx_player_drop"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 4,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.eat": {
+   "files": [
+    "sfx_player_eat"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.hurt": {
+   "files": [
+    "sfx_player_hurt"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.land": {
+   "files": [
+    "sfx_player_land"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 6,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.low_energy_yawn": {
+   "files": [
+    "sfx_player_low_energy_yawn"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.pickup": {
+   "files": [
+    "sfx_player_pickup"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.run_breath": {
+   "files": [
+    "sfx_player_run_breath"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.sleep_in": {
+   "files": [
+    "sfx_player_sleep_in"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.stand_up": {
+   "files": [
+    "sfx_player_stand_up"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.asphalt": {
+   "files": [
+    "sfx_player_step_asphalt_1",
+    "sfx_player_step_asphalt_2",
+    "sfx_player_step_asphalt_3",
+    "sfx_player_step_asphalt_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.concrete": {
+   "files": [
+    "sfx_player_step_concrete_1",
+    "sfx_player_step_concrete_2",
+    "sfx_player_step_concrete_3",
+    "sfx_player_step_concrete_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.grass": {
+   "files": [
+    "sfx_player_step_grass_1",
+    "sfx_player_step_grass_2",
+    "sfx_player_step_grass_3",
+    "sfx_player_step_grass_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.gravel": {
+   "files": [
+    "sfx_player_step_gravel_1",
+    "sfx_player_step_gravel_2",
+    "sfx_player_step_gravel_3",
+    "sfx_player_step_gravel_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.metal": {
+   "files": [
+    "sfx_player_step_metal_1",
+    "sfx_player_step_metal_2",
+    "sfx_player_step_metal_3",
+    "sfx_player_step_metal_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.mud": {
+   "files": [
+    "sfx_player_step_mud_1",
+    "sfx_player_step_mud_2",
+    "sfx_player_step_mud_3",
+    "sfx_player_step_mud_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.puddle": {
+   "files": [
+    "sfx_player_step_puddle_1",
+    "sfx_player_step_puddle_2",
+    "sfx_player_step_puddle_3",
+    "sfx_player_step_puddle_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.tile": {
+   "files": [
+    "sfx_player_step_tile_1",
+    "sfx_player_step_tile_2",
+    "sfx_player_step_tile_3",
+    "sfx_player_step_tile_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.step.wood": {
+   "files": [
+    "sfx_player_step_wood_1",
+    "sfx_player_step_wood_2",
+    "sfx_player_step_wood_3",
+    "sfx_player_step_wood_4"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.05,
+   "cooldown": 90,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.stress_tick": {
+   "files": [
+    "sfx_player_stress_tick"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.player.wake_up": {
+   "files": [
+    "sfx_player_wake_up"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/player.json"
+  },
+  "a.sfx.pulse.festival_drums": {
+   "files": [
+    "sfx_pulse_festival_drums"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.5,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/pulse.json"
+  },
+  "a.sfx.pulse.glass_break_distant": {
+   "files": [
+    "sfx_pulse_glass_break_distant"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.35,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/pulse.json"
+  },
+  "a.sfx.pulse.pandal_music": {
+   "files": [
+    "sfx_pulse_pandal_music"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.5,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/pulse.json"
+  },
+  "a.sfx.pulse.protest_chant": {
+   "files": [
+    "sfx_pulse_protest_chant"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.5,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/pulse.json"
+  },
+  "a.sfx.pulse.shutter_slam": {
+   "files": [
+    "sfx_pulse_shutter_slam"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 8,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/pulse.json"
+  },
+  "a.sfx.pulse.tanker_queue": {
+   "files": [
+    "sfx_pulse_tanker_queue"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.5,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/pulse.json"
+  },
+  "a.sfx.vehicle.auto.horn": {
+   "files": [
+    "sfx_vehicle_auto_horn"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 9,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.auto.idle": {
+   "files": [
+    "sfx_vehicle_auto_idle"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 7,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.auto.pass": {
+   "files": [
+    "sfx_vehicle_auto_pass"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.bus.bell": {
+   "files": [
+    "sfx_vehicle_bus_bell"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.bus.door_hiss": {
+   "files": [
+    "sfx_vehicle_bus_door_hiss"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.bus.horn": {
+   "files": [
+    "sfx_vehicle_bus_horn"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 10,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.bus.idle": {
+   "files": [
+    "sfx_vehicle_bus_idle"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 8,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.bus.pass": {
+   "files": [
+    "sfx_vehicle_bus_pass"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.cycle_bell": {
+   "files": [
+    "sfx_vehicle_cycle_bell"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.metro.approach": {
+   "files": [
+    "sfx_vehicle_metro_approach"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.metro.chime": {
+   "files": [
+    "sfx_vehicle_metro_chime"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.metro.depart": {
+   "files": [
+    "sfx_vehicle_metro_depart"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.metro.doors": {
+   "files": [
+    "sfx_vehicle_metro_doors"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.scooter.brake": {
+   "files": [
+    "sfx_vehicle_scooter_brake"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 6,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.scooter.fuel_low": {
+   "files": [
+    "sfx_vehicle_scooter_fuel_low"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.scooter.idle": {
+   "files": [
+    "sfx_vehicle_scooter_idle"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 6,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.scooter.pass": {
+   "files": [
+    "sfx_vehicle_scooter_pass"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.scooter.rev": {
+   "files": [
+    "sfx_vehicle_scooter_rev"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 10,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.scooter.stall": {
+   "files": [
+    "sfx_vehicle_scooter_stall"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 4,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.scooter.start": {
+   "files": [
+    "sfx_vehicle_scooter_start"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 8,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.siren": {
+   "files": [
+    "sfx_vehicle_siren"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.vehicle.tanker": {
+   "files": [
+    "sfx_vehicle_tanker"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.05,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/vehicle.json"
+  },
+  "a.sfx.world.atm": {
+   "files": [
+    "sfx_world_atm"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.bag_zip": {
+   "files": [
+    "sfx_world_bag_zip"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.cash_count": {
+   "files": [
+    "sfx_world_cash_count"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 1,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.coin": {
+   "files": [
+    "sfx_world_coin"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.crows_startle": {
+   "files": [
+    "sfx_world_crows_startle"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.door.glass": {
+   "files": [
+    "sfx_world_door_glass"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 3,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.door.metal": {
+   "files": [
+    "sfx_world_door_metal"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.door.wood": {
+   "files": [
+    "sfx_world_door_wood"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 3,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.dosa_sizzle": {
+   "files": [
+    "sfx_world_dosa_sizzle"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.gate_creak": {
+   "files": [
+    "sfx_world_gate_creak"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 4,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.generator.run": {
+   "files": [
+    "sfx_world_generator_run"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 8,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.generator.stall": {
+   "files": [
+    "sfx_world_generator_stall"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 4,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.generator.start": {
+   "files": [
+    "sfx_world_generator_start"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 9,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.glass_tap": {
+   "files": [
+    "sfx_world_glass_tap"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.guitar.c": {
+   "files": [
+    "sfx_world_guitar_c"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 9,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.guitar.d": {
+   "files": [
+    "sfx_world_guitar_d"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 9,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.guitar.e": {
+   "files": [
+    "sfx_world_guitar_e"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 9,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.guitar.g": {
+   "files": [
+    "sfx_world_guitar_g"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 9,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.keyboard_typing": {
+   "files": [
+    "sfx_world_keyboard_typing"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.lock_click": {
+   "files": [
+    "sfx_world_lock_click"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 1,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.match_strike": {
+   "files": [
+    "sfx_world_match_strike"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.metro_gate_beep": {
+   "files": [
+    "sfx_world_metro_gate_beep"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 3,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.plates_break": {
+   "files": [
+    "sfx_world_plates_break"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 9,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.plates_stack": {
+   "files": [
+    "sfx_world_plates_stack"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 5,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.pressure_cooker": {
+   "files": [
+    "sfx_world_pressure_cooker"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 6,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.radio_on": {
+   "files": [
+    "sfx_world_radio_on"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.rain_tin": {
+   "files": [
+    "sfx_world_rain_tin"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.shutter_down": {
+   "files": [
+    "sfx_world_shutter_down"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 7,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.shutter_up": {
+   "files": [
+    "sfx_world_shutter_up"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 7,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.switch": {
+   "files": [
+    "sfx_world_switch"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 1,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.tanker_fill": {
+   "files": [
+    "sfx_world_tanker_fill"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 4,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.thunder": {
+   "files": [
+    "sfx_world_thunder"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.ticket_machine": {
+   "files": [
+    "sfx_world_ticket_machine"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.torch_click": {
+   "files": [
+    "sfx_world_torch_click"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 1,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.tv_off": {
+   "files": [
+    "sfx_world_tv_off"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 1,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.tv_on": {
+   "files": [
+    "sfx_world_tv_on"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.uv_lamp.flicker": {
+   "files": [
+    "sfx_world_uv_lamp_flicker"
+   ],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.uv_lamp.hum": {
+   "files": [
+    "sfx_world_uv_lamp_hum"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sfx.world.water_tap": {
+   "files": [
+    "sfx_world_water_tap"
+   ],
+   "bus": "sfx",
+   "loop": true,
+   "volume": 0.55,
+   "pitchVar": 0.04,
+   "cooldown": 0,
+   "positional": true,
+   "noise": 2,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/world.json"
+  },
+  "a.sting.cut": {
+   "files": [
+    "sting_cut"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.detect": {
+   "files": [
+    "sting_detect"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.ending_evacuate": {
+   "files": [
+    "sting_ending_evacuate"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.ending_groundzero": {
+   "files": [
+    "sting_ending_groundzero"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.ending_hold": {
+   "files": [
+    "sting_ending_hold"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.fever": {
+   "files": [
+    "sting_fever"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.lockdown_siren": {
+   "files": [
+    "sting_lockdown_siren"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.reveal": {
+   "files": [
+    "sting_reveal"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.transition_whoosh": {
+   "files": [
+    "sting_transition_whoosh"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.sting.turn": {
+   "files": [
+    "sting_turn"
+   ],
+   "bus": "music",
+   "loop": false,
+   "volume": 0.7,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/sting.json",
+   "sting": true
+  },
+  "a.ui.advance": {
+   "files": [
+    "ui_advance"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.back": {
+   "files": [
+    "ui_back"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.choice_show": {
+   "files": [
+    "ui_choice_show"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.close_menu": {
+   "files": [
+    "ui_close_menu"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.confirm": {
+   "files": [
+    "ui_confirm"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.error": {
+   "files": [
+    "ui_error"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.load_done": {
+   "files": [
+    "ui_load_done"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.move": {
+   "files": [
+    "ui_move"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 40,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.open_menu": {
+   "files": [
+    "ui_open_menu"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.save_done": {
+   "files": [
+    "ui_save_done"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.slider_tick": {
+   "files": [
+    "ui_slider_tick"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 40,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.title_start": {
+   "files": [
+    "ui_title_start"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.toggle": {
+   "files": [
+    "ui_toggle"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 0,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.ui.type_tick": {
+   "files": [
+    "ui_type_tick"
+   ],
+   "bus": "ui",
+   "loop": false,
+   "volume": 0.6,
+   "pitchVar": 0.0,
+   "cooldown": 40,
+   "positional": false,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "synth/ui.json"
+  },
+  "a.uncanny.bus_bell_no_bus": {
+   "files": [],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "uncanny of a.sfx.vehicle.bus.bell",
+   "uncanny": {
+    "of": "a.sfx.vehicle.bus.bell",
+    "pitch": 0.97,
+    "gapMs": 3200
+   }
+  },
+  "a.uncanny.chai_whistle_empty": {
+   "files": [],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "uncanny of a.sfx.npc.sig.chai_whistle",
+   "uncanny": {
+    "of": "a.sfx.npc.sig.chai_whistle",
+    "pitch": 0.94,
+    "gapMs": 2600
+   }
+  },
+  "a.uncanny.phone_ringtone_street": {
+   "files": [],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "uncanny of a.phone.ringtone",
+   "uncanny": {
+    "of": "a.phone.ringtone",
+    "pitch": 1.0,
+    "gapMs": 4000
+   }
+  },
+  "a.uncanny.temple_bell_off_time": {
+   "files": [],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "uncanny of a.bed.temple_bell",
+   "uncanny": {
+    "of": "a.bed.temple_bell",
+    "pitch": 0.92,
+    "gapMs": 5000
+   }
+  },
+  "a.uncanny.vayu_vajra_announcement_loop": {
+   "files": [],
+   "bus": "sfx",
+   "loop": false,
+   "volume": 0.5,
+   "pitchVar": 0,
+   "cooldown": 0,
+   "positional": true,
+   "tier": "placeholder",
+   "licence": "original",
+   "source": "uncanny of a.sfx.vehicle.metro.chime",
+   "uncanny": {
+    "of": "a.sfx.vehicle.metro.chime",
+    "pitch": 0.89,
+    "gapMs": 1800
+   }
+  }
+ }
+}

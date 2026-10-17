@@ -32,6 +32,14 @@ export interface GameEvents {
   'quest:started': { questId: string };
   /** A conversation's effect asked for a card sequence; WorldScene plays it when the conversation closes (ADR-138). */
   'card:requested': { cardId: string };
+  /** Play an audio token once (ADR-139) — the only way scenes make sound; `at` (world px) makes it positional. */
+  'audio:cue': { token: string; at?: { x: number; y: number }; volume?: number };
+  /** A ride card or the workday card is up: its bed replaces the place's (ADR-139). */
+  'audio:mode': { transit?: string | null; workday?: boolean };
+  /** A stride frame of the player's walk (footsteps, ADR-139). */
+  'player:step': { x: number; y: number; running: boolean };
+  /** One step of the dialogue typewriter; `voice` = the speaker's bleep (adult_m / adult_f / elder / kid), else a type tick. */
+  'dialogue:tick': { voice?: string };
   'quest:objective': { questId: string; objectiveId: string };
   'quest:completed': { questId: string };
   'wallet:spent': { amount: number; reason: string; balance: number };

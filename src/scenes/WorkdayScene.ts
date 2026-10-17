@@ -7,6 +7,7 @@ import { roundRect, type PixelCtx } from '../ui/kit/pixel';
 import { clockText, measure } from '../ui/kit/text';
 import { hex, motion, type TokenName } from '../ui/tokens';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
+import { gameEvents } from '../core/events';
 
 export interface WorkdaySceneData {
   day: number;
@@ -64,6 +65,8 @@ export class WorkdayScene extends Phaser.Scene {
   create(data: WorkdaySceneData): void {
     this.data_ = data;
     this.done = false;
+    gameEvents.emit('audio:mode', { workday: true });
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => gameEvents.emit('audio:mode', { workday: false }));
     this.step = 0;
     this.cameras.main.setRoundPixels(true);
     const reduced = platform.display.prefersReducedMotion();

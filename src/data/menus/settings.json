@@ -4,7 +4,6 @@
     {
       "id": "audio", "title": "AUDIO",
       "rows": [
-        { "kind": "note", "label": "No audio in this build yet — these are ready for it." },
         { "kind": "slider", "label": "MASTER", "setting": "audio.master", "min": 0, "max": 100, "step": 10 },
         { "kind": "slider", "label": "MUSIC", "setting": "audio.music", "min": 0, "max": 100, "step": 10 },
         { "kind": "slider", "label": "SOUND EFFECTS", "setting": "audio.sfx", "min": 0, "max": 100, "step": 10 },

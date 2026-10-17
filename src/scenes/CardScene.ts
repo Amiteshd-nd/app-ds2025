@@ -8,6 +8,7 @@ import { FONT, wrap } from '../ui/kit/text';
 import { color, motion } from '../ui/tokens';
 import { CUT_BLACK_MS, DEFAULT_PANEL_MS, panelsFor, type CardPanel, type CardSequence } from '../systems/cards';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
+import { cue } from '../audio/cue';
 
 export interface CardSceneData {
   seq: CardSequence;
@@ -92,6 +93,7 @@ export class CardScene extends Phaser.Scene {
     this.index = i;
     this.shownAt = this.time.now;
     const panel = this.panels[i];
+    if (panel.cue) cue(panel.cue);
     const last = i === this.panels.length - 1;
     this.holding = last && this.seq.end === 'hold' && !this.seq.then;
 
@@ -141,7 +143,8 @@ export class CardScene extends Phaser.Scene {
     const panel = this.panels[this.index];
     const go = () => (this.index + 1 < this.panels.length ? this.show(this.index + 1) : this.finish());
     if (panel.style !== 'cut') { go(); return; }
-    // The cut: one white frame (never under reduced motion), then black, then on.
+    // The cut: one white frame (never under reduced motion), then black, then on — and a high ring in the silence (ADR-139).
+    cue('a.sting.cut');
     this.layer.removeAll(true);
     this.still.setVisible(false);
     if (!this.reduced) {

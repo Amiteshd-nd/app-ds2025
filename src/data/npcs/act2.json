@@ -4,118 +4,135 @@
     "name": "Noor · Noor Motors",
     "tier": 2,
     "dialogue": "dlg_noor",
-    "sheet": "npc_noor"
+    "sheet": "npc_noor",
+    "voice": "adult_m"
   },
   {
     "id": "npc_bunk_attendant",
     "name": "Bunk attendant",
     "tier": 2,
     "dialogue": "dlg_bunk_attendant",
-    "sheet": "npc_bunk_attendant"
+    "sheet": "npc_bunk_attendant",
+    "voice": "adult_m"
   },
   {
     "id": "npc_metro_guard",
     "name": "Gate attendant",
     "tier": 2,
     "dialogue": "dlg_metro_guard",
-    "sheet": "npc_metro_guard"
+    "sheet": "npc_metro_guard",
+    "voice": "adult_m"
   },
   {
     "id": "npc_lost_kid",
     "name": "Lost kid",
     "tier": 2,
     "dialogue": "dlg_lost_kid",
-    "sheet": "npc_lost_kid"
+    "sheet": "npc_lost_kid",
+    "voice": "kid"
   },
   {
     "id": "npc_kid_mother",
     "name": "Woman in the token queue",
     "tier": 2,
     "dialogue": "dlg_kid_mother",
-    "sheet": "npc_kid_mother"
+    "sheet": "npc_kid_mother",
+    "voice": "adult_f"
   },
   {
     "id": "npc_token_uncle",
     "name": "Uncle at the token machine",
     "tier": 2,
     "dialogue": "dlg_token_uncle",
-    "sheet": "npc_token_uncle"
+    "sheet": "npc_token_uncle",
+    "voice": "elder"
   },
   {
     "id": "npc_metro_ajji",
     "name": "Ajji with a cloth bag",
     "tier": 2,
     "dialogue": "dlg_metro_ajji",
-    "sheet": "npc_metro_ajji"
+    "sheet": "npc_metro_ajji",
+    "voice": "elder"
   },
   {
     "id": "npc_crowd_selfie",
     "name": "Selfie group",
     "tier": 2,
     "dialogue": "dlg_crowd_selfie",
-    "sheet": "crowd_student"
+    "sheet": "crowd_student",
+    "voice": "adult_f"
   },
   {
     "id": "npc_crowd_filming",
     "name": "Man filming",
     "tier": 2,
     "dialogue": "dlg_crowd_filming",
-    "sheet": "crowd_hoodie"
+    "sheet": "crowd_hoodie",
+    "voice": "adult_m"
   },
   {
     "id": "npc_crowd_garland",
     "name": "Aunty with a garland",
     "tier": 2,
     "dialogue": "dlg_crowd_garland",
-    "sheet": "crowd_homemaker"
+    "sheet": "crowd_homemaker",
+    "voice": "adult_f"
   },
   {
     "id": "npc_church_busker",
     "name": "Busker",
     "tier": 2,
     "dialogue": "dlg_busker",
-    "sheet": "npc_church_busker"
+    "sheet": "npc_church_busker",
+    "voice": "adult_m"
   },
   {
     "id": "npc_majestic_uncle",
     "name": "Uncle with a jute sack",
     "tier": 2,
     "dialogue": "dlg_majestic_uncle",
-    "sheet": "npc_majestic_uncle"
+    "sheet": "npc_majestic_uncle",
+    "voice": "elder"
   },
   {
     "id": "npc_hygge_staff",
     "name": "Hyggeland staff",
     "tier": 2,
     "dialogue": "dlg_hygge_staff",
-    "sheet": "npc_hygge_staff"
+    "sheet": "npc_hygge_staff",
+    "voice": "adult_f"
   },
   {
     "id": "npc_hygge_cafe",
     "name": "Hyggeland café",
     "tier": 2,
     "dialogue": "dlg_hygge_cafe",
-    "sheet": "npc_hygge_staff"
+    "sheet": "npc_hygge_staff",
+    "voice": "adult_f"
   },
   {
     "id": "npc_hygge_cashier",
     "name": "Hyggeland tills",
     "tier": 2,
     "dialogue": "dlg_hygge_cashier",
-    "sheet": "npc_hygge_staff"
+    "sheet": "npc_hygge_staff",
+    "voice": "adult_f"
   },
   {
     "id": "npc_metro_aunty_boxes",
     "name": "Aunty by the door",
     "tier": 2,
     "dialogue": "dlg_aunty_boxes",
-    "sheet": "crowd_homemaker"
+    "sheet": "crowd_homemaker",
+    "voice": "adult_f"
   },
   {
     "id": "npc_tanvi",
     "name": "Tanvi",
     "tier": 2,
     "dialogue": "dlg_tanvi",
-    "sheet": "npc_tanvi"
+    "sheet": "npc_tanvi",
+    "voice": "adult_f"
   }
 ]

@@ -34,6 +34,9 @@ export class TransitScene extends Phaser.Scene {
     this.cameras.main.setRoundPixels(true);
     this.cameras.main.setBackgroundColor('#000000');
 
+    // The ride's bed replaces the place's while the card is up (ADR-139); arriving resets it.
+    gameEvents.emit('audio:mode', { transit: data.exit.transit });
+
     // The journey takes game time (ADR-121): a 40-minute walk can make you late.
     if (data.exit.minutes) TimeManager.getInstance().advance(data.exit.minutes);
 

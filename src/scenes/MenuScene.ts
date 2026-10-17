@@ -24,6 +24,7 @@ import type { SettingsMenuRow, SettingsMenuSection } from '../utils/types';
 import type { MapScene } from './MapScene';
 import type { TitleScene } from './TitleScene';
 import type { WorldScene } from './WorldScene';
+import { cue } from '../audio/cue';
 
 type Screen =
   | { id: 'pause' }
@@ -123,6 +124,7 @@ export class MenuScene extends Phaser.Scene {
 
   open(opts: MenuOpenOptions = {}): void {
     if (this.phase !== 'closed') return;
+    cue('a.ui.open_menu');
     const world = this.world();
     const mode: MenuMode = opts.mode ?? (world ? 'world' : 'title');
     if (mode === 'world') {
@@ -155,6 +157,7 @@ export class MenuScene extends Phaser.Scene {
 
   close(): void {
     if (this.phase !== 'open') return;
+    cue('a.ui.close_menu');
     this.phase = 'closed';
     this.stack = [];
     this.dim.setVisible(false);
@@ -182,6 +185,7 @@ export class MenuScene extends Phaser.Scene {
 
   private back(): void {
     if (this.stack.length <= 1) { this.close(); return; }
+    cue('a.ui.back');
     this.stack.pop();
     this.selected = 0;
     this.scroll = 0;
@@ -211,6 +215,7 @@ export class MenuScene extends Phaser.Scene {
   }
 
   private activate(): void {
+    cue('a.ui.confirm');
     const s = this.screen;
     const row = this.rows[this.selected];
     if (s.id === 'confirm') { if (this.selected === 0) s.yes(); else this.back(); return; }
@@ -313,6 +318,7 @@ export class MenuScene extends Phaser.Scene {
 
   /** ◀ ▶ on a settings row: step the atom and persist. */
   private adjust(dir: -1 | 1): void {
+    cue('a.ui.slider_tick');
     const s = this.screen;
     if (s.id === 'confirm') { this.selected = this.selected === 0 ? 1 : 0; this.render(); return; }
     if (s.id !== 'section') return;
@@ -374,6 +380,7 @@ export class MenuScene extends Phaser.Scene {
       if (this.rows[i].kind !== 'note') break;
     }
     this.selected = i;
+    cue('a.ui.move');
     this.render();
   }
 

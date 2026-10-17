@@ -13,6 +13,9 @@ import { bake, pxText, pxTextShadow } from './kit/phaser';
 import { bitmap, roundRect } from './kit/pixel';
 import { measure } from './kit/text';
 import { hex, motion } from './tokens';
+import { cue } from '../audio/cue';
+import { voiceOf } from '../audio/voices';
+import { gameEvents } from '../core/events';
 
 export interface DialogueBoxCallbacks {
   onClose?: (result: { dialogueId: string; triggeredQuests: string[] }) => void;
@@ -139,6 +142,7 @@ export class DialogueBox {
     const count = this.view?.choices.length ?? 0;
     if (count === 0) return;
     this.selected = Phaser.Math.Wrap(this.selected + direction, 0, count);
+    cue('a.ui.move');
     this.render();
   }
 
@@ -161,11 +165,13 @@ export class DialogueBox {
     const dm = DialogueManager.getInstance();
 
     if (this.view.choices.length > 0) {
-      if (!this.view.choices[this.selected]?.enabled) return; // locked — shown, not takeable
+      if (!this.view.choices[this.selected]?.enabled) { cue('a.ui.error'); return; } // locked — shown, not takeable
+      cue('a.ui.confirm');
       this.show(dm.choose(this.selected));
       return;
     }
     if (this.view.canAdvance) {
+      cue('a.ui.advance');
       this.show(dm.advance());
       return;
     }
@@ -199,6 +205,8 @@ export class DialogueBox {
         if (!this.view) return;
         const n = revealedChars(this.scene.time.now - this.revealStart, this.view.text.length, speed);
         if (n === this.revealed) return;
+        // The speaker's voice: one bleep per step of the typewriter (cooldown in the manifest thins it out).
+        if (this.view.text[n - 1]?.trim()) gameEvents.emit('dialogue:tick', voiceOf(this.view.dialogueId));
         this.revealed = n;
         this.renderText();
         if (n >= this.view.text.length) { this.typeTimer?.remove(); this.typeTimer = null; this.render(); }

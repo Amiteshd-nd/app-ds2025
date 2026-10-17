@@ -31,7 +31,8 @@
       "still": "still_hebbal_night",
       "title": "ORR · HEBBAL JUNCTION · 23:52",
       "text": "Rain on the mirrors. The flyover hums overhead. The signal blinks amber, amber, amber.",
-      "ms": 5200
+      "ms": 5200,
+      "cue": "a.sfx.world.rain_tin"
     },
     {
       "ifFlag": "scooter_owned",
@@ -73,7 +74,8 @@
     {
       "style": "fragment",
       "text": "A siren, far away. Then very close.",
-      "ms": 3000
+      "ms": 3000,
+      "cue": "a.sfx.vehicle.siren"
     },
     {
       "style": "fragment",
@@ -86,7 +88,8 @@
       "ms": 4200,
       "setFlags": [
         "ravi_recognised"
-      ]
+      ],
+      "cue": "a.sfx.npc.sig.appa_ringtone"
     },
     {
       "style": "fragment",

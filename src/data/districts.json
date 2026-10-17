@@ -75,7 +75,50 @@
       "lat": 13.1986,
       "lng": 77.7066,
       "label": "Kempegowda International Airport"
-    }
+    },
+    "audioSources": [
+      {
+        "at": "chai_stall",
+        "token": "a.sfx.npc.sig.chai_whistle",
+        "every": [
+          9,
+          15
+        ],
+        "radius": 9
+      },
+      {
+        "at": "chai_stall",
+        "token": "a.sfx.npc.sig.ladle",
+        "every": [
+          5,
+          9
+        ],
+        "radius": 6
+      },
+      {
+        "at": "cab_tout",
+        "token": "a.sfx.npc.shout",
+        "every": [
+          8,
+          14
+        ],
+        "radius": 8
+      },
+      {
+        "at": "zone_exit",
+        "token": "a.sfx.vehicle.bus.idle",
+        "radius": 10
+      },
+      {
+        "at": "zone_exit",
+        "token": "a.sfx.vehicle.bus.horn",
+        "every": [
+          14,
+          24
+        ],
+        "radius": 12
+      }
+    ]
   },
   {
     "id": "whitefield_street",

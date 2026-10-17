@@ -139,3 +139,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Palette quantising warms cold greys (the corridor's blue-white came out beige): a district `nightTint` restores a cold look without re-art.
 - A conversation can start a card (`effect.card`); WorldScene plays it when the conversation closes. The generator follows it; the world validator follows NPC → dialogue → card → landing.
 - In the browser pane, synthetic `KeyboardEvent`s don't reach Phaser while the pane's RAF is paused; a real `computer` click/keypress does. A data edit with the dev server running can boot a second game instance ("Texture key already in use") — restart the preview server.
+
+## Audio A1 (2026-10-17, ADR-139)
+- No scene calls `sound.play`: emit `cue(token)` / `audio:*` events; AudioSystem (src/audio) is the only sound code (lint test). It never writes game state and never uses Math.random (Movie Mode seeds it) — its own seeded RNG.
+- Placeholders are data: `src/data/audio/synth/*.json` recipes + `songs/*.json` → `pnpm audio` (byte-identical). macOS filenames ignore case: the pipeline deletes stale renders before writing.
+- district:entered fires inside WorldScene.create, when the scene is not yet "active": read WorldScene via `game.scene.getScene`, not an active check.
+- Verify audio by the mix readout (`window.__nqAudio.inspect()`, `game.sound.sounds` volumes) and by wrapping `game.sound.play` to log keys — the pane can't be heard. A real click on the title is needed to unlock the AudioContext.

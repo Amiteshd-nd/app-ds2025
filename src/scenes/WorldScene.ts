@@ -556,6 +556,13 @@ export class WorldScene extends Phaser.Scene {
     return !this.talking && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null;
   }
 
+  /** A named spawn/zone's centre in world px — where a sound comes from (ADR-139). */
+  pointOf(name: string): { x: number; y: number } | null {
+    const obj = findObject(this.map, MAPS[this.district.map].spawnLayer, name);
+    if (!obj) return null;
+    return { x: (obj.x ?? 0) + (obj.width ?? 0) / 2, y: (obj.y ?? 0) + (obj.height ?? 0) / 2 };
+  }
+
   /** The phone and the map are yours — not in someone else's life (Ravi in the corridor, `hud: minimal`, ADR-138). */
   allowsOverlays(): boolean {
     return this.district.hud !== 'minimal';

@@ -23,6 +23,7 @@ import { importTitle } from './import-title.mjs';
 import { importBreath } from './import-breath.mjs';
 import { importProps } from './import-props.mjs';
 import { importBackdrops } from './import-backdrop.mjs';
+import { runAudioPipe } from './audio-pipe.mjs';
 import { importFont } from './import-font.mjs';
 
 // Tokens first: palette.gpl + tokens.mjs → tokens.json, which the runtime reads.
@@ -94,6 +95,8 @@ for (const file of readdirSync(mapRaw).filter((f) => f.endsWith('.spec.json')).s
 // ── Props: luggage and other behaviour-placed objects ──────────────────────
 await importProps();
 await importBackdrops();
+// Audio placeholders + LICENSES.md (ADR-139): rendered from src/data/audio like the art.
+await runAudioPipe();
 
 // ── Title screen: imported from _raw/title/ (ADR-101) ──────────────────────
 await importTitle();

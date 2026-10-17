@@ -46,6 +46,8 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,png,jpg,svg,woff2,json,tmj}'],
         // Phaser alone clears the 2 MiB default; tilesets will push it further.
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+        // Audio is not precached (≈9 MB would weigh on a first visit): each file is cached the first time it plays (ADR-139).
+        runtimeCaching: [{ urlPattern: /\.(?:wav|ogg|m4a)$/, handler: 'CacheFirst', options: { cacheName: 'audio', expiration: { maxEntries: 600 } } }],
       },
     }),
   ],

@@ -24,6 +24,7 @@ import type { MenuScene } from './MenuScene';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import type { MapScene } from './MapScene';
 import type { WorldScene } from './WorldScene';
+import { cue } from '../audio/cue';
 
 type Route =
   | { app: 'home' }
@@ -160,6 +161,7 @@ export class PhoneScene extends Phaser.Scene {
   open(): void {
     const world = this.world();
     if (this.phase !== 'closed' || !world?.canOpenOverlay() || !world.allowsOverlays()) return;
+    cue('a.phone.slide_up');
     this.phase = 'moving';
     this.route = { app: 'home' };
     this.focusId = null;
@@ -179,6 +181,7 @@ export class PhoneScene extends Phaser.Scene {
 
   close(): void {
     if (this.phase !== 'open') return;
+    cue('a.phone.slide_down');
     this.phase = 'moving';
     const steps = slideSteps(motion('m.phone.open.steps'), platform.display.prefersReducedMotion());
     // Same stepped rhythm, downwards.
@@ -279,6 +282,7 @@ export class PhoneScene extends Phaser.Scene {
   }
 
   private openApp(id: string): void {
+    cue('a.phone.tap');
     if (id === 'home') this.go({ app: 'home' });
     else if (id === 'chats') this.go({ app: 'chats' });
     else if (id === 'upi') this.go({ app: 'upi' });

@@ -4,6 +4,7 @@
     "name": "Hotel Reception",
     "tier": 2,
     "dialogue": "dlg_hotel_reception",
-    "sheet": "npc_hotel_reception"
+    "sheet": "npc_hotel_reception",
+    "voice": "adult_m"
   }
 ]

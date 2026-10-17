@@ -16,6 +16,7 @@
     "validate:content": "node scripts/validate-content.ts",
     "validate": "node scripts/validate-maps.mjs && node scripts/validate-content.ts && node scripts/validate-platform.mjs",
     "art": "node scripts/generate-art.mjs && node scripts/generate-street-map.mjs",
+    "audio": "node scripts/audio-pipe.mjs",
     "validate:platform": "node scripts/validate-platform.mjs",
     "build:web": "pnpm build",
     "cap:sync": "pnpm build && cap sync",

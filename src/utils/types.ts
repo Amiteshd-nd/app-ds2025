@@ -363,6 +363,8 @@ export interface DistrictDef {
   hud?: 'minimal';
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
   nightTint?: number;
+  /** Sounds that come from a spot (ADR-139): a looping token fades with distance; a one-shot repeats every `every` [min, max] seconds. `at` = a spawn/zone in the map. */
+  audioSources?: Array<{ at: string; token: string; every?: [number, number]; radius?: number }>;
   fadeMs?: number;
   unlock?: DistrictUnlock;
   /** Phone signal bars inside these zones (the hill's three doors, ADR-122); elsewhere the district's `signal`. */
@@ -502,6 +504,8 @@ export interface NpcDef {
   tint?: number;
   /** Idle breathing (beh_breathing); default true. False for sleepers, statues, special poses. */
   breathing?: boolean;
+  /** Dialogue bleep voice (ADR-139): adult_m · adult_f · elder · kid. Narration (no speaker) ticks instead. */
+  voice?: 'adult_m' | 'adult_f' | 'elder' | 'kid';
   /** A small repeating mannerism drawn by Populate — the jogger who coughs and waves it off (ADR-123). */
   tic?: 'cough';
 }

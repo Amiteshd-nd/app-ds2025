@@ -85,6 +85,9 @@ export const PROP_URLS: Record<string, string> = byBasename(propModules);
 
 // Flat silhouette backdrops (scripts/import-backdrop.mjs): the workday skyline (ADR-121). Keyed by basename.
 const backdropModules = import.meta.glob('./backdrops/*.png', { eager: true, import: 'default', query: '?url' }) as Record<string, string>;
+/** Rendered audio by basename (ADR-139): WAV placeholders today, OGG/M4A finals later. */
+const audioModules = import.meta.glob('./audio/*.wav', { eager: true, import: 'default', query: '?url' }) as Record<string, string>;
+export const AUDIO_URLS: Record<string, string> = byBasename(audioModules);
 export const BACKDROP_URLS: Record<string, string> = byBasename(backdropModules);
 
 // Bitmap fonts written by scripts/import-font.mjs (ADR-114): `px` regular and

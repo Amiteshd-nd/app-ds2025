@@ -28,7 +28,7 @@ corepack pnpm movie
 | 8 | P17 · 3.1 "Outer Ring Road" (ADR-136), Act 3 opens | 2026-10-17 | local commit, not pushed | waiting |
 | 9 | P18 · 3.2 "Ward 4" (ADR-137) | 2026-10-17 | local commit, not pushed | waiting |
 | 10 | P19 · 3.3 "The Corridor" (ADR-138) | 2026-10-17 | local commit, not pushed | waiting |
-| 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | in progress | — | not built yet |
+| 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -137,5 +137,23 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - I wrote the ant captions myself.
   - The corridor has a fixed night shade to keep its cold light.
 
-## 11. Audio A1: in progress
-I'll add how to check it here when it's built.
+## 11. Audio A1: the game has sound
+- **What:** every sound is a named token (224 of them) with an original placeholder generated in the repo. They sound like 8-bit placeholders until your recordings and CC0 files replace them.
+  - Every place plays a layered "bed" of city sounds by time of day.
+  - Music sits under the city: calm by day, a warmer tune in the evening, none at night or in rooms and buses unless the mood turns.
+  - Footsteps, menus, the phone, dialogue bleeps in each character's voice, money and objective chimes all make sounds.
+  - Some sounds come from where they are and fade as you walk away: at the airport, chai Anna's whistle and ladle, the cab tout, and the bus at the stop.
+  - The 3.1 crash card cuts to a ring in the silence, and Ravi's phone plays the APPA ringtone.
+- **Check:** run the game, click once on the title (browsers only play sound after a click), and play 0.1. At the airport, listen to the hall and kerb, walk to the chai stall, talk to chai Anna (the music dips), take the bus (the bus engine during the ride card), and arrive at Whitefield (birds and light traffic in the morning). Try Settings → Audio: each slider and mute should work.
+```bash
+corepack pnpm dev
+```
+  It opens at http://localhost:6174.
+- **Calls to confirm:**
+  - Music is off at night and in rooms.
+  - The NPC voices (man, woman, elder, kid) are my guesses.
+  - The airport is mixed as hall plus kerb.
+  - Interface sounds follow the SFX slider.
+  - Footsteps don't change between pavement and road within a place yet (that's audio step A2).
+  - Offline, a sound plays only after it has played once online.
+- **Your homework for later steps:** the recording list in `docs/audio_plan_v1.md` §5.4 (20 short recordings). Also: install ffmpeg, and OK the Kenney downloads when we reach A3.

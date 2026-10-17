@@ -2,6 +2,12 @@
   "id": "card_act3_title",
   "$comment": "Story 3.1 F1 (ADR-136): the first morning after Act 2 opens on the act's title, over black, before the room fades in.",
   "panels": [
-    { "style": "title", "title": "FEVER", "text": "ACT 3", "ms": 3600 }
+    {
+      "style": "title",
+      "title": "FEVER",
+      "text": "ACT 3",
+      "ms": 3600,
+      "cue": "a.sting.fever"
+    }
   ]
 }

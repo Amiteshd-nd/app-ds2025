@@ -1,0 +1,657 @@
+{
+ "$comment": "Ambience beds per place (audio plan v1 §2.4, §4.1, ADR-139): layers of `a.bed.*` with a gain, by time of day (dawn 05:30–07:30 · day · evening 17:30–20:30 · night 20:30–05:30; a missing time falls back to day). `kinds` sort layers for the stability bands (grade(stability), design system: ≥70 normal · 40–69 warning · 20–39 infected · <20 deep — the city goes quiet, not louder). `surface` = footsteps; `music: false` = the city only (a bus, a room). Transit cards play their own bed.",
+ "kinds": {
+  "human": [
+   "people_murmur",
+   "vendor_calls",
+   "fm_radio_window",
+   "pressure_cooker",
+   "construction",
+   "temple_bell",
+   "airport_interior",
+   "darshini",
+   "office",
+   "pg_room",
+   "hotel_room",
+   "shop_interior"
+  ],
+  "traffic": [
+   "city_traffic",
+   "bike_single",
+   "vayu_vajra_bus",
+   "metro_coach",
+   "metro_platform"
+  ],
+  "nature": [
+   "birds_crows",
+   "crickets",
+   "wind",
+   "rain",
+   "hill_wind",
+   "cubbon_park"
+  ],
+  "machine": [
+   "tube_light_hum",
+   "generator",
+   "lab_corridor",
+   "ward"
+  ],
+  "eerie": [
+   "sirens_distant",
+   "announcement_distant",
+   "flies",
+   "drip",
+   "groans_sporadic",
+   "heartbeat_bed",
+   "silence_room_tone",
+   "dogs_distant"
+  ]
+ },
+ "bands": {
+  "normal": {
+   "min": 70,
+   "scale": {
+    "human": 1,
+    "traffic": 1,
+    "nature": 1,
+    "machine": 1,
+    "eerie": 1
+   },
+   "add": []
+  },
+  "warning": {
+   "min": 40,
+   "scale": {
+    "human": 0.4,
+    "traffic": 0.5,
+    "nature": 1,
+    "machine": 1,
+    "eerie": 1
+   },
+   "add": [
+    {
+     "bed": "sirens_distant",
+     "gain": 0.5
+    },
+    {
+     "bed": "announcement_distant",
+     "gain": 0.4
+    },
+    {
+     "bed": "dogs_distant",
+     "gain": 0.5
+    }
+   ]
+  },
+  "infected": {
+   "min": 20,
+   "scale": {
+    "human": 0,
+    "traffic": 0,
+    "nature": 0.25,
+    "machine": 0.6,
+    "eerie": 1
+   },
+   "add": [
+    {
+     "bed": "wind",
+     "gain": 0.6
+    },
+    {
+     "bed": "flies",
+     "gain": 0.35
+    },
+    {
+     "bed": "drip",
+     "gain": 0.4
+    },
+    {
+     "bed": "birds_crows",
+     "gain": 0.2
+    }
+   ]
+  },
+  "deep": {
+   "min": 0,
+   "scale": {
+    "human": 0,
+    "traffic": 0,
+    "nature": 0,
+    "machine": 0.3,
+    "eerie": 0
+   },
+   "add": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.8
+    },
+    {
+     "bed": "heartbeat_bed",
+     "gain": 0.5
+    },
+    {
+     "bed": "groans_sporadic",
+     "gain": 0.5
+    }
+   ]
+  }
+ },
+ "transit": {
+  "bus": [
+   {
+    "bed": "vayu_vajra_bus",
+    "gain": 1
+   }
+  ],
+  "metro": [
+   {
+    "bed": "metro_coach",
+    "gain": 1
+   }
+  ],
+  "auto": [
+   {
+    "bed": "city_traffic",
+    "gain": 0.8
+   }
+  ],
+  "cab": [
+   {
+    "bed": "city_traffic",
+    "gain": 0.4
+   }
+  ],
+  "scooter": [
+   {
+    "bed": "city_traffic",
+    "gain": 0.7
+   },
+   {
+    "bed": "wind",
+    "gain": 0.4
+   }
+  ],
+  "walk": [
+   {
+    "bed": "city_traffic",
+    "gain": 0.3
+   }
+  ]
+ },
+ "workday": [
+  {
+   "bed": "office",
+   "gain": 1
+  }
+ ],
+ "districts": {
+  "airport": {
+   "surface": "tile",
+   "day": [
+    {
+     "bed": "airport_interior",
+     "gain": 0.7
+    },
+    {
+     "bed": "city_traffic",
+     "gain": 0.35
+    },
+    {
+     "bed": "birds_crows",
+     "gain": 0.2
+    }
+   ],
+   "night": [
+    {
+     "bed": "airport_interior",
+     "gain": 0.6
+    },
+    {
+     "bed": "city_traffic",
+     "gain": 0.2
+    }
+   ]
+  },
+  "whitefield_street": {
+   "surface": "asphalt",
+   "dawn": [
+    {
+     "bed": "birds_crows",
+     "gain": 0.6
+    },
+    {
+     "bed": "city_traffic",
+     "gain": 0.3
+    }
+   ],
+   "day": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.9
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.5
+    },
+    {
+     "bed": "vendor_calls",
+     "gain": 0.4
+    },
+    {
+     "bed": "birds_crows",
+     "gain": 0.3
+    },
+    {
+     "bed": "construction",
+     "gain": 0.3
+    }
+   ],
+   "evening": [
+    {
+     "bed": "city_traffic",
+     "gain": 1
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.6
+    },
+    {
+     "bed": "temple_bell",
+     "gain": 0.3
+    },
+    {
+     "bed": "vendor_calls",
+     "gain": 0.3
+    }
+   ],
+   "night": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.3
+    },
+    {
+     "bed": "dogs_distant",
+     "gain": 0.5
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.4
+    },
+    {
+     "bed": "bike_single",
+     "gain": 0.5
+    }
+   ]
+  },
+  "whitefield_hotel": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "hotel_room",
+     "gain": 1
+    }
+   ]
+  },
+  "prashanth_layout": {
+   "surface": "concrete",
+   "day": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.5
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.5
+    },
+    {
+     "bed": "vendor_calls",
+     "gain": 0.6
+    },
+    {
+     "bed": "pressure_cooker",
+     "gain": 0.4
+    },
+    {
+     "bed": "birds_crows",
+     "gain": 0.4
+    },
+    {
+     "bed": "fm_radio_window",
+     "gain": 0.3
+    }
+   ],
+   "evening": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.6
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.5
+    },
+    {
+     "bed": "temple_bell",
+     "gain": 0.4
+    },
+    {
+     "bed": "pressure_cooker",
+     "gain": 0.4
+    }
+   ],
+   "night": [
+    {
+     "bed": "crickets",
+     "gain": 0.5
+    },
+    {
+     "bed": "dogs_distant",
+     "gain": 0.5
+    },
+    {
+     "bed": "bike_single",
+     "gain": 0.3
+    }
+   ]
+  },
+  "shanthamma_pg": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "pg_room",
+     "gain": 1
+    }
+   ],
+   "night": [
+    {
+     "bed": "pg_room",
+     "gain": 0.5
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.3
+    }
+   ]
+  },
+  "office_gate": {
+   "surface": "concrete",
+   "day": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.8
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.5
+    },
+    {
+     "bed": "construction",
+     "gain": 0.2
+    }
+   ],
+   "night": [
+    {
+     "bed": "crickets",
+     "gain": 0.4
+    },
+    {
+     "bed": "dogs_distant",
+     "gain": 0.4
+    },
+    {
+     "bed": "tube_light_hum",
+     "gain": 0.2
+    }
+   ]
+  },
+  "ambedkar_nagar_hill": {
+   "surface": "concrete",
+   "day": [
+    {
+     "bed": "hill_wind",
+     "gain": 0.7
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.3
+    },
+    {
+     "bed": "pressure_cooker",
+     "gain": 0.3
+    },
+    {
+     "bed": "fm_radio_window",
+     "gain": 0.3
+    },
+    {
+     "bed": "birds_crows",
+     "gain": 0.4
+    }
+   ],
+   "night": [
+    {
+     "bed": "hill_wind",
+     "gain": 0.8
+    },
+    {
+     "bed": "dogs_distant",
+     "gain": 0.5
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.5
+    }
+   ]
+  },
+  "hill_flat": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    },
+    {
+     "bed": "hill_wind",
+     "gain": 0.3
+    }
+   ],
+   "night": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.3
+    }
+   ]
+  },
+  "bus_interior": {
+   "surface": "metal",
+   "music": false,
+   "day": [
+    {
+     "bed": "vayu_vajra_bus",
+     "gain": 1
+    }
+   ]
+  },
+  "cubbon_park": {
+   "surface": "gravel",
+   "day": [
+    {
+     "bed": "cubbon_park",
+     "gain": 1
+    }
+   ],
+   "night": [
+    {
+     "bed": "crickets",
+     "gain": 0.6
+    },
+    {
+     "bed": "wind",
+     "gain": 0.3
+    }
+   ]
+  },
+  "scooter_showroom": {
+   "surface": "tile",
+   "day": [
+    {
+     "bed": "shop_interior",
+     "gain": 0.8
+    },
+    {
+     "bed": "city_traffic",
+     "gain": 0.3
+    }
+   ]
+  },
+  "metro_station": {
+   "surface": "tile",
+   "day": [
+    {
+     "bed": "metro_platform",
+     "gain": 1
+    }
+   ]
+  },
+  "metro_interior": {
+   "surface": "metal",
+   "music": false,
+   "day": [
+    {
+     "bed": "metro_coach",
+     "gain": 1
+    }
+   ]
+  },
+  "green_coach": {
+   "surface": "metal",
+   "music": false,
+   "day": [
+    {
+     "bed": "metro_coach",
+     "gain": 1
+    }
+   ]
+  },
+  "green_coach_home": {
+   "surface": "metal",
+   "music": false,
+   "day": [
+    {
+     "bed": "metro_coach",
+     "gain": 1
+    }
+   ]
+  },
+  "church_street": {
+   "surface": "concrete",
+   "day": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.5
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.8
+    },
+    {
+     "bed": "fm_radio_window",
+     "gain": 0.3
+    },
+    {
+     "bed": "vendor_calls",
+     "gain": 0.2
+    }
+   ],
+   "night": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.3
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.3
+    }
+   ]
+  },
+  "guitar_shop": {
+   "surface": "wood",
+   "day": [
+    {
+     "bed": "shop_interior",
+     "gain": 0.8
+    },
+    {
+     "bed": "city_traffic",
+     "gain": 0.2
+    }
+   ]
+  },
+  "majestic_interchange": {
+   "surface": "tile",
+   "day": [
+    {
+     "bed": "metro_platform",
+     "gain": 0.9
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.7
+    },
+    {
+     "bed": "announcement_distant",
+     "gain": 0.4
+    }
+   ]
+  },
+  "hyggeland": {
+   "surface": "tile",
+   "day": [
+    {
+     "bed": "shop_interior",
+     "gain": 1
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.5
+    }
+   ]
+  },
+  "ward4": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "ward",
+     "gain": 1
+    }
+   ],
+   "night": [
+    {
+     "bed": "ward",
+     "gain": 0.8
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.2
+    }
+   ]
+  },
+  "hivr_corridor": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "lab_corridor",
+     "gain": 1
+    }
+   ]
+  }
+ }
+}

@@ -20,6 +20,7 @@ import { cardFor, clampPan, LEGEND, nodeAt, panFor, toScreen, zoomAbout, type Zo
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import type { AreaData, LatLng, PocketPlacement } from '../utils/types';
 import type { WorldScene } from './WorldScene';
+import { cue } from '../audio/cue';
 
 const SCREEN = { w: GAME_WIDTH, h: GAME_HEIGHT } as const;
 /** Nothing tappable in the bottom 19px (home indicator), same as the phone. */
@@ -141,6 +142,7 @@ export class MapScene extends Phaser.Scene {
     const world = this.world();
     if (this.phase !== 'closed' || !world) return;
     if (!fromOverlay && (!world.canOpenOverlay() || !world.allowsOverlays())) return;
+    cue('a.ui.open_menu');
     this.phase = 'opening';
     if (!this.scene.isPaused(SCENE_KEYS.WORLD)) this.scene.pause(SCENE_KEYS.WORLD);
     useGameStore.getState().setOverlay('map');
@@ -177,6 +179,7 @@ export class MapScene extends Phaser.Scene {
 
   close(): void {
     if (this.phase !== 'open') return;
+    cue('a.ui.close_menu');
     this.finishClose();
   }
 

@@ -1,12 +1,12 @@
 [
-  { "id": "npc_bus_nurse", "name": "Nurse", "tier": 2, "dialogue": "dlg_bus_nurse", "sheet": "npc_nurse" },
-  { "id": "npc_bus_uncle", "name": "Uncle with a paper", "tier": 2, "dialogue": "dlg_bus_uncle", "sheet": "npc_bus_uncle" },
-  { "id": "npc_bus_kid", "name": "Sleeping kid", "tier": 2, "dialogue": "dlg_bus_kid", "sheet": "npc_bus_kid", "breathing": false },
-  { "id": "npc_cycle_guy", "name": "Cycle rental", "tier": 2, "dialogue": "dlg_cycle_guy", "sheet": "npc_cycle_guy" },
-  { "id": "npc_ananya", "name": "Ananya", "tier": 3, "dialogue": "dlg_ananya", "sheet": "npc_ananya" },
-  { "id": "npc_icecream", "name": "Ice-cream cart", "tier": 2, "dialogue": "dlg_icecream", "sheet": "npc_icecream" },
+  { "id": "npc_bus_nurse", "name": "Nurse", "tier": 2, "dialogue": "dlg_bus_nurse", "sheet": "npc_nurse", "voice": "adult_f" },
+  { "id": "npc_bus_uncle", "name": "Uncle with a paper", "tier": 2, "dialogue": "dlg_bus_uncle", "sheet": "npc_bus_uncle", "voice": "elder" },
+  { "id": "npc_bus_kid", "name": "Sleeping kid", "tier": 2, "dialogue": "dlg_bus_kid", "sheet": "npc_bus_kid", "breathing": false, "voice": "kid" },
+  { "id": "npc_cycle_guy", "name": "Cycle rental", "tier": 2, "dialogue": "dlg_cycle_guy", "sheet": "npc_cycle_guy", "voice": "adult_m" },
+  { "id": "npc_ananya", "name": "Ananya", "tier": 3, "dialogue": "dlg_ananya", "sheet": "npc_ananya", "voice": "adult_f" },
+  { "id": "npc_icecream", "name": "Ice-cream cart", "tier": 2, "dialogue": "dlg_icecream", "sheet": "npc_icecream", "voice": "adult_m" },
   { "id": "npc_library_regular_a", "name": "Library steps regular", "tier": 1, "sheet": "crowd_elder" },
   { "id": "npc_library_regular_b", "name": "Library steps regular", "tier": 1, "sheet": "crowd_student" },
-  { "id": "npc_jogger", "name": "Jogger", "tier": 2, "dialogue": "dlg_jogger", "sheet": "npc_jogger", "tic": "cough" },
-  { "id": "npc_guitar_shop", "name": "Guitar shop · Church Street", "tier": 2, "dialogue": "dlg_guitar_shop", "sheet": "npc_guitar_shop" }
+  { "id": "npc_jogger", "name": "Jogger", "tier": 2, "dialogue": "dlg_jogger", "sheet": "npc_jogger", "tic": "cough", "voice": "adult_m" },
+  { "id": "npc_guitar_shop", "name": "Guitar shop · Church Street", "tier": 2, "dialogue": "dlg_guitar_shop", "sheet": "npc_guitar_shop", "voice": "adult_m" }
 ]

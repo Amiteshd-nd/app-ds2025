@@ -7,6 +7,7 @@ import { color, hex } from '../ui/tokens';
 import { attachGamepad, PAD } from '../ui/kit/gamepad';
 import type { MenuScene } from './MenuScene';
 import type { WorldSceneData } from './WorldScene';
+import { cue } from '../audio/cue';
 
 /** Draw order, back to front. */
 const Z = {
@@ -337,6 +338,7 @@ export class TitleScene extends Phaser.Scene {
     // The first confirm on the title screen is the user gesture that unlocks
     // audio on iOS/Android (mobile foundation rule 8); nothing plays before it.
     void platform.audio.unlock();
+    cue('a.ui.title_start');
 
     switch (this.menuOptions[this.selectedIndex]) {
       case 'New Game':

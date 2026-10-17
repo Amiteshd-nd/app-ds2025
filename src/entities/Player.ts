@@ -4,6 +4,7 @@ import { DEPTH, HUNGRY_AT, HUNGRY_SPEED, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SI
 import { useGameStore } from '../store';
 import { ensurePlaceholderTexture } from '../utils/placeholders';
 import { consumeInteract, input } from '../input/InputMap';
+import { gameEvents } from '../core/events';
 
 /**
  * Player — the controllable character.
@@ -56,6 +57,15 @@ export class Player extends Phaser.GameObjects.Sprite {
     body.setCollideWorldBounds(true);
 
     this.setDepth(DEPTH.ENTITIES);
+
+    // Footsteps (ADR-139): the walk cycle's two stride frames (1 and 3 of stride/idle/stride/idle) each make a step.
+    const stride = (anim: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame) => {
+      if (!anim.key.includes('-walk-') || (frame.index !== 1 && frame.index !== 3)) return;
+      const body = this.body as Phaser.Physics.Arcade.Body;
+      gameEvents.emit('player:step', { x: this.x, y: this.y, running: Math.hypot(body.velocity.x, body.velocity.y) > PLAYER_SPEED * 1.2 });
+    };
+    this.on(Phaser.Animations.Events.ANIMATION_UPDATE, stride);
+    this.on(Phaser.Animations.Events.ANIMATION_START, stride);
 
     const keyboard = scene.input.keyboard;
     if (!keyboard) throw new Error('Player requires the keyboard input plugin');

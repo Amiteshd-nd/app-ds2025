@@ -28,6 +28,8 @@ export interface CardPanel {
   /** Shown only when this flag is set / is not set (when the sequence starts). */
   ifFlag?: string;
   unlessFlag?: string;
+  /** An audio token played as the panel appears (ADR-139): the APPA ringtone, a siren. */
+  cue?: string;
   /** Flags this panel sets / clears — applied when the sequence settles, whether or not the panel was read. */
   setFlags?: string[];
   clearFlags?: string[];

@@ -18,6 +18,7 @@ import { applyDisplaySettings } from '../core/display';
 import { QuestManager } from '../systems/QuestManager';
 import { PhoneManager } from '../systems/PhoneManager';
 import { MapManager } from '../systems/MapManager';
+import { AudioSystem, eagerAudio } from '../audio/AudioSystem';
 
 /**
  * BootScene — preloads every shared asset behind a loading bar, registers the
@@ -71,6 +72,9 @@ export class BootScene extends Phaser.Scene {
       this.load.image(key, url);
     }
 
+    // The small, frequent sounds (UI, phone, HUD, footsteps, voices); the rest load on first use (ADR-139).
+    for (const [key, url] of eagerAudio()) this.load.audio(key, url);
+
     // Silhouette backdrops (the workday skyline, ADR-121).
     for (const [key, url] of Object.entries(BACKDROP_URLS)) this.load.image(key, url);
     // Behaviour props (luggage on the carousel).
@@ -110,6 +114,8 @@ export class BootScene extends Phaser.Scene {
     QuestManager.getInstance();
     PhoneManager.getInstance();
     MapManager.getInstance();
+    // The sound layer (ADR-139): one instance for the game, listening from the first scene on.
+    AudioSystem.start(this.game);
 
     this.setAllTexturesNearest();
     this.createPlaceholderTextures();

@@ -4,42 +4,48 @@
     "name": "Information Desk",
     "tier": 2,
     "dialogue": "receptionist",
-    "sheet": "npc_airport_info"
+    "sheet": "npc_airport_info",
+    "voice": "adult_f"
   },
   {
     "id": "airport_helper",
     "name": "Porter",
     "tier": 2,
     "dialogue": "airport_helper",
-    "sheet": "npc_airport_porter"
+    "sheet": "npc_airport_porter",
+    "voice": "adult_m"
   },
   {
     "id": "security_guard",
     "name": "Security Guard",
     "tier": 2,
     "dialogue": "security_guard",
-    "sheet": "npc_security_guard"
+    "sheet": "npc_security_guard",
+    "voice": "adult_m"
   },
   {
     "id": "shopkeeper_kiosk",
     "name": "Kiosk Shopkeeper",
     "tier": 2,
     "dialogue": "shopkeeper",
-    "sheet": "npc_kiosk_shopkeeper"
+    "sheet": "npc_kiosk_shopkeeper",
+    "voice": "adult_m"
   },
   {
     "id": "npc_chai_anna",
     "name": "Chai Anna",
     "tier": 2,
     "dialogue": "dlg_chai_anna",
-    "sheet": "npc_chai_anna"
+    "sheet": "npc_chai_anna",
+    "voice": "adult_m"
   },
   {
     "id": "npc_cab_tout_1",
     "name": "Cab Tout",
     "tier": 2,
     "dialogue": "dlg_cab_tout",
-    "sheet": "npc_cab_tout"
+    "sheet": "npc_cab_tout",
+    "voice": "adult_m"
   },
   {
     "id": "ambient_hivr_lanyard",
