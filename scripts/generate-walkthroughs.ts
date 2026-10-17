@@ -31,6 +31,7 @@ const districts = new Map<string, Json>((JSON.parse(readFileSync(join(dataDir, '
 const npcs = new Map<string, Json>(readDir('npcs').flatMap((f) => (Array.isArray(f) ? f : [])).map((n) => [n.id, n]));
 const dialogues = new Map<string, Json>(readDir('dialogue').map((d) => [d.id, d]));
 const negotiations = new Map<string, Json>(readDir('negotiations').map((n) => [n.id, n]));
+const minigames = new Map<string, Json>(readDir('minigames').map((m) => [m.id, m]));
 const reels: Json[] = JSON.parse(readFileSync(join(dataDir, 'phone/reels.json'), 'utf8'));
 const manifest = JSON.parse(readFileSync(resolve(here, '../src/assets/maps.manifest.json'), 'utf8'));
 const mapObjects = (districtId: string): Set<string> => {
@@ -56,6 +57,8 @@ class Gen {
   district: string;
   /** A conversation left open at a node with choices (the next objective may continue it). */
   open: { dialogue: string; node: string } | null = null;
+  /** A rhythm session has been played since the last sleep (one a night, ADR-131). */
+  playedTonight = false;
   private counter = 0;
   private optional = false;
   /** The objective's `destination`: where to look first when the flag is set elsewhere. */
@@ -76,6 +79,7 @@ class Gen {
   }
 
   push(step: Step): void {
+    if (step.do === 'sleep') this.playedTonight = false;
     const id = step.id ?? `${step.do}_${++this.counter}`;
     this.steps.push({ id, ...(this.beat ? { beat: this.beat } : {}), ...step, ...(this.optional ? { optional: true } : {}) });
   }
@@ -144,6 +148,9 @@ class Gen {
       if (trig.needs && !this.flag(trig.needs, `${who} (so zone ${trig.trigger.zone}'s conversation opens at the right line)`, depth + 1)) return false;
       return this.viaTrigger(trig.trigger, f, who, depth);
     }
+    // 1b. a rhythm lesson on a trigger here (the flat's guitar)
+    const lesson = this.rhythmSetting(this.district, f);
+    if (lesson) return this.viaRhythm(lesson.trigger, lesson.set, lesson.index, who, depth);
     // 2. a sleep-driven timer
     if (SLEEP_FLAGS[f] !== undefined) return this.viaSleep(f, SLEEP_FLAGS[f], who, depth);
     // 3. the phone: a room's signal check, a reel, the camera set
@@ -201,6 +208,46 @@ class Gen {
     }
     this.known.add(f);
     this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: 6000 });
+    return true;
+  }
+
+  /** A `rhythm` trigger in a district whose mini-game has a lesson that sets f. */
+  rhythmSetting(districtId: string, f: string): { trigger: Json; set: Json; index: number } | null {
+    for (const t of (districts.get(districtId)?.triggers ?? []) as Json[]) {
+      if (t.action !== 'rhythm') continue;
+      const set = minigames.get(t.minigame);
+      const index = (set?.lessons ?? []).findIndex((l: Json) => (l.setFlags ?? []).includes(f));
+      if (set && index >= 0) return { trigger: t, set, index };
+    }
+    return null;
+  }
+
+  /**
+   * A lesson (ADR-131): earlier lessons first, one session a night (sleep in
+   * this district's bed between them), step into the trigger's zone, play the
+   * lane. After the last lesson the set's follow-up conversation is open.
+   */
+  viaRhythm(t: Json, set: Json, index: number, who: string, depth: number): boolean {
+    const lesson = set.lessons[index];
+    for (let i = 0; i < index; i++) {
+      for (const g of set.lessons[i].setFlags) if (!this.known.has(g) && !this.flag(g, `${who} (lesson ${i + 1} comes first)`, depth + 1)) return false;
+    }
+    if (t.requiresFlag && !this.known.has(t.requiresFlag) && !this.flag(t.requiresFlag, `${who} (the ${t.zone} lane needs ${t.requiresFlag})`, depth + 1)) return false;
+    this.closeConversation();
+    if (this.playedTonight || this.known.has(set.nightFlag)) {
+      const bed = ((districts.get(this.district)?.triggers ?? []) as Json[]).find((b) => b.action === 'sleep');
+      if (!bed) { this.push({ do: 'unresolved', reason: `${who}: lesson ${index + 1} needs a night's sleep and ${this.district} has no bed` }); return false; }
+      this.push({ do: 'sleep' });
+      this.known.delete(set.nightFlag);
+    }
+    this.push({ do: 'goto', target: `zone:${t.zone}` });
+    this.push({ do: 'rhythm' });
+    for (const g of lesson.setFlags) this.known.add(g);
+    this.playedTonight = true;
+    this.push({ do: 'wait_for', ready: 'flag', flag: lesson.setFlags[0], timeout: 6000 });
+    if (index === set.lessons.length - 1 && set.afterLast && !(set.afterLast.unlessFlag && this.known.has(set.afterLast.unlessFlag))) {
+      this.open = { dialogue: set.afterLast.dialogue, node: this.entryNode(dialogues.get(set.afterLast.dialogue)) };
+    }
     return true;
   }
 
@@ -430,6 +477,7 @@ class Gen {
       this.triggerSetting(id, f)
       || this.npcsIn(id).some((r) => { const d = npcs.get(r.id)?.dialogue; return d && this.dialogueReaches(d, (n, c) => this.setsFlag(n, c, f)).found; })
       || (districts.get(id)!.signalZones ?? []).some((z: Json) => z.flag === f)
+      || this.rhythmSetting(id, f)
       || (SLEEP_FLAGS[f] !== undefined && (districts.get(id)!.triggers ?? []).some((t: Json) => t.action === 'sleep'))
     ));
     const reachable = candidates.filter((id) => this.pathBetween(this.district, id));

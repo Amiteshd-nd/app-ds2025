@@ -68,5 +68,12 @@
     "tier": 2,
     "dialogue": "dlg_crowd_garland",
     "sheet": "crowd_homemaker"
+  },
+  {
+    "id": "npc_church_busker",
+    "name": "Busker",
+    "tier": 2,
+    "dialogue": "dlg_busker",
+    "sheet": "npc_church_busker"
   }
 ]

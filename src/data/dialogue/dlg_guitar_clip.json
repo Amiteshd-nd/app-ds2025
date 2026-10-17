@@ -1,0 +1,44 @@
+{
+  "id": "dlg_guitar_clip",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "G, C, D, back to G - three chords, and the flat sounds less empty. The phone is right there on the cot. A ten-second clip?",
+      "choices": [
+        {
+          "text": "Record it and send it to Ananya.",
+          "next": "sent",
+          "effect": {
+            "flags": {
+              "guitar_clip_sent": true,
+              "guitar_clip_decided": true,
+              "photo_guitar_clip": true
+            },
+            "relationship": {
+              "npc": "npc_ananya",
+              "state": "warm"
+            }
+          }
+        },
+        {
+          "text": "Record it. Keep it.",
+          "next": "kept",
+          "effect": {
+            "flags": {
+              "guitar_clip_kept": true,
+              "guitar_clip_decided": true,
+              "photo_guitar_clip": true
+            }
+          }
+        }
+      ]
+    },
+    "sent": {
+      "text": "Sent. One wrong note at the end. You leave it in. (Two grey ticks. Then blue.)"
+    },
+    "kept": {
+      "text": "Saved to Photos. Some things are just for the cot and the ceiling fan."
+    }
+  }
+}

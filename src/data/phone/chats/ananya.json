@@ -25,7 +25,29 @@
       "id": "ananya_2",
       "from": "them",
       "text": "Sent you the bandstand one. You looked like a tourist. In a good way.",
-      "after": "ananya_walk_done"
+      "after": "ananya_walk_done",
+      "optional": true
+    },
+    {
+      "id": "ananya_5",
+      "from": "me",
+      "text": "(a ten-second clip: G, C, D, and one wrong note at the end)",
+      "after": "guitar_clip_sent",
+      "optional": true
+    },
+    {
+      "id": "ananya_6",
+      "from": "them",
+      "text": "Okay. That was not bad. That was almost a song.",
+      "after": "guitar_clip_sent",
+      "optional": true
+    },
+    {
+      "id": "ananya_7",
+      "from": "them",
+      "text": "Walked past Church Street — the guitar man says you bought the spruce top. Concert when?",
+      "after": "guitar_clip_kept",
+      "optional": true
     }
   ]
 }

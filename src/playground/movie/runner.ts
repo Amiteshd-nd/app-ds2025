@@ -194,6 +194,7 @@ export function summarise(step: Step): string {
     case 'wait': return `wait ${step.ms}ms`;
     case 'phone': return `phone ${step.action}${step.app ? ` ${step.app}` : step.target ? ` ${step.target}` : step.n ? ` ${step.n}` : ''}`;
     case 'sleep': return 'sleep';
+    case 'rhythm': return 'rhythm';
     case 'pay': return `pay${step.max !== undefined ? ` ≤₹${step.max}` : ''}`;
     case 'expect': return `expect ${[step.flag, step.not_flag && `!${step.not_flag}`, step.wallet_lte !== undefined && `wallet≤${step.wallet_lte}`, step.wallet_gte !== undefined && `wallet≥${step.wallet_gte}`, step.district, step.scene, step.near && `near ${step.near}`].filter(Boolean).join(' ')}`;
     case 'set_flag': return `set_flag ${step.flag}`;

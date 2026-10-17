@@ -1,0 +1,42 @@
+{
+  "id": "dlg_busker",
+  "speaker": "Busker",
+  "portrait": "npc_church_busker",
+  "enter": [
+    {
+      "flag": "busker_tipped",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(He finishes a three-chord song with more joy than accuracy.) Three chords and the truth, boss. That's all anyone on this street ever played.",
+      "choices": [
+        {
+          "text": "Drop ₹10 in the case.",
+          "next": "tipped",
+          "effect": {
+            "wallet": -10,
+            "flags": {
+              "busker_tipped": true
+            },
+            "stress": -2
+          }
+        },
+        {
+          "text": "Just listen.",
+          "next": "listen"
+        }
+      ]
+    },
+    "tipped": {
+      "text": "Ah, patron of the arts! Here - (he shows you a shape) - ring finger, middle finger, little one. G. Everyone's first chord. Your fingers will remember it tonight."
+    },
+    "listen": {
+      "text": "Listening is free. Clapping is also free. (He starts the same song again.)"
+    },
+    "again": {
+      "text": "G, then C, then D, then back home to G. That's the whole secret. Don't tell the shop."
+    }
+  }
+}

@@ -227,7 +227,8 @@ export function validateContent(
 
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
-      if (trigger.action !== undefined && !['sleep', 'workday'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday)`);
+      if (trigger.action !== undefined && !['sleep', 'workday', 'rhythm'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday | rhythm)`);
+      if (trigger.action === 'rhythm' && (typeof trigger.minigame !== 'string' || !trigger.minigame)) add(where, `${d} trigger "${trigger.zone}" is a rhythm trigger without a minigame id`);
       if (trigger.unlessFlag !== undefined && (typeof trigger.unlessFlag !== 'string' || !trigger.unlessFlag)) {
         add(where, `${d} trigger "${trigger.zone}" unlessFlag must be a flag name`);
       }
@@ -443,8 +444,9 @@ export function validateContent(
     for (const member of json.cast ?? []) {
       if (!member.npc) { add(file, 'a cast entry has no npc'); continue; }
       if (!npcIds.has(member.npc)) add(file, `cast member "${member.npc}" is not an NPC`);
-      else if (district && !placed.has(member.npc)) {
-        add(file, `cast member "${member.npc}" is not placed in district "${json.district}" — add it to districts.json npcs`);
+      else if (member.district ? !(districts.find((d) => d.id === member.district)?.npcs ?? []).some((n: Json) => n.id === member.npc) : district && !placed.has(member.npc)) {
+        // A cast member may stand in another of the scene's places (the shop interior, ADR-131) by naming it.
+        add(file, `cast member "${member.npc}" is not placed in district "${member.district ?? json.district}" — add it to districts.json npcs`);
       }
     }
     for (const beat of json.beats ?? []) {
@@ -994,12 +996,15 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
   } else if (byId.size) {
     const reached = new Set<string>([start]);
     const queue = [start];
+    // Maps METRO (ADR-115) joins every pocket that sits on a station: reaching one reaches the rest.
+    const stations = [...byId.values()].filter((d) => d.metroStation).map((d) => d.id as string);
     while (queue.length) {
       const current = byId.get(queue.shift()!);
-      for (const exit of current?.exits ?? []) {
-        if (byId.has(exit.to) && !reached.has(exit.to)) {
-          reached.add(exit.to);
-          queue.push(exit.to);
+      const next = [...(current?.exits ?? []).map((e: Json) => e.to as string), ...(current?.metroStation ? stations : [])];
+      for (const to of next) {
+        if (byId.has(to) && !reached.has(to)) {
+          reached.add(to);
+          queue.push(to);
         }
       }
     }
@@ -1125,7 +1130,7 @@ function detectPrerequisiteCycles(questFiles: Array<{ file: string; json: Json }
 
 
 // ── Movie Mode walkthroughs (Test Playground, T-054) ────────────────────────
-const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
+const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'rhythm', 'pay', 'expect', 'set_flag', 'unresolved'];
 const WALKTHROUGH_READY = ['scene_loaded', 'free', 'flag', 'dialogue', 'objective'];
 
 /**
@@ -1217,6 +1222,44 @@ export function validateWalkthroughs(
   return { problems, warnings };
 }
 
+/**
+ * Mini-games (story 2.3, ADR-131): every rhythm set's lessons are playable
+ * (chords, a sane tempo, strums on beats 1–4, a pass share), its follow-up
+ * conversation exists, and every `rhythm` trigger names a set that exists.
+ */
+export function validateMinigames(files: JsonFile[], dialogueIds: Set<string>, districts: Json[], glyphs?: Set<string>): string[] {
+  const problems: string[] = [];
+  const ids = new Set<string>();
+  const lesson = (where: string, l: Json, free = false) => {
+    if (!l || typeof l !== 'object') { problems.push(`${where}: not a lesson`); return; }
+    if (!l.id || typeof l.title !== 'string') problems.push(`${where}: a lesson needs an id and a title`);
+    if (glyphs && typeof l.title === 'string') for (const ch of l.title) if (!glyphs.has(ch)) problems.push(`${where}: title has "${ch}", which the bitmap font cannot draw`);
+    if (!Array.isArray(l.chords) || !l.chords.length || l.chords.some((c: unknown) => typeof c !== 'string' || !c)) problems.push(`${where}: chords must be a non-empty list of names`);
+    if (!Number.isFinite(l.bpm) || l.bpm < 40 || l.bpm > 200) problems.push(`${where}: bpm must be 40–200`);
+    if (!Number.isInteger(l.bars) || l.bars < 1 || l.bars > 32) problems.push(`${where}: bars must be 1–32`);
+    if (!Array.isArray(l.strums) || !l.strums.length || l.strums.some((b: unknown) => !Number.isInteger(b) || (b as number) < 1 || (b as number) > 4)) problems.push(`${where}: strums must be beats 1–4`);
+    if (!(typeof l.pass === 'number' && l.pass >= 0 && l.pass <= 1)) problems.push(`${where}: pass must be a share 0–1`);
+    if (!free && (!Array.isArray(l.setFlags) || !l.setFlags.length)) problems.push(`${where}: a lesson must set at least one flag when passed`);
+    if (l.easierIf && (typeof l.easierIf.flag !== 'string' || !(l.easierIf.pass >= 0 && l.easierIf.pass <= 1))) problems.push(`${where}: easierIf needs a flag and a pass share`);
+  };
+  for (const { file, json } of files) {
+    const where = `minigames/${file}`;
+    if (!json?.id) { problems.push(`${where}: missing id`); continue; }
+    ids.add(json.id);
+    if (typeof json.nightFlag !== 'string' || !json.nightFlag) problems.push(`${where}: nightFlag must be a flag name`);
+    if (!Number.isFinite(json.stress)) problems.push(`${where}: stress must be a number`);
+    if (!Array.isArray(json.lessons) || !json.lessons.length) problems.push(`${where}: needs lessons`);
+    else json.lessons.forEach((l: Json, i: number) => lesson(`${where} lesson ${i + 1}`, l));
+    lesson(`${where} free`, json.free, true);
+    if (json.free && !Number.isFinite(json.free.stress)) problems.push(`${where}: free.stress must be a number`);
+    if (json.afterLast && !dialogueIds.has(json.afterLast.dialogue)) problems.push(`${where}: afterLast dialogue "${json.afterLast.dialogue}" does not exist`);
+  }
+  for (const d of districts) for (const t of d.triggers ?? []) {
+    if (t.action === 'rhythm' && t.minigame && !ids.has(t.minigame)) problems.push(`districts.json: district "${d.id}" trigger "${t.zone}" names minigame "${t.minigame}", which does not exist`);
+  }
+  return problems;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
   const dialogue = readJsonDir('dialogue');
   const quests = readJsonDir('quests');
@@ -1262,6 +1305,9 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const mapSizes: Record<string, [number, number]> = {};
   for (const [key, json] of Object.entries(maps)) mapSizes[key] = [json.width, json.height];
   problems.push(...validateAreas(districts, areas, mapSizes));
+
+  const minigameDir = join(dataDir, 'minigames');
+  problems.push(...validateMinigames(existsSync(minigameDir) ? readJsonDir('minigames') : [], new Set(dialogue.map((f) => f.json?.id)), districts, glyphs));
 
   const world = validateWorld(districts, { manifest, maps, sprites });
   problems.push(...world.problems);

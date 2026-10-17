@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 → 24x16) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; the ceiling fan hangs `above`; furniture is placed by flag as sprite objects.",
+  "$comment": "Source-pixel spec (1536x1024 \u2192 24x16) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; the ceiling fan hangs `above`; furniture is placed by flag as sprite objects. 2.3 (ADR-131): guitar_spot (the guitar on its stand, placed by guitar_owned) and guitar_zone in front of it (the rhythm lane).",
   "name": "hill_flat",
   "cols": 24,
   "rows": 16,
@@ -35,6 +35,11 @@
       "name": "box_spot",
       "x": 420,
       "y": 720
+    },
+    {
+      "name": "guitar_spot",
+      "x": 985,
+      "y": 232
     }
   ],
   "zones": [
@@ -58,6 +63,13 @@
       "y": 700,
       "w": 140,
       "h": 70
+    },
+    {
+      "name": "guitar_zone",
+      "x": 915,
+      "y": 262,
+      "w": 140,
+      "h": 90
     }
   ],
   "buildings": [

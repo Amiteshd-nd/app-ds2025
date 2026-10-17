@@ -16,6 +16,8 @@ export interface TriggerActions {
   sleep(): void;
   /** The office door: fade, the day passes, fade back at closing time (story 1.1 F3–F5). */
   workday(): void;
+  /** The mini-game a `rhythm` trigger names (the guitar's lessons, ADR-131). */
+  rhythm(minigameId: string): void;
 }
 
 /**
@@ -57,6 +59,7 @@ export function bind(
         if (trigger.dialogue) actions.openDialogue(trigger.dialogue);
         if (trigger.action === 'sleep') actions.sleep();
         if (trigger.action === 'workday') actions.workday();
+        if (trigger.action === 'rhythm' && trigger.minigame) actions.rhythm(trigger.minigame);
       }),
     );
   }

@@ -143,7 +143,9 @@
         "box_spot",
         "front_door",
         "bed",
-        "flat_arrival"
+        "flat_arrival",
+        "guitar_spot",
+        "guitar_zone"
       ],
       "sop": true
     },
@@ -241,6 +243,36 @@
         "coach_standing",
         "boarded",
         "seat_zone"
+      ],
+      "sop": true
+    },
+    "church_street": {
+      "file": "church_street.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "mg_road_station",
+        "bus_drop",
+        "shop_front",
+        "busker_corner",
+        "busker_case",
+        "church_arrival",
+        "shop_door",
+        "bus_stop",
+        "ambient_area"
+      ],
+      "sop": true
+    },
+    "guitar_shop": {
+      "file": "guitar_shop.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "shop_entry",
+        "shop_counter",
+        "shop_exit"
       ],
       "sop": true
     }

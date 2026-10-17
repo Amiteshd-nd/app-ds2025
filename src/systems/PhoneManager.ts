@@ -59,7 +59,8 @@ export class PhoneManager {
     for (const thread of Object.values(this.threads)) {
       for (const message of thread.messages) {
         if (delivered.has(message.id)) continue;
-        if (message.after && !store.flags[message.after]) break; // in order: wait for this one
+        // In order: wait for this one — unless it is optional (a branch the player may never take), then step past it.
+        if (message.after && !store.flags[message.after]) { if (message.optional) continue; break; }
         delivered.add(message.id);
         fresh.push({ thread, message });
       }
@@ -178,7 +179,7 @@ export class PhoneManager {
   /** Notes (the wishlist): flag-gated; a priced note says how far the wallet is from it. */
   notes(): Array<NoteDef & { toGo: number | null }> {
     const { flags, stats } = useGameStore.getState();
-    return NOTES.filter((n) => !n.after || flags[n.after]).map((n) => ({ ...n, toGo: n.price === undefined ? null : Math.max(0, n.price - stats.wallet) }));
+    return NOTES.filter((n) => (!n.after || flags[n.after]) && !(n.until && flags[n.until])).map((n) => ({ ...n, toGo: n.price === undefined ? null : Math.max(0, n.price - stats.wallet) }));
   }
 
   /** Every photo definition with whether it has been taken. */

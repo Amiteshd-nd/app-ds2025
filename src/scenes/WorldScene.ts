@@ -7,7 +7,7 @@ import { TimeManager } from '../systems/TimeManager';
 import { useGameStore } from '../store';
 import { TILESET_URLS } from '../assets';
 import { MAPS, LAYER_ORDER } from '../assets/maps';
-import { getDistrict } from '../data';
+import { getDistrict, MINIGAMES } from '../data';
 import { gameEvents } from '../core/events';
 import { depthForZY, feetY } from '../core/depth';
 import * as Populate from '../world/Populate';
@@ -29,6 +29,8 @@ import {
 } from '../utils/constants';
 import type { DistrictDef, DistrictExit } from '../utils/types';
 import type { HudScene, HudSceneData } from './HudScene';
+import type { RhythmResult, RhythmSceneData } from './RhythmScene';
+import { outcome as rhythmOutcome, pick as pickRhythm } from '../systems/rhythm';
 import type { WorkdaySceneData } from './WorkdayScene';
 
 export interface WorldSceneData {
@@ -156,6 +158,7 @@ export class WorldScene extends Phaser.Scene {
       canTalk: () => !this.talking && !this.leaving && !this.sleeping,
       sleep: () => this.sleep(),
       workday: () => this.workday(),
+      rhythm: (id) => this.rhythm(id),
     });
 
     const behaviourNames = [...new Set([...CORE_BEHAVIOURS, ...(this.district.behaviours ?? [])])];
@@ -422,6 +425,36 @@ export class WorldScene extends Phaser.Scene {
           this.player.setInteractionEnabled(true);
         });
       });
+    });
+  }
+
+  /**
+   * The guitar (story 2.3, ADR-131): the rhythm lane over the flat. The world
+   * holds like a conversation; the session's outcome (lesson flags, the night
+   * used, stress) is applied here from `rhythm.outcome`, and the clip's
+   * conversation follows the last lesson. Already played tonight → a toast.
+   */
+  private rhythm(minigameId: string): void {
+    if (this.talking || this.leaving || this.sleeping) return;
+    const set = MINIGAMES[minigameId];
+    if (!set) { console.error(`[WorldScene] unknown minigame "${minigameId}"`); return; }
+    const flags = useGameStore.getState().flags;
+    const picked = pickRhythm(set, flags);
+    if (picked.kind === 'tired') { gameEvents.emit('ui:toast', { text: 'Fingertips still sore. Tomorrow.' }); return; }
+    this.talking = true;
+    this.player.setInteractionEnabled(false);
+    this.scene.launch(SCENE_KEYS.RHYTHM, { lesson: picked.lesson, free: picked.kind === 'free', flags: { ...flags } } satisfies RhythmSceneData);
+    this.scene.bringToTop(SCENE_KEYS.RHYTHM);
+    this.scene.bringToTop(SCENE_KEYS.ORIENTATION);
+    this.scene.get(SCENE_KEYS.RHYTHM).events.once('rhythm:done', (r: RhythmResult) => {
+      this.scene.stop(SCENE_KEYS.RHYTHM);
+      const out = rhythmOutcome(set, picked, r.ok, useGameStore.getState().flags);
+      for (const f of out.flags) useGameStore.getState().setFlag(f, true);
+      if (out.stress) StatsManager.getInstance().adjust('stress', out.stress);
+      if (out.toast) gameEvents.emit('ui:toast', { text: out.toast });
+      this.talking = false;
+      if (out.dialogue) { this.openDialogue(out.dialogue); return; }
+      this.time.delayedCall(80, () => { if (!this.talking && !this.leaving && !this.sleeping) this.player.setInteractionEnabled(true); });
     });
   }
 

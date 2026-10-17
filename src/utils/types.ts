@@ -306,8 +306,10 @@ export interface DistrictTrigger {
   setFlags?: string[];
   /** Dialogue opened on entry — a phone call in the room, a thought at a window. */
   dialogue?: string;
-  /** Built-in action on entry. `sleep` = TimeManager.sleep() (bed zones); `workday` = TimeManager.workday() behind a fade (the office door). */
-  action?: 'sleep' | 'workday';
+  /** Built-in action on entry. `sleep` = TimeManager.sleep() (bed zones); `workday` = TimeManager.workday() behind a fade (the office door); `rhythm` = the mini-game named by `minigame` (the flat's guitar, ADR-131). */
+  action?: 'sleep' | 'workday' | 'rhythm';
+  /** MINIGAMES id for `action: rhythm`. */
+  minigame?: string;
 }
 
 /**
@@ -320,6 +322,8 @@ export interface DistrictDef {
   name: string;
   /** Key in maps.manifest.json. */
   map: string;
+  /** Maps offers METRO / RIDE here before the first visit once this flag is set — the shop's text named the stop (story 2.3, ADR-131). */
+  knownIf?: string;
   /** Spawn object used when no spawn is named by the exit that led here. */
   defaultSpawn: string;
   fadeMs?: number;
@@ -611,6 +615,8 @@ export interface ChatMessage {
   critical?: boolean;
   /** ₹ that arrive with the message through earn() — Ananya returning the sixty (ADR-123). */
   upi?: number;
+  /** A branch the player may never take (the optional walk, the clip kept or sent): later messages do not wait for it (ADR-131). */
+  optional?: boolean;
 }
 
 export interface ChatThread {
@@ -780,5 +786,7 @@ export interface NoteDef {
   id: string;
   text: string;
   after?: string;
+  /** The note is gone once this flag is set — the wishlist line once the guitar is bought (ADR-131). */
+  until?: string;
   price?: number;
 }

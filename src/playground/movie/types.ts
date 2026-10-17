@@ -30,6 +30,8 @@ export type Step = Base & (
   | { do: 'wait'; ms: number }
   | { do: 'phone'; action: 'open' | 'close' | 'back' | 'app' | 'tap' | 'scroll'; app?: string; target?: string; n?: number }
   | { do: 'sleep' }
+  /** Play the rhythm lane that is open (or opening) through the real keys: E to start, E on every note, E to close (ADR-131). */
+  | { do: 'rhythm' }
   | { do: 'pay'; max?: number }
   | { do: 'expect'; flag?: string; not_flag?: string; wallet_lte?: number; wallet_gte?: number; district?: string; scene?: string; near?: Target }
   | { do: 'set_flag'; flag: string; value?: boolean }
@@ -138,6 +140,8 @@ export interface MovieDriver {
   talkingTo(): string | null;
   /** The phone overlay right now: route, focused id, focusable ids with their boxes; null when closed. */
   phone(): { app: string; focusId: string | null; origin: [number, number]; focusables: Array<{ id: string; x: number; y: number; w: number; h: number }> } | null;
+  /** The rhythm lane right now (phase, ms to the next note, hits), or null when it is not open (ADR-131). */
+  rhythm?(): { phase: 'intro' | 'count' | 'play' | 'result'; nextNoteInMs: number | null; hits: number; total: number; passed: boolean | null } | null;
   /** A tap on the canvas at game coordinates (the touch path). */
   tap(gameX: number, gameY: number): Promise<void>;
   /** Subscribe to one game event; returns the unsubscribe. */

@@ -4,5 +4,6 @@
   { "id": "bamboo", "set": "cubbon", "title": "The bamboo grove", "caption": "Four o'clock light. Every photographer in the city knows; none of them tells you." },
   { "id": "red_building", "set": "cubbon", "title": "The red building", "caption": "Attara Kacheri — the old court, eighteen offices, one colour." },
   { "id": "dog", "set": "cubbon", "title": "A Cubbon dog", "caption": "Asleep in a sunbeam. The pigeon won, again." },
-  { "id": "ananya_portrait", "set": null, "title": "You, at the library steps", "caption": "Shot by Ananya. 'That's your new wallpaper, by the way.'" }
+  { "id": "ananya_portrait", "set": null, "title": "You, at the library steps", "caption": "Shot by Ananya. 'That's your new wallpaper, by the way.'" },
+  { "id": "guitar_clip", "set": null, "title": "Three chords, one take", "caption": "Ten seconds on the cot. The wrong note at the end stays in." }
 ]

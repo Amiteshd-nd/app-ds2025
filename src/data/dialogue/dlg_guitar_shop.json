@@ -2,23 +2,84 @@
   "id": "dlg_guitar_shop",
   "speaker": "Guitar shop · Church Street",
   "portrait": "npc_guitar_shop",
-  "enter": [{ "flag": "guitar_wishlisted", "node": "again" }],
+  "enter": [
+    {
+      "flag": "guitar_owned",
+      "node": "owned"
+    },
+    {
+      "flag": "guitar_in_stock",
+      "node": "tuesday"
+    },
+    {
+      "flag": "guitar_wishlisted",
+      "node": "again"
+    }
+  ],
   "nodes": {
     "start": {
       "text": "That one in the window? Six thousand five hundred. Spruce top, decent tuners. Half this city learnt Wonderwall on this model and the other half pretends it didn't.",
       "choices": [
-        { "text": "I'll take it. (₹6,500)", "next": "booked" },
-        { "text": "Too much for this month.", "next": "wish" }
+        {
+          "text": "I'll take it. (₹6,500)",
+          "next": "booked"
+        },
+        {
+          "text": "Too much for this month.",
+          "next": "wish"
+        }
       ]
     },
     "booked": {
       "text": "Ah - that one's the display piece, booked till Tuesday. New stock comes Tuesday. Take my number, come Tuesday, I'll keep one aside. Six-five, no bargaining - I'm not the cycle uncle.",
-      "effect": { "flags": { "guitar_wishlisted": true } }
+      "effect": {
+        "flags": {
+          "guitar_wishlisted": true
+        }
+      }
     },
     "wish": {
       "text": "Then come back when it isn't. It'll still be six-five; I don't do sales, I do tuning. (He writes GUITAR - TUESDAY on a card and hands it to you anyway.)",
-      "effect": { "flags": { "guitar_wishlisted": true } }
+      "effect": {
+        "flags": {
+          "guitar_wishlisted": true
+        }
+      }
     },
-    "again": { "text": "Tuesday. I remember you. The spruce top is still six-five and still in the window." }
+    "again": {
+      "text": "Tuesday. I remember you. The spruce top is still six-five and still in the window."
+    },
+    "tuesday": {
+      "text": "Tuesday. I said Tuesday and here you are. Spruce top, strung this morning, tuned twice. Six-five, same as I said.",
+      "choices": [
+        {
+          "text": "Take it. (₹6,500)",
+          "next": "sold",
+          "effect": {
+            "wallet": -6500,
+            "item_add": "guitar",
+            "flags": {
+              "guitar_owned": true
+            }
+          }
+        },
+        {
+          "text": "Not today.",
+          "next": "later"
+        }
+      ]
+    },
+    "sold": {
+      "text": "Good. Pick and a chord chart, free - G, C, D, I've circled them. Three chords and you can play half the songs in this city. Wipe the strings after.",
+      "effect": {
+        "item_add": "chord_chart"
+      }
+    },
+    "later": {
+      "text": "It waits till Saturday. After that I'm not promising - students come in on Saturdays with their fathers' money."
+    },
+    "owned": {
+      "text": "How's the spruce top? If your fingers hurt, you're doing it right. If they bleed, you're doing it wrong."
+    }
   }
 }

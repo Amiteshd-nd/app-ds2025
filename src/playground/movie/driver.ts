@@ -1,3 +1,4 @@
+import type { RhythmScene } from '../../scenes/RhythmScene';
 import Phaser from 'phaser';
 import { DIALOGUE, DISTRICTS, NPCS } from '../../data';
 import { gameEvents, type GameEvents } from '../../core/events';
@@ -203,6 +204,11 @@ export class PhaserDriver implements MovieDriver {
       return { text: c.text, enabled: c.enabled, next: raw?.next, cost: wallet < 0 ? -wallet : 0 };
     });
     return { open: true, typing: Boolean(box.typing), selected: box.selected, choices, text: view.text };
+  }
+
+  rhythm() {
+    const scene = this.game.scene.getScene(SCENE_KEYS.RHYTHM) as RhythmScene | null;
+    return scene && this.game.scene.isActive(SCENE_KEYS.RHYTHM) ? scene.view() : null;
   }
 
   talkingTo(): string | null {

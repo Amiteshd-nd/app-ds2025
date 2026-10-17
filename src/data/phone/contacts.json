@@ -5,5 +5,6 @@
   { "id": "ravi", "name": "Ravi", "note": "The intern", "after": "met_ravi" },
   { "id": "shanthamma", "name": "Shanthamma", "note": "PG owner", "after": "pg_signed" },
   { "id": "owner_aunty", "name": "Owner Aunty", "note": "Ambedkar Nagar", "after": "flat_signed" },
-  { "id": "ananya", "name": "Ananya", "npc": "npc_ananya", "note": "Cubbon Park · photographer", "after": "ananya_number" }
+  { "id": "ananya", "name": "Ananya", "npc": "npc_ananya", "note": "Cubbon Park · photographer", "after": "ananya_number" },
+  { "id": "guitar_shop", "name": "Guitar shop", "note": "Church Street · six-five", "after": "guitar_in_stock" }
 ]

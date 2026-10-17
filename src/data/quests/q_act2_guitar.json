@@ -1,0 +1,31 @@
+{
+  "id": "q_act2_guitar",
+  "title": "Guitar",
+  "description": "Six-five, no bargaining, kept aside till Tuesday. Then three chords on the cot, one night at a time.",
+  "chapter": 2,
+  "district": "church_street",
+  "type": "delivery",
+  "prerequisite_quests": [
+    "q_act2_metro_opens"
+  ],
+  "objectives": [
+    { "id": "stock", "text": "Wait for the shop's Tuesday stock", "type": "flag", "target": "guitar_in_stock" },
+    { "id": "street", "text": "Go to Church Street (MG Road metro)", "type": "flag", "target": "church_street_visited", "destination": "church_street" },
+    { "id": "buy", "text": "Buy the guitar", "type": "flag", "target": "guitar_owned", "destination": "guitar_shop" },
+    { "id": "busker", "text": "Listen to the busker", "type": "flag", "target": "busker_tipped", "optional": true, "destination": "church_street" },
+    { "id": "g", "text": "Learn G on the cot", "type": "flag", "target": "chord_g", "destination": "hill_flat" },
+    { "id": "c", "text": "Learn C (tomorrow night)", "type": "flag", "target": "chord_c", "destination": "hill_flat" },
+    { "id": "d", "text": "Learn D (the night after)", "type": "flag", "target": "chord_d", "destination": "hill_flat" },
+    { "id": "clip", "text": "Record a clip", "type": "flag", "target": "guitar_clip_decided", "destination": "hill_flat" }
+  ],
+  "rewards": {
+    "xp": 40,
+    "xp_branch": "soft_skills",
+    "reputation": 1
+  },
+  "on_complete": {
+    "set_flags": [
+      "act2_guitar_done"
+    ]
+  }
+}

@@ -769,6 +769,11 @@
         "id": "INDUCTION",
         "at": "stove_spot",
         "requiresFlag": "stove_bought"
+      },
+      {
+        "id": "GUITAR_STAND",
+        "at": "guitar_spot",
+        "requiresFlag": "guitar_owned"
       }
     ],
     "triggers": [
@@ -797,6 +802,13 @@
           "act1_done"
         ],
         "unlessFlag": "act1_done"
+      },
+      {
+        "zone": "guitar_zone",
+        "action": "rhythm",
+        "minigame": "guitar",
+        "requiresFlag": "guitar_owned",
+        "once": false
       }
     ],
     "exits": [
@@ -810,11 +822,15 @@
     "behaviours": [
       "salaryCountdown",
       "emi",
-      "metroOpening"
+      "metroOpening",
+      "guitarNights"
     ],
     "realworld": {
       "parent": "ambedkar_nagar_hill"
-    }
+    },
+    "quests": [
+      "q_act2_guitar"
+    ]
   },
   {
     "id": "bus_interior",
@@ -922,7 +938,8 @@
       },
       {
         "id": "npc_guitar_shop",
-        "spawn": "guitar_shop"
+        "spawn": "guitar_shop",
+        "unlessFlag": "guitar_in_stock"
       }
     ],
     "objects": [
@@ -1309,5 +1326,132 @@
     "behaviours": [
       "busRide"
     ]
+  },
+  {
+    "id": "church_street",
+    "name": "Church Street",
+    "map": "church_street",
+    "defaultSpawn": "mg_road_station",
+    "fadeMs": 400,
+    "knownIf": "guitar_in_stock",
+    "unlock": {
+      "flags": [
+        "guitar_in_stock"
+      ]
+    },
+    "signal": 4,
+    "quests": [
+      "q_act2_guitar"
+    ],
+    "npcs": [
+      {
+        "id": "npc_church_busker",
+        "spawn": "busker_corner"
+      }
+    ],
+    "objects": [
+      {
+        "id": "GUITAR_CASE_OPEN",
+        "at": "busker_case"
+      }
+    ],
+    "ambient": {
+      "area": "ambient_area",
+      "base": [
+        "crowd_student",
+        "crowd_techie",
+        "crowd_hoodie",
+        "crowd_homemaker",
+        "crowd_officegoer"
+      ],
+      "count": 6
+    },
+    "triggers": [
+      {
+        "zone": "church_arrival",
+        "setFlags": [
+          "church_street_visited"
+        ],
+        "unlessFlag": "church_street_visited"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "shop_door",
+        "to": "guitar_shop",
+        "spawn": "shop_entry",
+        "transit": "walk"
+      },
+      {
+        "zone": "bus_stop",
+        "to": "whitefield_street",
+        "spawn": "cubbon_return",
+        "transit": "bus",
+        "fare": 35,
+        "minutes": 55,
+        "card": "BMTC 335-E → Whitefield · ₹35"
+      }
+    ],
+    "realworld": {
+      "lat": 12.97515,
+      "lng": 77.6045,
+      "label": "Church Street",
+      "area": {
+        "radiusM": 500,
+        "pocket": {
+          "anchor": [
+            12.97515,
+            77.6045
+          ],
+          "anchorTile": [
+            18,
+            12
+          ],
+          "bearing": 90,
+          "metresPerTile": 1.2,
+          "tiles": [
+            36,
+            24
+          ],
+          "streets": [
+            "Church Street"
+          ]
+        }
+      }
+    },
+    "metroStation": "stn_mg_road"
+  },
+  {
+    "id": "guitar_shop",
+    "name": "Guitar shop",
+    "map": "guitar_shop",
+    "defaultSpawn": "shop_entry",
+    "fadeMs": 300,
+    "unlock": {
+      "flags": [
+        "guitar_in_stock"
+      ]
+    },
+    "signal": 3,
+    "quests": [
+      "q_act2_guitar"
+    ],
+    "npcs": [
+      {
+        "id": "npc_guitar_shop",
+        "spawn": "shop_counter"
+      }
+    ],
+    "exits": [
+      {
+        "zone": "shop_exit",
+        "to": "church_street",
+        "spawn": "shop_front",
+        "transit": "walk"
+      }
+    ],
+    "realworld": {
+      "parent": "church_street"
+    }
   }
 ]

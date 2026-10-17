@@ -31,6 +31,8 @@ export const SHEETS = {
   scooters: { cols: 3, rows: 2, height: 30, heights: [34, 28, 34, 28, 28, 30] },
   // Opening day (P11, ADR-127): the finished station entrance · bunting · a flagpole · crowd barriers · marigold pots · a finished pillar.
   metro_props: { cols: 3, rows: 2, height: 40, heights: [64, 30, 62, 22, 26, 62] },
+  // 2.3 Guitar (P12, ADR-131): guitar on a stand · on a wall hook · open case with coins · practice amp · chord chart + pick · music stand.
+  guitar_props: { cols: 3, rows: 2, height: 30, heights: [36, 34, 20, 20, 12, 34] },
 };
 
 const keyMagenta = (d) => {

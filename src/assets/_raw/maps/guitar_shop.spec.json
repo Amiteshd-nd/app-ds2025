@@ -1,0 +1,196 @@
+{
+ "$comment": "Source-pixel spec (1536x1024 \u2192 12x8, the bus/coach scale so the owner behind his counter is in talking range) \u2014 the Church Street guitar shop (story 2.3, ADR-131): the guitar wall band and the side walls are `buildings`, the front windows and the floor outside the glass door too; the plant, amp, case rack, counter and the corner plant are blocks; the guitar on its stand and the trying-out stool are `sorted` cut-outs. The owner stands behind the counter; you buy across it.",
+ "name": "guitar_shop",
+ "cols": 12,
+ "rows": 8,
+ "units": "px",
+ "buildings": [
+  [
+   0,
+   0,
+   1536,
+   205
+  ],
+  [
+   0,
+   205,
+   25,
+   585
+  ],
+  [
+   1510,
+   205,
+   26,
+   585
+  ],
+  [
+   0,
+   790,
+   670,
+   234
+  ],
+  [
+   830,
+   790,
+   706,
+   234
+  ],
+  [
+   670,
+   935,
+   160,
+   89
+  ]
+ ],
+ "blocks": [
+  [
+   30,
+   290,
+   75,
+   60
+  ],
+  [
+   122,
+   290,
+   118,
+   110
+  ],
+  [
+   28,
+   415,
+   162,
+   375
+  ],
+  [
+   1240,
+   255,
+   125,
+   520
+  ],
+  [
+   1240,
+   570,
+   270,
+   205
+  ],
+  [
+   1460,
+   650,
+   50,
+   170
+  ]
+ ],
+ "spawns": [
+  {
+   "name": "shop_entry",
+   "x": 750,
+   "y": 760
+  },
+  {
+   "name": "shop_counter",
+   "x": 1440,
+   "y": 470
+  }
+ ],
+ "zones": [
+  {
+   "name": "shop_exit",
+   "x": 670,
+   "y": 900,
+   "w": 160,
+   "h": 30
+  },
+  {
+   "name": "shop_arrival",
+   "x": 600,
+   "y": 700,
+   "w": 300,
+   "h": 100
+  }
+ ],
+ "sorted": [
+  {
+   "name": "stand_guitar",
+   "rect": [
+    250,
+    230,
+    80,
+    200
+   ],
+   "base": 430,
+   "footprint": [
+    255,
+    395,
+    70,
+    35
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     500,
+     300,
+     60,
+     40
+    ],
+    [
+     950,
+     650,
+     60,
+     40
+    ]
+   ],
+   "seeds": [
+    [
+     290,
+     300
+    ],
+    [
+     290,
+     410
+    ]
+   ]
+  },
+  {
+   "name": "stool",
+   "rect": [
+    715,
+    465,
+    95,
+    140
+   ],
+   "base": 600,
+   "footprint": [
+    722,
+    560,
+    80,
+    38
+   ],
+   "mode": "key",
+   "bg": [
+    [
+     500,
+     300,
+     60,
+     40
+    ],
+    [
+     950,
+     650,
+     60,
+     40
+    ]
+   ],
+   "seeds": [
+    [
+     760,
+     490
+    ],
+    [
+     760,
+     580
+    ]
+   ]
+  }
+ ],
+ "above": []
+}

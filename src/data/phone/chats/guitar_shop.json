@@ -1,0 +1,18 @@
+{
+  "id": "guitar_shop",
+  "contact": "Guitar shop",
+  "messages": [
+    {
+      "id": "guitar_shop_1",
+      "from": "them",
+      "text": "Tuesday. Spruce top kept aside. Six-five. Church Street, the door between the two pots — MG Road metro, take the stairs up.",
+      "after": "guitar_in_stock"
+    },
+    {
+      "id": "guitar_shop_2",
+      "from": "them",
+      "text": "Wipe the strings after you play. Nobody does. Be the one.",
+      "after": "guitar_owned"
+    }
+  ]
+}

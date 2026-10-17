@@ -246,6 +246,8 @@ export const SCENE_KEYS = Object.freeze({
   MENU: 'MenuScene',
   /** The workday skyline time-lapse (story 1.1 F4, ADR-121), shown inside the office door's fade. */
   WORKDAY: 'WorkdayScene',
+  /** The guitar's rhythm lane (story 2.3, ADR-131), launched over the flat by a `rhythm` trigger. */
+  RHYTHM: 'RhythmScene',
   /** "Rotate your phone" over everything while a touch device is held in portrait (mobile foundation rule 4). */
   ORIENTATION: 'OrientationScene',
 });

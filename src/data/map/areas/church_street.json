@@ -1,0 +1,2042 @@
+{
+ "$comment": "OpenStreetMap data, © OpenStreetMap contributors, ODbL 1.0 (https://www.openstreetmap.org/copyright). Fetched 2026-10-17 by scripts/fetch-osm-area.mjs — legible streets, parks and water within 500 m, simplified to 4 m. Regenerate, don't hand-edit.",
+ "district": "church_street",
+ "centre": [
+  12.97515,
+  77.6045
+ ],
+ "radiusM": 500,
+ "roads": [
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.978999,
+     77.603454
+    ],
+    [
+     12.978203,
+     77.605905
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.979205,
+     77.602388
+    ],
+    [
+     12.980483,
+     77.598493
+    ],
+    [
+     12.98068,
+     77.598041
+    ]
+   ]
+  },
+  {
+   "name": "Residency Road",
+   "class": "primary",
+   "points": [
+    [
+     12.972072,
+     77.607359
+    ],
+    [
+     12.972912,
+     77.608897
+    ],
+    [
+     12.973471,
+     77.610261
+    ]
+   ]
+  },
+  {
+   "name": "Residency Road",
+   "class": "primary",
+   "points": [
+    [
+     12.967524,
+     77.599699
+    ],
+    [
+     12.967919,
+     77.600212
+    ],
+    [
+     12.968622,
+     77.601369
+    ],
+    [
+     12.970368,
+     77.603711
+    ],
+    [
+     12.970902,
+     77.604807
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.975276,
+     77.614349
+    ],
+    [
+     12.977122,
+     77.608772
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977122,
+     77.608772
+    ],
+    [
+     12.977155,
+     77.608672
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977275,
+     77.608716
+    ],
+    [
+     12.977244,
+     77.608797
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.97808,
+     77.605859
+    ],
+    [
+     12.97917,
+     77.602501
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.978203,
+     77.605905
+    ],
+    [
+     12.977955,
+     77.606628
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977845,
+     77.606545
+    ],
+    [
+     12.97808,
+     77.605859
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977955,
+     77.606628
+    ],
+    [
+     12.977934,
+     77.606694
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977542,
+     77.607479
+    ],
+    [
+     12.977814,
+     77.606635
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977934,
+     77.606694
+    ],
+    [
+     12.977881,
+     77.606849
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977155,
+     77.608672
+    ],
+    [
+     12.977465,
+     77.607707
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977585,
+     77.607742
+    ],
+    [
+     12.977275,
+     77.608716
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.979822,
+     77.600917
+    ],
+    [
+     12.979315,
+     77.602424
+    ]
+   ]
+  },
+  {
+   "name": "Residency Road",
+   "class": "primary",
+   "points": [
+    [
+     12.971477,
+     77.606108
+    ],
+    [
+     12.971927,
+     77.607044
+    ]
+   ]
+  },
+  {
+   "name": "Residency Road",
+   "class": "primary",
+   "points": [
+    [
+     12.970902,
+     77.604807
+    ],
+    [
+     12.971477,
+     77.606108
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977881,
+     77.606849
+    ],
+    [
+     12.977658,
+     77.607509
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977814,
+     77.606635
+    ],
+    [
+     12.977845,
+     77.606545
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.979284,
+     77.602513
+    ],
+    [
+     12.978999,
+     77.603454
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.979315,
+     77.602424
+    ],
+    [
+     12.979284,
+     77.602513
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.97917,
+     77.602501
+    ],
+    [
+     12.979205,
+     77.602388
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977244,
+     77.608797
+    ],
+    [
+     12.976879,
+     77.609918
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977658,
+     77.607509
+    ],
+    [
+     12.977617,
+     77.607637
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977505,
+     77.607591
+    ],
+    [
+     12.977542,
+     77.607479
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977465,
+     77.607707
+    ],
+    [
+     12.977505,
+     77.607591
+    ]
+   ]
+  },
+  {
+   "name": "Cubbon Road",
+   "class": "primary",
+   "points": [
+    [
+     12.977617,
+     77.607637
+    ],
+    [
+     12.977585,
+     77.607742
+    ]
+   ]
+  },
+  {
+   "name": "Residency Road",
+   "class": "primary",
+   "points": [
+    [
+     12.971927,
+     77.607044
+    ],
+    [
+     12.972072,
+     77.607359
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.971303,
+     77.607
+    ],
+    [
+     12.96923,
+     77.606363
+    ],
+    [
+     12.968474,
+     77.606242
+    ]
+   ]
+  },
+  {
+   "name": "Museum Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.971803,
+     77.604442
+    ],
+    [
+     12.972343,
+     77.604152
+    ],
+    [
+     12.972852,
+     77.603259
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.972973,
+     77.601535
+    ],
+    [
+     12.973067,
+     77.601385
+    ],
+    [
+     12.973267,
+     77.601325
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975085,
+     77.607934
+    ],
+    [
+     12.974956,
+     77.607925
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975185,
+     77.607965
+    ],
+    [
+     12.975154,
+     77.608078
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.976518,
+     77.601799
+    ],
+    [
+     12.976568,
+     77.600538
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "secondary",
+   "points": [
+    [
+     12.976518,
+     77.601799
+    ],
+    [
+     12.976736,
+     77.601784
+    ],
+    [
+     12.979205,
+     77.602388
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.980951,
+     77.610098
+    ],
+    [
+     12.978056,
+     77.609073
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "secondary",
+   "points": [
+    [
+     12.97917,
+     77.602501
+    ],
+    [
+     12.977906,
+     77.602201
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975208,
+     77.607412
+    ],
+    [
+     12.975966,
+     77.604303
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.977244,
+     77.608797
+    ],
+    [
+     12.977122,
+     77.608772
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.977275,
+     77.608716
+    ],
+    [
+     12.981036,
+     77.610099
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.977155,
+     77.608672
+    ],
+    [
+     12.977275,
+     77.608716
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.974741,
+     77.609375
+    ],
+    [
+     12.974998,
+     77.608235
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.977122,
+     77.608772
+    ],
+    [
+     12.975154,
+     77.608078
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975185,
+     77.607965
+    ],
+    [
+     12.977155,
+     77.608672
+    ]
+   ]
+  },
+  {
+   "name": "Museum Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.968434,
+     77.606012
+    ],
+    [
+     12.970902,
+     77.604807
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.971927,
+     77.607044
+    ],
+    [
+     12.971719,
+     77.607084
+    ],
+    [
+     12.971303,
+     77.607
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.976593,
+     77.600008
+    ],
+    [
+     12.976616,
+     77.599352
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975799,
+     77.601668
+    ],
+    [
+     12.976518,
+     77.601799
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.976661,
+     77.600859
+    ],
+    [
+     12.976637,
+     77.601864
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975085,
+     77.607934
+    ],
+    [
+     12.975185,
+     77.607965
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975154,
+     77.608078
+    ],
+    [
+     12.975057,
+     77.608042
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.976568,
+     77.600538
+    ],
+    [
+     12.976593,
+     77.600008
+    ]
+   ]
+  },
+  {
+   "name": "State Bank Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.972852,
+     77.603259
+    ],
+    [
+     12.972973,
+     77.601535
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.974847,
+     77.601542
+    ],
+    [
+     12.975799,
+     77.601668
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.974461,
+     77.601487
+    ],
+    [
+     12.974847,
+     77.601542
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975113,
+     77.608254
+    ],
+    [
+     12.974442,
+     77.611112
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975057,
+     77.608042
+    ],
+    [
+     12.975085,
+     77.607934
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975057,
+     77.608042
+    ],
+    [
+     12.974956,
+     77.607925
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.974956,
+     77.607925
+    ],
+    [
+     12.972331,
+     77.607083
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "secondary",
+   "points": [
+    [
+     12.979205,
+     77.602388
+    ],
+    [
+     12.979315,
+     77.602424
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "secondary",
+   "points": [
+    [
+     12.979284,
+     77.602513
+    ],
+    [
+     12.97917,
+     77.602501
+    ]
+   ]
+  },
+  {
+   "name": "Kamaraj Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.978056,
+     77.609073
+    ],
+    [
+     12.977244,
+     77.608797
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975312,
+     77.607443
+    ],
+    [
+     12.975185,
+     77.607965
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "secondary",
+   "points": [
+    [
+     12.977906,
+     77.602201
+    ],
+    [
+     12.976723,
+     77.601902
+    ],
+    [
+     12.976518,
+     77.601799
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.976637,
+     77.601864
+    ],
+    [
+     12.975312,
+     77.607443
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.974998,
+     77.608235
+    ],
+    [
+     12.975057,
+     77.608042
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975154,
+     77.608078
+    ],
+    [
+     12.975113,
+     77.608254
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975085,
+     77.607934
+    ],
+    [
+     12.975208,
+     77.607412
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.972331,
+     77.607083
+    ],
+    [
+     12.971927,
+     77.607044
+    ]
+   ]
+  },
+  {
+   "name": "Museum Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.970902,
+     77.604807
+    ],
+    [
+     12.971803,
+     77.604442
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.976381,
+     77.602543
+    ],
+    [
+     12.976518,
+     77.601799
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.975966,
+     77.604303
+    ],
+    [
+     12.976381,
+     77.602543
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.9767,
+     77.599602
+    ],
+    [
+     12.976661,
+     77.600859
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "secondary",
+   "points": [
+    [
+     12.973267,
+     77.601325
+    ],
+    [
+     12.974461,
+     77.601487
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.972247,
+     77.60115
+    ],
+    [
+     12.968299,
+     77.600249
+    ],
+    [
+     12.968149,
+     77.600245
+    ],
+    [
+     12.968,
+     77.600335
+    ]
+   ]
+  },
+  {
+   "name": "State Bank Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.973376,
+     77.59935
+    ],
+    [
+     12.973202,
+     77.599503
+    ],
+    [
+     12.973161,
+     77.599709
+    ],
+    [
+     12.973094,
+     77.601066
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.973094,
+     77.601066
+    ],
+    [
+     12.973003,
+     77.601206
+    ],
+    [
+     12.972799,
+     77.601274
+    ]
+   ]
+  },
+  {
+   "name": "Lady Curzon Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.981867,
+     77.604368
+    ],
+    [
+     12.979156,
+     77.603445
+    ],
+    [
+     12.978999,
+     77.603454
+    ]
+   ]
+  },
+  {
+   "name": "Main Guard Cross Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.979279,
+     77.607124
+    ],
+    [
+     12.980859,
+     77.607676
+    ],
+    [
+     12.98172,
+     77.608046
+    ]
+   ]
+  },
+  {
+   "name": "Main Guard Cross Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.979279,
+     77.607124
+    ],
+    [
+     12.978121,
+     77.606762
+    ]
+   ]
+  },
+  {
+   "name": "Magrath Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.970709,
+     77.609239
+    ],
+    [
+     12.971418,
+     77.607141
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "tertiary",
+   "points": [
+    [
+     12.979315,
+     77.602424
+    ],
+    [
+     12.979386,
+     77.602489
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "tertiary",
+   "points": [
+    [
+     12.979386,
+     77.602489
+    ],
+    [
+     12.981954,
+     77.603322
+    ]
+   ]
+  },
+  {
+   "name": "Main Guard Cross Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.977955,
+     77.606628
+    ],
+    [
+     12.979279,
+     77.607124
+    ]
+   ]
+  },
+  {
+   "name": "Main Guard Cross Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.978121,
+     77.606762
+    ],
+    [
+     12.977934,
+     77.606694
+    ]
+   ]
+  },
+  {
+   "name": "Central Street",
+   "class": "tertiary",
+   "points": [
+    [
+     12.979284,
+     77.602513
+    ],
+    [
+     12.979386,
+     77.602489
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.972973,
+     77.601535
+    ],
+    [
+     12.972799,
+     77.601274
+    ]
+   ]
+  },
+  {
+   "name": "State Bank Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.973094,
+     77.601066
+    ],
+    [
+     12.973267,
+     77.601325
+    ]
+   ]
+  },
+  {
+   "name": "Saint Mark's Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.972799,
+     77.601274
+    ],
+    [
+     12.972247,
+     77.60115
+    ]
+   ]
+  },
+  {
+   "name": "Magrath Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.971418,
+     77.607141
+    ],
+    [
+     12.971451,
+     77.607039
+    ]
+   ]
+  },
+  {
+   "name": "Infantry Road",
+   "class": "tertiary",
+   "points": [
+    [
+     12.979847,
+     77.605481
+    ],
+    [
+     12.979279,
+     77.607124
+    ]
+   ]
+  },
+  {
+   "name": "Museum Cross Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.973901,
+     77.603103
+    ],
+    [
+     12.974987,
+     77.602758
+    ]
+   ]
+  },
+  {
+   "name": "Rest House Crescent Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.975966,
+     77.604303
+    ],
+    [
+     12.975187,
+     77.60415
+    ]
+   ]
+  },
+  {
+   "name": "Church Street",
+   "class": "unclassified",
+   "points": [
+    [
+     12.974327,
+     77.607733
+    ],
+    [
+     12.975526,
+     77.602786
+    ]
+   ]
+  },
+  {
+   "name": "Link Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.976766,
+     77.600305
+    ],
+    [
+     12.978086,
+     77.600559
+    ]
+   ]
+  },
+  {
+   "name": "Church Street",
+   "class": "unclassified",
+   "points": [
+    [
+     12.975799,
+     77.601668
+    ],
+    [
+     12.975579,
+     77.602557
+    ]
+   ]
+  },
+  {
+   "name": "Museum Cross Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.975579,
+     77.602557
+    ],
+    [
+     12.976381,
+     77.602543
+    ]
+   ]
+  },
+  {
+   "name": "Church Street",
+   "class": "unclassified",
+   "points": [
+    [
+     12.975526,
+     77.602786
+    ],
+    [
+     12.97548,
+     77.602663
+    ],
+    [
+     12.975391,
+     77.602611
+    ]
+   ]
+  },
+  {
+   "name": "Church Street",
+   "class": "unclassified",
+   "points": [
+    [
+     12.975526,
+     77.602786
+    ],
+    [
+     12.975579,
+     77.602557
+    ]
+   ]
+  },
+  {
+   "name": "Museum Cross Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.975365,
+     77.60262
+    ],
+    [
+     12.975579,
+     77.602557
+    ]
+   ]
+  },
+  {
+   "name": "Museum Cross Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.972852,
+     77.603259
+    ],
+    [
+     12.973025,
+     77.603248
+    ]
+   ]
+  },
+  {
+   "name": "Museum Cross Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.973025,
+     77.603248
+    ],
+    [
+     12.973901,
+     77.603103
+    ]
+   ]
+  },
+  {
+   "name": "Link Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.978086,
+     77.600559
+    ],
+    [
+     12.979682,
+     77.600952
+    ]
+   ]
+  },
+  {
+   "name": "Link Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.976679,
+     77.600293
+    ],
+    [
+     12.976766,
+     77.600305
+    ]
+   ]
+  },
+  {
+   "name": "Museum Cross Road",
+   "class": "unclassified",
+   "points": [
+    [
+     12.974987,
+     77.602758
+    ],
+    [
+     12.975365,
+     77.60262
+    ]
+   ]
+  },
+  {
+   "name": "M L Subbaraju Road",
+   "class": "residential",
+   "points": [
+    [
+     12.975578,
+     77.599878
+    ],
+    [
+     12.975478,
+     77.60162
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road Cross",
+   "class": "residential",
+   "points": [
+    [
+     12.974,
+     77.608052
+    ],
+    [
+     12.973549,
+     77.607948
+    ]
+   ]
+  },
+  {
+   "name": "Rest House Crescent Road",
+   "class": "residential",
+   "points": [
+    [
+     12.972776,
+     77.60581
+    ],
+    [
+     12.973289,
+     77.605226
+    ],
+    [
+     12.974006,
+     77.604131
+    ],
+    [
+     12.974114,
+     77.604067
+    ],
+    [
+     12.974434,
+     77.604039
+    ],
+    [
+     12.975187,
+     77.60415
+    ]
+   ]
+  },
+  {
+   "name": "Papanna Street",
+   "class": "residential",
+   "points": [
+    [
+     12.970894,
+     77.600858
+    ],
+    [
+     12.971315,
+     77.599288
+    ]
+   ]
+  },
+  {
+   "name": "1st Cross Road",
+   "class": "residential",
+   "points": [
+    [
+     12.970806,
+     77.608915
+    ],
+    [
+     12.969903,
+     77.608686
+    ]
+   ]
+  },
+  {
+   "name": "3rd Cross Road",
+   "class": "residential",
+   "points": [
+    [
+     12.971603,
+     77.60815
+    ],
+    [
+     12.972361,
+     77.607839
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "residential",
+   "points": [
+    [
+     12.972247,
+     77.60115
+    ],
+    [
+     12.972326,
+     77.600269
+    ]
+   ]
+  },
+  {
+   "name": "Rest House Road",
+   "class": "residential",
+   "points": [
+    [
+     12.972776,
+     77.60581
+    ],
+    [
+     12.973766,
+     77.606414
+    ],
+    [
+     12.973836,
+     77.606536
+    ],
+    [
+     12.973598,
+     77.607518
+    ]
+   ]
+  },
+  {
+   "name": "4th Cross Road",
+   "class": "residential",
+   "points": [
+    [
+     12.972713,
+     77.608499
+    ],
+    [
+     12.9732,
+     77.608385
+    ],
+    [
+     12.973976,
+     77.60833
+    ]
+   ]
+  },
+  {
+   "name": "2nd Cross Road",
+   "class": "residential",
+   "points": [
+    [
+     12.972978,
+     77.609049
+    ],
+    [
+     12.971969,
+     77.609193
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road Cross",
+   "class": "residential",
+   "points": [
+    [
+     12.973549,
+     77.607948
+    ],
+    [
+     12.973598,
+     77.607518
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "residential",
+   "points": [
+    [
+     12.971603,
+     77.60815
+    ],
+    [
+     12.971565,
+     77.608158
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "residential",
+   "points": [
+    [
+     12.972326,
+     77.600269
+    ],
+    [
+     12.971838,
+     77.600202
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "residential",
+   "points": [
+    [
+     12.979847,
+     77.605481
+    ],
+    [
+     12.979124,
+     77.605246
+    ],
+    [
+     12.97895,
+     77.605644
+    ],
+    [
+     12.978345,
+     77.605438
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "residential",
+   "points": [
+    [
+     12.972326,
+     77.600269
+    ],
+    [
+     12.972333,
+     77.600193
+    ]
+   ]
+  },
+  {
+   "name": "Rest House Road",
+   "class": "residential",
+   "points": [
+    [
+     12.972776,
+     77.60581
+    ],
+    [
+     12.972293,
+     77.605522
+    ],
+    [
+     12.972215,
+     77.605418
+    ],
+    [
+     12.971803,
+     77.604442
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "residential",
+   "points": [
+    [
+     12.971087,
+     77.60014
+    ],
+    [
+     12.971434,
+     77.600235
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.972092,
+     77.599961
+    ],
+    [
+     12.97119,
+     77.599754
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.97344,
+     77.608073
+    ],
+    [
+     12.973551,
+     77.608064
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.972092,
+     77.605141
+    ],
+    [
+     12.972758,
+     77.604848
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.973478,
+     77.60623
+    ],
+    [
+     12.97358,
+     77.605938
+    ],
+    [
+     12.973745,
+     77.60592
+    ],
+    [
+     12.97389,
+     77.605749
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.972396,
+     77.604088
+    ],
+    [
+     12.972758,
+     77.604848
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.970919,
+     77.608583
+    ],
+    [
+     12.970303,
+     77.608363
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.971854,
+     77.600204
+    ],
+    [
+     12.971684,
+     77.60023
+    ]
+   ]
+  },
+  {
+   "name": null,
+   "class": "living_street",
+   "points": [
+    [
+     12.973617,
+     77.604729
+    ],
+    [
+     12.973835,
+     77.604773
+    ]
+   ]
+  },
+  {
+   "name": "Brigade Road Cross",
+   "class": "living_street",
+   "points": [
+    [
+     12.973551,
+     77.608064
+    ],
+    [
+     12.973549,
+     77.607948
+    ]
+   ]
+  }
+ ],
+ "parks": [
+  {
+   "name": "Traffic Park",
+   "outline": [
+    [
+     12.97375,
+     77.600649
+    ],
+    [
+     12.97375,
+     77.600649
+    ]
+   ]
+  },
+  {
+   "name": "Mahatma Gandhi Park",
+   "outline": [
+    [
+     12.977467,
+     77.599075
+    ],
+    [
+     12.977467,
+     77.599075
+    ]
+   ]
+  },
+  {
+   "name": "Rest House Park",
+   "outline": [
+    [
+     12.972755,
+     77.604887
+    ],
+    [
+     12.972755,
+     77.604887
+    ]
+   ]
+  },
+  {
+   "name": "Cariappa Memorial Park",
+   "outline": [
+    [
+     12.978148,
+     77.605342
+    ],
+    [
+     12.978148,
+     77.605342
+    ]
+   ]
+  }
+ ],
+ "water": []
+}

@@ -1,0 +1,225 @@
+{
+  "scene": "act2_guitar",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_guitar + church_street + entry.after F1",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "church_street",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "guitar_in_stock",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:church_arrival"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "church_street_visited",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_6",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:shop_door"
+    },
+    {
+      "id": "wait_for_7",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "guitar_shop",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_8",
+      "beat": "F2",
+      "do": "goto",
+      "target": "npc:npc_guitar_shop"
+    },
+    {
+      "id": "interact_9",
+      "beat": "F2",
+      "do": "interact",
+      "target": "npc:npc_guitar_shop"
+    },
+    {
+      "id": "choose_10",
+      "beat": "F2",
+      "do": "choose",
+      "option": "sold"
+    },
+    {
+      "id": "goto_11",
+      "do": "goto",
+      "target": "exit:shop_exit",
+      "optional": true
+    },
+    {
+      "id": "wait_for_12",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "church_street",
+      "timeout": 20000,
+      "optional": true
+    },
+    {
+      "id": "goto_13",
+      "do": "goto",
+      "target": "npc:npc_church_busker",
+      "optional": true
+    },
+    {
+      "id": "interact_14",
+      "do": "interact",
+      "target": "npc:npc_church_busker",
+      "optional": true
+    },
+    {
+      "id": "choose_15",
+      "do": "choose",
+      "option": "tipped",
+      "optional": true
+    },
+    {
+      "id": "goto_16",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:bus_stop"
+    },
+    {
+      "id": "wait_for_17",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_18",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:hill_bus"
+    },
+    {
+      "id": "wait_for_19",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 60000
+    },
+    {
+      "id": "goto_20",
+      "beat": "F3",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_21",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_22",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:guitar_zone"
+    },
+    {
+      "id": "rhythm_23",
+      "beat": "F3",
+      "do": "rhythm"
+    },
+    {
+      "id": "wait_for_24",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "chord_g",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_25",
+      "beat": "F4",
+      "do": "sleep"
+    },
+    {
+      "id": "goto_26",
+      "beat": "F4",
+      "do": "goto",
+      "target": "zone:guitar_zone"
+    },
+    {
+      "id": "rhythm_27",
+      "beat": "F4",
+      "do": "rhythm"
+    },
+    {
+      "id": "wait_for_28",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "chord_c",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_29",
+      "beat": "F4",
+      "do": "sleep"
+    },
+    {
+      "id": "goto_30",
+      "beat": "F4",
+      "do": "goto",
+      "target": "zone:guitar_zone"
+    },
+    {
+      "id": "rhythm_31",
+      "beat": "F4",
+      "do": "rhythm"
+    },
+    {
+      "id": "wait_for_32",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "chord_d",
+      "timeout": 6000
+    },
+    {
+      "id": "choose_33",
+      "beat": "F5",
+      "do": "choose",
+      "option": "sent"
+    },
+    {
+      "id": "expect_34",
+      "do": "expect",
+      "flag": "act2_guitar_done",
+      "timeout": 3000
+    }
+  ]
+}

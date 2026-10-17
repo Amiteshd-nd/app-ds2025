@@ -1,0 +1,13 @@
+{
+  "id": "guitar",
+  "$comment": "The rhythm lane on the flat's guitar (story 2.3, ADR-131). One session a night (nightFlag, cleared by the next sleep); each finished session eases stress; a pass sets the lesson's flags.",
+  "stress": -10,
+  "nightFlag": "guitar_played_tonight",
+  "lessons": [
+    { "id": "g", "title": "Lesson 1 · G", "chords": ["G"], "bpm": 76, "bars": 8, "strums": [1, 3], "pass": 0.7, "easierIf": { "flag": "busker_tipped", "pass": 0.6 }, "setFlags": ["chord_g"] },
+    { "id": "c", "title": "Lesson 2 · C", "chords": ["G", "C"], "bpm": 84, "bars": 8, "strums": [1, 3], "pass": 0.7, "setFlags": ["chord_c"] },
+    { "id": "d", "title": "Lesson 3 · D", "chords": ["G", "C", "D", "G"], "bpm": 92, "bars": 8, "strums": [1, 2, 3], "pass": 0.7, "setFlags": ["chord_d", "three_chords"] }
+  ],
+  "free": { "id": "free", "title": "Free strum", "chords": ["G", "D", "C", "G"], "bpm": 96, "bars": 4, "strums": [1, 2, 3, 4], "pass": 0, "setFlags": [], "stress": -5 },
+  "afterLast": { "dialogue": "dlg_guitar_clip", "unlessFlag": "guitar_clip_decided" }
+}

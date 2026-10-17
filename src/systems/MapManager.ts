@@ -324,7 +324,7 @@ export class MapManager {
     const here = this.here();
     const from = here ? this.districts[here] : undefined, to = this.districts[toDistrictId];
     if (!from || !to || from.id === to.id || !to.realworld || !('lat' in to.realworld)) return null;
-    if (!store.flags[FLAG.visited(to.id)]) return null;
+    if (!store.flags[FLAG.visited(to.id)] && !(to.knownIf && store.flags[to.knownIf])) return null;
     const km = kmBetween(this.at(from), this.at(to));
     const fuel = Math.max(1, Math.ceil(km * FUEL_PER_KM));
     const tank = store.counters[FUEL_COUNTER] ?? 0;
@@ -343,7 +343,7 @@ export class MapManager {
 
   /**
    * Fast travel (ADR-115): only between pockets that sit on metro stations,
-   * both visited. Fare like Namma Metro's: ₹10 + ₹2/km, in ₹5 steps, ₹60 cap.
+   * both visited (or the destination `knownIf` — a stop someone told you about, ADR-131). Fare like Namma Metro's: ₹10 + ₹2/km, in ₹5 steps, ₹60 cap.
    */
   fastTravel(toDistrictId: string): { fare: number; station: string } | null {
     const here = this.here();
@@ -351,7 +351,7 @@ export class MapManager {
     if (!from?.metroStation || !to?.metroStation || from.id === to.id) return null;
     const flags = useGameStore.getState().flags;
     // The line is under construction until the opening-day world event (story 2.2, ADR-05/127).
-    if (!flags[FLAG_METRO_OPEN] || !flags[FLAG.visited(to.id)]) return null;
+    if (!flags[FLAG_METRO_OPEN] || (!flags[FLAG.visited(to.id)] && !(to.knownIf && flags[to.knownIf]))) return null;
     return { fare: flags[FLAG_METRO_FREE_DAY] ? 0 : metroFare(kmBetween(this.at(from), this.at(to))), station: to.metroStation };
   }
 }

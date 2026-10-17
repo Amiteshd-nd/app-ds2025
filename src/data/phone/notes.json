@@ -1,3 +1,22 @@
 [
-  { "id": "note_guitar", "text": "Guitar — the Church Street shop. Spruce top, decent tuners. Tuesday.", "price": 6500, "after": "guitar_wishlisted" }
+  {
+    "id": "note_guitar",
+    "text": "Guitar — the Church Street shop. Spruce top, decent tuners. Tuesday.",
+    "price": 6500,
+    "after": "guitar_wishlisted",
+    "until": "guitar_in_stock"
+  },
+  {
+    "id": "note_guitar_ready",
+    "text": "Guitar — READY. Church Street, by MG Road metro. Six-five, no bargaining.",
+    "price": 6500,
+    "after": "guitar_in_stock",
+    "until": "guitar_owned"
+  },
+  {
+    "id": "note_chords",
+    "text": "G · C · D. One lesson a night, on the cot. The neighbour will cope.",
+    "after": "guitar_owned",
+    "until": "three_chords"
+  }
 ]

@@ -51,6 +51,7 @@ export async function runStep(d: MovieDriver, step: Step, ctx: ActionContext): P
       case 'wait': { const r = await until(d, ctx, () => false, Math.min(deadline, d.now() + step.ms)); return r === 'cancelled' ? { status: 'skipped', reason: 'cancelled' } : ok(); }
       case 'phone': return phone(d, step, ctx, deadline);
       case 'sleep': return sleep(d, ctx, deadline);
+      case 'rhythm': return rhythm(d, ctx, deadline);
       case 'pay': return pay(d, step.max ?? Infinity, ctx, deadline);
       case 'expect': return expect(d, step, ctx);
       case 'set_flag': d.setFlag(step.flag, step.value ?? true); return { status: 'cheated', reason: `set_flag ${step.flag}=${step.value ?? true}` };
@@ -121,6 +122,8 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
       // An exit took us: the zone fired, the transit started, the district changed — arrival when that was the
       // target, an accident otherwise (a sidestep into the auto stand).
       if (s.activeScene !== 'WorldScene' || s.district !== startDistrict) { d.walk(0, 0); return target.startsWith('exit:') || target.startsWith('zone:') ? ok() : fail(`carried_off: an exit fired on the way to ${describeTarget(target)}`); }
+      // A zone that opens the rhythm lane (the flat's guitar) takes the world over: that is arrival.
+      if (d.rhythm?.()) { d.walk(0, 0); return ok(); }
       if (s.dialogueOpen) {
         // Arrived into the target's own conversation (a zone trigger with a dialogue): the walk is done; the next
         // step chooses or advances it. A conversation far from the target is stepped through if it has no choices.
@@ -265,6 +268,36 @@ async function choose(d: MovieDriver, option: string | number, ctx: ActionContex
   if (d.dialogue()?.selected !== index) return fail(`selection_failed:${index}`);
   await press(d, 'Enter');
   return drain(d, ctx, deadline);
+}
+
+/**
+ * The rhythm lane (ADR-131), as a careful player plays it: wait for the card,
+ * E to start, then E whenever the next note is a frame from the strum line
+ * (the key lands on the next step), E on the result card to put the guitar
+ * down. A lesson not learned is a failure with the count; a fail still uses
+ * the night in the game, so the report says so rather than retrying.
+ */
+async function rhythm(d: MovieDriver, ctx: ActionContext, deadline: number): Promise<ActionResult> {
+  if (!d.rhythm) return fail('driver_has_no_rhythm');
+  const opened = await until(d, ctx, () => d.rhythm!()?.phase === 'intro', Math.min(deadline, d.now() + 4000));
+  if (opened !== 'ok') return outcome(opened, 'rhythm_not_open') ?? ok();
+  await press(d, 'E');
+  // The song: up to a minute of game time at the slowest lesson.
+  const end = d.now() + 90_000;
+  for (;;) {
+    if (ctx.cancelled()) return { status: 'skipped', reason: 'cancelled' };
+    const v = d.rhythm();
+    if (!v) return fail('rhythm_closed_early');
+    if (v.phase === 'result') break;
+    if (d.now() > end) return fail('rhythm_stuck');
+    if (v.phase === 'play' && v.nextNoteInMs !== null && v.nextNoteInMs <= 20) { await press(d, 'E'); continue; }
+    await d.frames(1);
+  }
+  const v = d.rhythm()!;
+  await press(d, 'E');
+  const closed = await until(d, ctx, () => !d.rhythm!(), Math.min(deadline + 90_000, d.now() + 3000));
+  if (closed !== 'ok') return outcome(closed, 'rhythm_did_not_close') ?? ok();
+  return v.passed === false ? fail(`rhythm_not_learned:${v.hits}/${v.total}`) : ok();
 }
 
 /** Step through lines with no choices until the box closes or a choice appears. */

@@ -1,0 +1,6 @@
+[
+  { "id": "GUITAR_STAND", "label": "Your guitar on its stand", "category": "furniture", "tilesWide": 1, "tilesTall": 2, "backgroundTiles": 1, "solid": true, "colorEditable": false, "sprite": "guitar_props_01" },
+  { "id": "GUITAR_WALL", "label": "Guitar on a wall hook", "category": "furniture", "tilesWide": 1, "tilesTall": 2, "backgroundTiles": 2, "solid": false, "colorEditable": false, "sprite": "guitar_props_02" },
+  { "id": "GUITAR_CASE_OPEN", "label": "Open guitar case with coins", "category": "structure", "tilesWide": 2, "tilesTall": 1, "backgroundTiles": 0, "solid": true, "colorEditable": false, "sprite": "guitar_props_03" },
+  { "id": "PRACTICE_AMP", "label": "Practice amp", "category": "furniture", "tilesWide": 1, "tilesTall": 1, "backgroundTiles": 0, "solid": true, "colorEditable": false, "sprite": "guitar_props_04" }
+]
