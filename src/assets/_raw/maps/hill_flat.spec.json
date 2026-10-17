@@ -1,8 +1,8 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 \u2192 24x16) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; furniture is placed by flag as sprite objects. 2.3 (ADR-131): guitar_spot (the guitar on its stand, placed by guitar_owned) and guitar_zone in front of it (the rhythm lane). The painted ceiling fan was removed from the render (user audit 2026-10-17: a fan seen from above reads as an object on the floor). 2.4 (ADR-132): boxes_spot, shelf/lamp/rug/folded table spots and the assembly_zone.",
+  "$comment": "Source-pixel spec (1536x1024 \u2192 12x8) migrated to ADR-125: walls, partition and the front-door wall are `buildings`; the kitchen counters and the cylinder are sorted cut-outs with footprints; furniture is placed by flag as sprite objects. 2.3 (ADR-131): guitar_spot (the guitar on its stand, placed by guitar_owned) and guitar_zone in front of it (the rhythm lane). The painted ceiling fan was removed from the render (user audit 2026-10-17: a fan seen from above reads as an object on the floor). 2.4 (ADR-132): boxes_spot, shelf/lamp/rug/folded table spots and the assembly_zone. Re-scaled 24x16 \u2192 12x8 (user audit 2026-10-17: the room was twice too big for the 32x48 characters; at 12x8 the front door is ~34 px, the design-system door). Object spots sit on the 128-source-px grid (one tile): cot (0,2), table (2,1), shelf (4,1), guitar (5,1), drum (6,2), lamp (7,1), rug (3,4), boxes (5,4), folded table (0,4), box (1,5).",
   "name": "hill_flat",
-  "cols": 24,
-  "rows": 16,
+  "cols": 12,
+  "rows": 8,
   "units": "px",
   "blocks": [],
   "spawns": [
@@ -13,13 +13,13 @@
     },
     {
       "name": "cot_spot",
-      "x": 150,
-      "y": 330
+      "x": 20,
+      "y": 276
     },
     {
       "name": "table_spot",
-      "x": 560,
-      "y": 300
+      "x": 276,
+      "y": 148
     },
     {
       "name": "stove_spot",
@@ -28,43 +28,43 @@
     },
     {
       "name": "drum_spot",
-      "x": 960,
-      "y": 720
+      "x": 788,
+      "y": 276
     },
     {
       "name": "box_spot",
-      "x": 420,
-      "y": 720
+      "x": 148,
+      "y": 660
     },
     {
       "name": "guitar_spot",
-      "x": 985,
-      "y": 232
+      "x": 660,
+      "y": 148
     },
     {
       "name": "boxes_spot",
-      "x": 700,
-      "y": 725
+      "x": 660,
+      "y": 532
     },
     {
       "name": "shelf_spot",
-      "x": 770,
-      "y": 232
+      "x": 532,
+      "y": 148
     },
     {
       "name": "lamp_spot",
-      "x": 330,
-      "y": 290
+      "x": 916,
+      "y": 148
     },
     {
       "name": "rug_spot",
-      "x": 560,
-      "y": 610
+      "x": 404,
+      "y": 532
     },
     {
       "name": "folded_spot",
-      "x": 100,
-      "y": 770
+      "x": 20,
+      "y": 532
     }
   ],
   "zones": [
@@ -77,10 +77,10 @@
     },
     {
       "name": "bed",
-      "x": 120,
-      "y": 300,
-      "w": 150,
-      "h": 160
+      "x": 256,
+      "y": 290,
+      "w": 80,
+      "h": 200
     },
     {
       "name": "flat_arrival",
@@ -91,16 +91,16 @@
     },
     {
       "name": "guitar_zone",
-      "x": 915,
-      "y": 262,
-      "w": 140,
-      "h": 90
+      "x": 650,
+      "y": 392,
+      "w": 100,
+      "h": 88
     },
     {
       "name": "assembly_zone",
-      "x": 620,
-      "y": 640,
-      "w": 170,
+      "x": 530,
+      "y": 650,
+      "w": 230,
       "h": 110
     }
   ],

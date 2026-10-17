@@ -103,4 +103,4 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Dialogue choices are locked, never hidden: the movie driver maps view choices to `node.choices[i]` by index.
 - Two districts may share one map (`green_coach`, `green_coach_home` on `metro_interior`) — each has its own `ride` flag, so a ride never inherits another's `*_ride_over`.
 - An exit's `requiresFlag` is spent on boarding (the auto fare); to gate an exit on a lasting flag use the destination's `unlock` instead (`green_coach_home.unlock: ikea_paid`).
-
+- The hill flat was imported at 24×16 in P8 and nobody caught it until the user's audit: game px per source px = cols/48, so check a room's door width (≈32 px) before anything else. The flat is 12×8 now.
