@@ -258,7 +258,7 @@ export function validateContent(
       if (trigger.action !== undefined && !['sleep', 'workday', 'rhythm', 'card'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday | rhythm | card)`);
       if (trigger.action === 'card' && (typeof trigger.card !== 'string' || !trigger.card)) add(where, `${d} trigger "${trigger.zone}" is a card trigger without a card id`);
       if (trigger.action === 'rhythm' && (typeof trigger.minigame !== 'string' || !trigger.minigame)) add(where, `${d} trigger "${trigger.zone}" is a rhythm trigger without a minigame id`);
-      if (trigger.unlessFlag !== undefined && (typeof trigger.unlessFlag !== 'string' || !trigger.unlessFlag)) {
+      if (trigger.unlessFlag !== undefined && ![trigger.unlessFlag].flat().every((x: unknown) => typeof x === 'string' && x)) {
         add(where, `${d} trigger "${trigger.zone}" unlessFlag must be a flag name`);
       }
       if (trigger.requiresFlag !== undefined && (typeof trigger.requiresFlag !== 'string' || !trigger.requiresFlag)) {
@@ -965,6 +965,7 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     if (district.hud !== undefined && district.hud !== 'minimal') add(`${d} hud must be "minimal"`);
     if (district.nightTint !== undefined && !(typeof district.nightTint === 'number' && district.nightTint >= 0 && district.nightTint <= 1)) add(`${d} nightTint must be 0–1`);
     if (district.walkSpeed !== undefined && !(typeof district.walkSpeed === 'number' && district.walkSpeed > 0 && district.walkSpeed <= 1)) add(`${d} walkSpeed must be a share of normal speed (0–1]`);
+    if (district.walkSpeedUnless !== undefined && (typeof district.walkSpeedUnless !== 'string' || district.walkSpeed === undefined)) add(`${d} walkSpeedUnless names the flag that ends a walkSpeed (and needs one)`);
     for (const ref of district.npcs ?? []) need(ref.spawn, `NPC "${ref.id}" spawn`);
     for (const ref of district.objects ?? []) need(ref.at, `object "${ref.id}" spawn`);
     for (const trigger of district.triggers ?? []) need(trigger.zone, 'trigger zone');

@@ -69,6 +69,6 @@ describe('4.2 "The Hill" (ADR-150)', () => {
     // The bench works from the first morning: tonight you only unfold it.
     expect(flat.triggers!.find((t) => t.dialogue === 'craft:bench')!.requiresFlag).toBe('hill_first_night');
     expect(z('stock_zone')).toEqual(['base:hill_flat']);
-    expect(flat.sleepEvents![flat.sleepEvents!.length - 1]).toEqual(expect.objectContaining({ after: 'hill_base_set', set: ['hill_first_night'] }));
+    expect(flat.sleepEvents!.find((e) => e.after === 'hill_base_set')).toEqual(expect.objectContaining({ set: ['hill_first_night'] }));
   });
 });

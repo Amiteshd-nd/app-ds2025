@@ -8,6 +8,8 @@ import type { Behaviour } from './index';
 
 /** Store flag: the base you last woke in — failing forward lands there (ADR-149). */
 export const homeFlag = (districtId: string): string => `base_home:${districtId}`;
+/** Store flag: the night this base's lamp failed on schedule (`lampFailsOnNight`) — not a night merely out of fuel (ADR-152). */
+export const lampFailedFlag = (districtId: string): string => `base_lamp_failed:${districtId}`;
 /** Store counter: nights slept at a base. */
 export const baseNightsKey = (districtId: string): string => `base_nights:${districtId}`;
 /** Food a breakfast from the stock gives. */
@@ -42,6 +44,7 @@ export const act4Base: Behaviour = {
         stats.adjust('stress', 15);
         lines.push(night.failed ? 'The lamp failed in the night. Something tried the door.' : 'No fuel: the lamp was dark. Something tried the door.');
         s.setFlag(`base_dark:${district.id}`, true);
+        if (night.failed) s.setFlag(lampFailedFlag(district.id), true);
       }
       for (const f of Object.keys(s.flags)) if (f.startsWith('base_home:') && f !== homeFlag(district.id) && s.flags[f]) s.setFlag(f, false);
       s.setFlag(homeFlag(district.id), true);

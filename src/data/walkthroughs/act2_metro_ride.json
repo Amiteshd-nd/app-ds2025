@@ -1,6 +1,6 @@
 {
   "scene": "act2_metro_ride",
-  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act2_metro_opens + metro_interior + the prereq state",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_metro_opens + metro_interior + the prereq state",
   "seed": 7,
   "notes": [
     "q_act2_metro_opens is already complete in this scene's prerequisite state (an earlier scene's quest) — its on_complete flags are not expected"

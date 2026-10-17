@@ -21,6 +21,7 @@ import { planHaggle } from '../src/systems/negotiationMath.ts';
 import { exitRuns } from '../src/systems/night.ts';
 import { duration as cardDuration, outcome as cardOutcome, type CardSequence } from '../src/systems/cards.ts';
 import type { NegotiationDef } from '../src/utils/types.ts';
+import { searchDialogue } from '../src/systems/trade.ts';
 
 type Json = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 const here = dirname(fileURLToPath(import.meta.url));
@@ -35,6 +36,9 @@ const dialogues = new Map<string, Json>(readDir('dialogue').map((d) => [d.id, d]
 const negotiations = new Map<string, Json>(readDir('negotiations').map((n) => [n.id, n]));
 const minigames = new Map<string, Json>(readDir('minigames').map((m) => [m.id, m]));
 const cards = new Map<string, Json>(readDir('cards').map((c) => [c.id, c]));
+// Containers (ADR-149): `search:<loot>` conversations are built from loot.json, as the game builds them.
+const loot: Record<string, Json> = JSON.parse(readFileSync(join(dataDir, 'loot.json'), 'utf8')).loot;
+for (const [key, l] of Object.entries(loot)) dialogues.set(`search:${key}`, searchDialogue(`search:${key}`, key, l as never, {}) as unknown as Json);
 const jodi: Json = JSON.parse(readFileSync(join(dataDir, 'phone/jodi.json'), 'utf8'));
 const reels: Json[] = JSON.parse(readFileSync(join(dataDir, 'phone/reels.json'), 'utf8'));
 const manifest = JSON.parse(readFileSync(resolve(here, '../src/assets/maps.manifest.json'), 'utf8'));
@@ -187,6 +191,23 @@ class Gen {
     if (lesson) return this.viaRhythm(lesson.trigger, lesson.set, lesson.index, who, depth);
     // 2. a sleep-driven timer, or a district's sleepEvents ("the first sleep after X sets Y", ADR-132/133)
     if (SLEEP_FLAGS[f] !== undefined) return this.viaSleep(f, SLEEP_FLAGS[f], who, depth);
+    // A base's lamp fails on its night (ADR-149/152): sleep there until that night; the scene's entry may say how many it has already had.
+    const lamp = /^base_lamp_failed:(.+)$/.exec(f);
+    if (lamp && districts.get(lamp[1])?.base?.lampFailsOnNight) {
+      const base = districts.get(lamp[1])!.base;
+      if (lamp[1] !== this.district && !this.travelTo(lamp[1], who)) return false;
+      const already = (this.scene.entry?.counters?.[`base_nights:${lamp[1]}`] ?? 0) + (base.requiresFlag ? (this.sleepsSince.get(base.requiresFlag) ?? 0) : 0);
+      return this.viaSleep(f, Math.max(1, base.lampFailsOnNight - already), who, depth);
+    }
+    // A morning the lamp failure opens (the hill turns): the failure first, then the same morning's card.
+    const afterLamp = [...districts.values()].flatMap((d) => (d.sleepEvents ?? []) as Json[]).find((e) => e.set.includes(f) && /^base_lamp_failed:/.test(e.after) && !this.known.has(e.after));
+    if (afterLamp) {
+      if (!this.flag(afterLamp.after, who, depth + 1)) return false;
+      for (const g of afterLamp.set) this.known.add(g);
+      this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: 6000 });
+      if (afterLamp.card) this.push({ do: 'wait_for', ready: 'free', timeout: 30000 });
+      return true;
+    }
     const event = [...districts.values()].find((d) => (d.sleepEvents ?? []).some((e: Json) => e.set.includes(f) && this.known.has(e.after)));
     if (event) {
       if (event.id !== this.district && !this.travelTo(event.id, who)) return false;
@@ -217,7 +238,7 @@ class Gen {
 
   triggerSetting(districtId: string, f: string): { trigger: Json; needs: string | null } | null {
     const d = districts.get(districtId);
-    const live = ((d?.triggers ?? []) as Json[]).filter((t) => !(t.unlessFlag && this.known.has(t.unlessFlag)));
+    const live = ((d?.triggers ?? []) as Json[]).filter((t) => ![t.unlessFlag ?? []].flat().some((x: string) => this.known.has(x)));
     for (const t of live) if ((t.setFlags ?? []).includes(f) || this.cardSets(t).includes(f)) return { trigger: t, needs: null };
     for (const t of live) if (t.dialogue && this.dialogueReaches(t.dialogue, (node, choice) => this.setsFlag(node, choice, f)).found) return { trigger: t, needs: null };
     // A conversation shared by several zones (Ananya's three stops): the line that sets f opens from an enter
@@ -244,13 +265,13 @@ class Gen {
     if (t.requiresFlag && !this.known.has(t.requiresFlag)) {
       if (!this.flag(t.requiresFlag, `${who} (needs ${t.requiresFlag} for zone ${t.zone})`, depth + 1)) return false;
     }
-    if (t.unlessFlag && this.known.has(t.unlessFlag)) { this.push({ do: 'unresolved', reason: `${who}: the only trigger for ${f} (zone ${t.zone}) is spent by ${t.unlessFlag}` }); return false; }
+    if ([t.unlessFlag ?? []].flat().some((x: string) => this.known.has(x))) { this.push({ do: 'unresolved', reason: `${who}: the only trigger for ${f} (zone ${t.zone}) is spent by ${t.unlessFlag}` }); return false; }
     this.closeConversation();
     if (t.action === 'sleep' && !t.dialogue) { this.push({ do: 'sleep' }); }
     // Where the infected are (ADR-145/148), every walk is a flee: the bot plans around them and keeps re-planning.
-    else this.push({ do: ((districts.get(this.district)?.infected?.packs ?? []) as Json[]).some((p) => !p.requiresFlag || this.known.has(p.requiresFlag)) ? 'flee' : 'goto', target: `zone:${t.zone}` });
+    else this.push(this.walkTo(`zone:${t.zone}`));
     // The office door on the same zone runs the workday (when that trigger is live): the walk home starts at closing time.
-    const workday = (districts.get(this.district)?.triggers ?? []).some((x: Json) => x.zone === t.zone && x.action === 'workday' && !(x.unlessFlag && this.known.has(x.unlessFlag)) && (!x.requiresFlag || this.known.has(x.requiresFlag)));
+    const workday = (districts.get(this.district)?.triggers ?? []).some((x: Json) => x.zone === t.zone && x.action === 'workday' && ![x.unlessFlag ?? []].flat().some((u: string) => this.known.has(u)) && (!x.requiresFlag || this.known.has(x.requiresFlag)));
     if (workday) this.minute = 18 * 60;
     for (const g of t.setFlags ?? []) this.known.add(g);
     if (t.dialogue) {
@@ -312,7 +333,7 @@ class Gen {
       this.push({ do: 'sleep' });
       this.known.delete(set.nightFlag);
     }
-    this.push({ do: 'goto', target: `zone:${t.zone}` });
+    this.push(this.walkTo(`zone:${t.zone}`));
     this.push({ do: 'rhythm' });
     for (const g of lesson.setFlags) this.known.add(g);
     this.playedTonight = true;
@@ -351,7 +372,7 @@ class Gen {
     const clip = this.firstVisibleReel();
     if (!clip) { this.push({ do: 'unresolved', reason: `no reel is visible yet to test the signal at ${z.zone}` }); return false; }
     this.closeConversation();
-    this.push({ do: 'goto', target: `zone:${z.zone}` });
+    this.push(this.walkTo(`zone:${z.zone}`));
     this.push({ do: 'phone', action: 'app', app: 'reels' });
     this.push({ do: 'phone', action: 'tap', target: `reel:${clip}` });
     this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: 8000 });
@@ -376,7 +397,7 @@ class Gen {
   viaPhotos(f: string): boolean {
     this.closeConversation();
     for (const spot of districts.get(this.district)!.photoSpots as Json[]) {
-      this.push({ do: 'goto', target: `zone:${spot.zone}` });
+      this.push(this.walkTo(`zone:${spot.zone}`));
       this.push({ do: 'phone', action: 'app', app: 'camera' });
       this.push({ do: 'phone', action: 'tap', target: 'camera:snap' });
       this.push({ do: 'phone', action: 'close' });
@@ -537,7 +558,7 @@ class Gen {
 
   talk(npcId: string, dialogueId: string, path: { decisions: Array<{ node: string; option: string; cost: number; flags: string[] }>; end: string }): void {
     this.closeConversation();
-    this.push({ do: 'goto', target: `npc:${npcId}` });
+    this.push(this.walkTo(`npc:${npcId}`));
     this.push({ do: 'interact', target: `npc:${npcId}` });
     this.emitPath(dialogueId, path);
   }
@@ -571,7 +592,7 @@ class Gen {
     this.closeConversation();
     const exit = (districts.get(this.district)!.exits ?? []).find((e: Json) => e.zone === zone);
     if (exit) return this.takeExit(exit, who);
-    this.push({ do: 'goto', target: `zone:${zone}` });
+    this.push(this.walkTo(`zone:${zone}`));
     return true;
   }
 
@@ -604,9 +625,15 @@ class Gen {
       const metro = districts.get(cur)?.metroStation && this.known.has('metro_open')
         ? [...districts.values()].filter((d) => d.id !== cur && d.metroStation && (this.known.has(`visited:${d.id}`) || (d.knownIf && this.known.has(d.knownIf)))).map((d) => ({ metro: true, to: d.id, zone: '(Maps)', transit: 'metro' }))
         : [];
-      for (const exit of [...(districts.get(cur)?.exits ?? []), ...metro]) {
+      // A card on a trigger that lands somewhere else is a way there too: the walk to Hebbal and back (4.3, ADR-152).
+      const walks = ((districts.get(cur)?.triggers ?? []) as Json[])
+        .filter((t) => t.action === 'card' && cards.get(t.card)?.then?.district && cards.get(t.card)!.then.district !== cur && (!t.requiresFlag || this.known.has(t.requiresFlag)) && ![t.unlessFlag ?? []].flat().some((u: string) => this.known.has(u)))
+        .map((t) => ({ walkCard: t.card, zone: t.zone, to: cards.get(t.card)!.then.district, transit: 'walk' }));
+      for (const exit of [...(districts.get(cur)?.exits ?? []), ...metro, ...walks]) {
         const dest = districts.get(exit.to); if (!dest || seen.has(exit.to)) continue;
-        if (!exit.metro && !exitRuns(exit, this.minute)) continue;
+        if (!exit.metro && !exit.walkCard && !exitRuns(exit, this.minute)) continue;
+        // Act 4 (ADR-148): nothing runs — only walking, on foot or on a card.
+        if (this.known.has('act4') && (exit.metro || exit.transit !== 'walk')) continue;
         const unlock = dest.unlock;
         if (unlock?.flags?.some((fl: string) => !this.known.has(fl))) continue;
         seen.add(exit.to); prev.set(exit.to, { from: cur, exit }); queue.push(exit.to);
@@ -623,8 +650,34 @@ class Gen {
     return true;
   }
 
+  /** Packs standing here now (their flag known). */
+  livePacks(): Json[] {
+    return ((districts.get(this.district)?.infected?.packs ?? []) as Json[]).filter((p) => !p.requiresFlag || this.known.has(p.requiresFlag));
+  }
+
+  /**
+   * A walk to a target where the infected are (ADR-145/148/152): when every pack here stands still (`startMode: idle`
+   * — the pair facing the wall, the scrubs by the glass) the bot walks, because a run's noise would wake them; when
+   * any can come for you, every walk is a flee that plans around them. Otherwise a plain goto.
+   */
+  walkTo(target: string): Step {
+    const packs = this.livePacks();
+    if (!packs.length) return { do: 'goto', target };
+    return packs.every((p) => p.startMode === 'idle' && !p.drawnTo) ? { do: 'goto', target, pace: 'walk' } : { do: 'flee', target };
+  }
+
   takeExit(exit: Json, who: string): boolean {
     const d = districts.get(this.district)!;
+    if (exit.walkCard) {
+      // A walk told on a card: step into its zone, the card plays, the place it lands loads.
+      const card = cards.get(exit.walkCard)!;
+      this.push(this.walkTo(`zone:${exit.zone}`));
+      this.push({ do: 'wait_for', ready: 'scene_loaded', scene: exit.to, timeout: 30000 + cardDuration(card as CardSequence, {}) });
+      for (const g of cardOutcome(card as CardSequence, {}).set) this.known.add(g);
+      if (card.then?.minute !== undefined) this.minute = card.then.minute;
+      this.district = exit.to; this.open = null; this.known.add(`visited:${exit.to}`);
+      return true;
+    }
     if (exit.metro) {
       // Maps → the destination's node → METRO, through the real map input (a tap on the node, F).
       this.push({ do: 'travel', to: exit.to, by: 'metro' });
@@ -642,7 +695,7 @@ class Gen {
       if (d.buses?.some((b: Json) => b.flag === exit.requiresFlag)) this.push({ do: 'wait_for', ready: 'flag', flag: exit.requiresFlag, timeout: 120000 });
       else if (!this.known.has(exit.requiresFlag) && !this.flag(exit.requiresFlag, `${who} (the ${exit.transit} needs it)`)) return false;
     }
-    this.push({ do: 'goto', target: `exit:${exit.zone}` });
+    this.push(this.walkTo(`exit:${exit.zone}`));
     this.push({ do: 'wait_for', ready: 'scene_loaded', scene: exit.to, timeout: exit.transit === 'walk' ? 20000 : 60000 });
     if (exit.fare) this.wallet -= exit.fare;
     this.district = exit.to; this.open = null; this.known.add(`visited:${exit.to}`);

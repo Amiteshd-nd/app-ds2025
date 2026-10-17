@@ -1,7 +1,7 @@
 import type { MapScene } from '../../scenes/MapScene';
 import type { RhythmScene } from '../../scenes/RhythmScene';
 import Phaser from 'phaser';
-import { DIALOGUE, DISTRICTS, NPCS } from '../../data';
+import { DIALOGUE, DISTRICTS, NPCS, virtualDialogue } from '../../data';
 import { gameEvents, type GameEvents } from '../../core/events';
 import type { DevApi } from '../../dev/devApi';
 import { pressInteract, setAxis } from '../../input/InputMap';
@@ -203,7 +203,9 @@ export class PhaserDriver implements MovieDriver {
     const dm = DialogueManager.getInstance();
     const view = box.isOpen ? dm.view() : null;
     if (!view) return { open: false, typing: false, selected: 0, choices: [], text: '' };
-    const node = DIALOGUE[view.dialogueId]?.nodes?.[view.nodeId];
+    // Written, or built from data (a container, the bench, the bag — ADR-149/151): the same lookup the game uses.
+    const st = useGameStore.getState();
+    const node = (DIALOGUE[view.dialogueId] ?? virtualDialogue(view.dialogueId, st.counters, { inventory: st.inventory, flags: st.flags }))?.nodes?.[view.nodeId];
     const choices = view.choices.map((c, i) => {
       const raw = node?.choices?.[i];
       const wallet = raw?.effect?.wallet ?? 0;
@@ -297,7 +299,7 @@ export class PhaserDriver implements MovieDriver {
     // Exits are soft (dropped when they seal the only way); a live zone that takes the world over (a bed, the office
     // door's workday, the guitar lane) is hard — never walked through by accident, crowd or no crowd (ADR-135).
     const flags = useGameStore.getState().flags;
-    const live = (t: { requiresFlag?: string; unlessFlag?: string }) => (!t.requiresFlag || flags[t.requiresFlag]) && !(t.unlessFlag && flags[t.unlessFlag]);
+    const live = (t: { requiresFlag?: string; unlessFlag?: string | string[] }) => (!t.requiresFlag || flags[t.requiresFlag]) && ![t.unlessFlag ?? []].flat().some((u) => flags[u]);
     // ...unless it overlaps the target (the hotel's guest-room zone lies under its bed zone).
     const rectOf = (name: string) => { const o = w.map.getObjectLayer(LAYERS.spawns)?.objects.find((x) => x.name === name); return o && o.width && o.height ? { x: o.x ?? 0, y: o.y ?? 0, w: o.width, h: o.height } : null; };
     const tr = target?.startsWith('zone:') ? rectOf(targetName) : null;

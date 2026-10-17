@@ -114,5 +114,13 @@
     "dialogue": "trade:trader_manju",
     "sheet": "npc_manju",
     "voice": "adult_m"
+  },
+  {
+    "id": "npc_deepa",
+    "name": "Deepa",
+    "tier": 3,
+    "dialogue": "dlg_deepa",
+    "sheet": "npc_deepa",
+    "voice": "adult_f"
   }
 ]

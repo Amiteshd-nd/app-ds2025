@@ -1,0 +1,296 @@
+{
+  "scene": "act4_hill_days",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act4_hill_days + hill_flat + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "hill_first_night",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F1",
+      "do": "goto",
+      "target": "exit:front_door"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_6",
+      "beat": "F1",
+      "do": "goto",
+      "target": "npc:npc_suresh",
+      "pace": "walk"
+    },
+    {
+      "id": "interact_7",
+      "beat": "F1",
+      "do": "interact",
+      "target": "npc:npc_suresh"
+    },
+    {
+      "id": "choose_8",
+      "beat": "F1",
+      "do": "choose",
+      "option": "day1_bye"
+    },
+    {
+      "id": "goto_9",
+      "do": "goto",
+      "target": "zone:stall_store",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_10",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_11",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:hill_chai_store",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_12",
+      "do": "goto",
+      "target": "exit:room3_door",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_13",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "sleep_14",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_15",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "deepa_back",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_16",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:front_door"
+    },
+    {
+      "id": "wait_for_17",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_18",
+      "beat": "F2",
+      "do": "goto",
+      "target": "npc:npc_deepa",
+      "pace": "walk"
+    },
+    {
+      "id": "interact_19",
+      "beat": "F2",
+      "do": "interact",
+      "target": "npc:npc_deepa"
+    },
+    {
+      "id": "choose_20",
+      "beat": "F2",
+      "do": "choose",
+      "option": "need"
+    },
+    {
+      "id": "choose_21",
+      "beat": "F2",
+      "do": "choose",
+      "option": "go"
+    },
+    {
+      "id": "goto_22",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:walk_out",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_23",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ward4",
+      "timeout": 44200
+    },
+    {
+      "id": "goto_24",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:cabinet_zone",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_25",
+      "beat": "F3",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_26",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:ward4_cabinet",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_27",
+      "beat": "F4",
+      "do": "goto",
+      "target": "zone:ward_exit",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_28",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 43800
+    },
+    {
+      "id": "goto_29",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_deepa",
+      "pace": "walk"
+    },
+    {
+      "id": "interact_30",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_deepa"
+    },
+    {
+      "id": "choose_31",
+      "beat": "F4",
+      "do": "choose",
+      "option": "given"
+    },
+    {
+      "id": "goto_32",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:room3_door",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_33",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "sleep_34",
+      "beat": "F5",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_35",
+      "beat": "F5",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_36",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_lamp_failed:hill_flat",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_37",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "hill_turned",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_38",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "free",
+      "timeout": 30000
+    },
+    {
+      "id": "goto_39",
+      "beat": "F5",
+      "do": "goto",
+      "target": "exit:front_door"
+    },
+    {
+      "id": "wait_for_40",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_41",
+      "beat": "F5",
+      "do": "goto",
+      "target": "npc:npc_suresh",
+      "pace": "walk"
+    },
+    {
+      "id": "interact_42",
+      "beat": "F5",
+      "do": "interact",
+      "target": "npc:npc_suresh"
+    },
+    {
+      "id": "choose_43",
+      "beat": "F5",
+      "do": "choose",
+      "option": "moving"
+    },
+    {
+      "id": "expect_44",
+      "do": "expect",
+      "flag": "act4_hill_days_done",
+      "timeout": 3000
+    }
+  ]
+}

@@ -44,7 +44,7 @@ export async function runStep(d: MovieDriver, step: Step, ctx: ActionContext): P
   try {
     switch (step.do) {
       case 'wait_for': return waitFor(d, step, ctx, deadline);
-      case 'goto': return goto(d, step.target, ctx, step.timeout);
+      case 'goto': return goto(d, step.target, ctx, step.timeout, false, step.pace === 'walk' ? WALK_STICK : 1);
       case 'flee': return goto(d, step.target, ctx, step.timeout, true);
       case 'hide': return hide(d, step, ctx);
       case 'interact': return interact(d, step.target, ctx, deadline);
@@ -97,7 +97,10 @@ async function waitFor(d: MovieDriver, step: Extract<Step, { do: 'wait_for' }>, 
  */
 const MAX_REPLANS = 10;
 const STUCK_MS = 1200;
-async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?: number, flee = false): Promise<ActionResult> {
+/** A stick pushed this far walks (the run threshold is 0.85). */
+const WALK_STICK = 0.7;
+
+async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?: number, flee = false, stick = 1): Promise<ActionResult> {
   // Already there with the target's own conversation open (Amma's call at the flat door): nothing to walk.
   if (d.state().dialogueOpen) { const here = d.route(target); if (here.ok && here.px === 0) return ok(); }
   const free = await until(d, ctx, () => d.state().free, d.now() + 2000);
@@ -171,7 +174,7 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
             // Inside but claimed by a sibling zone: head for the nearest free side of that sibling.
             for (const o of z.avoid ?? []) if (tx >= o.x && tx <= o.x + o.w && ty >= o.y && ty <= o.y + o.h) { const left = tx - o.x, right = o.x + o.w - tx, up = ty - o.y, down = o.y + o.h - ty; const min = Math.min(left, right, up, down); if (min === left) tx = o.x - 2; else if (min === right) tx = o.x + o.w + 2; else if (min === up) ty = o.y - 2; else ty = o.y + o.h + 2; }
             const dx = tx - f[0], dy = ty - f[1];
-            if (Math.abs(dx) >= Math.abs(dy)) d.walk(Math.sign(dx), 0); else d.walk(0, Math.sign(dy));
+            if (Math.abs(dx) >= Math.abs(dy)) d.walk(Math.sign(dx) * stick, 0); else d.walk(0, Math.sign(dy) * stick);
             await d.frames(1);
             const g = d.feet() ?? f;
             if (Math.hypot(g[0] - last[0], g[1] - last[1]) < 0.5) { if (++still > 12) break; } else { still = 0; last = g; }
@@ -190,8 +193,8 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
       const from = k > 0 ? route.corners[k - 1] : feet;
       const lx = cx - from[0], ly = cy - from[1], ll = Math.hypot(lx, ly) || 1;
       const err = ((feet[0] - from[0]) * ly - (feet[1] - from[1]) * lx) / ll; // signed distance from the leg line
-      if (Math.abs(err) > 1.5 && (frame++ % 2 === 0)) d.walk(-Math.sign(err) * (ly / ll), Math.sign(err) * (lx / ll));
-      else d.walk(dx / dist, dy / dist);
+      if (Math.abs(err) > 1.5 && (frame++ % 2 === 0)) d.walk(-Math.sign(err) * (ly / ll) * stick, Math.sign(err) * (lx / ll) * stick);
+      else d.walk((dx / dist) * stick, (dy / dist) * stick);
       if (k !== bestK) { bestK = k; bestDist = dist; lastProgressAt = d.now(); }
       if (dist < bestDist - 2) { bestDist = dist; lastProgressAt = d.now(); }
       else if (d.now() - lastProgressAt > STUCK_MS || (flee && d.now() - movedAt > STUCK_MS)) {
@@ -203,7 +206,7 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
         const perp = Math.abs(dx) >= Math.abs(dy) ? [0, 1] : [1, 0];
         const sides = replans % 2 ? [1, -1] : [-1, 1];
         const side = sides.find((sg) => d.freeAt(feet[0] + perp[0] * sg * 16, feet[1] + perp[1] * sg * 16));
-        if (side !== undefined) { for (let i = 0; i < 12 && !ctx.cancelled(); i++) { d.walk(perp[0] * side, perp[1] * side); await d.frames(1); } }
+        if (side !== undefined) { for (let i = 0; i < 12 && !ctx.cancelled(); i++) { d.walk(perp[0] * side * stick, perp[1] * side * stick); await d.frames(1); } }
         d.walk(0, 0);
         // Wait longer each time: a citizen pressed against the player keeps wandering only once its timer turns.
         for (let i = 0; i < 20 + replans * 10 && !ctx.cancelled(); i++) await d.frames(1);

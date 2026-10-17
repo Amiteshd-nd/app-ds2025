@@ -108,7 +108,7 @@ export function buildPrereqState(
     questsCompleted,
     stats: { ...defaults.stats },
     inventory: [],
-    counters: {},
+    counters: { ...(target.entry?.counters ?? {}) },
     clock: { day: defaults.clock.day, minute: parseTime(target.time) ?? defaults.clock.minute },
     reputation: 0,
     position: { districtId: target.district, spawnId: target.entry?.spawn ?? '' },

@@ -4,6 +4,22 @@
   "portrait": "npc_suresh",
   "enter": [
     {
+      "flag": "base_hill_done",
+      "node": "moving"
+    },
+    {
+      "flag": "hill_turned",
+      "node": "turned"
+    },
+    {
+      "flag": "suresh_day1",
+      "node": "day1_again"
+    },
+    {
+      "flag": "hill_first_night",
+      "node": "day1"
+    },
+    {
       "flag": "met_suresh",
       "node": "again"
     }
@@ -54,6 +70,51 @@
     },
     "again": {
       "text": "Petrol, food, water. To the shelf. And quiet after five."
+    },
+    "day1": {
+      "text": "(Grey morning. His torch is off.) Day one. The rules hold. — Deepa from room one hasn't come home. The lab girl. Three nights now.",
+      "next": "day1_store"
+    },
+    "day1_store": {
+      "text": "Mani keeps a store behind his stall. Take what's there, he won't mind. Steel, stones. You know what to make of them.",
+      "choices": [
+        {
+          "text": "(Nod.)",
+          "next": "day1_bye",
+          "effect": {
+            "flags": {
+              "suresh_day1": true
+            }
+          }
+        }
+      ]
+    },
+    "day1_bye": {
+      "text": "And the shelf. Always the shelf."
+    },
+    "day1_again": {
+      "text": "Mani's store. The shelf. Quiet after five."
+    },
+    "turned": {
+      "text": "(He hasn't slept. The torch is dead in his hand.) The lamp went at two. They came up the steps. Mani — (he stops). Without the lamp the hill is theirs.",
+      "next": "turned_go"
+    },
+    "turned_go": {
+      "text": "There's a man in Indiranagar. Uncle, at the tiffin room — a generator, a shutter that comes down. We go at first light.",
+      "choices": [
+        {
+          "text": "(Start packing.)",
+          "next": "moving",
+          "effect": {
+            "flags": {
+              "base_hill_done": true
+            }
+          }
+        }
+      ]
+    },
+    "moving": {
+      "text": "First light. Take what you can carry. Eight things, not one more."
     }
   }
 }

@@ -1,0 +1,26 @@
+{
+  "id": "card_walk_home",
+  "$comment": "Story 4.3 (ADR-152): back from Ward 4 with the strip; it lands at the foot of the hill at 18:40.",
+  "panels": [
+    {
+      "title": "HEBBAL GENERAL · 13:10",
+      "text": "The strip in your pocket. You don't run until the gate.",
+      "ms": 4400
+    },
+    {
+      "title": "OLD MADRAS ROAD · 16:30",
+      "text": "On a shutter, in paint: WE ARE INSIDE. Under it, later, in another hand: NOT ANYMORE.",
+      "ms": 5200
+    },
+    {
+      "title": "AMBEDKAR NAGAR · 18:40",
+      "text": "The purple light is still on.",
+      "ms": 4200
+    }
+  ],
+  "then": {
+    "district": "ambedkar_nagar_hill",
+    "spawn": "slope_base",
+    "minute": 1120
+  }
+}

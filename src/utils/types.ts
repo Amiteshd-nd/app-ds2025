@@ -336,8 +336,8 @@ export interface DistrictTrigger {
   zone: string;
   /** Fire on first entry only (default true) — per visit; use unlessFlag for "ever". */
   once?: boolean;
-  /** Never fires once this flag is set — a phone call that must not ring twice. */
-  unlessFlag?: string;
+  /** Never fires once this flag is set — a phone call that must not ring twice. A list: once any is set (Ward 4's Act 3 corners stay quiet in Act 4, ADR-152). */
+  unlessFlag?: string | string[];
   /** Fires only once this flag is set — the office door waits until Divya has been found (ADR-121). */
   requiresFlag?: string;
   /** Flags set on entry — a silent breadcrumb (the HIVR lanyard man). */
@@ -370,6 +370,8 @@ export interface DistrictDef {
   defaultSpawn: string;
   /** Walk at this share of normal speed, and no running (a cast in the ward, story 3.2, ADR-137). */
   walkSpeed?: number;
+  /** Once this flag is set the slow walk is over (Ward 4: discharged — the cast is off in Act 4, ADR-152). */
+  walkSpeedUnless?: string;
   /** Play as someone else here: their sheet replaces yours (Ravi in the corridor, story 3.3, ADR-138). */
   playerSheet?: string;
   /** `minimal`: the HUD shows only the objective — no clock, wallet, meters, phone or map (it isn't your life; ADR-138). */
@@ -557,7 +559,8 @@ export interface SceneComponent {
   design_goal: string;
   pacing: string[];
   /** Where the scene starts; `after` names the beats that happen before this entry (their flags are prerequisite state in the Playground). */
-  entry?: { from: string; spawn: string; after?: string[] };
+  /** `counters`: what the scenes before leave on the counters (a base's nights, ADR-152) — the Playground and a solo bot run start there. */
+  entry?: { from: string; spawn: string; after?: string[]; counters?: Record<string, number> };
   cast: Array<{ npc: string; tier: number; spawn?: string; schedule?: string; role?: string }>;
   objects?: Array<{ id: string; at: string; requires?: string | null }>;
   quests: string[];

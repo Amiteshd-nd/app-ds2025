@@ -46,6 +46,19 @@
         "laptop": 1,
         "water_bottle": 1
       }
+    },
+    "hill_chai_store": {
+      "label": "Mani's store behind the stall",
+      "items": {
+        "steel_tumbler": 2,
+        "stones": 2
+      }
+    },
+    "ward4_cabinet": {
+      "label": "the end drawer of the nurses' desk: one strip of antivirals, the rest gone",
+      "items": {
+        "antivirals": 1
+      }
     }
   }
 }

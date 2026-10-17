@@ -87,7 +87,7 @@ describe('three mornings, each quieter (F2–F4)', () => {
   });
 
   it('the door stops tapping from morning 2', () => {
-    expect(ward.triggers!.find((t) => t.dialogue === 'dlg_sealed_door')!.unlessFlag).toBe('door_quiet');
+    expect([ward.triggers!.find((t) => t.dialogue === 'dlg_sealed_door')!.unlessFlag].flat()).toContain('door_quiet');
     expect(ward.triggers!.find((t) => t.dialogue === 'dlg_sealed_quiet')!.requiresFlag).toBe('door_quiet');
   });
 

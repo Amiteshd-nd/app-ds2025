@@ -1,6 +1,6 @@
 {
   "scene": "act1_hill_flat",
-  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act1_hill_flat + ambedkar_nagar_hill + the prereq state",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act1_hill_flat + ambedkar_nagar_hill + the prereq state",
   "seed": 7,
   "steps": [
     {

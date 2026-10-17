@@ -441,3 +441,20 @@ corepack pnpm dev
   - Sounds reuse existing tokens: the swing, a plate clang for the noise maker and knife, a pipe hit for the bat, distant glass for the smoke bomb.
   - The Pulse Gun (the only kill) and the Host stay later, as planned.
 
+## 26. 4.3 "Four Nights": the hill base, days 1–4
+- **What:** the first base played over four days. You scavenge, Deepa comes back bitten, you make a medicine run into the ruined Ward 4, Karthik leaves, the lamp fails on night 4, and Suresh decides to move to Uncle's tiffin room in Indiranagar.
+- **Check:** in the Playground, open Act 4 → 4.3 Four Nights (Play), or **▶ from here** to watch the bot.
+  - Talk to Suresh in the morning, then search Mani's store beside his stall.
+  - Sleep. Deepa is on the step of room 1. Ask her what she needs.
+  - Step onto the road at the bottom left to walk to Hebbal. In Ward 4, walk (don't run) to the nurses' desk, search the end drawer, and leave by the ward door.
+  - Give Deepa the strip.
+  - Sleep twice: Karthik leaves, then the lamp fails. Talk to Suresh.
+- **Calls to confirm:**
+  - **Scope:** this phase is only the hill (B1 of the chain). Kumar on the road and the café (B2) are next; Cubbon, the Palace and Lalbagh come after.
+  - **Deepa:** room 1, HIVR contract lab assistant, bitten on the walk home. Her sheet was generated first try (white lab coat, bandaged forearm). The antivirals slow it; she survives for now. There's no deadline: she waits until you go.
+  - **The ward:** two infected in scrubs (one from the nurses' sheet, unnamed, so it's not Sister Lalitha by name) stand by the isolation glass. Walking stays just outside their hearing; running or fighting wakes them. The ward's other Act 3 people are gone.
+  - **The days:** Deepa returns after night 2 and Karthik leaves after night 3 (for Vidhana Soudha, so he can turn up at the camp later). The lamp fails on night 4, as S3 set it. Mani is gone the morning after.
+  - **Day 1's scavenge** is only Mani's store (the noise maker's parts). No Whitefield runs yet.
+  - The walk there and back is told on cards (07:40 → 12:30 at the ward; 13:10 → 18:40 home), not played.
+  - The Movie bot now **walks** wherever infected stand still. Its full stick used to run, and the noise woke the still pair on the hill. 4.2's walkthrough changed with it.
+

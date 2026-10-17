@@ -392,3 +392,12 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way: a focused Playground button swallows the game's keys (click the canvas first; the bench note says so).
 - Calls to confirm: NEED_TO_AUDIT #25.
 - Rule going forward: **combat numbers live in `combat.json`; a weapon only stuns (validator: ≤ 5 s)**.
+
+### [P24 4.3 "Four Nights" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.3". ADR-152. The chain is built one base per phase (the stub's default); this is B1, the hill.
+- Built: Suresh's mornings and decision, Mani's store, Deepa (new sheet, first try) bitten and the medicine run, Ward 4 ruined with two infected in scrubs (the recipe on the nurse's sheet), the cards there and back, Karthik leaving, the scripted lamp failure → the hill turns; 10 new tests.
+- Verified: `node scripts/movie.mjs --scene act4_the_hill` plays 4.2 then 4.3 (44 steps: the store, the sleeps, Deepa, the ward walk past the scrubs, home, the medicine, two nights, the lamp card, Suresh).
+- Found on the way (fixed): the bot always ran (a full stick), and a run's noise woke the hill's still pair, which boxed it in on the stairs. The generator now walks past still infected (`pace: 'walk'`). The bot couldn't name a built-from-data choice ("taken"). 4.2's `save_flags` missed `hill_first_night`. An exit's `card` field is its ticket label, so the walk edges use `walkCard`.
+- Calls to confirm: NEED_TO_AUDIT #26.
+- Rule going forward: **in Act 4 the bot walks past anything that stands still; only a pack that can come for you makes a walk a flee.**
+

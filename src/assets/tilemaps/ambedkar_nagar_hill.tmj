@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 35,
+     "id": 38,
      "name": "pole",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 36,
+     "id": 39,
      "name": "transformer",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 37,
+     "id": 40,
      "name": "chai_table",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 38,
+     "id": 41,
      "name": "stools",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 39,
+     "id": 42,
      "name": "shop_display",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 40,
+     "id": 43,
      "name": "pot_room1",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 41,
+     "id": 44,
      "name": "awning",
      "type": "above",
      "rotation": 0,
@@ -2916,7 +2916,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 45,
      "name": "tarp",
      "type": "above",
      "rotation": 0,
@@ -3823,7 +3823,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 25,
+     "id": 28,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3841,7 +3841,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 29,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3859,7 +3859,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 30,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3877,7 +3877,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 31,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3895,7 +3895,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 32,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3913,7 +3913,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 33,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3931,7 +3931,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 34,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3949,7 +3949,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 35,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3967,7 +3967,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 36,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3985,7 +3985,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 37,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -5097,6 +5097,18 @@
     },
     {
      "id": 18,
+     "name": "deepa_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 499,
+     "y": 637,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 19,
      "name": "road_out",
      "rotation": 0,
      "type": "",
@@ -5107,7 +5119,7 @@
      "height": 89
     },
     {
-     "id": 19,
+     "id": 20,
      "name": "hill_arrival",
      "rotation": 0,
      "type": "",
@@ -5118,7 +5130,7 @@
      "height": 89
     },
     {
-     "id": 20,
+     "id": 21,
      "name": "room1_door",
      "rotation": 0,
      "type": "",
@@ -5129,7 +5141,7 @@
      "height": 42
     },
     {
-     "id": 21,
+     "id": 22,
      "name": "room2_door",
      "rotation": 0,
      "type": "",
@@ -5140,7 +5152,7 @@
      "height": 32
     },
     {
-     "id": 22,
+     "id": 23,
      "name": "room3_door",
      "rotation": 0,
      "type": "",
@@ -5151,7 +5163,7 @@
      "height": 42
     },
     {
-     "id": 23,
+     "id": 24,
      "name": "ambient_area",
      "rotation": 0,
      "type": "",
@@ -5162,7 +5174,7 @@
      "height": 56
     },
     {
-     "id": 24,
+     "id": 25,
      "name": "top_terrace",
      "rotation": 0,
      "type": "",
@@ -5171,6 +5183,28 @@
      "y": 113,
      "width": 68,
      "height": 37
+    },
+    {
+     "id": 26,
+     "name": "stall_store",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 180,
+     "y": 638,
+     "width": 34,
+     "height": 30
+    },
+    {
+     "id": 27,
+     "name": "walk_out",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 30,
+     "y": 679,
+     "width": 45,
+     "height": 89
     }
    ],
    "opacity": 1,
@@ -5181,7 +5215,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 43,
+ "nextobjectid": 46,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

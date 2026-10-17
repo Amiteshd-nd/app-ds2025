@@ -1,6 +1,6 @@
 {
   "scene": "act2_credited",
-  "generated": "generated 2026-10-16 by scripts/generate-walkthroughs.ts from q_act2_credited + scooter_showroom + entry.after F1",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_credited + scooter_showroom + entry.after F1",
   "seed": 7,
   "steps": [
     {

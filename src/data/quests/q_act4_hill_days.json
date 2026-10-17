@@ -1,0 +1,85 @@
+{
+  "id": "q_act4_hill_days",
+  "title": "Four Nights",
+  "description": "Hold the hill: scavenge, keep the stock, and get Deepa what she needs.",
+  "chapter": 4,
+  "district": "ambedkar_nagar_hill",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_the_hill"
+  ],
+  "objectives": [
+    {
+      "id": "morning",
+      "text": "Day one",
+      "type": "flag",
+      "target": "hill_first_night",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "suresh",
+      "text": "Suresh, in the morning",
+      "type": "flag",
+      "target": "suresh_day1",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "store",
+      "text": "Mani's store",
+      "type": "flag",
+      "target": "looted:hill_chai_store",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "deepa_back",
+      "text": "Another night",
+      "type": "flag",
+      "target": "deepa_back",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "deepa",
+      "text": "Room 1",
+      "type": "flag",
+      "target": "deepa_asked",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "ward",
+      "text": "Ward 4's nurses' desk",
+      "type": "flag",
+      "target": "looted:ward4_cabinet",
+      "destination": "ward4"
+    },
+    {
+      "id": "medicine",
+      "text": "Back to Deepa",
+      "type": "flag",
+      "target": "deepa_medicine",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "lamp",
+      "text": "The lamp",
+      "type": "flag",
+      "target": "hill_turned",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "move",
+      "text": "Suresh",
+      "type": "flag",
+      "target": "base_hill_done",
+      "destination": "ambedkar_nagar_hill"
+    }
+  ],
+  "rewards": {
+    "xp": 40,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_hill_days_done"
+    ]
+  }
+}

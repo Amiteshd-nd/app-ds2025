@@ -127,7 +127,8 @@ export class WorldScene extends Phaser.Scene {
     const y = data.y ?? spawn?.y ?? this.map.heightInPixels / 2;
 
     this.player = new Player(this, x, y, this.district.playerSheet ?? store.appearance.sheet);
-    this.player.walkScale = this.district.walkSpeed ?? 1;
+    // A cast slows you in the ward — until you're discharged (ADR-152: Ward 4 again in Act 4).
+    this.player.walkScale = this.district.walkSpeedUnless && store.flags[this.district.walkSpeedUnless] ? 1 : (this.district.walkSpeed ?? 1);
     const body = this.player.body as Phaser.Physics.Arcade.Body;
     body.setBounce(0);
     body.setCollideWorldBounds(true);

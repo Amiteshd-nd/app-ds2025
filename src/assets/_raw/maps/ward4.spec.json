@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 → 12x8; the entrance door comes out ~36 px — scale a room by its door) — Ward 4, Hebbal General (story 3.2, ADR-137): the top wall band with its barred windows and the taped isolation doors (top right) are `buildings`, so are the left wall and the bottom wall either side of the entrance; the six beds with their lockers, the IV stands' bases, the nurse's desk and the wall TV are blocks. Your bed is top-left, Ravi's next to it; the other two patients lie in the bottom-left and bottom-right beds. The red line runs down the floor before the isolation doors; the nurse stands behind her desk.",
+  "$comment": "Source-pixel spec (1536x1024 → 12x8; the entrance door comes out ~36 px — scale a room by its door) — Ward 4, Hebbal General (story 3.2, ADR-137): the top wall band with its barred windows and the taped isolation doors (top right) are `buildings`, so are the left wall and the bottom wall either side of the entrance; the six beds with their lockers, the IV stands' bases, the nurse's desk and the wall TV are blocks. Your bed is top-left, Ravi's next to it; the other two patients lie in the bottom-left and bottom-right beds. The red line runs down the floor before the isolation doors; the nurse stands behind her desk. 4.3 (ADR-152): `cabinet_zone`, the drawer at the end of the nurses' desk.",
   "name": "ward4",
   "cols": 12,
   "rows": 8,
@@ -234,6 +234,13 @@
       "y": 480,
       "w": 840,
       "h": 120
+    },
+    {
+      "name": "cabinet_zone",
+      "x": 1075,
+      "y": 800,
+      "w": 50,
+      "h": 70
     }
   ],
   "sorted": [],

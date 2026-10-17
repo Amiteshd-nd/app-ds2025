@@ -846,7 +846,8 @@
     "quests": [
       "q_act1_hill_flat",
       "q_act2_ravi_1am",
-      "q_act4_the_hill"
+      "q_act4_the_hill",
+      "q_act4_hill_days"
     ],
     "npcs": [
       {
@@ -861,7 +862,8 @@
       },
       {
         "id": "npc_hill_chai",
-        "spawn": "chai_stall"
+        "spawn": "chai_stall",
+        "unlessFlag": "hill_turned"
       },
       {
         "id": "npc_furniture_rafiq",
@@ -881,7 +883,8 @@
       {
         "id": "npc_karthik",
         "spawn": "karthik_spot",
-        "requiresFlag": "act4"
+        "requiresFlag": "act4",
+        "unlessFlag": "karthik_gone"
       },
       {
         "id": "npc_manju_act4",
@@ -893,6 +896,11 @@
         "id": "npc_manju_trade",
         "spawn": "manju_table_b",
         "requiresFlag": "upi_dead"
+      },
+      {
+        "id": "npc_deepa",
+        "spawn": "deepa_spot",
+        "requiresFlag": "deepa_back"
       }
     ],
     "ambient": {
@@ -935,6 +943,19 @@
         "dialogue": "dlg_hill_climbed",
         "requiresFlag": "act4",
         "unlessFlag": "hill_climbed"
+      },
+      {
+        "zone": "stall_store",
+        "dialogue": "search:hill_chai_store",
+        "requiresFlag": "suresh_day1",
+        "unlessFlag": "looted:hill_chai_store"
+      },
+      {
+        "zone": "walk_out",
+        "action": "card",
+        "card": "card_walk_hebbal",
+        "requiresFlag": "deepa_asked",
+        "unlessFlag": "looted:ward4_cabinet"
       }
     ],
     "exits": [
@@ -1047,6 +1068,10 @@
       {
         "flag": "act4",
         "stability": 62
+      },
+      {
+        "flag": "hill_turned",
+        "stability": 35
       }
     ],
     "uv": [
@@ -1306,7 +1331,8 @@
       "q_act2_ravi_1am",
       "q_act2_the_app",
       "q_act2_breadcrumbs",
-      "q_act3_orr"
+      "q_act3_orr",
+      "q_act4_hill_days"
     ],
     "sleepEvents": [
       {
@@ -1420,6 +1446,30 @@
         ],
         "toast": "Act 4 · day 1",
         "icon": "news"
+      },
+      {
+        "after": "hill_first_night",
+        "nights": 1,
+        "set": [
+          "deepa_back"
+        ],
+        "toast": "Someone on the step of room 1. Deepa's back.",
+        "icon": "chats"
+      },
+      {
+        "after": "hill_first_night",
+        "nights": 2,
+        "set": [
+          "karthik_gone"
+        ],
+        "toast": "Karthik's door is open. His bags are gone."
+      },
+      {
+        "after": "base_lamp_failed:hill_flat",
+        "set": [
+          "hill_turned"
+        ],
+        "card": "card_hill_turned"
       }
     ],
     "base": {
@@ -2561,7 +2611,8 @@
     "npcs": [
       {
         "id": "npc_ward_nurse",
-        "spawn": "nurse_station"
+        "spawn": "nurse_station",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_ravi_ward",
@@ -2570,7 +2621,8 @@
       },
       {
         "id": "npc_patient_old",
-        "spawn": "patient_old"
+        "spawn": "patient_old",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_patient_woman",
@@ -2582,17 +2634,26 @@
       {
         "zone": "sealed_zone",
         "dialogue": "dlg_sealed_door",
-        "unlessFlag": "door_quiet"
+        "unlessFlag": [
+          "door_quiet",
+          "act4"
+        ]
       },
       {
         "zone": "tv_zone",
         "dialogue": "dlg_ward_tv",
-        "unlessFlag": "ward_tv_seen"
+        "unlessFlag": [
+          "ward_tv_seen",
+          "act4"
+        ]
       },
       {
         "zone": "tray_zone",
         "dialogue": "dlg_ward_tray",
-        "unlessFlag": "ward_tray_eaten"
+        "unlessFlag": [
+          "ward_tray_eaten",
+          "act4"
+        ]
       },
       {
         "zone": "ward_exit",
@@ -2603,7 +2664,10 @@
         "zone": "sealed_zone",
         "dialogue": "dlg_sealed_quiet",
         "requiresFlag": "door_quiet",
-        "unlessFlag": "discharged"
+        "unlessFlag": [
+          "discharged",
+          "act4"
+        ]
       },
       {
         "zone": "bed_zone",
@@ -2615,18 +2679,42 @@
         "zone": "ward_middle",
         "dialogue": "dlg_amma_come_home",
         "requiresFlag": "wn_amma",
-        "unlessFlag": "amma_home_answered"
+        "unlessFlag": [
+          "amma_home_answered",
+          "act4"
+        ]
       },
       {
         "zone": "sealed_zone",
         "dialogue": "dlg_sealed_open",
-        "requiresFlag": "discharged"
+        "requiresFlag": "discharged",
+        "unlessFlag": "act4"
       },
       {
         "zone": "ward_exit",
         "action": "card",
         "card": "card_leaving_ward",
-        "requiresFlag": "discharged"
+        "requiresFlag": "discharged",
+        "unlessFlag": "act4"
+      },
+      {
+        "zone": "cabinet_zone",
+        "dialogue": "search:ward4_cabinet",
+        "requiresFlag": "act4",
+        "unlessFlag": "looted:ward4_cabinet"
+      },
+      {
+        "zone": "ward_exit",
+        "dialogue": "dlg_ward_not_yet",
+        "requiresFlag": "act4",
+        "unlessFlag": "looted:ward4_cabinet",
+        "once": false
+      },
+      {
+        "zone": "ward_exit",
+        "action": "card",
+        "card": "card_walk_home",
+        "requiresFlag": "looted:ward4_cabinet"
       }
     ],
     "audioSources": [
@@ -2719,8 +2807,45 @@
       {
         "flag": "ravi_gone",
         "stability": 62
+      },
+      {
+        "flag": "act4",
+        "stability": 15
       }
-    ]
+    ],
+    "walkSpeedUnless": "discharged",
+    "act4Zones": [
+      {
+        "id": "ward",
+        "rect": [
+          0,
+          1,
+          12,
+          7
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "scrubs",
+          "zone": "ward",
+          "lead": [
+            11,
+            1
+          ],
+          "size": 2,
+          "sheets": [
+            "npc_nurse",
+            "inf_base_male_1"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "hivr_corridor",

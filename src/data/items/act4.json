@@ -198,5 +198,15 @@
     "type": "equipment",
     "stackable": false,
     "act4_value": 3
+  },
+  {
+    "id": "antivirals",
+    "name": "Antivirals",
+    "description": "A foil strip from Ward 4's nurses' desk. It slows it. That's all it does.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
   }
 ]

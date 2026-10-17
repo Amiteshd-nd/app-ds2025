@@ -192,3 +192,7 @@ Native shells: `capacitor.config.ts` (webDir `dist`) → `android/` (Gradle) and
 - `SaveManager` still talks to `localStorage` directly (allowlisted) — moves to `platform.saves` with the slot system (T-011).
 - Native shells are generated and synced but unbuilt: no Xcode/Android SDK on this machine (T-018).
 - Reference tilesets (`airport*.png`) are continuous-tone with unresolved provenance — placeholders until P1.
+
+## Act 4 — 4.3 Four Nights (P24, ADR-152)
+Scene `act4_hill_days` (district `hill_flat`, `entry.counters` → prereq `counters`). Hill: `deepa_spot`, `stall_store` (`search:hill_chai_store`), `walk_out` (`card_walk_hebbal` → Ward 4); Ward 4 in Act 4: `cabinet_zone` (`search:ward4_cabinet`, the `antivirals` key item), `ward_exit` → `card_walk_home`, pack `scrubs` (idle), `walkSpeedUnless: discharged`, list `unlessFlag` on its Act 3 triggers. act4Base: `base_lamp_failed:<id>` → hill_flat `sleepEvents` → `hill_turned` + `card_hill_turned`. Generator: card-trigger travel (`walkCard` edges), walk-only Act 4, `base_lamp_failed` sleeps, `search:` dialogues, `walkTo` (`pace: 'walk'` past idle packs). Movie: `goto.pace`; the driver resolves virtual dialogues.
+

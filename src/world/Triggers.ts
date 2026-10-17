@@ -49,7 +49,7 @@ export function bind(
     watchers.push(
       new EntryWatcher(scene, player, zone, () => {
         if (fired && trigger.once !== false) return;
-        if (trigger.unlessFlag && useGameStore.getState().flags[trigger.unlessFlag]) return;
+        if ([trigger.unlessFlag ?? []].flat().some((f) => useGameStore.getState().flags[f])) return;
         if (trigger.requiresFlag && !useGameStore.getState().flags[trigger.requiresFlag]) return;
         // A conversation is already up (Ananya's previous stop still open), or a bed is reached while a phone call
         // plays (the hotel's room and bed zones overlap): do not spend this trigger, and do not latch the watcher —

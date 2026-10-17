@@ -1,0 +1,29 @@
+{
+  "id": "card_walk_hebbal",
+  "$comment": "Story 4.3, the hill base (ADR-152): Deepa's medicine run — the long walk north to Hebbal General; it lands in Ward 4 at 12:30.",
+  "panels": [
+    {
+      "title": "AMBEDKAR NAGAR · 07:40",
+      "text": "Deepa's way: the service road, never the flyover.",
+      "ms": 4400
+    },
+    {
+      "title": "HEBBAL FLYOVER · 11:50",
+      "text": "Cars stopped where they were, doors open. You don't look inside.",
+      "ms": 4600
+    },
+    {
+      "title": "HEBBAL GENERAL · 12:30",
+      "text": "Ward 4. Your bed, stripped. The isolation doors open. Two of them by the glass, very still.",
+      "ms": 5200,
+      "setFlags": [
+        "ward_returned"
+      ]
+    }
+  ],
+  "then": {
+    "district": "ward4",
+    "spawn": "ward_door",
+    "minute": 750
+  }
+}

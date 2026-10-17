@@ -1,0 +1,21 @@
+{
+  "id": "card_hill_turned",
+  "$comment": "Story 4.3 (ADR-152): the base's lamp fails on night 4 (lampFailsOnNight) and the hill turns for a night.",
+  "panels": [
+    {
+      "title": "02:10",
+      "text": "The lamp ticks, and goes dark.",
+      "ms": 4000
+    },
+    {
+      "title": "02:40",
+      "text": "Something on the steps. Something at the door. The door holds.",
+      "ms": 4800
+    },
+    {
+      "title": "06:15",
+      "text": "Mani's stall is open. Mani isn't behind it.",
+      "ms": 4600
+    }
+  ]
+}

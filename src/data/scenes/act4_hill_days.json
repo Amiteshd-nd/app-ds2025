@@ -1,0 +1,142 @@
+{
+  "id": "act4_hill_days",
+  "district": "hill_flat",
+  "act": 4,
+  "seq": "4.3",
+  "title": "Four Nights",
+  "status": "P24",
+  "draft": "Built 2026-10-18 from the 4.3 'Base Chain' stub's B1 (the hill, days 1–4) with its defaults ('take the defaults and build 4.3'): the chain is built one base per phase (SCOPE default); Deepa is bitten and asks for the medicine run into Ward 4, ruined; the hill's lamp fails on night 4 (S3's lampFailsOnNight) and the hill turns; Suresh decides to move to Uncle's tiffin room in Indiranagar (B2, next phase). Act 4 systems plan v1 §3.9; S3 (ADR-149) and S4 (ADR-151) in use.",
+  "time": "Act 4 days 1 → 4 (07:00 day 1 → the morning of day 4)",
+  "player_goal": "Hold the hill: scavenge, keep the stock, and get Deepa what she needs.",
+  "design_goal": "The first full base loop, played for real: a morning with Suresh, a scavenge that feeds S4's noise maker, a neighbour who needs something only a run can bring (the first run with a purpose, back into the ward you left in 3.5), then the lamp failure the plan promised, and the decision to move. Calm → Curious → Tense (the ward) → Reward (Deepa) → Tense (the dark night) → the next step.",
+  "pacing": [
+    "Calm",
+    "Curious",
+    "Tense",
+    "Reward",
+    "Tense"
+  ],
+  "entry": {
+    "from": "act4_the_hill",
+    "spawn": "door",
+    "after": [],
+    "counters": {
+      "base_nights:hill_flat": 1
+    }
+  },
+  "cast": [
+    {
+      "npc": "npc_suresh",
+      "tier": 3,
+      "spawn": "suresh_spot",
+      "role": "Mornings: the rules, Deepa missing, Mani's store; after the dark night, the decision to move to Uncle's tiffin room.",
+      "district": "ambedkar_nagar_hill"
+    },
+    {
+      "npc": "npc_deepa",
+      "tier": 3,
+      "spawn": "deepa_spot",
+      "role": "NEW. Deepa, room 1, HIVR contract lab assistant. Back on day 2, bitten on the walk home; asks for Ward 4's antivirals ('it cures nothing, it slows it'). Survives, for now, if you bring them.",
+      "district": "ambedkar_nagar_hill"
+    },
+    {
+      "npc": "npc_hill_chai",
+      "tier": 2,
+      "spawn": "chai_stall",
+      "role": "Mani: his store behind the stall (steel tumblers, stones). Gone after the dark night.",
+      "district": "ambedkar_nagar_hill"
+    },
+    {
+      "npc": "npc_karthik",
+      "tier": 2,
+      "spawn": "karthik_spot",
+      "role": "Leaves for Vidhana Soudha on day 3 (his door open, his bags gone).",
+      "district": "ambedkar_nagar_hill"
+    }
+  ],
+  "quests": [
+    "q_act4_hill_days"
+  ],
+  "beats": [
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "Day 1 morning: Suresh on the terrace — the rules hold; Deepa from room 1 hasn't come home; Mani's store (two tumblers, two stones: the noise maker's parts).",
+      "interact": "dialogue + container",
+      "flag": "suresh_day1"
+    },
+    {
+      "id": "F2",
+      "pacing": "Curious",
+      "what": "Night 2 → day 2: Deepa is back, on her step, bitten. Ward 4's antivirals slow it; the nurses' desk, the end drawer.",
+      "interact": "dialogue",
+      "flag": "deepa_asked"
+    },
+    {
+      "id": "F3",
+      "pacing": "Tense",
+      "what": "The walk north (a card) to Ward 4, ruined: your bed stripped, the isolation doors open, two infected in scrubs by the glass, still. Walk, don't run, to the desk; the strip; the walk home (a card).",
+      "interact": "stealth + container",
+      "flag": "looted:ward4_cabinet"
+    },
+    {
+      "id": "F4",
+      "pacing": "Reward",
+      "what": "Deepa takes two, dry. 'It slows it. That's all it does.'",
+      "interact": "deliver",
+      "flag": "deepa_medicine"
+    },
+    {
+      "id": "F5",
+      "pacing": "Tense",
+      "what": "Night 3: Karthik leaves. Night 4: the lamp fails (a card: dark, the steps, the door holds; Mani's stall open, Mani gone). The hill turns (stability 35). Suresh: Uncle's tiffin room in Indiranagar, at first light.",
+      "interact": "sleep + card + dialogue",
+      "flag": "hill_turned, base_hill_done"
+    }
+  ],
+  "economy": [
+    {
+      "item": "a base night",
+      "price": 0,
+      "note": "1 food + 1 water + 1 fuel from the stock (S3)"
+    }
+  ],
+  "exits": [
+    {
+      "zone": "walk_out",
+      "to": "ward4",
+      "transit": "walk (card_walk_hebbal)",
+      "note": "while Deepa waits"
+    },
+    {
+      "zone": "ward_exit",
+      "to": "ambedkar_nagar_hill",
+      "transit": "walk (card_walk_home)",
+      "note": "once you have the strip"
+    }
+  ],
+  "save_flags": [
+    "suresh_day1",
+    "looted:hill_chai_store",
+    "deepa_back",
+    "deepa_asked",
+    "ward_returned",
+    "looted:ward4_cabinet",
+    "deepa_medicine",
+    "karthik_gone",
+    "base_lamp_failed:hill_flat",
+    "hill_turned",
+    "base_hill_done",
+    "act4_hill_days_done"
+  ],
+  "assets_needed": [
+    "Deepa's sheet (generated, first try)",
+    "the nurse's infected sheets (the recipe)"
+  ],
+  "acceptance": [
+    "the bot plays it from the first morning to Suresh's decision",
+    "the ward's pack stays still for a walking player",
+    "the lamp fails on the hill's 4th base night in a solo run and in the full run"
+  ],
+  "open_questions": []
+}

@@ -16,10 +16,11 @@
       "ms": 400
     },
     {
-      "id": "flee_3",
+      "id": "goto_3",
       "beat": "F1",
-      "do": "flee",
-      "target": "zone:top_terrace"
+      "do": "goto",
+      "target": "zone:top_terrace",
+      "pace": "walk"
     },
     {
       "id": "advance_4",
@@ -38,7 +39,8 @@
       "id": "goto_6",
       "beat": "F3",
       "do": "goto",
-      "target": "npc:npc_suresh"
+      "target": "npc:npc_suresh",
+      "pace": "walk"
     },
     {
       "id": "interact_7",
@@ -62,7 +64,8 @@
       "id": "goto_10",
       "beat": "F4",
       "do": "goto",
-      "target": "npc:npc_manju_act4"
+      "target": "npc:npc_manju_act4",
+      "pace": "walk"
     },
     {
       "id": "interact_11",
@@ -80,7 +83,8 @@
       "id": "goto_13",
       "beat": "F2",
       "do": "goto",
-      "target": "exit:room3_door"
+      "target": "exit:room3_door",
+      "pace": "walk"
     },
     {
       "id": "wait_for_14",

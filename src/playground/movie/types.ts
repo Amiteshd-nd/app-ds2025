@@ -23,7 +23,8 @@ interface Base {
 
 export type Step = Base & (
   | { do: 'wait_for'; ready: Ready; id?: string; scene?: string; flag?: string; objective?: string }
-  | { do: 'goto'; target: Target }
+  /** `pace: 'walk'` keeps the stick under the run threshold: past infected standing still, a run's noise would wake them (4.3, ADR-152). */
+  | { do: 'goto'; target: Target; pace?: 'walk' }
   /** Act 4 (ADR-145): run to a target, planning again every quarter second around the infected. */
   | { do: 'flee'; target: Target }
   /** Act 4 (ADR-145): get to a hide spot (flee there), crouch, keep still until nobody is hunting (or `ms`), stand. */

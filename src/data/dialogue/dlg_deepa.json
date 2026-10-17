@@ -1,0 +1,85 @@
+{
+  "id": "dlg_deepa",
+  "speaker": "Deepa",
+  "portrait": "npc_deepa",
+  "enter": [
+    {
+      "flag": "deepa_medicine",
+      "node": "after"
+    },
+    {
+      "flag": "deepa_asked",
+      "node": "waiting"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(The woman from room 1, on her step, a cloth wound round her forearm.) You're the top room. I'm Deepa. I was at the lab — HIVR. One of them got me on the walk home.",
+      "choices": [
+        {
+          "text": "Show me.",
+          "next": "arm"
+        },
+        {
+          "text": "What do you need?",
+          "next": "need"
+        }
+      ]
+    },
+    "arm": {
+      "text": "(Two crescents of teeth. The skin round them has gone grey.) Fresh. There's a window. A small one.",
+      "next": "need"
+    },
+    "need": {
+      "text": "Ward 4 at Hebbal General gave the first cases an antiviral course. It cures nothing. It slows it. If a strip is left in the nurses' desk... I can't walk that far.",
+      "choices": [
+        {
+          "text": "I'll go.",
+          "next": "go",
+          "effect": {
+            "flags": {
+              "deepa_asked": true
+            }
+          }
+        }
+      ]
+    },
+    "go": {
+      "text": "The service road, not the flyover — they hear you up there. And the ward... they didn't all leave."
+    },
+    "waiting": {
+      "text": "Ward 4. The nurses' desk, the end drawer.",
+      "choices": [
+        {
+          "text": "(Give her the strip.)",
+          "next": "given",
+          "requiresItems": {
+            "antivirals": 1
+          },
+          "lockedText": "You don't have it yet",
+          "effect": {
+            "items_remove": {
+              "antivirals": 1
+            },
+            "flags": {
+              "deepa_medicine": true
+            }
+          }
+        },
+        {
+          "text": "Not yet.",
+          "next": "later"
+        }
+      ]
+    },
+    "given": {
+      "text": "(She reads the strip twice and swallows two, dry.) It slows it. That's all it does. (A long breath.) Thank you."
+    },
+    "later": {
+      "text": "Then go. Please."
+    },
+    "after": {
+      "text": "(Paler. Sitting up.) Still me. For now."
+    }
+  }
+}
