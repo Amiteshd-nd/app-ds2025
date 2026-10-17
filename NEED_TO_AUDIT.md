@@ -38,6 +38,7 @@ corepack pnpm movie
 | 17 | Act 4 plan defaults you took (`docs/act4_systems_plan_v1.md` §8) | 2026-10-17 | local commit, not pushed | waiting |
 | 18 | Act 4 drafts 4.0 → 4.end (six stubs, your calls) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
 | 19 | Act 4 S2 · the run (ADR-145) | 2026-10-17 | local commit, not pushed | waiting |
+| 20 | Infected sprites step 1 · three bases (ADR-146) — **needs your answers before step 2** | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -323,4 +324,23 @@ corepack pnpm dev
   - Failing forward wakes you at 40 health, stress +20, with every second thing you carried gone (never a key item).
   - Ambushers melt away after 30 seconds or when you leave their area.
   - Someone you knew hesitates only if you met them and your reputation is "Trusted Helper" or higher (the game doesn't have Hosa / Gothu / Namma yet).
+
+## 20. Infected sprites, step 1: the three bases
+- **What:** your infected spec's step 1. An infected man, woman and elder in plain grey clothes, each with a lurching walk sheet (all five skin tones) and an action sheet (alert, lunge, stagger, in four directions). Nothing in the game uses them yet.
+- **Check:** open `docs/review/infected_bases_v1.png` (zoomed ×3, an existing crowd sprite on the left for scale).
+- **Calls to confirm (the look):**
+  - At game size the pale eyes and the grey-green skin mostly disappear. My plan: the Degraded recipe (desaturate, green skin, pale eyes) makes them read, and Fresh stays nearly human, as the spec says.
+  - They're slimmer and smaller-headed than the chibi crowd. Keep that (it reads as "wrong"), or reroll with bigger heads to match?
+  - The action poses are a bit more cartoonish than the walks, and the elder's action skin is warmer. Reroll those two sheets?
+- **Your spec vs what's already decided (drift guard: you choose, I've built neither way):**
+  1. **Camera:** the spec says "3/4 top-down (Zelter style)". The game is locked to the LeafGreen top-down and the Emerald/Stardew sprite template, so I used the locked template. Keep it?
+  2. **Frames:** the spec wants 7 animations with 4–6 frames each. Our sheet format is 3 frames × 4 directions (the validator enforces it). I made a walk sheet and a three-pose action sheet; sprint plays the walk faster. Fall (needed only once the Pulse Gun exists) isn't made. Default: keep the 3-frame format and add a fall sheet when the Pulse Gun is built. Or should I extend the format to longer animations?
+  3. **Clothes compositing:** the spec composites each NPC's clothing layer onto a base, but our NPCs are whole generated sprites with no clothing layers. Default: a former NPC (chai Anna with his kettle, Shanthamma's bangles) becomes infected through the recipe applied to their own sheet (walk and idle), and borrows the action poses from their body type's base. Anonymous infected use the bases with colour variants. OK?
+  4. **The Host at 48×64:** golden rule 5 says characters are 32×48 (the validator enforces it). Default: allow one exception, a "large" 48×64 class for the Host only, with the validator taught it. Or keep the Host at 32×48 and make it hulking inside the frame?
+  5. **Speeds and timings (spec vs ADR-49, which S2 built):**
+     - Wander: spec 0.5× your walk (ADR-32), built 0.4× (ADR-49).
+     - The alert freeze: spec 300 ms, built 500 ms (ADR-49's growl).
+     - Search: spec 6 s at 0.35× after losing sight (ADR-32), built 3 s (ADR-49).
+     - Default: keep ADR-49 (your later board numbers). Or switch to the spec's?
+  6. **Tools:** the spec names `tools/asset_pipe.py`, PixelLab and EasyStar. The repo uses Node `scripts/` (every pipeline), the Figma image generator (every sprite so far) and its own grid pathfinding (ADR-145). Default: keep ours.
 
