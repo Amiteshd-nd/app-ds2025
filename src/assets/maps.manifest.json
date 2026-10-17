@@ -339,6 +339,32 @@
         "tray_zone"
       ],
       "sop": true
+    },
+    "hebbal_gate": {
+      "file": "hebbal_gate.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "hospital_steps",
+        "barricade",
+        "slot_shop",
+        "street_end"
+      ],
+      "sop": true
+    },
+    "indiranagar_lane": {
+      "file": "indiranagar_lane.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "lane_top",
+        "main_road",
+        "lane_mid",
+        "plates_point"
+      ],
+      "sop": true
     }
   }
 }

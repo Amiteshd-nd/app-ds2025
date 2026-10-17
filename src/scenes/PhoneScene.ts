@@ -573,6 +573,9 @@ export class PhoneScene extends Phaser.Scene {
     this.image(t.x, t.y, bake(this, `ph:pill:${t.w}x${t.h}:default`, t.w, t.h + 2, (g) => phonePill(g, 0, 0, t.w, t.h, 'default')));
     this.text(t.x + t.w / 2, t.y + 8, truncate(title, t.w - 16, true), 'phone.lcd.ink', { bold: true, align: 'center' });
     this.drawNav(active);
+    // An app's banner while its flag is set — UPI's "Server busy" (ADR-142), Act 4's dead network (ADR-148).
+    const notice = PHONE_APPS.find((a) => a.icon === icon)?.noticeIf;
+    if (notice && useGameStore.getState().flags[notice.flag]) this.text(PHONE.screen.w / 2, 44, notice.text, 'phone.accent.alert', { align: 'center' });
   }
 
   private drawNav(active: 'home' | 'chats' | 'maps' | 'upi' | null): void {
@@ -666,9 +669,7 @@ export class PhoneScene extends Phaser.Scene {
     this.drawChrome('upi', 'NAMMA PAY', 'upi', 'phone.accent.upi');
     const { balance, transactions } = PhoneManager.getInstance().upi();
     const mid = PHONE.screen.w / 2;
-    // "Server busy." (story 3.4, ADR-142): a banner while its flag is set; payments still go through.
-    const notice = PHONE_APPS.find((a) => a.id === 'upi')?.noticeIf;
-    if (notice && useGameStore.getState().flags[notice.flag]) this.text(mid, 44, notice.text, 'phone.accent.alert', { align: 'center' });
+    // "Server busy." (story 3.4, ADR-142): drawChrome's banner; payments still go through.
     this.text(mid, 56, 'BALANCE', 'phone.lcd.mid', { align: 'center' });
     this.text(mid, 68, rupees(Math.max(0, balance)), 'phone.lcd.ink', { k: 2, align: 'center' });
     this.text(12, 96, 'RECENT', 'phone.lcd.mid');

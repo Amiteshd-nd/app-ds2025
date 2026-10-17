@@ -53,7 +53,15 @@
       "timeout": 28400
     },
     {
-      "id": "expect_9",
+      "id": "wait_for_9",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hebbal_gate",
+      "timeout": 33400
+    },
+    {
+      "id": "expect_10",
       "do": "expect",
       "flag": "act3_discharge_done",
       "timeout": 3000

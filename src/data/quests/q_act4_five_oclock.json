@@ -1,0 +1,50 @@
+{
+  "id": "q_act4_five_oclock",
+  "title": "Five O'Clock",
+  "description": "Get through Indiranagar before dark.",
+  "chapter": 4,
+  "district": "indiranagar_lane",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_janata"
+  ],
+  "objectives": [
+    {
+      "id": "lane",
+      "text": "Walk up the lane",
+      "type": "flag",
+      "target": "five_lane_in",
+      "destination": "indiranagar_lane"
+    },
+    {
+      "id": "plates",
+      "text": "Five o'clock",
+      "type": "flag",
+      "target": "plates_started",
+      "destination": "indiranagar_lane"
+    },
+    {
+      "id": "run",
+      "text": "Get to the main road",
+      "type": "flag",
+      "target": "first_run_done",
+      "destination": "indiranagar_lane"
+    },
+    {
+      "id": "home",
+      "text": "Keep going",
+      "type": "flag",
+      "target": "act4_five_done",
+      "destination": "indiranagar_lane"
+    }
+  ],
+  "rewards": {
+    "xp": 30,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_five_complete"
+    ]
+  }
+}

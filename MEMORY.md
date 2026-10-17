@@ -182,3 +182,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - The Figma image generator refuses graphic gore (422): describe stains, scratches and fungus instead of wounds and flesh.
 - `import-sheet` scales each sheet so its tallest pose is 40 px: crouched/wide action poses come out smaller than their walk sheet.
 - `pnpm art` runs `scripts/infected-recipe.mjs` after the character imports (config `src/data/infected/looks.json`); `inf_base_*` raws get `--skins` there too.
+
+## 4.0 + 4.1 (2026-10-17, P22, ADR-148)
+- Map specs: check which way the art's buildings FACE (the gate's shops open onto the bottom pavement); collision rects snap to whole tiles — a 50 px strip under a stall can vanish.
+- The 640×360 camera shows ~480 source px of a 1024 px-tall map: anything the player must SEE from the middle (balconies) has to be within ~240 source px of where they stand.
+- A scene's `time` seeds the Playground/bot clock (prereq parses the first HH:MM) — keep it equal to the landing card's minute.
+- The other session's Playground (:6175) can lose its game instance to hot reload; verify on your own :6174 by script when that happens.

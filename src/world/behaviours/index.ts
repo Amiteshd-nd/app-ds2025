@@ -52,6 +52,7 @@ import { nightLook } from './nightLook';
 import { countdown } from './countdown';
 import { stabilityLook } from './stabilityLook';
 import { act4Threat } from './act4Threat';
+import { clockEvents } from './clockEvents';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -75,6 +76,7 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   countdown,
   stabilityLook,
   act4Threat,
+  clockEvents,
 };
 
 /**

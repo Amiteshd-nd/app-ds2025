@@ -58,6 +58,12 @@
       "text": "Come home. Please. Your father is asking.",
       "after": "wn_amma",
       "critical": true
+    },
+    {
+      "id": "amma_me_out",
+      "from": "me",
+      "text": "Out of the hospital. Coming home. ✓",
+      "after": "janata_out"
     }
   ]
 }

@@ -1,0 +1,34 @@
+{
+  "id": "card_janata_walk",
+  "$comment": "Story 4.0 F5 (ADR-148): the walk across a shut city, told — the empty flyover, a milk van, the long walk east; it lands in Indiranagar at 16:57, a minute before the balconies (4.1).",
+  "panels": [
+    {
+      "title": "HEBBAL FLYOVER · 10:10",
+      "text": "Empty in both directions. Your footsteps are the loudest thing for a kilometre.",
+      "ms": 4600,
+      "setFlags": [
+        "act4_janata_done"
+      ]
+    },
+    {
+      "title": "MEKHRI CIRCLE · 11:40",
+      "text": "A milk van slows beside you. \"Shivajinagar. Get in. Don't tell anyone I stopped.\"",
+      "ms": 4800
+    },
+    {
+      "title": "SHIVAJINAGAR · 13:20",
+      "text": "Shutters, shutters, shutters. A man hosing a temple's steps stops to watch you pass.",
+      "ms": 4600
+    },
+    {
+      "title": "INDIRANAGAR · 16:57",
+      "text": "Your legs have stopped asking. Half an hour more. Then the hill.",
+      "ms": 4400
+    }
+  ],
+  "then": {
+    "district": "indiranagar_lane",
+    "spawn": "lane_top",
+    "minute": 1017
+  }
+}

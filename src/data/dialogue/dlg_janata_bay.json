@@ -1,0 +1,15 @@
+{
+  "id": "dlg_janata_bay",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(Your bay. A chain lock lies open on the ground. The bike is gone — the wreck, or Sameer's. Somebody took it, or somebody took it away.)",
+      "effect": {
+        "flags": {
+          "janata_bay_seen": true
+        }
+      }
+    }
+  }
+}

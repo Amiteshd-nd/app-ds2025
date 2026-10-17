@@ -1,0 +1,269 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 \u2192 36x24, 1.2 m/tile) \u2014 Hebbal General's gate and the street outside (story 4.0, ADR-148). Top band: the hospital facade (solid) with the porch and steps you come down; the ambulance bay (left, open) and the two-wheeler shed (right; the covered bikes are a block, the last bay is empty). The compound wall with the open gate. The road is walkable except the bus parked diagonally (three rects), the sleeping dog, the barricade and its chair. Bottom: the shop row is solid (the medical store's shutter gap is where the shop hand stands), the taped lane mouth (left) is closed, the tea stall, the covered auto and the house with the balcony (the old man) are solid. The street runs out on the right edge (the walk card). The shop fronts face the bottom pavement (as drawn): you reach it through the gap between the last shop and the tea stall; the old man's balcony is seen from that gap (collision rects snap to whole tiles, so the strip under the stall is closed).",
+  "name": "hebbal_gate",
+  "cols": 36,
+  "rows": 24,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      140
+    ],
+    [
+      0,
+      140,
+      110,
+      150
+    ],
+    [
+      1420,
+      0,
+      116,
+      300
+    ],
+    [
+      0,
+      290,
+      640,
+      75
+    ],
+    [
+      895,
+      290,
+      641,
+      75
+    ],
+    [
+      1230,
+      640,
+      306,
+      300
+    ],
+    [
+      0,
+      660,
+      45,
+      364
+    ],
+    [
+      180,
+      745,
+      835,
+      190
+    ],
+    [
+      0,
+      1000,
+      1536,
+      24
+    ]
+  ],
+  "blocks": [
+    [
+      120,
+      170,
+      25,
+      60
+    ],
+    [
+      372,
+      170,
+      25,
+      60
+    ],
+    [
+      475,
+      135,
+      95,
+      30
+    ],
+    [
+      1025,
+      170,
+      350,
+      85
+    ],
+    [
+      1450,
+      350,
+      25,
+      35
+    ],
+    [
+      85,
+      700,
+      25,
+      25
+    ],
+    [
+      1440,
+      625,
+      25,
+      20
+    ],
+    [
+      0,
+      420,
+      100,
+      240
+    ],
+    [
+      380,
+      345,
+      160,
+      150
+    ],
+    [
+      530,
+      400,
+      170,
+      165
+    ],
+    [
+      690,
+      440,
+      140,
+      165
+    ],
+    [
+      895,
+      575,
+      60,
+      30
+    ],
+    [
+      1090,
+      520,
+      235,
+      80
+    ],
+    [
+      1325,
+      550,
+      40,
+      60
+    ],
+    [
+      1200,
+      870,
+      140,
+      125
+    ],
+    [
+      1062,
+      810,
+      143,
+      140
+    ],
+    [
+      1160,
+      700,
+      60,
+      100
+    ],
+    [
+      45,
+      850,
+      135,
+      60
+    ],
+    [
+      130,
+      640,
+      50,
+      105
+    ],
+    [
+      0,
+      405,
+      12,
+      260
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "hospital_steps",
+      "x": 768,
+      "y": 205
+    },
+    {
+      "name": "barricade",
+      "x": 1262,
+      "y": 648
+    },
+    {
+      "name": "slot_shop",
+      "x": 745,
+      "y": 928
+    },
+    {
+      "name": "balcony_1",
+      "x": 1290,
+      "y": 815
+    },
+    {
+      "name": "bike_bay_spot",
+      "x": 1408,
+      "y": 250
+    }
+  ],
+  "zones": [
+    {
+      "name": "bike_bay",
+      "x": 1375,
+      "y": 200,
+      "w": 60,
+      "h": 60
+    },
+    {
+      "name": "hospital_doors",
+      "x": 690,
+      "y": 140,
+      "w": 160,
+      "h": 22
+    },
+    {
+      "name": "bus_door",
+      "x": 690,
+      "y": 606,
+      "w": 100,
+      "h": 40
+    },
+    {
+      "name": "balcony_below",
+      "x": 1012,
+      "y": 860,
+      "w": 50,
+      "h": 80
+    },
+    {
+      "name": "street_end",
+      "x": 1500,
+      "y": 405,
+      "w": 36,
+      "h": 260
+    },
+    {
+      "name": "slot_front",
+      "x": 690,
+      "y": 940,
+      "w": 110,
+      "h": 50
+    }
+  ],
+  "sorted": [],
+  "above": [
+    {
+      "name": "bike_shed_roof",
+      "rect": [
+        1020,
+        105,
+        440,
+        60
+      ],
+      "mode": "rect"
+    }
+  ]
+}

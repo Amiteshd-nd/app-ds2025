@@ -53,6 +53,8 @@ interface Infected {
   ambush: boolean;
   /** Closest it came during this chase (narrow escapes). */
   closest: number;
+  /** A noise it walks toward while it doesn't see you (the balconies). */
+  drawnTo: Point | null;
   name: Phaser.GameObjects.Text | null;
 }
 
@@ -109,6 +111,7 @@ export const act4Threat: Behaviour = {
     const infected: Infected[] = [];
     const playerFeet = (): Point => { const b = player.body as Phaser.Physics.Arcade.Body; return [b.center.x, b.center.y]; };
     const feetOf = (s: Body): Point => [s.body.center.x, s.body.center.y];
+    const pointOf = (name: string): Point | null => { const q = (scene as unknown as { pointOf(n: string): { x: number; y: number } | null }).pointOf(name); return q ? [q.x, q.y] : null; };
 
     // The look (ADR-147): a person's Fresh / Degraded self by days since this place fell; the Evolved are their own sheets.
     const def = act4DefOf(district, (id) => DISTRICTS[id]);
@@ -126,7 +129,7 @@ export const act4Threat: Behaviour = {
       return key && scene.textures.exists(key) ? key : null;
     };
 
-    const spawn = (at: Point, source: string, zone: ZoneRt, pack: string, lead: boolean, mode: InfectedBrain['mode'], ambush: boolean, former?: string, tier: Tier = stage) => {
+    const spawn = (at: Point, source: string, zone: ZoneRt, pack: string, lead: boolean, mode: InfectedBrain['mode'], ambush: boolean, former?: string, tier: Tier = stage, drawnTo: Point | null = null) => {
       const free = nearestFree(nav!.walk, cellAt(nav!.walk, at[0], at[1]), 6);
       const [fx, fy] = free >= 0 ? cellCentre(nav!.walk, free) : at;
       const look = lookFor(source, tier);
@@ -139,18 +142,35 @@ export const act4Threat: Behaviour = {
       const namma = Boolean(former && store().met.includes(former) && ReputationManager.getInstance().tier >= 2);
       const name = former ? scene.add.text(fx, fy - 60, '', { fontSize: '8px', color: '#ffffff' }).setOrigin(0.5).setAlpha(0) : null;
       if (name) name.setText(former!.replace(/^npc_/, '').replace(/_/g, ' '));
-      infected.push({ sprite, brain: brain(mode, namma, tier), zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name });
+      const b = brain(mode, namma, tier);
+      // Coming out already turning on you (the khaki shirt): it growls as it appears.
+      if (mode === 'alert') { b.lastSeen = playerFeet(); gameEvents.emit('audio:cue', { token: 'a.sfx.infected.shriek', at: { x: fx, y: fy } }); }
+      infected.push({ sprite, brain: b, zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: mode === 'alert' && actionsFor(look.sheet) ? [0, now + INFECTED.growlMs] : null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name, drawnTo });
     };
 
+    const placed = new Set<string>();
+    let evolvedHere = 0;
     const placePacks = () => {
       const stability = stabilityNow(district.id);
-      let evolvedHere = 0;
+      const lvl = grade(stability);
       for (const p of packs as InfectedPack[]) {
-        if (level < (p.minLevel ?? 2)) continue;
+        if (placed.has(p.id)) continue;
+        if (lvl < (p.minLevel ?? 2)) continue;
         if (p.requiresFlag && !store().flags[p.requiresFlag]) continue;
+        placed.add(p.id);
         const zone = zones.find((z) => z.def.id === p.zone);
         if (!zone) { console.error(`[act4Threat] pack "${p.id}" names zone "${p.zone}", not in act4Zones`); continue; }
-        const lead = tiles(p.lead);
+        // A scripted run starts behind you (4.1): of the candidates, the nearest one further than you from the way out.
+        let lead = tiles(p.lead);
+        if (p.leadOptions?.length && p.awayFrom) {
+          const out = pointOf(p.awayFrom);
+          const me = playerFeet();
+          if (out) {
+            const cands = p.leadOptions.map(tiles);
+            const behind = cands.filter((c) => dist(c, out) > dist(me, out) + 2 * TILE_SIZE && dist(c, me) >= 3 * TILE_SIZE);
+            lead = behind.length ? behind.reduce((a, b) => (dist(a, me) <= dist(b, me) ? a : b)) : cands.reduce((a, b) => (dist(a, out) >= dist(b, out) ? a : b));
+          }
+        }
         const size = p.size ?? 1;
         // The Evolved (addendum §2b): rare — under 25 stability, after the café, ≤ 1 a pack, ≤ 2 a place, never by a lamp.
         const uvEdge = uvs.length ? Math.min(...uvs.map((u) => (Math.hypot(lead[0] - u.x, lead[1] - u.y) - u.r) / TILE_SIZE)) : Infinity;
@@ -160,10 +180,11 @@ export const act4Threat: Behaviour = {
           if (!evolvedAllowed({ stability, flags: store().flags, inPlace: evolvedHere, inPack: evolvedInPack, tilesFromUVEdge: uvEdge })) return false;
           evolvedInPack += 1; evolvedHere += 1; return true;
         };
-        spawn(lead, p.sheets[0], zone, p.id, true, 'wander', false, p.former, evolvedSlot(0) ? 'evolved' : stage);
+        const drawn = p.drawnTo ? pointOf(p.drawnTo) : null;
+        spawn(lead, p.sheets[0], zone, p.id, true, p.startMode ?? 'wander', false, p.former, evolvedSlot(0) ? 'evolved' : stage, drawn);
         for (let i = 1; i < size; i++) {
           const a = (i / Math.max(1, size - 1)) * Math.PI * 2;
-          spawn([lead[0] + Math.cos(a) * TILE_SIZE * 1.5, lead[1] + Math.sin(a) * TILE_SIZE * 1.5], p.sheets[i % p.sheets.length], zone, p.id, false, 'idle', false, undefined, evolvedSlot(i) ? 'evolved' : stage);
+          spawn([lead[0] + Math.cos(a) * TILE_SIZE * 1.5, lead[1] + Math.sin(a) * TILE_SIZE * 1.5], p.sheets[i % p.sheets.length], zone, p.id, false, drawn ? 'wander' : (p.startMode ?? 'idle'), false, undefined, evolvedSlot(i) ? 'evolved' : stage, drawn);
         }
       }
     };
@@ -208,8 +229,9 @@ export const act4Threat: Behaviour = {
       const stats = StatsManager.getInstance();
       stats.adjust('stress', FAIL_FORWARD.stress);
       stats.adjust('health', FAIL_FORWARD.wakeHealth - store().stats.health);
-      TimeManager.getInstance().sleep();
-      playCard('card_fail_forward');
+      // A place with its own fail card tells the night itself (4.1's lane holds at the hill); otherwise a night passes here.
+      if (!district.failCard) TimeManager.getInstance().sleep();
+      playCard(district.failCard ?? 'card_fail_forward');
     };
     const hurt = (inf: Infected, now: number) => {
       const kind = hitKind(lastHit, now);
@@ -265,6 +287,9 @@ export const act4Threat: Behaviour = {
       }
     });
 
+    // A pack whose flag is set while you are here appears then (4.1: the khaki shirt at 17:01).
+    const offFlag = gameEvents.on('flag:set', () => { if (nav) placePacks(); });
+
     // ── Debug view (the Playground's Act 4 node) ───────────────────────────
     const debug = scene.add.graphics().setDepth(depthForZY(100000));
 
@@ -297,7 +322,7 @@ export const act4Threat: Behaviour = {
         const los = d < 14 * TILE_SIZE && lineFree(nav.sight, f, p);
         const tier = inf.brain.tier;
         const sees = free && pz === inf.zone && detects(d, noise.value, night, los, playerState.hidden, pUV, tier);
-        const heard = free && !los && pz === inf.zone && hears(d, noise.value, night, playerState.hidden, tier) ? p : null;
+        const heard = free && !los && pz === inf.zone && hears(d, noise.value, night, playerState.hidden, tier) ? p : inf.drawnTo;
         const atTarget = inf.brain.target ? dist(f, inf.brain.target) <= ARRIVE_PX || (inf.path.length === 0 && inf.planned > -Infinity && now - inf.planned > 50) : false;
         const before = inf.brain.mode;
         const intent = think(inf.brain, { dt: free ? delta : 0, sees, player: p, heard, packAlert: false, atTarget, night }, rng, strollIn(inf.zone));
@@ -407,6 +432,7 @@ export const act4Threat: Behaviour = {
     return () => {
       scene.events.off('update', update);
       offStep();
+      offFlag();
       // On shutdown Phaser has already dropped the physics world.
       if (scene.physics?.world) scene.physics.world.timeScale = 1;
       scene.tweens.timeScale = 1;

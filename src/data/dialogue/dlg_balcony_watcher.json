@@ -1,0 +1,15 @@
+{
+  "id": "dlg_balcony_watcher",
+  "speaker": "Old man",
+  "portrait": "crowd_elder",
+  "nodes": {
+    "start": {
+      "text": "(Up on the balcony an old man with a steel tumbler of coffee has watched you the whole length of the street.) You're from the hospital? (He goes inside. The door shuts. The bolt.)",
+      "effect": {
+        "flags": {
+          "janata_balcony": true
+        }
+      }
+    }
+  }
+}

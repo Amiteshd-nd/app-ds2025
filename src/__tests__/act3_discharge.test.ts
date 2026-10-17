@@ -67,14 +67,14 @@ describe('the ward lets you go (F3–F4)', () => {
     expect(ward.triggers!.find((t) => t.dialogue === 'dlg_sealed_quiet')!.unlessFlag).toBe('discharged');
   });
 
-  it('the ward door: "Not discharged" until the slip; then the leaving card, ACT 4 — CURFEW, and it holds', () => {
+  it('the ward door: "Not discharged" until the slip; then the leaving card, ACT 4 — CURFEW, and it lands at the hospital gate (4.0, ADR-148)', () => {
     expect(ward.triggers!.find((t) => t.dialogue === 'dlg_ward_door')!.unlessFlag).toBe('discharged');
     expect(ward.triggers).toContainEqual({ zone: 'ward_exit', action: 'card', card: 'card_leaving_ward', requiresFlag: 'discharged' });
     const card = CARDS.card_leaving_ward;
     const panels = panelsFor(card, {});
     expect(panels[panels.length - 1]).toEqual(expect.objectContaining({ style: 'title', title: 'CURFEW' }));
-    expect(card.end).toBe('hold');
-    expect(outcome(card, {}).set).toEqual(['act3_done']);
+    expect(card.then).toEqual({ district: 'hebbal_gate', spawn: 'hospital_steps', minute: 510 });
+    expect(outcome(card, {}).set).toEqual(['act3_done', 'act4', 'janata_out']);
   });
 
   it('the cast stays on into Act 4', () => {

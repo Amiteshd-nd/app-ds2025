@@ -1,0 +1,137 @@
+{
+  "scene": "act4_janata",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act4_janata + hebbal_gate + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hebbal_gate",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "janata_out",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_gate_constable"
+    },
+    {
+      "id": "interact_5",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_gate_constable"
+    },
+    {
+      "id": "choose_6",
+      "beat": "F3",
+      "do": "choose",
+      "option": "slip"
+    },
+    {
+      "id": "choose_7",
+      "beat": "F3",
+      "do": "choose",
+      "option": "read"
+    },
+    {
+      "id": "choose_8",
+      "do": "choose",
+      "option": "home",
+      "optional": true
+    },
+    {
+      "id": "choose_9",
+      "do": "choose",
+      "option": "why",
+      "optional": true
+    },
+    {
+      "id": "goto_10",
+      "do": "goto",
+      "target": "zone:bike_bay",
+      "optional": true
+    },
+    {
+      "id": "advance_11",
+      "do": "advance",
+      "optional": true
+    },
+    {
+      "id": "wait_for_12",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "janata_bay_seen",
+      "timeout": 6000,
+      "optional": true
+    },
+    {
+      "id": "goto_13",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_slot_shop",
+      "optional": true
+    },
+    {
+      "id": "interact_14",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_slot_shop",
+      "optional": true
+    },
+    {
+      "id": "choose_15",
+      "beat": "F4",
+      "do": "choose",
+      "option": "busy_water",
+      "optional": true
+    },
+    {
+      "id": "choose_16",
+      "beat": "F4",
+      "do": "choose",
+      "option": "paid",
+      "optional": true
+    },
+    {
+      "id": "goto_17",
+      "beat": "F5",
+      "do": "goto",
+      "target": "zone:street_end"
+    },
+    {
+      "id": "wait_for_18",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "act4_janata_done",
+      "timeout": 33400
+    },
+    {
+      "id": "wait_for_19",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "indiranagar_lane",
+      "timeout": 38400
+    },
+    {
+      "id": "expect_20",
+      "do": "expect",
+      "flag": "act4_janata_complete",
+      "timeout": 3000
+    }
+  ]
+}

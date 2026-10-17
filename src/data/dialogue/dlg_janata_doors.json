@@ -1,0 +1,10 @@
+{
+  "id": "dlg_janata_doors",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The glass doors have locked behind you. Inside, a cleaner mops the same square of floor, over and over.)"
+    }
+  }
+}

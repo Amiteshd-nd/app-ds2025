@@ -1,0 +1,306 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 \u2192 36x24) \u2014 an Indiranagar residential lane at five o'clock (story 4.1, ADR-148). The lane runs left \u2192 right: top pavement y 300\u2013410, tarmac y 410\u2013600, bottom pavement y 600\u2013690; the houses above and below are solid (their balconies are where the plate-bangers stand); two side lanes open off it (top-left x 320\u2013400, bottom-right x 1000\u20131070) \u2014 that is where they walk out from. Parked cars, the covered scooter, the auto with its flaps open and the tanker are blocks; tree trunks are blocks and the canopies hang above (you walk under them). The main road on the right edge is the way out; its median is solid. The neighbours stand at their front gates (top row) and on their rooftop terraces (bottom row): the balconies themselves are off-screen from the lane.",
+  "name": "indiranagar_lane",
+  "cols": 36,
+  "rows": 24,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      320,
+      300
+    ],
+    [
+      400,
+      0,
+      1000,
+      300
+    ],
+    [
+      0,
+      690,
+      1000,
+      334
+    ],
+    [
+      1070,
+      690,
+      330,
+      334
+    ]
+  ],
+  "blocks": [
+    [
+      100,
+      400,
+      140,
+      80
+    ],
+    [
+      270,
+      400,
+      165,
+      80
+    ],
+    [
+      508,
+      395,
+      90,
+      60
+    ],
+    [
+      778,
+      388,
+      115,
+      80
+    ],
+    [
+      1100,
+      395,
+      215,
+      110
+    ],
+    [
+      5,
+      385,
+      35,
+      40
+    ],
+    [
+      255,
+      385,
+      35,
+      40
+    ],
+    [
+      630,
+      385,
+      40,
+      45
+    ],
+    [
+      890,
+      385,
+      40,
+      45
+    ],
+    [
+      1315,
+      385,
+      40,
+      45
+    ],
+    [
+      1470,
+      470,
+      60,
+      350
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "lane_top",
+      "x": 60,
+      "y": 520
+    },
+    {
+      "name": "behind_car",
+      "x": 350,
+      "y": 372
+    },
+    {
+      "name": "side_top",
+      "x": 360,
+      "y": 250
+    },
+    {
+      "name": "side_bottom",
+      "x": 1035,
+      "y": 760
+    },
+    {
+      "name": "balcony_t1",
+      "x": 150,
+      "y": 268
+    },
+    {
+      "name": "balcony_t2",
+      "x": 540,
+      "y": 272
+    },
+    {
+      "name": "balcony_t3",
+      "x": 820,
+      "y": 262
+    },
+    {
+      "name": "balcony_t4",
+      "x": 1065,
+      "y": 272
+    },
+    {
+      "name": "balcony_t5",
+      "x": 1270,
+      "y": 270
+    },
+    {
+      "name": "balcony_b1",
+      "x": 175,
+      "y": 722
+    },
+    {
+      "name": "balcony_b2",
+      "x": 510,
+      "y": 735
+    },
+    {
+      "name": "balcony_b3",
+      "x": 785,
+      "y": 712
+    },
+    {
+      "name": "balcony_b4",
+      "x": 1225,
+      "y": 722
+    },
+    {
+      "name": "plates_point",
+      "x": 700,
+      "y": 360
+    }
+  ],
+  "zones": [
+    {
+      "name": "main_road",
+      "x": 1400,
+      "y": 300,
+      "w": 40,
+      "h": 390
+    },
+    {
+      "name": "lane_arrival",
+      "x": 40,
+      "y": 470,
+      "w": 80,
+      "h": 80
+    },
+    {
+      "name": "lane_mid",
+      "x": 1160,
+      "y": 520,
+      "w": 100,
+      "h": 70
+    },
+    {
+      "name": "main_road_far",
+      "x": 1480,
+      "y": 300,
+      "w": 56,
+      "h": 390
+    }
+  ],
+  "sorted": [],
+  "above": [
+    {
+      "name": "tree_t1",
+      "rect": [
+        -12,
+        247,
+        105,
+        105
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_t2",
+      "rect": [
+        203,
+        233,
+        133,
+        133
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_t3",
+      "rect": [
+        583,
+        253,
+        133,
+        133
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_t4",
+      "rect": [
+        828,
+        213,
+        154,
+        154
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_t5",
+      "rect": [
+        1253,
+        223,
+        154,
+        154
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_b1",
+      "rect": [
+        30,
+        540,
+        118,
+        118
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_b2",
+      "rect": [
+        276,
+        536,
+        147,
+        147
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_b3",
+      "rect": [
+        535,
+        530,
+        140,
+        140
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_b4",
+      "rect": [
+        891,
+        526,
+        147,
+        147
+      ],
+      "mode": "rect"
+    },
+    {
+      "name": "tree_b5",
+      "rect": [
+        1186,
+        526,
+        147,
+        147
+      ],
+      "mode": "rect"
+    }
+  ]
+}

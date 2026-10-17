@@ -143,6 +143,8 @@ export class WorldScene extends Phaser.Scene {
     const { solids, sync: syncObjects } = Populate.objects(this, this.district, this.map, def);
     // Flag-gated objects follow the flags while you stand there (the boxes become furniture, ADR-132).
     this.teardowns.push(gameEvents.on('flag:set', () => syncObjects()));
+    // People who come and go the moment a flag changes (4.1's balconies, ADR-148).
+    if (this.district.liveArrivals) this.teardowns.push(gameEvents.on('flag:set', () => { if (!this.leaving) { this.arrivals(); this.dismissLeavers(); } }));
     this.physics.add.collider(this.player, solids);
     colliders.push(solids);
 

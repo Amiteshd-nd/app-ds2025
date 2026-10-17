@@ -1,0 +1,59 @@
+{
+  "id": "q_act4_janata",
+  "title": "Janata",
+  "description": "The city is shut. Start for home.",
+  "chapter": 4,
+  "district": "hebbal_gate",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act3_discharge"
+  ],
+  "objectives": [
+    {
+      "id": "out",
+      "text": "Walk out of Hebbal General",
+      "type": "flag",
+      "target": "janata_out",
+      "destination": "hebbal_gate"
+    },
+    {
+      "id": "pass",
+      "text": "Get past the barricade",
+      "type": "flag",
+      "target": "janata_pass_checked",
+      "destination": "hebbal_gate"
+    },
+    {
+      "id": "bay",
+      "text": "Your parking bay",
+      "type": "flag",
+      "target": "janata_bay_seen",
+      "optional": true,
+      "destination": "hebbal_gate"
+    },
+    {
+      "id": "shop",
+      "text": "The medical store",
+      "type": "flag",
+      "target": "janata_bought",
+      "optional": true,
+      "destination": "hebbal_gate"
+    },
+    {
+      "id": "walk",
+      "text": "Start for home",
+      "type": "flag",
+      "target": "act4_janata_done",
+      "destination": "hebbal_gate"
+    }
+  ],
+  "rewards": {
+    "xp": 20,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_janata_complete"
+    ]
+  }
+}

@@ -4,7 +4,7 @@
   "act": 4,
   "seq": "4.0",
   "title": "Janata",
-  "status": "STUB",
+  "status": "P22",
   "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.0: walk out; locked down, not empty; shutters, police tape, a lone BMTC bus parked diagonally; the scooter gone from hospital parking; phone: UPI dead, Maps cached, Chats one tick [C]), ADR-10 (a locked-down city, Janata Curfew memory, treated with respect, no real dates or leaders), chapter_board_merge §B2 (4a inflation, barricaded shops selling through a slot) + Act 4 systems plan v1 (approved 'default', 2026-10-17) §8 Q3 (UPI flickers until the hill) and Q5 (travel told by cards), profile doc §4 (the ID card as a lockdown pass), 3.5's leaving card (holds on CURFEW until this pocket exists), ADR-117 (real streets via OSM; the hospital stays fictional). The user edits the words and numbers; then it is built after S2.",
   "time": "Act 4 day 0 — Thursday, 08:30, straight after 3.5's leaving card",
   "player_goal": "Get out of Hebbal and start for home — the hill at Ambedkar Nagar, across the city.",
@@ -16,12 +16,9 @@
     "Calm"
   ],
   "entry": {
-    "from": "card_leaving_ward",
+    "from": "ward4",
     "spawn": "hospital_steps",
-    "after": [
-      "act3_done"
-    ],
-    "note": "card_leaving_ward gets a `then` to this pocket and sets `act4` (Act 4 day 0 starts here)"
+    "after": []
   },
   "cast": [
     {
@@ -97,13 +94,12 @@
   "exits": [
     {
       "zone": "street_end",
-      "to": "(card) → indiranagar_lane",
+      "to": "indiranagar_lane",
       "transit": "walk",
-      "note": "card_janata_walk; lands at 16:40 Act 4 day 0"
+      "note": "card_janata_walk (once the constable has checked you), lands at 16:57"
     }
   ],
   "save_flags": [
-    "act4",
     "janata_out",
     "janata_phone_seen",
     "janata_pass_checked",
@@ -125,12 +121,6 @@
     "no infected anywhere; the street end plays the walk card into 4.1",
     "the walkthrough bot plays it; the headless run stays green"
   ],
-  "open_questions": [
-    "THE POCKET: draft = the gate of the fictional Hebbal General and one street outside it, on real Hebbal streets (near the ward's map pin). Keep, or a different spot?",
-    "THE SCOOTER: draft = only the chain lock left in your bay (3.1 wrecked it, or Sameer's bike was collected). Keep?",
-    "THE CONSTABLE: draft = checks your ID card and the slip, says 'Stay inside after five' — the second person to say 'five'. Keep, or no police at all (only tape)?",
-    "THE SLOT SHOP: draft = water ₹60, biscuits ₹90, UPI fails once then works (plan Q3: money flickers until the hill). Keep the prices?",
-    "THE WALK: draft = told by a card (the empty flyover, a milk van to Shivajinagar, the walk east), landing in Indiranagar at 16:40. Keep, or play part of it?",
-    "THE LOOK: draft = already at 'warning' (a fifth of the colour gone) on the first morning. Or full colour until five o'clock, so the plates are the first change?"
-  ]
+  "open_questions": [],
+  "decided": "User 2026-10-17: 'take the defaults and build 4.0 and 4.1' — every open question resolved by the draft's default (ADR-148)."
 }

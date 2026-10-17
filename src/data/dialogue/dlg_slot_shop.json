@@ -1,0 +1,74 @@
+{
+  "id": "dlg_slot_shop",
+  "speaker": "Medical store",
+  "portrait": "npc_kiosk_shopkeeper",
+  "nodes": {
+    "start": {
+      "text": "(A hand comes out under the shutter.) Quickly. What do you want?",
+      "choices": [
+        {
+          "text": "Water. (₹60, UPI)",
+          "next": "busy_water",
+          "unlessFlag": "janata_bought",
+          "lockedText": "Bought"
+        },
+        {
+          "text": "Biscuits. (₹90, UPI)",
+          "next": "busy_biscuits",
+          "unlessFlag": "janata_bought",
+          "lockedText": "Bought"
+        },
+        {
+          "text": "Nothing.",
+          "next": "nothing"
+        }
+      ]
+    },
+    "busy_water": {
+      "text": "(Your phone thinks about it.) Server busy. Try again later.",
+      "choices": [
+        {
+          "text": "Try again.",
+          "next": "paid",
+          "effect": {
+            "wallet": -60,
+            "item_add": "water_bottle",
+            "flags": {
+              "janata_bought": true
+            }
+          }
+        },
+        {
+          "text": "Leave it.",
+          "next": "nothing"
+        }
+      ]
+    },
+    "busy_biscuits": {
+      "text": "(Your phone thinks about it.) Server busy. Try again later.",
+      "choices": [
+        {
+          "text": "Try again.",
+          "next": "paid",
+          "effect": {
+            "wallet": -90,
+            "food": 15,
+            "flags": {
+              "janata_bought": true
+            }
+          }
+        },
+        {
+          "text": "Leave it.",
+          "next": "nothing"
+        }
+      ]
+    },
+    "paid": {
+      "text": "Ting. (The hand pulls the packet back in and pushes it out again.) Triple price, I know. Cash is better. Nobody has cash."
+    },
+    "nothing": {
+      "text": "Then don't stand in front of my shutter. They watch who stops."
+    }
+  }
+}

@@ -9,7 +9,7 @@ Full detail for each item is in `AUDIT_LOG.md` (its "built, awaiting audit" entr
 ```bash
 corepack pnpm playground
 ```
-It opens at http://localhost:6175/playground.html. To run the whole thing headless instead (it says 22/22 when everything passes):
+It opens at http://localhost:6175/playground.html. To run the whole thing headless instead (it says 24/24 when everything passes):
 ```bash
 corepack pnpm movie
 ```
@@ -40,6 +40,7 @@ corepack pnpm movie
 | 19 | Act 4 S2 · the run (ADR-145) | 2026-10-17 | local commit, not pushed | waiting |
 | 20 | Infected sprites step 1 · three bases (ADR-146) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
 | 21 | Infected step 2 (the recipe) + the Evolved (ADR-147) | 2026-10-17 | local commit, not pushed | waiting |
+| 22 | P22 · 4.0 "Janata" + 4.1 "Five O'Clock" (ADR-148) — Act 4 opens | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -360,4 +361,28 @@ corepack pnpm dev
   - The gate is the flag `base_cafe_set` (the café base, the "Darshini" stop of the base chain); nothing sets it yet, only the bench.
   - Not built yet: the red eye glow and blood drip, a separate wet shriek sound (it reuses the shriek), stun and the Pulse Gun's two-charge rule (with melee, S4), the Host (your call on its 48×64 size is still open: the default exception was taken).
   - Fixed on the way: in step S2, a chase along a straight line froze the infected in place. It's fixed and tested.
+
+## 22. 4.0 "Janata" and 4.1 "Five O'Clock" (Act 4 opens)
+- **What:** you walk out of the hospital into a shut city, cross it (told on a card), and reach an Indiranagar lane at five o'clock, where the plates call them out and you run.
+- **Check:** in the Playground, open Act 4 → 4.0 (Play), or play 3.5 to its end and walk out of the ward.
+  - **4.0:**
+    - Look at your old parking bay (only the chain lock), the bus across the road, the dog.
+    - Talk to the constable (slip and ID; ask "Why five?").
+    - The medical store: buy water through the shutter, "Server busy" and then it goes through.
+    - The old man's balcony (stand in the gap beside the last shop).
+    - Open the phone: every app says the network is gone; News has the curfew; your message to Amma has one tick.
+    - The end of the street plays the walk card.
+  - **4.1:**
+    - Walk up the lane toward the tanker. At 16:58 the neighbours come out, at 16:59 the plates start and the lane turns, at 17:00 the man in khaki comes from behind you. Run to the main road.
+    - Let him catch you to see the lane's own card.
+- **Calls to confirm:**
+  - The two places' art (both generated first try) and their layouts: the shop row faces the bottom pavement, as drawn.
+  - The neighbours bang plates at their gates and on their terraces, not on balconies, because the camera can't show the balconies from the lane. They don't move yet (the clangs are sound only).
+  - The timings are tighter than the draft: you land at 16:57 (not 16:40), so the plates come a minute after you arrive, and the khaki shirt three minutes later. That way you can't walk out of the lane before it happens.
+  - The khaki shirt always starts behind you (between you and where you came from), never between you and the way out.
+  - The four walkers go to the noise; they only chase you if you're loud or close.
+  - Caught in 4.1: the lane's own card tells the same night, so no "next morning", unlike the rest of Act 4.
+  - Prices at the shutter: water ₹60, biscuits ₹90. UPI fails once, then goes through.
+  - Both places are fictional over real areas (Hebbal, Indiranagar). They have map pins but no real-street drawing (no OpenStreetMap fetch this time).
+  - The bot plays both scenes and flees to the main road (in the full run it also buys water at the shutter).
 

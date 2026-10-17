@@ -2590,6 +2590,363 @@
     ]
   },
   {
+    "id": "hebbal_gate",
+    "name": "Hebbal General · the gate",
+    "map": "hebbal_gate",
+    "defaultSpawn": "hospital_steps",
+    "act4": {
+      "fallDay": 0,
+      "floor": 10
+    },
+    "fadeMs": 400,
+    "realworld": {
+      "lat": 13.0412,
+      "lng": 77.5921,
+      "label": "Hebbal General (fictional) · the gate"
+    },
+    "signal": 0,
+    "unlock": {
+      "flags": [
+        "act4"
+      ]
+    },
+    "stabilityIf": [
+      {
+        "flag": "act4",
+        "stability": 70
+      }
+    ],
+    "quests": [
+      "q_act4_janata"
+    ],
+    "npcs": [
+      {
+        "id": "npc_gate_constable",
+        "spawn": "barricade"
+      },
+      {
+        "id": "npc_slot_shop",
+        "spawn": "slot_shop"
+      },
+      {
+        "id": "npc_balcony_watcher",
+        "spawn": "balcony_1",
+        "unlessFlag": "janata_balcony"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "hospital_doors",
+        "dialogue": "dlg_janata_doors"
+      },
+      {
+        "zone": "bike_bay",
+        "dialogue": "dlg_janata_bay",
+        "unlessFlag": "janata_bay_seen"
+      },
+      {
+        "zone": "bus_door",
+        "dialogue": "dlg_janata_bus",
+        "unlessFlag": "janata_bus_seen"
+      },
+      {
+        "zone": "balcony_below",
+        "dialogue": "dlg_balcony_watcher",
+        "unlessFlag": "janata_balcony"
+      },
+      {
+        "zone": "street_end",
+        "dialogue": "dlg_janata_whistle",
+        "unlessFlag": "janata_pass_checked",
+        "once": false
+      },
+      {
+        "zone": "street_end",
+        "action": "card",
+        "card": "card_janata_walk",
+        "requiresFlag": "janata_pass_checked"
+      }
+    ]
+  },
+  {
+    "id": "indiranagar_lane",
+    "name": "Indiranagar · a lane",
+    "map": "indiranagar_lane",
+    "defaultSpawn": "lane_top",
+    "act4": {
+      "fallDay": 10
+    },
+    "fadeMs": 400,
+    "realworld": {
+      "lat": 12.9719,
+      "lng": 77.6412,
+      "label": "Indiranagar"
+    },
+    "signal": 0,
+    "unlock": {
+      "flags": [
+        "act4"
+      ]
+    },
+    "stabilityIf": [
+      {
+        "flag": "plates_started",
+        "stability": 50
+      }
+    ],
+    "liveArrivals": true,
+    "failCard": "card_lane_caught",
+    "quests": [
+      "q_act4_five_oclock"
+    ],
+    "npcs": [
+      {
+        "id": "npc_balcony_1",
+        "spawn": "balcony_t1",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_2",
+        "spawn": "balcony_t2",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_3",
+        "spawn": "balcony_t3",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_4",
+        "spawn": "balcony_t4",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_5",
+        "spawn": "balcony_t5",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_6",
+        "spawn": "balcony_b1",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_7",
+        "spawn": "balcony_b2",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_8",
+        "spawn": "balcony_b3",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_balcony_9",
+        "spawn": "balcony_b4",
+        "requiresFlag": "plates_out",
+        "unlessFlag": "plates_stopped"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "lane_mid",
+        "setFlags": [
+          "five_lane_in"
+        ],
+        "unlessFlag": "five_lane_in"
+      },
+      {
+        "zone": "main_road",
+        "action": "card",
+        "card": "card_walk_east",
+        "requiresFlag": "khaki_breaks"
+      },
+      {
+        "zone": "main_road_far",
+        "action": "card",
+        "card": "card_walk_east",
+        "requiresFlag": "khaki_breaks"
+      }
+    ],
+    "behaviours": [
+      "clockEvents"
+    ],
+    "clockEvents": [
+      {
+        "at": 1018,
+        "set": [
+          "plates_out"
+        ],
+        "toast": "“For the doctors,” someone says from a balcony."
+      },
+      {
+        "at": 1019,
+        "set": [
+          "plates_started"
+        ]
+      },
+      {
+        "at": 1020,
+        "set": [
+          "khaki_breaks"
+        ]
+      },
+      {
+        "at": 1021,
+        "set": [
+          "plates_stopped"
+        ]
+      }
+    ],
+    "cueLoops": [
+      {
+        "token": "a.sfx.world.plates_stack",
+        "at": [
+          "balcony_t1",
+          "balcony_t2",
+          "balcony_t3",
+          "balcony_t4",
+          "balcony_t5",
+          "balcony_b1",
+          "balcony_b2",
+          "balcony_b3",
+          "balcony_b4"
+        ],
+        "everyMs": [
+          80,
+          240
+        ],
+        "whileFlag": "plates_started",
+        "untilFlag": "plates_stopped"
+      }
+    ],
+    "act4Zones": [
+      {
+        "id": "lane",
+        "rect": [
+          0,
+          7,
+          33,
+          10
+        ],
+        "encounterRate": 0,
+        "cover": [
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            8
+          ],
+          [
+            19,
+            8
+          ],
+          [
+            27,
+            11
+          ]
+        ],
+        "hide": [
+          [
+            20,
+            11
+          ],
+          [
+            25,
+            12
+          ]
+        ]
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "khaki",
+          "zone": "lane",
+          "lead": [
+            8,
+            8
+          ],
+          "leadOptions": [
+            [
+              8,
+              8
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              1,
+              12
+            ]
+          ],
+          "awayFrom": "main_road",
+          "size": 1,
+          "sheets": [
+            "npc_auto_driver"
+          ],
+          "requiresFlag": "khaki_breaks",
+          "startMode": "alert",
+          "former": "npc_auto_driver"
+        },
+        {
+          "id": "walkers_top",
+          "zone": "lane",
+          "lead": [
+            8,
+            4
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_officegoer",
+            "crowd_delivery"
+          ],
+          "requiresFlag": "plates_started",
+          "drawnTo": "plates_point"
+        },
+        {
+          "id": "walkers_bottom",
+          "zone": "lane",
+          "lead": [
+            24,
+            19
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_techie",
+            "crowd_student"
+          ],
+          "requiresFlag": "plates_started",
+          "drawnTo": "plates_point"
+        }
+      ]
+    },
+    "uv": [
+      {
+        "at": [
+          34,
+          9
+        ],
+        "radius": 2
+      }
+    ]
+  },
+  {
     "id": "act4_bench",
     "name": "Act 4 test bench",
     "dev": true,

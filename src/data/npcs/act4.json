@@ -1,0 +1,78 @@
+[
+  {
+    "id": "npc_gate_constable",
+    "name": "Constable",
+    "tier": 2,
+    "dialogue": "dlg_gate_constable",
+    "sheet": "npc_gate_constable",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_slot_shop",
+    "name": "Medical store",
+    "tier": 2,
+    "dialogue": "dlg_slot_shop",
+    "sheet": "npc_kiosk_shopkeeper",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_balcony_watcher",
+    "name": "Old man",
+    "tier": 1,
+    "sheet": "crowd_elder"
+  },
+  {
+    "id": "npc_balcony_1",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_homemaker"
+  },
+  {
+    "id": "npc_balcony_2",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_elder"
+  },
+  {
+    "id": "npc_balcony_3",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_student"
+  },
+  {
+    "id": "npc_balcony_4",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_officegoer"
+  },
+  {
+    "id": "npc_balcony_5",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_techie"
+  },
+  {
+    "id": "npc_balcony_6",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_hoodie"
+  },
+  {
+    "id": "npc_balcony_7",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_homemaker"
+  },
+  {
+    "id": "npc_balcony_8",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_delivery"
+  },
+  {
+    "id": "npc_balcony_9",
+    "name": "Neighbour",
+    "tier": 1,
+    "sheet": "crowd_elder"
+  }
+]

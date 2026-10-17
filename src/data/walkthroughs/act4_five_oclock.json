@@ -1,0 +1,76 @@
+{
+  "scene": "act4_five_oclock",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act4_five_oclock + indiranagar_lane + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "indiranagar_lane",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "flee_3",
+      "beat": "F1",
+      "do": "flee",
+      "target": "zone:lane_mid"
+    },
+    {
+      "id": "wait_for_4",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "five_lane_in",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "plates_started",
+      "timeout": 12000
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "khaki_breaks",
+      "timeout": 10000
+    },
+    {
+      "id": "flee_7",
+      "beat": "F4",
+      "do": "flee",
+      "target": "zone:main_road"
+    },
+    {
+      "id": "wait_for_8",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "first_run_done",
+      "timeout": 33200
+    },
+    {
+      "id": "expect_9",
+      "beat": "F5",
+      "do": "expect",
+      "flag": "act4_five_done",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_10",
+      "do": "expect",
+      "flag": "act4_five_complete",
+      "timeout": 3000
+    }
+  ]
+}

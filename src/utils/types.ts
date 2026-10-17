@@ -382,6 +382,14 @@ export interface DistrictDef {
   act4Zones?: Act4Zone[];
   /** Infected placed here (ADR-145): packs of a lead + members, appearing once the place's grade reaches `minLevel` (default 2, "infected"). */
   infected?: { packs: InfectedPack[] };
+  /** At a minute of the day, while you are here, set flags (once), toast, play a cue (story 4.1's plates, ADR-148) — the `clockEvents` behaviour. */
+  clockEvents?: Array<{ at: number; set: string[]; toast?: string; icon?: IconName; cue?: string }>;
+  /** A sound kept going from named spots while `whileFlag` is set and `untilFlag` is not (a lane of plates, ADR-148). */
+  cueLoops?: Array<{ token: string; at: string[]; everyMs: [number, number]; whileFlag: string; untilFlag?: string }>;
+  /** People with `requiresFlag` / `unlessFlag` come and go the moment their flag changes, not only after a workday or a talk (ADR-148). */
+  liveArrivals?: boolean;
+  /** The card played when you fail forward here (default `card_fail_forward`, ADR-148). */
+  failCard?: string;
   /** UV lamps (ADR-33/145): infected never come within `radius` tiles; you can't be seen inside it and ambushes never roll. */
   uv?: Array<{ at: [number, number]; radius: number }>;
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
@@ -452,8 +460,16 @@ export interface InfectedPack {
   former?: string;
   /** How many of the pack may be Evolved (0–1, addendum §2b): the last member, if the place allows one (ADR-147). */
   evolved?: number;
-  /** The pack is there only once this flag is set (the bench's presets). */
+  /** The pack is there only once this flag is set (the bench's presets; 4.1's run) — it appears the moment the flag is set. */
   requiresFlag?: string;
+  /** `alert`: it comes out already turning on you (the khaki shirt, 4.1). */
+  startMode?: 'alert';
+  /** Lead start candidates (tiles): the nearest one that is further than you from `awayFrom` (the way out) — so a scripted run starts behind the player, never across the way out. */
+  leadOptions?: Array<[number, number]>;
+  /** The spawn/zone that is the way out, for `leadOptions`. */
+  awayFrom?: string;
+  /** A spawn name it walks toward while it doesn't see you (the balconies' noise, 4.1). */
+  drawnTo?: string;
 }
 
 /**

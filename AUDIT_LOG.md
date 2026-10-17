@@ -360,3 +360,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way (fixed): **an S2 bug — a chase along a straight line froze** (the only path point was dropped; turns hid it in S2's tests; regression test added); the recipe's first eye pass bleached brows and hair into a white mask (now only small dark blobs in the upper face); the generator refused the first Evolved prompt (raw flesh / gashes) — stains and scratches passed.
 - Calls to confirm: NEED_TO_AUDIT #21.
 - Rule going forward: **`corners()` never includes the start** — never `.slice(1)` its result.
+
+### [P22 4.0 "Janata" + 4.1 "Five O'Clock" — built, awaiting audit] — 2026-10-17
+- Decision before the build: "take the defaults and build 4.0 and 4.1". ADR-148.
+- Built: the hospital gate and the Indiranagar lane (maps, specs, data), the constable sheet, the dialogue, quests, three cards (+ the leaving card's landing), the phone's Act 4 state, the clock events and plate clangs, the five o'clock packs, no travel in Act 4, tests (act4_janata.test.ts, 11), walkthroughs for both.
+- Verified: `node scripts/movie.mjs --scene act4_janata` plays both scenes (4.0 in 45 s, 4.1 in 22 s, the bot fleeing to the main road). In the browser pane (my own :6174, by script): the leaving card lands on the steps at 08:32 with "Get past the barricade" and the NEW place card; the shop's conversation opens through the shutter; in the lane, 16:58 nine neighbours and the toast, 16:59 the plates (16 clangs) and four walkers, 17:00 the khaki shirt in alert, the lane drained with green edges.
+- Found on the way (fixed): the shop row faces the bottom pavement in the art and my first collision sealed it (now a gap beside the last shop); collision rects snap to whole tiles, which closed the strip under the tea stall (the balcony trigger moved into the gap); from the lane the camera never shows the balconies (the neighbours moved to their gates and terraces); a scene whose `time` reads 16:40 seeds the bot's clock at 16:40 (4.1's says 16:57); the Playground on :6175 (another session's server) lost its game instance to hot reload mid-check — verified on my own server instead.
+- Calls to confirm: NEED_TO_AUDIT #22.
+- Rule going forward: **trace a generated map against the art's facing** (which pavement a shop opens onto), and remember collision snaps to whole tiles.

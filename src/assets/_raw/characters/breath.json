@@ -2442,5 +2442,27 @@
       "waist_y": 32,
       "enabled": false
     }
+  },
+  "npc_gate_constable": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
   }
 }

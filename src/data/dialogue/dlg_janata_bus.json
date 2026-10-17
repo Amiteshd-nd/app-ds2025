@@ -1,0 +1,15 @@
+{
+  "id": "dlg_janata_bus",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The bus stands across both lanes with its door open. Inside, the ticket machine's screen is still on, blinking. Nobody. A tiffin box on the driver's seat.)",
+      "effect": {
+        "flags": {
+          "janata_bus_seen": true
+        }
+      }
+    }
+  }
+}

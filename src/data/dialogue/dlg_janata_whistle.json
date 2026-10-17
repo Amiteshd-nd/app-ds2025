@@ -1,0 +1,10 @@
+{
+  "id": "dlg_janata_whistle",
+  "speaker": "Constable",
+  "portrait": "npc_gate_constable",
+  "nodes": {
+    "start": {
+      "text": "(A whistle, once, from the barricade. The constable points at you, then at the ground in front of him.)"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "card_walk_east",
+  "$comment": "Story 4.1 F5 (ADR-148): the run ends at the main road; the long walk east in the dark; it holds at the hill until 4.2 builds it.",
+  "panels": [
+    {
+      "title": "OLD AIRPORT ROAD · 17:10",
+      "text": "You run until you can't, then you walk. Behind you the plates have stopped. Every door is shut.",
+      "ms": 4800,
+      "setFlags": [
+        "first_run_done"
+      ]
+    },
+    {
+      "title": "MARATHAHALLI BRIDGE · 20:05",
+      "text": "A single bike passes without lights. Neither of you looks at the other.",
+      "ms": 4600
+    },
+    {
+      "title": "AMBEDKAR NAGAR · 21:30",
+      "text": "At the top of the hill, one light. Purple.",
+      "ms": 4600,
+      "setFlags": [
+        "act4_five_done"
+      ]
+    },
+    {
+      "style": "title",
+      "title": "THE HILL",
+      "text": "ACT 4 CONTINUES AT THE HILL",
+      "cue": "a.sting.turn"
+    }
+  ],
+  "end": "hold"
+}

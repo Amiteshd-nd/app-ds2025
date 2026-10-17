@@ -1,0 +1,67 @@
+{
+  "id": "dlg_gate_constable",
+  "speaker": "Constable",
+  "portrait": "npc_gate_constable",
+  "nodes": {
+    "start": {
+      "text": "(He doesn't get up from the barricade.) Where are you coming from?",
+      "choices": [
+        {
+          "text": "The hospital. I was discharged this morning.",
+          "next": "slip"
+        }
+      ]
+    },
+    "slip": {
+      "text": "Slip. And ID.",
+      "choices": [
+        {
+          "text": "(Show him the slip and your ID card.)",
+          "next": "read",
+          "effect": {
+            "flags": {
+              "janata_pass_checked": true
+            }
+          }
+        }
+      ]
+    },
+    "read": {
+      "text": "(He reads both twice, then hands them back without looking at you.) Where are you going?",
+      "choices": [
+        {
+          "text": "Home. Whitefield side.",
+          "next": "home"
+        }
+      ]
+    },
+    "home": {
+      "text": "Walking? (He almost laughs.) Then go straight there. Stay inside after five.",
+      "choices": [
+        {
+          "text": "Why five?",
+          "next": "why"
+        },
+        {
+          "text": "Okay.",
+          "next": "go"
+        }
+      ]
+    },
+    "why": {
+      "text": "(He looks down the empty road for a long time.) Go home."
+    },
+    "go": {
+      "text": "Straight there."
+    },
+    "again": {
+      "text": "You're still here? Go home. Before five."
+    }
+  },
+  "enter": [
+    {
+      "flag": "janata_pass_checked",
+      "node": "again"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { CARRY_COUNTER } from './carry';
+import { ACT4_FLAG } from './stability';
 import { gameEvents } from '../core/events';
 import { CITY_MAP, DISTRICTS, QUESTS } from '../data';
 import { useGameStore } from '../store';
@@ -321,6 +322,8 @@ export class MapManager {
    */
   scooterRide(toDistrictId: string): { fuel: number; minutes: number; km: number; enough: boolean } | null {
     const store = useGameStore.getState();
+    // Act 4 (ADR-148): the city is shut — no metro, no rides; you walk (travel is told by cards).
+    if (store.flags[ACT4_FLAG]) return null;
     if (!store.flags.scooter_owned) return null;
     // Flat-pack does not ride a scooter (story 2.4): no RIDE while boxes are carried.
     if ((store.counters[CARRY_COUNTER] ?? 0) > 0) return null;
@@ -353,6 +356,7 @@ export class MapManager {
     const from = here ? this.districts[here] : undefined, to = this.districts[toDistrictId];
     if (!from?.metroStation || !to?.metroStation || from.id === to.id) return null;
     const flags = useGameStore.getState().flags;
+    if (flags[ACT4_FLAG]) return null;
     // The line is under construction until the opening-day world event (story 2.2, ADR-05/127).
     if (!flags[FLAG_METRO_OPEN] || (!flags[FLAG.visited(to.id)] && !(to.knownIf && flags[to.knownIf]))) return null;
     return { fare: flags[FLAG_METRO_FREE_DAY] ? 0 : metroFare(kmBetween(this.at(from), this.at(to))), station: to.metroStation };

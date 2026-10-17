@@ -16,7 +16,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildPrereqState, sceneOrder } from '../src/dev/prereq.ts';
-import { HOTEL_NIGHTS, PG_NOTICE_DAYS, STARTING_WALLET } from '../src/utils/constants.ts';
+import { GAME_MINUTE_MS, HOTEL_NIGHTS, PG_NOTICE_DAYS, STARTING_WALLET } from '../src/utils/constants.ts';
 import { planHaggle } from '../src/systems/negotiationMath.ts';
 import { exitRuns } from '../src/systems/night.ts';
 import { duration as cardDuration, outcome as cardOutcome, type CardSequence } from '../src/systems/cards.ts';
@@ -172,6 +172,16 @@ class Gen {
       for (const k of ['tanvi_matched', 'jodi_decided', 'dating_opened']) this.known.add(k);
       return true;
     }
+    // 1a'. the clock (story 4.1's plates, ADR-148): a clockEvent here sets it at a minute — wait for it.
+    const clock = ((districts.get(this.district)?.clockEvents ?? []) as Json[]).find((e) => e.set.includes(f));
+    if (clock) {
+      this.closeConversation();
+      const wait = Math.max(0, clock.at - this.minute) * GAME_MINUTE_MS + 8000;
+      this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: wait });
+      for (const g of clock.set) this.known.add(g);
+      this.minute = Math.max(this.minute, clock.at);
+      return true;
+    }
     // 1b. a rhythm lesson on a trigger here (the flat's guitar)
     const lesson = this.rhythmSetting(this.district, f);
     if (lesson) return this.viaRhythm(lesson.trigger, lesson.set, lesson.index, who, depth);
@@ -237,7 +247,8 @@ class Gen {
     if (t.unlessFlag && this.known.has(t.unlessFlag)) { this.push({ do: 'unresolved', reason: `${who}: the only trigger for ${f} (zone ${t.zone}) is spent by ${t.unlessFlag}` }); return false; }
     this.closeConversation();
     if (t.action === 'sleep' && !t.dialogue) { this.push({ do: 'sleep' }); }
-    else this.push({ do: 'goto', target: `zone:${t.zone}` });
+    // Where the infected are (ADR-145/148), every walk is a flee: the bot plans around them and keeps re-planning.
+    else this.push({ do: ((districts.get(this.district)?.infected?.packs ?? []) as Json[]).length ? 'flee' : 'goto', target: `zone:${t.zone}` });
     // The office door on the same zone runs the workday (when that trigger is live): the walk home starts at closing time.
     const workday = (districts.get(this.district)?.triggers ?? []).some((x: Json) => x.zone === t.zone && x.action === 'workday' && !(x.unlessFlag && this.known.has(x.unlessFlag)) && (!x.requiresFlag || this.known.has(x.requiresFlag)));
     if (workday) this.minute = 18 * 60;
