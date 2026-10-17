@@ -5,23 +5,32 @@ import { useGameStore } from '../store';
 import { ensurePlaceholderTexture } from '../utils/placeholders';
 import { consumeInteract, input } from '../input/InputMap';
 import { gameEvents } from '../core/events';
+import { tickEnergy } from '../systems/energy';
+import { CROUCH_SPEED, playerState } from '../systems/playerState';
+import { ACT4_FLAG } from '../systems/stability';
 
 /**
  * Player — the controllable character.
  *
- * Arrow keys or WASD to move, SHIFT to run, E to interact — and the same
+ * Arrow keys or WASD to move, SHIFT to run, C to crouch, E to interact — and the same
  * four actions from the shared InputMap (on-screen joystick + A button, later
  * a gamepad), merged here so no scene ever asks what device it is on (mobile
  * foundation §5 rule 1). A freeze switch holds the player during dialogue.
  * Animation playback is guarded by anims.exists() so the entity runs on a
  * placeholder texture and starts animating the moment a sheet is loaded under
  * `<sheet>-walk-<dir>` / `<sheet>-idle-<dir>` keys.
+ *
+ * Act 4 (ADR-145): running costs energy (`systems/energy`, the stamina pips),
+ * crouch is a toggle at half speed and noise 2, and crouching still on a hide
+ * spot hides you. What the player is doing is published in `playerState`
+ * (noise, the infected and the HUD read it). Before Act 4 running is free.
  */
 export class Player extends Phaser.GameObjects.Sprite {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private wasdKeys: Record<'W' | 'A' | 'S' | 'D', Phaser.Input.Keyboard.Key>;
   private shiftKey: Phaser.Input.Keyboard.Key;
   private eKey: Phaser.Input.Keyboard.Key;
+  private cKey: Phaser.Input.Keyboard.Key;
 
   private currentDirection: Direction = 'down';
 
@@ -33,7 +42,7 @@ export class Player extends Phaser.GameObjects.Sprite {
   /** A place that slows you and stops you running — a cast in the ward (district `walkSpeed`, ADR-137). */
   walkScale = 1;
   private interactionEnabled = true;
-  private interactionCallback: (() => void) | null = null;
+  private interactionCallback: ((source: 'key' | 'touch') => void) | null = null;
 
   /** `textureKey` also selects the animation set, `<key>-walk-<dir>` etc. */
   constructor(scene: Phaser.Scene, x: number, y: number, private textureKey: string) {
@@ -79,20 +88,27 @@ export class Player extends Phaser.GameObjects.Sprite {
     };
     this.shiftKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     this.eKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.cKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+    playerState.crouching = false; playerState.hidden = false; playerState.mode = 'idle';
 
     this.playIdleAnim();
   }
 
-  /** Called from the scene's update loop. */
-  update(): void {
+  /** Called from the scene's update loop with the frame's delta. */
+  update(delta = 16.67): void {
     if (!this.interactionEnabled) {
       this.stopMoving();
       // Drain buffered presses so the input that closed a dialogue does not
       // immediately re-trigger an interaction on unfreeze.
       Phaser.Input.Keyboard.JustDown(this.eKey);
+      Phaser.Input.Keyboard.JustDown(this.cKey);
       consumeInteract();
+      playerState.mode = 'idle';
       return;
     }
+    const store = useGameStore.getState();
+    const act4 = Boolean(store.flags[ACT4_FLAG]);
+    if (Phaser.Input.Keyboard.JustDown(this.cKey) && act4) this.setCrouching(!playerState.crouching);
 
     const left = this.cursors.left.isDown || this.wasdKeys.A.isDown || input.axisX < 0;
     const right = this.cursors.right.isDown || this.wasdKeys.D.isDown || input.axisX > 0;
@@ -100,9 +116,12 @@ export class Player extends Phaser.GameObjects.Sprite {
     const down = this.cursors.down.isDown || this.wasdKeys.S.isDown || input.axisY > 0;
 
     // Low food = slower walk (components §7) — felt, not fatal, in Acts 0–3.
-    const hungry = useGameStore.getState().stats.food < HUNGRY_AT ? HUNGRY_SPEED : 1;
-    const running = (this.shiftKey.isDown || input.run) && this.walkScale >= 1;
-    const speed = (running ? PLAYER_RUN_SPEED : PLAYER_SPEED) * hungry * this.walkScale;
+    const hungry = store.stats.food < HUNGRY_AT ? HUNGRY_SPEED : 1;
+    const moving = left || right || up || down;
+    const wantsRun = (this.shiftKey.isDown || input.run) && this.walkScale >= 1 && moving && !playerState.crouching;
+    // Act 4: a run costs energy pips; at empty you walk (ADR-145). Before Act 4 running is free.
+    const running = act4 ? tickEnergy(delta, wantsRun, store.stats.stamina) : wantsRun;
+    const speed = (running ? PLAYER_RUN_SPEED : PLAYER_SPEED) * hungry * this.walkScale * (playerState.crouching ? CROUCH_SPEED : 1);
 
     let velX = 0;
     let velY = 0;
@@ -135,11 +154,16 @@ export class Player extends Phaser.GameObjects.Sprite {
     this.isMoving = velX !== 0 || velY !== 0;
     if (this.isMoving) this.playWalkAnim();
     else this.playIdleAnim();
+    playerState.mode = !this.isMoving ? (playerState.crouching ? 'crouch' : 'idle') : running ? 'run' : playerState.crouching ? 'crouch' : 'walk';
+    // Crouched, still, on a hide spot (an open shutter, an abandoned auto): hidden.
+    playerState.hidden = playerState.crouching && !this.isMoving && playerState.onHideSpot;
+    this.setAlpha(playerState.hidden ? 0.55 : playerState.crouching ? 0.85 : 1);
 
     // `||` would short-circuit and leave a touch press buffered; read both.
     const keyPressed = Phaser.Input.Keyboard.JustDown(this.eKey);
     const touchPressed = consumeInteract();
-    if (keyPressed || touchPressed) this.interactionCallback?.();
+    if (keyPressed) this.interactionCallback?.('key');
+    else if (touchPressed) this.interactionCallback?.('touch');
   }
 
   private playAnimIfPresent(key: string): void {
@@ -179,8 +203,13 @@ export class Player extends Phaser.GameObjects.Sprite {
     this.interactionEnabled = enabled;
   }
 
-  /** Register the E-key interaction handler. */
-  onInteract(callback: () => void): void {
+  /** Crouch on or off (C, the touch button's CROUCH / STAND, a hide spot's HIDE). No crouch frames yet: the sprite dims a little. */
+  setCrouching(on: boolean): void {
+    playerState.crouching = on;
+  }
+
+  /** Register the interaction handler (E / the touch action button). */
+  onInteract(callback: (source: 'key' | 'touch') => void): void {
     this.interactionCallback = callback;
   }
 

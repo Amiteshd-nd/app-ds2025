@@ -104,6 +104,7 @@ export class ReputationManager {
 
   /** Every district the player can currently reach, in declaration order. */
   availableDistricts(): DistrictDef[] {
-    return Object.values(this.districts).filter((d) => this.canEnter(d.id));
+    // A Playground bench (`dev`, ADR-145) is never a place in the game.
+    return Object.values(this.districts).filter((d) => !d.dev && this.canEnter(d.id));
   }
 }

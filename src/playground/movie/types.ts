@@ -24,6 +24,10 @@ interface Base {
 export type Step = Base & (
   | { do: 'wait_for'; ready: Ready; id?: string; scene?: string; flag?: string; objective?: string }
   | { do: 'goto'; target: Target }
+  /** Act 4 (ADR-145): run to a target, planning again every quarter second around the infected. */
+  | { do: 'flee'; target: Target }
+  /** Act 4 (ADR-145): get to a hide spot (flee there), crouch, keep still until nobody is hunting (or `ms`), stand. */
+  | { do: 'hide'; at: Target; ms?: number }
   | { do: 'interact'; target?: Target }
   | { do: 'choose'; option: string | number }
   | { do: 'advance' }
@@ -41,7 +45,7 @@ export type Step = Base & (
 );
 
 export type StepAction = Step['do'];
-export const STEP_ACTIONS: readonly StepAction[] = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
+export const STEP_ACTIONS: readonly StepAction[] = ['wait_for', 'goto', 'flee', 'hide', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'pay', 'expect', 'set_flag', 'unresolved'];
 
 export interface Walkthrough {
   scene: string;
@@ -134,6 +138,8 @@ export interface MovieDriver {
   route(target: Target): { ok: true; corners: Array<[number, number]>; px: number; zone?: { x: number; y: number; w: number; h: number; avoid?: Array<{ x: number; y: number; w: number; h: number }> } } | { ok: false; reason: string };
   /** Clear of walls, exits and action zones — where a sidestep may land. */
   freeAt(x: number, y: number): boolean;
+  /** Act 4: whether anything is hunting the player right now (ADR-145). */
+  hunted?(): boolean;
   /** Feet point of the player (for steering / expect near). */
   feet(): [number, number] | null;
   /** The dialogue box's choices right now (enabled flags), the selected index, and whether it is still typing. */

@@ -652,6 +652,77 @@
      "gain": 1
     }
    ]
+  },
+  "act4_bench": {
+   "surface": "asphalt",
+   "dawn": [
+    {
+     "bed": "birds_crows",
+     "gain": 0.6
+    },
+    {
+     "bed": "city_traffic",
+     "gain": 0.3
+    }
+   ],
+   "day": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.9
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.5
+    },
+    {
+     "bed": "vendor_calls",
+     "gain": 0.4
+    },
+    {
+     "bed": "birds_crows",
+     "gain": 0.3
+    },
+    {
+     "bed": "construction",
+     "gain": 0.3
+    }
+   ],
+   "evening": [
+    {
+     "bed": "city_traffic",
+     "gain": 1
+    },
+    {
+     "bed": "people_murmur",
+     "gain": 0.6
+    },
+    {
+     "bed": "temple_bell",
+     "gain": 0.3
+    },
+    {
+     "bed": "vendor_calls",
+     "gain": 0.3
+    }
+   ],
+   "night": [
+    {
+     "bed": "city_traffic",
+     "gain": 0.3
+    },
+    {
+     "bed": "dogs_distant",
+     "gain": 0.5
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.4
+    },
+    {
+     "bed": "bike_single",
+     "gain": 0.5
+    }
+   ]
   }
  }
 }

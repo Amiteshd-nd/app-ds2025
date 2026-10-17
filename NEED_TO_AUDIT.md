@@ -36,7 +36,8 @@ corepack pnpm movie
 | 13a | HUD settings gear + Playground mute/volume (ADR-141a) | 2026-10-17 | on GitHub | waiting |
 | 16 | Act 4 S1 · the stability dial (ADR-144) | 2026-10-17 | local commit, not pushed | waiting |
 | 17 | Act 4 plan defaults you took (`docs/act4_systems_plan_v1.md` §8) | 2026-10-17 | local commit, not pushed | waiting |
-| 18 | Act 4 drafts 4.0 → 4.end (six stubs, your calls) | 2026-10-17 | local commit, not pushed | waiting |
+| 18 | Act 4 drafts 4.0 → 4.end (six stubs, your calls) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
+| 19 | Act 4 S2 · the run (ADR-145) | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -306,3 +307,20 @@ corepack pnpm dev
   - **Suresh's sacrifice:** draft = in Hold, he stays at the gate. Can it be avoided?
   - **Ananya's fate:** draft = with you if the relationship is resolved; otherwise a photo she left at the bandstand; never infected. Keep?
   - **After the ending:** draft = 'My Bangalore' card, then the title (no New Game+). Keep?
+
+## 19. Act 4 S2: the run
+- **What:** in Act 4 you can now be chased. Running costs energy, C crouches, you can hide, the infected hunt by noise and sight, ambushes come out of cover, a touch hurts, and at 0 health you wake at the base instead of dying.
+- **Check:** in the Playground, pick **Act 4 · stability dial**, then **▶ Open the Act 4 test bench**. Tick **Show zones, cover, hide spots, paths and your detection ring** to see their areas (yellow), cover (orange), hide spots (blue), each infected's state (green wander, orange alert, red chase, yellow search) and your noise ring.
+  - You start in the UV lamp's light (the blue disc), where they can't see you. Walk right toward the pack, then run (Shift): the energy pips appear under your meters.
+  - Break their line of sight, or leave the street's area: they search, then give up.
+  - Go to a blue hide spot and press E (HIDE) or C, then keep still: they walk past.
+  - Stand still and let them catch you: each touch costs health, and at 0 the card plays and you wake in the hill flat.
+  - Crouch-walk the pavement for a while: an ambush flashes and steps out of the nearest cover.
+- **Calls to confirm:**
+  - The infected are the crowd's sheets greyed by a tint. That's a placeholder: **I need 2–4 reference images for the infected look** (and for any new touch buttons; crouch reuses the action button for now).
+  - Crouch has no animation; the sprite only dims.
+  - The numbers: they chase at 90 % of your run speed for at most 8 seconds; a touch costs 20 health and a second touch within 5 seconds costs 35; after any hit everyone waits a second; an ambush roll every 8 steps at the place's rate (25 % at "infected").
+  - Failing forward wakes you at 40 health, stress +20, with every second thing you carried gone (never a key item).
+  - Ambushers melt away after 30 seconds or when you leave their area.
+  - Someone you knew hesitates only if you met them and your reputation is "Trusted Helper" or higher (the game doesn't have Hosa / Gothu / Namma yet).
+

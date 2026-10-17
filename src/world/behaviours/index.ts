@@ -51,6 +51,7 @@ import { sleepEvents } from './sleepEvents';
 import { nightLook } from './nightLook';
 import { countdown } from './countdown';
 import { stabilityLook } from './stabilityLook';
+import { act4Threat } from './act4Threat';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -73,6 +74,7 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   nightLook,
   countdown,
   stabilityLook,
+  act4Threat,
 };
 
 /**
@@ -83,4 +85,5 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
  */
 // nightLook (ADR-133): every district wears the night between 23:00 and 05:30.
 // stabilityLook (ADR-144): every district wears its grade — colour, edges, a glitch.
-export const CORE_BEHAVIOURS: readonly string[] = ['nightLook', 'stabilityLook'];
+// act4Threat (ADR-145): the infected, ambushes and UV lamps of any place whose data has them (a no-op elsewhere).
+export const CORE_BEHAVIOURS: readonly string[] = ['nightLook', 'stabilityLook', 'act4Threat'];

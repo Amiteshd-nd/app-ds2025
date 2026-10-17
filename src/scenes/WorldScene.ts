@@ -39,6 +39,8 @@ import type { WorkdaySceneData } from './WorkdayScene';
 import type { CardSceneData } from './CardScene';
 import { outcome as cardOutcome } from '../systems/cards';
 import { streetSurface } from '../audio/mix';
+import { playerState } from '../systems/playerState';
+import { ACT4_FLAG } from '../systems/stability';
 
 export interface WorldSceneData {
   districtId: string;
@@ -157,7 +159,7 @@ export class WorldScene extends Phaser.Scene {
     this.crowd = Populate.wander(this, this.district, this.map, def.spawnLayer, colliders);
     this.physics.add.collider(this.player, this.crowd.citizens);
 
-    this.player.onInteract(() => this.tryInteract());
+    this.player.onInteract((source) => this.tryInteract(source));
     this.teardowns.push(gameEvents.on('card:requested', ({ cardId }) => { this.pendingCard = cardId; }));
 
     // Quests this place begins. start() refuses if already active or done, so
@@ -327,14 +329,28 @@ export class WorldScene extends Phaser.Scene {
   nearestInteractable(): { x: number; y: number; verb: string } | null {
     if (this.talking || this.leaving || this.sleeping) return null;
     const npc = this.nearestNpc();
-    if (!npc || !npc.getData('dialogueId')) return null;
-    return { x: npc.x, y: npc.y - npc.displayHeight / 2, verb: 'TALK' };
+    if (npc && npc.getData('dialogueId')) return { x: npc.x, y: npc.y - npc.displayHeight / 2, verb: 'TALK' };
+    // A hide spot under your feet (ADR-145): crouch to hide.
+    if (playerState.onHideSpot && !playerState.crouching) return { x: this.player.x, y: this.player.y - this.player.displayHeight / 2, verb: 'HIDE' };
+    return null;
   }
 
-  /** E pressed in the world: talk to the nearest NPC within reach. */
-  private tryInteract(): void {
+  /** The touch action button's verb: what's in reach, else Act 4's CROUCH / STAND (ADR-145), else nothing. */
+  actionVerb(): string | null {
+    const near = this.nearestInteractable();
+    if (near) return near.verb;
+    if (this.talking || this.leaving || this.sleeping || !useGameStore.getState().flags[ACT4_FLAG]) return null;
+    return playerState.crouching ? 'STAND' : 'CROUCH';
+  }
+
+  /** E / the touch button in the world: talk to the nearest NPC within reach; else hide on a hide spot; on touch in Act 4, crouch or stand. */
+  private tryInteract(source: 'key' | 'touch' = 'key'): void {
     if (this.talking) return;
     const nearest = this.nearestNpc();
+    if (!nearest || !nearest.getData('dialogueId')) {
+      if (playerState.onHideSpot && !playerState.crouching) { this.player.setCrouching(true); return; }
+      if (source === 'touch' && useGameStore.getState().flags[ACT4_FLAG]) { this.player.setCrouching(!playerState.crouching); return; }
+    }
     if (!nearest) return;
 
     // Reported either way: an ambient NPC with no dialogue can still satisfy an
@@ -633,7 +649,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    this.player.update();
+    this.player.update(delta);
     this.crowd.update(time);
     // The day only ages while the player is in the world and free to act.
     if (!this.talking && !this.leaving && !this.sleeping) TimeManager.getInstance().tick(delta);

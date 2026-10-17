@@ -16,6 +16,9 @@ import { AUDIO, type Bus } from '../audio/data';
 import { useGameStore } from '../store';
 import { ACT4_DAY, ACT4_FLAG, GRADES, act4Curve, act4DayOf, grade, setStabilityOverride, stabilityOverride } from '../systems/stability';
 import { stabilityNow } from '../systems/stabilityNow';
+import { threat, threatDebug } from '../systems/threat';
+import { playerState } from '../systems/playerState';
+import { energy } from '../systems/energy';
 
 interface Props {
   node: TreeNode;
@@ -595,7 +598,7 @@ function AudioInspector({ openLocation }: Props) {
       </div>
       <div className="pg-row">
         <label><input type="checkbox" checked={view?.debug.chaseActive ?? false} onChange={(e) => a?.setDebug({ chaseActive: e.target.checked })} /> Chase</label>
-        <button onClick={() => a?.setDebug({ stability: undefined, chaseActive: false, nearestInfected: null })}>Reset</button>
+        <button onClick={() => a?.setDebug({ stability: undefined, chaseActive: undefined, nearestInfected: undefined })}>Reset</button>
       </div>
       <h3>Tokens</h3>
       <input placeholder="filter (e.g. step, bed., chai)" value={filter} onChange={(e) => setFilter(e.target.value)} />
@@ -618,7 +621,7 @@ function AudioInspector({ openLocation }: Props) {
  * everything. Open any map to see and hear it (the crowd is counted when a
  * map opens, so re-open it after a change).
  */
-function Act4Inspector({ openLocation }: Props) {
+function Act4Inspector({ openLocation, play }: Props) {
   const [, setTick] = useState(0);
   useEffect(() => {
     const timer = window.setInterval(() => setTick((n) => n + 1), 250);
@@ -642,6 +645,17 @@ function Act4Inspector({ openLocation }: Props) {
     <>
       <p className="pg-dim">One number per place, one function for everything it drives: ≥80 safe · 60–79 warning · 40–59 infected · 20–39 hot · &lt;20 ground zero. Story flags (<code>stabilityIf</code>) win over the curve; the dial below wins over both.</p>
       <button onClick={() => openLocation('whitefield_street', true)}>▶ Open a map to look (Whitefield street)</button>
+      <h3>The run (S2)</h3>
+      <p className="pg-dim">The test bench: Whitefield street held at "infected" with one pack of three (a lead wanders, two rest), ambush cover along the trees, two hide spots (blue) and a UV lamp. Shift runs (energy pips), C crouches, E on a hide spot hides; on touch the action button says CROUCH / STAND / HIDE.</p>
+      <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true }, clock: { minute: 12 * 60 } })}>▶ Open the Act 4 test bench</button>
+      <div className="pg-row">
+        <label><input type="checkbox" checked={threatDebug.draw} onChange={(e) => { threatDebug.draw = e.target.checked; setTick((n) => n + 1); }} /> Show zones, cover, hide spots, paths and your detection ring</label>
+      </div>
+      <div className="pg-kv">
+        <div>Infected</div><div>{threat.count ? `${threat.count} · ${threatDebug.modes.join(', ')}` : 'none here'}</div>
+        <div>Chase</div><div>{threat.chasing ? 'yes' : 'no'}{threat.nearestTiles !== null ? ` · nearest ${threat.nearestTiles} tiles` : ''}</div>
+        <div>You</div><div>{playerState.mode}{playerState.crouching ? ' · crouched' : ''}{playerState.hidden ? ' · HIDDEN' : playerState.onHideSpot ? ' · on a hide spot' : ''} · energy {energy.pips}/{energy.max} · health {s.stats.health}</div>
+      </div>
       <h3>Now</h3>
       <div className="pg-kv">
         <div>Place</div><div>{here ?? '— (open a map)'}</div>

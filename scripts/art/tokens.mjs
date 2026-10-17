@@ -68,6 +68,8 @@ export const TOKEN_INDEX = {
   // The stability grade (design system §9, ADR-27/144): a sick green creeping in from the edges, a red rim when it is hot.
   'world.fog': 10,
   'world.vignette': 12,
+  // The infected placeholder (ADR-145): a multiply that greys skin and clothes until the user's references set the real recipe (ADR-28).
+  'infected.skin': 35,
   'sky.sun': 44,
   'sky.moon': 47,
   'sky.silhouette': 0,

@@ -371,8 +371,19 @@ export interface DistrictDef {
   signalIf?: Array<{ flag: string; bars: number }>;
   /** This place's stability by flag, the last set one wins (default 100) — the ward thins night by night (ADR-142); it overrides the Act 4 curve (`systems/stability.ts`, ADR-144). */
   stabilityIf?: Array<{ flag: string; stability: number }>;
+  /** A Playground bench (the Act 4 test bench, ADR-145): opened from the Playground, never reached in play (the validator's reachability rule skips it). */
+  dev?: boolean;
   /** Act 4 (ADR-144): the Act 4 day this pocket falls on (locked order, Hebbal first) and how low it sinks; interiors fall with their `realworld.parent`. */
   act4?: { fallDay: number; floor?: number };
+  /**
+   * Act 4 danger areas (ADR-145), in tiles: where infected live (they never leave their zone), where ambushes roll
+   * (`encounterRate`, 'auto' = the place's grade), where they come out from (`cover`) and where you can hide (`hide`).
+   */
+  act4Zones?: Act4Zone[];
+  /** Infected placed here (ADR-145): packs of a lead + members, appearing once the place's grade reaches `minLevel` (default 2, "infected"). */
+  infected?: { packs: InfectedPack[] };
+  /** UV lamps (ADR-33/145): infected never come within `radius` tiles; you can't be seen inside it and ambushes never roll. */
+  uv?: Array<{ at: [number, number]; radius: number }>;
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
   nightTint?: number;
   /** Sounds that come from a spot (ADR-139): a looping token fades with distance; a one-shot repeats every `every` [min, max] seconds. `at` = a spawn/zone in the map. */
@@ -411,6 +422,34 @@ export interface DistrictDef {
   companion?: CompanionDef;
   /** Zones where the fuel gauge shows (a petrol bunk's forecourt, ADR-126) — run by `fuelSpots`. */
   fuelSpots?: string[];
+}
+
+/** An Act 4 danger area (ADR-145): tile coordinates. */
+export interface Act4Zone {
+  id: string;
+  rect: [x: number, y: number, w: number, h: number];
+  /** Ambush roll per 8 steps: a share 0–1, or 'auto' = the place's grade (default 'auto'). */
+  encounterRate?: number | 'auto';
+  /** Points (tiles) ambushes step out from: behind cars, doorways, shutters. */
+  cover?: Array<[number, number]>;
+  /** Points (tiles) you can hide on: crouch there and keep still. */
+  hide?: Array<[number, number]>;
+}
+
+/** A pack (infected doc §2): one visible lead that wanders, `size − 1` members resting near it until the lead turns. */
+export interface InfectedPack {
+  id: string;
+  zone: string;
+  /** The lead's start (tiles). */
+  lead: [number, number];
+  /** Lead + members, 1–5 (default 1). */
+  size?: number;
+  /** Character sheet(s) they wear — former people keep their clothes (ADR-34). */
+  sheets: string[];
+  /** Appears once the place's grade is at least this (default 2). */
+  minLevel?: number;
+  /** Someone you knew: hesitates a second if your standing in their district is Namma (ADR-34). */
+  former?: string;
 }
 
 /**

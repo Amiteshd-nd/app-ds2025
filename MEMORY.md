@@ -169,3 +169,10 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Camera postFX (ColorMatrix) greys everything the world camera draws — screen-space overlays that must keep their colour go in `GradeScene` (just above WorldScene in PhaserGame's scene list) or the HUD. Post FX controllers live in `camera.postPipelines`, not `postFX.list`.
 - Crowds are counted when a map opens: re-open a map after moving the dial to see the crowd change.
 - Another session may push while you work: check `git log origin/main..HEAD` before saying what is local.
+
+## Act 4 S2 — the run (2026-10-17, ADR-145)
+- Behaviours import Phaser as a TYPE only: the registry loads in Node tests and the validator (`window is not defined` otherwise). No `Phaser.Geom`/`Phaser.Math` values there.
+- Gameplay randomness = `systems/rng` seeded by place + Act 4 day; never Math.random.
+- On scene shutdown `scene.physics.world` is already null inside behaviour teardowns — guard it.
+- Browser QA of the bench: the Playground (:6175) may be another session's server but serves current files after a reload; modules imported with `import('/src/…')` from the console can be a different instance than the app's (HMR `?t=`) — read state through the app's handles (`__nqMovie.driver`, the Inspector panel) instead.
+- Harm needs a global grace window: per-attacker recovery let three ambushers land 55 health in a second.

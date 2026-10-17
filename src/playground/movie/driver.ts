@@ -12,11 +12,14 @@ import { INTERACT_RANGE_PX, LAYERS, SCENE_KEYS } from '../../utils/constants';
 import { PHONE } from '../../ui/phone/layout';
 import { MOVIE_OVERLAY_KEY, MovieOverlayScene } from './MovieOverlayScene';
 import type { DriverState, MovieDriver, Target } from './types';
+import { threat, threatDebug } from '../../systems/threat';
 import { astar, buildGrid, cellAt, cellCentre, corners, FEET_DY, nearestFree, overlapsZone, smooth, zoneOf, type Grid, type Rect } from './walkgrid';
 
 /** The bot's planning grid: the validator's feet box on 2 px cells, so any gap the body fits through stays open. */
 const BOT_CELL = 2;
 const BOT_FEET = Object.freeze({ w: 20, h: 12 });
+/** Half the box of room the bot keeps from an infected (px). */
+const THREAT_MARGIN = 40;
 
 /** Frames a synthetic key is held (Phaser clears JustDown on keyup; the box reads keydown). */
 const KEY_HOLD_FRAMES = 5;
@@ -154,6 +157,8 @@ export class PhaserDriver implements MovieDriver {
     const i = cellAt(grid, x, y);
     return i >= 0 && !grid.blocked[i];
   }
+
+  hunted(): boolean { return threat.chasing || threatDebug.modes.some((m) => m === 'search'); }
 
   feet(): [number, number] | null {
     const w = this.world();
@@ -324,6 +329,8 @@ export class PhaserDriver implements MovieDriver {
     }
     // 2 px cells: the validator's 8 px grid seals gaps the body squeezes through (between two parked autos,
     // a scooter and a wall, a shop front and its pavement), and the bot would plan the long way or not at all.
+    // Act 4 (ADR-145): the infected are walls with a margin — a route never runs through one.
+    for (const [ix, iy] of threat.positions) rects.push([ix - THREAT_MARGIN, iy - THREAT_MARGIN, THREAT_MARGIN * 2, THREAT_MARGIN * 2]);
     const grid = buildGrid(rects, w.map.widthInPixels, w.map.heightInPixels, BOT_CELL, BOT_FEET);
     // Zones fire on any overlap and the stick drifts a few px off the planned line, so they get a wider margin
     // than walls; when that seals the only way, route() plans again without them.

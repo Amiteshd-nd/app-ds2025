@@ -188,6 +188,8 @@ export function summarise(step: Step): string {
   switch (step.do) {
     case 'wait_for': return `wait_for ${step.ready}${step.scene ? ` ${step.scene}` : step.flag ? ` ${step.flag}` : step.objective ? ` ${step.objective}` : ''}`;
     case 'goto': return `goto ${step.target}`;
+    case 'flee': return `flee to ${step.target}`;
+    case 'hide': return `hide at ${step.at}`;
     case 'interact': return `interact${step.target ? ` ${step.target}` : ''}`;
     case 'choose': return `choose ${String(step.option)}`;
     case 'advance': return 'advance';

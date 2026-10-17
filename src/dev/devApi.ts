@@ -274,6 +274,11 @@ export function installDevApi(game: Phaser.Game): DevApi {
       useGameStore.getState().reset();
       TimeManager.resetInstance();
       if (node.kind === 'district') {
+        // A bench can ask for a little state (the Act 4 test bench needs `act4`, ADR-145); free-roam passes none.
+        const store = useGameStore.getState();
+        for (const [flag, value] of Object.entries(override?.flags ?? {})) store.setFlag(flag, Boolean(value));
+        for (const [k, v] of Object.entries(override?.counters ?? {})) store.setCounter(k, v);
+        if (override?.clock) store.setClock({ ...store.clock, ...override.clock });
         startScene(SCENE_KEYS.WORLD, { districtId: node.districtId, spawnId: node.spawnId });
         return;
       }

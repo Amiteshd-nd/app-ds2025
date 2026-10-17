@@ -1,0 +1,20 @@
+{
+  "id": "card_fail_forward",
+  "$comment": "Act 4 health 0 (ADR-145, plan §3.5 and §8 Q4): you fail forward — no game over. The night has already passed (TimeManager.sleep: Act 4 day +1) and half of what you carried is gone before this plays. It lands at the base; S3 makes the base the one you last slept in (until then, the hill flat).",
+  "panels": [
+    {
+      "style": "fragment",
+      "text": "You don't remember the way back.",
+      "ms": 3200
+    },
+    {
+      "title": "MORNING",
+      "text": "Your bag is lighter. Your hands won't stop shaking.",
+      "ms": 3600
+    }
+  ],
+  "then": {
+    "district": "hill_flat",
+    "spawn": "door"
+  }
+}

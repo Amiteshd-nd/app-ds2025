@@ -23,6 +23,8 @@ import { measure } from '../ui/kit/text';
 import { hex, motion, rgba, type TokenName } from '../ui/tokens';
 import { GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import type { MenuScene } from './MenuScene';
+import { energy } from '../systems/energy';
+import { ACT4_FLAG } from '../systems/stability';
 import type { WorldScene } from './WorldScene';
 
 export interface HudSceneData {
@@ -90,6 +92,8 @@ export class HudScene extends Phaser.Scene {
   private timer: string | null = null;
   /** The fuel gauge shows while standing at a bunk, and for a moment after a ride (ADR-126). */
   private fuelUntil = 0;
+  /** The energy pips last drawn (ADR-145). */
+  private energyKey = '';
   private bob = false;
   private refreshTimer: Phaser.Time.TimerEvent | null = null;
   private off: Array<() => void> = [];
@@ -268,7 +272,9 @@ export class HudScene extends Phaser.Scene {
     const expanded = this.objective !== null && (!prefs.hud.objectiveAutoHide || now < this.objectiveUntil);
     const showCard = now < this.cardUntil && store.activeDistrict !== null;
     const fuelShown = store.flags.scooter_owned && (store.fuelContext || now < this.fuelUntil);
-    const meterList = minimal ? [] : meters(store.stats, prefs.hud.meters as 'auto' | 'always', fuelShown ? (store.counters[FUEL_COUNTER] ?? 0) : null);
+    const energyShown = Boolean(store.flags[ACT4_FLAG]) && (energy.shown > 0 || energy.pips < energy.max);
+    this.energyKey = energyShown ? `${energy.pips}/${energy.max}` : '';
+    const meterList = minimal ? [] : meters(store.stats, prefs.hud.meters as 'auto' | 'always', fuelShown ? (store.counters[FUEL_COUNTER] ?? 0) : null, energyShown ? { pips: energy.pips, max: energy.max } : null);
     const rows = stackRows({ objective: this.objective !== null, location: showCard, meters: meterList });
     const card = showCard ? locationCard(getDistrict(store.activeDistrict!).name, this.firstVisit, L.locationMaxTextW) : null;
     const objective = this.objective !== null ? objectiveText(this.objective, L.objective.maxTextW) : '';
@@ -313,9 +319,10 @@ export class HudScene extends Phaser.Scene {
           if (card.isNew) roundRect(g, L.pad + 7 + tw + 6, row.y + 4, 25, 11, 2, hex('hud.star'));
         } else if (row.kind === 'meter' && row.meter) {
           const tone: TokenName = row.meter.critical ? 'phone.accent.alert' : 'hud.text';
-          hudPlate(g, L.pad, row.y, L.meter.w, L.meter.h);
+          const max = row.meter.max ?? 5;
+          hudPlate(g, L.pad, row.y, L.meter.w + Math.max(0, max - 5) * 7, L.meter.h);
           bitmap(g, HUD_GLYPHS[row.meter.icon], L.pad + L.meter.iconX, row.y + 4, hex(tone));
-          blockRow(g, L.pad + L.meter.blocksX, row.y + 5, row.meter.blocks, 5, { on: tone });
+          blockRow(g, L.pad + L.meter.blocksX, row.y + 5, row.meter.blocks, max, { on: tone });
         }
       }
       // The settings gear: the phone button's plate, its icon centred (always up — the one visible way to pause on touch).
@@ -382,12 +389,15 @@ export class HudScene extends Phaser.Scene {
 
   update(): void {
     if (!this.alive || !this.root.visible) return;
+    // Energy pips move every couple of seconds while you run (ADR-145): redraw when they change.
+    const ek = useGameStore.getState().flags[ACT4_FLAG] && (energy.shown > 0 || energy.pips < energy.max) ? `${energy.pips}/${energy.max}` : '';
+    if (ek !== this.energyKey) this.render();
     const world = this.world();
     const near = world && !this.dialogueOpen ? world.nearestInteractable() : null;
     this.placeBubble(world, near?.x ?? 0, near?.y ?? 0, near?.verb ?? null);
     if (this.controls) {
       this.controls.root.setVisible(!this.dialogueOpen);
-      this.renderAction(near?.verb ?? null);
+      this.renderAction(world ? world.actionVerb() : null);
     }
     this.walkWithPad();
   }

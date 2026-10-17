@@ -45,6 +45,8 @@ export async function runStep(d: MovieDriver, step: Step, ctx: ActionContext): P
     switch (step.do) {
       case 'wait_for': return waitFor(d, step, ctx, deadline);
       case 'goto': return goto(d, step.target, ctx, step.timeout);
+      case 'flee': return goto(d, step.target, ctx, step.timeout, true);
+      case 'hide': return hide(d, step, ctx);
       case 'interact': return interact(d, step.target, ctx, deadline);
       case 'choose': return choose(d, step.option, ctx, deadline);
       case 'advance': { const opened = await until(d, ctx, () => d.state().dialogueOpen, Math.min(deadline, d.now() + 1500)); if (opened !== 'ok') return outcome(opened, 'dialogue_not_open') ?? ok(); return drain(d, ctx, deadline); }
@@ -95,7 +97,7 @@ async function waitFor(d: MovieDriver, step: Extract<Step, { do: 'wait_for' }>, 
  */
 const MAX_REPLANS = 10;
 const STUCK_MS = 1200;
-async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?: number): Promise<ActionResult> {
+async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?: number, flee = false): Promise<ActionResult> {
   // Already there with the target's own conversation open (Amma's call at the flat door): nothing to walk.
   if (d.state().dialogueOpen) { const here = d.route(target); if (here.ok && here.px === 0) return ok(); }
   const free = await until(d, ctx, () => d.state().free, d.now() + 2000);
@@ -113,7 +115,7 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
   let deadline = d.now() + (timeout ?? (route.px / 100) * 1000 + 5000);
   const tolerance = 3 + 2 * ctx.speed;
   const startDistrict = d.state().district;
-  let k = 0, replans = 0, frame = 0;
+  let k = 0, replans = 0, frame = 0, ticks = 0;
   let lastProgressAt = d.now(), bestDist = Infinity, bestK = -1;
   try {
     for (;;) {
@@ -145,6 +147,8 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
       }
       const feet = d.feet();
       if (!feet) return fail('no_player');
+      // Fleeing (ADR-145): the infected move, so the way does too — plan again every quarter second around them.
+      if (flee && ++ticks % 15 === 0) { const r = d.route(target); if (r.ok) { route = r; k = 0; bestK = -1; bestDist = Infinity; } }
       if (k >= route.corners.length) {
         // Zones often hug a wall or sit over the thing they belong to (a bed): press toward the centre until the
         // feet box overlaps by a few px on both axes, or the way is blocked — that is how a thumb reaches a bed.
@@ -210,6 +214,16 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
   } finally {
     d.walk(0, 0);
   }
+}
+
+/** Act 4 (ADR-145): flee to a hide spot, crouch (C), keep still until nobody hunts you (or `ms`), stand. */
+async function hide(d: MovieDriver, step: Extract<Step, { do: 'hide' }>, ctx: ActionContext): Promise<ActionResult> {
+  const there = await goto(d, step.at, ctx, step.timeout, true);
+  if (there.status !== 'passed') return there;
+  await d.key('KeyC', 'c', 67);
+  const r = await until(d, ctx, () => !(d.hunted?.() ?? false), d.now() + (step.ms ?? 8000));
+  await d.key('KeyC', 'c', 67);
+  return r === 'cancelled' ? { status: 'skipped', reason: 'cancelled' } : ok();
 }
 
 async function interact(d: MovieDriver, target: Target | undefined, ctx: ActionContext, deadline: number): Promise<ActionResult> {

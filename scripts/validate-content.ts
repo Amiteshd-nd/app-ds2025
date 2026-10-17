@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT, TEMPERAMENTS } from '../src/utils/constants.ts';
 import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
 import { ICON_NAMES } from '../src/ui/kit/icons.ts';
-import { bfs, buildGrid, cellAt, FEET_DY, overlapsZone, rectsFromTmj, zoneOf } from '../src/playground/movie/walkgrid.ts';
+import { bfs, buildGrid, cellAt, FEET_DY, overlapsZone, rectsFromTmj, zoneOf } from '../src/world/walkgrid.ts';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, '../src/data');
@@ -1007,6 +1007,30 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
       }
     }
 
+    // Act 4 danger data (ADR-145): zones inside the map, cover / hide / packs / lamps inside it too, packs naming real zones and sheets.
+    {
+      const mw = tmj.width ?? 0, mh = tmj.height ?? 0;
+      const inMap = (p: unknown) => Array.isArray(p) && p.length === 2 && p.every((n) => typeof n === 'number') && (p[0] as number) >= 0 && (p[1] as number) >= 0 && (p[0] as number) < mw && (p[1] as number) < mh;
+      const zoneIds = new Set<string>();
+      for (const z of (district.act4Zones ?? []) as Json[]) {
+        const r = z.rect;
+        if (typeof z.id !== 'string' || !z.id || zoneIds.has(z.id)) add(`${d} act4Zones need unique ids (got "${z.id}")`);
+        zoneIds.add(z.id);
+        if (!Array.isArray(r) || r.length !== 4 || r[2] <= 0 || r[3] <= 0 || r[0] < 0 || r[1] < 0 || r[0] + r[2] > mw || r[1] + r[3] > mh) add(`${d} act4Zone "${z.id}" rect must sit inside the ${mw}×${mh}-tile map`);
+        if (z.encounterRate !== undefined && z.encounterRate !== 'auto' && !(typeof z.encounterRate === 'number' && z.encounterRate >= 0 && z.encounterRate <= 1)) add(`${d} act4Zone "${z.id}" encounterRate must be 0–1 or 'auto'`);
+        for (const p of [...(z.cover ?? []), ...(z.hide ?? [])]) if (!inMap(p)) add(`${d} act4Zone "${z.id}" has a cover/hide point outside the map: ${JSON.stringify(p)}`);
+        if (z.encounterRate !== 0 && !(z.cover ?? []).length) add(`${d} act4Zone "${z.id}" can roll ambushes but has no cover to come out of (ADR-50)`);
+      }
+      for (const pk of ((district.infected as Json)?.packs ?? []) as Json[]) {
+        if (!zoneIds.has(pk.zone)) add(`${d} infected pack "${pk.id}" names zone "${pk.zone}", not in act4Zones`);
+        if (!inMap(pk.lead)) add(`${d} infected pack "${pk.id}" lead is outside the map`);
+        if (!Array.isArray(pk.sheets) || !pk.sheets.length) add(`${d} infected pack "${pk.id}" needs sheets`);
+        for (const sh of pk.sheets ?? []) if (!sprites.has(sh)) add(`${d} infected pack "${pk.id}" sheet "${sh}" has no PNG in src/assets/sprites`);
+        if (pk.size !== undefined && !(Number.isInteger(pk.size) && pk.size >= 1 && pk.size <= 5)) add(`${d} infected pack "${pk.id}" size must be 1–5`);
+      }
+      for (const u of (district.uv ?? []) as Json[]) if (!inMap(u.at) || !(typeof u.radius === 'number' && u.radius > 0 && u.radius <= 12)) add(`${d} uv lamp needs a point inside the map and a radius 1–12 tiles`);
+    }
+
     // Rule 7 (ADR-125): the feet box can walk from the default spawn to every exit zone.
     for (const exit of district.exits ?? []) {
       if (!exit.zone || !spawns.has(exit.zone) || !district.defaultSpawn || !spawns.has(district.defaultSpawn)) continue;
@@ -1058,7 +1082,8 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
       }
     }
     for (const id of byId.keys()) {
-      if (!reached.has(id)) add(`district "${id}" is unreachable from "${start}" — no chain of exits leads there`);
+      // A Playground bench (`dev: true`, ADR-145) is opened by the Playground, never walked to.
+      if (!reached.has(id) && !byId.get(id)?.dev) add(`district "${id}" is unreachable from "${start}" — no chain of exits leads there`);
     }
   }
 
@@ -1071,7 +1096,7 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
  * object footprint or cutout footprint overlaps it. BFS from the spawn's cell
  * to any cell of the target zone. Returns null when the map has no collision
  * data at all (nothing to check). The grid itself lives in
- * src/playground/movie/walkgrid.ts, shared with the Movie Mode bot: a path the
+ * src/world/walkgrid.ts, shared with the Movie Mode bot: a path the
  * bot walks is a path this rule accepts.
  */
 export function reachable(tmj: Json, def: Json, spawnName: string, zoneName: string): boolean | null {
@@ -1179,7 +1204,7 @@ function detectPrerequisiteCycles(questFiles: Array<{ file: string; json: Json }
 
 
 // ── Movie Mode walkthroughs (Test Playground, T-054) ────────────────────────
-const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'rhythm', 'travel', 'pay', 'expect', 'set_flag', 'unresolved'];
+const WALKTHROUGH_ACTIONS = ['wait_for', 'goto', 'flee', 'hide', 'interact', 'choose', 'advance', 'wait', 'phone', 'sleep', 'rhythm', 'travel', 'pay', 'expect', 'set_flag', 'unresolved'];
 const WALKTHROUGH_READY = ['scene_loaded', 'free', 'flag', 'dialogue', 'objective'];
 
 /**
@@ -1249,6 +1274,8 @@ export function validateWalkthroughs(
           }
           break;
         case 'goto': target(step.target, 'target'); break;
+        case 'flee': target(step.target, 'target'); break;
+        case 'hide': target(step.at, 'at'); break;
         case 'interact': if (step.target !== undefined) target(step.target, 'target'); break;
         case 'choose': if (!(typeof step.option === 'number' && step.option >= 0) && !(typeof step.option === 'string' && step.option)) add(`${where} option must be an index or a text/node id`); break;
         case 'wait': if (typeof step.ms !== 'number' || step.ms < 0) add(`${where} ms must be a number`); break;

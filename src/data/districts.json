@@ -2588,5 +2588,102 @@
         "kind": "machine"
       }
     ]
+  },
+  {
+    "id": "act4_bench",
+    "name": "Act 4 test bench",
+    "dev": true,
+    "map": "whitefield_street",
+    "defaultSpawn": "cubbon_return",
+    "$comment": "Dev bench for Act 4's run (ADR-145): the Whitefield street with one Fresh pack, ambush cover, two hide spots and a UV lamp. Opened from the Playground's Act 4 node; you start inside the lamp's light (safe); no exits lead here. Its stability is held at 50 (infected) once `act4` is set.",
+    "stabilityIf": [
+      {
+        "flag": "act4",
+        "stability": 50
+      }
+    ],
+    "act4Zones": [
+      {
+        "id": "street",
+        "rect": [
+          1,
+          5,
+          28,
+          12
+        ],
+        "encounterRate": "auto",
+        "cover": [
+          [
+            3,
+            6
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            21,
+            6
+          ],
+          [
+            27,
+            6
+          ],
+          [
+            6,
+            14
+          ],
+          [
+            13,
+            14
+          ],
+          [
+            20,
+            14
+          ],
+          [
+            27,
+            14
+          ]
+        ],
+        "hide": [
+          [
+            2,
+            15
+          ],
+          [
+            12,
+            15
+          ]
+        ]
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "bench_pack",
+          "zone": "street",
+          "lead": [
+            24,
+            12
+          ],
+          "size": 3,
+          "sheets": [
+            "crowd_officegoer",
+            "crowd_delivery",
+            "crowd_autodriver"
+          ]
+        }
+      ]
+    },
+    "uv": [
+      {
+        "at": [
+          8,
+          7
+        ],
+        "radius": 3
+      }
+    ]
   }
 ]

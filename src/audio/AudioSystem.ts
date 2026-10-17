@@ -6,8 +6,10 @@ import { setStabilityOverride } from '../systems/stability';
 import { useGameStore } from '../store';
 import { settings, useSettings } from '../systems/SettingsManager';
 import { NOISE, feedNoise, noise, tickNoise } from '../systems/noise';
+import { noiseFloor } from '../systems/playerState';
+import { threat } from '../systems/threat';
 import { AUDIO_URLS } from '../assets';
-import { PLAYER_SPEED, SCENE_KEYS, TILE_SIZE } from '../utils/constants';
+import { SCENE_KEYS, TILE_SIZE } from '../utils/constants';
 import { AUDIO, audioKey, type AudioToken, type Bus } from './data';
 import { DUCK, busGain } from './buses';
 import { mixFor, sourceScale, surfaceOf, type Mix, type MixContext, type Pacing } from './mix';
@@ -161,7 +163,8 @@ export class AudioSystem {
   // ── The mix ──────────────────────────────────────────────────────────────
   private context(): MixContext {
     const s = useGameStore.getState();
-    const chaseActive = this.debug.chaseActive ?? false;
+    // The Playground bench overrides; otherwise the infected themselves (ADR-145).
+    const chaseActive = this.debug.chaseActive ?? threat.chasing;
     // A chase ends → 6 s of relief, the escape chord; a chase starts → the detect sting (ADR-29/49/50).
     if (chaseActive && !this.wasChasing) this.cue('a.sting.detect');
     if (!chaseActive && this.wasChasing) { this.reliefUntil = this.now + 6000; this.cue('a.sfx.combat.escape_resolve'); }
@@ -169,7 +172,7 @@ export class AudioSystem {
     return {
       districtId: s.activeDistrict, transit: this.transit, workday: this.workday, minute: s.clock.minute,
       stability: this.debug.stability ?? this.stabilityHere(), pacing: this.pacing(), chaseActive, reliefMs: Math.max(0, this.reliefUntil - this.now),
-      nearestInfected: this.debug.nearestInfected ?? null, stress: s.stats.stress,
+      nearestInfected: this.debug.nearestInfected !== undefined ? this.debug.nearestInfected : threat.nearestTiles, stress: s.stats.stress,
     };
   }
 
@@ -227,11 +230,8 @@ export class AudioSystem {
   private update(_time: number, delta: number): void {
     this.now += delta;
     if (this.delayed.length) { const due = this.delayed.filter((d) => d.at <= this.now); this.delayed = this.delayed.filter((d) => d.at > this.now); for (const d of due) d.run(); }
-    // Noise floor from movement (ADR-49 tiles).
-    const world = this.world();
-    const body = world?.player?.body as Phaser.Physics.Arcade.Body | undefined;
-    const speed = body ? Math.hypot(body.velocity.x, body.velocity.y) : 0;
-    tickNoise(delta, speed < 1 ? NOISE.idle : speed > PLAYER_SPEED * 1.2 ? NOISE.run : NOISE.walk);
+    // Noise floor from what the player is doing (ADR-49 tiles; crouch and hiding, ADR-145).
+    tickNoise(delta, this.world() ? noiseFloor() : NOISE.idle);
 
     this.sinceMix += delta;
     if (this.sinceMix >= MIX_EVERY_MS) {
