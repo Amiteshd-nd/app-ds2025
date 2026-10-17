@@ -1342,7 +1342,7 @@ export function validateCards(files: JsonFile[], districts: Json[], stills: Set<
  * a token, every place has a bed, footstep surfaces exist, LICENSES.md lists
  * every file, and the total stays under 15 MB.
  */
-export function validateAudio(manifest: Json, beds: Json, districts: Json[], cards: Json[], files: Map<string, number>, licences: string, dialogues: Json[] = []): string[] {
+export function validateAudio(manifest: Json, beds: Json, districts: Json[], cards: Json[], files: Map<string, number>, licences: string, dialogues: Json[] = [], rawExists: (rel: string) => boolean = () => true): string[] {
   const problems: string[] = [];
   const tokens = (manifest?.tokens ?? {}) as Record<string, Json>;
   const add = (m: string) => problems.push(m);
@@ -1356,6 +1356,15 @@ export function validateAudio(manifest: Json, beds: Json, districts: Json[], car
     if (!Array.isArray(e.files)) { add(`${w} needs a files list`); continue; }
     if (!e.files.length && !e.uncanny) add(`${w} has no files`);
     if (e.uncanny && !tokens[e.uncanny.of]) add(`${w} is uncanny of "${e.uncanny.of}", which is not a token`);
+    // A real sound (ADR-141): its raw files exist, one per output, and each sits beside the licence it came with.
+    if (e.tier === 'final' && e.licence !== 'original') {
+      if (!Array.isArray(e.raw) || e.raw.length !== e.files.length) add(`${w} is final but does not list one raw source per file`);
+      for (const r of e.raw ?? []) {
+        if (!rawExists(r)) add(`${w} raw file "${r}" is not in src/assets/_raw/audio`);
+        const dir = r.split('/').slice(0, -1).join('/');
+        if (!['License.txt', 'LICENSE.txt', 'licence.json', 'license.json'].some((l) => rawExists(`${dir}/${l}`))) add(`${w} raw file "${r}" has no licence file beside it (License.txt or licence.json)`);
+      }
+    }
     for (const f of e.files) {
       if (!files.has(`${f}.wav`) && !(files.has(`${f}.ogg`) && files.has(`${f}.m4a`))) add(`${w} file "${f}" is not in src/assets/audio (run pnpm audio)`);
       if (!licences.includes(`\`${f}.wav\``) && !licences.includes(`\`${f}.ogg\``)) add(`${w} file "${f}" has no row in src/assets/audio/LICENSES.md`);
@@ -1456,6 +1465,7 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     districts, cardFiles.map((f) => f.json), audioFiles,
     existsSync(join(audioDir, 'LICENSES.md')) ? readFileSync(join(audioDir, 'LICENSES.md'), 'utf8') : '',
     dialogue.map((f) => f.json),
+    (rel) => existsSync(join(assetsDir, '_raw/audio', rel)),
   ));
 
   const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])), npcCards });

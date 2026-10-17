@@ -146,7 +146,7 @@ describe('nothing plays a sound but the AudioSystem (lint)', () => {
 
   it('every token literal in the code is in the manifest', () => {
     const missing: string[] = [];
-    for (const f of code) for (const m of readFileSync(f, 'utf8').matchAll(/'(a\.(?:bed|music|sfx|ui|phone|hud|sting|uncanny)\.[a-z0-9_.]+)'/g)) if (!AUDIO[m[1]]) missing.push(`${f}: ${m[1]}`);
+    for (const f of code) for (const m of readFileSync(f, 'utf8').matchAll(/'(a\.(?:bed|music|sfx|ui|phone|hud|sting|uncanny)\.[a-z0-9_.]*[a-z0-9_])'/g)) if (!AUDIO[m[1]]) missing.push(`${f}: ${m[1]}`);
     expect(missing).toEqual([]);
   });
 });
@@ -187,5 +187,28 @@ describe('A2: every scene, the Act 4 states (ADR-140)', () => {
     const withSources = Object.values(DISTRICTS).filter((d) => d.audioSources?.length).map((d) => d.id);
     expect(withSources.length).toBeGreaterThanOrEqual(18);
     for (const d of Object.values(DISTRICTS)) for (const s of d.audioSources ?? []) expect(AUDIO[s.token], `${d.id} ${s.token}`).toBeDefined();
+  });
+});
+
+describe('A3: real sounds (ADR-141)', () => {
+  it('Kenney batch: final, CC0, one raw source per file, each beside its pack licence', () => {
+    const finals = Object.entries(AUDIO).filter(([, e]) => e.tier === 'final');
+    expect(finals.length).toBeGreaterThanOrEqual(60);
+    for (const [t, e] of finals) {
+      expect(e.licence, t).toBe('CC0');
+      const raw = (e as unknown as { raw: string[] }).raw;
+      expect(raw.length, t).toBe(e.files.length);
+      for (const r of raw) {
+        expect(statSync(join(src, 'assets/_raw/audio', r)).isFile(), r).toBe(true);
+        expect(readFileSync(join(src, 'assets/_raw/audio', r.split('/').slice(0, -1).join('/'), 'License.txt'), 'utf8')).toMatch(/CC0/);
+      }
+    }
+    // The real footsteps, UI and money sounds replaced their placeholders.
+    for (const t of ['a.sfx.player.step.concrete', 'a.ui.confirm', 'a.hud.money_in', 'a.phone.tap']) expect(AUDIO[t].tier, t).toBe('final');
+  });
+
+  it('a final sound with no licence file beside it fails validation', () => {
+    const p = validateAudio({ tokens: { 'a.ui.x': { files: ['x'], raw: ['somewhere/x.ogg'], bus: 'ui', licence: 'CC0', tier: 'final', volume: 1 } } }, { districts: {} }, [], [], new Map([['x.wav', 10]]), '`x.wav`', [], (rel) => rel === 'somewhere/x.ogg');
+    expect(p.join('\n')).toMatch(/no licence file beside it/);
   });
 });

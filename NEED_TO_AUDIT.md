@@ -30,6 +30,7 @@ corepack pnpm movie
 | 10 | P19 · 3.3 "The Corridor" (ADR-138) | 2026-10-17 | local commit, not pushed | waiting |
 | 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | local commit, not pushed | waiting |
 | 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | local commit, not pushed | waiting |
+| 13 | Audio A3 batch 1 · Kenney's real sounds replace 60 placeholders (ADR-141) | 2026-10-17 | local commit, not pushed | waiting |
 | 13 | HUD settings gear + Playground mute/volume (ADR-141) | 2026-10-17 | local, not committed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
@@ -188,3 +189,14 @@ corepack pnpm dev
   - The gear opens the pause menu rather than going straight to Settings.
   - A 16px gap between the gear and the phone; the clock moved left to make room.
   - The gear stays visible in the corridor.
+
+## 13. Audio A3 batch 1: the first real sounds (Kenney, CC0)
+- **What:** 60 sounds are now real recordings from Kenney's free packs: menus, phone, HUD, footsteps on six surfaces, doors, plates, coins and cash, pickups, and the Act 4 combat sounds. Background beds, music, vehicles and voices are still placeholders until your recordings and Freesound files arrive.
+- **Check:** play anything and listen to the menus, phone and footsteps. In the Playground's Audio node, the token list shows `final · CC0` for these.
+- **Calls to confirm:**
+  - Gravel footsteps are Kenney's snow steps (they crunch).
+  - Road footsteps reuse the concrete set.
+  - The money sounds are casino chips.
+  - The title, UPI and ringtone jingles stay ours (original).
+- **Still needed from you:** the 20 recordings (`docs/audio_plan_v1.md` §5.4). Optionally, ffmpeg (`brew install ffmpeg`) to shrink the files.
+

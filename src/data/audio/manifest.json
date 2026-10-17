@@ -536,9 +536,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/hud.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/click_003.ogg"
+   ]
   },
   "a.hud.location_card_in": {
    "files": [
@@ -564,13 +567,17 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/hud.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/error_002.ogg"
+   ]
   },
   "a.hud.money_in": {
    "files": [
-    "hud_money_in"
+    "hud_money_in_1",
+    "hud_money_in_2"
    ],
    "bus": "ui",
    "loop": false,
@@ -578,13 +585,18 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/hud.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · casino-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/casino-audio/chips-stack-1.ogg",
+    "kenney/casino-audio/chips-stack-2.ogg"
+   ]
   },
   "a.hud.money_out": {
    "files": [
-    "hud_money_out"
+    "hud_money_out_1",
+    "hud_money_out_2"
    ],
    "bus": "ui",
    "loop": false,
@@ -592,9 +604,13 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/hud.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · casino-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/casino-audio/chip-lay-1.ogg",
+    "kenney/casino-audio/chip-lay-2.ogg"
+   ]
   },
   "a.hud.objective_done": {
    "files": [
@@ -606,9 +622,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/hud.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/confirmation_004.ogg"
+   ]
   },
   "a.hud.objective_new": {
    "files": [
@@ -620,9 +639,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/hud.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/question_002.ogg"
+   ]
   },
   "a.music.base_night": {
    "files": [
@@ -774,9 +796,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/bong_001.ogg"
+   ]
   },
   "a.phone.buzz_long": {
    "files": [
@@ -830,9 +855,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/glass_002.ogg"
+   ]
   },
   "a.phone.chat_out": {
    "files": [
@@ -844,9 +872,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/drop_001.ogg"
+   ]
   },
   "a.phone.low_battery": {
    "files": [
@@ -858,9 +889,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · digital-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/digital-audio/lowDown.ogg"
+   ]
   },
   "a.phone.maps_reroute": {
    "files": [
@@ -872,9 +906,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/question_001.ogg"
+   ]
   },
   "a.phone.no_signal": {
    "files": [
@@ -886,9 +923,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/glitch_001.ogg"
+   ]
   },
   "a.phone.ringtone": {
    "files": [
@@ -914,9 +954,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/minimize_001.ogg"
+   ]
   },
   "a.phone.slide_up": {
    "files": [
@@ -928,9 +971,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/maximize_001.ogg"
+   ]
   },
   "a.phone.tap": {
    "files": [
@@ -942,9 +988,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/click_002.ogg"
+   ]
   },
   "a.phone.upi_fail": {
    "files": [
@@ -956,9 +1005,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/phone.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/error_006.ogg"
+   ]
   },
   "a.phone.upi_success": {
    "files": [
@@ -999,9 +1051,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 8,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/combat.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactWood_medium_000.ogg"
+   ]
   },
   "a.sfx.combat.charge_low": {
    "files": [
@@ -1013,9 +1068,12 @@
    "pitchVar": 0.05,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/combat.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · digital-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/digital-audio/lowThreeTone.ogg"
+   ]
   },
   "a.sfx.combat.escape_resolve": {
    "files": [
@@ -1047,7 +1105,8 @@
   },
   "a.sfx.combat.hit_pipe": {
    "files": [
-    "sfx_combat_hit_pipe"
+    "sfx_combat_hit_pipe_1",
+    "sfx_combat_hit_pipe_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -1056,13 +1115,18 @@
    "cooldown": 0,
    "positional": false,
    "noise": 12,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/combat.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactMetal_heavy_001.ogg",
+    "kenney/impact-sounds/impactMetal_heavy_002.ogg"
+   ]
   },
   "a.sfx.combat.hit_plate": {
    "files": [
-    "sfx_combat_hit_plate"
+    "sfx_combat_hit_plate_1",
+    "sfx_combat_hit_plate_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -1071,9 +1135,13 @@
    "cooldown": 0,
    "positional": false,
    "noise": 12,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/combat.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactPlate_heavy_000.ogg",
+    "kenney/impact-sounds/impactPlate_heavy_001.ogg"
+   ]
   },
   "a.sfx.combat.pulse_charge": {
    "files": [
@@ -1086,9 +1154,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 4,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/combat.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · sci-fi-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/sci-fi-sounds/forceField_000.ogg"
+   ]
   },
   "a.sfx.combat.pulse_empty": {
    "files": [
@@ -1101,13 +1172,17 @@
    "cooldown": 0,
    "positional": false,
    "noise": 2,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/combat.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/error_001.ogg"
+   ]
   },
   "a.sfx.combat.pulse_fire": {
    "files": [
-    "sfx_combat_pulse_fire"
+    "sfx_combat_pulse_fire_1",
+    "sfx_combat_pulse_fire_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -1116,9 +1191,13 @@
    "cooldown": 0,
    "positional": false,
    "noise": 10,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/combat.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · sci-fi-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/sci-fi-sounds/laserLarge_000.ogg",
+    "kenney/sci-fi-sounds/laserLarge_001.ogg"
+   ]
   },
   "a.sfx.combat.swing": {
    "files": [
@@ -1221,7 +1300,8 @@
   },
   "a.sfx.infected.hit": {
    "files": [
-    "sfx_infected_hit"
+    "sfx_infected_hit_1",
+    "sfx_infected_hit_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -1229,9 +1309,13 @@
    "pitchVar": 0.08,
    "cooldown": 0,
    "positional": true,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/infected.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactPunch_heavy_000.ogg",
+    "kenney/impact-sounds/impactPunch_heavy_001.ogg"
+   ]
   },
   "a.sfx.infected.recover": {
    "files": [
@@ -1527,9 +1611,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 3,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactSoft_medium_000.ogg"
+   ]
   },
   "a.sfx.player.crouch_down": {
    "files": [
@@ -1542,9 +1629,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 2,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/cloth1.ogg"
+   ]
   },
   "a.sfx.player.drink": {
    "files": [
@@ -1571,9 +1661,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 4,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/dropLeather.ogg"
+   ]
   },
   "a.sfx.player.eat": {
    "files": [
@@ -1599,9 +1692,12 @@
    "pitchVar": 0.04,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactPunch_medium_000.ogg"
+   ]
   },
   "a.sfx.player.land": {
    "files": [
@@ -1614,9 +1710,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 6,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactSoft_heavy_000.ogg"
+   ]
   },
   "a.sfx.player.low_energy_yawn": {
    "files": [
@@ -1634,7 +1733,8 @@
   },
   "a.sfx.player.pickup": {
    "files": [
-    "sfx_player_pickup"
+    "sfx_player_pickup_1",
+    "sfx_player_pickup_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -1642,9 +1742,13 @@
    "pitchVar": 0.04,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/handleSmallLeather.ogg",
+    "kenney/rpg-audio/handleSmallLeather2.ogg"
+   ]
   },
   "a.sfx.player.run_breath": {
    "files": [
@@ -1684,9 +1788,12 @@
    "pitchVar": 0.04,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/cloth2.ogg"
+   ]
   },
   "a.sfx.player.step.asphalt": {
    "files": [
@@ -1702,9 +1809,15 @@
    "cooldown": 90,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/footstep_concrete_001.ogg",
+    "kenney/impact-sounds/footstep_concrete_002.ogg",
+    "kenney/impact-sounds/footstep_concrete_003.ogg",
+    "kenney/impact-sounds/footstep_concrete_004.ogg"
+   ]
   },
   "a.sfx.player.step.concrete": {
    "files": [
@@ -1720,9 +1833,15 @@
    "cooldown": 90,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/footstep_concrete_000.ogg",
+    "kenney/impact-sounds/footstep_concrete_001.ogg",
+    "kenney/impact-sounds/footstep_concrete_002.ogg",
+    "kenney/impact-sounds/footstep_concrete_003.ogg"
+   ]
   },
   "a.sfx.player.step.grass": {
    "files": [
@@ -1738,9 +1857,15 @@
    "cooldown": 90,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/footstep_grass_000.ogg",
+    "kenney/impact-sounds/footstep_grass_001.ogg",
+    "kenney/impact-sounds/footstep_grass_002.ogg",
+    "kenney/impact-sounds/footstep_grass_003.ogg"
+   ]
   },
   "a.sfx.player.step.gravel": {
    "files": [
@@ -1756,9 +1881,15 @@
    "cooldown": 90,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/footstep_snow_000.ogg",
+    "kenney/impact-sounds/footstep_snow_001.ogg",
+    "kenney/impact-sounds/footstep_snow_002.ogg",
+    "kenney/impact-sounds/footstep_snow_003.ogg"
+   ]
   },
   "a.sfx.player.step.metal": {
    "files": [
@@ -1828,9 +1959,15 @@
    "cooldown": 90,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/footstep00.ogg",
+    "kenney/rpg-audio/footstep01.ogg",
+    "kenney/rpg-audio/footstep02.ogg",
+    "kenney/rpg-audio/footstep03.ogg"
+   ]
   },
   "a.sfx.player.step.wood": {
    "files": [
@@ -1846,9 +1983,15 @@
    "cooldown": 90,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/player.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/footstep_wood_000.ogg",
+    "kenney/impact-sounds/footstep_wood_001.ogg",
+    "kenney/impact-sounds/footstep_wood_002.ogg",
+    "kenney/impact-sounds/footstep_wood_003.ogg"
+   ]
   },
   "a.sfx.player.stress_tick": {
    "files": [
@@ -2314,7 +2457,9 @@
   },
   "a.sfx.world.cash_count": {
    "files": [
-    "sfx_world_cash_count"
+    "sfx_world_cash_count_1",
+    "sfx_world_cash_count_2",
+    "sfx_world_cash_count_3"
    ],
    "bus": "sfx",
    "loop": false,
@@ -2323,13 +2468,19 @@
    "cooldown": 0,
    "positional": false,
    "noise": 1,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · casino-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/casino-audio/card-slide-1.ogg",
+    "kenney/casino-audio/card-slide-2.ogg",
+    "kenney/casino-audio/card-slide-3.ogg"
+   ]
   },
   "a.sfx.world.coin": {
    "files": [
-    "sfx_world_coin"
+    "sfx_world_coin_1",
+    "sfx_world_coin_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -2338,9 +2489,13 @@
    "cooldown": 0,
    "positional": false,
    "noise": 2,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/handleCoins.ogg",
+    "kenney/rpg-audio/handleCoins2.ogg"
+   ]
   },
   "a.sfx.world.crows_startle": {
    "files": [
@@ -2367,9 +2522,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 3,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactGlass_light_000.ogg"
+   ]
   },
   "a.sfx.world.door.metal": {
    "files": [
@@ -2382,13 +2540,17 @@
    "cooldown": 0,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactMetal_heavy_000.ogg"
+   ]
   },
   "a.sfx.world.door.wood": {
    "files": [
-    "sfx_world_door_wood"
+    "sfx_world_door_wood_1",
+    "sfx_world_door_wood_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -2397,9 +2559,13 @@
    "cooldown": 0,
    "positional": false,
    "noise": 3,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/doorOpen_1.ogg",
+    "kenney/rpg-audio/doorOpen_2.ogg"
+   ]
   },
   "a.sfx.world.dosa_sizzle": {
    "files": [
@@ -2576,9 +2742,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 1,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · rpg-audio (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/rpg-audio/metalLatch.ogg"
+   ]
   },
   "a.sfx.world.match_strike": {
    "files": [
@@ -2612,7 +2781,8 @@
   },
   "a.sfx.world.plates_break": {
    "files": [
-    "sfx_world_plates_break"
+    "sfx_world_plates_break_1",
+    "sfx_world_plates_break_2"
    ],
    "bus": "sfx",
    "loop": false,
@@ -2621,13 +2791,19 @@
    "cooldown": 0,
    "positional": false,
    "noise": 9,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactGlass_heavy_000.ogg",
+    "kenney/impact-sounds/impactGlass_heavy_001.ogg"
+   ]
   },
   "a.sfx.world.plates_stack": {
    "files": [
-    "sfx_world_plates_stack"
+    "sfx_world_plates_stack_1",
+    "sfx_world_plates_stack_2",
+    "sfx_world_plates_stack_3"
    ],
    "bus": "sfx",
    "loop": false,
@@ -2636,9 +2812,14 @@
    "cooldown": 0,
    "positional": false,
    "noise": 5,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · impact-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/impact-sounds/impactPlate_light_000.ogg",
+    "kenney/impact-sounds/impactPlate_light_001.ogg",
+    "kenney/impact-sounds/impactPlate_light_002.ogg"
+   ]
   },
   "a.sfx.world.pressure_cooker": {
    "files": [
@@ -2725,9 +2906,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 1,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/switch_001.ogg"
+   ]
   },
   "a.sfx.world.tanker_fill": {
    "files": [
@@ -2784,9 +2968,12 @@
    "cooldown": 0,
    "positional": false,
    "noise": 1,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/world.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/click_003.ogg"
+   ]
   },
   "a.sfx.world.tv_off": {
    "files": [
@@ -3021,9 +3208,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/click_001.ogg"
+   ]
   },
   "a.ui.back": {
    "files": [
@@ -3035,9 +3225,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/back_001.ogg"
+   ]
   },
   "a.ui.choice_show": {
    "files": [
@@ -3049,9 +3242,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/pluck_001.ogg"
+   ]
   },
   "a.ui.close_menu": {
    "files": [
@@ -3063,9 +3259,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/close_001.ogg"
+   ]
   },
   "a.ui.confirm": {
    "files": [
@@ -3077,9 +3276,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/confirmation_001.ogg"
+   ]
   },
   "a.ui.error": {
    "files": [
@@ -3091,9 +3293,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/error_004.ogg"
+   ]
   },
   "a.ui.load_done": {
    "files": [
@@ -3105,9 +3310,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/confirmation_003.ogg"
+   ]
   },
   "a.ui.move": {
    "files": [
@@ -3119,9 +3327,12 @@
    "pitchVar": 0.0,
    "cooldown": 40,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/select_001.ogg"
+   ]
   },
   "a.ui.open_menu": {
    "files": [
@@ -3133,9 +3344,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/open_001.ogg"
+   ]
   },
   "a.ui.save_done": {
    "files": [
@@ -3147,9 +3361,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/confirmation_002.ogg"
+   ]
   },
   "a.ui.slider_tick": {
    "files": [
@@ -3161,9 +3378,12 @@
    "pitchVar": 0.0,
    "cooldown": 40,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/tick_001.ogg"
+   ]
   },
   "a.ui.title_start": {
    "files": [
@@ -3189,9 +3409,12 @@
    "pitchVar": 0.0,
    "cooldown": 0,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/toggle_001.ogg"
+   ]
   },
   "a.ui.type_tick": {
    "files": [
@@ -3203,9 +3426,12 @@
    "pitchVar": 0.0,
    "cooldown": 40,
    "positional": false,
-   "tier": "placeholder",
-   "licence": "original",
-   "source": "synth/ui.json"
+   "tier": "final",
+   "licence": "CC0",
+   "source": "Kenney · interface-sounds (kenney.nl/assets, CC0)",
+   "raw": [
+    "kenney/interface-sounds/tick_002.ogg"
+   ]
   },
   "a.uncanny.bus_bell_no_bus": {
    "files": [],

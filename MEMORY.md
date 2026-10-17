@@ -150,3 +150,7 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - A loop that is still loading must be asked for once (`pendingLoops`), or the 100 ms mix starts duplicates when it lands.
 - Footsteps: spec `surfaces` → zones of type `surface` (first match wins); tile-built streets read the ground tile; else the place's `surface` in beds.json.
 - Editing a Playground file hot-reloads the Playground page: any open map is gone — reopen before reading audio state. After a reload the AudioContext is suspended until a real click.
+
+## Audio A3 batch 1 (2026-10-17, ADR-141)
+- No ffmpeg on this Mac and none installed: compressed audio is decoded in headless Chromium (`scripts/audio/decode-browser.mjs`, playwright-core) → `prepare()` → 16-bit WAV. Check every npm dependency's own dependencies' licences — `@wasm-audio-decoders/ogg-vorbis` pulls LGPL `codec-parser`.
+- Kenney packs: the zips stay in the scratchpad; only used files go to `src/assets/_raw/audio/kenney/<pack>/` with `License.txt`.

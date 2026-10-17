@@ -164,6 +164,41 @@ export function renderSong(song, sr, seed) {
   return normalise(res, song.peak ?? 0.8);
 }
 
+/** Mono 16-bit PCM WAV — for real sounds (Kenney, recordings), where 8 bits would hiss (ADR-141). */
+export function wav16(samples, sr) {
+  const n = samples.length;
+  const buf = Buffer.alloc(44 + n * 2);
+  buf.write('RIFF', 0); buf.writeUInt32LE(36 + n * 2, 4); buf.write('WAVE', 8);
+  buf.write('fmt ', 12); buf.writeUInt32LE(16, 16); buf.writeUInt16LE(1, 20); buf.writeUInt16LE(1, 22);
+  buf.writeUInt32LE(sr, 24); buf.writeUInt32LE(sr * 2, 28); buf.writeUInt16LE(2, 32); buf.writeUInt16LE(16, 34);
+  buf.write('data', 36); buf.writeUInt32LE(n * 2, 40);
+  for (let i = 0; i < n; i++) buf.writeInt16LE(Math.max(-32768, Math.min(32767, Math.round(samples[i] * 32767))), 44 + i * 2);
+  return buf;
+}
+
+/**
+ * Prepare a real sound (ADR-141): trim silence at both ends (below −50 dBFS),
+ * a 5 ms fade at each end against clicks, then loudness — RMS to `targetDb`
+ * (≈ −16 LUFS for SFX, −20 for beds) without letting the peak pass −1 dBFS.
+ */
+export function prepare(samples, sr, { targetDb = -18 } = {}) {
+  const gate = Math.pow(10, -50 / 20);
+  let a = 0, b = samples.length - 1;
+  while (a < b && Math.abs(samples[a]) < gate) a++;
+  while (b > a && Math.abs(samples[b]) < gate) b--;
+  const out = samples.slice(a, b + 1);
+  const fade = Math.min(Math.round(sr * 0.005), Math.floor(out.length / 2));
+  for (let i = 0; i < fade; i++) { const w = i / fade; out[i] *= w; out[out.length - 1 - i] *= w; }
+  let sum = 0, peak = 0;
+  for (const v of out) { sum += v * v; peak = Math.max(peak, Math.abs(v)); }
+  const rms = Math.sqrt(sum / Math.max(1, out.length));
+  if (rms > 0) {
+    const gain = Math.min(Math.pow(10, targetDb / 20) / rms, Math.pow(10, -1 / 20) / Math.max(peak, 1e-9));
+    for (let i = 0; i < out.length; i++) out[i] *= gain;
+  }
+  return out;
+}
+
 /** Mono 8-bit unsigned PCM WAV. */
 export function wav8(samples, sr) {
   const n = samples.length;

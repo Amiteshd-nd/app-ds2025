@@ -17,7 +17,7 @@ const beatFlags = (flag: string | undefined): string[] => (flag ?? '').split(','
 const rng = (() => { let s = 0x5eed139; return () => { s = (s + 0x6d2b79f5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; })();
 
 /** Small, frequent sounds load with the game; beds, music and the rest load the first time they are needed. */
-const EAGER_SOURCES = ['synth/ui.json', 'synth/hud.json', 'synth/phone.json', 'synth/player.json', 'synth/npc.json'];
+const EAGER_GROUPS = ['a.ui.', 'a.hud.', 'a.phone.', 'a.sfx.player.', 'a.sfx.npc.'];
 const MIX_EVERY_MS = 100;
 const FADE = { district: 1500, approach: 3000, back: 5000 } as const;
 const POSITIONAL_RADIUS_TILES = 8;
@@ -29,8 +29,9 @@ interface Source { token: string; x: number; y: number; radius: number; every: [
 export interface AudioDebug { stability?: number; chaseActive?: boolean; nearestInfected?: number | null }
 
 /** The files to load at boot (BootScene). */
-export const eagerAudio = (): Array<[string, string]> => Object.values(AUDIO)
-  .filter((e) => EAGER_SOURCES.includes(e.source))
+export const eagerAudio = (): Array<[string, string]> => Object.entries(AUDIO)
+  .filter(([t, e]) => EAGER_GROUPS.some((g) => t.startsWith(g)) && !e.loop)
+  .map(([, e]) => e)
   .flatMap((e) => e.files)
   .filter((f) => AUDIO_URLS[f])
   .map((f) => [audioKey(f), AUDIO_URLS[f]] as [string, string]);
