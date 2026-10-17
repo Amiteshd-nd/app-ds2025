@@ -4,6 +4,10 @@
   "portrait": "npc_suresh",
   "enter": [
     {
+      "flag": "base_cubbon_set",
+      "node": "camp"
+    },
+    {
       "flag": "cafe_turned",
       "node": "cafe_dark"
     },
@@ -129,6 +133,9 @@
     },
     "cafe_dark": {
       "text": "Cubbon. The army's lamps. If they're still on."
+    },
+    "camp": {
+      "text": "Hold. That's all I know how to do."
     }
   }
 }

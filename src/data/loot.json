@@ -72,6 +72,30 @@
       "items": {
         "amr07_log": 1
       }
+    },
+    "hebbal_stores": {
+      "label": "the slot shop's stockroom, through the slot: one taped medical crate",
+      "items": {
+        "med_crate": 1
+      }
+    },
+    "majestic_kiosk": {
+      "label": "the depot kiosk behind the counter: a two-way radio",
+      "items": {
+        "radio_set": 1
+      }
+    },
+    "digital_cores": {
+      "label": "the Reliable Digital service counter, behind a broken shutter: four battery cores",
+      "items": {
+        "battery_cores": 1
+      }
+    },
+    "hivr_emitter": {
+      "label": "the steriliser over the glove station: its tube and driver board",
+      "items": {
+        "uv_emitter_parts": 1
+      }
     }
   }
 }

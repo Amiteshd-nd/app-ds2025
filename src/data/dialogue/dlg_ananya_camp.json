@@ -1,0 +1,24 @@
+{
+  "id": "dlg_ananya_camp",
+  "speaker": "Ananya",
+  "portrait": "npc_ananya",
+  "enter": [
+    {
+      "flag": "ananya_camp_met",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(On the bandstand steps, the camera round her neck.) You're alive. (She lifts the camera, and doesn't take the picture.) I'm with the camp. Photographs for the record, Rathore says.",
+      "effect": {
+        "flags": {
+          "ananya_camp_met": true
+        }
+      }
+    },
+    "again": {
+      "text": "Somebody should remember what it looked like."
+    }
+  }
+}

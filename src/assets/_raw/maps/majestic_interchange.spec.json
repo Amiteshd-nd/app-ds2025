@@ -1,279 +1,293 @@
 {
- "$comment": "Source-pixel spec (1536x1024 \u2192 24x16) \u2014 the Majestic interchange concourse (story 2.4, ADR-132), underground: the wall band is `buildings` with the two staircases cut into it \u2014 the Purple stairs (where you arrive from the Purple platform) blocked, the Green stairs an exit; the kiosk, benches, bin, the barrier rail and the stairs up to the street (not today) are blocks; the four pillars are `sorted` cut-outs.",
- "name": "majestic_interchange",
- "cols": 24,
- "rows": 16,
- "units": "px",
- "buildings": [
-  [
-   0,
-   0,
-   1110,
-   92
+  "$comment": "Source-pixel spec (1536x1024 → 24x16) — the Majestic interchange concourse (story 2.4, ADR-132), underground: the wall band is `buildings` with the two staircases cut into it — the Purple stairs (where you arrive from the Purple platform) blocked, the Green stairs an exit; the kiosk, benches, bin, the barrier rail and the stairs up to the street (not today) are blocks; the four pillars are `sorted` cut-outs. 4.3c (ADR-154): `kiosk_front` (the radio) and `depot_back` (the way back to Cubbon).",
+  "name": "majestic_interchange",
+  "cols": 24,
+  "rows": 16,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      1110,
+      92
+    ],
+    [
+      1320,
+      0,
+      216,
+      92
+    ],
+    [
+      216,
+      0,
+      210,
+      110
+    ],
+    [
+      600,
+      830,
+      336,
+      194
+    ]
   ],
-  [
-   1320,
-   0,
-   216,
-   92
+  "blocks": [
+    [
+      0,
+      293,
+      140,
+      273
+    ],
+    [
+      1463,
+      321,
+      49,
+      119
+    ],
+    [
+      1463,
+      551,
+      49,
+      126
+    ],
+    [
+      1470,
+      468,
+      38,
+      65
+    ],
+    [
+      517,
+      575,
+      503,
+      30
+    ]
   ],
-  [
-   216,
-   0,
-   210,
-   110
+  "spawns": [
+    {
+      "name": "purple_arrival",
+      "x": 320,
+      "y": 215
+    },
+    {
+      "name": "interchange_stairs",
+      "x": 760,
+      "y": 700
+    },
+    {
+      "name": "green_return",
+      "x": 1215,
+      "y": 220
+    }
   ],
-  [
-   600,
-   830,
-   336,
-   194
-  ]
- ],
- "blocks": [
-  [
-   0,
-   293,
-   140,
-   273
+  "zones": [
+    {
+      "name": "majestic_arrival",
+      "x": 220,
+      "y": 150,
+      "w": 220,
+      "h": 110
+    },
+    {
+      "name": "green_stairs_top",
+      "x": 1110,
+      "y": 118,
+      "w": 210,
+      "h": 70
+    },
+    {
+      "name": "green_stairs",
+      "x": 1140,
+      "y": 20,
+      "w": 150,
+      "h": 60
+    },
+    {
+      "name": "ambient_area",
+      "x": 160,
+      "y": 220,
+      "w": 1240,
+      "h": 560
+    },
+    {
+      "name": "kiosk_front",
+      "x": 150,
+      "y": 380,
+      "w": 60,
+      "h": 100
+    },
+    {
+      "name": "depot_back",
+      "x": 560,
+      "y": 760,
+      "w": 50,
+      "h": 50
+    }
   ],
-  [
-   1463,
-   321,
-   49,
-   119
+  "sorted": [
+    {
+      "name": "pillar_1",
+      "rect": [
+        428,
+        380,
+        52,
+        132
+      ],
+      "base": 510,
+      "footprint": [
+        432,
+        478,
+        44,
+        32
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          600,
+          700,
+          60,
+          40
+        ],
+        [
+          300,
+          250,
+          60,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          454,
+          420
+        ],
+        [
+          454,
+          490
+        ]
+      ]
+    },
+    {
+      "name": "pillar_2",
+      "rect": [
+        620,
+        380,
+        52,
+        132
+      ],
+      "base": 510,
+      "footprint": [
+        624,
+        478,
+        44,
+        32
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          600,
+          700,
+          60,
+          40
+        ],
+        [
+          300,
+          250,
+          60,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          646,
+          420
+        ],
+        [
+          646,
+          490
+        ]
+      ]
+    },
+    {
+      "name": "pillar_3",
+      "rect": [
+        865,
+        380,
+        52,
+        132
+      ],
+      "base": 510,
+      "footprint": [
+        869,
+        478,
+        44,
+        32
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          600,
+          700,
+          60,
+          40
+        ],
+        [
+          300,
+          250,
+          60,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          891,
+          420
+        ],
+        [
+          891,
+          490
+        ]
+      ]
+    },
+    {
+      "name": "pillar_4",
+      "rect": [
+        1058,
+        380,
+        52,
+        132
+      ],
+      "base": 510,
+      "footprint": [
+        1062,
+        478,
+        44,
+        32
+      ],
+      "mode": "key",
+      "bg": [
+        [
+          600,
+          700,
+          60,
+          40
+        ],
+        [
+          300,
+          250,
+          60,
+          40
+        ]
+      ],
+      "seeds": [
+        [
+          1084,
+          420
+        ],
+        [
+          1084,
+          490
+        ]
+      ]
+    }
   ],
-  [
-   1463,
-   551,
-   49,
-   126
-  ],
-  [
-   1470,
-   468,
-   38,
-   65
-  ],
-  [
-   517,
-   575,
-   503,
-   30
-  ]
- ],
- "spawns": [
-  {
-   "name": "purple_arrival",
-   "x": 320,
-   "y": 215
-  },
-  {
-   "name": "interchange_stairs",
-   "x": 760,
-   "y": 700
-  },
-  {
-   "name": "green_return",
-   "x": 1215,
-   "y": 220
-  }
- ],
- "zones": [
-  {
-   "name": "majestic_arrival",
-   "x": 220,
-   "y": 150,
-   "w": 220,
-   "h": 110
-  },
-  {
-   "name": "green_stairs_top",
-   "x": 1110,
-   "y": 118,
-   "w": 210,
-   "h": 70
-  },
-  {
-   "name": "green_stairs",
-   "x": 1140,
-   "y": 20,
-   "w": 150,
-   "h": 60
-  },
-  {
-   "name": "ambient_area",
-   "x": 160,
-   "y": 220,
-   "w": 1240,
-   "h": 560
-  }
- ],
- "sorted": [
-  {
-   "name": "pillar_1",
-   "rect": [
-    428,
-    380,
-    52,
-    132
-   ],
-   "base": 510,
-   "footprint": [
-    432,
-    478,
-    44,
-    32
-   ],
-   "mode": "key",
-   "bg": [
-    [
-     600,
-     700,
-     60,
-     40
-    ],
-    [
-     300,
-     250,
-     60,
-     40
-    ]
-   ],
-   "seeds": [
-    [
-     454,
-     420
-    ],
-    [
-     454,
-     490
-    ]
-   ]
-  },
-  {
-   "name": "pillar_2",
-   "rect": [
-    620,
-    380,
-    52,
-    132
-   ],
-   "base": 510,
-   "footprint": [
-    624,
-    478,
-    44,
-    32
-   ],
-   "mode": "key",
-   "bg": [
-    [
-     600,
-     700,
-     60,
-     40
-    ],
-    [
-     300,
-     250,
-     60,
-     40
-    ]
-   ],
-   "seeds": [
-    [
-     646,
-     420
-    ],
-    [
-     646,
-     490
-    ]
-   ]
-  },
-  {
-   "name": "pillar_3",
-   "rect": [
-    865,
-    380,
-    52,
-    132
-   ],
-   "base": 510,
-   "footprint": [
-    869,
-    478,
-    44,
-    32
-   ],
-   "mode": "key",
-   "bg": [
-    [
-     600,
-     700,
-     60,
-     40
-    ],
-    [
-     300,
-     250,
-     60,
-     40
-    ]
-   ],
-   "seeds": [
-    [
-     891,
-     420
-    ],
-    [
-     891,
-     490
-    ]
-   ]
-  },
-  {
-   "name": "pillar_4",
-   "rect": [
-    1058,
-    380,
-    52,
-    132
-   ],
-   "base": 510,
-   "footprint": [
-    1062,
-    478,
-    44,
-    32
-   ],
-   "mode": "key",
-   "bg": [
-    [
-     600,
-     700,
-     60,
-     40
-    ],
-    [
-     300,
-     250,
-     60,
-     40
-    ]
-   ],
-   "seeds": [
-    [
-     1084,
-     420
-    ],
-    [
-     1084,
-     490
-    ]
-   ]
-  }
- ],
- "above": []
+  "above": []
 }

@@ -4,6 +4,10 @@
   "portrait": "npc_uncle",
   "enter": [
     {
+      "flag": "base_cubbon_set",
+      "node": "camp"
+    },
+    {
       "flag": "base_cafe_done",
       "node": "go"
     },
@@ -67,6 +71,9 @@
     },
     "go": {
       "text": "Forty-one years. (He pulls the shutter down behind him, and locks it anyway.)"
+    },
+    "camp": {
+      "text": "(A borrowed army kettle.) Coffee. Not as good. Don't tell them."
     }
   }
 }

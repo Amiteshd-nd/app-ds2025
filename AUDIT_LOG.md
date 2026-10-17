@@ -409,3 +409,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Calls to confirm: NEED_TO_AUDIT #27.
 - Rule going forward: **an interior with tables has one or two passages — never stand an NPC in one; put people against walls.**
 
+### [P26 4.3c "The Line" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.3c". ADR-154. B3 of the chain.
+- Built: the walk to Cubbon, the camp on the lamp line, Rathore and Priya (new sheets, first try), Ananya or her photo, four supply runs through places from earlier acts, deliveries, the fire, the line cut; 8 new tests.
+- Verified: `node scripts/movie.mjs --scene act4_cubbon` passed first time (69 steps: four runs, three nights, the fire, the cut line); in the browser pane (scripted clock) the camp shows Rathore by the tap, Priya beside him, the lamp line's glow by the gate.
+- Found on the way: the ADR-24 pacing check wants a Calm between Tense beats (the evenings at the camp are Calm); the generator needs each run's "night after" as its own objective to sleep before the next gate opens.
+- Calls to confirm: NEED_TO_AUDIT #28.
+- Rule going forward: **a revisited place in Act 4 lists who leaves with `act4` and which triggers stay quiet — check every NPC and trigger, not only the ones you touch.**
+

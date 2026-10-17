@@ -1,0 +1,49 @@
+{
+  "id": "dlg_argument",
+  "speaker": "The fire",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "Karthik: 'Trucks from the Palace. We get on one and we're out.' Priya: 'And leave it running? HIVR made this. We end it there.' Suresh: 'Out where? We hold what we have.'",
+      "next": "look"
+    },
+    "look": {
+      "text": "(They all look at you.)",
+      "choices": [
+        {
+          "text": "Karthik's right. We get out.",
+          "next": "said",
+          "effect": {
+            "flags": {
+              "karthik_trust": true,
+              "argument_done": true
+            }
+          }
+        },
+        {
+          "text": "Priya's right. We end it.",
+          "next": "said",
+          "effect": {
+            "flags": {
+              "priya_trust": true,
+              "argument_done": true
+            }
+          }
+        },
+        {
+          "text": "Suresh is right. We hold.",
+          "next": "said",
+          "effect": {
+            "flags": {
+              "suresh_trust": true,
+              "argument_done": true
+            }
+          }
+        }
+      ]
+    },
+    "said": {
+      "text": "(Nobody agrees. Nobody leaves the fire either.)"
+    }
+  }
+}

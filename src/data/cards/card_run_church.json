@@ -1,0 +1,27 @@
+{
+  "id": "card_run_church",
+  "$comment": "Story 4.3c (ADR-154): Rathore's supply run to church_street.",
+  "panels": [
+    {
+      "title": "THE LINE · 08:00",
+      "text": "Rathore taps the list. 'Back before the lamps.'",
+      "ms": 3800
+    },
+    {
+      "title": "ON THE ROAD",
+      "text": "Priya walks point with the taped bat. Nobody runs.",
+      "ms": 4200,
+      "ifFlag": "priya_met"
+    },
+    {
+      "title": "CHURCH STREET · 11:40",
+      "text": "The busker's corner is empty. His case is still open.",
+      "ms": 4600
+    }
+  ],
+  "then": {
+    "district": "church_street",
+    "spawn": "mg_road_station",
+    "minute": 700
+  }
+}

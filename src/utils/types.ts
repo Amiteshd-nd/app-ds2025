@@ -374,6 +374,8 @@ export interface DistrictDef {
   walkSpeedUnless?: string;
   /** Play as someone else here: their sheet replaces yours (Ravi in the corridor, story 3.3, ADR-138). */
   playerSheet?: string;
+  /** From this flag on you are yourself here again: `playerSheet` and `hud: minimal` no longer apply (the HIVR corridor in Act 4, ADR-154). */
+  ownSelfAfter?: string;
   /** `minimal`: the HUD shows only the objective — no clock, wallet, meters, phone or map (it isn't your life; ADR-138). */
   hud?: 'minimal';
   /** The hotel's night plate as data (ADR-142): once `after` is set, the HUD shows `label · N nights` left (the `countdown` behaviour). */

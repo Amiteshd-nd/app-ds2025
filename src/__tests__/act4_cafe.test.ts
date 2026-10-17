@@ -37,7 +37,7 @@ describe('4.3b "The Tiffin Room" — the chain\'s second base (ADR-153)', () => 
 
   it('is built (P25) between the hill and the stub (now 4.3c: Cubbon, the Palace, Lalbagh)', () => {
     expect(SCENES.act4_cafe).toEqual(expect.objectContaining({ status: 'P25', seq: '4.3b' }));
-    expect(SCENES.act4_base_chain).toEqual(expect.objectContaining({ status: 'STUB', seq: '4.3c' }));
+    expect(SCENES.act4_base_chain).toEqual(expect.objectContaining({ status: 'STUB', seq: '4.3d' }));
     const s = buildPrereqState('act4_cafe', Object.values(SCENES) as SceneComponent[], { stats: store().stats, clock: { day: 1, minute: 420 } });
     expect(s.inventory.filter((i) => i === 'steel_tumbler')).toHaveLength(2);
     expect(s.counters.act4_day).toBe(4);
@@ -71,7 +71,7 @@ describe('4.3b "The Tiffin Room" — the chain\'s second base (ADR-153)', () => 
 
   it('the tiffin room is a base: mats, shelf, bench, kitchen; the generator lasts three nights, then Cubbon', () => {
     expect(cafe.base).toEqual({ spawn: 'shutter_in', uv: [{ at: [6, 1], radius: 3 }], requiresFlag: 'base_cafe_set', lampFailsOnNight: 3 });
-    expect(cafe.triggers!.map((t) => t.dialogue ?? t.action)).toEqual(['sleep', 'base:tiffin_room', 'craft:bench', 'search:cafe_kitchen', 'card']);
+    expect(cafe.triggers!.map((t) => t.dialogue ?? t.action)).toEqual(['sleep', 'base:tiffin_room', 'craft:bench', 'search:cafe_kitchen', 'card', 'card']);
     const s = store();
     for (const f of ['act4', 'base_cafe_set']) s.setFlag(f, true);
     for (const c of Object.values(STOCK)) s.setCounter(c, 9);

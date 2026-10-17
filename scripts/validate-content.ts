@@ -964,6 +964,7 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     for (const src of district.audioSources ?? []) need(src.at, `audioSources (${src.token}) at`);
     // Someone else's body and a slim HUD (Ravi in the corridor, ADR-138).
     if (district.playerSheet !== undefined && !sprites.has(district.playerSheet)) add(`${d} playerSheet "${district.playerSheet}" has no PNG in src/assets/sprites`);
+    if (district.ownSelfAfter !== undefined && (typeof district.ownSelfAfter !== 'string' || (district.playerSheet === undefined && district.hud !== 'minimal'))) add(`${d} ownSelfAfter ends a playerSheet or a minimal hud (and needs one)`);
     if (district.hud !== undefined && district.hud !== 'minimal') add(`${d} hud must be "minimal"`);
     if (district.nightTint !== undefined && !(typeof district.nightTint === 'number' && district.nightTint >= 0 && district.nightTint <= 1)) add(`${d} nightTint must be 0–1`);
     if (district.walkSpeed !== undefined && !(typeof district.walkSpeed === 'number' && district.walkSpeed > 0 && district.walkSpeed <= 1)) add(`${d} walkSpeed must be a share of normal speed (0–1]`);

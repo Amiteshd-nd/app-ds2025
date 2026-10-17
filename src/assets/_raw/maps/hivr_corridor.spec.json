@@ -1,30 +1,110 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 → 12x8; the airlock and the slide-room doorway come out ~32-38 px) — the HIVR containment corridor on the night of the breach (story 3.3, ADR-138): the top wall band (airlock, clipboard, the rain window, the glove station) and the slide room's back wall with its hood, bench and fridge are `buildings`; the glass partition is walls either side of its open doorway; the stool and the fridge are blocks; the bottom wall band with the handrail. You enter at the airlock as Ravi; the call comes as you cross the corridor's middle (a band you cannot walk around); the glove station refuses; the tray is under the hood.",
+  "$comment": "Source-pixel spec (1536x1024 → 12x8; the airlock and the slide-room doorway come out ~32-38 px) — the HIVR containment corridor on the night of the breach (story 3.3, ADR-138): the top wall band (airlock, clipboard, the rain window, the glove station) and the slide room's back wall with its hood, bench and fridge are `buildings`; the glass partition is walls either side of its open doorway; the stool and the fridge are blocks; the bottom wall band with the handrail. You enter at the airlock as Ravi; the call comes as you cross the corridor's middle (a band you cannot walk around); the glove station refuses; the tray is under the hood. 4.3c (ADR-154): `airlock_back`.",
   "name": "hivr_corridor",
   "cols": 12,
   "rows": 8,
   "units": "px",
   "buildings": [
-    [0, 0, 905, 368],
-    [668, 368, 222, 12],
-    [905, 0, 631, 385],
-    [905, 385, 25, 117],
-    [905, 470, 70, 32],
-    [1130, 470, 406, 32],
-    [0, 800, 1536, 224]
+    [
+      0,
+      0,
+      905,
+      368
+    ],
+    [
+      668,
+      368,
+      222,
+      12
+    ],
+    [
+      905,
+      0,
+      631,
+      385
+    ],
+    [
+      905,
+      385,
+      25,
+      117
+    ],
+    [
+      905,
+      470,
+      70,
+      32
+    ],
+    [
+      1130,
+      470,
+      406,
+      32
+    ],
+    [
+      0,
+      800,
+      1536,
+      224
+    ]
   ],
   "blocks": [
-    [1240, 330, 66, 75],
-    [1410, 150, 112, 245]
+    [
+      1240,
+      330,
+      66,
+      75
+    ],
+    [
+      1410,
+      150,
+      112,
+      245
+    ]
   ],
   "spawns": [
-    { "name": "airlock", "x": 100, "y": 440 }
+    {
+      "name": "airlock",
+      "x": 100,
+      "y": 440
+    }
   ],
   "zones": [
-    { "name": "clipboard_zone", "x": 190, "y": 370, "w": 120, "h": 70 },
-    { "name": "call_zone", "x": 520, "y": 368, "w": 50, "h": 432 },
-    { "name": "glove_zone", "x": 668, "y": 380, "w": 222, "h": 70 },
-    { "name": "tray_zone", "x": 975, "y": 388, "w": 195, "h": 80 }
+    {
+      "name": "clipboard_zone",
+      "x": 190,
+      "y": 370,
+      "w": 120,
+      "h": 70
+    },
+    {
+      "name": "call_zone",
+      "x": 520,
+      "y": 368,
+      "w": 50,
+      "h": 432
+    },
+    {
+      "name": "glove_zone",
+      "x": 668,
+      "y": 380,
+      "w": 222,
+      "h": 70
+    },
+    {
+      "name": "tray_zone",
+      "x": 975,
+      "y": 388,
+      "w": 195,
+      "h": 80
+    },
+    {
+      "name": "airlock_back",
+      "x": 40,
+      "y": 560,
+      "w": 100,
+      "h": 60
+    }
   ],
   "sorted": [],
   "above": []

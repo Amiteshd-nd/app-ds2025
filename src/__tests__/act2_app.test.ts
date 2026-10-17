@@ -65,7 +65,8 @@ describe('Jodi (story 2.6, ADR-134)', () => {
 
 describe('the date and Sunday', () => {
   it('Tanvi waits at the café only after the match; coffee is ₹480, ₹240 or hers', () => {
-    expect(DISTRICTS.church_street.npcs).toContainEqual({ id: 'npc_tanvi', spawn: 'cafe_table', requiresFlag: 'tanvi_matched', unlessFlag: 'tanvi_date_done' });
+    // …and never in Act 4 (ADR-154).
+    expect(DISTRICTS.church_street.npcs).toContainEqual({ id: 'npc_tanvi', spawn: 'cafe_table', requiresFlag: 'tanvi_matched', unlessFlag: ['tanvi_date_done', 'act4'] });
     const costs = DIALOGUE.dlg_tanvi.nodes.bill.choices!.map((c) => c.effect?.wallet ?? 0);
     expect(costs).toEqual([-480, -240, 0]);
   });
@@ -82,7 +83,7 @@ describe('the date and Sunday', () => {
       expect(store().flags.ananya_strained).toBe(true);
       expect(store().relationships.npc_ananya).toBe('strained');
     }
-    expect(DISTRICTS.cubbon_park.npcs?.find((n) => n.id === 'npc_ananya')?.unlessFlag).toBe('ananya_found_out');
+    expect([DISTRICTS.cubbon_park.npcs?.find((n) => n.id === 'npc_ananya')?.unlessFlag].flat()).toContain('ananya_found_out');
   });
 
   it('Ananya\'s contact loses its line once strained', () => {

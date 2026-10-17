@@ -126,7 +126,8 @@ export class WorldScene extends Phaser.Scene {
     const x = data.x ?? spawn?.x ?? this.map.widthInPixels / 2;
     const y = data.y ?? spawn?.y ?? this.map.heightInPixels / 2;
 
-    this.player = new Player(this, x, y, this.district.playerSheet ?? store.appearance.sheet);
+    const asSomeoneElse = this.district.playerSheet && !(this.district.ownSelfAfter && store.flags[this.district.ownSelfAfter]);
+    this.player = new Player(this, x, y, asSomeoneElse ? this.district.playerSheet! : store.appearance.sheet);
     // A cast slows you in the ward — until you're discharged (ADR-152: Ward 4 again in Act 4).
     this.player.walkScale = this.district.walkSpeedUnless && store.flags[this.district.walkSpeedUnless] ? 1 : (this.district.walkSpeed ?? 1);
     const body = this.player.body as Phaser.Physics.Arcade.Body;
@@ -619,7 +620,7 @@ export class WorldScene extends Phaser.Scene {
 
   /** The phone and the map are yours — not in someone else's life (Ravi in the corridor, `hud: minimal`, ADR-138). */
   allowsOverlays(): boolean {
-    return this.district.hud !== 'minimal';
+    return this.district.hud !== 'minimal' || Boolean(this.district.ownSelfAfter && useGameStore.getState().flags[this.district.ownSelfAfter]);
   }
 
   /** Where the player stands, in tiles (feet), and which way they face — for the map's Area view (ADR-117). */

@@ -158,5 +158,29 @@
     "dialogue": "dlg_raju_cafe",
     "sheet": "npc_darshini_raju",
     "voice": "adult_m"
+  },
+  {
+    "id": "npc_rathore",
+    "name": "Major Rathore",
+    "tier": 3,
+    "dialogue": "dlg_rathore",
+    "sheet": "npc_rathore",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_priya",
+    "name": "Priya",
+    "tier": 3,
+    "dialogue": "dlg_priya",
+    "sheet": "npc_priya",
+    "voice": "adult_f"
+  },
+  {
+    "id": "npc_ananya_camp",
+    "name": "Ananya",
+    "tier": 3,
+    "dialogue": "dlg_ananya_camp",
+    "sheet": "npc_ananya",
+    "voice": "adult_f"
   }
 ]

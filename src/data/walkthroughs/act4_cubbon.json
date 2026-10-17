@@ -1,0 +1,440 @@
+{
+  "scene": "act4_cubbon",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act4_cubbon + tiffin_room + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "tiffin_room",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "base_cafe_done",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "H1",
+      "do": "goto",
+      "target": "zone:shutter_zone"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "H1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_cubbon_set",
+      "timeout": 28000
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "H1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 33000
+    },
+    {
+      "id": "goto_7",
+      "beat": "H2",
+      "do": "goto",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "interact_8",
+      "beat": "H2",
+      "do": "interact",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "choose_9",
+      "beat": "H2",
+      "do": "choose",
+      "option": "gate"
+    },
+    {
+      "id": "goto_10",
+      "do": "goto",
+      "target": "npc:npc_priya",
+      "optional": true
+    },
+    {
+      "id": "interact_11",
+      "do": "interact",
+      "target": "npc:npc_priya",
+      "optional": true
+    },
+    {
+      "id": "choose_12",
+      "do": "choose",
+      "option": "in",
+      "optional": true
+    },
+    {
+      "id": "goto_13",
+      "do": "goto",
+      "target": "zone:run_gate"
+    },
+    {
+      "id": "wait_for_14",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hebbal_gate",
+      "timeout": 38400
+    },
+    {
+      "id": "goto_15",
+      "do": "goto",
+      "target": "zone:slot_front",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_16",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_17",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:hebbal_stores",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_18",
+      "beat": "H3",
+      "do": "goto",
+      "target": "zone:street_end",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_19",
+      "beat": "H3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 38200
+    },
+    {
+      "id": "goto_20",
+      "beat": "H3",
+      "do": "goto",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "interact_21",
+      "beat": "H3",
+      "do": "interact",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "choose_22",
+      "beat": "H3",
+      "do": "choose",
+      "option": "thanks_1"
+    },
+    {
+      "id": "sleep_23",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_24",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "run2_ready",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_25",
+      "do": "goto",
+      "target": "zone:run_gate"
+    },
+    {
+      "id": "wait_for_26",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "majestic_interchange",
+      "timeout": 38400
+    },
+    {
+      "id": "goto_27",
+      "do": "goto",
+      "target": "zone:kiosk_front",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_28",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_29",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:majestic_kiosk",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_30",
+      "beat": "H4",
+      "do": "goto",
+      "target": "zone:depot_back",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_31",
+      "beat": "H4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 38200
+    },
+    {
+      "id": "goto_32",
+      "beat": "H4",
+      "do": "goto",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "interact_33",
+      "beat": "H4",
+      "do": "interact",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "choose_34",
+      "beat": "H4",
+      "do": "choose",
+      "option": "thanks_2"
+    },
+    {
+      "id": "sleep_35",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_36",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "run3_ready",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_37",
+      "do": "goto",
+      "target": "zone:run_gate"
+    },
+    {
+      "id": "wait_for_38",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "church_street",
+      "timeout": 38400
+    },
+    {
+      "id": "goto_39",
+      "do": "goto",
+      "target": "zone:digital_front",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_40",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_41",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:digital_cores",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_42",
+      "beat": "H5",
+      "do": "goto",
+      "target": "zone:street_back",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_43",
+      "beat": "H5",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 38200
+    },
+    {
+      "id": "goto_44",
+      "beat": "H5",
+      "do": "goto",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "interact_45",
+      "beat": "H5",
+      "do": "interact",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "choose_46",
+      "beat": "H5",
+      "do": "choose",
+      "option": "thanks_3"
+    },
+    {
+      "id": "sleep_47",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_48",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "run4_ready",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_49",
+      "do": "goto",
+      "target": "zone:run_gate"
+    },
+    {
+      "id": "wait_for_50",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hivr_corridor",
+      "timeout": 38400
+    },
+    {
+      "id": "goto_51",
+      "do": "goto",
+      "target": "zone:glove_zone",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_52",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_53",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:hivr_emitter",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_54",
+      "beat": "H6",
+      "do": "goto",
+      "target": "zone:airlock_back",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_55",
+      "beat": "H6",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 38200
+    },
+    {
+      "id": "goto_56",
+      "beat": "H6",
+      "do": "goto",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "interact_57",
+      "beat": "H6",
+      "do": "interact",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "choose_58",
+      "beat": "H6",
+      "do": "choose",
+      "option": "thanks_4"
+    },
+    {
+      "id": "goto_59",
+      "beat": "H7",
+      "do": "goto",
+      "target": "zone:fire_circle"
+    },
+    {
+      "id": "choose_60",
+      "beat": "H7",
+      "do": "choose",
+      "option": "said"
+    },
+    {
+      "id": "wait_for_61",
+      "beat": "H7",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "argument_done",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_62",
+      "beat": "H8",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_63",
+      "beat": "H8",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_lamp_failed:cubbon_park",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_64",
+      "beat": "H8",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "cubbon_turned",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_65",
+      "beat": "H8",
+      "do": "wait_for",
+      "ready": "free",
+      "timeout": 30000
+    },
+    {
+      "id": "goto_66",
+      "beat": "H8",
+      "do": "goto",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "interact_67",
+      "beat": "H8",
+      "do": "interact",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "choose_68",
+      "beat": "H8",
+      "do": "choose",
+      "option": "go"
+    },
+    {
+      "id": "expect_69",
+      "do": "expect",
+      "flag": "act4_cubbon_done",
+      "timeout": 3000
+    }
+  ]
+}

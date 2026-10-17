@@ -133,7 +133,7 @@ describe('Church Street and the shop', () => {
   });
 
   it('the owner leaves Cubbon\'s pavement for his counter; the guitar is six-five, the chart is free', () => {
-    expect(DISTRICTS.cubbon_park.npcs?.find((n) => n.id === 'npc_guitar_shop')?.unlessFlag).toBe(FLAG_GUITAR_IN_STOCK);
+    expect([DISTRICTS.cubbon_park.npcs?.find((n) => n.id === 'npc_guitar_shop')?.unlessFlag].flat()).toContain(FLAG_GUITAR_IN_STOCK);
     expect(DISTRICTS.guitar_shop.npcs).toEqual([{ id: 'npc_guitar_shop', spawn: 'shop_counter' }]);
     const dlg = DIALOGUE.dlg_guitar_shop;
     expect(dlg.enter?.map((b) => b.flag)).toEqual(['guitar_owned', 'guitar_in_stock', 'guitar_wishlisted']);

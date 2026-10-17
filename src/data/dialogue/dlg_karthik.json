@@ -31,6 +31,15 @@
           "karthik_met": true
         }
       }
+    },
+    "camp": {
+      "text": "Told you. Vidhana Soudha. They say trucks will run from the Palace soon."
     }
-  }
+  },
+  "enter": [
+    {
+      "flag": "base_cubbon_set",
+      "node": "camp"
+    }
+  ]
 }

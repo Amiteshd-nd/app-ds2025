@@ -279,7 +279,8 @@ export class HudScene extends Phaser.Scene {
     const prefs = settings();
 
     // Someone else's life (Ravi in the corridor, ADR-138): only the objective — no clock, wallet or meters of yours.
-    const minimal = store.activeDistrict !== null && getDistrict(store.activeDistrict).hud === 'minimal';
+    const here = store.activeDistrict !== null ? getDistrict(store.activeDistrict) : null;
+    const minimal = here?.hud === 'minimal' && !(here.ownSelfAfter && store.flags[here.ownSelfAfter]);
     const line = objectiveLine(store.quests, QUESTS);
     if (line !== this.objective) { this.objective = line; this.objectiveUntil = now + motion('m.hud.objective.hold'); }
     const expanded = this.objective !== null && (!prefs.hud.objectiveAutoHide || now < this.objectiveUntil);

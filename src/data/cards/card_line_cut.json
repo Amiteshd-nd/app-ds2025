@@ -1,0 +1,21 @@
+{
+  "id": "card_line_cut",
+  "$comment": "4.3c: Cubbon's lamp line is cut on its fourth night (lampFailsOnNight).",
+  "panels": [
+    {
+      "title": "00:00",
+      "text": "The lamps go out pole by pole, from the far end of the line.",
+      "ms": 4400
+    },
+    {
+      "title": "02:00",
+      "text": "Trucks with no lights, heading north.",
+      "ms": 4000
+    },
+    {
+      "title": "06:00",
+      "text": "The bandstand is a dark shape. Rathore is still awake.",
+      "ms": 4200
+    }
+  ]
+}

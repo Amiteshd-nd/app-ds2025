@@ -42,7 +42,8 @@ describe('4.0 "Janata" (ADR-148)', () => {
   });
 
   it('the way out waits for the constable, then the walk card lands in Indiranagar at 16:57', () => {
-    expect(gate.triggers).toContainEqual({ zone: 'street_end', action: 'card', card: 'card_janata_walk', requiresFlag: 'janata_pass_checked' });
+    // Only that morning: 4.3c's run comes back to the gate (ADR-154).
+    expect(gate.triggers).toContainEqual({ zone: 'street_end', action: 'card', card: 'card_janata_walk', requiresFlag: 'janata_pass_checked', unlessFlag: 'act4_janata_done' });
     expect(CARDS.card_janata_walk.then).toEqual({ district: 'indiranagar_lane', spawn: 'lane_top', minute: 1017 });
     expect(outcome(CARDS.card_janata_walk, {}).set).toContain('act4_janata_done');
     expect(QUESTS.q_act4_janata.objectives.map((o) => o.target)).toEqual(['janata_out', 'janata_pass_checked', 'janata_bay_seen', 'janata_bought', 'act4_janata_done']);

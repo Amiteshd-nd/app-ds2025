@@ -1623,31 +1623,37 @@
       "parent": "indiranagar_lane"
     },
     "quests": [
-      "q_act4_cafe"
+      "q_act4_cafe",
+      "q_act4_cubbon"
     ],
     "npcs": [
       {
         "id": "npc_uncle",
-        "spawn": "uncle_spot"
+        "spawn": "uncle_spot",
+        "unlessFlag": "base_cubbon_set"
       },
       {
         "id": "npc_suresh",
-        "spawn": "suresh_spot"
+        "spawn": "suresh_spot",
+        "unlessFlag": "base_cubbon_set"
       },
       {
         "id": "npc_deepa",
         "spawn": "deepa_spot",
-        "requiresFlag": "deepa_medicine"
+        "requiresFlag": "deepa_medicine",
+        "unlessFlag": "base_cubbon_set"
       },
       {
         "id": "npc_kumar",
         "spawn": "kumar_spot",
-        "requiresFlag": "kumar_saved"
+        "requiresFlag": "kumar_saved",
+        "unlessFlag": "base_cubbon_set"
       },
       {
         "id": "npc_raju_cafe",
         "spawn": "raju_spot",
-        "requiresFlag": "raju_saved"
+        "requiresFlag": "raju_saved",
+        "unlessFlag": "base_cubbon_set"
       }
     ],
     "triggers": [
@@ -1681,6 +1687,12 @@
         "card": "card_run_whitefield",
         "requiresFlag": "cafe_day5",
         "unlessFlag": "raju_decided"
+      },
+      {
+        "zone": "shutter_zone",
+        "action": "card",
+        "card": "card_walk_cubbon",
+        "requiresFlag": "base_cafe_done"
       }
     ],
     "base": {
@@ -1812,38 +1824,96 @@
       "q_act1_bus_cubbon",
       "q_act1_cubbon",
       "q_act2_metro_opens",
-      "q_act2_the_app"
+      "q_act2_the_app",
+      "q_act4_cubbon"
     ],
     "npcs": [
       {
         "id": "npc_cycle_guy",
-        "spawn": "cycle_rental"
+        "spawn": "cycle_rental",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_ananya",
         "spawn": "ananya_spot",
-        "unlessFlag": "ananya_found_out"
+        "unlessFlag": [
+          "ananya_found_out",
+          "act4"
+        ]
       },
       {
         "id": "npc_icecream",
-        "spawn": "icecream_cart"
+        "spawn": "icecream_cart",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_library_regular_a",
-        "spawn": "library_steps_a"
+        "spawn": "library_steps_a",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_library_regular_b",
-        "spawn": "library_steps_b"
+        "spawn": "library_steps_b",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_jogger",
-        "spawn": "jogger_spot"
+        "spawn": "jogger_spot",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_guitar_shop",
         "spawn": "guitar_shop",
-        "unlessFlag": "guitar_in_stock"
+        "unlessFlag": [
+          "guitar_in_stock",
+          "act4"
+        ]
+      },
+      {
+        "id": "npc_rathore",
+        "spawn": "rathore_spot",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_priya",
+        "spawn": "priya_spot",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_karthik",
+        "spawn": "karthik_camp",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_uncle",
+        "spawn": "uncle_camp",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_suresh",
+        "spawn": "suresh_camp",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_deepa",
+        "spawn": "deepa_camp",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_kumar",
+        "spawn": "kumar_camp",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_raju_cafe",
+        "spawn": "raju_camp",
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "npc_ananya_camp",
+        "spawn": "ananya_camp",
+        "requiresFlag": "base_cubbon_set",
+        "unlessFlag": "ananya_strained"
       }
     ],
     "objects": [
@@ -1917,19 +1987,28 @@
         "zone": "stop_bandstand",
         "dialogue": "dlg_ananya_walk",
         "requiresFlag": "ananya_walk",
-        "unlessFlag": "ananya_walk1"
+        "unlessFlag": [
+          "ananya_walk1",
+          "act4"
+        ]
       },
       {
         "zone": "stop_bamboo",
         "dialogue": "dlg_ananya_walk",
         "requiresFlag": "ananya_walk1",
-        "unlessFlag": "ananya_walk2"
+        "unlessFlag": [
+          "ananya_walk2",
+          "act4"
+        ]
       },
       {
         "zone": "stop_library",
         "dialogue": "dlg_ananya_walk",
         "requiresFlag": "ananya_walk2",
-        "unlessFlag": "ananya_walk3"
+        "unlessFlag": [
+          "ananya_walk3",
+          "act4"
+        ]
       },
       {
         "zone": "metro_arrival",
@@ -1938,6 +2017,64 @@
           "cubbon_arrived"
         ],
         "unlessFlag": "metro_ridden"
+      },
+      {
+        "zone": "camp_cot",
+        "action": "sleep",
+        "requiresFlag": "base_cubbon_set",
+        "once": false
+      },
+      {
+        "zone": "camp_stock",
+        "dialogue": "base:cubbon_park",
+        "requiresFlag": "base_cubbon_set",
+        "once": false
+      },
+      {
+        "zone": "camp_bench",
+        "dialogue": "craft:bench",
+        "requiresFlag": "base_cubbon_set",
+        "once": false
+      },
+      {
+        "zone": "run_gate",
+        "action": "card",
+        "card": "card_run_hebbal",
+        "requiresFlag": "rathore_runs",
+        "unlessFlag": "looted:hebbal_stores"
+      },
+      {
+        "zone": "run_gate",
+        "action": "card",
+        "card": "card_run_majestic",
+        "requiresFlag": "run2_ready",
+        "unlessFlag": "looted:majestic_kiosk"
+      },
+      {
+        "zone": "run_gate",
+        "action": "card",
+        "card": "card_run_church",
+        "requiresFlag": "run3_ready",
+        "unlessFlag": "looted:digital_cores"
+      },
+      {
+        "zone": "run_gate",
+        "action": "card",
+        "card": "card_run_hivr",
+        "requiresFlag": "run4_ready",
+        "unlessFlag": "looted:hivr_emitter"
+      },
+      {
+        "zone": "fire_circle",
+        "dialogue": "dlg_argument",
+        "requiresFlag": "supply_run_4",
+        "unlessFlag": "argument_done"
+      },
+      {
+        "zone": "ananya_board",
+        "dialogue": "dlg_ananya_photo",
+        "requiresFlag": "ananya_strained",
+        "unlessFlag": "ananya_photo_seen"
       }
     ],
     "exits": [
@@ -1953,7 +2090,8 @@
     ],
     "behaviours": [
       "photoSpots",
-      "companion"
+      "companion",
+      "sleepEvents"
     ],
     "realworld": {
       "lat": 12.97672,
@@ -2003,6 +2141,70 @@
         ],
         "radius": 7,
         "kind": "human"
+      }
+    ],
+    "base": {
+      "spawn": "camp_spot",
+      "uv": [
+        {
+          "at": [
+            33,
+            12
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            30,
+            16
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            24,
+            15
+          ],
+          "radius": 3
+        }
+      ],
+      "requiresFlag": "base_cubbon_set",
+      "lampFailsOnNight": 4
+    },
+    "sleepEvents": [
+      {
+        "after": "supply_run_1",
+        "nights": 1,
+        "set": [
+          "run2_ready"
+        ]
+      },
+      {
+        "after": "supply_run_2",
+        "nights": 1,
+        "set": [
+          "run3_ready"
+        ]
+      },
+      {
+        "after": "supply_run_3",
+        "nights": 1,
+        "set": [
+          "run4_ready"
+        ]
+      },
+      {
+        "after": "base_lamp_failed:cubbon_park",
+        "set": [
+          "cubbon_turned"
+        ],
+        "card": "card_line_cut"
+      }
+    ],
+    "stabilityIf": [
+      {
+        "flag": "base_cubbon_set",
+        "stability": 70
       }
     ]
   },
@@ -2331,18 +2533,23 @@
     "signal": 4,
     "quests": [
       "q_act2_guitar",
-      "q_act2_the_app"
+      "q_act2_the_app",
+      "q_act4_cubbon"
     ],
     "npcs": [
       {
         "id": "npc_church_busker",
-        "spawn": "busker_corner"
+        "spawn": "busker_corner",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_tanvi",
         "spawn": "cafe_table",
         "requiresFlag": "tanvi_matched",
-        "unlessFlag": "tanvi_date_done"
+        "unlessFlag": [
+          "tanvi_date_done",
+          "act4"
+        ]
       }
     ],
     "objects": [
@@ -2369,6 +2576,19 @@
           "church_street_visited"
         ],
         "unlessFlag": "church_street_visited"
+      },
+      {
+        "zone": "digital_front",
+        "dialogue": "search:digital_cores",
+        "requiresFlag": "run3_ready",
+        "unlessFlag": "looted:digital_cores"
+      },
+      {
+        "zone": "street_back",
+        "action": "card",
+        "card": "card_back_cubbon",
+        "requiresFlag": "looted:digital_cores",
+        "unlessFlag": "supply_run_3"
       }
     ],
     "exits": [
@@ -2447,7 +2667,39 @@
         "radius": 6,
         "kind": "human"
       }
-    ]
+    ],
+    "act4Zones": [
+      {
+        "id": "west",
+        "rect": [
+          0,
+          8,
+          9,
+          6
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "bookshop",
+          "zone": "west",
+          "lead": [
+            3,
+            9
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_hoodie",
+            "npc_church_busker"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "guitar_shop",
@@ -2511,13 +2763,17 @@
     },
     "signal": 1,
     "quests": [
-      "q_act2_ikea"
+      "q_act2_ikea",
+      "q_act4_cubbon"
     ],
     "npcs": [
       {
         "id": "npc_majestic_uncle",
         "spawn": "interchange_stairs",
-        "unlessFlag": "majestic_helped"
+        "unlessFlag": [
+          "majestic_helped",
+          "act4"
+        ]
       }
     ],
     "ambient": {
@@ -2549,7 +2805,23 @@
         "zone": "green_stairs_top",
         "dialogue": "dlg_majestic_uncle_thanks",
         "requiresFlag": "uncle_following",
-        "unlessFlag": "majestic_helped"
+        "unlessFlag": [
+          "majestic_helped",
+          "act4"
+        ]
+      },
+      {
+        "zone": "kiosk_front",
+        "dialogue": "search:majestic_kiosk",
+        "requiresFlag": "run2_ready",
+        "unlessFlag": "looted:majestic_kiosk"
+      },
+      {
+        "zone": "depot_back",
+        "action": "card",
+        "card": "card_back_cubbon",
+        "requiresFlag": "looted:majestic_kiosk",
+        "unlessFlag": "supply_run_2"
       }
     ],
     "exits": [
@@ -2581,7 +2853,39 @@
         "radius": 12,
         "kind": "machine"
       }
-    ]
+    ],
+    "act4Zones": [
+      {
+        "id": "hall",
+        "rect": [
+          13,
+          4,
+          10,
+          9
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "pillars",
+          "zone": "hall",
+          "lead": [
+            17,
+            7
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_officegoer",
+            "crowd_student"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "green_coach",
@@ -3102,30 +3406,56 @@
       ]
     },
     "quests": [
-      "q_act3_corridor"
+      "q_act3_corridor",
+      "q_act4_cubbon"
     ],
     "triggers": [
       {
         "zone": "clipboard_zone",
         "dialogue": "dlg_corridor_clipboard",
-        "unlessFlag": "corridor_checklist_seen"
+        "unlessFlag": [
+          "corridor_checklist_seen",
+          "act4"
+        ]
       },
       {
         "zone": "call_zone",
         "dialogue": "dlg_appa_call",
-        "unlessFlag": "appa_answered"
+        "unlessFlag": [
+          "appa_answered",
+          "act4"
+        ]
       },
       {
         "zone": "glove_zone",
         "dialogue": "dlg_glove_station",
         "requiresFlag": "appa_answered",
-        "unlessFlag": "glove_station_refused"
+        "unlessFlag": [
+          "glove_station_refused",
+          "act4"
+        ]
       },
       {
         "zone": "tray_zone",
         "dialogue": "dlg_slide_tray",
         "requiresFlag": "appa_answered",
-        "unlessFlag": "tray_unsealed"
+        "unlessFlag": [
+          "tray_unsealed",
+          "act4"
+        ]
+      },
+      {
+        "zone": "glove_zone",
+        "dialogue": "search:hivr_emitter",
+        "requiresFlag": "run4_ready",
+        "unlessFlag": "looted:hivr_emitter"
+      },
+      {
+        "zone": "airlock_back",
+        "action": "card",
+        "card": "card_back_cubbon",
+        "requiresFlag": "looted:hivr_emitter",
+        "unlessFlag": "supply_run_4"
       }
     ],
     "nightTint": 0.4,
@@ -3136,7 +3466,40 @@
         "radius": 4,
         "kind": "machine"
       }
-    ]
+    ],
+    "ownSelfAfter": "act4",
+    "act4Zones": [
+      {
+        "id": "corridor",
+        "rect": [
+          6,
+          3,
+          6,
+          4
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "lab",
+          "zone": "corridor",
+          "lead": [
+            11,
+            5
+          ],
+          "size": 2,
+          "sheets": [
+            "inf_base_male_1",
+            "inf_base_female_1"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "hebbal_gate",
@@ -3166,56 +3529,121 @@
       }
     ],
     "quests": [
-      "q_act4_janata"
+      "q_act4_janata",
+      "q_act4_cubbon"
     ],
     "npcs": [
       {
         "id": "npc_gate_constable",
-        "spawn": "barricade"
+        "spawn": "barricade",
+        "unlessFlag": "act4_janata_done"
       },
       {
         "id": "npc_slot_shop",
-        "spawn": "slot_shop"
+        "spawn": "slot_shop",
+        "unlessFlag": "act4_janata_done"
       },
       {
         "id": "npc_balcony_watcher",
         "spawn": "balcony_1",
-        "unlessFlag": "janata_balcony"
+        "unlessFlag": [
+          "janata_balcony",
+          "act4_janata_done"
+        ]
       }
     ],
     "triggers": [
       {
         "zone": "hospital_doors",
-        "dialogue": "dlg_janata_doors"
+        "dialogue": "dlg_janata_doors",
+        "unlessFlag": "act4_janata_done"
       },
       {
         "zone": "bike_bay",
         "dialogue": "dlg_janata_bay",
-        "unlessFlag": "janata_bay_seen"
+        "unlessFlag": [
+          "janata_bay_seen",
+          "act4_janata_done"
+        ]
       },
       {
         "zone": "bus_door",
         "dialogue": "dlg_janata_bus",
-        "unlessFlag": "janata_bus_seen"
+        "unlessFlag": [
+          "janata_bus_seen",
+          "act4_janata_done"
+        ]
       },
       {
         "zone": "balcony_below",
         "dialogue": "dlg_balcony_watcher",
-        "unlessFlag": "janata_balcony"
+        "unlessFlag": [
+          "janata_balcony",
+          "act4_janata_done"
+        ]
       },
       {
         "zone": "street_end",
         "dialogue": "dlg_janata_whistle",
-        "unlessFlag": "janata_pass_checked",
+        "unlessFlag": [
+          "janata_pass_checked",
+          "act4_janata_done"
+        ],
         "once": false
       },
       {
         "zone": "street_end",
         "action": "card",
         "card": "card_janata_walk",
-        "requiresFlag": "janata_pass_checked"
+        "requiresFlag": "janata_pass_checked",
+        "unlessFlag": "act4_janata_done"
+      },
+      {
+        "zone": "slot_front",
+        "dialogue": "search:hebbal_stores",
+        "requiresFlag": "rathore_runs",
+        "unlessFlag": "looted:hebbal_stores"
+      },
+      {
+        "zone": "street_end",
+        "action": "card",
+        "card": "card_back_cubbon",
+        "requiresFlag": "looted:hebbal_stores",
+        "unlessFlag": "supply_run_1"
       }
-    ]
+    ],
+    "act4Zones": [
+      {
+        "id": "forecourt",
+        "rect": [
+          10,
+          2,
+          16,
+          8
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "doors",
+          "zone": "forecourt",
+          "lead": [
+            18,
+            5
+          ],
+          "size": 2,
+          "sheets": [
+            "npc_nurse",
+            "crowd_elder"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4_janata_done",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "indiranagar_lane",

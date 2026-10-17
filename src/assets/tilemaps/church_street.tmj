@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 39,
+     "id": 41,
      "name": "lamp_left",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 40,
+     "id": 42,
      "name": "lamp_right",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 41,
+     "id": 43,
      "name": "tree_left",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 44,
      "name": "tree_mid",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 43,
+     "id": 45,
      "name": "tree_right",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 44,
+     "id": 46,
      "name": "bench_1",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 45,
+     "id": 47,
      "name": "bench_2",
      "type": "cutout",
      "rotation": 0,
@@ -2941,7 +2941,7 @@
      ]
     },
     {
-     "id": 46,
+     "id": 48,
      "name": "bench_3",
      "type": "cutout",
      "rotation": 0,
@@ -2984,7 +2984,7 @@
      ]
     },
     {
-     "id": 47,
+     "id": 49,
      "name": "planter_right",
      "type": "cutout",
      "rotation": 0,
@@ -3916,7 +3916,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 11,
+     "id": 13,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3934,7 +3934,7 @@
      ]
     },
     {
-     "id": 12,
+     "id": 14,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3952,7 +3952,7 @@
      ]
     },
     {
-     "id": 13,
+     "id": 15,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3970,7 +3970,7 @@
      ]
     },
     {
-     "id": 14,
+     "id": 16,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3988,7 +3988,7 @@
      ]
     },
     {
-     "id": 15,
+     "id": 17,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4006,7 +4006,7 @@
      ]
     },
     {
-     "id": 16,
+     "id": 18,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4024,7 +4024,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 19,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4042,7 +4042,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 20,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4060,7 +4060,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 21,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4078,7 +4078,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 22,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4096,7 +4096,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 23,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4114,7 +4114,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 24,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4132,7 +4132,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 25,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4150,7 +4150,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 26,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4168,7 +4168,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 27,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4186,7 +4186,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 28,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4204,7 +4204,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 29,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4222,7 +4222,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 30,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4240,7 +4240,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 31,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4258,7 +4258,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 32,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4276,7 +4276,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 33,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4294,7 +4294,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 34,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4312,7 +4312,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 35,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4330,7 +4330,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 36,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4348,7 +4348,7 @@
      ]
     },
     {
-     "id": 35,
+     "id": 37,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4366,7 +4366,7 @@
      ]
     },
     {
-     "id": 36,
+     "id": 38,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4384,7 +4384,7 @@
      ]
     },
     {
-     "id": 37,
+     "id": 39,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4402,7 +4402,7 @@
      ]
     },
     {
-     "id": 38,
+     "id": 40,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -5423,6 +5423,28 @@
      "y": 289,
      "width": 1080,
      "height": 142
+    },
+    {
+     "id": 11,
+     "name": "digital_front",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 975,
+     "y": 289,
+     "width": 60,
+     "height": 30
+    },
+    {
+     "id": 12,
+     "name": "street_back",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 390,
+     "y": 630,
+     "width": 45,
+     "height": 23
     }
    ],
    "opacity": 1,
@@ -5433,7 +5455,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 48,
+ "nextobjectid": 50,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

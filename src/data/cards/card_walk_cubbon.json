@@ -1,0 +1,36 @@
+{
+  "id": "card_walk_cubbon",
+  "$comment": "Story 4.3c (ADR-154): from the dead café to the army's lamp line at Cubbon.",
+  "panels": [
+    {
+      "title": "THE TIFFIN ROOM · 07:00",
+      "text": "Uncle locks the shutter anyway.",
+      "ms": 3800
+    },
+    {
+      "title": "MG ROAD · 09:10",
+      "text": "Kumar's auto, six people in it, nobody complains.",
+      "ms": 4400,
+      "ifFlag": "kumar_saved"
+    },
+    {
+      "title": "MG ROAD · 09:10",
+      "text": "Seven kilometres in the middle of the road, as Rathore will tell you later.",
+      "ms": 4400,
+      "unlessFlag": "kumar_saved"
+    },
+    {
+      "title": "CUBBON PARK · 10:30",
+      "text": "Purple lamps on poles all along the road. A soldier says: 'Welcome to the line.'",
+      "ms": 4800,
+      "setFlags": [
+        "base_cubbon_set"
+      ]
+    }
+  ],
+  "then": {
+    "district": "cubbon_park",
+    "spawn": "bus_drop",
+    "minute": 630
+  }
+}

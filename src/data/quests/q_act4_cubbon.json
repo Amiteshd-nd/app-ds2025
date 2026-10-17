@@ -1,0 +1,149 @@
+{
+  "id": "q_act4_cubbon",
+  "title": "The Line",
+  "description": "Hold the army's lamp line at Cubbon, and bring Rathore what his engineer needs.",
+  "chapter": 4,
+  "district": "cubbon_park",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_cafe"
+  ],
+  "objectives": [
+    {
+      "id": "leave",
+      "text": "Leave the café",
+      "type": "flag",
+      "target": "base_cafe_done",
+      "destination": "tiffin_room"
+    },
+    {
+      "id": "line",
+      "text": "The lamp line",
+      "type": "flag",
+      "target": "base_cubbon_set",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "rathore",
+      "text": "Major Rathore",
+      "type": "flag",
+      "target": "rathore_runs",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "priya",
+      "text": "Priya",
+      "type": "flag",
+      "target": "priya_met",
+      "destination": "cubbon_park",
+      "optional": true
+    },
+    {
+      "id": "r1",
+      "text": "Hebbal: medicines",
+      "type": "flag",
+      "target": "looted:hebbal_stores",
+      "destination": "hebbal_gate"
+    },
+    {
+      "id": "d1",
+      "text": "Deliver",
+      "type": "flag",
+      "target": "supply_run_1",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "n1",
+      "text": "A night on the line",
+      "type": "flag",
+      "target": "run2_ready",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "r2",
+      "text": "Majestic: a radio",
+      "type": "flag",
+      "target": "looted:majestic_kiosk",
+      "destination": "majestic_interchange"
+    },
+    {
+      "id": "d2",
+      "text": "Deliver",
+      "type": "flag",
+      "target": "supply_run_2",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "n2",
+      "text": "A night on the line",
+      "type": "flag",
+      "target": "run3_ready",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "r3",
+      "text": "Church Street: battery cores",
+      "type": "flag",
+      "target": "looted:digital_cores",
+      "destination": "church_street"
+    },
+    {
+      "id": "d3",
+      "text": "Deliver",
+      "type": "flag",
+      "target": "supply_run_3",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "n3",
+      "text": "A night on the line",
+      "type": "flag",
+      "target": "run4_ready",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "r4",
+      "text": "HIVR: emitter parts",
+      "type": "flag",
+      "target": "looted:hivr_emitter",
+      "destination": "hivr_corridor"
+    },
+    {
+      "id": "d4",
+      "text": "Deliver",
+      "type": "flag",
+      "target": "supply_run_4",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "fire",
+      "text": "The fire",
+      "type": "flag",
+      "target": "argument_done",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "cut",
+      "text": "The line",
+      "type": "flag",
+      "target": "cubbon_turned",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "move",
+      "text": "Rathore",
+      "type": "flag",
+      "target": "base_cubbon_done",
+      "destination": "cubbon_park"
+    }
+  ],
+  "rewards": {
+    "xp": 50,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_cubbon_done"
+    ]
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "id": "act4_cubbon",
+  "district": "tiffin_room",
+  "act": 4,
+  "seq": "4.3c",
+  "title": "The Line",
+  "status": "P26",
+  "draft": "Built 2026-10-18 from the 4.3 'Base Chain' stub's B3 with its defaults ('take the defaults and build 4.3c'): the Cubbon bandstand on the army's lamp line next to the Vidhana Soudha camp (a lit island; the camp itself is told, not drawn), Ananya by relationship (there unless strained — otherwise the photo she left), Major Rathore's supply runs 1–4 (medicines at Hebbal General, a radio at Majestic — the stub's telecom tower moved to the depot, battery cores at Church Street's 'Reliable Digital', emitter parts at HIVR) with Priya, the argument at the fire (Karthik evacuate / Priya fight / Suresh hold), and the line cut on the fourth night → the Palace (B4, run 5 and the Pulse Gun, next phase).",
+  "time": "Act 4 day 7 07:00 → the morning of day 11",
+  "player_goal": "Hold the army's lamp line at Cubbon, and bring Rathore what his engineer needs.",
+  "design_goal": "The camp is the first place in Act 4 with structure: an officer, a list, a gate. Each run returns to somewhere the player has been (the hospital gate of 4.0, the interchange of 2.2, Church Street of 2.4, the corridor of 3.3 — walked as yourself this time) and each returns with one thing. The argument plants the ending axis.",
+  "pacing": [
+    "Calm",
+    "Curious",
+    "Tense",
+    "Calm",
+    "Curious",
+    "Tense",
+    "Calm",
+    "Tense"
+  ],
+  "entry": {
+    "from": "act4_cafe",
+    "spawn": "shutter_in",
+    "after": [],
+    "counters": {
+      "act4_day": 7,
+      "base_nights:tiffin_room": 3
+    }
+  },
+  "cast": [
+    {
+      "npc": "npc_rathore",
+      "tier": 3,
+      "spawn": "rathore_spot",
+      "district": "cubbon_park",
+      "role": "NEW. Major Rathore (a fictional officer, no insignia): the list of five things for the engineer's gun; the runs start at the camp gate."
+    },
+    {
+      "npc": "npc_priya",
+      "tier": 3,
+      "spawn": "priya_spot",
+      "district": "cubbon_park",
+      "role": "NEW. Priya, payment-software engineer turned fighter (a taped cricket bat): walks point on the runs; the 'end it' voice."
+    },
+    {
+      "npc": "npc_ananya_camp",
+      "tier": 3,
+      "spawn": "ananya_camp",
+      "district": "cubbon_park",
+      "role": "With the camp, photographing for the record — unless 2.6 left you strained; then a photo on the noticeboard: 'Went with the first trucks.'"
+    },
+    {
+      "npc": "npc_karthik",
+      "tier": 2,
+      "spawn": "karthik_camp",
+      "district": "cubbon_park",
+      "role": "Here since day 3: the 'get out' voice."
+    },
+    {
+      "npc": "npc_suresh",
+      "tier": 3,
+      "spawn": "suresh_camp",
+      "district": "cubbon_park",
+      "role": "The 'hold' voice."
+    }
+  ],
+  "quests": [
+    "q_act4_cubbon"
+  ],
+  "beats": [
+    {
+      "id": "H1",
+      "pacing": "Calm",
+      "what": "The walk (or Kumar's drive) from the dead café to Cubbon: purple lamps on poles; 'Welcome to the line.' The camp by the bandstand: a cot, a crate, a bench.",
+      "interact": "card + base",
+      "flag": "base_cubbon_set"
+    },
+    {
+      "id": "H2",
+      "pacing": "Curious",
+      "what": "Major Rathore: the engineer's gun, five things; the first, medicines at Hebbal General. Priya: 'I want to take it to HIVR and end this.'",
+      "interact": "dialogue",
+      "flag": "rathore_runs"
+    },
+    {
+      "id": "H3",
+      "pacing": "Tense",
+      "what": "Run 1: Hebbal General — the 4.0 gate, two of them at the hospital doors; the slot shop's stockroom. Back at dusk; deliver.",
+      "interact": "run + deliver",
+      "flag": "supply_run_1"
+    },
+    {
+      "id": "H4",
+      "pacing": "Calm",
+      "what": "Run 2, a quiet one: Majestic — the interchange, two still by the pillars; the depot kiosk's radio. An evening at the camp.",
+      "interact": "run + deliver",
+      "flag": "supply_run_2"
+    },
+    {
+      "id": "H5",
+      "pacing": "Curious",
+      "what": "Run 3: Church Street — the busker's corner empty, his case open; two by the bookshop; the Reliable Digital counter.",
+      "interact": "run + deliver",
+      "flag": "supply_run_3"
+    },
+    {
+      "id": "H6",
+      "pacing": "Tense",
+      "what": "Run 4: HIVR — the corridor you walked as Ravi, yourself this time; two at the far end; the steriliser's tube and driver board.",
+      "interact": "run + deliver",
+      "flag": "supply_run_4"
+    },
+    {
+      "id": "H7",
+      "pacing": "Calm",
+      "what": "The fire, after the last run: Karthik (get out), Priya (end it), Suresh (hold) — and they look at you.",
+      "interact": "choice",
+      "flag": "argument_done"
+    },
+    {
+      "id": "H8",
+      "pacing": "Tense",
+      "what": "The fourth night the line is cut (a card); Rathore: the Palace grounds.",
+      "interact": "sleep + card + dialogue",
+      "flag": "cubbon_turned, base_cubbon_done"
+    }
+  ],
+  "economy": [
+    {
+      "item": "a base night",
+      "price": 0,
+      "note": "the camp's stock is the same shelf"
+    }
+  ],
+  "exits": [
+    {
+      "zone": "shutter_zone",
+      "to": "cubbon_park",
+      "transit": "walk (card_walk_cubbon)",
+      "note": "from the café"
+    },
+    {
+      "zone": "run_gate",
+      "to": "hebbal_gate",
+      "transit": "walk (card_run_hebbal)",
+      "note": "run 1"
+    },
+    {
+      "zone": "run_gate",
+      "to": "majestic_interchange",
+      "transit": "walk (card_run_majestic)",
+      "note": "run 2"
+    },
+    {
+      "zone": "run_gate",
+      "to": "church_street",
+      "transit": "walk (card_run_church)",
+      "note": "run 3"
+    },
+    {
+      "zone": "run_gate",
+      "to": "hivr_corridor",
+      "transit": "walk (card_run_hivr)",
+      "note": "run 4"
+    }
+  ],
+  "save_flags": [
+    "base_cubbon_set",
+    "rathore_runs",
+    "priya_met",
+    "looted:hebbal_stores",
+    "supply_run_1",
+    "run2_ready",
+    "looted:majestic_kiosk",
+    "supply_run_2",
+    "run3_ready",
+    "looted:digital_cores",
+    "supply_run_3",
+    "run4_ready",
+    "looted:hivr_emitter",
+    "supply_run_4",
+    "argument_done",
+    "base_lamp_failed:cubbon_park",
+    "cubbon_turned",
+    "base_cubbon_done",
+    "act4_cubbon_done"
+  ],
+  "assets_needed": [
+    "Rathore's and Priya's sheets (generated, first try)"
+  ],
+  "acceptance": [
+    "the bot plays it from the café to Rathore's decision",
+    "each run walks quietly past two still infected",
+    "the HIVR corridor plays as yourself in Act 4"
+  ],
+  "open_questions": []
+}

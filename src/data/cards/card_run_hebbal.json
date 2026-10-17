@@ -1,0 +1,27 @@
+{
+  "id": "card_run_hebbal",
+  "$comment": "Story 4.3c (ADR-154): Rathore's supply run to hebbal_gate.",
+  "panels": [
+    {
+      "title": "THE LINE · 08:00",
+      "text": "Rathore taps the list. 'Back before the lamps.'",
+      "ms": 3800
+    },
+    {
+      "title": "ON THE ROAD",
+      "text": "Priya walks point with the taped bat. Nobody runs.",
+      "ms": 4200,
+      "ifFlag": "priya_met"
+    },
+    {
+      "title": "HEBBAL GENERAL · 12:00",
+      "text": "The gate you left in Act 4's first morning. The slot shop's shutter is bent up a hand's width.",
+      "ms": 4600
+    }
+  ],
+  "then": {
+    "district": "hebbal_gate",
+    "spawn": "barricade",
+    "minute": 720
+  }
+}

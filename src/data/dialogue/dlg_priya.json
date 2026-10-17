@@ -1,0 +1,46 @@
+{
+  "id": "dlg_priya",
+  "speaker": "Priya",
+  "portrait": "npc_priya",
+  "enter": [
+    {
+      "flag": "priya_met",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(A woman with a taped cricket bat.) Priya. I wrote payment software in Koramangala. Now I hit things. Rathore wants a gun to hide behind. I want to take it to HIVR and end this.",
+      "choices": [
+        {
+          "text": "I'm in.",
+          "next": "in",
+          "effect": {
+            "flags": {
+              "priya_met": true,
+              "priya_runs": true
+            }
+          }
+        },
+        {
+          "text": "One run at a time.",
+          "next": "later",
+          "effect": {
+            "flags": {
+              "priya_met": true
+            }
+          }
+        }
+      ]
+    },
+    "in": {
+      "text": "Good. You watch left, I watch right. Nobody runs."
+    },
+    "later": {
+      "text": "Fair. I'll come anyway. Somebody has to watch your left."
+    },
+    "again": {
+      "text": "Left, right, nobody runs."
+    }
+  }
+}

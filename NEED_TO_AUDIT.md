@@ -475,3 +475,22 @@ corepack pnpm dev
   - **No strollers in Act 4:** under the curfew nobody wanders, only placed people. This also empties the hill's and Whitefield's background crowd.
   - **Travel is told on cards:** the walk west, the run to Whitefield, and the way home from Raju's are all cards. Kumar's auto shows up only in the card text.
 
+## 28. 4.3c "The Line": Cubbon, Rathore's four runs, Priya, the fire
+- **What:** the third base, days 7–11. The army's lamp line at Cubbon, Major Rathore and his list, Priya, Ananya (or her photo), four supply runs, the argument at the fire, and the line cut on night 4.
+- **Check:** in the Playground, open Act 4 → 4.3c The Line (Play), or **▶ from here** to watch the bot (about 3 minutes).
+  - From the café, walk to the shutter (the walk to Cubbon). Talk to Rathore, then Priya.
+  - Walk to the camp gate on the east side for each run. In each place, walk (don't run) to the thing, search it, and walk to the way back. Hand it to Rathore and sleep on the cot.
+  - After the fourth delivery, walk to the fire circle on the west lawn and choose. Sleep; the line is cut. Talk to Rathore.
+- **Calls to confirm:**
+  - **New art:** Rathore and Priya, both first try. Rathore has no insignia, so the camp stays fictional.
+  - **The camp is the existing park.** There are no tents and no drawn lamp poles; the three lamps are purple glows. I can draw a prop sheet later.
+  - **The runs** reuse places from earlier acts instead of new maps:
+    - Medicines: the slot shop at the 4.0 hospital gate.
+    - The radio: the Majestic depot kiosk. The draft had a telecom tower.
+    - Battery cores: "Reliable Digital" on Church Street. It isn't drawn, so it's a counter behind a broken shutter.
+    - The emitter: HIVR's steriliser, in the corridor you walked as Ravi in 3.3. The draft had HIVR's outer campus.
+  - **The pace:** one run a day, the next opening the night after you deliver. Two still infected at every run, and none of them Evolved yet.
+  - **Ananya:** in the full playthrough the bot hurt her in 2.6, so it sees the photo.
+  - **The fire:** your answer sets karthik_trust, priya_trust or suresh_trust, for the endings.
+  - **Run 5 and the Pulse Gun** are the Palace's, next phase.
+

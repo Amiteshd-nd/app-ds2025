@@ -1,0 +1,27 @@
+{
+  "id": "card_run_majestic",
+  "$comment": "Story 4.3c (ADR-154): Rathore's supply run to majestic_interchange.",
+  "panels": [
+    {
+      "title": "THE LINE · 08:00",
+      "text": "Rathore taps the list. 'Back before the lamps.'",
+      "ms": 3800
+    },
+    {
+      "title": "ON THE ROAD",
+      "text": "Priya walks point with the taped bat. Nobody runs.",
+      "ms": 4200,
+      "ifFlag": "priya_met"
+    },
+    {
+      "title": "MAJESTIC · 11:30",
+      "text": "The interchange you changed lines in. The departure boards still say ON TIME.",
+      "ms": 4600
+    }
+  ],
+  "then": {
+    "district": "majestic_interchange",
+    "spawn": "interchange_stairs",
+    "minute": 690
+  }
+}

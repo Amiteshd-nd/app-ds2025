@@ -1,0 +1,21 @@
+{
+  "id": "card_back_cubbon",
+  "$comment": "4.3c: every supply run comes home the same way.",
+  "panels": [
+    {
+      "title": "THE WAY BACK · 15:40",
+      "text": "You carry it like it weighs more than it does.",
+      "ms": 4000
+    },
+    {
+      "title": "CUBBON PARK · 18:10",
+      "text": "The lamps along the line come on, one by one.",
+      "ms": 4200
+    }
+  ],
+  "then": {
+    "district": "cubbon_park",
+    "spawn": "bus_drop",
+    "minute": 1090
+  }
+}

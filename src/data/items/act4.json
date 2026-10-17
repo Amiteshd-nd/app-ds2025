@@ -218,5 +218,45 @@
     "stackable": false,
     "act4_value": 0,
     "tradeable": false
+  },
+  {
+    "id": "med_crate",
+    "name": "Medical crate",
+    "description": "A taped carton from the slot shop's stockroom: antibiotics, saline, gauze.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
+  },
+  {
+    "id": "radio_set",
+    "name": "Two-way radio",
+    "description": "A depot radio with a cracked case. It still hisses.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
+  },
+  {
+    "id": "battery_cores",
+    "name": "Battery cores",
+    "description": "Four heavy cells from a service counter. Rathore's engineer wants these more than food.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
+  },
+  {
+    "id": "uv_emitter_parts",
+    "name": "UV emitter parts",
+    "description": "The tube and the driver board from HIVR's steriliser. They glow faintly in the bag.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
   }
 ]

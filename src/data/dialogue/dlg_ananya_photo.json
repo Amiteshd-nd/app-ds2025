@@ -1,0 +1,24 @@
+{
+  "id": "dlg_ananya_photo",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "base_cubbon_set",
+      "node": "photo"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(A noticeboard. Park timings.)"
+    },
+    "photo": {
+      "text": "(Pinned to the noticeboard: a photo of the bandstand in sunlight. On the back, in pen: 'Went with the first trucks. — A.')",
+      "effect": {
+        "flags": {
+          "ananya_photo_seen": true
+        }
+      }
+    }
+  }
+}
