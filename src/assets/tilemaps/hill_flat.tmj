@@ -1370,24 +1370,6 @@
        "value": 35
       }
      ]
-    },
-    {
-     "id": 24,
-     "name": "fan",
-     "type": "above",
-     "rotation": 0,
-     "visible": true,
-     "x": 234,
-     "y": 173,
-     "width": 108,
-     "height": 80,
-     "properties": [
-      {
-       "name": "image",
-       "type": "string",
-       "value": "hill_flat__fan"
-      }
-     ]
     }
    ],
    "opacity": 1,
@@ -2488,7 +2470,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 25,
+ "nextobjectid": 24,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",
