@@ -1,39 +1,121 @@
 {
   "id": "act3_ward4",
-  "district": "TODO",
+  "district": "ward4",
   "act": 3,
   "seq": "3.2",
   "title": "Ward 4",
   "status": "STUB",
-  "player_goal": "Immobile with a broken wrist; listen.",
-  "design_goal": "The nurse from the bus (callback, npc_bus_nurse), a sealed section, Ravi concussed in the next bed.",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §6 (3.2: immobile with a broken wrist; the nurse from the bus; a sealed section, 'do not enter'; Ravi in the next bed, concussed, talking), ADR-37 (the 'acute viral encephalitis' cover-up; monsoon drains spread it during Act 3, off-screen, on the ward TV), infected_behaviour_v1 (light hurts them; noise draws them — planted, never explained), 1.5 (the bus nurse, HEBBAL in red on her badge, nurse_heard), 2.5 (ravi_supported / ravi_left), 3.1 (AMR-07, night_ops, the held card). The user edits the words and the numbers; then P18 builds it.",
+  "time": "10:20 the morning after the crash (3.1's card lands here); one day, no sleep in this scene",
+  "player_goal": "Wake up in a government ward with your wrist in a cast; find out where you are and who is in the next bed.",
+  "design_goal": "Curiosity after the shock (Act 3's quiet middle): you cannot leave, you can barely carry anything, and the ward is full of small wrong things — a nurse you've met before, a glass door at the end with the lights off behind it, a TV that keeps saying 'viral'. Ravi, concussed, talks in loops, and the loop keeps coming back to one sentence: 'Appa called. I answered.' That sentence is the door into 3.3, the flashback.",
   "pacing": [
-    "TODO"
+    "Calm",
+    "Curious",
+    "Curious",
+    "Engaged"
   ],
+  "entry": {
+    "from": "office_gate",
+    "spawn": "your_bed",
+    "after": []
+  },
   "cast": [
-    "TODO: npc_bus_nurse",
-    "TODO: npc_ravi"
+    {
+      "npc": "npc_bus_nurse",
+      "tier": 3,
+      "spawn": "nurse_station",
+      "role": "The nurse from the 335-E bus (1.5), on day shift. Her badge reads SISTER LALITHA · HEBBAL GENERAL. If you talked on the bus (nurse_heard): 'You. The Cubbon bus. You let me sleep.' Else: 'You've got a face I've seen.' Then: 'Stay this side of the red line. That door is isolation. Nobody goes in, nobody asks.' She is kind, quick, and does not answer questions about the ward at the end."
+    },
+    {
+      "npc": "npc_ravi",
+      "tier": 3,
+      "spawn": "ravi_bed",
+      "role": "In the next bed, head bandaged, concussed. He doesn't remember the junction. He talks in loops — the stipend 'still processing', his sister's wedding, 'they'll dock me for the bike'. If ravi_supported: 'You came at 1 AM. Nobody comes at 1 AM.' If ravi_left: he doesn't mention that night at all. Every loop ends nearer one sentence: 'Appa called. That night. I answered. You're supposed to change gloves first.' Then he stops."
+    }
   ],
   "quests": [
-    "TODO: q_act3_ward4"
+    "q_act3_ward4"
   ],
   "beats": [
-    "F1 — Ward pocket (TODO render).",
-    "F2 — Nurse callback.",
-    "F3 — Ravi talks."
+    {
+      "id": "F1",
+      "pacing": "Calm",
+      "what": "3.1's held card gets its landing: 'HEBBAL GENERAL · WARD 4 · 10:20' and the ward fades in, you on your bed. A toast: 'Left wrist: fractured. Cast, six weeks.' The phone has been buzzing all night: Amma ('Where are you? Call me.' — one bar, the call won't connect), Sameer ('my bike?? forget the bike. are YOU ok' / without his bike: 'heard about the scooter. coming tomorrow'), Divya ('HR says take the week. Don't worry about AMR-07. Really.').",
+      "interact": "card landing + phone",
+      "flag": "ward_woke"
+    },
+    {
+      "id": "F2",
+      "pacing": "Curious",
+      "what": "The nurse at her station: the bus callback, the red line on the floor, 'that door is isolation'. A tray by your bed (idli, cold) refills food once.",
+      "interact": "dialogue",
+      "flag": "nurse_ward_met"
+    },
+    {
+      "id": "F3",
+      "pacing": "Curious",
+      "what": "The end of the ward: a glass door taped over with newspaper, DO NOT ENTER in marker. The ward is lit; behind the glass the lights are off. Stand there and something on the other side taps on the glass — slow, patient — and stops when you step back. (Optional) The ward TV on the wall: 'Acute viral encephalitis: BBMP to clear storm drains before the monsoon. Officials: no cause for alarm.'",
+      "interact": "zone + object",
+      "flag": "sealed_section_seen, ward_tv_seen?"
+    },
+    {
+      "id": "F4",
+      "pacing": "Engaged",
+      "what": "Ravi in the next bed: three loops of the same conversation (the stipend, the bike, the wedding loan), each one ending closer to 'Appa called. That night. I answered.' On the third he says it, and stops. The ward stays playable; 3.3 'The Corridor' starts from this line when it is built.",
+      "interact": "dialogue (three visits)",
+      "flag": "ravi_ward_talked, act3_ward4_done"
+    }
   ],
-  "economy": [],
+  "economy": [
+    {
+      "trigger": "the hospital tray",
+      "spend": "free (government ward)",
+      "canAfford": true
+    }
+  ],
   "exits": [
-    "TODO"
+    {
+      "zone": "ward_door",
+      "to": "(locked)",
+      "transit": "walk",
+      "note": "lockedText 'Not discharged.' — the ward door opens in 3.5 Discharge"
+    }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "ward_woke",
+    "wrist_cast",
+    "nurse_ward_met",
+    "sealed_section_seen",
+    "ward_tv_seen",
+    "ravi_ward_talked",
+    "act3_ward4_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "the ward pocket: one top-down render, 12×8 (scale a room by its door): six iron beds in two rows, your bed and Ravi's side by side, a nurse's station with a register, a wall TV, a red line on the floor, the taped glass door at the far end, barred windows, no ceiling fans",
+    "Ravi lying in bed, head bandaged (a lying-down sprite, generated)",
+    "two other patients asleep in beds (lying sprites or bed props)",
+    "the nurse uses her existing sheet (npc_nurse)",
+    "engine: a card sequence can end by landing in a district at a time (`then`), replacing 3.1's hold; a district may slow the player (`walkSpeed`) — the cast"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "3.1's card no longer holds: it lands in Ward 4 at 10:20 the next morning; the 'ACT 3 CONTINUES IN WARD 4' line is gone",
+    "the ward door says 'Not discharged.' and nothing else leads out",
+    "the nurse remembers you only if you talked on the bus",
+    "the sealed door: dark behind the glass, the tapping only while you stand there",
+    "Ravi's three loops end on 'I answered'; ravi_supported / ravi_left change one line each",
+    "the walkthrough bot plays the ward and the headless run stays green (19 of 19)"
   ],
   "open_questions": [
-    "Movement limited how: no running, one-handed phone?"
+    "LANDING: draft = 3.1's card lands straight in the ward at 10:20 the next morning. Or a longer gap ('Two days later')?",
+    "THE WARD: draft = one 12×8 room (six beds, nurse's station, TV, the sealed door at the far end). Or a long hall with more beds (a 24×16 pocket only works if its door still comes out ~32 px)?",
+    "THE CAST: draft = you walk slower and can't run; the phone works one-handed; nothing else changes. Or bed-bound until the nurse says you can get up?",
+    "YOUR LOOK: draft = your own clothes (no new art). Or a hospital gown (a new player sheet × 5 skin tones)?",
+    "THE NURSE: draft = the bus nurse, badge 'SISTER LALITHA · HEBBAL GENERAL', remembers you only if you talked on the bus. Keep the name?",
+    "RAVI: draft = lying in bed, three loops, says only 'Appa called. I answered.' — the rest is 3.3. More or less?",
+    "THE SEALED DOOR: draft = lights off behind the glass + a slow tapping while you stand there (planting 'light hurts them'). Too early, or just the sign?",
+    "THE WARD TV (ADR-37): draft = one headline about clearing storm drains before the monsoon. Keep?",
+    "THE PHONE: draft = Amma (can't call out — one bar), Sameer, Divya ('Don't worry about AMR-07. Really.'). Keep all three?",
+    "THE END: draft = the ward stays playable and 3.3 starts from Ravi's line once it's built (no second hold card). Or hold on a card like 3.1?"
   ]
 }
