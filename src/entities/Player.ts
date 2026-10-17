@@ -29,6 +29,8 @@ export class Player extends Phaser.GameObjects.Sprite {
     return this.currentDirection;
   }
   private isMoving = false;
+  /** A place that slows you and stops you running — a cast in the ward (district `walkSpeed`, ADR-137). */
+  walkScale = 1;
   private interactionEnabled = true;
   private interactionCallback: (() => void) | null = null;
 
@@ -89,7 +91,8 @@ export class Player extends Phaser.GameObjects.Sprite {
 
     // Low food = slower walk (components §7) — felt, not fatal, in Acts 0–3.
     const hungry = useGameStore.getState().stats.food < HUNGRY_AT ? HUNGRY_SPEED : 1;
-    const speed = (this.shiftKey.isDown || input.run ? PLAYER_RUN_SPEED : PLAYER_SPEED) * hungry;
+    const running = (this.shiftKey.isDown || input.run) && this.walkScale >= 1;
+    const speed = (running ? PLAYER_RUN_SPEED : PLAYER_SPEED) * hungry * this.walkScale;
 
     let velX = 0;
     let velY = 0;

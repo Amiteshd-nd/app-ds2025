@@ -1,0 +1,33 @@
+{
+  "id": "dlg_sealed_door",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "sealed_section_seen",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Newspaper taped over the glass. DO NOT ENTER in thick marker. Through a gap: dark. The ward behind you is lit. That room isn't.)",
+      "next": "tap"
+    },
+    "tap": {
+      "text": "(Something on the other side taps on the glass. Slow. Patient. Tap. ... Tap.)",
+      "next": "stop"
+    },
+    "stop": {
+      "text": "(You step back. It stops.)",
+      "effect": {
+        "flags": {
+          "sealed_section_seen": true
+        },
+        "stress": 3
+      }
+    },
+    "again": {
+      "text": "(Dark behind the newspaper. You don't wait for the tapping.)"
+    }
+  }
+}

@@ -1,12 +1,14 @@
 {
   "id": "card_orr_night",
-  "$comment": "Story 3.1 F2–F4 (ADR-136): the HIVR day (a card — the site is a reveal for later, ADR-11), the ride home on the Outer Ring Road (told, not played), the cut at Hebbal junction, the ambulance in fragments. No fight, no gore, no flash under reduced motion. It holds on its last panel until 3.2 Ward 4 is built.",
+  "$comment": "Story 3.1 F2–F4 (ADR-136): the HIVR day (a card — the site is a reveal for later, ADR-11), the ride home on the Outer Ring Road (told, not played), the cut at Hebbal junction, the ambulance in fragments. No fight, no gore, no flash under reduced motion. It lands in Ward 4 at 10:20 the next morning (3.2, ADR-137).",
   "panels": [
     {
       "unlessFlag": "scooter_owned",
       "title": "ITPL · 09:40",
       "text": "Sameer drops his keys in your hand. \"Take the bike. Bring it back with the mirror on.\"",
-      "setFlags": ["sameer_bike_lent"]
+      "setFlags": [
+        "sameer_bike_lent"
+      ]
     },
     {
       "title": "HIVR · VISITOR BLOCK · 11:00",
@@ -16,7 +18,10 @@
       "title": "HIVR · 19:30",
       "text": "The sample tracker. Batch AMR-07: status overwritten at 02:14 on a rainy Thursday, by a user called night_ops. You write it down.",
       "ms": 5600,
-      "setFlags": ["hivr_site_visit", "clue_amr07_time"]
+      "setFlags": [
+        "hivr_site_visit",
+        "clue_amr07_time"
+      ]
     },
     {
       "title": "HIVR · 23:30",
@@ -35,8 +40,13 @@
       "title": "ORR · 23:52",
       "text": "A bike comes down off the flyover too fast. No lights. The rider's head is down. Your scooter's horn is the last thing you hear.",
       "ms": 4600,
-      "setFlags": ["orr_crash", "scooter_wrecked"],
-      "clearFlags": ["scooter_owned"]
+      "setFlags": [
+        "orr_crash",
+        "scooter_wrecked"
+      ],
+      "clearFlags": [
+        "scooter_owned"
+      ]
     },
     {
       "unlessFlag": "scooter_owned",
@@ -45,21 +55,61 @@
       "title": "ORR · 23:52",
       "text": "A bike comes down off the flyover too fast. No lights. The rider's head is down. Sameer's horn is the last thing you hear.",
       "ms": 4600,
-      "setFlags": ["orr_crash", "sameer_bike_wrecked"]
+      "setFlags": [
+        "orr_crash",
+        "sameer_bike_wrecked"
+      ]
     },
-    { "style": "fragment", "text": "...two of them...", "ms": 2600 },
-    { "style": "fragment", "text": "...same ambulance, no time, lift on three...", "ms": 3000 },
-    { "style": "fragment", "text": "A siren, far away. Then very close.", "ms": 3000 },
-    { "style": "fragment", "text": "The other stretcher. A green lanyard hanging over the edge.", "ms": 3800 },
+    {
+      "style": "fragment",
+      "text": "...two of them...",
+      "ms": 2600
+    },
+    {
+      "style": "fragment",
+      "text": "...same ambulance, no time, lift on three...",
+      "ms": 3000
+    },
+    {
+      "style": "fragment",
+      "text": "A siren, far away. Then very close.",
+      "ms": 3000
+    },
+    {
+      "style": "fragment",
+      "text": "The other stretcher. A green lanyard hanging over the edge.",
+      "ms": 3800
+    },
     {
       "style": "fragment",
       "text": "A phone buzzing in his pocket. APPA. APPA. APPA. Until someone silences it.",
       "ms": 4200,
-      "setFlags": ["ravi_recognised"]
+      "setFlags": [
+        "ravi_recognised"
+      ]
     },
-    { "style": "title", "title": "Ravi.", "text": "ACT 3 CONTINUES IN WARD 4" }
+    {
+      "style": "fragment",
+      "text": "Ravi.",
+      "ms": 3000
+    },
+    {
+      "title": "HEBBAL GENERAL · WARD 4 · 10:20",
+      "text": "Left wrist: fractured. A cast, six weeks. You are not going anywhere.",
+      "ms": 5000,
+      "setFlags": [
+        "ward_woke",
+        "wrist_cast"
+      ]
+    }
   ],
-  "clearFlags": ["hivr_assigned"],
-  "clockAt": 1435,
-  "end": "hold"
+  "clearFlags": [
+    "hivr_assigned"
+  ],
+  "then": {
+    "district": "ward4",
+    "spawn": "your_bed",
+    "nextDay": true,
+    "minute": 620
+  }
 }

@@ -1,0 +1,10 @@
+{
+  "id": "dlg_ward_patient_old",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(Asleep. His hand twitches on the blanket, as if he's counting something.)"
+    }
+  }
+}

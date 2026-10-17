@@ -1,0 +1,84 @@
+{
+  "id": "dlg_ravi_ward",
+  "speaker": "Ravi",
+  "portrait": "npc_ravi",
+  "enter": [
+    {
+      "flag": "ravi_ward_talked",
+      "node": "after"
+    },
+    {
+      "flag": "ravi_loop2",
+      "node": "loop3"
+    },
+    {
+      "flag": "ravi_loop1",
+      "node": "loop2"
+    },
+    {
+      "flag": "ravi_supported",
+      "node": "loop1_supported"
+    },
+    {
+      "flag": "ravi_left",
+      "node": "loop1_left"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Ravi, head bandaged, staring at the ceiling.) Oh. Hi. Do I - sorry. Do I know you?",
+      "next": "loop1b"
+    },
+    "loop1_supported": {
+      "text": "(Ravi turns his head, slowly.) You. You came at one in the morning. Nobody comes at one in the morning.",
+      "next": "loop1b"
+    },
+    "loop1_left": {
+      "text": "(Ravi looks at you as if he's trying to place you, and doesn't.) Hi.",
+      "next": "loop1b"
+    },
+    "loop1b": {
+      "text": "Where's my bike? They'll dock the stipend for the bike. The stipend's still processing. Did I say that?",
+      "next": "loop1_end"
+    },
+    "loop1_end": {
+      "text": "(He closes his eyes.) Appa called. That night. I - (He's asleep.)",
+      "effect": {
+        "flags": {
+          "ravi_loop1": true
+        }
+      }
+    },
+    "loop2": {
+      "text": "Akka's wedding is in Shravana. Three lakh, the loan. (He laughs, then stops - it hurts.) Did I say that already? The samples were mine. Nights. Alone.",
+      "next": "loop2_end"
+    },
+    "loop2_end": {
+      "text": "You change gloves first. Everyone knows you change gloves first. (He's asleep again before you can answer.)",
+      "effect": {
+        "flags": {
+          "ravi_loop2": true
+        }
+      }
+    },
+    "loop3": {
+      "text": "(Awake. Clear, for a moment.) Appa called. That night. In the corridor.",
+      "next": "loop3b"
+    },
+    "loop3b": {
+      "text": "I answered. (He looks at you.) You're supposed to change gloves first. I answered.",
+      "next": "loop3c"
+    },
+    "loop3c": {
+      "text": "(He stops. He doesn't say anything else.)",
+      "effect": {
+        "flags": {
+          "ravi_ward_talked": true
+        }
+      }
+    },
+    "after": {
+      "text": "(Ravi's asleep, or pretending. The green lanyard is on his locker, folded small.)"
+    }
+  }
+}

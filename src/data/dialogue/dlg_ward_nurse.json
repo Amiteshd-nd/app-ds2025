@@ -1,0 +1,57 @@
+{
+  "id": "dlg_ward_nurse",
+  "speaker": "Sister Lalitha",
+  "portrait": "npc_nurse",
+  "enter": [
+    {
+      "flag": "nurse_ward_met",
+      "node": "again"
+    },
+    {
+      "flag": "nurse_heard",
+      "node": "remembers"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(The nurse at the desk looks up.) You've got a face I've seen. Never mind - on a double shift everybody's face looks like someone's.",
+      "next": "rules"
+    },
+    "remembers": {
+      "text": "(The nurse at the desk looks up, then looks again.) You. The Cubbon bus. You let me sleep all the way to the park.",
+      "next": "rules"
+    },
+    "rules": {
+      "text": "Sister Lalitha. Day shift, this week. Stay this side of the red line. That door is isolation. Nobody goes in, nobody asks.",
+      "choices": [
+        {
+          "text": "What's in there?",
+          "next": "isolation"
+        },
+        {
+          "text": "When can I go home?",
+          "next": "discharge"
+        }
+      ]
+    },
+    "isolation": {
+      "text": "Patients. (She writes something in the register and doesn't look up again.) Eat your idli. It's not going to get warmer.",
+      "effect": {
+        "flags": {
+          "nurse_ward_met": true
+        }
+      }
+    },
+    "discharge": {
+      "text": "When the doctor signs. The doctor signs on Thursdays. Some Thursdays.",
+      "effect": {
+        "flags": {
+          "nurse_ward_met": true
+        }
+      }
+    },
+    "again": {
+      "text": "Red line. Idli. Rest. In that order."
+    }
+  }
+}

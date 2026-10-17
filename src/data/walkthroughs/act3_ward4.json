@@ -1,0 +1,120 @@
+{
+  "scene": "act3_ward4",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act3_ward4 + ward4 + entry.after F1",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ward4",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "beat": "F1",
+      "do": "expect",
+      "flag": "ward_woke",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F2",
+      "do": "goto",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "interact_5",
+      "beat": "F2",
+      "do": "interact",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "choose_6",
+      "beat": "F2",
+      "do": "choose",
+      "option": "isolation"
+    },
+    {
+      "id": "goto_7",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:sealed_zone"
+    },
+    {
+      "id": "advance_8",
+      "beat": "F3",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_9",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "sealed_section_seen",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_10",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "interact_11",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "advance_12",
+      "beat": "F4",
+      "do": "advance"
+    },
+    {
+      "id": "goto_13",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "interact_14",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "advance_15",
+      "beat": "F4",
+      "do": "advance"
+    },
+    {
+      "id": "goto_16",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "interact_17",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "advance_18",
+      "beat": "F4",
+      "do": "advance"
+    },
+    {
+      "id": "expect_19",
+      "do": "expect",
+      "flag": "act3_ward4_done",
+      "timeout": 3000
+    }
+  ]
+}

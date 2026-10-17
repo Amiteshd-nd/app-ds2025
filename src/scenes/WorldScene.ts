@@ -114,6 +114,7 @@ export class WorldScene extends Phaser.Scene {
     const y = data.y ?? spawn?.y ?? this.map.heightInPixels / 2;
 
     this.player = new Player(this, x, y, store.appearance.sheet);
+    this.player.walkScale = this.district.walkSpeed ?? 1;
     const body = this.player.body as Phaser.Physics.Arcade.Body;
     body.setBounce(0);
     body.setCollideWorldBounds(true);
@@ -489,6 +490,13 @@ export class WorldScene extends Phaser.Scene {
       for (const f of out.clear) store.setFlag(f, false);
       for (const f of out.set) store.setFlag(f, true);
       if (out.clockAt !== undefined) store.setClock({ day: store.clock.day, minute: out.clockAt });
+      // A landing (the crash card ends in Ward 4): the clock moves, then a plain fade into the place.
+      if (seq.then) {
+        const { district, spawn, minute, nextDay } = seq.then;
+        if (minute !== undefined) store.setClock({ day: store.clock.day + (nextDay ? 1 : 0), minute });
+        this.leaveVia({ zone: '', to: district, spawn, transit: 'walk' });
+        return;
+      }
       this.persist();
       if (seq.end === 'hold') return;
       this.scene.stop(SCENE_KEYS.CARD);

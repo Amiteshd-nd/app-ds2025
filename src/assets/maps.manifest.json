@@ -313,6 +313,20 @@
         "ambient_area"
       ],
       "sop": true
+    },
+    "ward4": {
+      "file": "ward4.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "your_bed",
+        "ravi_bed",
+        "nurse_station",
+        "ward_exit",
+        "sealed_zone"
+      ],
+      "sop": true
     }
   }
 }

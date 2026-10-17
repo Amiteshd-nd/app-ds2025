@@ -1,0 +1,15 @@
+{
+  "id": "dlg_ward_tv",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The TV on its bracket, sound off. A ticker crawls: ACUTE VIRAL ENCEPHALITIS - BBMP TO CLEAR STORM DRAINS BEFORE THE MONSOON - OFFICIALS: NO CAUSE FOR ALARM.)",
+      "effect": {
+        "flags": {
+          "ward_tv_seen": true
+        }
+      }
+    }
+  }
+}

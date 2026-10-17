@@ -44,6 +44,13 @@
       "text": "Did you reach home? The news is saying something about Bangalore. Reply.",
       "after": "cubbon_arrived",
       "critical": true
+    },
+    {
+      "id": "amma_ward",
+      "from": "them",
+      "text": "Where are you? Your phone rang and rang. Call me.",
+      "after": "ward_woke",
+      "critical": true
     }
   ]
 }

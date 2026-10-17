@@ -93,7 +93,7 @@ export class CardScene extends Phaser.Scene {
     this.shownAt = this.time.now;
     const panel = this.panels[i];
     const last = i === this.panels.length - 1;
-    this.holding = last && this.seq.end === 'hold';
+    this.holding = last && this.seq.end === 'hold' && !this.seq.then;
 
     if (panel.still && this.textures.exists(panel.still)) this.still.setTexture(panel.still).setVisible(true);
     else this.still.setVisible(false);

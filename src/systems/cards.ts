@@ -45,6 +45,16 @@ export interface CardSequence {
    * `hold`: the last panel stays — the story continues in a scene not built yet (3.1 → 3.2 Ward 4).
    */
   end?: 'world' | 'hold';
+  /** Land somewhere when it ends — the crash card ends in Ward 4 the next morning (story 3.2, ADR-137). Wins over `end`. */
+  then?: CardLanding;
+}
+
+export interface CardLanding {
+  district: string;
+  spawn: string;
+  /** The clock on landing: this minute, of the next day when `nextDay`. */
+  minute?: number;
+  nextDay?: boolean;
 }
 
 export const DEFAULT_PANEL_MS = 4200;

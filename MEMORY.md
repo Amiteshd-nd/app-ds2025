@@ -127,3 +127,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - The `sleepEvents` loop reads one store snapshot, so two events with the same `after` fire the same night (act2_done + act3_started); an event whose `after` is set by another event that night waits a night.
 - Full-colour stills go through `import-backdrop` with `still: true` (cover-crop, own 32-colour palette). Check a still at game size before using it.
 - Vite on :6174 once served a stale module after an edit; if a change doesn't show after a reload, fetch the module source and check it before debugging (restart the preview server).
+
+## 3.2 Ward 4 (2026-10-17, P18, ADR-137)
+- A place reached only by a card (`then`) has no exit leading in; the world validator follows `card` triggers' landings, and the generator switches district on a landing.
+- Lying figures are character sheets named `*_bed` (one generated 3×4 grid split per person; `still` import skips stride synthesis); place their spawn so the head covers the bed's pillow, then check a zoomed snapshot.
+- A locked ward door is a conversation trigger on the exit zone, not an exit: an exit needs a city-map path, and there is nowhere to go yet.
+- After a re-import the dev server can serve the old tilemap (the page shows a red placeholder on black): restart the preview server, and ignore the console errors from that load.

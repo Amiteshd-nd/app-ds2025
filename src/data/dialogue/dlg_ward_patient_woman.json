@@ -1,0 +1,10 @@
+{
+  "id": "dlg_ward_patient_woman",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(Asleep, or nearly. A plastic bag of oranges on her locker that nobody has opened.)"
+    }
+  }
+}

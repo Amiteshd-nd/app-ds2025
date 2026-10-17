@@ -79,7 +79,7 @@ const rawDir = join(assets, '_raw/characters');
 const imported = [];
 for (const file of readdirSync(rawDir).filter((f) => f.endsWith('.png')).sort()) {
   const name = file.replace(/\.png$/, '');
-  imported.push(...(await importSheet(join(rawDir, file), name, { skins: name.startsWith('player_') })));
+  imported.push(...(await importSheet(join(rawDir, file), name, { skins: name.startsWith('player_'), still: name.endsWith('_bed') })));
 }
 
 // ── Breathing: derived F1–F3 from each sheet's idle (breath.json lines) ──

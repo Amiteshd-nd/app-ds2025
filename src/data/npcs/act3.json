@@ -1,0 +1,33 @@
+[
+  {
+    "id": "npc_ward_nurse",
+    "name": "Sister Lalitha",
+    "tier": 3,
+    "dialogue": "dlg_ward_nurse",
+    "sheet": "npc_nurse"
+  },
+  {
+    "id": "npc_ravi_ward",
+    "name": "Ravi",
+    "tier": 3,
+    "dialogue": "dlg_ravi_ward",
+    "sheet": "npc_ravi_bed",
+    "breathing": false
+  },
+  {
+    "id": "npc_patient_old",
+    "name": "Old man, asleep",
+    "tier": 2,
+    "dialogue": "dlg_ward_patient_old",
+    "sheet": "npc_patient_old_bed",
+    "breathing": false
+  },
+  {
+    "id": "npc_patient_woman",
+    "name": "Woman, asleep",
+    "tier": 2,
+    "dialogue": "dlg_ward_patient_woman",
+    "sheet": "npc_patient_woman_bed",
+    "breathing": false
+  }
+]

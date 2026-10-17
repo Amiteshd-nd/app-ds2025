@@ -1,0 +1,49 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 12x8; the entrance door comes out ~36 px — scale a room by its door) — Ward 4, Hebbal General (story 3.2, ADR-137): the top wall band with its barred windows and the taped isolation doors (top right) are `buildings`, so are the left wall and the bottom wall either side of the entrance; the six beds with their lockers, the IV stands' bases, the nurse's desk and the wall TV are blocks. Your bed is top-left, Ravi's next to it; the other two patients lie in the bottom-left and bottom-right beds. The red line runs down the floor before the isolation doors; the nurse stands behind her desk.",
+  "name": "ward4",
+  "cols": 12,
+  "rows": 8,
+  "units": "px",
+  "buildings": [
+    [0, 0, 1536, 150],
+    [1220, 0, 316, 185],
+    [0, 150, 48, 775],
+    [0, 925, 688, 99],
+    [828, 925, 708, 99],
+    [688, 990, 140, 34]
+  ],
+  "blocks": [
+    [138, 115, 116, 255],
+    [258, 138, 56, 95],
+    [500, 115, 116, 255],
+    [622, 138, 52, 95],
+    [868, 115, 116, 255],
+    [990, 138, 52, 95],
+    [1020, 235, 56, 32],
+    [140, 650, 116, 255],
+    [262, 672, 52, 92],
+    [500, 650, 116, 255],
+    [622, 672, 52, 92],
+    [820, 650, 116, 255],
+    [940, 672, 52, 92],
+    [972, 770, 56, 34],
+    [1130, 758, 314, 155],
+    [48, 290, 36, 120]
+  ],
+  "spawns": [
+    { "name": "your_bed", "x": 196, "y": 450 },
+    { "name": "ravi_bed", "x": 558, "y": 276 },
+    { "name": "patient_old", "x": 198, "y": 811 },
+    { "name": "patient_woman", "x": 878, "y": 811 },
+    { "name": "nurse_station", "x": 1262, "y": 748 },
+    { "name": "ward_door", "x": 758, "y": 860 }
+  ],
+  "zones": [
+    { "name": "ward_exit", "x": 690, "y": 945, "w": 136, "h": 40 },
+    { "name": "sealed_zone", "x": 1300, "y": 190, "w": 190, "h": 80 },
+    { "name": "tv_zone", "x": 52, "y": 380, "w": 80, "h": 160 },
+    { "name": "tray_zone", "x": 262, "y": 240, "w": 70, "h": 60 }
+  ],
+  "sorted": [],
+  "above": []
+}

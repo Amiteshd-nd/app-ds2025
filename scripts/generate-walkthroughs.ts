@@ -257,7 +257,12 @@ class Gen {
       for (const g of out.set) this.known.add(g);
       if (out.clockAt !== undefined) this.minute = out.clockAt;
       this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: cardDuration(seq, flags) + 15000 });
-      if (seq.end !== 'hold') this.push({ do: 'wait_for', ready: 'free', timeout: 10000 });
+      if (seq.then) {
+        // A landing (the crash card ends in Ward 4): the next place loads, the clock moves.
+        this.push({ do: 'wait_for', ready: 'scene_loaded', scene: seq.then.district, timeout: cardDuration(seq, flags) + 20000 });
+        this.district = seq.then.district; this.open = null; this.known.add(`visited:${seq.then.district}`);
+        if (seq.then.minute !== undefined) this.minute = seq.then.minute;
+      } else if (seq.end !== 'hold') this.push({ do: 'wait_for', ready: 'free', timeout: 10000 });
       return true;
     }
     this.known.add(f);

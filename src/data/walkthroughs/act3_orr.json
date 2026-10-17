@@ -51,24 +51,32 @@
       "do": "wait_for",
       "ready": "flag",
       "flag": "hivr_site_visit",
-      "timeout": 61000
+      "timeout": 64800
     },
     {
-      "id": "expect_9",
+      "id": "wait_for_9",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ward4",
+      "timeout": 69800
+    },
+    {
+      "id": "expect_10",
       "beat": "F3",
       "do": "expect",
       "flag": "orr_crash",
       "timeout": 3000
     },
     {
-      "id": "expect_10",
+      "id": "expect_11",
       "beat": "F4",
       "do": "expect",
       "flag": "ravi_recognised",
       "timeout": 3000
     },
     {
-      "id": "expect_11",
+      "id": "expect_12",
       "do": "expect",
       "flag": "act3_orr_done",
       "timeout": 3000

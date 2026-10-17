@@ -1,0 +1,16 @@
+{
+  "id": "dlg_ward_tray",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(A steel tray on the locker: two idlis, cold, the chutney gone grey, a paper cup of tea with a skin on it. You eat one-handed.)",
+      "effect": {
+        "food": 30,
+        "flags": {
+          "ward_tray_eaten": true
+        }
+      }
+    }
+  }
+}

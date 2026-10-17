@@ -42,6 +42,12 @@
       "text": "Come by the lobby before you start.",
       "after": "act3_started",
       "critical": true
+    },
+    {
+      "id": "divya_ward",
+      "from": "them",
+      "text": "HR says take the week. Don't worry about AMR-07. Really.",
+      "after": "ward_woke"
     }
   ]
 }

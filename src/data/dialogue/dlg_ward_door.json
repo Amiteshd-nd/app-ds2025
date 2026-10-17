@@ -1,0 +1,10 @@
+{
+  "id": "dlg_ward_door",
+  "speaker": "Ward boy",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(A ward boy on a plastic chair outside the door looks up from his phone.) Not discharged. Sister will tell you when. Go and lie down."
+    }
+  }
+}

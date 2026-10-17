@@ -85,7 +85,7 @@ const isShadow = (r, g, b) => {
   return sat < 0.18 && val > 0.28 && val < 0.85;
 };
 
-export async function importSheet(rawPath, name, { skins = false } = {}) {
+export async function importSheet(rawPath, name, { skins = false, still = false } = {}) {
   const { data, info } = await sharp(rawPath).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const W = info.width, H = info.height;
   const px = (x, y) => { const i = (y * W + x) * 4; return [data[i], data[i + 1], data[i + 2], data[i + 3]]; };
@@ -218,7 +218,8 @@ export async function importSheet(rawPath, name, { skins = false } = {}) {
       if (oa || ob) opaque++;
       if (oa !== ob || base[ia] !== base[ib] || base[ia + 1] !== base[ib + 1] || base[ia + 2] !== base[ib + 2]) differ++;
     }
-    if (opaque === 0 || differ / opaque >= STRIDE_MIN_DIFF) continue;
+    // A figure that never walks (`*_bed`: lying in a ward bed, ADR-137) keeps its identical cells.
+    if (still || opaque === 0 || differ / opaque >= STRIDE_MIN_DIFF) continue;
 
     // Copy stride A into C, then mirror its leg band about the figure centre.
     let minX = FRAME_W, maxX = -1;
@@ -274,5 +275,5 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     console.error('usage: node scripts/import-sheet.mjs <raw.png> <name> [--skins]');
     process.exit(1);
   }
-  await importSheet(raw, name, { skins: flag === '--skins' });
+  await importSheet(raw, name, { skins: flag === '--skins', still: name.endsWith('_bed') });
 }

@@ -63,7 +63,7 @@
     {
       "id": "F4",
       "pacing": "Calm",
-      "what": "Fragments in the dark: '…two of them…' · '…same ambulance…' · a siren · the other stretcher: a green lanyard over the edge · a phone buzzing APPA until someone silences it. The card holds on 'Ravi.' — ACT 3 CONTINUES IN WARD 4 — until 3.2 is built.",
+      "what": "Fragments in the dark: '…two of them…' · '…same ambulance…' · a siren · the other stretcher: a green lanyard over the edge · a phone buzzing APPA until someone silences it. Then 'Ravi.' — and the card lands in Ward 4 at 10:20 the next morning (3.2).",
       "interact": "card",
       "flag": "ravi_recognised, act3_orr_done"
     }
@@ -72,9 +72,9 @@
   "exits": [
     {
       "zone": "office_door",
-      "to": "office_gate",
+      "to": "ward4",
       "transit": "walk",
-      "note": "no exit of its own: the office door plays the card sequence, which holds on its last panel until 3.2 Ward 4 (a new pocket) is built and becomes its landing"
+      "note": "the card sequence lands in Ward 4 (card `then`, ADR-137)"
     }
   ],
   "save_flags": [
@@ -101,7 +101,7 @@
     "the ride home is a card that cuts at the junction: no fight, no gore, no flash under reduced motion",
     "the ambulance fragments end on the green lanyard and the buzzing phone; ravi_recognised; the scooter is wrecked (scooter_owned off)",
     "if you never bought the scooter, Sameer's bike is the one that goes down (one line in the morning)",
-    "the scene holds on its last card until 3.2 is built; the headless run stays green (18 of 18)"
+    "the card lands in Ward 4 (3.2); the headless run stays green"
   ],
   "open_questions": [],
   "decided": "User 2026-10-17: 'take my defaults and proceed.' — every open question resolved by the draft's default (ADR-136)."

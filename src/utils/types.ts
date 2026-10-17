@@ -353,6 +353,8 @@ export interface DistrictDef {
   sleepEvents?: Array<{ after: string; set: string[]; clear?: string[]; toast?: string; icon?: IconName; /** Wake at this minute past midnight instead of the morning (ADR-133). */ wakeAt?: number; /** Fire on the n-th night after `after` (ADR-135). */ nights?: number; /** A card sequence played on waking — ACT 3 — FEVER (ADR-136). */ card?: string }>;
   /** Spawn object used when no spawn is named by the exit that led here. */
   defaultSpawn: string;
+  /** Walk at this share of normal speed, and no running (a cast in the ward, story 3.2, ADR-137). */
+  walkSpeed?: number;
   fadeMs?: number;
   unlock?: DistrictUnlock;
   /** Phone signal bars inside these zones (the hill's three doors, ADR-122); elsewhere the district's `signal`. */

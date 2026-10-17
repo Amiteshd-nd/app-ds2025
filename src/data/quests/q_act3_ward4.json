@@ -1,0 +1,64 @@
+{
+  "id": "q_act3_ward4",
+  "title": "Ward 4",
+  "description": "Hebbal General. Your wrist is in a cast and Ravi is in the next bed.",
+  "chapter": 3,
+  "district": "ward4",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act3_orr"
+  ],
+  "objectives": [
+    {
+      "id": "woke",
+      "text": "Wake up",
+      "type": "flag",
+      "target": "ward_woke",
+      "destination": "ward4"
+    },
+    {
+      "id": "nurse",
+      "text": "Talk to the nurse",
+      "type": "flag",
+      "target": "nurse_ward_met",
+      "destination": "ward4"
+    },
+    {
+      "id": "door",
+      "text": "The door at the end",
+      "type": "flag",
+      "target": "sealed_section_seen",
+      "destination": "ward4"
+    },
+    {
+      "id": "ravi1",
+      "text": "Talk to Ravi",
+      "type": "flag",
+      "target": "ravi_loop1",
+      "destination": "ward4"
+    },
+    {
+      "id": "ravi2",
+      "text": "Talk to Ravi again",
+      "type": "flag",
+      "target": "ravi_loop2",
+      "destination": "ward4"
+    },
+    {
+      "id": "ravi3",
+      "text": "Ravi",
+      "type": "flag",
+      "target": "ravi_ward_talked",
+      "destination": "ward4"
+    }
+  ],
+  "rewards": {
+    "xp": 10,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act3_ward4_done"
+    ]
+  }
+}

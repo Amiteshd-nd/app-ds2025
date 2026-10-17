@@ -16,7 +16,9 @@ const realWorld = (): WorldInputs => {
   const sprites = readdirSync(join(assetsDir, 'sprites'))
     .filter((f) => f.endsWith('.png'))
     .map((f) => f.replace(/\.png$/, ''));
-  return { manifest, maps: maps as WorldInputs['maps'], sprites };
+  const cardDir = join(dataDir, 'cards');
+  const cards = Object.fromEntries(readdirSync(cardDir).filter((f) => f.endsWith('.json')).map((f) => { const c = JSON.parse(readFileSync(join(cardDir, f), 'utf8')); return [c.id, c]; }));
+  return { manifest, maps: maps as WorldInputs['maps'], sprites, cards };
 };
 
 const realDistricts = () => JSON.parse(readFileSync(join(dataDir, 'districts.json'), 'utf8'));

@@ -1943,5 +1943,65 @@
     "behaviours": [
       "busRide"
     ]
+  },
+  {
+    "id": "ward4",
+    "name": "Ward 4, Hebbal General",
+    "map": "ward4",
+    "defaultSpawn": "your_bed",
+    "fadeMs": 400,
+    "realworld": {
+      "lat": 13.0418,
+      "lng": 77.5928,
+      "label": "Hebbal General (fictional)"
+    },
+    "signal": 1,
+    "walkSpeed": 0.7,
+    "unlock": {
+      "flags": [
+        "orr_crash"
+      ]
+    },
+    "quests": [
+      "q_act3_ward4"
+    ],
+    "npcs": [
+      {
+        "id": "npc_ward_nurse",
+        "spawn": "nurse_station"
+      },
+      {
+        "id": "npc_ravi_ward",
+        "spawn": "ravi_bed"
+      },
+      {
+        "id": "npc_patient_old",
+        "spawn": "patient_old"
+      },
+      {
+        "id": "npc_patient_woman",
+        "spawn": "patient_woman"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "sealed_zone",
+        "dialogue": "dlg_sealed_door"
+      },
+      {
+        "zone": "tv_zone",
+        "dialogue": "dlg_ward_tv",
+        "unlessFlag": "ward_tv_seen"
+      },
+      {
+        "zone": "tray_zone",
+        "dialogue": "dlg_ward_tray",
+        "unlessFlag": "ward_tray_eaten"
+      },
+      {
+        "zone": "ward_exit",
+        "dialogue": "dlg_ward_door"
+      }
+    ]
   }
 ]

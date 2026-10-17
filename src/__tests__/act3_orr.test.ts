@@ -86,7 +86,7 @@ describe('the HIVR day and the ride home (F2–F4)', () => {
     expect(out.set).toEqual(expect.arrayContaining(['hivr_site_visit', 'clue_amr07_time', 'orr_crash', 'scooter_wrecked', 'ravi_recognised']));
     expect(out.set).not.toContain('sameer_bike_lent');
     expect(out.clear).toEqual(['hivr_assigned', 'scooter_owned']); // the office door gets its workday back
-    expect(out.clockAt).toBe(23 * 60 + 55);
+    expect(out.set).toEqual(expect.arrayContaining(['ward_woke', 'wrist_cast']));
   });
 
   it('without one: Sameer lends his bike in the morning, and it is his bike that goes down', () => {
@@ -98,7 +98,7 @@ describe('the HIVR day and the ride home (F2–F4)', () => {
     expect(out.clear).toEqual(['hivr_assigned']);
   });
 
-  it('exactly one cut, over the junction still; the fragments end on the lanyard and APPA; it holds on Ravi', () => {
+  it('exactly one cut, over the junction still; the fragments end on the lanyard and APPA; it ends on Ravi, then lands in Ward 4 the next morning', () => {
     const panels = panelsFor(night, { scooter_owned: true });
     const cuts = panels.filter((p) => p.style === 'cut');
     expect(cuts).toHaveLength(1);
@@ -106,8 +106,10 @@ describe('the HIVR day and the ride home (F2–F4)', () => {
     const fragments = panels.filter((p) => p.style === 'fragment').map((p) => p.text).join(' ');
     expect(fragments).toContain('green lanyard');
     expect(fragments).toContain('APPA');
-    expect(night.end).toBe('hold');
-    expect(panels[panels.length - 1].title).toBe('Ravi.');
+    expect(night.end).toBeUndefined();
+    expect(panels[panels.length - 2].text).toBe('Ravi.');
+    expect(panels[panels.length - 1].title).toBe('HEBBAL GENERAL · WARD 4 · 10:20');
+    expect(night.then).toEqual({ district: 'ward4', spawn: 'your_bed', nextDay: true, minute: 620 });
     expect(duration(night, {})).toBeGreaterThan(30000);
   });
 });

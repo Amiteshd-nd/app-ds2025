@@ -709,6 +709,8 @@ export interface WorldInputs {
   sprites: string[];
   /** Where a run starts; every district must be reachable from it. */
   startDistrict?: string;
+  /** Card sequences by id: a `card` trigger whose sequence lands somewhere (`then`) is a way there (Ward 4, ADR-137). */
+  cards?: Record<string, Json>;
 }
 
 export interface WorldReport {
@@ -1011,7 +1013,8 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     const stations = [...byId.values()].filter((d) => d.metroStation).map((d) => d.id as string);
     while (queue.length) {
       const current = byId.get(queue.shift()!);
-      const next = [...(current?.exits ?? []).map((e: Json) => e.to as string), ...(current?.metroStation ? stations : [])];
+      const landings = ((current?.triggers ?? []) as Json[]).filter((t) => t.action === 'card').map((t) => world.cards?.[t.card]?.then?.district).filter((x): x is string => typeof x === 'string');
+      const next = [...(current?.exits ?? []).map((e: Json) => e.to as string), ...(current?.metroStation ? stations : []), ...landings];
       for (const to of next) {
         if (byId.has(to) && !reached.has(to)) {
           reached.add(to);
@@ -1302,6 +1305,11 @@ export function validateCards(files: JsonFile[], districts: Json[], stills: Set<
     flagList(where, 'setFlags', json.setFlags); flagList(where, 'clearFlags', json.clearFlags);
     if (json.clockAt !== undefined && !(Number.isInteger(json.clockAt) && json.clockAt >= 0 && json.clockAt < 24 * 60)) problems.push(`${where}: clockAt must be a minute of the day`);
     if (json.end !== undefined && !['world', 'hold'].includes(json.end)) problems.push(`${where}: end must be world or hold`);
+    if (json.then !== undefined) {
+      const t = json.then;
+      if (!districts.some((d) => d.id === t?.district) || typeof t?.spawn !== 'string') problems.push(`${where}: then must name a district that exists and a spawn`);
+      if (t?.minute !== undefined && !(Number.isInteger(t.minute) && t.minute >= 0 && t.minute < 24 * 60)) problems.push(`${where}: then.minute must be a minute of the day`);
+    }
     const last = json.panels[json.panels.length - 1];
     if (json.end === 'hold' && (last?.ifFlag || last?.unlessFlag)) problems.push(`${where}: a sequence that holds must end on a panel everyone sees`);
   }
@@ -1366,7 +1374,8 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const stills = new Set(existsSync(backdropDir) ? readdirSync(backdropDir).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, '')) : []);
   problems.push(...validateCards(existsSync(cardDir) ? readJsonDir('cards') : [], districts, stills, glyphs));
 
-  const world = validateWorld(districts, { manifest, maps, sprites });
+  const cardFiles = existsSync(cardDir) ? readJsonDir('cards') : [];
+  const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])) });
   problems.push(...world.problems);
   for (const w of world.warnings) console.warn(`  ⚠ ${w}`);
   const walkDir = join(dataDir, 'walkthroughs');

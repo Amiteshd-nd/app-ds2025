@@ -76,6 +76,20 @@
       "text": "fever 102. doctor says viral. dont tell divya i'm watching reels.",
       "after": "sameer_sick",
       "optional": true
+    },
+    {
+      "id": "sameer_ward_bike",
+      "from": "them",
+      "text": "my bike?? forget the bike. are YOU ok",
+      "after": "sameer_bike_wrecked",
+      "optional": true
+    },
+    {
+      "id": "sameer_ward_scooter",
+      "from": "them",
+      "text": "heard about the scooter. coming tomorrow. dont die before that",
+      "after": "scooter_wrecked",
+      "optional": true
     }
   ]
 }
