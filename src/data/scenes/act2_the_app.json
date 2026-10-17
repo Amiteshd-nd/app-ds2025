@@ -5,37 +5,125 @@
   "seq": "2.6",
   "title": "The App",
   "status": "STUB",
-  "player_goal": "Match with Priya; face Ananya at the bandstand.",
-  "design_goal": "Controversy hook (ADR-07): the Dating app (unlocked at act2_started), 'Priya', the unlocked phone, break-up → relationship strained.",
+  "draft": "Claude's draft 2026-10-17 from story_script_v1 §5 (2.6) and §4 (ananya_4: 'Next Sunday, bamboo, four o'clock'), ADR-07 (controversy hook: one short scene, real consequences — Ananya strained), ADR-08 (any mature beat is fade-to-black, optional, skippable, no achievement), game_components §3 (the Dating app appears in 2.6 only, then it's gone) and §8 (relationship states met → warm → strained → resolved / lost), and the later naming decision (design_decisions_v1: 'Priya = fight-back ally (user's); dating match → Tanvi'). The user edits the words and the numbers; then P15 builds it.",
+  "time": "The week after Ravi's night: the first sleep after act2_ravi_done (Sameer installs the app), then the date, then Sunday at four",
+  "player_goal": "Match with Tanvi — or don't; face Ananya at the bandstand.",
+  "design_goal": "Controversy hook (ADR-07): a beat people argue about, before anyone knows the stakes — honest characterisation of a lonely first year in a new city. One short scene, real consequences: if you match and meet, Ananya finds out and her state moves to strained. Agency: you can swipe left on everyone and the beat never happens. Reveal: the Dating app (a swipe screen) — appears now, gone after.",
   "pacing": [
-    "TODO"
+    "Curious",
+    "Engaged",
+    "Reward",
+    "Tense",
+    "Calm"
   ],
+  "entry": {
+    "from": "hill_flat",
+    "spawn": "bus_drop",
+    "after": ["F1", "F2", "F3"]
+  },
   "cast": [
-    "TODO: npc_priya",
-    "TODO: npc_ananya"
+    {
+      "npc": "npc_tanvi",
+      "tier": 2,
+      "spawn": "cafe_table",
+      "district": "church_street",
+      "role": "The match. Twenty-six, a UX designer at a startup in Indiranagar, dry and quick ('Your profile photo is a bus. Bold.'). Moved from Pune two years ago; knows exactly what your first year feels like. One scene only: coffee at the Church Street café. Not a villain, not a lesson — just someone nice at the wrong time."
+    },
+    {
+      "npc": "npc_ananya",
+      "tier": 3,
+      "spawn": "bandstand",
+      "role": "Sunday at four, the bandstand (moved from the bamboo — 'the light's better'). She borrows your phone to send herself the photos; the app's notification lands on the screen while she's holding it."
+    },
+    {
+      "npc": "npc_sameer",
+      "tier": 3,
+      "spawn": null,
+      "role": "Phone only: installs the app on your phone at the office 'as a public service' and texts you about it."
+    }
   ],
   "quests": [
-    "TODO: q_act2_the_app"
+    "q_act2_the_app"
   ],
   "beats": [
-    "F1 — Dating app: swipe UI (TODO), match with Priya.",
-    "F2 — Phone left unlocked at the flat; Ananya sees.",
-    "F3 — Bandstand break-up scene → `strained`.",
-    "F4 — Can the player avoid it entirely? (ADR-07: one scene, consequences real)."
+    {
+      "id": "F1",
+      "pacing": "Curious",
+      "what": "The first sleep after Ravi's night: Sameer's chat — 'Installed Jodi on your phone while you were in the loo. You're welcome. You can't live on chai and guitar forever.' A new app tile appears: Jodi (the parody dating app).",
+      "interact": "sleep + phone",
+      "flag": "dating_installed"
+    },
+    {
+      "id": "F2",
+      "pacing": "Engaged",
+      "what": "Jodi: one profile card at a time — a small pixel portrait, a name, a line. Four profiles: a gym bro's sister who only posts sunsets, a 'looking for a co-founder', a man who is clearly Sameer's cousin, and Tanvi ('UX at a startup. Will judge your font choices.'). ✕ / ♥ (tap, or ← →). Swipe left on all four and Jodi says 'That's everyone near you. Come back tomorrow.' — the beat ends here; the app quietly uninstalls itself after a week. Swipe right on Tanvi → it's a match → a short chat thread opens and she suggests coffee.",
+      "interact": "phone (new Jodi screen)",
+      "flag": "dating_opened, tanvi_matched | dating_declined"
+    },
+    {
+      "id": "F3",
+      "pacing": "Reward",
+      "what": "The date: the Church Street café (Maps METRO to MG Road — the stop is known). Tanvi at a table outside. Four exchanges: the city, your hill flat ('you live where the signal goes to die?'), her Pune, your guitar. Pay: you (₹480), split (₹240), or she insists. It goes well. It ends with a hug at the metro stairs and 'Text me when you reach.' (No mature beat in this build — see open questions.)",
+      "interact": "dialogue + pay",
+      "flag": "tanvi_date_done"
+    },
+    {
+      "id": "F4",
+      "pacing": "Tense",
+      "what": "Sunday, four o'clock, Cubbon Park bandstand. Ananya with the camera: 'Give me your phone, I'll send myself the bandstand ones.' While she's holding it: 'Jodi: Tanvi sent you a message — Had fun! Same time next week? :)'. She reads it twice, hands it back. The conversation: tell her the truth · 'It's just an app, Sameer installed it' · 'We're not... we never said we were anything' · say nothing. Every answer lands on strained — the words differ, the outcome doesn't (ADR-07). She leaves by the library steps.",
+      "interact": "dialogue",
+      "flag": "ananya_found_out, ananya_strained"
+    },
+    {
+      "id": "F5",
+      "pacing": "Calm",
+      "what": "That night: delete Jodi or keep it (keeping it does nothing — Tanvi's last message 'Same time next week?' sits unanswered; Jodi uninstalls itself after a week either way). Ananya's chat goes quiet; her contact note changes from 'Cubbon Park · photographer' to just 'Ananya'. A Reel at night: a fever clip from Hebbal, again.",
+      "interact": "phone",
+      "flag": "act2_app_done"
+    }
   ],
-  "economy": [],
+  "economy": [
+    { "trigger": "metro to MG Road (ADR-115 fare)", "spend": "≈45", "canAfford": true },
+    { "trigger": "coffee for two — you pay / split / she pays", "spend": "480 / 240 / 0", "canAfford": true },
+    { "trigger": "bus or metro to Cubbon Park on Sunday", "spend": "35–45", "canAfford": true }
+  ],
   "exits": [
-    "TODO"
+    { "zone": "(existing)", "to": "church_street / cubbon_park", "transit": "metro", "note": "no new places: the Church Street café and the Cubbon bandstand" }
   ],
-  "save_flags": [],
+  "save_flags": [
+    "dating_installed",
+    "dating_opened",
+    "dating_declined",
+    "tanvi_matched",
+    "tanvi_date_done",
+    "ananya_found_out",
+    "ananya_strained",
+    "jodi_deleted",
+    "act2_app_done"
+  ],
   "assets_needed": [
-    "TODO"
+    "no new places: church_street (a cafe_table spawn by the café) and cubbon_park (a bandstand spawn for Ananya)",
+    "npc_tanvi sheet (template prompt)",
+    "Jodi: a new phone screen on the kit (one card, a portrait, name, line, ✕ / ♥ pills, a 'match' moment) — touch-first, arrows on keyboard; the app tile restyled 'Jodi'",
+    "four small pixel portraits for the profile cards (generated, generic, no real people)"
   ],
   "acceptance": [
-    "TODO — fill with the user before building"
+    "the first sleep after act2_ravi_done installs Jodi (Sameer's chat, the tile appears)",
+    "Jodi shows four profiles; ✕ / ♥ by tap and by ← →; left on all four ends the beat (dating_declined) — Ananya untouched; right on Tanvi = match + a chat thread",
+    "the date at the Church Street café: four exchanges, pay / split / she pays (spend()), tanvi_date_done",
+    "Sunday at the bandstand: the notification lands while Ananya holds the phone; four answers, all set ananya_strained (RelationshipManager → strained)",
+    "after: Jodi can be deleted; it disappears after a week either way; Ananya's contact note changes",
+    "the walkthrough bot plays 2.6 and the headless run stays green (16 of 16)"
   ],
   "open_questions": [
-    "Is the match avoidable?",
-    "Priya's one scene: where?"
+    "The MATCH'S NAME: the story script says 'Priya', but a later logged decision renamed her ('Priya = fight-back ally (user's); dating match → Tanvi', design_decisions_v1). Draft uses Tanvi — keep, or another name?",
+    "AVOIDABLE? Draft: yes — swipe left on everyone and the beat never happens (agency, and the discourse becomes 'did you swipe?'). Alternative: unavoidable, as the story script reads (Ananya always finds out).",
+    "The APP'S NAME: draft 'Jodi' (a parody; no real brand). Your pick?",
+    "WHERE is the date: draft = the Church Street café (pocket exists). Alternative: a new Indiranagar pocket (one more render).",
+    "2.3b, the optional mature beat (ADR-08: fade to black, skippable, no achievement): draft = NOT in this build — the date ends at the metro stairs. Alternative: one optional choice at the end of the date that fades to black and wakes you at home.",
+    "HOW Ananya finds out: draft = the notification lands while she's holding your phone at the bandstand. Alternative: she sees you with Tanvi on Church Street.",
+    "The BREAK-UP: draft = four answers, all → strained (the words differ, the outcome doesn't). Should telling the truth soften it (e.g. a later 'resolved' path opens only if you were honest)?",
+    "AFTER: draft = Ananya goes quiet, her contact note changes, no message. Is 'strained' repairable later (resolved) — and in which act?",
+    "TIMING: draft = the first sleep after Ravi's night; Sunday follows a few days later. Or a payday?"
   ]
 }
