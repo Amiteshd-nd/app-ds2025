@@ -1,0 +1,27 @@
+{
+  "id": "q_act3_orr",
+  "title": "Outer Ring Road",
+  "description": "Divya wants someone at the HIVR site for AMR-07. Today.",
+  "chapter": 3,
+  "district": "office_gate",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act2_breadcrumbs"
+  ],
+  "objectives": [
+    { "id": "morning", "text": "Wake up", "type": "flag", "target": "act3_started", "destination": "hill_flat" },
+    { "id": "divya", "text": "See Divya at the lobby", "type": "flag", "target": "hivr_assigned", "destination": "office_gate" },
+    { "id": "hivr", "text": "Go to the HIVR site", "type": "flag", "target": "hivr_site_visit", "destination": "office_gate" },
+    { "id": "ride", "text": "Ride home", "type": "flag", "target": "orr_crash", "destination": "office_gate" },
+    { "id": "ravi", "text": "...", "type": "flag", "target": "ravi_recognised", "destination": "office_gate" }
+  ],
+  "rewards": {
+    "xp": 10,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act3_orr_done"
+    ]
+  }
+}

@@ -120,3 +120,10 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - A failure that only shows in the full movie but not alone is usually crowd placement: read the failing step's screenshot in the report first (the morning office-gate crowd pinned the bot; it now replans up to ten times, waiting longer each time). The planner never drops a live world-taking zone (bed, office door, guitar lane) unless it is or overlaps the target.
 - `sleepEvents` with `nights` count only sleeps in districts that list the behaviour — the flat; a night in the PG would not move the news.
 
+
+## 3.1 Outer Ring Road (2026-10-17, P17, ADR-136)
+- Moments told, not played, are card sequences (`data/cards/*.json` → CardScene via trigger `action: "card"` or sleepEvent `card`). Flags come from the panels picked at the start (`ifFlag`/`unlessFlag`), so skipping a panel never skips an outcome; `end: "hold"` keeps the last panel up when the next place isn't built yet.
+- Two triggers on one zone both fire in list order: when a card replaces the workday on the office door, the workday trigger needs `unlessFlag` (`hivr_assigned`) and the card must clear that flag when it settles, or the office never has a normal workday again.
+- The `sleepEvents` loop reads one store snapshot, so two events with the same `after` fire the same night (act2_done + act3_started); an event whose `after` is set by another event that night waits a night.
+- Full-colour stills go through `import-backdrop` with `still: true` (cover-crop, own 32-colour palette). Check a still at game size before using it.
+- Vite on :6174 once served a stale module after an edit; if a change doesn't show after a reload, fetch the module source and check it before debugging (restart the preview server).

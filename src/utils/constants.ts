@@ -248,6 +248,8 @@ export const SCENE_KEYS = Object.freeze({
   WORKDAY: 'WorkdayScene',
   /** The guitar's rhythm lane (story 2.3, ADR-131), launched over the flat by a `rhythm` trigger. */
   RHYTHM: 'RhythmScene',
+  /** Card sequences (story 3.1, ADR-136): text panels over a still — a day off-screen, a told ride, an act title. */
+  CARD: 'CardScene',
   /** "Rotate your phone" over everything while a touch device is held in portrait (mobile foundation rule 4). */
   ORIENTATION: 'OrientationScene',
 });

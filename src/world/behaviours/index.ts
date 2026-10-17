@@ -16,6 +16,8 @@ export interface BehaviourContext {
   playerFree(): boolean;
   /** Leave the district through one of its exits, by zone name (the bus ride ending). */
   leave(exitZone: string): void;
+  /** Play a card sequence over the world (ADR-136): the world holds until it ends. */
+  playCard(cardId: string): void;
 }
 
 /**

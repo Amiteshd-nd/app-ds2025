@@ -4,9 +4,8 @@
   "act": 3,
   "seq": "3.1",
   "title": "Outer Ring Road",
-  "status": "STUB",
-  "draft": "Claude's draft 2026-10-17 from story_script_v1 §6 (3.1: night, scooter, Hebbal junction, a bike swerves, the other rider is Ravi asleep at the handlebars after a 20-hour shift — 'coincidence motivated: he caused it'; same ambulance, same ward), ADR-09 (sell the contrivance with the Outer Ring Road night texture), ADR-11 (interiors never shown become reveals — the HIVR site stays a card), outbreak_origin_v1 §6 (the player's firm builds HIVR's sample tracker; AMR-07 from 2.7), 1.2 (Ravi's green lanyard), ADR-19 (stress). The user edits the words and the numbers; then P17 builds it.",
-  "time": "The morning after Act 2 ends (the first sleep after act2_done): a workday that ends at the HIVR site in Hebbal; the ride home at 23:40",
+  "status": "P17",
+  "time": "09:20 — the first morning after Act 2 ends (the sleep after Amma's call opens on ACT 3 — FEVER); the HIVR day runs to 23:30, the ride home at 23:52",
   "player_goal": "Fix AMR-07 at the client site; ride home on the Outer Ring Road.",
   "design_goal": "Conflict (Act 3 opens): the routine ends in one second at a junction. The coincidence is motivated twice over — the AMR-07 thread put you at Hebbal at night; twenty hours of unpaid work put Ravi asleep at the handlebars. The player learns who the other rider is from one detail (the green lanyard from 1.2). No fight, no blame on screen, no gore: a card, a light, a sound cut, black.",
   "pacing": [
@@ -18,7 +17,9 @@
   "entry": {
     "from": "hill_flat",
     "spawn": "auto_drop",
-    "after": ["F1"]
+    "after": [
+      "F1"
+    ]
   },
   "cast": [
     {
@@ -48,43 +49,51 @@
     {
       "id": "F2",
       "pacing": "Curious",
-      "what": "The office gate: Divya at the lobby sends you to the HIVR site for AMR-07. The day passes on a card like the workday, but in Hebbal: 'HIVR · Visitor block. A cold server room, a guard who checks your bag twice, a tracker log where AMR-07's status was overwritten at 02:14 on a rainy Thursday by a user called night_ops. You write it down. Nobody wants to hear it.' (clue_amr07_time). It's 23:30 when you leave.",
-      "interact": "dialogue + card",
-      "flag": "hivr_site_visit, clue_amr07_time"
+      "what": "The office gate: Divya at the lobby sends you to the HIVR site for AMR-07 ('Laptop's at your desk — grab it and go'). The office door plays the card sequence instead of the workday: (no scooter: Sameer's keys, 'bring it back with the mirror on') · HIVR, the visitor block · the tracker log: AMR-07 overwritten at 02:14 on a rainy Thursday by night_ops · nobody wants to hear it.",
+      "interact": "dialogue + door → card",
+      "flag": "hivr_assigned, hivr_site_visit, clue_amr07_time"
     },
     {
       "id": "F3",
       "pacing": "Tense",
-      "what": "The ride home on the Outer Ring Road — a card, not a ride: 'ORR · 23:52. Hebbal junction. The signal blinks amber. A bike comes down off the flyover too fast, no lights. The rider's head is down.' One beat of white (reduced motion: no flash, the card just cuts), the HUD drops away, black. No sound. (No scooter? Sameer lent you his bike that morning — 'bring it back with the mirror on'.)",
+      "what": "Told, not played: the Hebbal junction still (rain on the mirrors, the amber signal, one headlight on the flyover ramp) → 'a bike comes down off the flyover too fast, no lights, the rider's head is down' → one white frame (none under reduced motion) → black. Your scooter is wrecked (scooter_owned off) — or Sameer's bike.",
       "interact": "card (cut)",
-      "flag": "orr_crash"
+      "flag": "orr_crash, scooter_wrecked | sameer_bike_wrecked"
     },
     {
       "id": "F4",
       "pacing": "Calm",
-      "what": "Black, then fragments as text, slow: '…two of them…' · '…same ambulance, no time…' · a siren · the other stretcher: a green lanyard hanging over the edge, a phone buzzing — APPA — until someone silences it. Fade to Ward 4 (3.2).",
+      "what": "Fragments in the dark: '…two of them…' · '…same ambulance…' · a siren · the other stretcher: a green lanyard over the edge · a phone buzzing APPA until someone silences it. The card holds on 'Ravi.' — ACT 3 CONTINUES IN WARD 4 — until 3.2 is built.",
       "interact": "card",
       "flag": "ravi_recognised, act3_orr_done"
     }
   ],
   "economy": [],
   "exits": [
-    { "zone": "(card)", "to": "ward4", "transit": "walk", "note": "the crash card ends in 3.2's ward (a new pocket built with 3.2)" }
+    {
+      "zone": "office_door",
+      "to": "office_gate",
+      "transit": "walk",
+      "note": "no exit of its own: the office door plays the card sequence, which holds on its last panel until 3.2 Ward 4 (a new pocket) is built and becomes its landing"
+    }
   ],
   "save_flags": [
     "act3_started",
+    "hivr_assigned",
     "hivr_site_visit",
     "clue_amr07_time",
+    "sameer_bike_lent",
     "orr_crash",
-    "ravi_recognised",
     "scooter_wrecked",
+    "sameer_bike_wrecked",
+    "ravi_recognised",
     "act3_orr_done"
   ],
   "assets_needed": [
     "no new pocket: the office gate in the morning",
-    "a sequence card scene (the WorkdayScene pattern): text panels over a still, timed, skippable, reduced-motion safe — used for the HIVR day and the crash",
-    "one illustrated still: Hebbal junction at night from the scooter — the flyover, the amber signal, an oncoming headlight (generated, the backdrop pipeline)",
-    "an ACT 3 — FEVER title card (the title-card style)"
+    "CardScene + data/cards (done)",
+    "still_hebbal_night — Hebbal junction at night from the scooter seat (done, first try)",
+    "ACT 3 — FEVER title card (done, card_act3_title)"
   ],
   "acceptance": [
     "the first sleep after act2_done starts Act 3 (title card, Divya's chat, the morning headline)",
@@ -92,17 +101,8 @@
     "the ride home is a card that cuts at the junction: no fight, no gore, no flash under reduced motion",
     "the ambulance fragments end on the green lanyard and the buzzing phone; ravi_recognised; the scooter is wrecked (scooter_owned off)",
     "if you never bought the scooter, Sameer's bike is the one that goes down (one line in the morning)",
-    "the scene hands over to 3.2 (built next); the headless run stays green (18 of 18)"
+    "the scene holds on its last card until 3.2 is built; the headless run stays green (18 of 18)"
   ],
-  "open_questions": [
-    "WHY at Hebbal at night: draft = Divya sends you to the HIVR site for AMR-07 (the thread from 2.7). Or another reason (a party, Ananya, a late shift)?",
-    "PLAYABLE or a CARD: draft = a card sequence (story first, no new controls). Alternative: a short playable night ride on the ORR (a new riding pocket and controls — much bigger).",
-    "The HIVR SITE: draft = shown only as a card (the interior is a reveal for later, like the office in ADR-11). Or a small visitor-block pocket now?",
-    "AMR-07: draft = the log shows the overwrite at 02:14 on a rainy Thursday by 'night_ops' (the night of the breach, outbreak bible §2). Too much, too early?",
-    "NO SCOOTER: draft = Sameer lends you his bike that morning. Or an office cab (and the cab is hit)?",
-    "RECOGNITION: draft = the green lanyard over the stretcher's edge and 'APPA' on the buzzing phone. Keep both, one, or none (let 3.2 reveal him)?",
-    "The scooter is wrecked (scooter_owned off) — 4.0 says it's 'gone from hospital parking'. Keep?",
-    "The NIGHT TEXTURE (ADR-09 asks to sell the coincidence with it): one illustrated still + text. Enough, or two or three stills (the flyover, the signal, the headlight)?",
-    "ACT 3 TITLE CARD: draft = 'ACT 3 — FEVER' at the first morning. Keep?"
-  ]
+  "open_questions": [],
+  "decided": "User 2026-10-17: 'take my defaults and proceed.' — every open question resolved by the draft's default (ADR-136)."
 }

@@ -7,7 +7,7 @@ import { TimeManager } from '../systems/TimeManager';
 import { useGameStore } from '../store';
 import { TILESET_URLS } from '../assets';
 import { MAPS, LAYER_ORDER } from '../assets/maps';
-import { getDistrict, MINIGAMES } from '../data';
+import { CARDS, getDistrict, MINIGAMES } from '../data';
 import { gameEvents } from '../core/events';
 import { depthForZY, feetY } from '../core/depth';
 import * as Populate from '../world/Populate';
@@ -32,6 +32,8 @@ import type { HudScene, HudSceneData } from './HudScene';
 import type { RhythmResult, RhythmSceneData } from './RhythmScene';
 import { outcome as rhythmOutcome, pick as pickRhythm } from '../systems/rhythm';
 import type { WorkdaySceneData } from './WorkdayScene';
+import type { CardSceneData } from './CardScene';
+import { outcome as cardOutcome } from '../systems/cards';
 
 export interface WorldSceneData {
   districtId: string;
@@ -161,6 +163,7 @@ export class WorldScene extends Phaser.Scene {
       sleep: () => this.sleep(),
       workday: () => this.workday(),
       rhythm: (id) => this.rhythm(id),
+      card: (id) => this.playCard(id),
     });
 
     const behaviourNames = [...new Set([...CORE_BEHAVIOURS, ...(this.district.behaviours ?? [])])];
@@ -181,6 +184,7 @@ export class WorldScene extends Phaser.Scene {
           if (!exit) { console.error(`[WorldScene] district "${this.district.id}" has no exit on zone "${zone}"`); return; }
           this.leaveVia(exit);
         },
+        playCard: (id) => this.playCard(id),
       });
       if (teardown) this.teardowns.push(teardown);
     }
@@ -392,7 +396,8 @@ export class WorldScene extends Phaser.Scene {
       this.cameras.main.fadeIn(FADE_MS, 0, 0, 0);
       this.cameras.main.once('camerafadeincomplete', () => {
         this.sleeping = false;
-        this.player.setInteractionEnabled(true);
+        // A card that opened on waking (ACT 3 — FEVER) keeps the world held until it ends.
+        if (!this.talking) this.player.setInteractionEnabled(true);
       });
     });
   }
@@ -456,6 +461,38 @@ export class WorldScene extends Phaser.Scene {
       if (out.toast) gameEvents.emit('ui:toast', { text: out.toast });
       this.talking = false;
       if (out.dialogue) { this.openDialogue(out.dialogue); return; }
+      this.time.delayedCall(80, () => { if (!this.talking && !this.leaving && !this.sleeping) this.player.setInteractionEnabled(true); });
+    });
+  }
+
+  /**
+   * A card sequence (story 3.1, ADR-136): text panels over a still, on top of
+   * everything, the world held like a conversation. Its outcome (flags, the
+   * clock) is applied from the flags at its start when it ends — or, for a
+   * sequence that holds on its last panel (the story continues in a scene not
+   * built yet), as that panel appears; then the world stays held under it.
+   */
+  playCard(cardId: string): void {
+    const seq = CARDS[cardId];
+    if (!seq) { console.error(`[WorldScene] unknown card sequence "${cardId}"`); return; }
+    if (this.leaving || this.scene.isActive(SCENE_KEYS.CARD)) return;
+    this.talking = true;
+    this.player.setInteractionEnabled(false);
+    const flags = { ...useGameStore.getState().flags };
+    this.scene.launch(SCENE_KEYS.CARD, { seq, flags } satisfies CardSceneData);
+    this.scene.bringToTop(SCENE_KEYS.CARD);
+    this.scene.bringToTop(SCENE_KEYS.MENU);
+    this.scene.bringToTop(SCENE_KEYS.ORIENTATION);
+    this.scene.get(SCENE_KEYS.CARD).events.once('card:done', () => {
+      const out = cardOutcome(seq, flags);
+      const store = useGameStore.getState();
+      for (const f of out.clear) store.setFlag(f, false);
+      for (const f of out.set) store.setFlag(f, true);
+      if (out.clockAt !== undefined) store.setClock({ day: store.clock.day, minute: out.clockAt });
+      this.persist();
+      if (seq.end === 'hold') return;
+      this.scene.stop(SCENE_KEYS.CARD);
+      this.talking = false;
       this.time.delayedCall(80, () => { if (!this.talking && !this.leaving && !this.sleeping) this.player.setInteractionEnabled(true); });
     });
   }
@@ -537,6 +574,7 @@ export class WorldScene extends Phaser.Scene {
     this.scene.stop(SCENE_KEYS.HUD);
     this.scene.stop(SCENE_KEYS.PHONE);
     this.scene.stop(SCENE_KEYS.MAP);
+    this.scene.stop(SCENE_KEYS.CARD);
     for (const teardown of this.teardowns) teardown();
     this.teardowns = [];
     this.persist();

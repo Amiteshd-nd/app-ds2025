@@ -13,7 +13,7 @@ import type { Behaviour } from './index';
 export const nightsKey = (after: string): string => `nights_since:${after}`;
 
 export const sleepEvents: Behaviour = {
-  attach({ district }) {
+  attach({ district, playCard }) {
     const events = district.sleepEvents ?? [];
     if (!events.length) return;
     // "The n-th night after X" (2.7's four mornings, ADR-135): nights slept here since X, one counter per X.
@@ -29,6 +29,8 @@ export const sleepEvents: Behaviour = {
         // A night cut short (Ravi's message at 00:50): the clock goes back to that minute of the new day.
         if (e.wakeAt !== undefined) store.setClock({ day: store.clock.day, minute: e.wakeAt });
         if (e.toast) gameEvents.emit('ui:toast', { text: e.toast, ...(e.icon ? { icon: e.icon } : {}) });
+        // A morning that opens on a card (ACT 3 — FEVER, ADR-136): it plays over the wake fade.
+        if (e.card) playCard?.(e.card);
       }
     };
     return gameEvents.on('time:slept', onSlept);

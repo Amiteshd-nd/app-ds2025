@@ -4,6 +4,18 @@
   "portrait": "npc_placeholder",
   "enter": [
     {
+      "flag": "hivr_site_visit",
+      "node": "after_hivr"
+    },
+    {
+      "flag": "hivr_assigned",
+      "node": "hivr_again"
+    },
+    {
+      "flag": "act3_started",
+      "node": "hivr"
+    },
+    {
       "flag": "act1_first_day_done",
       "node": "evening"
     },
@@ -47,6 +59,24 @@
     },
     "evening": {
       "text": "Day one done. Go home, eat something that isn't from a machine. Nine-thirty tomorrow."
+    },
+    "hivr": {
+      "text": "There you are. HIVR want someone on site for AMR-07 — today. You built half that screen, so you go. Hebbal, the visitor block.",
+      "next": "hivr_2"
+    },
+    "hivr_2": {
+      "text": "(She looks tired. She doesn't say why.) Take the evening, come in late tomorrow. Laptop's at your desk — grab it and go.",
+      "effect": {
+        "flags": {
+          "hivr_assigned": true
+        }
+      }
+    },
+    "hivr_again": {
+      "text": "Still here? Hebbal. Laptop. Go."
+    },
+    "after_hivr": {
+      "text": "You went. Good. Write it up when you're back."
     }
   }
 }

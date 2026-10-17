@@ -235,7 +235,8 @@ export function validateContent(
     if (district.sleepEvents?.length && !(district.behaviours ?? []).includes('sleepEvents')) add(where, `${d} has sleepEvents but not the "sleepEvents" behaviour`);
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
-      if (trigger.action !== undefined && !['sleep', 'workday', 'rhythm'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday | rhythm)`);
+      if (trigger.action !== undefined && !['sleep', 'workday', 'rhythm', 'card'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday | rhythm | card)`);
+      if (trigger.action === 'card' && (typeof trigger.card !== 'string' || !trigger.card)) add(where, `${d} trigger "${trigger.zone}" is a card trigger without a card id`);
       if (trigger.action === 'rhythm' && (typeof trigger.minigame !== 'string' || !trigger.minigame)) add(where, `${d} trigger "${trigger.zone}" is a rhythm trigger without a minigame id`);
       if (trigger.unlessFlag !== undefined && (typeof trigger.unlessFlag !== 'string' || !trigger.unlessFlag)) {
         add(where, `${d} trigger "${trigger.zone}" unlessFlag must be a flag name`);
@@ -1270,6 +1271,47 @@ export function validateMinigames(files: JsonFile[], dialogueIds: Set<string>, d
   return problems;
 }
 
+/**
+ * Card sequences (story 3.1, ADR-136): every panel has drawable text, a known
+ * style and a still that exists; flags are names; a hold ends on a panel shown
+ * to everyone; every `card` trigger and sleepEvent names a sequence that exists.
+ */
+export function validateCards(files: JsonFile[], districts: Json[], stills: Set<string>, glyphs?: Set<string>): string[] {
+  const problems: string[] = [];
+  const ids = new Set<string>();
+  const flagList = (where: string, key: string, v: unknown) => {
+    if (v !== undefined && (!Array.isArray(v) || v.some((f) => typeof f !== 'string' || !f))) problems.push(`${where}: ${key} must be a list of flag names`);
+  };
+  const drawable = (where: string, text: unknown) => {
+    if (glyphs && typeof text === 'string') for (const ch of text) if (ch !== '\n' && !glyphs.has(ch)) problems.push(`${where}: "${ch}" cannot be drawn by the bitmap font`);
+  };
+  for (const { file, json } of files) {
+    const where = `cards/${file}`;
+    if (!json?.id) { problems.push(`${where}: missing id`); continue; }
+    ids.add(json.id);
+    if (!Array.isArray(json.panels) || !json.panels.length) { problems.push(`${where}: needs panels`); continue; }
+    json.panels.forEach((p: Json, i: number) => {
+      const w = `${where} panel ${i + 1}`;
+      if (typeof p.text !== 'string' || !p.text) problems.push(`${w}: needs text`);
+      drawable(w, p.text); drawable(w, p.title);
+      if (p.style !== undefined && !['text', 'title', 'cut', 'fragment'].includes(p.style)) problems.push(`${w}: style must be text, title, cut or fragment`);
+      if (p.still !== undefined && !stills.has(p.still)) problems.push(`${w}: still "${p.still}" is not in src/assets/backdrops`);
+      if (p.ms !== undefined && !(Number.isInteger(p.ms) && p.ms >= 800 && p.ms <= 20000)) problems.push(`${w}: ms must be 800–20000`);
+      flagList(w, 'setFlags', p.setFlags); flagList(w, 'clearFlags', p.clearFlags);
+    });
+    flagList(where, 'setFlags', json.setFlags); flagList(where, 'clearFlags', json.clearFlags);
+    if (json.clockAt !== undefined && !(Number.isInteger(json.clockAt) && json.clockAt >= 0 && json.clockAt < 24 * 60)) problems.push(`${where}: clockAt must be a minute of the day`);
+    if (json.end !== undefined && !['world', 'hold'].includes(json.end)) problems.push(`${where}: end must be world or hold`);
+    const last = json.panels[json.panels.length - 1];
+    if (json.end === 'hold' && (last?.ifFlag || last?.unlessFlag)) problems.push(`${where}: a sequence that holds must end on a panel everyone sees`);
+  }
+  for (const d of districts) {
+    for (const t of d.triggers ?? []) if (t.action === 'card' && t.card && !ids.has(t.card)) problems.push(`districts.json: district "${d.id}" trigger "${t.zone}" names card "${t.card}", which does not exist`);
+    for (const e of d.sleepEvents ?? []) if (e.card !== undefined && !ids.has(e.card)) problems.push(`districts.json: district "${d.id}" sleepEvent after "${e.after}" names card "${e.card}", which does not exist`);
+  }
+  return problems;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
   const dialogue = readJsonDir('dialogue');
   const quests = readJsonDir('quests');
@@ -1318,6 +1360,11 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
 
   const minigameDir = join(dataDir, 'minigames');
   problems.push(...validateMinigames(existsSync(minigameDir) ? readJsonDir('minigames') : [], new Set(dialogue.map((f) => f.json?.id)), districts, glyphs));
+
+  const cardDir = join(dataDir, 'cards');
+  const backdropDir = join(assetsDir, 'backdrops');
+  const stills = new Set(existsSync(backdropDir) ? readdirSync(backdropDir).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, '')) : []);
+  problems.push(...validateCards(existsSync(cardDir) ? readJsonDir('cards') : [], districts, stills, glyphs));
 
   const world = validateWorld(districts, { manifest, maps, sprites });
   problems.push(...world.problems);

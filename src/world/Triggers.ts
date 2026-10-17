@@ -18,6 +18,8 @@ export interface TriggerActions {
   workday(): void;
   /** The mini-game a `rhythm` trigger names (the guitar's lessons, ADR-131). */
   rhythm(minigameId: string): void;
+  /** The card sequence a `card` trigger names (story 3.1, ADR-136). */
+  card(cardId: string): void;
 }
 
 /**
@@ -60,6 +62,7 @@ export function bind(
         if (trigger.action === 'sleep') actions.sleep();
         if (trigger.action === 'workday') actions.workday();
         if (trigger.action === 'rhythm' && trigger.minigame) actions.rhythm(trigger.minigame);
+        if (trigger.action === 'card' && trigger.card) actions.card(trigger.card);
       }),
     );
   }

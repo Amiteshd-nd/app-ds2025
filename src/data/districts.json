@@ -532,7 +532,8 @@
       "q_act1_first_day",
       "q_act1_ravi_intro",
       "q_act2_ravi_1am",
-      "q_act2_breadcrumbs"
+      "q_act2_breadcrumbs",
+      "q_act3_orr"
     ],
     "npcs": [
       {
@@ -587,7 +588,8 @@
         "requiresFlag": "divya_met_monday",
         "setFlags": [
           "act1_first_day_done"
-        ]
+        ],
+        "unlessFlag": "hivr_assigned"
       },
       {
         "zone": "office_arrival",
@@ -610,6 +612,13 @@
         "dialogue": "dlg_guard_salute",
         "requiresFlag": "bc_sealed",
         "unlessFlag": "guard_salute_seen"
+      },
+      {
+        "zone": "office_door",
+        "action": "card",
+        "card": "card_orr_night",
+        "requiresFlag": "hivr_assigned",
+        "unlessFlag": "hivr_site_visit"
       }
     ],
     "exits": [
@@ -932,7 +941,8 @@
       "q_act2_ikea",
       "q_act2_ravi_1am",
       "q_act2_the_app",
-      "q_act2_breadcrumbs"
+      "q_act2_breadcrumbs",
+      "q_act3_orr"
     ],
     "sleepEvents": [
       {
@@ -1029,6 +1039,15 @@
         "set": [
           "act2_done"
         ]
+      },
+      {
+        "after": "amma_worried_called",
+        "set": [
+          "act3_started"
+        ],
+        "card": "card_act3_title",
+        "toast": "Divya: \"Come by the lobby before you start.\"",
+        "icon": "chats"
       }
     ]
   },

@@ -193,6 +193,9 @@ export const MOTION_TOKENS = {
   /** Workday skyline card (ADR-121): 09:30 → 18:00 in this many ms, in this many steps (reduced motion: one frame). */
   'm.workday': 6000,
   'm.workday.steps': 12,
+  /** Card sequences (ADR-136): a panel's text fades in over this many ms; a `cut` is one white frame this long (none under reduced motion). */
+  'm.card.fade': 500,
+  'm.card.flash': 70,
 };
 
 /**

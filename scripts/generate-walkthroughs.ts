@@ -19,6 +19,7 @@ import { buildPrereqState, sceneOrder } from '../src/dev/prereq.ts';
 import { HOTEL_NIGHTS, PG_NOTICE_DAYS, STARTING_WALLET } from '../src/utils/constants.ts';
 import { planHaggle } from '../src/systems/negotiationMath.ts';
 import { exitRuns } from '../src/systems/night.ts';
+import { duration as cardDuration, outcome as cardOutcome, type CardSequence } from '../src/systems/cards.ts';
 import type { NegotiationDef } from '../src/utils/types.ts';
 
 type Json = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -33,6 +34,7 @@ const npcs = new Map<string, Json>(readDir('npcs').flatMap((f) => (Array.isArray
 const dialogues = new Map<string, Json>(readDir('dialogue').map((d) => [d.id, d]));
 const negotiations = new Map<string, Json>(readDir('negotiations').map((n) => [n.id, n]));
 const minigames = new Map<string, Json>(readDir('minigames').map((m) => [m.id, m]));
+const cards = new Map<string, Json>(readDir('cards').map((c) => [c.id, c]));
 const jodi: Json = JSON.parse(readFileSync(join(dataDir, 'phone/jodi.json'), 'utf8'));
 const reels: Json[] = JSON.parse(readFileSync(join(dataDir, 'phone/reels.json'), 'utf8'));
 const manifest = JSON.parse(readFileSync(resolve(here, '../src/assets/maps.manifest.json'), 'utf8'));
@@ -206,7 +208,7 @@ class Gen {
   triggerSetting(districtId: string, f: string): { trigger: Json; needs: string | null } | null {
     const d = districts.get(districtId);
     const live = ((d?.triggers ?? []) as Json[]).filter((t) => !(t.unlessFlag && this.known.has(t.unlessFlag)));
-    for (const t of live) if ((t.setFlags ?? []).includes(f)) return { trigger: t, needs: null };
+    for (const t of live) if ((t.setFlags ?? []).includes(f) || this.cardSets(t).includes(f)) return { trigger: t, needs: null };
     for (const t of live) if (t.dialogue && this.dialogueReaches(t.dialogue, (node, choice) => this.setsFlag(node, choice, f)).found) return { trigger: t, needs: null };
     // A conversation shared by several zones (Ananya's three stops): the line that sets f opens from an enter
     // branch; take the zone whose own requirement is that branch's flag, so the walk visits the stops in order.
@@ -222,6 +224,12 @@ class Gen {
     return fallback;
   }
 
+  /** Flags a `card` trigger's sequence sets for the flags known now (ADR-136). */
+  cardSets(t: Json): string[] {
+    const seq = t.action === 'card' ? cards.get(t.card) : undefined;
+    return seq ? cardOutcome(seq as CardSequence, Object.fromEntries([...this.known].map((k) => [k, true]))).set : [];
+  }
+
   viaTrigger(t: Json, f: string, who: string, depth: number): boolean {
     if (t.requiresFlag && !this.known.has(t.requiresFlag)) {
       if (!this.flag(t.requiresFlag, `${who} (needs ${t.requiresFlag} for zone ${t.zone})`, depth + 1)) return false;
@@ -230,14 +238,27 @@ class Gen {
     this.closeConversation();
     if (t.action === 'sleep' && !t.dialogue) { this.push({ do: 'sleep' }); }
     else this.push({ do: 'goto', target: `zone:${t.zone}` });
-    // The office door on the same zone runs the workday: the walk home starts at closing time.
-    const workday = (districts.get(this.district)?.triggers ?? []).some((x: Json) => x.zone === t.zone && x.action === 'workday');
+    // The office door on the same zone runs the workday (when that trigger is live): the walk home starts at closing time.
+    const workday = (districts.get(this.district)?.triggers ?? []).some((x: Json) => x.zone === t.zone && x.action === 'workday' && !(x.unlessFlag && this.known.has(x.unlessFlag)) && (!x.requiresFlag || this.known.has(x.requiresFlag)));
     if (workday) this.minute = 18 * 60;
     for (const g of t.setFlags ?? []) this.known.add(g);
     if (t.dialogue) {
       const path = this.dialogueReaches(t.dialogue, (node, choice) => this.setsFlag(node, choice, f));
       if (!path.found) { this.push({ do: 'unresolved', reason: `${who}: zone ${t.zone} opens ${t.dialogue}, which cannot reach ${f} from its entry` }); return false; }
       this.emitPath(t.dialogue, path);
+    }
+    // A card sequence plays on top (the HIVR day, the ride home): its flags land when it settles; a sequence that
+    // holds on its last panel never gives the world back.
+    const seq = t.action === 'card' ? cards.get(t.card) as CardSequence | undefined : undefined;
+    if (seq) {
+      const flags = Object.fromEntries([...this.known].map((k) => [k, true]));
+      const out = cardOutcome(seq, flags);
+      for (const g of out.clear) this.known.delete(g);
+      for (const g of out.set) this.known.add(g);
+      if (out.clockAt !== undefined) this.minute = out.clockAt;
+      this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: cardDuration(seq, flags) + 15000 });
+      if (seq.end !== 'hold') this.push({ do: 'wait_for', ready: 'free', timeout: 10000 });
+      return true;
     }
     this.known.add(f);
     this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: 6000 });
@@ -296,9 +317,12 @@ class Gen {
     const bed = (districts.get(this.district)!.triggers as Json[]).find((t) => t.action === 'sleep')!;
     if (bed.requiresFlag && !this.known.has(bed.requiresFlag) && !this.flag(bed.requiresFlag, `${who} (the bed needs it)`, depth + 1)) return false;
     this.closeConversation();
+    // A morning that opens on a card (ACT 3 — FEVER): the world is held until it ends.
+    const opensOnCard = ((districts.get(this.district)!.sleepEvents ?? []) as Json[]).some((e) => e.card && this.known.has(e.after) && !this.known.has(e.set[0]));
     for (let i = 0; i < nights; i++) this.push({ do: 'sleep' });
     this.known.add(f);
     this.push({ do: 'wait_for', ready: 'flag', flag: f, timeout: 6000 });
+    if (opensOnCard) this.push({ do: 'wait_for', ready: 'free', timeout: 20000 });
     return true;
   }
 

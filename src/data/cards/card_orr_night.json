@@ -1,0 +1,65 @@
+{
+  "id": "card_orr_night",
+  "$comment": "Story 3.1 F2–F4 (ADR-136): the HIVR day (a card — the site is a reveal for later, ADR-11), the ride home on the Outer Ring Road (told, not played), the cut at Hebbal junction, the ambulance in fragments. No fight, no gore, no flash under reduced motion. It holds on its last panel until 3.2 Ward 4 is built.",
+  "panels": [
+    {
+      "unlessFlag": "scooter_owned",
+      "title": "ITPL · 09:40",
+      "text": "Sameer drops his keys in your hand. \"Take the bike. Bring it back with the mirror on.\"",
+      "setFlags": ["sameer_bike_lent"]
+    },
+    {
+      "title": "HIVR · VISITOR BLOCK · 11:00",
+      "text": "Hebbal. A cold server room, a guard who checks your bag twice, a badge that opens nothing past the second door."
+    },
+    {
+      "title": "HIVR · 19:30",
+      "text": "The sample tracker. Batch AMR-07: status overwritten at 02:14 on a rainy Thursday, by a user called night_ops. You write it down.",
+      "ms": 5600,
+      "setFlags": ["hivr_site_visit", "clue_amr07_time"]
+    },
+    {
+      "title": "HIVR · 23:30",
+      "text": "You tell the duty manager. He thanks you for your time and walks you to the gate. Nobody wants to hear it."
+    },
+    {
+      "still": "still_hebbal_night",
+      "title": "ORR · HEBBAL JUNCTION · 23:52",
+      "text": "Rain on the mirrors. The flyover hums overhead. The signal blinks amber, amber, amber.",
+      "ms": 5200
+    },
+    {
+      "ifFlag": "scooter_owned",
+      "still": "still_hebbal_night",
+      "style": "cut",
+      "title": "ORR · 23:52",
+      "text": "A bike comes down off the flyover too fast. No lights. The rider's head is down. Your scooter's horn is the last thing you hear.",
+      "ms": 4600,
+      "setFlags": ["orr_crash", "scooter_wrecked"],
+      "clearFlags": ["scooter_owned"]
+    },
+    {
+      "unlessFlag": "scooter_owned",
+      "still": "still_hebbal_night",
+      "style": "cut",
+      "title": "ORR · 23:52",
+      "text": "A bike comes down off the flyover too fast. No lights. The rider's head is down. Sameer's horn is the last thing you hear.",
+      "ms": 4600,
+      "setFlags": ["orr_crash", "sameer_bike_wrecked"]
+    },
+    { "style": "fragment", "text": "...two of them...", "ms": 2600 },
+    { "style": "fragment", "text": "...same ambulance, no time, lift on three...", "ms": 3000 },
+    { "style": "fragment", "text": "A siren, far away. Then very close.", "ms": 3000 },
+    { "style": "fragment", "text": "The other stretcher. A green lanyard hanging over the edge.", "ms": 3800 },
+    {
+      "style": "fragment",
+      "text": "A phone buzzing in his pocket. APPA. APPA. APPA. Until someone silences it.",
+      "ms": 4200,
+      "setFlags": ["ravi_recognised"]
+    },
+    { "style": "title", "title": "Ravi.", "text": "ACT 3 CONTINUES IN WARD 4" }
+  ],
+  "clearFlags": ["hivr_assigned"],
+  "clockAt": 1435,
+  "end": "hold"
+}

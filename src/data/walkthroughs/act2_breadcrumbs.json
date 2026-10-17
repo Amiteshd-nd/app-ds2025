@@ -309,7 +309,14 @@
       "timeout": 6000
     },
     {
-      "id": "expect_46",
+      "id": "wait_for_46",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "free",
+      "timeout": 20000
+    },
+    {
+      "id": "expect_47",
       "do": "expect",
       "flag": "act2_breadcrumbs_done",
       "timeout": 3000

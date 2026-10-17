@@ -329,10 +329,12 @@ export interface DistrictTrigger {
   setFlags?: string[];
   /** Dialogue opened on entry — a phone call in the room, a thought at a window. */
   dialogue?: string;
-  /** Built-in action on entry. `sleep` = TimeManager.sleep() (bed zones); `workday` = TimeManager.workday() behind a fade (the office door); `rhythm` = the mini-game named by `minigame` (the flat's guitar, ADR-131). */
-  action?: 'sleep' | 'workday' | 'rhythm';
+  /** Built-in action on entry. `sleep` = TimeManager.sleep() (bed zones); `workday` = TimeManager.workday() behind a fade (the office door); `rhythm` = the mini-game named by `minigame` (the flat's guitar, ADR-131); `card` = the card sequence named by `card` (the HIVR day and the ride home, ADR-136). */
+  action?: 'sleep' | 'workday' | 'rhythm' | 'card';
   /** MINIGAMES id for `action: rhythm`. */
   minigame?: string;
+  /** CARDS id for `action: card`. */
+  card?: string;
 }
 
 /**
@@ -348,7 +350,7 @@ export interface DistrictDef {
   /** Maps offers METRO / RIDE here before the first visit once this flag is set — the shop's text named the stop (story 2.3, ADR-131). */
   knownIf?: string;
   /** "The first sleep here after `after`, set `set`" — the sleepEvents behaviour (ADR-132). */
-  sleepEvents?: Array<{ after: string; set: string[]; clear?: string[]; toast?: string; icon?: IconName; /** Wake at this minute past midnight instead of the morning (ADR-133). */ wakeAt?: number; /** Fire on the n-th night after `after` (ADR-135). */ nights?: number }>;
+  sleepEvents?: Array<{ after: string; set: string[]; clear?: string[]; toast?: string; icon?: IconName; /** Wake at this minute past midnight instead of the morning (ADR-133). */ wakeAt?: number; /** Fire on the n-th night after `after` (ADR-135). */ nights?: number; /** A card sequence played on waking — ACT 3 — FEVER (ADR-136). */ card?: string }>;
   /** Spawn object used when no spawn is named by the exit that led here. */
   defaultSpawn: string;
   fadeMs?: number;

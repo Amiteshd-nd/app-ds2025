@@ -1,4 +1,5 @@
 import type { RhythmSet } from '../systems/rhythm';
+import type { CardSequence } from '../systems/cards';
 import districtsJson from './districts.json';
 import phoneApps from './phone/apps.json';
 import settingsMenu from './menus/settings.json';
@@ -55,6 +56,7 @@ const sceneModules = import.meta.glob('./scenes/*.json', { eager: true, import: 
 const negotiationModules = import.meta.glob('./negotiations/*.json', { eager: true, import: 'default' });
 const chatModules = import.meta.glob('./phone/chats/*.json', { eager: true, import: 'default' });
 const minigameModules = import.meta.glob('./minigames/*.json', { eager: true, import: 'default' });
+const cardModules = import.meta.glob('./cards/*.json', { eager: true, import: 'default' });
 
 const byId = <T extends { id: string }>(entries: T[], kind: string): Record<string, T> => {
   const out: Record<string, T> = {};
@@ -74,6 +76,9 @@ export const QUESTS: Record<string, QuestFile> = byId(load<QuestFile>(questModul
 
 /** Mini-games by id — the guitar's rhythm lessons (story 2.3, ADR-131). */
 export const MINIGAMES: Record<string, RhythmSet> = byId(load<RhythmSet>(minigameModules), 'minigame');
+
+/** Card sequences by id — a day off-screen, a told ride, an act title (story 3.1, ADR-136). */
+export const CARDS: Record<string, CardSequence> = byId(load<CardSequence>(cardModules), 'card sequence');
 
 // Item files hold arrays, so they are flattened before indexing.
 export const ITEMS: Record<string, ItemDef> = byId(
