@@ -1,4 +1,5 @@
 import { exitRuns, fareAt } from '../systems/night';
+import { ACT4_FLAG } from '../systems/stability';
 import { carried } from '../systems/carry';
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
@@ -48,6 +49,8 @@ export function bind(
         // Night (ADR-133): buses stop at 23:00; a day- or night-only exit waits. A sibling exit on the same zone that
         // does run (the night auto on the hill road) takes over silently; otherwise say why.
         const minute = useGameStore.getState().clock.minute;
+        // Act 4 (ADR-150): nothing runs — no bus, no auto, no metro, no scooter. You walk, and long walks are cards.
+        if (useGameStore.getState().flags[ACT4_FLAG] && exit.transit !== 'walk') { gameEvents.emit('ui:toast', { text: 'Nothing runs. The city is shut.' }); return; }
         if (!exitRuns(exit, minute)) {
           const sibling = (district.exits ?? []).some((e) => e !== exit && e.zone === exit.zone && exitRuns(e, minute));
           if (!sibling && exit.transit === 'bus') gameEvents.emit('ui:toast', { text: 'Last bus left at 11. Next one at 5:30.' });

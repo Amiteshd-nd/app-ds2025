@@ -1,0 +1,64 @@
+{
+  "id": "q_act4_the_hill",
+  "title": "The Hill",
+  "description": "Get up the hill to the flat, and make it somewhere you can survive the night.",
+  "chapter": 4,
+  "district": "ambedkar_nagar_hill",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_five_oclock"
+  ],
+  "objectives": [
+    {
+      "id": "climb",
+      "text": "Get to the top of the hill",
+      "type": "flag",
+      "target": "hill_climbed",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "suresh",
+      "text": "The man by the generator",
+      "type": "flag",
+      "target": "met_suresh",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "manju",
+      "text": "Manju's table",
+      "type": "flag",
+      "target": "upi_dead",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "flat",
+      "text": "Your room",
+      "type": "flag",
+      "target": "flat_found",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "base",
+      "text": "Make it a base",
+      "type": "flag",
+      "target": "hill_base_set",
+      "destination": "hill_flat"
+    },
+    {
+      "id": "night",
+      "text": "Get through the night",
+      "type": "flag",
+      "target": "hill_first_night",
+      "destination": "hill_flat"
+    }
+  ],
+  "rewards": {
+    "xp": 30,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_hill_complete"
+    ]
+  }
+}

@@ -16,9 +16,9 @@
       "ms": 400
     },
     {
-      "id": "flee_3",
+      "id": "goto_3",
       "beat": "F1",
-      "do": "flee",
+      "do": "goto",
       "target": "zone:lane_mid"
     },
     {
@@ -57,17 +57,25 @@
       "do": "wait_for",
       "ready": "flag",
       "flag": "first_run_done",
-      "timeout": 33200
+      "timeout": 29000
     },
     {
-      "id": "expect_9",
+      "id": "wait_for_9",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 34000
+    },
+    {
+      "id": "expect_10",
       "beat": "F5",
       "do": "expect",
       "flag": "act4_five_done",
       "timeout": 3000
     },
     {
-      "id": "expect_10",
+      "id": "expect_11",
       "do": "expect",
       "flag": "act4_five_complete",
       "timeout": 3000

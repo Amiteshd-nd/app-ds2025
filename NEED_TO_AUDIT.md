@@ -9,7 +9,7 @@ Full detail for each item is in `AUDIT_LOG.md` (its "built, awaiting audit" entr
 ```bash
 corepack pnpm playground
 ```
-It opens at http://localhost:6175/playground.html. To run the whole thing headless instead (it says 24/24 when everything passes):
+It opens at http://localhost:6175/playground.html. To run the whole thing headless instead (it says 25/25 when everything passes):
 ```bash
 corepack pnpm movie
 ```
@@ -42,6 +42,7 @@ corepack pnpm movie
 | 21 | Infected step 2 (the recipe) + the Evolved (ADR-147) | 2026-10-17 | local commit, not pushed | waiting |
 | 22 | P22 · 4.0 "Janata" + 4.1 "Five O'Clock" (ADR-148) — Act 4 opens | 2026-10-17 | local commit, not pushed | waiting |
 | 23 | Act 4 S3 · the base (ADR-149) | 2026-10-17 | local commit, not pushed | waiting |
+| 24 | P23 · 4.2 "The Hill" (ADR-150) | 2026-10-18 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -404,4 +405,22 @@ corepack pnpm dev
     - The 8-slot bag (only stack limits for now).
     - Using items from the bag: eat, bandage, throw a noise maker or smoke bomb. That comes with S4.
     - Moving between bases.
+
+## 24. 4.2 "The Hill": the first base
+- **What:** you reach Ambedkar Nagar at 21:30. The hill has emptied; Suresh keeps the generator and a purple UV lamp at the top; UPI dies at Manju's table; your ransacked flat becomes the first base.
+- **Check:** in the Playground, open Act 4 → 4.2 (Play), or play 4.1 to the main road.
+  - Talk to Mani at the bottom (his warning about the lower path).
+  - Climb to the purple light.
+  - Talk to Suresh (ask about aunty, then the light), then to Manju on the middle terrace (try to pay: UPI dies; talk again to trade).
+  - Talk to Karthik.
+  - Go into your room: the heap, the fallen chair, the guitar.
+  - Step to the folded table to unfold it, then sleep. From the morning the table crafts, the water drum is the stock, and the kitchen, the drawer and your office bag can be searched.
+- **Calls to confirm:**
+  - Suresh's look and words (new sheet, first try). Aunty is never explained ("went to the temple on Tuesday").
+  - The props (generator, lamp post, table, heap, chair, slippers): placed against the top wall so the walkway stays clear; the generator and lamp post don't block.
+  - The two still figures stand on the lower path, off the way up, so crouching past them is optional (Mani warns you). The draft had you crouch past them on your way.
+  - The table only becomes a crafting bench from the first morning. Unfolding it and the bench opening straight away clashed (the menu reopened under you).
+  - Leela (trading a candle for news) is cut; Mani carries the colony's news.
+  - Your laptop is in your office bag (a container), so it can go to Manju later (worth a food packet).
+  - No bus or auto runs in Act 4 anywhere ("Nothing runs. The city is shut.").
 

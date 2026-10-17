@@ -49,7 +49,7 @@ describe('4.0 "Janata" (ADR-148)', () => {
   });
 
   it('the phone in Act 4: banners on Maps, Chats, Calls and Reels; the curfew in News; no metro, no rides', () => {
-    for (const id of ['maps', 'chats', 'call', 'reels']) expect(PHONE_APPS.find((a) => a.id === id)!.noticeIf?.flag).toBe('act4');
+    for (const id of ['maps', 'chats', 'call', 'reels']) expect([PHONE_APPS.find((a) => a.id === id)!.noticeIf].flat()[0]?.flag).toBe('act4');
     expect(NEWS.find((n) => n.id === 'news_lockdown')!.after).toBe('act4');
     const s = useGameStore.getState();
     s.setFlag('metro_open', true); s.setFlag('scooter_owned', true); s.setFlag('act4', true);
@@ -84,12 +84,12 @@ describe('4.1 "Five O\'Clock" (ADR-148)', () => {
     expect(lane.act4Zones![0].encounterRate).toBe(0);
   });
 
-  it('the main road ends it: the walk card (or, caught, the lane\'s own card) holds at the hill', () => {
+  it('the main road ends it: the walk card (or, caught, the lane\'s own card) lands at the foot of the hill at 21:30 (4.2)', () => {
     expect(lane.triggers).toContainEqual({ zone: 'main_road', action: 'card', card: 'card_walk_east', requiresFlag: 'khaki_breaks' });
-    expect(CARDS.card_walk_east.end).toBe('hold');
+    expect(CARDS.card_walk_east.then).toEqual({ district: 'ambedkar_nagar_hill', spawn: 'slope_base', minute: 1290 });
     expect(outcome(CARDS.card_walk_east, {}).set).toEqual(expect.arrayContaining(['first_run_done', 'act4_five_done']));
     expect(lane.failCard).toBe('card_lane_caught');
-    expect(CARDS.card_lane_caught.end).toBe('hold');
+    expect(CARDS.card_lane_caught.then).toEqual({ district: 'ambedkar_nagar_hill', spawn: 'slope_base', minute: 1290 });
     expect(NEWS.find((n) => n.id === 'news_five')!.after).toBe('plates_out');
   });
 

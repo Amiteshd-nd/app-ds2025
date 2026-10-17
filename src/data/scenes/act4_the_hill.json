@@ -4,9 +4,9 @@
   "act": 4,
   "seq": "4.2",
   "title": "The Hill",
-  "status": "STUB",
+  "status": "P23",
   "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.2: reach Ambedkar Nagar; owner aunty gone; room ransacked; guitar, induction, bed = first base; the barter table replaces UPI; the crafting bench = the kitchen table that didn't fit [P]), act4 doc §1 (Suresh = the hill landlord, owner aunty's husband, the base's protector; Deepa a hill neighbour; Karthik a neighbour, the evacuate voice), §7 (the four recipes), chapter_board_merge §B2 (4b: UPI dies), Act 4 systems plan v1 (approved 'default', 2026-10-17) §3.6–3.9 (harsh survival, barter as negotiation, base stock, generator + UV, sleep only in a base) and §8 Q3 (UPI dies for good here), Q6 (the cast at the hill), Q7 (barter values), landmarks doc §3.1 (reveals #20–22). Needs S3 (the base) before it can be built. S3 (ADR-149): the first trade follows the barter values — laptop → a food packet (haggled: + cloth), not a power bank + two packets.",
-  "time": "Act 4 day 0, 21:30 → the morning of day 1",
+  "time": "Act 4 day 0 — 21:30 → the morning of day 1",
   "player_goal": "Get up the hill to the flat, and make it somewhere you can survive the night.",
   "design_goal": "The housing ladder pays off: the room you signed for in 1.4, furnished in 2.4, becomes the first base. Money dies on screen (UPI's last 'Server busy' becomes 'This service is no longer available'), and a different economy starts at a neighbour's table. Every object the player bought in Acts 1–2 gets a second use: the table is a bench, the guitar a lure and a comfort, the scooter's fuel feeds a generator. Progress + Reward after 4.1's Tense (ADR-24).",
   "pacing": [
@@ -16,11 +16,9 @@
     "Reward"
   ],
   "entry": {
-    "from": "card_walk_east",
-    "spawn": "hill_foot",
-    "after": [
-      "act4_five_done"
-    ]
+    "from": "indiranagar_lane",
+    "spawn": "slope_base",
+    "after": []
   },
   "cast": [
     {
@@ -30,16 +28,10 @@
       "role": "NEW. Suresh, 50s, owner aunty's husband, the landlord (he was at their daughter's in Mysuru until the curfew). Strict, frightened, kind underneath. Has kept the colony's diesel generator and one UV lamp running on the terrace. On aunty: 'She went to the temple on Tuesday.' Nothing more. Gives you the first water and rice, and a rule: 'No noise after five. No lights facing the road.'"
     },
     {
-      "npc": "npc_manju",
+      "npc": "npc_manju_act4",
       "tier": 2,
       "spawn": "manju_table",
       "role": "Manju the broker (1.4) is now a trader at a folding table on the terrace: the barter table. Takes things, not money: 'Your phone is a brick now, boss. What else have you got?' Haggles like the negotiation mini-game, in item value."
-    },
-    {
-      "npc": "npc_neighbour_leela",
-      "tier": 2,
-      "spawn": "leela_door",
-      "role": "Leela (existing neighbour) stays behind her grille; trades a candle for the news you bring; tells you Deepa from the end flat 'hasn't come home since the lab'."
     },
     {
       "npc": "npc_karthik",
@@ -108,10 +100,10 @@
   ],
   "exits": [
     {
-      "zone": "hill_foot",
-      "to": "(base chain, 4.3)",
+      "zone": "room3_door",
+      "to": "hill_flat",
       "transit": "walk",
-      "note": "scavenge runs out from the base; relocation is 4.3"
+      "note": "the top room — the first base"
     }
   ],
   "save_flags": [
@@ -135,13 +127,6 @@
     "a night uses the stock and moves Act 4 to day 1",
     "the walkthrough bot plays it with `crouch_to`, `barter`, `craft` (S3); the headless run stays green"
   ],
-  "open_questions": [
-    "OWNER AUNTY: draft = gone ('She went to the temple on Tuesday' — nothing more); her door stays locked. Do we ever learn what happened (an infected aunty later is possible but cruel)? Default: never shown.",
-    "SURESH: draft = her husband, back from their daughter's in Mysuru, keeping the generator and the lamp; the base protector (may sacrifice himself in the Hold ending). Keep?",
-    "THE STILL FIGURES: draft = two infected standing facing a wall at the foot of the hill (the first crouch). Or no infected on the hill on day 0 (safe all night)?",
-    "MANJU THE TRADER: draft = the broker from 1.4 runs the barter table on the terrace. Keep?",
-    "THE FIRST TRADE: draft = laptop → a food packet (+ cloth if haggled), by the barter values (S3). Keep, or raise the laptop's value?",
-    "RAJU: the act4 doc names 'Raju, chai wallah, 60s, knows everything' as the info hub; the hill's chai man in the game is Mani, and a Raju already runs the Whitefield Darshini. Draft = Mani is the hill's info hub; the Darshini's Raju is the one who gets trapped (4.3). Keep?",
-    "DEEPA: draft = not seen at the hill on day 0 ('hasn't come home since the lab'); she turns up bitten in 4.3. Keep?"
-  ]
+  "open_questions": [],
+  "decided": "User 2026-10-18: 'take the defaults and build 4.2' — every open question resolved by the draft's default (ADR-150)."
 }

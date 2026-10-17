@@ -182,7 +182,7 @@ describe('wiring (ADR-145)', async () => {
     expect(CORE_BEHAVIOURS).toContain('act4Threat');
     expect(BEHAVIOUR_NAMES).toContain('act4Threat');
     const withInfected = Object.values(DISTRICTS).filter((d) => d.infected?.packs.length).map((d) => d.id);
-    expect(withInfected).toEqual(['indiranagar_lane', 'act4_bench']);
+    expect(withInfected).toEqual(['ambedkar_nagar_hill', 'indiranagar_lane', 'act4_bench']);
     expect(DISTRICTS.act4_bench.dev).toBe(true);
   });
 

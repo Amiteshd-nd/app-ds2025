@@ -82,5 +82,37 @@
     "dialogue": "trade:trader_manju",
     "sheet": "npc_manju",
     "voice": "adult_m"
+  },
+  {
+    "id": "npc_suresh",
+    "name": "Suresh",
+    "tier": 3,
+    "dialogue": "dlg_suresh",
+    "sheet": "npc_suresh",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_karthik",
+    "name": "Karthik",
+    "tier": 2,
+    "dialogue": "dlg_karthik",
+    "sheet": "crowd_techie",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_manju_act4",
+    "name": "Manju",
+    "tier": 2,
+    "dialogue": "dlg_manju_act4",
+    "sheet": "npc_manju",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_manju_trade",
+    "name": "Manju",
+    "tier": 2,
+    "dialogue": "trade:trader_manju",
+    "sheet": "npc_manju",
+    "voice": "adult_m"
   }
 ]

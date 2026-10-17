@@ -115,7 +115,7 @@ describe('three mornings, each quieter (F2–F4)', () => {
   });
 
   it('UPI shows "Server busy" but payments still go through', () => {
-    expect(PHONE_APPS.find((a) => a.id === 'upi')!.noticeIf).toEqual({ flag: 'wn_server_busy', text: 'Server busy. Try again later.' });
+    expect([PHONE_APPS.find((a) => a.id === 'upi')!.noticeIf].flat()[0]).toEqual({ flag: 'wn_server_busy', text: 'Server busy. Try again later.' });
     store().setFlag('wn_server_busy', true);
     expect(StatsManager.getInstance().spend(20, 'tea', 'Ward tea')).toBe(true);
   });

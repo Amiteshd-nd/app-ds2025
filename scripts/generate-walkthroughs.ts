@@ -248,7 +248,7 @@ class Gen {
     this.closeConversation();
     if (t.action === 'sleep' && !t.dialogue) { this.push({ do: 'sleep' }); }
     // Where the infected are (ADR-145/148), every walk is a flee: the bot plans around them and keeps re-planning.
-    else this.push({ do: ((districts.get(this.district)?.infected?.packs ?? []) as Json[]).length ? 'flee' : 'goto', target: `zone:${t.zone}` });
+    else this.push({ do: ((districts.get(this.district)?.infected?.packs ?? []) as Json[]).some((p) => !p.requiresFlag || this.known.has(p.requiresFlag)) ? 'flee' : 'goto', target: `zone:${t.zone}` });
     // The office door on the same zone runs the workday (when that trigger is live): the walk home starts at closing time.
     const workday = (districts.get(this.district)?.triggers ?? []).some((x: Json) => x.zone === t.zone && x.action === 'workday' && !(x.unlessFlag && this.known.has(x.unlessFlag)) && (!x.requiresFlag || this.known.has(x.requiresFlag)));
     if (workday) this.minute = 18 * 60;

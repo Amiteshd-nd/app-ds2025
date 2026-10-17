@@ -376,3 +376,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way (fixed): the barter check's margin was backwards at first (a trader asks 1.5×, it doesn't give 1.5×); the 4.2 draft's first trade broke the plan's values (changed, call to confirm); standing in a repeating trigger's zone keeps reopening its conversation, which blocks sleep — the bench's zones are small and apart.
 - Calls to confirm: NEED_TO_AUDIT #23.
 - Rule going forward: **every item has an `act4_value`; every deal passes the value check** (validator).
+
+### [P23 4.2 "The Hill" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.2". ADR-150.
+- Built: the landing at the hill, Act 4's hill (people gone, Mani's warning, the still pair, the purple lamp, Suresh and the stock, Manju and the death of UPI, Karthik), the ransacked flat as the first base (table → base, the first night → day 1, the bench from the morning, three containers), Suresh's sheet + six props, `act4_the_hill.test.ts` (7), the walkthrough.
+- Verified: `node scripts/movie.mjs --scene act4_the_hill` passes (23 steps); the bot's failure screenshots along the way show the hill at 21:3x with Suresh by his door, the generator and the violet lamp post, Manju at his table on the middle terrace, Karthik; the flat with the ransacked heap, the guitar, the crafting bench's four recipes drawn as locked choices.
+- Found on the way (fixed): the generator, lamp and Suresh first stood on the narrow top walkway and sealed it; Karthik stood on the one-tile join of the mid path and the big stairs; the bag container sat on the door → table path; the bot's flee budget assumed running (Act 4 energy runs out on the long stairs); the generator emitted `flee` for Act 1's hill (a pack that only exists in Act 4); after "unfold the table" closed, the player settled a few px deeper into the table's spot and the crafting conversation opened at once — the bench now works from the first morning. (A trial "zones stand still while a conversation is up" change didn't fix it and was reverted.)
+- Calls to confirm: NEED_TO_AUDIT #24.
+- Rule going forward: **never place an NPC or a solid prop on a one-tile walkway or a join** — check the walk grid around every new spot (the bot finds it first).

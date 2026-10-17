@@ -1,0 +1,15 @@
+{
+  "id": "dlg_hill_table",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(You unfold the kitchen table that didn't fit. It fits now: a bench, a shelf, a place to make things. The room is a base.)",
+      "effect": {
+        "flags": {
+          "hill_base_set": true
+        }
+      }
+    }
+  }
+}

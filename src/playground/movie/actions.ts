@@ -112,11 +112,13 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
     route = d.route(target);
   }
   if (!route.ok) return fail(route.reason);
-  let deadline = d.now() + (timeout ?? (route.px / 100) * 1000 + 5000);
+  // Fleeing in Act 4 runs out of energy (ADR-145): budget it at a forced walk's pace, not a run's.
+  let deadline = d.now() + (timeout ?? (route.px / (flee ? 50 : 100)) * 1000 + (flee ? 10000 : 5000));
   const tolerance = 3 + 2 * ctx.speed;
   const startDistrict = d.state().district;
   let k = 0, replans = 0, frame = 0, ticks = 0;
   let lastProgressAt = d.now(), bestDist = Infinity, bestK = -1;
+  let movedAt = d.now(), movedFrom: [number, number] = d.feet() ?? [0, 0];
   try {
     for (;;) {
       if (ctx.cancelled()) return { status: 'skipped', reason: 'cancelled' };
@@ -149,6 +151,9 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
       if (!feet) return fail('no_player');
       // Fleeing (ADR-145): the infected move, so the way does too — plan again every quarter second around them.
       if (flee && ++ticks % 15 === 0) { const r = d.route(target); if (r.ok) { route = r; k = 0; bestK = -1; bestDist = Infinity; } }
+      // A replan restarts the corner bookkeeping, so a flee also watches the feet: a body snagged on a wall corner
+      // replans to the same line every time and never moves — only the stuck sidestep below gets it off.
+      if (Math.hypot(feet[0] - movedFrom[0], feet[1] - movedFrom[1]) > 2) { movedFrom = feet; movedAt = d.now(); }
       if (k >= route.corners.length) {
         // Zones often hug a wall or sit over the thing they belong to (a bed): press toward the centre until the
         // feet box overlaps by a few px on both axes, or the way is blocked — that is how a thumb reaches a bed.
@@ -189,9 +194,9 @@ async function goto(d: MovieDriver, target: Target, ctx: ActionContext, timeout?
       else d.walk(dx / dist, dy / dist);
       if (k !== bestK) { bestK = k; bestDist = dist; lastProgressAt = d.now(); }
       if (dist < bestDist - 2) { bestDist = dist; lastProgressAt = d.now(); }
-      else if (d.now() - lastProgressAt > STUCK_MS) {
+      else if (d.now() - lastProgressAt > STUCK_MS || (flee && d.now() - movedAt > STUCK_MS)) {
         if (replans >= MAX_REPLANS) return fail(`stuck near ${Math.round(feet[0])},${Math.round(feet[1])} heading for ${describeTarget(target)}`);
-        replans += 1; lastProgressAt = d.now();
+        replans += 1; lastProgressAt = d.now(); movedAt = d.now();
         // Usually a citizen standing in the way (the crowd cannot be pushed): step aside for a moment so the
         // replan starts from a free cell and the citizen's wander timer gets a chance, then plan again.
         ctx.log(`no progress — sidestep and replan (${replans}/${MAX_REPLANS})`);

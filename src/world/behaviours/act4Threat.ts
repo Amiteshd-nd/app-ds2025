@@ -88,7 +88,9 @@ export const act4Threat: Behaviour = {
     const packs = district.infected?.packs ?? [];
     // A base's lamp burns while the generator has fuel and it isn't the night it fails (ADR-149).
     const baseUV = district.base && baseActive(district, useGameStore.getState().flags) && (useGameStore.getState().counters[STOCK.fuel] ?? 0) > 0 ? district.base.uv : [];
-    const uvs = [...(district.uv ?? []), ...baseUV].map((u) => ({ x: tiles(u.at)[0], y: tiles(u.at)[1], r: u.radius * TILE_SIZE }));
+    const flagsNow = useGameStore.getState().flags, fuelNow = (useGameStore.getState().counters[STOCK.fuel] ?? 0) > 0;
+    const placeUV = (district.uv ?? []).filter((u) => (!u.requiresFlag || flagsNow[u.requiresFlag]) && (!u.fuelAfter || !flagsNow[u.fuelAfter] || fuelNow));
+    const uvs = [...placeUV, ...baseUV].map((u) => ({ x: tiles(u.at)[0], y: tiles(u.at)[1], r: u.radius * TILE_SIZE }));
     if (!zonesDef.length && !packs.length && !uvs.length) return;
 
     const store = () => useGameStore.getState();

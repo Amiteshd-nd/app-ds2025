@@ -41,6 +41,8 @@ export const SHEETS = {
   ward_props: { cols: 2, rows: 1, height: 30, heights: [66, 30] },
   // 3.5 Discharge (P21, ADR-143): the isolation doors standing open on an empty room · the ward boy's empty chair with his phone.
   discharge_props: { cols: 2, rows: 1, height: 22, heights: [42, 22] },
+  // 4.2 The Hill (P23, ADR-150): the colony's generator · its UV lamp post · Manju's trading table · a ransacked heap · a knocked-over chair · aunty's slippers.
+  hill_act4_props: { cols: 3, rows: 2, height: 30, heights: [30, 66, 30, 26, 24, 10] },
 };
 
 const keyMagenta = (d) => {

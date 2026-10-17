@@ -143,6 +143,9 @@ Districts `hebbal_gate`, `indiranagar_lane` (unlock `act4`). Behaviour `clockEve
 ## Act 4 — the base (S3, ADR-149)
 `systems/trade.ts` (pure) builds conversations from data: `craft:bench` (recipes.json), `trade:<trader>` (barter.json), `search:<loot>` (loot.json), `base:<district>` (stock counters `stock_food/water/fuel`), and `baseNight`. `data.virtualDialogue` / `hasDialogue` resolve them; DialogueManager passes the counters. Choices: `requiresItems`; effects: `items_add`, `items_remove`, `counters`. District `base` + core behaviour `act4Base` (nights, the lamp, `base_home:<id>`); WorldScene.sleep refuses outside a base in Act 4; act4Threat lights the base's UV while fuel lasts and fails forward to home (`playCard(id, landing)`). Validator: `validateTrade`.
 
+## Act 4 — 4.2 The Hill (P23, ADR-150)
+The hill pocket and the flat in Act 4 are flag-driven data on the existing maps: people `unlessFlag: act4`, Suresh / Karthik / Manju (two refs, before and after `upi_dead`) with `liveArrivals`; uv `requiresFlag` + `fuelAfter`; the flat's `base` (`requiresFlag: hill_base_set`), containers and the bench by trigger. Exits that aren't `walk` refuse in Act 4 (Exits). `noticeIf` may be a list (last set wins). Driver: soft-avoids container and repeating-conversation zones; flee budgets a forced walk.
+
 ## Shapes: collision + occlusion for generated maps (ADR-99/100)
 `_raw/maps/<name>.spec.json` in source pixels → `import-map.mjs` → `.tmj` `Shapes` layer (`solid` rects, `occluder` objects with `image` + `baseY`) + `src/assets/overlays/<map>__<name>.png`. `world/Shapes.ts` builds static bodies and depth-sorted images (same band as characters, `depthForZY(baseY)`). NPCs join a static group with 20×12 feet bodies; the crowd (`crowd_*` sheets) collides with the player. Maps smaller than the screen are centred on black (`WorldScene.frameCamera`).
 

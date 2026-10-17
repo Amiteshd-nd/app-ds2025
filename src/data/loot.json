@@ -24,6 +24,28 @@
         "stones": 1,
         "uv_led": 1
       }
+    },
+    "hill_kitchen": {
+      "label": "what's left in the kitchen",
+      "items": {
+        "steel_tumbler": 1,
+        "bottle": 1,
+        "food_packet": 1
+      }
+    },
+    "hill_drawer": {
+      "label": "the drawer they missed",
+      "items": {
+        "flashlight": 1,
+        "cloth": 1
+      }
+    },
+    "hill_bag": {
+      "label": "your office bag, kicked under the shelf",
+      "items": {
+        "laptop": 1,
+        "water_bottle": 1
+      }
     }
   }
 }

@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 26,
+     "id": 35,
      "name": "pole",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 36,
      "name": "transformer",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 37,
      "name": "chai_table",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 38,
      "name": "stools",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 39,
      "name": "shop_display",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 40,
      "name": "pot_room1",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 41,
      "name": "awning",
      "type": "above",
      "rotation": 0,
@@ -2916,7 +2916,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 42,
      "name": "tarp",
      "type": "above",
      "rotation": 0,
@@ -3823,7 +3823,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 16,
+     "id": 25,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3841,7 +3841,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 26,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3859,7 +3859,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 27,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3877,7 +3877,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 28,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3895,7 +3895,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 29,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3913,7 +3913,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 30,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3931,7 +3931,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 31,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3949,7 +3949,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 32,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3967,7 +3967,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 33,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3985,7 +3985,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 34,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -5001,6 +5001,102 @@
     },
     {
      "id": 10,
+     "name": "gen_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 713,
+     "y": 64,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 11,
+     "name": "uv_post_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 746,
+     "y": 52,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 12,
+     "name": "trade_table_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 848,
+     "y": 283,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 13,
+     "name": "manju_table",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 904,
+     "y": 298,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 14,
+     "name": "karthik_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 934,
+     "y": 253,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 15,
+     "name": "slippers_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 679,
+     "y": 85,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 16,
+     "name": "suresh_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 654,
+     "y": 79,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 17,
+     "name": "manju_table_b",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 904,
+     "y": 298,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 18,
      "name": "road_out",
      "rotation": 0,
      "type": "",
@@ -5011,7 +5107,7 @@
      "height": 89
     },
     {
-     "id": 11,
+     "id": 19,
      "name": "hill_arrival",
      "rotation": 0,
      "type": "",
@@ -5022,7 +5118,7 @@
      "height": 89
     },
     {
-     "id": 12,
+     "id": 20,
      "name": "room1_door",
      "rotation": 0,
      "type": "",
@@ -5033,7 +5129,7 @@
      "height": 42
     },
     {
-     "id": 13,
+     "id": 21,
      "name": "room2_door",
      "rotation": 0,
      "type": "",
@@ -5044,7 +5140,7 @@
      "height": 32
     },
     {
-     "id": 14,
+     "id": 22,
      "name": "room3_door",
      "rotation": 0,
      "type": "",
@@ -5055,7 +5151,7 @@
      "height": 42
     },
     {
-     "id": 15,
+     "id": 23,
      "name": "ambient_area",
      "rotation": 0,
      "type": "",
@@ -5064,6 +5160,17 @@
      "y": 323,
      "width": 900,
      "height": 56
+    },
+    {
+     "id": 24,
+     "name": "top_terrace",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 645,
+     "y": 113,
+     "width": 68,
+     "height": 37
     }
    ],
    "opacity": 1,
@@ -5074,7 +5181,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 34,
+ "nextobjectid": 43,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

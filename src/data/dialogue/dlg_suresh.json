@@ -1,0 +1,59 @@
+{
+  "id": "dlg_suresh",
+  "speaker": "Suresh",
+  "portrait": "npc_suresh",
+  "enter": [
+    {
+      "flag": "met_suresh",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(A man with a torch and a bunch of keys, by the generator.) Who's that? — Oh. Top room. You're alive. I'm Suresh. The landlord. Her husband.",
+      "choices": [
+        {
+          "text": "Where's aunty?",
+          "next": "aunty"
+        },
+        {
+          "text": "What is that light?",
+          "next": "light"
+        }
+      ]
+    },
+    "aunty": {
+      "text": "She went to the temple on Tuesday. (He looks at her door, at the slippers.) That's all.",
+      "next": "rules"
+    },
+    "light": {
+      "text": "UV. The BBMP put them up at the camps. They don't come into the purple. Don't ask me why — I don't care why.",
+      "next": "rules"
+    },
+    "rules": {
+      "text": "Rules. No noise after five. No lights facing the road. The generator runs the lamp, the lamp keeps us. Here — water, rice. And the lamp needs petrol. Whatever you find, it comes to the shelf.",
+      "choices": [
+        {
+          "text": "(Take the water and the rice.)",
+          "next": "manju",
+          "effect": {
+            "flags": {
+              "met_suresh": true
+            },
+            "counters": {
+              "stock_food": 2,
+              "stock_water": 2,
+              "stock_fuel": 1
+            }
+          }
+        }
+      ]
+    },
+    "manju": {
+      "text": "Manju is on the terrace with his table. He takes things now, not money. Your phone is a brick. (He goes back to the generator.)"
+    },
+    "again": {
+      "text": "Petrol, food, water. To the shelf. And quiet after five."
+    }
+  }
+}

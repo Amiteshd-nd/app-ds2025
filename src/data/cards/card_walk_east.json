@@ -1,6 +1,6 @@
 {
   "id": "card_walk_east",
-  "$comment": "Story 4.1 F5 (ADR-148): the run ends at the main road; the long walk east in the dark; it holds at the hill until 4.2 builds it.",
+  "$comment": "Story 4.1 F5 (ADR-148): the run ends at the main road; the long walk east in the dark; it lands at the foot of the hill at 21:30 (4.2, ADR-150).",
   "panels": [
     {
       "title": "OLD AIRPORT ROAD · 17:10",
@@ -22,13 +22,11 @@
       "setFlags": [
         "act4_five_done"
       ]
-    },
-    {
-      "style": "title",
-      "title": "THE HILL",
-      "text": "ACT 4 CONTINUES AT THE HILL",
-      "cue": "a.sting.turn"
     }
   ],
-  "end": "hold"
+  "then": {
+    "district": "ambedkar_nagar_hill",
+    "spawn": "slope_base",
+    "minute": 1290
+  }
 }

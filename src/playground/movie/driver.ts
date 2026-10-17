@@ -303,7 +303,9 @@ export class PhaserDriver implements MovieDriver {
     const tr = target?.startsWith('zone:') ? rectOf(targetName) : null;
     const overlapsTarget = (name: string) => { const r = rectOf(name); return Boolean(tr && r && r.x < tr.x + tr.w && tr.x < r.x + r.w && r.y < tr.y + tr.h && tr.y < r.y + r.h); };
     const hard = (district?.triggers ?? []).filter((t) => t.action && live(t)).map((t) => t.zone).filter((z) => z !== targetName && !overlapsTarget(z));
-    const soft = [...(district?.exits ?? []).map((e) => e.zone), ...(district?.triggers ?? []).filter((t) => t.action && !live(t)).map((t) => t.zone)].filter((z) => z !== targetName);
+    // A repeating conversation spot (the base's bench and stock shelf) reopens whenever you step on it, and a container asks what to take: walk round them unless they are the target (ADR-150).
+    const repeating = (district?.triggers ?? []).filter((t) => t.dialogue && (t.once === false || /^(search|craft|base|trade):/.test(t.dialogue)) && live(t)).map((t) => t.zone);
+    const soft = [...(district?.exits ?? []).map((e) => e.zone), ...(district?.triggers ?? []).filter((t) => t.action && !live(t)).map((t) => t.zone), ...repeating].filter((z) => z !== targetName);
     const tabooRects: Rect[] = [];
     for (const name of [...hard, ...(avoidZones ? soft : [])]) {
       const obj = w.map.getObjectLayer(LAYERS.spawns)?.objects.find((o) => o.name === name);

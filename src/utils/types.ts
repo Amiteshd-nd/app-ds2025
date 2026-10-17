@@ -404,7 +404,7 @@ export interface DistrictDef {
    */
   base?: { spawn: string; uv: Array<{ at: [number, number]; radius: number }>; lampFailsOnNight?: number; requiresFlag?: string };
   /** UV lamps (ADR-33/145): infected never come within `radius` tiles; you can't be seen inside it and ambushes never roll. */
-  uv?: Array<{ at: [number, number]; radius: number }>;
+  uv?: Array<{ at: [number, number]; radius: number; /** Lit only once this flag is set (Act 4's lamps, ADR-150). */ requiresFlag?: string; /** From this flag on it burns only while the base's stock has fuel (Suresh's generator, ADR-150). */ fuelAfter?: string }>;
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
   nightTint?: number;
   /** Sounds that come from a spot (ADR-139): a looping token fades with distance; a one-shot repeats every `every` [min, max] seconds. `at` = a spawn/zone in the map. */
@@ -475,8 +475,8 @@ export interface InfectedPack {
   evolved?: number;
   /** The pack is there only once this flag is set (the bench's presets; 4.1's run) — it appears the moment the flag is set. */
   requiresFlag?: string;
-  /** `alert`: it comes out already turning on you (the khaki shirt, 4.1). */
-  startMode?: 'alert';
+  /** `alert`: it comes out already turning on you (the khaki shirt, 4.1); `idle`: it stands still until it sees you (the pair facing the wall, 4.2). */
+  startMode?: 'alert' | 'idle';
   /** Lead start candidates (tiles): the nearest one that is further than you from `awayFrom` (the way out) — so a scripted run starts behind the player, never across the way out. */
   leadOptions?: Array<[number, number]>;
   /** The spawn/zone that is the way out, for `leadOptions`. */
@@ -735,7 +735,7 @@ export interface PhoneApp {
   /** Gone from the phone once this flag is set — Jodi uninstalls itself (ADR-134). */
   until?: string;
   /** A banner inside the app while a flag is set — UPI's "Server busy" (ADR-142). */
-  noticeIf?: { flag: string; text: string };
+  noticeIf?: { flag: string; text: string } | Array<{ flag: string; text: string }>;
 }
 
 export interface ChatMessage {

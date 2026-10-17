@@ -27,7 +27,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['card', 'cue', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes'];
+const EFFECT_KEYS = ['card', 'cue', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes', 'items_add', 'items_remove', 'counters'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -560,7 +560,7 @@ export function validateContent(
     drawable('phone/apps.json', `app "${app.id}" name`, app.name);
     drawable('phone/apps.json', `app "${app.id}" hint`, app.hint);
     if (app.noticeIf !== undefined) {
-      if (typeof app.noticeIf?.flag !== 'string' || typeof app.noticeIf?.text !== 'string') add('phone/apps.json', `app "${app.id}" noticeIf needs a flag and a text`);
+      for (const n of [app.noticeIf].flat()) if (typeof n?.flag !== 'string' || typeof n?.text !== 'string') add('phone/apps.json', `app "${app.id}" noticeIf needs a flag and a text`);
       else drawable('phone/apps.json', `app "${app.id}" notice`, app.noticeIf.text);
     }
   }

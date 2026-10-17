@@ -1,6 +1,6 @@
 {
   "id": "card_lane_caught",
-  "$comment": "Story 4.1, caught (ADR-148): the lane's fail-forward — the same road home, told, holding at the hill like the walk card.",
+  "$comment": "Story 4.1, caught (ADR-148): the lane's fail-forward — the same road home, told, landing at the foot of the hill like the walk card (4.2, ADR-150).",
   "panels": [
     {
       "style": "fragment",
@@ -17,13 +17,11 @@
       "setFlags": [
         "act4_five_done"
       ]
-    },
-    {
-      "style": "title",
-      "title": "THE HILL",
-      "text": "ACT 4 CONTINUES AT THE HILL",
-      "cue": "a.sting.turn"
     }
   ],
-  "end": "hold"
+  "then": {
+    "district": "ambedkar_nagar_hill",
+    "spawn": "slope_base",
+    "minute": 1290
+  }
 }

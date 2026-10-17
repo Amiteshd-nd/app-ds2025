@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-122). The colony climbs in terraces: the bottom road (y 905-1024, x 0-1050) with the chai stall and furniture shop on its pavement; the stair-lane x 760-940 up to the upper lane (y 430-505, x 20-1290); the long stair x 1125-1280 up to the top walkway (y 100-200, x 760-1290). Three doors: room 1 (green, ground floor, beside the shop), room 2 (maroon, upper lane), room 3 (green, top walkway — the flat). Everything else is houses, walls and hedges. Migrated to ADR-125: every house, wall and hedge block is a `building`; the pole, the transformer, the chai tables and stools, the shop display and the pot are sorted cut-outs with footprints; the tin awning, the chai tarp and the slope cables hang `above`.",
+  "$comment": "Source-pixel spec (1536x1024 render) \u2192 36x24 tiles, 1.2 m/tile (ADR-122). The colony climbs in terraces: the bottom road (y 905-1024, x 0-1050) with the chai stall and furniture shop on its pavement; the stair-lane x 760-940 up to the upper lane (y 430-505, x 20-1290); the long stair x 1125-1280 up to the top walkway (y 100-200, x 760-1290). Three doors: room 1 (green, ground floor, beside the shop), room 2 (maroon, upper lane), room 3 (green, top walkway \u2014 the flat). Everything else is houses, walls and hedges. Migrated to ADR-125: every house, wall and hedge block is a `building`; the pole, the transformer, the chai tables and stools, the shop display and the pot are sorted cut-outs with footprints; the tin awning, the chai tarp and the slope cables hang `above`. Act 4 (story 4.2, ADR-150): the generator and the UV lamp post against the wall by the top door (the walkway in front stays clear), Suresh beside his door, Manju's table on the middle terrace by the stumps, Karthik by Manju's terrace (not on the narrow join of the mid path and the stairs), aunty's slippers at her door; `top_terrace` is the landing in front of the top room.",
   "name": "ambedkar_nagar_hill",
   "cols": 36,
   "rows": 24,
@@ -50,6 +50,46 @@
       "name": "scooter_park",
       "x": 560,
       "y": 958
+    },
+    {
+      "name": "gen_spot",
+      "x": 950,
+      "y": 108
+    },
+    {
+      "name": "uv_post_spot",
+      "x": 995,
+      "y": 92
+    },
+    {
+      "name": "trade_table_spot",
+      "x": 1130,
+      "y": 400
+    },
+    {
+      "name": "manju_table",
+      "x": 1205,
+      "y": 420
+    },
+    {
+      "name": "karthik_spot",
+      "x": 1245,
+      "y": 360
+    },
+    {
+      "name": "slippers_spot",
+      "x": 905,
+      "y": 136
+    },
+    {
+      "name": "suresh_spot",
+      "x": 872,
+      "y": 128
+    },
+    {
+      "name": "manju_table_b",
+      "x": 1205,
+      "y": 420
     }
   ],
   "zones": [
@@ -94,6 +134,13 @@
       "y": 430,
       "w": 1200,
       "h": 75
+    },
+    {
+      "name": "top_terrace",
+      "x": 860,
+      "y": 150,
+      "w": 90,
+      "h": 50
     }
   ],
   "buildings": [

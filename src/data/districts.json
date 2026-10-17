@@ -845,16 +845,19 @@
     },
     "quests": [
       "q_act1_hill_flat",
-      "q_act2_ravi_1am"
+      "q_act2_ravi_1am",
+      "q_act4_the_hill"
     ],
     "npcs": [
       {
         "id": "npc_manju",
-        "spawn": "broker"
+        "spawn": "broker",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_owner_aunty",
-        "spawn": "owner"
+        "spawn": "owner",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_hill_chai",
@@ -862,11 +865,34 @@
       },
       {
         "id": "npc_furniture_rafiq",
-        "spawn": "furniture_shop"
+        "spawn": "furniture_shop",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_hill_kid",
-        "spawn": "kid"
+        "spawn": "kid",
+        "unlessFlag": "act4"
+      },
+      {
+        "id": "npc_suresh",
+        "spawn": "suresh_spot",
+        "requiresFlag": "act4"
+      },
+      {
+        "id": "npc_karthik",
+        "spawn": "karthik_spot",
+        "requiresFlag": "act4"
+      },
+      {
+        "id": "npc_manju_act4",
+        "spawn": "manju_table",
+        "requiresFlag": "act4",
+        "unlessFlag": "upi_dead"
+      },
+      {
+        "id": "npc_manju_trade",
+        "spawn": "manju_table_b",
+        "requiresFlag": "upi_dead"
       }
     ],
     "ambient": {
@@ -903,6 +929,12 @@
           "hill_arrived"
         ],
         "unlessFlag": "hill_arrived"
+      },
+      {
+        "zone": "top_terrace",
+        "dialogue": "dlg_hill_climbed",
+        "requiresFlag": "act4",
+        "unlessFlag": "hill_climbed"
       }
     ],
     "exits": [
@@ -941,6 +973,30 @@
         "id": "SCOOTER_GREY",
         "at": "scooter_park",
         "requiresFlag": "scooter_owned"
+      },
+      {
+        "id": "GENERATOR",
+        "at": "gen_spot",
+        "requiresFlag": "act4",
+        "exact": true
+      },
+      {
+        "id": "UV_LAMP_POST",
+        "at": "uv_post_spot",
+        "requiresFlag": "act4",
+        "exact": true
+      },
+      {
+        "id": "TRADE_TABLE",
+        "at": "trade_table_spot",
+        "requiresFlag": "act4",
+        "exact": true
+      },
+      {
+        "id": "SLIPPERS",
+        "at": "slippers_spot",
+        "requiresFlag": "act4",
+        "exact": true
       }
     ],
     "audioSources": [
@@ -985,7 +1041,67 @@
         "radius": 8,
         "kind": "human"
       }
-    ]
+    ],
+    "liveArrivals": true,
+    "stabilityIf": [
+      {
+        "flag": "act4",
+        "stability": 62
+      }
+    ],
+    "uv": [
+      {
+        "at": [
+          23,
+          3
+        ],
+        "radius": 3,
+        "requiresFlag": "act4",
+        "fuelAfter": "met_suresh"
+      }
+    ],
+    "act4Zones": [
+      {
+        "id": "lower_path",
+        "rect": [
+          3,
+          9,
+          22,
+          4
+        ],
+        "encounterRate": 0,
+        "cover": [
+          [
+            6,
+            10
+          ],
+          [
+            12,
+            10
+          ]
+        ]
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "still_pair",
+          "zone": "lower_path",
+          "lead": [
+            9,
+            11
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_homemaker",
+            "crowd_elder"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "hill_flat",
@@ -1063,6 +1179,18 @@
         "id": "FOLDED_TABLE",
         "at": "folded_spot",
         "requiresFlag": "table_folded"
+      },
+      {
+        "id": "RANSACK_HEAP",
+        "at": "rug_spot",
+        "requiresFlag": "act4",
+        "exact": true
+      },
+      {
+        "id": "CHAIR_FALLEN",
+        "at": "lamp_spot",
+        "requiresFlag": "act4",
+        "exact": true
       }
     ],
     "triggers": [
@@ -1110,6 +1238,48 @@
         "dialogue": "dlg_amma_worried",
         "requiresFlag": "bc_schools",
         "unlessFlag": "amma_worried_called"
+      },
+      {
+        "zone": "flat_arrival",
+        "dialogue": "dlg_flat_ransacked",
+        "requiresFlag": "act4",
+        "unlessFlag": "flat_found"
+      },
+      {
+        "zone": "bench_zone",
+        "dialogue": "dlg_hill_table",
+        "requiresFlag": "flat_found",
+        "unlessFlag": "hill_base_set"
+      },
+      {
+        "zone": "bench_zone",
+        "dialogue": "craft:bench",
+        "requiresFlag": "hill_first_night",
+        "once": false
+      },
+      {
+        "zone": "stock_zone",
+        "dialogue": "base:hill_flat",
+        "requiresFlag": "hill_base_set",
+        "once": false
+      },
+      {
+        "zone": "kitchen_zone",
+        "dialogue": "search:hill_kitchen",
+        "requiresFlag": "act4",
+        "unlessFlag": "looted:hill_kitchen"
+      },
+      {
+        "zone": "drawer_zone",
+        "dialogue": "search:hill_drawer",
+        "requiresFlag": "act4",
+        "unlessFlag": "looted:hill_drawer"
+      },
+      {
+        "zone": "bag_zone",
+        "dialogue": "search:hill_bag",
+        "requiresFlag": "act4",
+        "unlessFlag": "looted:hill_bag"
       }
     ],
     "exits": [
@@ -1242,8 +1412,22 @@
         "card": "card_act3_title",
         "toast": "Divya: \"Come by the lobby before you start.\"",
         "icon": "chats"
+      },
+      {
+        "after": "hill_base_set",
+        "set": [
+          "hill_first_night"
+        ],
+        "toast": "Act 4 · day 1",
+        "icon": "news"
       }
-    ]
+    ],
+    "base": {
+      "spawn": "door",
+      "uv": [],
+      "requiresFlag": "hill_base_set",
+      "lampFailsOnNight": 4
+    }
   },
   {
     "id": "bus_interior",

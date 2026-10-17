@@ -1,0 +1,15 @@
+{
+  "id": "dlg_hill_climbed",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The top landing. The purple light hums. Your door is open a hand's width — it was locked when you left.)",
+      "effect": {
+        "flags": {
+          "hill_climbed": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "dlg_manju_act4",
+  "speaker": "Manju",
+  "portrait": "npc_manju",
+  "nodes": {
+    "start": {
+      "text": "(Manju, behind a folding table of bottles, packets and batteries.) Boss! The flat-wala! Try paying me with your phone. Go on.",
+      "choices": [
+        {
+          "text": "(Open UPI.)",
+          "next": "dead",
+          "effect": {
+            "flags": {
+              "upi_dead": true
+            }
+          }
+        }
+      ]
+    },
+    "dead": {
+      "text": "(UPI: “This service is no longer available.”) See? Your money is a number on a dead phone. Mine too. Now — what have you got?"
+    }
+  }
+}

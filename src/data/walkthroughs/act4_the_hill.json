@@ -1,0 +1,149 @@
+{
+  "scene": "act4_the_hill",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act4_the_hill + ambedkar_nagar_hill + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "flee_3",
+      "beat": "F1",
+      "do": "flee",
+      "target": "zone:top_terrace"
+    },
+    {
+      "id": "advance_4",
+      "beat": "F1",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "hill_climbed",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_6",
+      "beat": "F3",
+      "do": "goto",
+      "target": "npc:npc_suresh"
+    },
+    {
+      "id": "interact_7",
+      "beat": "F3",
+      "do": "interact",
+      "target": "npc:npc_suresh"
+    },
+    {
+      "id": "choose_8",
+      "beat": "F3",
+      "do": "choose",
+      "option": "aunty"
+    },
+    {
+      "id": "choose_9",
+      "beat": "F3",
+      "do": "choose",
+      "option": "manju"
+    },
+    {
+      "id": "goto_10",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_manju_act4"
+    },
+    {
+      "id": "interact_11",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_manju_act4"
+    },
+    {
+      "id": "choose_12",
+      "beat": "F4",
+      "do": "choose",
+      "option": "dead"
+    },
+    {
+      "id": "goto_13",
+      "beat": "F2",
+      "do": "goto",
+      "target": "exit:room3_door"
+    },
+    {
+      "id": "wait_for_14",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hill_flat",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_15",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:flat_arrival"
+    },
+    {
+      "id": "advance_16",
+      "beat": "F2",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_17",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "flat_found",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_18",
+      "beat": "F5",
+      "do": "goto",
+      "target": "zone:bench_zone"
+    },
+    {
+      "id": "advance_19",
+      "beat": "F5",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_20",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "hill_base_set",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_21",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_22",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "hill_first_night",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_23",
+      "do": "expect",
+      "flag": "act4_hill_complete",
+      "timeout": 3000
+    }
+  ]
+}

@@ -29,6 +29,15 @@
     },
     "bye": {
       "text": "I'm here from six to ten, both sides of the day."
+    },
+    "act4": {
+      "text": "(Mani, behind his chained-up stall, on a crate.) Stall's shut. Listen — the lower path, by the shrine: two of them, facing the wall. Don't walk past. Crawl. The stairs on the right are quiet. Suresh has the light up top."
     }
-  }
+  },
+  "enter": [
+    {
+      "flag": "act4",
+      "node": "act4"
+    }
+  ]
 }

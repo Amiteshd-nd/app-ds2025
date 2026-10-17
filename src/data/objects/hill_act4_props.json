@@ -1,0 +1,68 @@
+[
+  {
+    "id": "GENERATOR",
+    "label": "The colony's diesel generator",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "hill_act4_props_01"
+  },
+  {
+    "id": "UV_LAMP_POST",
+    "label": "A UV lamp on a pole, purple",
+    "category": "structure",
+    "tilesWide": 1,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "hill_act4_props_02"
+  },
+  {
+    "id": "TRADE_TABLE",
+    "label": "Manju's folding table of things",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": true,
+    "colorEditable": false,
+    "sprite": "hill_act4_props_03"
+  },
+  {
+    "id": "RANSACK_HEAP",
+    "label": "Drawers out, papers, clothes, a torn pillow",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 1,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "hill_act4_props_04"
+  },
+  {
+    "id": "CHAIR_FALLEN",
+    "label": "A plastic chair on its side",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 1,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "hill_act4_props_05"
+  },
+  {
+    "id": "SLIPPERS",
+    "label": "Aunty's slippers outside her door",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 1,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "hill_act4_props_06"
+  }
+]

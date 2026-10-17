@@ -574,8 +574,11 @@ export class PhoneScene extends Phaser.Scene {
     this.text(t.x + t.w / 2, t.y + 8, truncate(title, t.w - 16, true), 'phone.lcd.ink', { bold: true, align: 'center' });
     this.drawNav(active);
     // An app's banner while its flag is set — UPI's "Server busy" (ADR-142), Act 4's dead network (ADR-148).
-    const notice = PHONE_APPS.find((a) => a.icon === icon)?.noticeIf;
-    if (notice && useGameStore.getState().flags[notice.flag]) this.text(PHONE.screen.w / 2, 44, notice.text, 'phone.accent.alert', { align: 'center' });
+    // Several states (UPI: "Server busy" → dead, ADR-150): the last one whose flag is set wins.
+    const raw = PHONE_APPS.find((a) => a.icon === icon)?.noticeIf;
+    const flags = useGameStore.getState().flags;
+    const notice = (Array.isArray(raw) ? raw : raw ? [raw] : []).filter((n) => flags[n.flag]).pop();
+    if (notice) this.text(PHONE.screen.w / 2, 44, notice.text, 'phone.accent.alert', { align: 'center' });
   }
 
   private drawNav(active: 'home' | 'chats' | 'maps' | 'upi' | null): void {

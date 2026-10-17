@@ -193,3 +193,8 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Built-from-data conversations (`craft:`, `trade:`, `search:`, `base:`) are ordinary dialogue trees — test them through DialogueManager, not the UI.
 - A `once: false` dialogue trigger reopens while you stand in its zone — keep such zones small and apart, and step out before scripting a sleep.
 - Barter rule: value(get) × margin ≤ value(give); haggled `better` ≤ value(give). The validator enforces it — fix data, not the rule.
+
+## 4.2 The Hill (2026-10-18, P23, ADR-150)
+- New spots on an existing map: check the walk grid around them — an NPC or a solid prop on a one-tile walkway/join seals the route (the bot finds it).
+- Two zones on the same spot where the first's conversation sets the second's flag: the second can open the moment the first closes (the player settles deeper into the zone). Gate the second on a later flag.
+- The Playground pane hidden = no RAF: step the game yourself from boot (`loop.sleep` + `step`).
