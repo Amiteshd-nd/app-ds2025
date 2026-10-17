@@ -238,3 +238,7 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Fixed: `hill_flat` re-imported at **12×8** (the bus / coach / guitar-shop scale; the door now ~34 px, the design-system 32×48 door). Every furniture spot re-laid on the 128-source-px tile grid (cot left wall, table-chair · shelf · guitar · drum · lamp along the window wall, rug and the 2.4 boxes mid-floor, the folded table and the Act 1 box in the bottom-left corner); the bed, guitar and assembly zones redrawn. Verified fully furnished in the browser; `pnpm movie` 14/14 (five scenes walk this room).
 - Checked the rest by the same test: hotel and PG room 10×7, guitar shop / bus / coaches 12×8 — in scale; the halls (Whitefield station, Majestic, Hyggeland) stay 24×16, their gates and lanes come out 40–50 px.
 - Rule going forward: **scale a room by its door** — import a generated room so its door comes out ≈32 px wide (the design-system door): rooms from a 1536×1024 render land at 10×7 or 12×8; only halls whose gates/lanes come out ≥ 32 px may be 24×16. Check the door width before the browser walk.
+
+### [Hill flat scale fix — approved] — 2026-10-17
+- Decision: "Yes, looking good now." — the 12×8 flat with the re-laid furniture stands. (Movie Mode 3–4, P12 and P13 remain awaiting audit until the user says so.)
+
