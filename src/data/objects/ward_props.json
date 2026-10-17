@@ -20,5 +20,27 @@
     "solid": false,
     "colorEditable": false,
     "sprite": "ward_props_02"
+  },
+  {
+    "id": "ISOLATION_OPEN",
+    "label": "The isolation doors, open on an empty room",
+    "category": "structure",
+    "tilesWide": 2,
+    "tilesTall": 1,
+    "backgroundTiles": 2,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "discharge_props_01"
+  },
+  {
+    "id": "BOY_CHAIR",
+    "label": "The ward boy's chair, his phone on it",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "discharge_props_02"
   }
 ]

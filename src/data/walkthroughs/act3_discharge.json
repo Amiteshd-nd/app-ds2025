@@ -1,0 +1,62 @@
+{
+  "scene": "act3_discharge",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act3_discharge + ward4 + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ward4",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "beat": "F1",
+      "do": "goto",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "interact_4",
+      "beat": "F1",
+      "do": "interact",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "advance_5",
+      "beat": "F1",
+      "do": "advance"
+    },
+    {
+      "id": "choose_6",
+      "beat": "F2",
+      "do": "choose",
+      "option": "why"
+    },
+    {
+      "id": "goto_7",
+      "beat": "F4",
+      "do": "goto",
+      "target": "zone:ward_exit"
+    },
+    {
+      "id": "wait_for_8",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "act3_done",
+      "timeout": 28400
+    },
+    {
+      "id": "expect_9",
+      "do": "expect",
+      "flag": "act3_discharge_done",
+      "timeout": 3000
+    }
+  ]
+}

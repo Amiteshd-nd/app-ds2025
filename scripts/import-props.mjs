@@ -39,6 +39,8 @@ export const SHEETS = {
   jodi_portraits: { cols: 2, rows: 2, height: 56 },
   // 3.4 Three Nights, Again (P20, ADR-142): Ravi's stripped bed · the IV stand on the floor, its line trailing.
   ward_props: { cols: 2, rows: 1, height: 30, heights: [66, 30] },
+  // 3.5 Discharge (P21, ADR-143): the isolation doors standing open on an empty room · the ward boy's empty chair with his phone.
+  discharge_props: { cols: 2, rows: 1, height: 22, heights: [42, 22] },
 };
 
 const keyMagenta = (d) => {

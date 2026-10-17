@@ -159,3 +159,7 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - A trigger whose `requiresFlag` is unset still counts the entry (the watcher latches until you step out): a zone that becomes live while the player stands in it never fires. Keep such zones away from where the player waits (a bed).
 - `countdown` reads sleepEvents' `nights_since:<after>` counter: list `sleepEvents` before `countdown` (validated).
 - Objects snap to tiles unless `exact: true` (top-left at the spawn's point: game y = source y × scale − 17).
+
+## 3.5 Discharge (2026-10-17, P21, ADR-143) — Act 3 complete
+- Dialogue node ids collide silently when added by script (JSON objects merge): 3.5's `discharge` replaced 3.2's. Check `nodes[id]` is free first.
+- A behaviour's first `ui:*` message at attach time is lost (the HUD launches after behaviours): defer one tick with `scene.time.delayedCall(0, …)`.

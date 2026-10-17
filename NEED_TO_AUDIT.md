@@ -32,6 +32,7 @@ corepack pnpm movie
 | 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | local commit, not pushed | waiting |
 | 13 | Audio A3 batch 1 · Kenney's real sounds replace 60 placeholders (ADR-141) | 2026-10-17 | local commit, not pushed | waiting |
 | 14 | P20 · 3.4 "Three Nights, Again" (ADR-142) | 2026-10-17 | local commit, not pushed | waiting |
+| 15 | P21 · 3.5 "Discharge" (ADR-143) — Act 3 complete | 2026-10-17 | local commit, not pushed | waiting |
 | 13 | HUD settings gear + Playground mute/volume (ADR-141) | 2026-10-17 | local, not committed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
@@ -213,4 +214,19 @@ corepack pnpm dev
   - "Server busy" is a banner only; payments still work.
   - The ward's sound stops at "warning" (no deeper) in this act.
   - The stripped bed's stripes look pale.
+
+## 15. 3.5 "Discharge" (Act 3 ends)
+- **What:** the ward lets you go too easily, and nobody explains anything.
+- **Check:** in the Playground, pick Act 3 → 3.5 (it starts on the discharge morning).
+  - Talk to Sister Lalitha: "Doctor signed at six. You're done." Then "Go home. Stay inside. Don't make noise after five." Ask "Why five?"; she only looks at the isolation door.
+  - The countdown plate goes.
+  - The isolation doors stand open on a lit, empty room (step up to them for the line about bleach).
+  - The ward boy's blue chair by the door is empty, his phone left on it.
+  - Walk out: the corridor, the stairs, the gate, then **CURFEW · Act 4**, which holds until 4.0 is built.
+- **Calls to confirm:**
+  - The hold screen's wording.
+  - The plastic bag is only mentioned, not an item.
+  - The isolation room is seen through the doors, not entered.
+  - The slip comes on your second talk with the nurse that morning (after "Moved.").
+  - Your cast stays on into Act 4.
 

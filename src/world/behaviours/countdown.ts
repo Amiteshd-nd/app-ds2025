@@ -14,16 +14,18 @@ export const countdownText = (label: string, left: number): string => (left > 0 
  * `countdown`, so the counter has moved when the plate redraws). No flags of its own.
  */
 export const countdown: Behaviour = {
-  attach({ district }) {
+  attach({ scene, district }) {
     const c = district.countdown;
     if (!c) return;
     const show = () => {
       const s = useGameStore.getState();
       if (!s.flags[c.after]) return;
+      if (c.until && s.flags[c.until]) { gameEvents.emit('ui:timer', { text: null }); return; }
       const left = Math.max(0, c.nights - (s.counters[nightsKey(c.after)] ?? 0));
       gameEvents.emit('ui:timer', { text: countdownText(c.label, left) });
     };
-    show();
+    // The HUD launches after the behaviours attach: the first plate waits one tick (a save loaded mid-countdown).
+    scene.time.delayedCall(0, show);
     const offs = [gameEvents.on('flag:set', show), gameEvents.on('time:slept', show)];
     return () => { for (const off of offs) off(); gameEvents.emit('ui:timer', { text: null }); };
   },

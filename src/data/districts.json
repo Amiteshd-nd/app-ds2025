@@ -2337,7 +2337,8 @@
     "quests": [
       "q_act3_ward4",
       "q_act3_corridor",
-      "q_act3_three_nights"
+      "q_act3_three_nights",
+      "q_act3_discharge"
     ],
     "npcs": [
       {
@@ -2377,12 +2378,14 @@
       },
       {
         "zone": "ward_exit",
-        "dialogue": "dlg_ward_door"
+        "dialogue": "dlg_ward_door",
+        "unlessFlag": "discharged"
       },
       {
         "zone": "sealed_zone",
         "dialogue": "dlg_sealed_quiet",
-        "requiresFlag": "door_quiet"
+        "requiresFlag": "door_quiet",
+        "unlessFlag": "discharged"
       },
       {
         "zone": "bed_zone",
@@ -2395,6 +2398,17 @@
         "dialogue": "dlg_amma_come_home",
         "requiresFlag": "wn_amma",
         "unlessFlag": "amma_home_answered"
+      },
+      {
+        "zone": "sealed_zone",
+        "dialogue": "dlg_sealed_open",
+        "requiresFlag": "discharged"
+      },
+      {
+        "zone": "ward_exit",
+        "action": "card",
+        "card": "card_leaving_ward",
+        "requiresFlag": "discharged"
       }
     ],
     "audioSources": [
@@ -2416,6 +2430,18 @@
         "id": "IV_FLOOR",
         "at": "iv_floor",
         "requiresFlag": "ravi_gone",
+        "exact": true
+      },
+      {
+        "id": "ISOLATION_OPEN",
+        "at": "isolation_open",
+        "requiresFlag": "discharged",
+        "exact": true
+      },
+      {
+        "id": "BOY_CHAIR",
+        "at": "boy_chair",
+        "requiresFlag": "discharged",
         "exact": true
       }
     ],
@@ -2454,7 +2480,8 @@
     "countdown": {
       "after": "ward_nights_started",
       "nights": 3,
-      "label": "Discharge"
+      "label": "Discharge",
+      "until": "discharged"
     },
     "signalIf": [
       {

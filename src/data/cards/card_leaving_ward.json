@@ -1,0 +1,26 @@
+{
+  "id": "card_leaving_ward",
+  "$comment": "Story 3.5 F4 (ADR-143): out of Ward 4, Act 3 ends. Holds on ACT 4 — CURFEW until 4.0 Janata builds the hospital gate (then this card gets a `then`).",
+  "panels": [
+    {
+      "title": "HEBBAL GENERAL · 08:20",
+      "text": "The corridor. The stairs. A guard at the bottom who doesn't look up from his phone.",
+      "ms": 4600
+    },
+    {
+      "title": "HEBBAL GENERAL · THE GATE",
+      "text": "The glass doors. The heat. No autos at the gate. Nobody waiting for anybody.",
+      "ms": 4600,
+      "setFlags": [
+        "act3_done"
+      ]
+    },
+    {
+      "style": "title",
+      "title": "CURFEW",
+      "text": "ACT 4 BEGINS AT THE HOSPITAL GATE",
+      "cue": "a.sting.turn"
+    }
+  ],
+  "end": "hold"
+}

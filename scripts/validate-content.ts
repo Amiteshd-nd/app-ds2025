@@ -237,6 +237,7 @@ export function validateContent(
     if (district.countdown) {
       const c = district.countdown;
       if (typeof c.after !== 'string' || !(Number.isInteger(c.nights) && c.nights > 0) || typeof c.label !== 'string') add(where, `${d} countdown needs after (a flag), nights (> 0) and a label`);
+      if (c.until !== undefined && (typeof c.until !== 'string' || !c.until)) add(where, `${d} countdown until must be a flag name`);
       else drawable(where, `${d} countdown label`, c.label);
       if (!(district.behaviours ?? []).includes('countdown')) add(where, `${d} has a countdown but not the "countdown" behaviour`);
       const b = district.behaviours ?? [];

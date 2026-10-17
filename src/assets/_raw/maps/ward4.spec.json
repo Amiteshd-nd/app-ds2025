@@ -180,6 +180,16 @@
       "name": "iv_floor",
       "x": 628,
       "y": 316
+    },
+    {
+      "name": "isolation_open",
+      "x": 1284,
+      "y": 152
+    },
+    {
+      "name": "boy_chair",
+      "x": 636,
+      "y": 888
     }
   ],
   "zones": [

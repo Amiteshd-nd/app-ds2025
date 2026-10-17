@@ -1,0 +1,43 @@
+{
+  "id": "q_act3_discharge",
+  "title": "Discharge",
+  "description": "The doctor has signed. Go home.",
+  "chapter": 3,
+  "district": "ward4",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act3_three_nights"
+  ],
+  "objectives": [
+    {
+      "id": "slip",
+      "text": "Get your discharge slip",
+      "type": "flag",
+      "target": "discharged",
+      "destination": "ward4"
+    },
+    {
+      "id": "five",
+      "text": "Sister Lalitha",
+      "type": "flag",
+      "target": "five_warning",
+      "destination": "ward4"
+    },
+    {
+      "id": "leave",
+      "text": "Go home",
+      "type": "flag",
+      "target": "act3_done",
+      "destination": "ward4"
+    }
+  ],
+  "rewards": {
+    "xp": 20,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act3_discharge_done"
+    ]
+  }
+}

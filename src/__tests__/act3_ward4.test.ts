@@ -44,7 +44,7 @@ describe('the landing (story 3.2 F1, ADR-137)', () => {
     expect(w.walkSpeed).toBe(0.7);
     expect(w.signal).toBe(1);
     expect(w.exits ?? []).toEqual([]);
-    expect(w.triggers).toContainEqual({ zone: 'ward_exit', dialogue: 'dlg_ward_door' });
+    expect(w.triggers).toContainEqual({ zone: 'ward_exit', dialogue: 'dlg_ward_door', unlessFlag: 'discharged' }); // until 3.5's slip
   });
 
   it('the phone: Amma, Divya, and Sameer on whichever bike went down', () => {

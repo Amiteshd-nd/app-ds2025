@@ -1,0 +1,15 @@
+{
+  "id": "dlg_sealed_open",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The newspaper is gone. The doors stand open. Behind them: lights on, beds stripped, a yellow mop bucket, the floor still wet. Bleach. Nobody.)",
+      "effect": {
+        "flags": {
+          "isolation_empty_seen": true
+        }
+      }
+    }
+  }
+}

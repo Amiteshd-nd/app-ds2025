@@ -44,7 +44,8 @@ describe('the countdown comes back (story 3.4 F1, ADR-142)', () => {
     expect(store().flags.ward_nights_started).toBe(true);
     const timers: Array<string | null> = [];
     gameEvents.on('ui:timer', ({ text }) => timers.push(text));
-    const offs = [sleepEvents.attach({ district: ward } as never), countdown.attach({ district: ward } as never)] as Array<() => void>;
+    const scene = { time: { delayedCall: (_ms: number, fn: () => void) => fn() } };
+    const offs = [sleepEvents.attach({ district: ward } as never), countdown.attach({ scene, district: ward } as never)] as Array<() => void>;
     expect(timers[timers.length - 1]).toBe('Discharge · 3 nights');
     for (let i = 0; i < 3; i++) TimeManager.getInstance().sleep();
     expect(timers).toEqual(expect.arrayContaining(['Discharge · 2 nights', 'Discharge · 1 night', 'Discharge · today']));
@@ -78,10 +79,10 @@ describe('three mornings, each quieter (F2–F4)', () => {
   it('who leaves, what appears: Ravi and the woman go; the stripped bed and the IV line appear over his bed', () => {
     expect(ward.npcs!.find((n) => n.id === 'npc_ravi_ward')!.unlessFlag).toBe('ravi_gone');
     expect(ward.npcs!.find((n) => n.id === 'npc_patient_woman')!.unlessFlag).toBe('woman_gone');
-    expect(ward.objects).toEqual([
+    expect(ward.objects).toEqual(expect.arrayContaining([
       { id: 'STRIPPED_BED', at: 'stripped_bed', requiresFlag: 'ravi_gone', exact: true },
       { id: 'IV_FLOOR', at: 'iv_floor', requiresFlag: 'ravi_gone', exact: true },
-    ]);
+    ]));
     expect(OBJECTS.STRIPPED_BED.sprite).toBe('ward_props_01');
   });
 

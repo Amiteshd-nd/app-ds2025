@@ -4,6 +4,14 @@
   "portrait": "npc_nurse",
   "enter": [
     {
+      "flag": "discharged",
+      "node": "after_discharge"
+    },
+    {
+      "flag": "nurse_ravi_moved",
+      "node": "sign_out"
+    },
+    {
       "flag": "ravi_gone",
       "node": "moved"
     },
@@ -90,6 +98,47 @@
           "nurse_ravi_moved": true
         }
       }
+    },
+    "five": {
+      "text": "Go home. Stay inside. Don't make noise after five.",
+      "choices": [
+        {
+          "text": "Why five?",
+          "next": "why"
+        },
+        {
+          "text": "Okay.",
+          "next": "okay"
+        }
+      ]
+    },
+    "why": {
+      "text": "(She looks at the isolation door. Then back at her register.) Go home.",
+      "effect": {
+        "flags": {
+          "five_warning": true
+        }
+      }
+    },
+    "okay": {
+      "text": "(She's already writing the next name.)",
+      "effect": {
+        "flags": {
+          "five_warning": true
+        }
+      }
+    },
+    "after_discharge": {
+      "text": "(She doesn't look up.) Go home."
+    },
+    "sign_out": {
+      "text": "(She slides a slip and a plastic bag across the desk.) Doctor signed at six. You're done. Your things — the shirt, a key. That's all you came in with.",
+      "effect": {
+        "flags": {
+          "discharged": true
+        }
+      },
+      "next": "five"
     }
   }
 }
