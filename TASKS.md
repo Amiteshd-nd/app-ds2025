@@ -18,6 +18,7 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 - [ ] T-057 P14 = 2.5 "Ravi, 1 AM" — defaults taken 2026-10-17; **built 2026-10-17 (ADR-133): night rules + the night look (core), the 00:50 wake in a power cut, night autos, Ravi at the shuttle bay (sit / ₹2,000 / both / leave), the morning message; `pnpm movie` 15/15 deterministic — awaiting the user's audit**
 - [ ] T-058 P15 = 2.6 "The App" — defaults taken 2026-10-17; **built 2026-10-17 (ADR-134): Jodi (four cards, avoidable), Tanvi at the café, Sunday at the bandstand → strained; three Maps bugs fixed; the bot rides METRO through Maps; `pnpm movie` 16/16 deterministic — awaiting the user's audit**
 - [ ] T-059 P16 = 2.7 "Breadcrumbs" — defaults taken 2026-10-17; **built 2026-10-17 (ADR-135): four mornings of news (News app + Reels), Sameer sick and back, the AMR-07 clue, the guard's salute, Amma's call → act2_done — Act 2 complete; awaiting the user's audit**
+- [ ] T-060 P17 = 3.1 "Outer Ring Road" (Act 3 opens) — draft written 2026-10-17 (`act3_orr.json`: Divya sends you to the HIVR site for AMR-07, the day on a card, the ride home as a card that cuts at Hebbal junction, the ambulance fragments end on Ravi's green lanyard; nine open questions) — **waiting for the user's answers**, then build
 - [ ] T-016 / T-017 mobile smoke tests are blocked on this machine: no Xcode (Command Line Tools only) and no Android SDK — install one, then `pnpm cap:android` / `cap:ios`
 
 ## Act 1 (P7 office ADR-120/121 · P8 hill flat ADR-122 · P9 Cubbon ADR-123/124)
