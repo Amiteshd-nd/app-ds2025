@@ -1,0 +1,20 @@
+{
+  "$comment": "Act 4 S4 (ADR-151): fighting and throwing, as data. A swing (SPACE / the HIT button) uses the first weapon in `order` you carry, else the shove (unarmed, ADR-14's spirit); weapons only stun (ADR-48) — nothing here kills. A stunned infected stands `stunMs`, then chases you angrier (`angryMs` at `angrySpeed`). A throw (Q / THROW) sends the item you readied in the bag `rangeTiles` ahead: a lure pulls every infected within `pullTiles` that doesn't see you to where it lands for `ms`; smoke is a cloud of `radiusTiles` that sight doesn't cross for `ms`. Ranges in tiles, times in ms.",
+  "swing": { "cooldownMs": 450, "energyPips": 1, "arcDeg": 110, "showMs": 120 },
+  "order": ["uv_torch", "cricket_bat", "kitchen_knife"],
+  "weapons": {
+    "shove": { "name": "Shove", "reachTiles": 1, "stunMs": 1000, "knockbackTiles": 1, "targets": 1, "noiseTiles": 12, "cue": "a.sfx.combat.block" },
+    "kitchen_knife": { "name": "Kitchen knife", "reachTiles": 1, "stunMs": 2000, "knockbackTiles": 0.5, "targets": 1, "noiseTiles": 12, "cue": "a.sfx.combat.hit_plate" },
+    "cricket_bat": { "name": "Cricket bat", "reachTiles": 1.5, "stunMs": 2000, "knockbackTiles": 1.5, "targets": 3, "noiseTiles": 12, "cue": "a.sfx.combat.hit_pipe" },
+    "uv_torch": { "name": "UV torch", "reachTiles": 2, "stunMs": 1500, "knockbackTiles": 0, "targets": 3, "noiseTiles": 2, "cue": "a.sfx.world.torch_click" }
+  },
+  "stunned": { "angryMs": 5000, "angrySpeed": 1.15, "evolvedStunScale": 0.5 },
+  "throws": {
+    "noise_maker": { "kind": "lure", "rangeTiles": 5, "ms": 8000, "pullTiles": 12, "cue": "a.sfx.combat.hit_plate" },
+    "steel_tumbler": { "kind": "lure", "rangeTiles": 5, "ms": 4000, "pullTiles": 10, "cue": "a.sfx.combat.hit_plate" },
+    "bottle": { "kind": "lure", "rangeTiles": 5, "ms": 3000, "pullTiles": 8, "cue": "a.sfx.pulse.glass_break_distant" },
+    "stones": { "kind": "lure", "rangeTiles": 6, "ms": 2000, "pullTiles": 6, "cue": "a.sfx.world.glass_tap" },
+    "smoke_bomb": { "kind": "smoke", "rangeTiles": 4, "ms": 30000, "radiusTiles": 2, "cue": "a.sfx.pulse.glass_break_distant" }
+  },
+  "bag": { "slots": 8 }
+}

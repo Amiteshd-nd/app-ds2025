@@ -2,6 +2,15 @@ import { gameEvents } from '../core/events';
 import { getItem } from '../data';
 import { StatsManager } from './StatsManager';
 import { useGameStore } from '../store';
+import { COMBAT } from './combat';
+
+/** Act 4's bag (game_components §5, ADR-151): this many slots. A slot holds one kind of item (up to its stack); key items ride free. */
+export const BAG_SLOTS = COMBAT.bag.slots;
+
+/** Slots a bag (one entry per unit) takes. */
+export function slotsUsed(inventory: string[]): number {
+  return new Set(inventory.filter((id) => getItem(id).type !== 'key_item')).size;
+}
 
 /**
  * InventoryManager — item ownership and stacking rules.
@@ -11,6 +20,9 @@ import { useGameStore } from '../store';
  * uniqueness, what "using" an item means. Every mutation announces itself on
  * the event bus, which is how collect-objectives progress without the quest
  * system ever being called directly.
+ *
+ * In Act 4 the bag has 8 slots (ADR-151): a new kind of item needs a free
+ * slot; more of one you already carry only needs room in its stack.
  */
 export class InventoryManager {
   private static instance: InventoryManager | null = null;
@@ -43,11 +55,46 @@ export class InventoryManager {
 
     const limit = item.stackable ? (item.max_stack ?? Infinity) : 1;
     if (current + count > limit) return false;
+    if (!this.hasRoomFor(itemId)) return false;
 
     const { inventory, setInventory } = useGameStore.getState();
     setInventory([...inventory, ...Array<string>(count).fill(itemId)]);
     gameEvents.emit('item:added', { itemId, count });
     return true;
+  }
+
+  /** The bag's limit applies (Act 4). */
+  limited(): boolean {
+    return Boolean(useGameStore.getState().flags.act4);
+  }
+
+  /** Slots in use (key items ride free). */
+  slotsUsed(): number {
+    return slotsUsed(useGameStore.getState().inventory);
+  }
+
+  /** A new kind of item needs a free slot in Act 4; a key item or one already carried does not. */
+  hasRoomFor(itemId: string): boolean {
+    if (!this.limited() || getItem(itemId).type === 'key_item' || this.has(itemId)) return true;
+    return this.slotsUsed() < BAG_SLOTS;
+  }
+
+  /**
+   * Would this swap fit (a recipe, a trade, a container)? Removals first, then every addition, against the stacks
+   * and, in Act 4, the slots.
+   */
+  fits(add: Record<string, number>, remove: Record<string, number> = {}): boolean {
+    const bag = new Map<string, number>();
+    for (const id of useGameStore.getState().inventory) bag.set(id, (bag.get(id) ?? 0) + 1);
+    for (const [id, n] of Object.entries(remove)) bag.set(id, Math.max(0, (bag.get(id) ?? 0) - n));
+    for (const [id, n] of Object.entries(add)) {
+      const item = getItem(id);
+      const limit = item.stackable ? (item.max_stack ?? Infinity) : 1;
+      if ((bag.get(id) ?? 0) + n > limit) return false;
+      bag.set(id, (bag.get(id) ?? 0) + n);
+    }
+    if (!this.limited()) return true;
+    return [...bag].filter(([id, n]) => n > 0 && getItem(id).type !== 'key_item').length <= BAG_SLOTS;
   }
 
   /** Remove `count` units. All-or-nothing, like add. */
@@ -77,6 +124,7 @@ export class InventoryManager {
   use(itemId: string): boolean {
     const item = getItem(itemId);
     if (item.type !== 'consumable' || !this.has(itemId)) return false;
+    gameEvents.emit('item:used', { itemId });
 
     if (item.effect) {
       // Only the stat portion — an item whose effect granted items would

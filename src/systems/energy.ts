@@ -40,3 +40,11 @@ export function tickEnergy(dtMs: number, wantsRun: boolean, max: number, e: Ener
   } else e.refill = 0;
   return false;
 }
+
+/** Spend pips at once (a swing, ADR-151). Refuses — and spends nothing — when you have fewer; at empty you are tired. */
+export function spendPips(n: number, e: EnergyState = energy): boolean {
+  if (e.exhausted > 0 || e.pips < n) { e.shown = ENERGY.showMs; return false; }
+  e.pips -= n; e.refill = 0; e.shown = ENERGY.showMs;
+  if (e.pips === 0) e.exhausted = ENERGY.exhaustedMs;
+  return true;
+}

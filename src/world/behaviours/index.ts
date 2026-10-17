@@ -55,6 +55,7 @@ import { stabilityLook } from './stabilityLook';
 import { act4Threat } from './act4Threat';
 import { clockEvents } from './clockEvents';
 import { act4Base } from './act4Base';
+import { act4Hands } from './act4Hands';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -80,6 +81,7 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   act4Threat,
   clockEvents,
   act4Base,
+  act4Hands,
 };
 
 /**
@@ -92,4 +94,5 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
 // stabilityLook (ADR-144): every district wears its grade — colour, edges, a glitch.
 // act4Threat (ADR-145): the infected, ambushes and UV lamps of any place whose data has them (a no-op elsewhere).
 // act4Base (ADR-149): a base's nights — the stock, the lamp, home (a no-op without a base).
-export const CORE_BEHAVIOURS: readonly string[] = ['nightLook', 'stabilityLook', 'act4Threat', 'act4Base'];
+// act4Hands (ADR-151): your swing and your throw in Act 4 (idle before it).
+export const CORE_BEHAVIOURS: readonly string[] = ['nightLook', 'stabilityLook', 'act4Threat', 'act4Base', 'act4Hands'];

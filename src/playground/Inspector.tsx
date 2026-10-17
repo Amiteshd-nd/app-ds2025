@@ -18,6 +18,7 @@ import { ACT4_DAY, ACT4_FLAG, GRADES, act4Curve, act4DayOf, grade, setStabilityO
 import { stabilityNow } from '../systems/stabilityNow';
 import { threat, threatDebug } from '../systems/threat';
 import { playerState } from '../systems/playerState';
+import { readyFlag } from '../systems/combat';
 import { energy } from '../systems/energy';
 
 interface Props {
@@ -650,6 +651,10 @@ function Act4Inspector({ openLocation, play }: Props) {
       <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true }, clock: { minute: 12 * 60 } })}>▶ Open the Act 4 test bench</button>
       <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true, bench_evolved: true, base_cafe_set: true }, clock: { minute: 12 * 60 } })}>▶ Bench: a pack with one Evolved</button>
       <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true, bench_flank: true, base_cafe_set: true }, clock: { minute: 12 * 60 } })}>▶ Bench: flank test (two Evolved)</button>
+      <h3>Your hands (S4)</h3>
+      <p className="pg-dim">The bench with a cricket bat, two noise makers and two smoke bombs (the noise maker readied). SPACE swings (a pip, loud: 12 tiles), Q throws the readied item, I or TAB opens the bag (8 slots in Act 4). On touch: HIT, BAG and THROW around the action button. A stunned infected dims for 2 s, then comes back faster for 5 s.</p>
+      <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true, [readyFlag('noise_maker')]: true }, clock: { minute: 12 * 60 }, inventory: ['cricket_bat', 'noise_maker', 'noise_maker', 'smoke_bomb', 'smoke_bomb', 'bandage', 'food_packet'] })}>▶ Bench: armed (bat, noise makers, smoke)</button>
+      <button onClick={() => play({ kind: 'district', districtId: 'act4_bench' }, { flags: { [ACT4_FLAG]: true }, clock: { minute: 12 * 60 } })}>▶ Bench: bare hands (the shove)</button>
       <h3>The base (S3)</h3>
       <p className="pg-dim">The hill flat as a base: search the kitchen, the shelf and the bag by the boxes; craft at the folded table; trade with Manju; stock the water drum (food, water, fuel); sleep in the bed — a night eats one of each, the lamp needs fuel and fails on night 3. You start with your laptop, two waters and a fuel can.</p>
       <button onClick={() => play({ kind: 'district', districtId: 'act4_base_bench' }, { flags: { [ACT4_FLAG]: true }, clock: { minute: 18 * 60 }, inventory: ['laptop', 'water_bottle', 'water_bottle', 'fuel_can'], counters: { stock_food: 1, stock_water: 1, stock_fuel: 0 } })}>▶ Open the base bench</button>

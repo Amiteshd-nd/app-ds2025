@@ -48,6 +48,7 @@
     "stackable": true,
     "max_stack": 6,
     "act4_value": 2,
+    "use_verb": "Eat it.",
     "effect": {
       "food": 40
     }
@@ -61,6 +62,7 @@
     "stackable": true,
     "max_stack": 4,
     "act4_value": 3,
+    "use_verb": "Eat it.",
     "effect": {
       "food": 60
     }
@@ -122,6 +124,7 @@
     "stackable": true,
     "max_stack": 2,
     "act4_value": 5,
+    "use_verb": "Patch yourself up.",
     "effect": {
       "health": 40
     }
@@ -182,6 +185,7 @@
     "stackable": true,
     "max_stack": 4,
     "act4_value": 2,
+    "use_verb": "Bandage the cut.",
     "effect": {
       "health": 10
     }

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { BAG_DIALOGUE } from '../systems/bag';
 import { Player } from '../entities/Player';
 import { SaveManager } from '../systems/SaveManager';
 import { QuestManager } from '../systems/QuestManager';
@@ -164,6 +165,10 @@ export class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.crowd.citizens);
 
     this.player.onInteract((source) => this.tryInteract(source));
+    // The bag (ADR-151): I / TAB, or the HUD's BAG plate.
+    const openBag = () => { if (!this.talking && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null) this.openDialogue(BAG_DIALOGUE); };
+    this.player.onBag(openBag);
+    this.teardowns.push(gameEvents.on('ui:bag', openBag));
     this.teardowns.push(gameEvents.on('card:requested', ({ cardId }) => { this.pendingCard = cardId; }));
 
     // Quests this place begins. start() refuses if already active or done, so

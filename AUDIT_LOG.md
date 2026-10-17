@@ -384,3 +384,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way (fixed): the generator, lamp and Suresh first stood on the narrow top walkway and sealed it; Karthik stood on the one-tile join of the mid path and the big stairs; the bag container sat on the door → table path; the bot's flee budget assumed running (Act 4 energy runs out on the long stairs); the generator emitted `flee` for Act 1's hill (a pack that only exists in Act 4); after "unfold the table" closed, the player settled a few px deeper into the table's spot and the crafting conversation opened at once — the bench now works from the first morning. (A trial "zones stand still while a conversation is up" change didn't fix it and was reverted.)
 - Calls to confirm: NEED_TO_AUDIT #24.
 - Rule going forward: **never place an NPC or a solid prop on a one-tile walkway or a join** — check the walk grid around every new spot (the bot finds it first).
+
+### [Act 4 S4 "your hands" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and proceed with S4". ADR-151.
+- Built: the swing (shove / knife / bat / UV torch; a pip; loud; stun 2 s, knockback, angry 5 s), throws (noise maker, tumbler, bottle, stones as lures; smoke bomb breaks sight), the 8-slot bag as a built-from-data conversation (eat, bandage → stops a bleed, ready, leave), "No room in the bag" locks on trades/recipes/searches, HIT / BAG / THROW touch plates and pad B / X / RB, `validateCombat`, the Playground "Your hands" bench, 19 new tests.
+- Verified in the browser pane (Playground :6175, by script): the bag reads "Your bag: 5 of 8 slots." with the bat "(in hand)" and the noise maker "(ready)"; a bat swing knocked the nearest infected back 1.5 tiles, it dimmed 2 s, then chased, and the swing's noise woke the rest; a noise maker thrown 5 tiles pulled all three (two from cover) to where it landed; the smoke cloud draws where it lands; touch mode shows HIT / BAG / THROW around the action button with 44 px zones.
+- Found on the way: a focused Playground button swallows the game's keys (click the canvas first; the bench note says so).
+- Calls to confirm: NEED_TO_AUDIT #25.
+- Rule going forward: **combat numbers live in `combat.json`; a weapon only stuns (validator: ≤ 5 s)**.

@@ -93,6 +93,22 @@ export function touchLayout(side: 'left' | 'right', size: StickSize = 'medium') 
   return { stick, action };
 }
 
+/**
+ * Act 4's hand buttons (ADR-151), around the action button on the thumb's side: HIT beside it (low, the classic
+ * B under A), BAG above HIT, THROW above A. Plates are 36 px; every touch zone is the MIN_TAP square around one
+ * and none overlap (a test checks).
+ */
+export function act4Buttons(action: { x: number; y: number; size: number }, side: 'left' | 'right' /* the action button's side */) {
+  const s = 36;
+  // Inward from the action button: to its left when it sits on the right edge.
+  const hitX = side === 'right' ? action.x - s - 10 : action.x + action.size + 10;
+  return {
+    hit: { x: hitX, y: action.y + 14, size: s },
+    bag: { x: hitX, y: action.y + 14 - s - 10, size: s },
+    throw: { x: action.x + Math.round((action.size - s) / 2), y: action.y - s - 10, size: s },
+  };
+}
+
 /** The stick's touch zone: the ring, grown to at least MIN_TAP. */
 export function stickZone(stick: { cx: number; cy: number; r: number }) {
   const d = Math.max(stick.r * 2, MIN_TAP);

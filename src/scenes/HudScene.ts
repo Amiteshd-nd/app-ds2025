@@ -2,14 +2,14 @@ import { CARRY_COUNTER, carryText } from '../systems/carry';
 import Phaser from 'phaser';
 import { gameEvents } from '../core/events';
 import { QUESTS, getDistrict } from '../data';
-import { pressInteract, setAxis } from '../input/InputMap';
+import { pressHit, pressInteract, pressThrow, setAxis } from '../input/InputMap';
 import { platform } from '../platform';
 import { useGameStore } from '../store';
 import { FUEL_COUNTER } from '../systems/StatsManager';
 import { settings, useSettings } from '../systems/SettingsManager';
 import { DialogueBox, type DialogueBoxCallbacks } from '../ui/DialogueBox';
 import { HUD_GLYPHS } from '../ui/hud/glyphs';
-import { HUD, TOUCH, hudLayout, hudScale, plateWidth, stickZone, touchLayout, type HudLayout, type StickSize } from '../ui/hud/layout';
+import { HUD, TOUCH, act4Buttons, hudLayout, hudScale, plateWidth, stickZone, touchLayout, type HudLayout, type StickSize } from '../ui/hud/layout';
 import {
   ToastQueue, clockGlyph, clockLabel, locationCard, meters, objectiveLine, objectiveText, promptLabel, stackRows, toastLayout, walletView,
   type InputMode, type Toast,
@@ -25,7 +25,12 @@ import { GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import type { MenuScene } from './MenuScene';
 import { energy } from '../systems/energy';
 import { ACT4_FLAG } from '../systems/stability';
+import { readied } from '../systems/combat';
+import { InventoryManager } from '../systems/InventoryManager';
 import type { WorldScene } from './WorldScene';
+
+/** One of Act 4's hand buttons (ADR-151). */
+interface HandButton { id: 'hit' | 'bag' | 'throw'; label: string; box: { x: number; y: number; size: number }; root: Phaser.GameObjects.Container; key: string; pointer: number | null }
 
 export interface HudSceneData {
   /** First time in this district: the location card wears NEW. */
@@ -76,7 +81,7 @@ export class HudScene extends Phaser.Scene {
   private bubbleKey = '';
   private clockZone: Rect | null = null;
   private gearZone: Rect | null = null;
-  private controls: { root: Phaser.GameObjects.Container; ring: Phaser.GameObjects.Image; knob: Phaser.GameObjects.Image; action: Phaser.GameObjects.Container; stick: { cx: number; cy: number; r: number }; actionBox: { x: number; y: number; size: number } } | null = null;
+  private controls: { root: Phaser.GameObjects.Container; ring: Phaser.GameObjects.Image; knob: Phaser.GameObjects.Image; action: Phaser.GameObjects.Container; stick: { cx: number; cy: number; r: number }; actionBox: { x: number; y: number; size: number }; hands: HandButton[] } | null = null;
   private actionKey = '';
   private stickPointer: number | null = null;
   private actionPointer: number | null = null;
@@ -149,7 +154,14 @@ export class HudScene extends Phaser.Scene {
       gameEvents.on('ui:carry', () => this.render()),
       gameEvents.on('fuel:show', () => { this.fuelUntil = this.time.now + motion('m.hud.wallet.hold'); this.render(); }),
       // Gamepad while walking: A talks (the dialogue card takes A itself while it is up).
-      attachGamepad(this, { button: (b) => { if (b === PAD.A && !this.dialogueOpen && this.root.visible) pressInteract(); } }, () => this.alive),
+      // In Act 4 (ADR-151): B swings, X throws; RB opens the bag any time.
+      attachGamepad(this, { button: (b) => {
+        if (this.dialogueOpen || !this.root.visible) return;
+        if (b === PAD.A) pressInteract();
+        else if (b === PAD.B) pressHit();
+        else if (b === PAD.X) pressThrow();
+        else if (b === PAD.RB) gameEvents.emit('ui:bag', {});
+      } }, () => this.alive),
     );
     if (!platform.display.prefersReducedMotion()) {
       this.time.addEvent({ delay: motion('m.hud.bob'), loop: true, callback: () => { this.bob = !this.bob; } });
@@ -213,6 +225,7 @@ export class HudScene extends Phaser.Scene {
     return [
       { name: `Joystick (${side} thumb)`, rect: z },
       { name: `A button (${side === 'left' ? 'right' : 'left'} thumb)`, rect: a },
+      ...this.controls.hands.filter((h) => h.root.visible).map((h) => ({ name: `${h.label} button`, rect: tapZone(h.box.x, h.box.y, h.box.size, h.box.size) })),
     ];
   }
 
@@ -398,6 +411,7 @@ export class HudScene extends Phaser.Scene {
     if (this.controls) {
       this.controls.root.setVisible(!this.dialogueOpen);
       this.renderAction(world ? world.actionVerb() : null);
+      this.renderHands();
     }
     this.walkWithPad();
   }
@@ -454,8 +468,10 @@ export class HudScene extends Phaser.Scene {
     const ringImg = this.add.image(stick.cx, stick.cy, ringTex);
     const knob = this.add.image(stick.cx, stick.cy, knobTex);
     const actionRoot = this.add.container(action.x, action.y);
-    const root = this.add.container(0, 0, [ringImg, knob, actionRoot]);
-    this.controls = { root, ring: ringImg, knob, action: actionRoot, stick, actionBox: action };
+    const boxes = act4Buttons(action, prefs.joystickSide === 'left' ? 'right' : 'left');
+    const hands: HandButton[] = (['hit', 'bag', 'throw'] as const).map((id) => ({ id, label: id.toUpperCase(), box: boxes[id], root: this.add.container(boxes[id].x, boxes[id].y).setVisible(false), key: '', pointer: null }));
+    const root = this.add.container(0, 0, [ringImg, knob, actionRoot, ...hands.map((h) => h.root)]);
+    this.controls = { root, ring: ringImg, knob, action: actionRoot, stick, actionBox: action, hands };
     this.actionKey = '';
     this.renderAction(null);
   }
@@ -482,6 +498,28 @@ export class HudScene extends Phaser.Scene {
     this.controls.action.removeAll(true);
     this.controls.action.add(this.add.image(0, 0, tex).setOrigin(0));
     if (verb) this.controls.action.add(pxText(this, s / 2, Math.round(s / 2) - 3 + (state === 'pressed' ? 1 : 0), verb, { bold: true, tint: state === 'pressed' ? 'hud.plate' : 'hud.text', align: 'center' }));
+  }
+
+  /** Act 4's HIT / BAG / THROW plates (ADR-151): shown in Act 4, THROW only with something readied in the bag. */
+  private renderHands(): void {
+    if (!this.controls) return;
+    const flags = useGameStore.getState().flags;
+    const act4 = Boolean(flags[ACT4_FLAG]);
+    const ready = act4 && readied(flags, (id) => InventoryManager.getInstance().has(id)) !== null;
+    for (const h of this.controls.hands) {
+      const show = act4 && (h.id !== 'throw' || ready);
+      h.root.setVisible(show);
+      if (!show) continue;
+      const state: UiState = h.pointer !== null ? 'pressed' : 'default';
+      const key = `${state}`;
+      if (key === h.key) continue;
+      h.key = key;
+      const s = h.box.size;
+      const tex = bake(this, `hud:hand:${s}:${state}`, s, s + 1, (g: PixelCtx) => { hudPlate(g, 0, 0, s, s, state, 10); });
+      h.root.removeAll(true);
+      h.root.add(this.add.image(0, 0, tex).setOrigin(0));
+      h.root.add(pxText(this, s / 2, Math.round(s / 2) - 3 + (state === 'pressed' ? 1 : 0), h.label, { bold: true, tint: state === 'pressed' ? 'hud.plate' : 'hud.text', align: 'center' }));
+    }
   }
 
   private inZone(p: Phaser.Input.Pointer, z: Rect): boolean {
@@ -511,6 +549,14 @@ export class HudScene extends Phaser.Scene {
       this.actionPointer = p.id;
       if (settings().controls.haptics) platform.haptics.tap();
       pressInteract();
+      return;
+    }
+    for (const h of c.hands) {
+      if (!h.root.visible || h.pointer !== null || !this.inZone(p, tapZone(h.box.x, h.box.y, h.box.size, h.box.size))) continue;
+      h.pointer = p.id;
+      if (settings().controls.haptics) platform.haptics.tap();
+      if (h.id === 'hit') pressHit(); else if (h.id === 'throw') pressThrow(); else gameEvents.emit('ui:bag', {});
+      return;
     }
   }
 
@@ -521,6 +567,7 @@ export class HudScene extends Phaser.Scene {
   private onPointerUp(p: Phaser.Input.Pointer): void {
     if (p.id === this.stickPointer) this.releaseStick();
     if (p.id === this.actionPointer) this.actionPointer = null;
+    for (const h of this.controls?.hands ?? []) if (p.id === h.pointer) h.pointer = null;
   }
 
   private moveStick(p: Phaser.Input.Pointer): void {
@@ -544,6 +591,7 @@ export class HudScene extends Phaser.Scene {
   private releaseAll(): void {
     this.releaseStick();
     this.actionPointer = null;
+    for (const h of this.controls?.hands ?? []) h.pointer = null;
     if (this.padWalking) { setAxis(0, 0); this.padWalking = false; }
   }
 }

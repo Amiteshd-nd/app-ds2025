@@ -91,6 +91,8 @@ export interface StatEffect {
   xp_branch?: SkillBranchName;
   item_add?: string;
   item_remove?: string;
+  /** Use one of a consumable from the bag: its own effect, then it is gone (ADR-151). */
+  item_use?: string;
   /** Several items at once (a recipe's yield, a trade, a container's loot, ADR-149). */
   items_add?: Record<string, number>;
   items_remove?: Record<string, number>;
@@ -690,6 +692,8 @@ export interface ItemDef {
   act4_value?: number;
   /** Never traded (the guitar is your lure and your comfort, plan Q7). */
   tradeable?: boolean;
+  /** The bag's line for using it ("Eat it."); a consumable with an effect and none reads "Use it." (ADR-151). */
+  use_verb?: string;
 }
 
 // --- Save ------------------------------------------------------------------

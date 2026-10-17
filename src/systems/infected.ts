@@ -1,6 +1,7 @@
 import { PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
 import { NOISE } from './noise';
 import EVOLVED_JSON from '../data/infected/evolved.json';
+import COMBAT_JSON from '../data/infected/combat.json';
 
 /** The Evolved tier's numbers (the user's addendum §2b, ADR-147) — data, not code. */
 export const EVOLVED = EVOLVED_JSON;
@@ -17,6 +18,8 @@ export type Tier = 'fresh' | 'degraded' | 'evolved';
  *   wander ── sees you / the pack calls ──▶ alert (0.5 s growl, +1 s if you
  *   were Namma to them) ──▶ chase (≤ 8 s; loses sight → your last spot)
  *   ──▶ search (3 s) ──▶ wander.       A hit → recover (1 s) → chase.
+ *   Your swing (ADR-151) → stunned (2 s) → chase, angrier for 5 s.
+ *   A lure it hears and you out of sight → it walks to the lure.
  *
  * It never leaves its zone (the caller clamps), never enters UV, and cannot
  * see you while you are hidden. Night adds 2 tiles and 10 % speed.
@@ -43,7 +46,7 @@ export const INFECTED = {
   pauseMs: [800, 2400] as const,
 } as const;
 
-export type InfectedMode = 'idle' | 'wander' | 'alert' | 'chase' | 'search' | 'recover';
+export type InfectedMode = 'idle' | 'wander' | 'alert' | 'chase' | 'search' | 'recover' | 'stunned';
 export type Point = [number, number];
 
 export interface InfectedBrain {
@@ -61,10 +64,14 @@ export interface InfectedBrain {
   /** A wander pause, picked when a stroll ends. */
   pause: number;
   tier: Tier;
+  /** How long this stun lasts (ms). */
+  stunMs: number;
+  /** ms of anger left after a stun: it chases faster (act4 doc §4). */
+  angry: number;
 }
 
 export const brain = (mode: InfectedMode = 'wander', namma = false, tier: Tier = 'degraded'): InfectedBrain =>
-  ({ mode, t: 0, chaseT: 0, lastSeen: null, target: null, namma, hesitated: false, pause: 0, tier });
+  ({ mode, t: 0, chaseT: 0, lastSeen: null, target: null, namma, hesitated: false, pause: 0, tier, stunMs: 0, angry: 0 });
 
 /** Detection radius in px: your noise in tiles (never under crouch's 2 — standing still close up still counts), +2 at night. */
 export const detectRadius = (noiseTiles: number, night: boolean, tier: Tier = 'degraded'): number =>
@@ -102,6 +109,8 @@ export interface Senses {
   heard: Point | null;
   /** Its pack's lead growled within range. */
   packAlert: boolean;
+  /** A thrown noise it can hear (ADR-151): it walks there while it doesn't see you. */
+  lure?: Point | null;
   /** It has reached its target (the caller measures). */
   atTarget: boolean;
   night: boolean;
@@ -119,6 +128,8 @@ const enter = (b: InfectedBrain, mode: InfectedMode) => { b.mode = mode; b.t = 0
 /** One tick of thought. `rng` and `stroll` (a point to wander to inside its zone) are the caller's, seeded. */
 export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: () => Point | null): Intent {
   b.t += s.dt;
+  b.angry = Math.max(0, b.angry - s.dt);
+  const lure = s.lure ?? null;
   const night = s.night ? INFECTED.nightSpeed : 1;
   let growled = false;
   const toAlert = () => { enter(b, 'alert'); b.target = null; growled = true; };
@@ -126,9 +137,11 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
   switch (b.mode) {
     case 'idle':
       if (s.sees || s.packAlert) toAlert();
+      else if (lure) { enter(b, 'wander'); b.target = lure; }
       break;
     case 'wander':
       if (s.sees || s.packAlert) { toAlert(); break; }
+      if (lure) { b.target = lure; break; }
       if (s.heard) { b.target = s.heard; break; }
       if (b.target && s.atTarget) { b.target = null; b.t = 0; b.pause = INFECTED.pauseMs[0] + rng() * (INFECTED.pauseMs[1] - INFECTED.pauseMs[0]); }
       if (!b.target && b.t >= b.pause) b.target = stroll();
@@ -141,20 +154,26 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
     case 'chase':
       b.chaseT += s.dt;
       if (s.sees) b.lastSeen = s.player;
+      else if (lure) b.lastSeen = lure;
       b.target = b.lastSeen;
       if (b.chaseT >= INFECTED.chaseMs || (!s.sees && s.atTarget)) { enter(b, 'search'); b.target = null; }
       break;
     case 'search':
       if (s.sees) { toAlert(); break; }
+      if (lure) { b.target = lure; break; }
       if (b.t >= (b.tier === 'evolved' ? EVOLVED.searchMs : INFECTED.searchMs)) { enter(b, 'wander'); b.target = null; b.pause = 0; break; }
       if (!b.target || s.atTarget) b.target = stroll();
       break;
     case 'recover':
       if (b.t >= INFECTED.recoverMs) { enter(b, 'chase'); b.lastSeen = s.player; }
       break;
+    case 'stunned':
+      // Up again, and angry: straight back at you.
+      if (b.t >= b.stunMs) { enter(b, 'chase'); b.chaseT = 0; b.lastSeen = s.player; b.angry = COMBAT_JSON.stunned.angryMs; }
+      break;
   }
 
-  const speed = b.mode === 'chase' ? chaseSpeed(b.tier, s.night)
+  const speed = b.mode === 'chase' ? chaseSpeed(b.tier, s.night) * (b.angry > 0 ? COMBAT_JSON.stunned.angrySpeed : 1)
     : b.mode === 'wander' ? INFECTED.wanderSpeed * night
     : b.mode === 'search' ? INFECTED.wanderSpeed * 1.5 * night
     : 0;
@@ -163,3 +182,6 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
 
 /** It touched you: it stands for a second (your window), then the chase goes on. */
 export function struck(b: InfectedBrain): void { enter(b, 'recover'); b.target = null; }
+
+/** Your swing landed (ADR-48/151): down for `ms` — not dead — then up and angry. */
+export function stun(b: InfectedBrain, ms: number): void { enter(b, 'stunned'); b.stunMs = ms; b.target = null; b.hesitated = true; }

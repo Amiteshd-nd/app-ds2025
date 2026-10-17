@@ -13,6 +13,7 @@ import recipesJson from './recipes.json';
 import barterJson from './barter.json';
 import lootJson from './loot.json';
 import { baseDialogue, craftDialogue, searchDialogue, tradeDialogue, type Loot, type Recipe, type Trader } from '../systems/trade';
+import { BAG_DIALOGUE, bagDialogue } from '../systems/bag';
 import cityMap from './map/city.json';
 import tileIds from '../assets/tilesets/street.tiles.json';
 import type {
@@ -174,10 +175,12 @@ export const LOOT: Record<string, Loot> = (lootJson as unknown as { loot: Record
 
 /**
  * Conversations built from data rather than written (ADR-149): `craft:bench`, `trade:<trader>`, `search:<loot>`,
- * `base:<district>` (its stock needs the store's counters, passed in by DialogueManager). Null when `id` is not one.
+ * `base:<district>` (its stock needs the store's counters, passed in by DialogueManager), and `bag:` (what you carry,
+ * ADR-151). Null when `id` is not one.
  */
-export function virtualDialogue(id: string, counters: Record<string, number> = {}): DialogueFile | null {
+export function virtualDialogue(id: string, counters: Record<string, number> = {}, carried: { inventory: string[]; flags: Record<string, boolean> } = { inventory: [], flags: {} }): DialogueFile | null {
   if (id === 'craft:bench') return craftDialogue(RECIPES, ITEMS);
+  if (id === BAG_DIALOGUE) return bagDialogue(carried.inventory, carried.flags, ITEMS);
   const kind = id.slice(0, id.indexOf(':')), key = id.slice(id.indexOf(':') + 1);
   if (kind === 'trade' && TRADERS[key]) return tradeDialogue(id, TRADERS[key], ITEMS);
   if (kind === 'search' && LOOT[key]) return searchDialogue(id, key, LOOT[key], ITEMS);
@@ -189,8 +192,8 @@ export function virtualDialogue(id: string, counters: Record<string, number> = {
 export const hasDialogue = (id: string): boolean => Boolean(DIALOGUE[id] ?? virtualDialogue(id));
 
 /** Lookup that fails loudly — a missing id is a content bug, not a soft state. */
-export const getDialogue = (id: string, counters?: Record<string, number>): DialogueFile => {
-  const file = DIALOGUE[id] ?? virtualDialogue(id, counters);
+export const getDialogue = (id: string, counters?: Record<string, number>, carried?: { inventory: string[]; flags: Record<string, boolean> }): DialogueFile => {
+  const file = DIALOGUE[id] ?? virtualDialogue(id, counters, carried);
   if (!file) throw new Error(`Unknown dialogue "${id}" (have: ${Object.keys(DIALOGUE).join(', ')})`);
   return file;
 };

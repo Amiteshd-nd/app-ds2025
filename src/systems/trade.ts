@@ -152,6 +152,7 @@ export function baseNight(counters: Record<string, number>, nightHere: number, l
 /** Is this a dialogue the game builds from data (and does its source exist)? */
 export function virtualSource(id: string, d: { recipes: Recipe[]; traders: Record<string, Trader>; loot: Record<string, Loot>; districts: Record<string, DistrictDef> }): boolean | null {
   if (id === 'craft:bench') return d.recipes.length > 0;
+  if (id === 'bag:') return true;
   const [kind, key] = [id.slice(0, id.indexOf(':')), id.slice(id.indexOf(':') + 1)];
   if (kind === 'trade') return Boolean(d.traders[key]);
   if (kind === 'search') return Boolean(d.loot[key]);

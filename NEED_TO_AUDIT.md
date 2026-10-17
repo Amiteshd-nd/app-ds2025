@@ -424,3 +424,20 @@ corepack pnpm dev
   - Your laptop is in your office bag (a container), so it can go to Manju later (worth a food packet).
   - No bus or auto runs in Act 4 anywhere ("Nothing runs. The city is shut.").
 
+## 25. Act 4 S4 "your hands": fighting, throwing, the bag
+- **What:** in Act 4 you can fight back (only to stun, never to kill), throw things to pull or blind the infected, and your bag holds 8 kinds of things.
+- **Check:** in the Playground, open **Act 4 · stability dial → Your hands (S4) → Bench: armed**. Click the game first so it has the keyboard.
+  - **SPACE** swings. You use the best thing you carry: the UV torch, then the cricket bat, then the kitchen knife. Without any, you shove. One you hit drops (dims) for 2 s, is knocked back, then comes at you faster for 5 s. A swing costs an energy pip and is loud, so the others hear it.
+  - **I** (or TAB) opens the bag: "Your bag: 5 of 8 slots." Pick something to eat it, bandage up, ready it to throw, or leave it behind.
+  - **Q** throws what you readied, 4–6 tiles ahead or to the first wall. A **noise maker** pulls every infected within 12 tiles who can't see you to where it lands, for 8 s. A **smoke bomb** hangs a grey cloud for 30 s that they can't see through. A tumbler, a bottle or stones work as weaker lures.
+  - On a phone: **HIT** beside the action button, **BAG** above it, and **THROW** above the action button once something is readied. Gamepad: B hits, X throws, RB opens the bag.
+- **Calls to confirm:**
+  - Numbers (all in `src/data/infected/combat.json`): a shove stuns 1 s, the knife and bat 2 s, the UV torch 1.5 s; the Evolved shake a stun off in half the time; angry = 1.15× speed for 5 s; a swing costs 1 pip; the bat hits up to 3 in an arc, the knife and shove 1.
+  - The UV torch is a quiet, wide swing (reach 2 tiles, noise 2) rather than a beam you hold. It doesn't use batteries yet.
+  - You don't pick a weapon: you swing the best you carry, and the bag says which ("in hand").
+  - The bag is a conversation (like the bench and Manju's table), not a new screen. Key items (SIM, ID, guitar) take no slot. Before Act 4 it has no limit and only lets you eat and drink.
+  - In Act 4 a trade, recipe or search that wouldn't fit is locked "No room in the bag", never half done. "Leave it here" drops the whole stack.
+  - Looks are placeholders: a white arc for the swing, a dot in flight, grey discs of smoke, a beating ring at a lure, and the stunned dim (the generated bodies use their stagger pose). The three touch buttons copy the action button's plate. **The Act 4 plan asked you for touch-button references; I went ahead without them. Send them if you want a different look.**
+  - Sounds reuse existing tokens: the swing, a plate clang for the noise maker and knife, a pipe hit for the bat, distant glass for the smoke bomb.
+  - The Pulse Gun (the only kill) and the Host stay later, as planned.
+

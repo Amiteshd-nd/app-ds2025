@@ -6,7 +6,8 @@ import { ITEMS } from '../../data';
 import { useGameStore } from '../../store';
 import { ENCOUNTER, ambushSize, pickCover, rolls } from '../../systems/encounters';
 import { FAIL_FORWARD, HARM, hitKind, itemsLost, startBleed, tickBleed, type Bleed } from '../../systems/harm';
-import { EVOLVED, INFECTED, brain, detects, evolvedAllowed, hears, struck, think, type InfectedBrain, type Point, type Tier } from '../../systems/infected';
+import { EVOLVED, INFECTED, brain, detects, evolvedAllowed, hears, struck, stun, think, type InfectedBrain, type Point, type Tier } from '../../systems/infected';
+import { field, knockback, lureFor, smokeBlocks, stunFor, swingHits } from '../../systems/combat';
 import { DISTRICTS } from '../../data';
 import { STOCK } from '../../systems/trade';
 import { baseActive } from './act4Base';
@@ -58,6 +59,8 @@ interface Infected {
   /** A noise it walks toward while it doesn't see you (the balconies). */
   drawnTo: Point | null;
   name: Phaser.GameObjects.Text | null;
+  /** A knockback in flight: this velocity until then (ADR-151). */
+  shove: { vx: number; vy: number; until: number } | null;
 }
 
 interface Rect { x: number; y: number; w: number; h: number }
@@ -151,7 +154,7 @@ export const act4Threat: Behaviour = {
       const b = brain(mode, namma, tier);
       // Coming out already turning on you (the khaki shirt): it growls as it appears.
       if (mode === 'alert') { b.lastSeen = playerFeet(); gameEvents.emit('audio:cue', { token: 'a.sfx.infected.shriek', at: { x: fx, y: fy } }); }
-      infected.push({ sprite, brain: b, zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: mode === 'alert' && actionsFor(look.sheet) ? [0, now + INFECTED.growlMs] : null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name, drawnTo });
+      infected.push({ sprite, brain: b, zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: mode === 'alert' && actionsFor(look.sheet) ? [0, now + INFECTED.growlMs] : null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name, drawnTo, shove: null });
     };
 
     const placed = new Set<string>();
@@ -296,6 +299,26 @@ export const act4Threat: Behaviour = {
       }
     });
 
+    // ── Your hands (ADR-151) ───────────────────────────────────────────────
+    // A swing stuns whoever is in reach ahead of you, nearest first: down, knocked back, then up and angry.
+    const offHit = gameEvents.on('act4:hit', ({ from, facing, weapon }) => {
+      if (!nav) return;
+      for (const i of swingHits(from, facing, weapon, infected.map((x) => feetOf(x.sprite)))) {
+        const inf = infected[i];
+        const ms = stunFor(weapon, inf.brain.tier === 'evolved');
+        stun(inf.brain, ms);
+        const f = feetOf(inf.sprite), to = knockback(from, f, weapon.knockbackTiles), push = 150;
+        inf.shove = weapon.knockbackTiles > 0 ? { vx: ((to[0] - f[0]) * 1000) / push, vy: ((to[1] - f[1]) * 1000) / push, until: now + push } : null;
+        inf.pose = inf.actions ? [2, now + ms] : null;
+        gameEvents.emit('audio:cue', { token: weapon.cue, at: { x: f[0], y: f[1] } });
+        gameEvents.emit('audio:cue', { token: 'a.sfx.infected.stun', at: { x: f[0], y: f[1] } });
+      }
+    });
+    // A bandage or a medkit stops a bleed.
+    const offUsed = gameEvents.on('item:used', ({ itemId }) => {
+      if (bleed && (itemId === 'bandage' || itemId === 'medkit')) { bleed = null; gameEvents.emit('ui:toast', { text: 'The bleeding stops.' }); }
+    });
+
     // A pack whose flag is set while you are here appears then (4.1: the khaki shirt at 17:01).
     const offFlag = gameEvents.on('flag:set', () => { if (nav) placePacks(); });
 
@@ -328,13 +351,16 @@ export const act4Threat: Behaviour = {
       for (const inf of infected) {
         const f = feetOf(inf.sprite);
         const d = dist(f, p);
-        const los = d < 14 * TILE_SIZE && lineFree(nav.sight, f, p);
+        // Smoke between you (or around either of you) breaks the line (ADR-151).
+        const los = d < 14 * TILE_SIZE && lineFree(nav.sight, f, p) && !smokeBlocks(f, p, field.clouds, field.now);
         const tier = inf.brain.tier;
         const sees = free && pz === inf.zone && detects(d, noise.value, night, los, playerState.hidden, pUV, tier);
         const heard = free && !los && pz === inf.zone && hears(d, noise.value, night, playerState.hidden, tier) ? p : inf.drawnTo;
         const atTarget = inf.brain.target ? dist(f, inf.brain.target) <= ARRIVE_PX || (inf.path.length === 0 && inf.planned > -Infinity && now - inf.planned > 50) : false;
         const before = inf.brain.mode;
-        const intent = think(inf.brain, { dt: free ? delta : 0, sees, player: p, heard, packAlert: false, atTarget, night }, rng, strollIn(inf.zone));
+        // A thrown noise in earshot pulls it while it doesn't see you (ADR-151).
+        const lure = free ? lureFor(f, field.lures, field.now) : null;
+        const intent = think(inf.brain, { dt: free ? delta : 0, sees, player: p, heard, packAlert: false, lure, atTarget, night }, rng, strollIn(inf.zone));
         if (intent.growled) {
           if (inf.lead) growlingPacks.add(inf.pack);
           gameEvents.emit('audio:cue', { token: 'a.sfx.infected.shriek', at: { x: f[0], y: f[1] } });
@@ -363,7 +389,9 @@ export const act4Threat: Behaviour = {
             if (len > off * 1.5) target = [p[0] + (-dy / len) * off * side, p[1] + (dx / len) * off * side];
           }
         }
-        if (target && intent.speed > 0) {
+        if (inf.shove && now < inf.shove.until) inf.sprite.body.setVelocity(inf.shove.vx, inf.shove.vy);
+        else if (target && intent.speed > 0) {
+          inf.shove = null;
           intent.target = target;
           if (now - inf.planned >= REPLAN_MS || !inf.plannedFor || dist(inf.plannedFor, intent.target) > TILE_SIZE) plan(inf, intent.target, now);
           while (inf.path.length && dist(inf.path[0], f) < 3) inf.path.shift();
@@ -390,6 +418,8 @@ export const act4Threat: Behaviour = {
         }
         // Fresh walk at the normal rate; Degraded twitch at +50 % (ADR-28); the Evolved prowl smoothly.
         inf.sprite.anims.timeScale = tier === 'degraded' ? 1.5 : 1;
+        // Down (stunned): its stagger pose where it has one; everyone dims a little.
+        inf.sprite.setAlpha(inf.brain.mode === 'stunned' ? 0.7 : 1);
         inf.sprite.setDepth(depthForZY(feetY(inf.sprite)));
         inf.name?.setPosition(inf.sprite.x, inf.sprite.y - 30).setAlpha(d <= NAME_TILES * TILE_SIZE ? 0.5 : 0);
 
@@ -442,6 +472,8 @@ export const act4Threat: Behaviour = {
       scene.events.off('update', update);
       offStep();
       offFlag();
+      offHit();
+      offUsed();
       // On shutdown Phaser has already dropped the physics world.
       if (scene.physics?.world) scene.physics.world.timeScale = 1;
       scene.tweens.timeScale = 1;

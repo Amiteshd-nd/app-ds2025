@@ -3,7 +3,7 @@ import type { Direction } from '../utils/types';
 import { DEPTH, HUNGRY_AT, HUNGRY_SPEED, PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE, FEET_BOX } from '../utils/constants';
 import { useGameStore } from '../store';
 import { ensurePlaceholderTexture } from '../utils/placeholders';
-import { consumeInteract, input } from '../input/InputMap';
+import { consumeHit, consumeInteract, consumeThrow, input } from '../input/InputMap';
 import { gameEvents } from '../core/events';
 import { tickEnergy } from '../systems/energy';
 import { CROUCH_SPEED, playerState } from '../systems/playerState';
@@ -24,6 +24,10 @@ import { ACT4_FLAG } from '../systems/stability';
  * crouch is a toggle at half speed and noise 2, and crouching still on a hide
  * spot hides you. What the player is doing is published in `playerState`
  * (noise, the infected and the HUD read it). Before Act 4 running is free.
+ *
+ * S4 (ADR-151): SPACE (or HIT) swings and Q (or THROW) throws, in Act 4 — the
+ * Player only announces them (`player:swing` / `player:throw`); act4Hands
+ * decides. I or TAB opens the bag, any time.
  */
 export class Player extends Phaser.GameObjects.Sprite {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -31,6 +35,10 @@ export class Player extends Phaser.GameObjects.Sprite {
   private shiftKey: Phaser.Input.Keyboard.Key;
   private eKey: Phaser.Input.Keyboard.Key;
   private cKey: Phaser.Input.Keyboard.Key;
+  private spaceKey: Phaser.Input.Keyboard.Key;
+  private qKey: Phaser.Input.Keyboard.Key;
+  private bagKeys: Phaser.Input.Keyboard.Key[];
+  private bagCallback: (() => void) | null = null;
 
   private currentDirection: Direction = 'down';
 
@@ -89,6 +97,9 @@ export class Player extends Phaser.GameObjects.Sprite {
     this.shiftKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     this.eKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.cKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+    this.spaceKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.qKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.bagKeys = [keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I), keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)];
     playerState.crouching = false; playerState.hidden = false; playerState.mode = 'idle';
 
     this.playIdleAnim();
@@ -102,13 +113,21 @@ export class Player extends Phaser.GameObjects.Sprite {
       // immediately re-trigger an interaction on unfreeze.
       Phaser.Input.Keyboard.JustDown(this.eKey);
       Phaser.Input.Keyboard.JustDown(this.cKey);
-      consumeInteract();
+      Phaser.Input.Keyboard.JustDown(this.spaceKey);
+      Phaser.Input.Keyboard.JustDown(this.qKey);
+      for (const k of this.bagKeys) Phaser.Input.Keyboard.JustDown(k);
+      consumeInteract(); consumeHit(); consumeThrow();
       playerState.mode = 'idle';
       return;
     }
     const store = useGameStore.getState();
     const act4 = Boolean(store.flags[ACT4_FLAG]);
     if (Phaser.Input.Keyboard.JustDown(this.cKey) && act4) this.setCrouching(!playerState.crouching);
+    const swing = Phaser.Input.Keyboard.JustDown(this.spaceKey) || consumeHit();
+    const toss = Phaser.Input.Keyboard.JustDown(this.qKey) || consumeThrow();
+    if (act4 && swing) gameEvents.emit('player:swing', { facing: this.currentDirection });
+    if (act4 && toss) gameEvents.emit('player:throw', { facing: this.currentDirection });
+    if (this.bagKeys.some((k) => Phaser.Input.Keyboard.JustDown(k))) { this.bagCallback?.(); return; }
 
     const left = this.cursors.left.isDown || this.wasdKeys.A.isDown || input.axisX < 0;
     const right = this.cursors.right.isDown || this.wasdKeys.D.isDown || input.axisX > 0;
@@ -206,6 +225,11 @@ export class Player extends Phaser.GameObjects.Sprite {
   /** Crouch on or off (C, the touch button's CROUCH / STAND, a hide spot's HIDE). No crouch frames yet: the sprite dims a little. */
   setCrouching(on: boolean): void {
     playerState.crouching = on;
+  }
+
+  /** Register the bag handler (I / TAB). */
+  onBag(callback: () => void): void {
+    this.bagCallback = callback;
   }
 
   /** Register the interaction handler (E / the touch action button). */

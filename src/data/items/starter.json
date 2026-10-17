@@ -10,7 +10,8 @@
     },
     "stackable": true,
     "max_stack": 6,
-    "act4_value": 1
+    "act4_value": 1,
+    "use_verb": "Drink it."
   },
   {
     "id": "cutting_chai",
@@ -24,7 +25,8 @@
     },
     "stackable": true,
     "max_stack": 4,
-    "act4_value": 0
+    "act4_value": 0,
+    "use_verb": "Drink it."
   },
   {
     "id": "sim_card",

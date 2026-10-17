@@ -13,12 +13,16 @@
  */
 
 import type { IconName } from '../ui/kit/icons';
+import type { Direction } from '../utils/types';
+import type { Weapon } from '../systems/combat';
 
 export interface GameEvents {
   'dialogue:started': { dialogueId: string };
   'dialogue:ended': { dialogueId: string; triggeredQuests: string[] };
   'item:added': { itemId: string; count: number };
   'item:removed': { itemId: string; count: number };
+  /** A consumable was used from the bag (a bandage stops a bleed, ADR-151). */
+  'item:used': { itemId: string };
   'entity:interacted': { entityId: string };
   'zone:reached': { zoneId: string; districtId: string };
   'district:entered': { districtId: string; fromDistrict?: string };
@@ -38,6 +42,14 @@ export interface GameEvents {
   'audio:mode': { transit?: string | null; workday?: boolean };
   /** A stride frame of the player's walk (footsteps, ADR-139). */
   'player:step': { x: number; y: number; running: boolean };
+  /** SPACE / HIT in Act 4 (ADR-151): act4Hands swings. */
+  'player:swing': { facing: Direction };
+  /** Q / THROW in Act 4: act4Hands throws the readied item. */
+  'player:throw': { facing: Direction };
+  /** A swing went out (act4Hands → act4Threat): who is in reach is stunned. */
+  'act4:hit': { from: [number, number]; facing: Direction; weapon: Weapon };
+  /** I / TAB / the BAG plate: open the bag. */
+  'ui:bag': Record<string, never>;
   /** One step of the dialogue typewriter; `voice` = the speaker's bleep (adult_m / adult_f / elder / kid), else a type tick. */
   'dialogue:tick': { voice?: string };
   'quest:objective': { questId: string; objectiveId: string };

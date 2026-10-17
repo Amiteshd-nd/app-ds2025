@@ -80,7 +80,8 @@ export class DialogueManager {
 
   /** Begin a conversation. Applies the entry node's effect, if any. */
   start(dialogueId: string): DialogueView {
-    this.file = getDialogue(dialogueId, useGameStore.getState().counters);
+    const st = useGameStore.getState();
+    this.file = getDialogue(dialogueId, st.counters, { inventory: st.inventory, flags: st.flags });
     this.questTriggers = [];
     this.negotiation = null;
 
@@ -246,6 +247,8 @@ export class DialogueManager {
       const inv = InventoryManager.getInstance();
       if (Object.entries(choice.requiresItems).some(([id, n]) => inv.count(id) < n)) return choice.lockedText ?? 'Not carried';
     }
+    // Act 4's 8 slots (ADR-151): a swap that would not fit is shown locked, never half done.
+    if (choice.effect?.items_add && !InventoryManager.getInstance().fits(choice.effect.items_add, choice.effect.items_remove)) return 'No room in the bag';
     return null;
   }
 

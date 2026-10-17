@@ -27,7 +27,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['card', 'cue', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes', 'items_add', 'items_remove', 'counters'];
+const EFFECT_KEYS = ['card', 'cue', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes', 'items_add', 'items_remove', 'counters', 'item_use'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -1170,7 +1170,7 @@ function validateEffect(
   // Item files are validated before every id is known, so their own effects
   // cannot cross-check item ids without a second pass.
   if (!itemsMayBeUnknown) {
-    for (const key of ['item_add', 'item_remove'] as const) {
+    for (const key of ['item_add', 'item_remove', 'item_use'] as const) {
       if (effect[key] && !itemIds.has(effect[key])) {
         out.push(`${file}: ${where} references unknown item "${effect[key]}" via ${key}`);
       }
@@ -1311,6 +1311,40 @@ export function validateWalkthroughs(
  * asks less than its trader's margin, or haggles down below even; built-from-data conversations point at something real;
  * a base names a real spawn and its lamps sit inside the map.
  */
+/**
+ * Fighting, throwing and the bag (ADR-151): `infected/combat.json` names real items, every weapon and throw has
+ * sane numbers and a cue the audio manifest has, the bag has a slot count, and an item's `use_verb` sits on a
+ * consumable with an effect.
+ */
+export function validateCombat(combat: Json, itemFiles: JsonFile[], audioTokens: Set<string>): string[] {
+  const problems: string[] = [];
+  const items = new Map<string, Json>();
+  for (const f of itemFiles) for (const it of (Array.isArray(f.json) ? f.json : []) as Json[]) items.set(it.id, it);
+  for (const [id, it] of items) if (it.use_verb !== undefined && (typeof it.use_verb !== 'string' || it.type !== 'consumable' || !it.effect)) problems.push(`items: "${id}" use_verb is only for a consumable with an effect`);
+  const pos = (v: unknown) => typeof v === 'number' && v > 0;
+  const cue = (where: string, c: unknown) => { if (typeof c !== 'string' || !audioTokens.has(c)) problems.push(`combat.json: ${where} cue "${String(c)}" is not in the audio manifest`); };
+  const weapons = (combat?.weapons ?? {}) as Record<string, Json>;
+  if (!weapons.shove) problems.push('combat.json: weapons needs "shove" (your hands)');
+  for (const [id, w] of Object.entries(weapons)) {
+    if (id !== 'shove' && items.get(id)?.type !== 'equipment') problems.push(`combat.json: weapon "${id}" must be an equipment item`);
+    for (const k of ['reachTiles', 'stunMs', 'targets', 'noiseTiles']) if (!pos(w[k])) problems.push(`combat.json: weapon "${id}" ${k} must be > 0`);
+    if (!(typeof w.knockbackTiles === 'number' && w.knockbackTiles >= 0 && w.knockbackTiles <= 3)) problems.push(`combat.json: weapon "${id}" knockbackTiles must be 0–3`);
+    if (w.stunMs > 5000) problems.push(`combat.json: weapon "${id}" stuns for over 5 s — weapons only stun briefly (ADR-48)`);
+    cue(`weapon "${id}"`, w.cue);
+  }
+  for (const id of (combat?.order ?? []) as string[]) if (!weapons[id] || id === 'shove') problems.push(`combat.json: order names "${id}", which is not a weapon item`);
+  for (const [id, t] of Object.entries((combat?.throws ?? {}) as Record<string, Json>)) {
+    if (items.get(id)?.type !== 'consumable') problems.push(`combat.json: throw "${id}" must be a consumable item (a throw uses it up)`);
+    if (!['lure', 'smoke'].includes(t.kind)) problems.push(`combat.json: throw "${id}" kind must be lure or smoke`);
+    for (const k of ['rangeTiles', 'ms', t.kind === 'lure' ? 'pullTiles' : 'radiusTiles']) if (!pos(t[k])) problems.push(`combat.json: throw "${id}" ${k} must be > 0`);
+    cue(`throw "${id}"`, t.cue);
+  }
+  for (const k of ['cooldownMs', 'energyPips', 'arcDeg', 'showMs']) if (!pos(combat?.swing?.[k])) problems.push(`combat.json: swing.${k} must be > 0`);
+  for (const k of ['angryMs', 'angrySpeed', 'evolvedStunScale']) if (!pos(combat?.stunned?.[k])) problems.push(`combat.json: stunned.${k} must be > 0`);
+  if (!(Number.isInteger(combat?.bag?.slots) && combat.bag.slots >= 4 && combat.bag.slots <= 20)) problems.push('combat.json: bag.slots must be a whole number 4–20');
+  return problems;
+}
+
 export function validateTrade(recipes: Json, barter: Json, loot: Json, itemFiles: JsonFile[], districts: Json[], npcFiles: JsonFile[], tmjFor: (d: Json) => Json | null): string[] {
   const problems: string[] = [];
   const items = new Map<string, Json>();
@@ -1333,6 +1367,7 @@ export function validateTrade(recipes: Json, barter: Json, loot: Json, itemFiles
   for (const [lid, l] of Object.entries((loot?.loot ?? {}) as Record<string, Json>)) bag(`loot.json "${lid}"`, l.items);
   const virtualOk = (id: string, d?: Json): boolean => {
     if (id === 'craft:bench') return ((recipes?.recipes ?? []) as Json[]).length > 0;
+    if (id === 'bag:') return true;
     const kind = id.slice(0, id.indexOf(':')), key = id.slice(id.indexOf(':') + 1);
     if (kind === 'trade') return Boolean(traders[key]);
     if (kind === 'search') return lootIds.has(key);
@@ -1550,6 +1585,7 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     const manifestMaps = JSON.parse(readFileSync(resolve(here, '../src/assets/maps.manifest.json'), 'utf8')).maps as Record<string, Json>;
     const tmjFor = (d: Json) => { const m = manifestMaps[d.map]; const p = m ? resolve(here, '../src/assets/tilemaps', m.file) : ''; return p && existsSync(p) ? JSON.parse(readFileSync(p, 'utf8')) : null; };
     problems.push(...validateTrade(read('recipes.json'), read('barter.json'), read('loot.json'), items, districts, npcs, tmjFor));
+    problems.push(...validateCombat(read('infected/combat.json'), items, new Set(Object.keys(read('audio/manifest.json').tokens ?? {}))));
   }
   problems.push(...validateMinigames(existsSync(minigameDir) ? readJsonDir('minigames') : [], new Set(dialogue.map((f) => f.json?.id)), districts, glyphs));
 
