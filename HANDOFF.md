@@ -7,7 +7,7 @@ Bangalore Times (the docs' working title: NAMMA OUTBREAK). **Acts 0–3 are buil
 - **The user's audit list is `NEED_TO_AUDIT.md`** (repo root) — they refer to it for every audit. Every build that stops for audit adds its row + check steps + calls to confirm there; approvals move rows to "already approved".
 
 ## 1. The very next step
-**2026-10-17 later: the plan is approved ("default") and S1 "the dial" is BUILT (ADR-144, `NEED_TO_AUDIT.md` #16, local commit). **Act 4 drafted (T-068, defaults taken) and S2 "the run" BUILT (ADR-145, NEED_TO_AUDIT #19, local). The user said "use your judgement" and gave an infected sprite spec: step 1 BUILT (ADR-146, three bases, `docs/review/infected_bases_v1.png`) — STOPPED for their approval + six drift answers (NEED_TO_AUDIT #20). After that: the recipe (step 2), then P22 = 4.0 + 4.1.**
+**2026-10-17 later: the plan is approved ("default") and S1 "the dial" is BUILT (ADR-144, `NEED_TO_AUDIT.md` #16, local commit). **Act 4 drafted (T-068, defaults taken) and S2 "the run" BUILT (ADR-145, NEED_TO_AUDIT #19, local). The user said "use your judgement" and gave an infected sprite spec: step 1 BUILT (ADR-146, three bases, `docs/review/infected_bases_v1.png`) — defaults taken; step 2 (the recipe) + the Evolved addendum BUILT (ADR-147, NEED_TO_AUDIT #21). Next: P22 = 4.0 + 4.1 (or the spec's remaining steps: attack/stun/fall, twitch frames, photophobia, decoys, audio cues, the Host).**
 
 The brief the plan was written from:
 The user's last words: *"Okay, write whatever you need to and we shall proceed"* — about this:

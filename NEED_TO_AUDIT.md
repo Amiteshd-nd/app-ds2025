@@ -38,7 +38,8 @@ corepack pnpm movie
 | 17 | Act 4 plan defaults you took (`docs/act4_systems_plan_v1.md` §8) | 2026-10-17 | local commit, not pushed | waiting |
 | 18 | Act 4 drafts 4.0 → 4.end (six stubs, your calls) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
 | 19 | Act 4 S2 · the run (ADR-145) | 2026-10-17 | local commit, not pushed | waiting |
-| 20 | Infected sprites step 1 · three bases (ADR-146) — **needs your answers before step 2** | 2026-10-17 | local commit, not pushed | waiting |
+| 20 | Infected sprites step 1 · three bases (ADR-146) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
+| 21 | Infected step 2 (the recipe) + the Evolved (ADR-147) | 2026-10-17 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -343,4 +344,20 @@ corepack pnpm dev
      - Search: spec 6 s at 0.35× after losing sight (ADR-32), built 3 s (ADR-49).
      - Default: keep ADR-49 (your later board numbers). Or switch to the spec's?
   6. **Tools:** the spec names `tools/asset_pipe.py`, PixelLab and EasyStar. The repo uses Node `scripts/` (every pipeline), the Figma image generator (every sprite so far) and its own grid pathfinding (ADR-145). Default: keep ours.
+
+## 21. Infected step 2 (the recipe) and the Evolved
+- **What:** people now turn in their own clothes, Fresh (almost human) or Degraded (grey, torn, stained, off balance), depending on how long ago the place fell. The Evolved are rare, faster than you, and make you bleed.
+- **Check:**
+  - The sheets: `docs/review/infected_recipe_v1.png` (original / Fresh / Degraded for chai Anna, Prakash, the auto driver, four crowd people and a base) and `docs/review/infected_evolved_v1.png` (the Evolved man, woman and elder: prowl and shriek / swipe / snarl).
+  - In the Playground, **Act 4 · stability dial**:
+    - **▶ Bench: a pack with one Evolved** (the street drops to "hot"). The crouched one is the Evolved. Get close: a red flash and a shriek, then it's on you. A hit knocks you back and you bleed until you reach the lamp's blue light.
+    - **▶ Bench: flank test (two Evolved)**: make noise and watch them come from two sides.
+- **Calls to confirm:**
+  - Fresh is subtle: only a little paler. Degraded reads as grey with stains. The pale eyes still barely show at this size; the Evolved's red eye dots (in-engine glow) aren't built yet.
+  - The Evolved action poses (shriek, swipe) come out smaller than the prowl, because each sheet is scaled so its tallest pose is 40 px (most visible on the elder). Fix by scaling the action sheets to match their prowl sheet?
+  - The first Evolved prompt (gashes, raw flesh, dried blood) was refused by the image generator. The accepted version shows stains, scratches and fungus. Gorier art would need another tool or hand edits.
+  - The Evolved numbers are in `src/data/infected/evolved.json` (you asked for `data/atoms/infected/`, but the repo's data lives in `src/data/`). One heart = 20 health, so the swipe costs 40 and bleeding −10 every 3 seconds.
+  - The gate is the flag `base_cafe_set` (the café base, the "Darshini" stop of the base chain); nothing sets it yet, only the bench.
+  - Not built yet: the red eye glow and blood drip, a separate wet shriek sound (it reuses the shriek), stun and the Pulse Gun's two-charge rule (with melee, S4), the Host (your call on its 48×64 size is still open: the default exception was taken).
+  - Fixed on the way: in step S2, a chase along a straight line froze the infected in place. It's fixed and tested.
 

@@ -1,5 +1,12 @@
 import { PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
 import { NOISE } from './noise';
+import EVOLVED_JSON from '../data/infected/evolved.json';
+
+/** The Evolved tier's numbers (the user's addendum §2b, ADR-147) — data, not code. */
+export const EVOLVED = EVOLVED_JSON;
+
+/** Fresh (0–2 days since the place fell) and Degraded (3+) share the numbers above; the Evolved are their own. */
+export type Tier = 'fresh' | 'degraded' | 'evolved';
 
 /**
  * The infected's mind — pure (infected doc §1–2, act4 doc §4, ADR-31/49,
@@ -53,23 +60,38 @@ export interface InfectedBrain {
   hesitated: boolean;
   /** A wander pause, picked when a stroll ends. */
   pause: number;
+  tier: Tier;
 }
 
-export const brain = (mode: InfectedMode = 'wander', namma = false): InfectedBrain =>
-  ({ mode, t: 0, chaseT: 0, lastSeen: null, target: null, namma, hesitated: false, pause: 0 });
+export const brain = (mode: InfectedMode = 'wander', namma = false, tier: Tier = 'degraded'): InfectedBrain =>
+  ({ mode, t: 0, chaseT: 0, lastSeen: null, target: null, namma, hesitated: false, pause: 0, tier });
 
 /** Detection radius in px: your noise in tiles (never under crouch's 2 — standing still close up still counts), +2 at night. */
-export const detectRadius = (noiseTiles: number, night: boolean): number =>
-  (Math.max(noiseTiles, NOISE.crouch) + (night ? INFECTED.nightTiles : 0)) * TILE_SIZE;
+export const detectRadius = (noiseTiles: number, night: boolean, tier: Tier = 'degraded'): number =>
+  (Math.max(noiseTiles, NOISE.crouch) + (night ? INFECTED.nightTiles : 0) + (tier === 'evolved' ? EVOLVED.detectBonusTiles : 0)) * TILE_SIZE;
 
 /** Sees you: in line of sight, inside the radius, and you are neither hidden nor in UV light. */
-export function detects(distPx: number, noiseTiles: number, night: boolean, los: boolean, hidden: boolean, inUV: boolean): boolean {
-  return !hidden && !inUV && los && distPx <= detectRadius(noiseTiles, night);
+export function detects(distPx: number, noiseTiles: number, night: boolean, los: boolean, hidden: boolean, inUV: boolean, tier: Tier = 'degraded'): boolean {
+  return !hidden && !inUV && los && distPx <= detectRadius(noiseTiles, night, tier);
 }
 
 /** Hears you without seeing you: inside your noise radius (a loud sound reaches further) but no line of sight. */
-export const hears = (distPx: number, noiseTiles: number, night: boolean, hidden: boolean): boolean =>
-  !hidden && noiseTiles > 0 && distPx <= (noiseTiles + (night ? INFECTED.nightTiles : 0)) * TILE_SIZE;
+export const hears = (distPx: number, noiseTiles: number, night: boolean, hidden: boolean, tier: Tier = 'degraded'): boolean =>
+  !hidden && noiseTiles > 0 && distPx <= (tier === 'evolved' ? Math.max(EVOLVED.hearTiles, noiseTiles) : noiseTiles + (night ? INFECTED.nightTiles : 0)) * TILE_SIZE;
+
+/** Chase speed by tier: Fresh/Degraded 0.9× your run (you can outrun them); Evolved 1.1× (1.2× at night) — you can't, in the open. */
+export const chaseSpeed = (tier: Tier, night: boolean): number =>
+  tier === 'evolved' ? PLAYER_RUN_SPEED * (night ? EVOLVED.nightRunRatio : EVOLVED.chaseRunRatio) : INFECTED.chaseSpeed * (night ? INFECTED.nightSpeed : 1);
+
+/**
+ * May an Evolved appear here (addendum §2b)? Only where stability is under 25, only once the base chain has
+ * reached the café (the gate flag), at most 2 in a place and 1 in a pack, and never within 3 tiles of a UV
+ * light's edge.
+ */
+export function evolvedAllowed(o: { stability: number; flags: Record<string, boolean>; inPlace: number; inPack: number; tilesFromUVEdge: number }): boolean {
+  const g = EVOLVED.spawn;
+  return o.stability < g.maxStability && Boolean(o.flags[g.gateFlag]) && o.inPlace < g.perPocket && o.inPack < g.perPack && o.tilesFromUVEdge >= g.uvEdgeTiles;
+}
 
 export interface Senses {
   dt: number;
@@ -112,7 +134,7 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
       if (!b.target && b.t >= b.pause) b.target = stroll();
       break;
     case 'alert': {
-      const wait = INFECTED.growlMs + (b.namma && !b.hesitated ? INFECTED.hesitateMs : 0);
+      const wait = (b.tier === 'evolved' ? EVOLVED.growlMs : INFECTED.growlMs) + (b.namma && !b.hesitated ? INFECTED.hesitateMs : 0);
       if (b.t >= wait) { b.hesitated = true; enter(b, 'chase'); b.chaseT = 0; b.lastSeen = s.player; }
       break;
     }
@@ -124,7 +146,7 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
       break;
     case 'search':
       if (s.sees) { toAlert(); break; }
-      if (b.t >= INFECTED.searchMs) { enter(b, 'wander'); b.target = null; b.pause = 0; break; }
+      if (b.t >= (b.tier === 'evolved' ? EVOLVED.searchMs : INFECTED.searchMs)) { enter(b, 'wander'); b.target = null; b.pause = 0; break; }
       if (!b.target || s.atTarget) b.target = stroll();
       break;
     case 'recover':
@@ -132,7 +154,7 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
       break;
   }
 
-  const speed = b.mode === 'chase' ? INFECTED.chaseSpeed * night
+  const speed = b.mode === 'chase' ? chaseSpeed(b.tier, s.night)
     : b.mode === 'wander' ? INFECTED.wanderSpeed * night
     : b.mode === 'search' ? INFECTED.wanderSpeed * 1.5 * night
     : 0;

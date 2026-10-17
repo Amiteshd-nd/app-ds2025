@@ -23,6 +23,20 @@ export const FAIL_FORWARD = {
   wakeHealth: 25,
 } as const;
 
+/**
+ * Bleeding (the Evolved's double swipe, addendum §2b): −10 health every 3 s for 12 s, unless cured (a UV
+ * light, a bandage, first aid). Pure: `tickBleed` returns the health to take now.
+ */
+export interface Bleed { until: number; next: number }
+export const startBleed = (now: number, b: { everyMs: number; forMs: number }): Bleed => ({ until: now + b.forMs, next: now + b.everyMs });
+export function tickBleed(bleed: Bleed | null, now: number, b: { health: number; everyMs: number }): { bleed: Bleed | null; health: number } {
+  if (!bleed) return { bleed: null, health: 0 };
+  let health = 0;
+  const next = { ...bleed };
+  while (next.next <= now && next.next <= next.until) { health += b.health; next.next += b.everyMs; }
+  return { bleed: next.next > next.until ? null : next, health };
+}
+
 /** A touch or a grab, by when the last one landed. */
 export function hitKind(lastHitAt: number | null, now: number): 'touch' | 'grab' {
   return lastHitAt !== null && now - lastHitAt <= HARM.grabWindowMs ? 'grab' : 'touch';

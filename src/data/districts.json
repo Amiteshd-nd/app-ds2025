@@ -2595,11 +2595,19 @@
     "dev": true,
     "map": "whitefield_street",
     "defaultSpawn": "cubbon_return",
-    "$comment": "Dev bench for Act 4's run (ADR-145): the Whitefield street with one Fresh pack, ambush cover, two hide spots and a UV lamp. Opened from the Playground's Act 4 node; you start inside the lamp's light (safe); no exits lead here. Its stability is held at 50 (infected) once `act4` is set.",
+    "$comment": "Dev bench for Act 4's run (ADR-145): the Whitefield street with one Fresh pack, ambush cover, two hide spots and a UV lamp. Opened from the Playground's Act 4 node; you start inside the lamp's light (safe); no exits lead here. Its stability is held at 50 (infected) once `act4` is set. Presets (ADR-147): `bench_evolved` adds a pack with one Evolved, `bench_flank` two lone Evolved for the flank test (both drop the street to 20 and need `base_cafe_set`).",
     "stabilityIf": [
       {
         "flag": "act4",
         "stability": 50
+      },
+      {
+        "flag": "bench_evolved",
+        "stability": 20
+      },
+      {
+        "flag": "bench_flank",
+        "stability": 20
       }
     ],
     "act4Zones": [
@@ -2673,6 +2681,50 @@
             "crowd_delivery",
             "crowd_autodriver"
           ]
+        },
+        {
+          "id": "bench_evolved",
+          "zone": "street",
+          "lead": [
+            19,
+            14
+          ],
+          "size": 3,
+          "sheets": [
+            "crowd_hoodie",
+            "crowd_student",
+            "inf_base_male_1"
+          ],
+          "evolved": 1,
+          "requiresFlag": "bench_evolved"
+        },
+        {
+          "id": "bench_flank_a",
+          "zone": "street",
+          "lead": [
+            21,
+            9
+          ],
+          "size": 1,
+          "sheets": [
+            "inf_base_male_1"
+          ],
+          "evolved": 1,
+          "requiresFlag": "bench_flank"
+        },
+        {
+          "id": "bench_flank_b",
+          "zone": "street",
+          "lead": [
+            25,
+            14
+          ],
+          "size": 1,
+          "sheets": [
+            "inf_base_female_1"
+          ],
+          "evolved": 1,
+          "requiresFlag": "bench_flank"
         }
       ]
     },

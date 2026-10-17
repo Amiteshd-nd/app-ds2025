@@ -352,3 +352,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found: at 32×48 the pale eyes and the grey-green pallor mostly disappear (they quantise to ordinary skin) — the Degraded recipe (desaturate, green skin, pale eyes) is what will make them read; the bases are slimmer and smaller-headed than the chibi crowd; the action sheets are a little more cartoonish than the walks; the elder's action skin came out warmer than his walk.
 - Calls to confirm: see NEED_TO_AUDIT #20 (the look; the conflicts with logged decisions — frame counts, attire layers, the Host's size, the speed numbers).
 - Rule going forward: when a user spec conflicts with a locked pipeline or ADR, build the part that doesn't depend on the conflict and put the conflict to them at the stop — don't silently follow either.
+
+### [Infected step 2 + the Evolved — built, awaiting audit] — 2026-10-17
+- Decision: "proceed with step 2 after this" with the Evolved addendum (rare, gory, lethal); the step-1 defaults (NEED_TO_AUDIT #20) taken. ADR-147.
+- Built: the recipe (Fresh/Degraded from people's own sheets, 28 sheets), the Evolved sheets (6), the Evolved tier in the AI and harm (speed, sight/hearing, 10 s hunt, red-flash telegraph, 40-damage swipe with knock-back and bleeding cured by UV, stress held red, flanking, spawn gates), the bench presets, tests (24 in act4_run).
+- Verified in the browser pane (bench, by script): the Degraded crowd and the Evolved render, the Evolved posing its alert frame; the Evolved peaks at 209 px/s (your run 190); its swipe took 100 → 60, stress to 70, pushed the player 40 px, then bleeding 60 → 40 over 6 s away from the light and nothing more once in the lamp ("Bleeding. Get to the light." / "The bleeding stops."); two Evolved approach on different lines and the first lands its hit.
+- Found on the way (fixed): **an S2 bug — a chase along a straight line froze** (the only path point was dropped; turns hid it in S2's tests; regression test added); the recipe's first eye pass bleached brows and hair into a white mask (now only small dark blobs in the upper face); the generator refused the first Evolved prompt (raw flesh / gashes) — stains and scratches passed.
+- Calls to confirm: NEED_TO_AUDIT #21.
+- Rule going forward: **`corners()` never includes the start** — never `.slice(1)` its result.

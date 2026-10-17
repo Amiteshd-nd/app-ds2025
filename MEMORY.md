@@ -176,3 +176,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - On scene shutdown `scene.physics.world` is already null inside behaviour teardowns — guard it.
 - Browser QA of the bench: the Playground (:6175) may be another session's server but serves current files after a reload; modules imported with `import('/src/…')` from the console can be a different instance than the app's (HMR `?t=`) — read state through the app's handles (`__nqMovie.driver`, the Inspector panel) instead.
 - Harm needs a global grace window: per-attacker recovery let three ambushers land 55 health in a second.
+
+## Infected step 2 + the Evolved (2026-10-17, ADR-147)
+- `walkgrid.corners()` never includes the start — `.slice(1)` on it empties a straight path (froze straight-line chases).
+- The Figma image generator refuses graphic gore (422): describe stains, scratches and fungus instead of wounds and flesh.
+- `import-sheet` scales each sheet so its tallest pose is 40 px: crouched/wide action poses come out smaller than their walk sheet.
+- `pnpm art` runs `scripts/infected-recipe.mjs` after the character imports (config `src/data/infected/looks.json`); `inf_base_*` raws get `--skins` there too.

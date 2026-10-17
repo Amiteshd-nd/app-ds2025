@@ -75,13 +75,19 @@ await write(sheet, join(assets, 'tilesets/street.png'));
 // style; import-sheet keys, snaps and quantises it into the 4×4 contract and
 // writes the five skin tones. Regenerating from the raws is what keeps
 // `pnpm art` reproducible for these too.
-// Player bases get the five skin tones; an NPC is one person, one sheet.
+// Player bases (and the infected bases) get the five skin tones; an NPC is one person, one sheet.
 const rawDir = join(assets, '_raw/characters');
 const imported = [];
 for (const file of readdirSync(rawDir).filter((f) => f.endsWith('.png')).sort()) {
   const name = file.replace(/\.png$/, '');
-  imported.push(...(await importSheet(join(rawDir, file), name, { skins: name.startsWith('player_'), still: name.endsWith('_bed') })));
+  // The infected bases (ADR-146) carry all five tones too; their action sheets are one person each.
+  const toned = name.startsWith('player_') || (name.startsWith('inf_base_') && !name.endsWith('_actions'));
+  imported.push(...(await importSheet(join(rawDir, file), name, { skins: toned, still: name.endsWith('_bed') })));
 }
+
+// ── The infected recipe (ADR-147): Fresh / Degraded sheets derived from people's own sheets ──
+const { runInfectedRecipe } = await import('./infected-recipe.mjs');
+await runInfectedRecipe();
 
 // ── Breathing: derived F1–F3 from each sheet's idle (breath.json lines) ──
 await importBreath();

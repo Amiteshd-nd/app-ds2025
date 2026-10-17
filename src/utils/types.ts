@@ -450,6 +450,10 @@ export interface InfectedPack {
   minLevel?: number;
   /** Someone you knew: hesitates a second if your standing in their district is Namma (ADR-34). */
   former?: string;
+  /** How many of the pack may be Evolved (0–1, addendum §2b): the last member, if the place allows one (ADR-147). */
+  evolved?: number;
+  /** The pack is there only once this flag is set (the bench's presets). */
+  requiresFlag?: string;
 }
 
 /**

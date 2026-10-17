@@ -1694,5 +1694,753 @@
       "waist_y": 32,
       "enabled": false
     }
+  },
+  "inf_degraded_crowd_autodriver": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_crowd_delivery": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_crowd_elder": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_crowd_homemaker": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_crowd_hoodie": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_crowd_officegoer": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_crowd_student": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_crowd_techie": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_inf_base_elder_1": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_inf_base_female_1": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_inf_base_male_1": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_npc_auto_driver": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_npc_chai_anna": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_degraded_npc_prakash": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_evolved_elder": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_evolved_elder_actions": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_evolved_female": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_evolved_female_actions": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_evolved_male": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_evolved_male_actions": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_autodriver": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_delivery": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_elder": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_homemaker": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_hoodie": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_officegoer": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_student": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_crowd_techie": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_inf_base_elder_1": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_inf_base_female_1": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_inf_base_male_1": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_npc_auto_driver": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_npc_chai_anna": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
+  },
+  "inf_fresh_npc_prakash": {
+    "down": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 24,
+      "waist_y": 32,
+      "enabled": false
+    }
   }
 }

@@ -197,3 +197,69 @@ describe('wiring (ADR-145)', async () => {
     expect(STEP_ACTIONS).toEqual(expect.arrayContaining(['flee', 'hide']));
   });
 });
+
+describe('the Evolved (addendum §2b, ADR-147)', async () => {
+  const { EVOLVED, brain: mk, chaseSpeed, detectRadius: dr, evolvedAllowed, hears: hr, think: th, INFECTED: INF } = await import('../systems/infected');
+  const { startBleed, tickBleed } = await import('../systems/harm');
+  const { PLAYER_RUN_SPEED: RUN, TILE_SIZE: TS } = await import('../utils/constants');
+  const s = (o = {}) => ({ dt: 16, sees: false, player: [0, 0] as [number, number], heard: null, packAlert: false, atTarget: false, night: false, ...o });
+
+  it('outruns you in the open: 1.1× your run, 1.2× at night; the rest stay at 0.9×', () => {
+    expect(chaseSpeed('evolved', false)).toBeCloseTo(RUN * 1.1);
+    expect(chaseSpeed('evolved', true)).toBeCloseTo(RUN * 1.2);
+    expect(chaseSpeed('degraded', false)).toBeLessThan(RUN);
+  });
+
+  it('sees 2 tiles further, hears from 12, hunts 10 s', () => {
+    expect(dr(5, false, 'evolved')).toBe(7 * TS);
+    expect(hr(11 * TS, 5, false, false, 'evolved')).toBe(true);
+    expect(hr(11 * TS, 5, false, false, 'degraded')).toBe(false);
+    const b = mk('search', false, 'evolved');
+    th(b, s({ dt: INF.searchMs }), () => 0.5, () => null);
+    expect(b.mode).toBe('search');
+    th(b, s({ dt: EVOLVED.searchMs }), () => 0.5, () => null);
+    expect(b.mode).toBe('wander');
+  });
+
+  it('rare: under 25 stability, after the café, ≤ 1 a pack, ≤ 2 a place, never within 3 tiles of a lamp', () => {
+    const ok = { stability: 20, flags: { base_cafe_set: true }, inPlace: 0, inPack: 0, tilesFromUVEdge: 9 };
+    expect(evolvedAllowed(ok)).toBe(true);
+    expect(evolvedAllowed({ ...ok, stability: 25 })).toBe(false);
+    expect(evolvedAllowed({ ...ok, flags: {} })).toBe(false);
+    expect(evolvedAllowed({ ...ok, inPack: 1 })).toBe(false);
+    expect(evolvedAllowed({ ...ok, inPlace: 2 })).toBe(false);
+    expect(evolvedAllowed({ ...ok, tilesFromUVEdge: 2 })).toBe(false);
+  });
+
+  it('bleeding: −10 every 3 s for 12 s, then it stops', () => {
+    let b = startBleed(0, EVOLVED.bleed) as ReturnType<typeof startBleed> | null;
+    let total = 0;
+    for (let t = 0; t <= 20000; t += 500) { const r = tickBleed(b, t, EVOLVED.bleed); b = r.bleed; total += r.health; }
+    expect(total).toBe(-40);
+    expect(b).toBeNull();
+    expect(EVOLVED.hit.health).toBe(-40);
+  });
+
+  it('every infected sheet the bench and the recipe name exists, and the Evolved bodies have action poses', async () => {
+    const { DISTRICTS } = await import('../data');
+    const { SPRITE_URLS } = await import('../assets');
+    for (const p of DISTRICTS.act4_bench.infected!.packs) for (const sh of p.sheets) expect(SPRITE_URLS[sh], sh).toBeTruthy();
+    for (const body of ['male', 'female', 'elder']) {
+      expect(SPRITE_URLS[`inf_evolved_${body}`]).toBeTruthy();
+      expect(SPRITE_URLS[`inf_evolved_${body}_actions`]).toBeTruthy();
+      expect(SPRITE_URLS[`inf_degraded_inf_base_${body}_1`]).toBeTruthy();
+    }
+    expect(SPRITE_URLS.inf_fresh_npc_chai_anna).toBeTruthy();
+  });
+});
+
+describe('paths (the straight-run regression, ADR-147)', async () => {
+  const { buildGrid, cellAt, astar, corners, smooth } = await import('../world/walkgrid');
+  it('a straight run keeps its end point: corners() never includes the start', () => {
+    const g = buildGrid([], 400, 100);
+    const cells = astar(g, cellAt(g, 20, 50), (i) => i === cellAt(g, 300, 50), [300, 50])!;
+    const pts = smooth(g, corners(g, cells));
+    expect(pts.length).toBeGreaterThanOrEqual(1);
+    expect(pts[pts.length - 1][0]).toBeGreaterThan(290);
+  });
+});

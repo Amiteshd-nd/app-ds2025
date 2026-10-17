@@ -5,15 +5,17 @@ import { depthForZY, feetY } from '../../core/depth';
 import { ITEMS } from '../../data';
 import { useGameStore } from '../../store';
 import { ENCOUNTER, ambushSize, pickCover, rolls } from '../../systems/encounters';
-import { FAIL_FORWARD, HARM, hitKind, itemsLost } from '../../systems/harm';
-import { INFECTED, brain, detects, hears, struck, think, type InfectedBrain, type Point } from '../../systems/infected';
+import { FAIL_FORWARD, HARM, hitKind, itemsLost, startBleed, tickBleed, type Bleed } from '../../systems/harm';
+import { EVOLVED, INFECTED, brain, detects, evolvedAllowed, hears, struck, think, type InfectedBrain, type Point, type Tier } from '../../systems/infected';
+import { DISTRICTS } from '../../data';
+import LOOKS from '../../data/infected/looks.json';
 import { InventoryManager } from '../../systems/InventoryManager';
 import { isNight } from '../../systems/night';
 import { noise } from '../../systems/noise';
 import { playerState } from '../../systems/playerState';
 import { ReputationManager } from '../../systems/ReputationManager';
 import { mulberry32, seedOf } from '../../systems/rng';
-import { ACT4_DAY, ACT4_FLAG, GRADES, grade } from '../../systems/stability';
+import { ACT4_DAY, ACT4_FLAG, GRADES, act4DayOf, act4DefOf, grade, stageFor } from '../../systems/stability';
 import { stabilityNow } from '../../systems/stabilityNow';
 import { StatsManager } from '../../systems/StatsManager';
 import { resetThreat, threat, threatDebug } from '../../systems/threat';
@@ -39,6 +41,10 @@ interface Infected {
   brain: InfectedBrain;
   zone: ZoneRt;
   sheet: string;
+  /** Its alert / lunge / stagger sheet, if it has one. */
+  actions: string | null;
+  /** An action pose held until a time: [column, until]. */
+  pose: [number, number] | null;
   pack: string;
   lead: boolean;
   path: Point[];
@@ -80,8 +86,8 @@ export const act4Threat: Behaviour = {
     if (!zonesDef.length && !packs.length && !uvs.length) return;
 
     const store = () => useGameStore.getState();
-    const day = store().counters[ACT4_DAY] ?? 0;
-    const rng = mulberry32(seedOf(`${district.id}:${day}`));
+    const day = act4DayOf(store());
+    const rng = mulberry32(seedOf(`${district.id}:${day ?? store().counters[ACT4_DAY] ?? 0}`));
     const level = grade(stabilityNow(district.id));
     const zones: ZoneRt[] = zonesDef.map((z) => ({
       def: z,
@@ -104,31 +110,60 @@ export const act4Threat: Behaviour = {
     const playerFeet = (): Point => { const b = player.body as Phaser.Physics.Arcade.Body; return [b.center.x, b.center.y]; };
     const feetOf = (s: Body): Point => [s.body.center.x, s.body.center.y];
 
-    const spawn = (at: Point, sheet: string, zone: ZoneRt, pack: string, lead: boolean, mode: InfectedBrain['mode'], ambush: boolean, former?: string) => {
+    // The look (ADR-147): a person's Fresh / Degraded self by days since this place fell; the Evolved are their own sheets.
+    const def = act4DefOf(district, (id) => DISTRICTS[id]);
+    const stage: 'fresh' | 'degraded' = def && day !== null ? (stageFor(day - def.fallDay) === 'fresh' ? 'fresh' : 'degraded') : 'degraded';
+    const bodyOf = (source: string): 'male' | 'female' | 'elder' => (LOOKS.sources.find((x) => x.sheet === source)?.body as 'male' | 'female' | 'elder' | undefined) ?? (/female/.test(source) ? 'female' : /elder/.test(source) ? 'elder' : 'male');
+    const lookFor = (source: string, tier: Tier): { sheet: string; tinted: boolean } => {
+      const want = tier === 'evolved' ? `inf_evolved_${bodyOf(source)}` : source.startsWith('inf_evolved_') ? source : `inf_${tier}_${source}`;
+      if (scene.textures.exists(want)) return { sheet: want, tinted: false };
+      return { sheet: scene.textures.exists(source) ? source : '__DEFAULT', tinted: true };
+    };
+    /** Action poses (alert / lunge / stagger) exist for the generated bodies only; people's own sheets twitch instead. */
+    const actionsFor = (sheet: string): string | null => {
+      const m = /^(?:inf_(?:fresh|degraded)_)?inf_(base|evolved)_(male|female|elder)(?:_\d)?$/.exec(sheet);
+      const key = m ? `inf_${m[1]}_${m[2]}_actions` : null;
+      return key && scene.textures.exists(key) ? key : null;
+    };
+
+    const spawn = (at: Point, source: string, zone: ZoneRt, pack: string, lead: boolean, mode: InfectedBrain['mode'], ambush: boolean, former?: string, tier: Tier = stage) => {
       const free = nearestFree(nav!.walk, cellAt(nav!.walk, at[0], at[1]), 6);
       const [fx, fy] = free >= 0 ? cellCentre(nav!.walk, free) : at;
-      const key = scene.textures.exists(sheet) ? sheet : '__DEFAULT';
-      const sprite = scene.add.sprite(fx, fy - FEET_DY, key) as Body;
+      const look = lookFor(source, tier);
+      const sprite = scene.add.sprite(fx, fy - FEET_DY, look.sheet) as Body;
       scene.physics.add.existing(sprite);
       sprite.body.setSize(FEET_BOX.w, FEET_BOX.h);
       sprite.body.setOffset(FEET_BOX.offsetX, FEET_BOX.offsetY);
-      sprite.setTint(color('infected.skin'));
+      // No derived sheet yet (a person the recipe hasn't reached): the old grey tint stands in.
+      if (look.tinted) sprite.setTint(color('infected.skin'));
       const namma = Boolean(former && store().met.includes(former) && ReputationManager.getInstance().tier >= 2);
       const name = former ? scene.add.text(fx, fy - 60, '', { fontSize: '8px', color: '#ffffff' }).setOrigin(0.5).setAlpha(0) : null;
       if (name) name.setText(former!.replace(/^npc_/, '').replace(/_/g, ' '));
-      infected.push({ sprite, brain: brain(mode, namma), zone, sheet: key, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name });
+      infected.push({ sprite, brain: brain(mode, namma, tier), zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name });
     };
 
     const placePacks = () => {
+      const stability = stabilityNow(district.id);
+      let evolvedHere = 0;
       for (const p of packs as InfectedPack[]) {
         if (level < (p.minLevel ?? 2)) continue;
+        if (p.requiresFlag && !store().flags[p.requiresFlag]) continue;
         const zone = zones.find((z) => z.def.id === p.zone);
         if (!zone) { console.error(`[act4Threat] pack "${p.id}" names zone "${p.zone}", not in act4Zones`); continue; }
         const lead = tiles(p.lead);
-        spawn(lead, p.sheets[0], zone, p.id, true, 'wander', false, p.former);
-        for (let i = 1; i < (p.size ?? 1); i++) {
-          const a = (i / Math.max(1, (p.size ?? 1) - 1)) * Math.PI * 2;
-          spawn([lead[0] + Math.cos(a) * TILE_SIZE * 1.5, lead[1] + Math.sin(a) * TILE_SIZE * 1.5], p.sheets[i % p.sheets.length], zone, p.id, false, 'idle', false);
+        const size = p.size ?? 1;
+        // The Evolved (addendum §2b): rare — under 25 stability, after the café, ≤ 1 a pack, ≤ 2 a place, never by a lamp.
+        const uvEdge = uvs.length ? Math.min(...uvs.map((u) => (Math.hypot(lead[0] - u.x, lead[1] - u.y) - u.r) / TILE_SIZE)) : Infinity;
+        let evolvedInPack = 0;
+        const evolvedSlot = (i: number) => {
+          if ((p.evolved ?? 0) <= evolvedInPack || i !== size - 1) return false;
+          if (!evolvedAllowed({ stability, flags: store().flags, inPlace: evolvedHere, inPack: evolvedInPack, tilesFromUVEdge: uvEdge })) return false;
+          evolvedInPack += 1; evolvedHere += 1; return true;
+        };
+        spawn(lead, p.sheets[0], zone, p.id, true, 'wander', false, p.former, evolvedSlot(0) ? 'evolved' : stage);
+        for (let i = 1; i < size; i++) {
+          const a = (i / Math.max(1, size - 1)) * Math.PI * 2;
+          spawn([lead[0] + Math.cos(a) * TILE_SIZE * 1.5, lead[1] + Math.sin(a) * TILE_SIZE * 1.5], p.sheets[i % p.sheets.length], zone, p.id, false, 'idle', false, undefined, evolvedSlot(i) ? 'evolved' : stage);
         }
       }
     };
@@ -151,11 +186,15 @@ export const act4Threat: Behaviour = {
       inf.planned = now; inf.plannedFor = target;
       if (start < 0 || goal < 0) { inf.path = []; return; }
       const cells = astar(infGrid!, start, (i) => i === goal, goalPt);
-      inf.path = cells ? smooth(infGrid!, corners(infGrid!, cells)).slice(1) : [];
+      // `corners` already leaves out the start: a straight run is one point, and dropping it froze the chase (S2 bug).
+      inf.path = cells ? smooth(infGrid!, corners(infGrid!, cells)) : [];
     };
 
     // ── Harm ───────────────────────────────────────────────────────────────
     let lastHit: number | null = null;
+    let bleed: Bleed | null = null;
+    /** An Evolved got you here: stress stays in the red until you leave the place (addendum §2b). */
+    let stressRed = false;
     let lastEscape = -Infinity;
     let failing = false;
     const failForward = () => {
@@ -176,8 +215,21 @@ export const act4Threat: Behaviour = {
       const kind = hitKind(lastHit, now);
       lastHit = now;
       const h = HARM[kind];
-      StatsManager.getInstance().adjust('health', h.health);
-      StatsManager.getInstance().adjust('stress', h.stress);
+      const evolved = inf.brain.tier === 'evolved';
+      // The Evolved's double swipe (addendum §2b): two hearts, stress ×2, a tile of knockback, and bleeding.
+      StatsManager.getInstance().adjust('health', evolved ? EVOLVED.hit.health : h.health);
+      StatsManager.getInstance().adjust('stress', evolved ? EVOLVED.hit.stress : h.stress);
+      if (evolved) {
+        bleed = startBleed(now, EVOLVED.bleed);
+        stressRed = true;
+        gameEvents.emit('ui:toast', { text: 'Bleeding. Get to the light.' });
+        const [ix, iy] = feetOf(inf.sprite), [px0, py0] = playerFeet();
+        const len = Math.hypot(px0 - ix, py0 - iy) || 1;
+        const to: Point = [px0 + ((px0 - ix) / len) * EVOLVED.hit.knockbackTiles * TILE_SIZE, py0 + ((py0 - iy) / len) * EVOLVED.hit.knockbackTiles * TILE_SIZE];
+        const cell = nearestFree(nav!.walk, cellAt(nav!.walk, to[0], to[1]), 2);
+        if (cell >= 0) { const [cx, cy] = cellCentre(nav!.walk, cell); player.setPosition(cx, cy - FEET_DY); (player.body as Phaser.Physics.Arcade.Body).reset(player.x, player.y); }
+      }
+      if (inf.actions) inf.pose = [1, now + 300];
       struck(inf.brain);
       gameEvents.emit('audio:cue', { token: 'a.sfx.infected.hit' });
       gameEvents.emit('audio:cue', { token: 'a.sfx.player.hurt' });
@@ -243,14 +295,18 @@ export const act4Threat: Behaviour = {
         const f = feetOf(inf.sprite);
         const d = dist(f, p);
         const los = d < 14 * TILE_SIZE && lineFree(nav.sight, f, p);
-        const sees = free && pz === inf.zone && detects(d, noise.value, night, los, playerState.hidden, pUV);
-        const heard = free && !los && pz === inf.zone && hears(d, noise.value, night, playerState.hidden) ? p : null;
+        const tier = inf.brain.tier;
+        const sees = free && pz === inf.zone && detects(d, noise.value, night, los, playerState.hidden, pUV, tier);
+        const heard = free && !los && pz === inf.zone && hears(d, noise.value, night, playerState.hidden, tier) ? p : null;
         const atTarget = inf.brain.target ? dist(f, inf.brain.target) <= ARRIVE_PX || (inf.path.length === 0 && inf.planned > -Infinity && now - inf.planned > 50) : false;
         const before = inf.brain.mode;
         const intent = think(inf.brain, { dt: free ? delta : 0, sees, player: p, heard, packAlert: false, atTarget, night }, rng, strollIn(inf.zone));
         if (intent.growled) {
           if (inf.lead) growlingPacks.add(inf.pack);
           gameEvents.emit('audio:cue', { token: 'a.sfx.infected.shriek', at: { x: f[0], y: f[1] } });
+          if (inf.actions) inf.pose = [0, now + (tier === 'evolved' ? EVOLVED.growlMs : INFECTED.growlMs)];
+          // The Evolved's telegraph: a one-frame red flash, so you can bail.
+          if (tier === 'evolved') scene.cameras.main.flash(34, 150, 20, 20);
         }
         // A narrow escape: it lost you while right behind you.
         // Once per 5 s however many lose you at once.
@@ -262,7 +318,19 @@ export const act4Threat: Behaviour = {
         if (inf.brain.mode === 'chase') inf.closest = Math.min(inf.closest, d); else inf.closest = Infinity;
 
         // Move.
-        if (intent.target && intent.speed > 0) {
+        // Flanking (addendum §2b): a second Evolved on the chase takes a path two tiles off to one side.
+        let target = intent.target;
+        if (target && tier === 'evolved' && inf.brain.mode === 'chase') {
+          const hunters = infected.filter((o) => o.brain.tier === 'evolved' && o.brain.mode === 'chase');
+          const k = hunters.indexOf(inf);
+          if (k > 0) {
+            const dx = p[0] - f[0], dy = p[1] - f[1], len = Math.hypot(dx, dy) || 1;
+            const side = k % 2 ? 1 : -1, off = EVOLVED.flankTiles * TILE_SIZE;
+            if (len > off * 1.5) target = [p[0] + (-dy / len) * off * side, p[1] + (dx / len) * off * side];
+          }
+        }
+        if (target && intent.speed > 0) {
+          intent.target = target;
           if (now - inf.planned >= REPLAN_MS || !inf.plannedFor || dist(inf.plannedFor, intent.target) > TILE_SIZE) plan(inf, intent.target, now);
           while (inf.path.length && dist(inf.path[0], f) < 3) inf.path.shift();
           const next = inf.path[0];
@@ -275,9 +343,19 @@ export const act4Threat: Behaviour = {
         // Look (twitchy: the walk at +50 %, ADR-28) and depth.
         const v = inf.sprite.body.velocity;
         const dir = Math.abs(v.x) > Math.abs(v.y) ? (v.x < 0 ? 'left' : 'right') : v.y < 0 ? 'up' : 'down';
-        const anim = `${inf.sheet}-${v.length() > 1 ? 'walk' : 'idle'}-${v.length() > 1 ? dir : 'down'}`;
-        if (scene.anims.exists(anim) && inf.sprite.anims.currentAnim?.key !== anim) inf.sprite.play(anim);
-        inf.sprite.anims.timeScale = 1.5;
+        const facing = v.length() > 1 ? dir : Math.abs(p[0] - f[0]) > Math.abs(p[1] - f[1]) ? (p[0] < f[0] ? 'left' : 'right') : p[1] < f[1] ? 'up' : 'down';
+        if (inf.pose && now < inf.pose[1] && inf.actions) {
+          // An action pose (alert, lunge): the frame of that column in the facing row.
+          const row = ['down', 'left', 'right', 'up'].indexOf(facing);
+          inf.sprite.anims.stop();
+          inf.sprite.setTexture(inf.actions, row * 3 + inf.pose[0]);
+        } else {
+          if (inf.pose) { inf.pose = null; inf.sprite.setTexture(inf.sheet); }
+          const anim = `${inf.sheet}-${v.length() > 1 ? 'walk' : 'idle'}-${v.length() > 1 ? dir : 'down'}`;
+          if (scene.anims.exists(anim) && inf.sprite.anims.currentAnim?.key !== anim) inf.sprite.play(anim);
+        }
+        // Fresh walk at the normal rate; Degraded twitch at +50 % (ADR-28); the Evolved prowl smoothly.
+        inf.sprite.anims.timeScale = tier === 'degraded' ? 1.5 : 1;
         inf.sprite.setDepth(depthForZY(feetY(inf.sprite)));
         inf.name?.setPosition(inf.sprite.x, inf.sprite.y - 30).setAlpha(d <= NAME_TILES * TILE_SIZE ? 0.5 : 0);
 
@@ -296,6 +374,16 @@ export const act4Threat: Behaviour = {
           if (lead && dist(feetOf(lead.sprite), feetOf(inf.sprite)) <= INFECTED.packAlertTiles * TILE_SIZE) think(inf.brain, { dt: 0, sees: false, player: p, heard: null, packAlert: true, atTarget: false, night }, rng, strollIn(inf.zone));
         }
       }
+      // Bleeding: −10 every 3 s for 12 s; a UV light stops it (bandages and first aid come with S3's items).
+      if (bleed && free) {
+        if (pUV) { bleed = null; gameEvents.emit('ui:toast', { text: 'The bleeding stops.' }); }
+        else {
+          const t = tickBleed(bleed, now, EVOLVED.bleed);
+          bleed = t.bleed;
+          if (t.health) { StatsManager.getInstance().adjust('health', t.health); if (store().stats.health <= 0 && store().flags[ACT4_FLAG]) failForward(); }
+        }
+      }
+      if (stressRed && store().stats.stress < EVOLVED.stressRedUntilLeaving) StatsManager.getInstance().adjust('stress', EVOLVED.stressRedUntilLeaving - store().stats.stress);
       threat.chasing = chasing;
       threat.nearestTiles = infected.length ? Math.round((nearest / TILE_SIZE) * 10) / 10 : null;
       threat.count = infected.length;
@@ -313,6 +401,7 @@ export const act4Threat: Behaviour = {
         debug.lineStyle(1, 0xffffff, 0.5).strokeCircle(p[0], p[1], Math.max(noise.value, 2) * TILE_SIZE + (night ? 2 * TILE_SIZE : 0));
       }
       threatDebug.modes = infected.map((i) => i.brain.mode);
+      threatDebug.paths = infected.map((i) => i.path.length);
     };
     scene.events.on('update', update);
     return () => {

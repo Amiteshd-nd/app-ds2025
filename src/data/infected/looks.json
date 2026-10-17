@@ -1,0 +1,20 @@
+{
+  "$comment": "The infected recipe (ADR-147, the user's infected spec §0 + step 2): which sheets get Fresh / Degraded variants, and each one's body type (which base's action poses it borrows). Output: src/assets/sprites/inf_<stage>_<sheet>.png. Former people keep their own clothes and props (ADR-34). The Evolved are their own generated bases (inf_evolved_*), never derived.",
+  "stages": ["fresh", "degraded"],
+  "sources": [
+    { "sheet": "crowd_techie", "body": "male" },
+    { "sheet": "crowd_student", "body": "male" },
+    { "sheet": "crowd_delivery", "body": "male" },
+    { "sheet": "crowd_homemaker", "body": "female" },
+    { "sheet": "crowd_elder", "body": "elder" },
+    { "sheet": "crowd_officegoer", "body": "female" },
+    { "sheet": "crowd_autodriver", "body": "male" },
+    { "sheet": "crowd_hoodie", "body": "male" },
+    { "sheet": "npc_chai_anna", "body": "male", "former": "npc_chai_anna" },
+    { "sheet": "npc_prakash", "body": "male", "former": "npc_prakash" },
+    { "sheet": "npc_auto_driver", "body": "male", "former": "the khaki shirt (Kumar's stand, 4.1)" },
+    { "sheet": "inf_base_male_1", "body": "male" },
+    { "sheet": "inf_base_female_1", "body": "female" },
+    { "sheet": "inf_base_elder_1", "body": "elder" }
+  ]
+}

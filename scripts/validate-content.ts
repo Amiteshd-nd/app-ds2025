@@ -1027,6 +1027,8 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
         if (!Array.isArray(pk.sheets) || !pk.sheets.length) add(`${d} infected pack "${pk.id}" needs sheets`);
         for (const sh of pk.sheets ?? []) if (!sprites.has(sh)) add(`${d} infected pack "${pk.id}" sheet "${sh}" has no PNG in src/assets/sprites`);
         if (pk.size !== undefined && !(Number.isInteger(pk.size) && pk.size >= 1 && pk.size <= 5)) add(`${d} infected pack "${pk.id}" size must be 1–5`);
+        if (pk.evolved !== undefined && !(pk.evolved === 0 || pk.evolved === 1)) add(`${d} infected pack "${pk.id}" evolved must be 0 or 1 (one Evolved a pack, ADR-147)`);
+        if (pk.requiresFlag !== undefined && (typeof pk.requiresFlag !== 'string' || !pk.requiresFlag)) add(`${d} infected pack "${pk.id}" requiresFlag must be a flag name`);
       }
       for (const u of (district.uv ?? []) as Json[]) if (!inMap(u.at) || !(typeof u.radius === 'number' && u.radius > 0 && u.radius <= 12)) add(`${d} uv lamp needs a point inside the map and a radius 1–12 tiles`);
     }

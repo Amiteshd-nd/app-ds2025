@@ -20,4 +20,4 @@ export const threat: ThreatState = { chasing: false, nearestTiles: null, count: 
 export function resetThreat(): void { threat.chasing = false; threat.nearestTiles = null; threat.count = 0; threat.positions = []; }
 
 /** The Playground's Act 4 view (ADR-145): draw zones, cover, hide spots, each infected's state and path, and your detection ring. */
-export const threatDebug: { draw: boolean; modes: string[] } = { draw: false, modes: [] };
+export const threatDebug: { draw: boolean; modes: string[]; paths: number[] } = { draw: false, modes: [], paths: [] };

@@ -1,0 +1,22 @@
+{
+  "$comment": "The Evolved tier (the user's infected addendum §2b, ADR-147; supersedes the infected doc's Evolved rows): rare, gory, lethal. Every number lives here. Health is 0–100: one heart = 20. Stun and the Pulse Gun's two-charge rule wait for melee and the gun (S4).",
+  "spawn": {
+    "maxStability": 25,
+    "gateFlag": "base_cafe_set",
+    "perPack": 1,
+    "perPocket": 2,
+    "uvEdgeTiles": 3
+  },
+  "chaseRunRatio": 1.1,
+  "nightRunRatio": 1.2,
+  "detectBonusTiles": 2,
+  "hearTiles": 12,
+  "searchMs": 10000,
+  "growlMs": 500,
+  "flankTiles": 2,
+  "hit": { "health": -40, "stress": 30, "knockbackTiles": 1 },
+  "bleed": { "health": -10, "everyMs": 3000, "forMs": 12000, "curedBy": ["uv", "bandage", "first_aid"] },
+  "stressRedUntilLeaving": 70,
+  "stunMs": 1000,
+  "pulseChargesMidSprint": 2
+}
