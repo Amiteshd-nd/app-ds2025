@@ -27,7 +27,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes'];
+const EFFECT_KEYS = ['card', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -711,6 +711,8 @@ export interface WorldInputs {
   startDistrict?: string;
   /** Card sequences by id: a `card` trigger whose sequence lands somewhere (`then`) is a way there (Ward 4, ADR-137). */
   cards?: Record<string, Json>;
+  /** NPC id → the cards its conversation can start (`effect.card`, "Tell me." → the corridor, ADR-138): also a way there. */
+  npcCards?: Record<string, string[]>;
 }
 
 export interface WorldReport {
@@ -933,6 +935,11 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     };
 
     need(district.defaultSpawn, 'defaultSpawn');
+    // Someone else's body and a slim HUD (Ravi in the corridor, ADR-138).
+    if (district.playerSheet !== undefined && !sprites.has(district.playerSheet)) add(`${d} playerSheet "${district.playerSheet}" has no PNG in src/assets/sprites`);
+    if (district.hud !== undefined && district.hud !== 'minimal') add(`${d} hud must be "minimal"`);
+    if (district.nightTint !== undefined && !(typeof district.nightTint === 'number' && district.nightTint >= 0 && district.nightTint <= 1)) add(`${d} nightTint must be 0–1`);
+    if (district.walkSpeed !== undefined && !(typeof district.walkSpeed === 'number' && district.walkSpeed > 0 && district.walkSpeed <= 1)) add(`${d} walkSpeed must be a share of normal speed (0–1]`);
     for (const ref of district.npcs ?? []) need(ref.spawn, `NPC "${ref.id}" spawn`);
     for (const ref of district.objects ?? []) need(ref.at, `object "${ref.id}" spawn`);
     for (const trigger of district.triggers ?? []) need(trigger.zone, 'trigger zone');
@@ -1013,7 +1020,11 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     const stations = [...byId.values()].filter((d) => d.metroStation).map((d) => d.id as string);
     while (queue.length) {
       const current = byId.get(queue.shift()!);
-      const landings = ((current?.triggers ?? []) as Json[]).filter((t) => t.action === 'card').map((t) => world.cards?.[t.card]?.then?.district).filter((x): x is string => typeof x === 'string');
+      const cardIds = [
+        ...((current?.triggers ?? []) as Json[]).filter((t) => t.action === 'card').map((t) => t.card as string),
+        ...((current?.npcs ?? []) as Json[]).flatMap((r) => world.npcCards?.[r.id] ?? []),
+      ];
+      const landings = cardIds.map((c) => world.cards?.[c]?.then?.district).filter((x): x is string => typeof x === 'string');
       const next = [...(current?.exits ?? []).map((e: Json) => e.to as string), ...(current?.metroStation ? stations : []), ...landings];
       for (const to of next) {
         if (byId.has(to) && !reached.has(to)) {
@@ -1279,7 +1290,7 @@ export function validateMinigames(files: JsonFile[], dialogueIds: Set<string>, d
  * style and a still that exists; flags are names; a hold ends on a panel shown
  * to everyone; every `card` trigger and sleepEvent names a sequence that exists.
  */
-export function validateCards(files: JsonFile[], districts: Json[], stills: Set<string>, glyphs?: Set<string>): string[] {
+export function validateCards(files: JsonFile[], districts: Json[], stills: Set<string>, glyphs?: Set<string>, dialogues: JsonFile[] = []): string[] {
   const problems: string[] = [];
   const ids = new Set<string>();
   const flagList = (where: string, key: string, v: unknown) => {
@@ -1316,6 +1327,10 @@ export function validateCards(files: JsonFile[], districts: Json[], stills: Set<
   for (const d of districts) {
     for (const t of d.triggers ?? []) if (t.action === 'card' && t.card && !ids.has(t.card)) problems.push(`districts.json: district "${d.id}" trigger "${t.zone}" names card "${t.card}", which does not exist`);
     for (const e of d.sleepEvents ?? []) if (e.card !== undefined && !ids.has(e.card)) problems.push(`districts.json: district "${d.id}" sleepEvent after "${e.after}" names card "${e.card}", which does not exist`);
+  }
+  // A conversation's `effect.card` ("Tell me." → the corridor).
+  for (const { file, json } of dialogues) for (const [nodeId, node] of Object.entries((json?.nodes ?? {}) as Record<string, Json>)) {
+    for (const src of [node, ...((node.choices ?? []) as Json[])]) if (src?.effect?.card !== undefined && !ids.has(src.effect.card)) problems.push(`dialogue/${file}: node "${nodeId}" names card "${src.effect.card}", which does not exist`);
   }
   return problems;
 }
@@ -1372,10 +1387,13 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const cardDir = join(dataDir, 'cards');
   const backdropDir = join(assetsDir, 'backdrops');
   const stills = new Set(existsSync(backdropDir) ? readdirSync(backdropDir).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, '')) : []);
-  problems.push(...validateCards(existsSync(cardDir) ? readJsonDir('cards') : [], districts, stills, glyphs));
+  problems.push(...validateCards(existsSync(cardDir) ? readJsonDir('cards') : [], districts, stills, glyphs, dialogue));
 
   const cardFiles = existsSync(cardDir) ? readJsonDir('cards') : [];
-  const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])) });
+  const cardsOf = (dlg: Json | undefined): string[] => Object.values((dlg?.nodes ?? {}) as Record<string, Json>).flatMap((n) => [n, ...((n.choices ?? []) as Json[])]).map((x) => x?.effect?.card).filter((c): c is string => typeof c === 'string');
+  const dialogueById = new Map(dialogue.map((f) => [f.json?.id, f.json]));
+  const npcCards = Object.fromEntries(npcs.flatMap((f) => (Array.isArray(f.json) ? f.json : [])).map((n: Json) => [n.id, cardsOf(dialogueById.get(n.dialogue))]));
+  const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])), npcCards });
   problems.push(...world.problems);
   for (const w of world.warnings) console.warn(`  ⚠ ${w}`);
   const walkDir = join(dataDir, 'walkthroughs');

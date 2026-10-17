@@ -104,6 +104,7 @@ export class StatsManager {
    * first, so a refusal here only means the content and the gate disagree.
    */
   applyEffect(effect: StatEffect, label?: string): void {
+    if (effect.card) gameEvents.emit('card:requested', { cardId: effect.card });
     if (effect.health) this.adjust('health', effect.health);
     if (effect.food) this.adjust('food', effect.food);
     if (effect.stress) this.adjust('stress', effect.stress);

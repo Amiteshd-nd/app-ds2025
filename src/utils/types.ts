@@ -105,6 +105,8 @@ export interface StatEffect {
   carry_clear?: boolean;
   /** Game minutes that pass (an hour on a bench at 1 AM, ADR-133). */
   minutes?: number;
+  /** A card sequence that plays when the conversation closes ("Tell me." → the corridor, ADR-138). */
+  card?: string;
 }
 
 // --- Relationships (game_components §8, ADR-123) ---------------------------
@@ -355,6 +357,12 @@ export interface DistrictDef {
   defaultSpawn: string;
   /** Walk at this share of normal speed, and no running (a cast in the ward, story 3.2, ADR-137). */
   walkSpeed?: number;
+  /** Play as someone else here: their sheet replaces yours (Ravi in the corridor, story 3.3, ADR-138). */
+  playerSheet?: string;
+  /** `minimal`: the HUD shows only the objective — no clock, wallet, meters, phone or map (it isn't your life; ADR-138). */
+  hud?: 'minimal';
+  /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
+  nightTint?: number;
   fadeMs?: number;
   unlock?: DistrictUnlock;
   /** Phone signal bars inside these zones (the hill's three doors, ADR-122); elsewhere the district's `signal`. */

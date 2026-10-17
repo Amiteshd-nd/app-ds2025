@@ -327,6 +327,18 @@
         "sealed_zone"
       ],
       "sop": true
+    },
+    "hivr_corridor": {
+      "file": "hivr_corridor.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "airlock",
+        "call_zone",
+        "tray_zone"
+      ],
+      "sop": true
     }
   }
 }

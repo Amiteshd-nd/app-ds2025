@@ -1,0 +1,63 @@
+{
+  "id": "card_corridor_out",
+  "$comment": "Story 3.3 F3–F4 (ADR-138): the clipboard with its one unticked box; the ant in four documentary stills (no gore); Ravi's line over black; Vikram's locker the next morning; back to Ward 4 at 18:30.",
+  "panels": [
+    {
+      "title": "THE CLIPBOARD",
+      "text": "[x] Gown   [x] Mask   [x] Double gloves   [ ] Glove change at station B",
+      "ms": 4800
+    },
+    {
+      "still": "still_ant_1",
+      "text": "The spore finds the ant.",
+      "ms": 3600
+    },
+    {
+      "still": "still_ant_2",
+      "text": "The ant leaves the others and climbs.",
+      "ms": 3600
+    },
+    {
+      "still": "still_ant_3",
+      "text": "It bites into the leaf and holds on.",
+      "ms": 3600
+    },
+    {
+      "still": "still_ant_4",
+      "text": "Then it stops. Something keeps growing.",
+      "ms": 4000,
+      "setFlags": [
+        "ant_seen"
+      ]
+    },
+    {
+      "style": "fragment",
+      "text": "\"Ours stops at the climbing part.\"",
+      "ms": 3400
+    },
+    {
+      "style": "fragment",
+      "text": "\"In people, I mean. They don't die. They just... keep going.\"",
+      "ms": 4800
+    },
+    {
+      "still": "still_vikram_locker",
+      "title": "FRIDAY · 07:10",
+      "text": "Vikram's locker. His raincoat is still dripping.",
+      "ms": 5200,
+      "setFlags": [
+        "vikram_locker_seen"
+      ]
+    },
+    {
+      "title": "HEBBAL GENERAL · WARD 4 · 18:30",
+      "text": "Ravi is asleep.",
+      "ms": 3600
+    }
+  ],
+  "then": {
+    "district": "ward4",
+    "spawn": "your_bed",
+    "minute": 1110
+  }
+}

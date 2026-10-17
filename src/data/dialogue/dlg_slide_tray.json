@@ -1,0 +1,25 @@
+{
+  "id": "dlg_slide_tray",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(Tray AMR-07 under the hood. You set the lid on. The seal tape is right there, on the bench.)",
+      "next": "tray2"
+    },
+    "tray2": {
+      "text": "(You look at the call log once more. APPA, 1 min 48 s. You put the tray back on the rack. Lid on. Not sealed.)",
+      "next": "tray3"
+    },
+    "tray3": {
+      "text": "(Nothing happens. The rain keeps on at the window. It's 02:14.)",
+      "effect": {
+        "flags": {
+          "tray_unsealed": true,
+          "gloves_skipped": true
+        },
+        "card": "card_corridor_out"
+      }
+    }
+  }
+}

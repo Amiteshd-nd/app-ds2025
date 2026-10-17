@@ -18,7 +18,13 @@ const realWorld = (): WorldInputs => {
     .map((f) => f.replace(/\.png$/, ''));
   const cardDir = join(dataDir, 'cards');
   const cards = Object.fromEntries(readdirSync(cardDir).filter((f) => f.endsWith('.json')).map((f) => { const c = JSON.parse(readFileSync(join(cardDir, f), 'utf8')); return [c.id, c]; }));
-  return { manifest, maps: maps as WorldInputs['maps'], sprites, cards };
+  const dlgDir = join(dataDir, 'dialogue');
+  const dialogues = Object.fromEntries(readdirSync(dlgDir).filter((f) => f.endsWith('.json')).map((f) => { const d = JSON.parse(readFileSync(join(dlgDir, f), 'utf8')); return [d.id, d]; }));
+  const npcDir = join(dataDir, 'npcs');
+  const npcs = readdirSync(npcDir).filter((f) => f.endsWith('.json')).flatMap((f) => JSON.parse(readFileSync(join(npcDir, f), 'utf8')) as Array<{ id: string; dialogue?: string }>);
+  const cardsOf = (d: { nodes?: Record<string, { effect?: { card?: string }; choices?: Array<{ effect?: { card?: string } }> }> } | undefined) => Object.values(d?.nodes ?? {}).flatMap((n) => [n, ...(n.choices ?? [])]).map((x) => x.effect?.card).filter((c): c is string => typeof c === 'string');
+  const npcCards = Object.fromEntries(npcs.map((n) => [n.id, cardsOf(n.dialogue ? dialogues[n.dialogue] : undefined)]));
+  return { manifest, maps: maps as WorldInputs['maps'], sprites, cards, npcCards };
 };
 
 const realDistricts = () => JSON.parse(readFileSync(join(dataDir, 'districts.json'), 'utf8'));

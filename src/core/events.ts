@@ -30,6 +30,8 @@ export interface GameEvents {
   /** A workday passed in one jump (story 1.1 F4): clock now at closing time. */
   'time:workday': { day: number; minutesSkipped: number };
   'quest:started': { questId: string };
+  /** A conversation's effect asked for a card sequence; WorldScene plays it when the conversation closes (ADR-138). */
+  'card:requested': { cardId: string };
   'quest:objective': { questId: string; objectiveId: string };
   'quest:completed': { questId: string };
   'wallet:spent': { amount: number; reason: string; balance: number };

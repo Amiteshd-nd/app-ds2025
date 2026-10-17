@@ -92,7 +92,7 @@ describe('Ravi (F4)', () => {
     expect(talk('dlg_ravi_ward')).toEqual(['loop2', 'loop2_end']); dm.end();
     expect(talk('dlg_ravi_ward')).toEqual(['loop3', 'loop3b', 'loop3c']); dm.end();
     expect(store().flags.ravi_ward_talked).toBe(true);
-    expect(talk('dlg_ravi_ward')).toEqual(['after']); dm.end();
+    expect(talk('dlg_ravi_ward')).toEqual(['offer']); dm.end(); // 3.3: he offers the story
     store().reset(); store().setFlag('ravi_supported', true);
     expect(talk('dlg_ravi_ward')[0]).toBe('loop1_supported'); dm.end();
     store().reset(); store().setFlag('ravi_left', true);

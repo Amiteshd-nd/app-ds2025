@@ -1,12 +1,11 @@
 {
   "id": "act3_corridor",
-  "district": "hivr_corridor",
+  "district": "ward4",
   "act": 3,
   "seq": "3.3",
   "title": "The Corridor",
-  "status": "STUB",
-  "draft": "Claude's draft 2026-10-17 from story_script_v1 §6 (3.3: playable flashback as Ravi in the HIVR containment corridor, night; Appa calls; only 'Answer' is enabled, 'Ignore' greyed out; he skips the glove-change station; the screen doesn't dramatise it — a checklist shows one unticked box; the ant animation; 'Ours stops at the climbing part. In people, I mean. They don't die. They just... keep going.' Peak [Q]), outbreak_origin_v1 §1–2 (the agent mimics Ophiocordyceps; the merged chain: Ravi, distracted after the call, leaves a contaminated slide tray unsealed → Vikram cuts his hand on it → goes home feverish to his Malleswaram PG; one silent frame: next morning, Vikram's locker, his raincoat still dripping; the breach is in the player's first week, a rainy Thursday), 3.1 (AMR-07 overwritten at 02:14 by night_ops), 3.2 (Ravi's 'I answered'), ADR-11 (HIVR interiors are reveals), ADR-131 (locked choices are shown, never hidden). The user edits the words and the numbers; then P19 builds it.",
-  "time": "Flashback: a rainy Thursday months ago (your first week in Bangalore), 01:52 → 02:14 at HIVR; then back to Ward 4 the same evening (18:30)",
+  "status": "P19",
+  "time": "11:00 in Ward 4 (the day of 3.2); the flashback: a rainy Thursday months ago, your first week in Bangalore, 01:52 → 02:14; back in the ward at 18:30",
   "player_goal": "Be Ravi for one night shift: walk the corridor, take the call, put the tray down.",
   "design_goal": "The peak of Act 3's quiet: the player causes the outbreak with their own hands and nothing dramatic happens. One choice that isn't a choice (Ignore is greyed out — you'd answer too), one station you walk past, one box left unticked. Then the ant: what the agent was built to do, and what it does in people. The guilt stays Ravi's, the understanding becomes the player's.",
   "pacing": [
@@ -17,7 +16,7 @@
   ],
   "entry": {
     "from": "ward4",
-    "spawn": "airlock",
+    "spawn": "your_bed",
     "after": []
   },
   "cast": [
@@ -26,19 +25,7 @@
       "tier": 3,
       "district": "ward4",
       "spawn": "ravi_bed",
-      "role": "After 'I answered' (ravi_ward_talked), talking to him again: 'You want to know?' → 'Tell me.' starts the flashback; 'Rest, Ravi.' leaves it for later (you can come back)."
-    },
-    {
-      "npc": "(the player)",
-      "tier": 3,
-      "spawn": "airlock",
-      "role": "You play as Ravi: his sprite (npc_ravi, the green lanyard, the too-big shirt) replaces yours for this pocket only. No wallet, no phone apps of your own — his phone only rings."
-    },
-    {
-      "npc": "Appa (voice)",
-      "tier": 3,
-      "spawn": null,
-      "role": "On the phone, three lines: 'Ravi? Sorry, sorry, I know it's late. Your Amma's in the hospital again — no, don't come, it's nothing, it's the sugar. I just wanted to hear you.' Ravi: 'I'm at work, Appa. I'll call in the morning.' Appa: 'Eat something. You sound thin.'"
+      "role": "After 'I answered' (ravi_ward_talked), talking to him again: 'You want to know?' → 'Tell me.' starts the flashback; 'Rest, Ravi.' leaves it for later (you can come back). In the corridor you ARE Ravi (district playerSheet npc_ravi, HUD objective only). Appa is a voice on the phone (dlg_appa_call): 'Ravi? Sorry, sorry, I know it's late. Your Amma's in the hospital again — no, don't come, it's nothing, it's the sugar. I just wanted to hear you.' Ravi: 'I'm at work, Appa. I'll call in the morning.' Appa: 'Eat something. You sound thin.'"
     }
   ],
   "quests": [
@@ -50,13 +37,13 @@
       "pacing": "Calm",
       "what": "Ward 4, after 'I answered': 'You want to know?' → 'Tell me.' A card: 'HIVR · CONTAINMENT CORRIDOR · THURSDAY 01:52 — your first week in Bangalore. It was raining.' You are Ravi at the airlock. The HUD shows only the objective (no wallet, no clock of yours).",
       "interact": "dialogue → card",
-      "flag": "corridor_started"
+      "flag": "corridor_told, corridor_started"
     },
     {
       "id": "F2",
       "pacing": "Curious",
       "what": "The corridor: cold light, a rain-streaked window, the clipboard on the wall (the night checklist: [x] Gown · [x] Mask · [x] Double gloves · [ ] Glove change at station B, before the slide room), the glove-change station halfway, the slide room at the end with tray AMR-07 under the hood.",
-      "interact": "walk + object",
+      "interact": "walk + zone",
       "flag": "corridor_checklist_seen"
     },
     {
@@ -64,7 +51,7 @@
       "pacing": "Tense",
       "what": "Halfway down the corridor his phone buzzes: APPA. Two choices — Answer / Ignore — and Ignore is greyed out (locked, shown: 'It's Appa.'). The call, three lines. After it, the glove station: step to it and Ravi's thought cuts in — '(Your hands are shaking. After the tray.)' — and you walk on. The slide room: the tray goes down under the hood, unsealed. Nothing happens. The clipboard, once more: one unticked box.",
       "interact": "locked choice + zones",
-      "flag": "appa_answered, gloves_skipped, tray_unsealed"
+      "flag": "appa_answered, tray_unsealed, gloves_skipped"
     },
     {
       "id": "F4",
@@ -78,25 +65,27 @@
   "exits": [
     {
       "zone": "(card)",
-      "to": "ward4",
+      "to": "hivr_corridor",
       "transit": "walk",
-      "note": "in and out by card landings (ADR-137); the corridor has no door of its own"
+      "note": "in by card_corridor_in (Ravi's 'Tell me.'), out by card_corridor_out (the tray) — landings, ADR-137/138"
     }
   ],
   "save_flags": [
+    "corridor_told",
     "corridor_started",
     "corridor_checklist_seen",
     "appa_answered",
-    "gloves_skipped",
+    "glove_station_refused",
     "tray_unsealed",
+    "gloves_skipped",
     "ant_seen",
     "vikram_locker_seen",
     "act3_corridor_done"
   ],
   "assets_needed": [
-    "the corridor pocket: one top-down render, 12×8 (scale by its doors): an airlock door, a long cold corridor with a rain-streaked window, the clipboard, the glove-change station (sink, glove boxes, bin), the slide room at the end through a glass partition with a fume hood and a slide tray; no ceiling fans",
-    "four ant stills + one locker still (generated, the card-still pipeline; documentary-plain, no gore)",
-    "engine: a district can swap the player's sprite (`playerSheet`, Ravi) and slim the HUD (`hud: \"minimal\"` — objective only); a choice locked by a flag nobody sets shows its lockedText ('It's Appa.')"
+    "hivr_corridor — 12×8 from one render (done, first try)",
+    "still_ant_1…4 (one 2×2 generation, first try) and still_vikram_locker (first try)",
+    "engine: district playerSheet + hud minimal, dialogue effect card (done)"
   ],
   "acceptance": [
     "after 'I answered', Ravi offers the story; 'Tell me.' starts it, 'Rest, Ravi.' leaves it for later",
@@ -106,16 +95,6 @@
     "the ant in four stills, Ravi's line over black, Vikram's dripping locker; back to the ward at 18:30",
     "the walkthrough bot plays it and the headless run stays green (20 of 20)"
   ],
-  "open_questions": [
-    "HOW IT STARTS: draft = after 'I answered', talking to Ravi again: 'You want to know?' → 'Tell me.' / 'Rest, Ravi.' (come back later). Or straight after 'I answered', no question?",
-    "THE CORRIDOR: draft = one 12×8 pocket (airlock, corridor, glove station, slide room behind glass). Or a longer walk (two rooms)?",
-    "PLAYING AS RAVI: draft = his sprite as yours, HUD shows only the objective. Keep?",
-    "APPA'S CALL: draft = three lines (Amma in hospital again, 'don't come, it's the sugar', 'eat something, you sound thin'); Ignore shown greyed out with 'It's Appa.'. Words OK?",
-    "THE GLOVE STATION: draft = you can walk up to it but Ravi won't ('Your hands are shaking. After the tray.'). Or let the player change gloves — and the tray is unsealed anyway (the slip is elsewhere)?",
-    "THE CHECKLIST: draft = a clipboard on the wall, read as a card: [x] Gown · [x] Mask · [x] Double gloves · [ ] Glove change at station B. Keep the plain text-box look?",
-    "THE ANT: draft = four illustrated stills, documentary-plain, no gore (spore → climbs → clamps a leaf → a stalk from its head). Or an animated sprite?",
-    "VIKRAM: draft = only his locker the next morning (name strip VIKRAM, raincoat dripping) — no sprite, no line. Keep?",
-    "WHEN: draft = the card says 'your first week in Bangalore' (the breach timeline, outbreak_origin §2). Too on the nose, or keep?",
-    "THE RETURN: draft = back in Ward 4 at 18:30 the same day, Ravi asleep. Then 3.4 (three nights) starts from the ward bed. OK?"
-  ]
+  "open_questions": [],
+  "decided": "User 2026-10-17: 'Take your defaults and proceed.' — every open question resolved by the draft's default (ADR-138)."
 }

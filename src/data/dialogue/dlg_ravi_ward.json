@@ -4,8 +4,12 @@
   "portrait": "npc_ravi",
   "enter": [
     {
-      "flag": "ravi_ward_talked",
+      "flag": "act3_corridor_done",
       "node": "after"
+    },
+    {
+      "flag": "ravi_ward_talked",
+      "node": "offer"
     },
     {
       "flag": "ravi_loop2",
@@ -79,6 +83,31 @@
     },
     "after": {
       "text": "(Ravi's asleep, or pretending. The green lanyard is on his locker, folded small.)"
+    },
+    "offer": {
+      "text": "(Ravi's eyes are open. He's been waiting for you to look over.) You want to know? What happened that night?",
+      "choices": [
+        {
+          "text": "Tell me.",
+          "next": "tell"
+        },
+        {
+          "text": "Rest, Ravi.",
+          "next": "rest"
+        }
+      ]
+    },
+    "tell": {
+      "text": "(He looks at the ceiling for a long time.) It was raining.",
+      "effect": {
+        "flags": {
+          "corridor_told": true
+        },
+        "card": "card_corridor_in"
+      }
+    },
+    "rest": {
+      "text": "(He nods, and closes his eyes.)"
     }
   }
 }

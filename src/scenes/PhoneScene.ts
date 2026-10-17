@@ -15,7 +15,7 @@ import { measure, rupees, truncate, wrap } from '../ui/kit/text';
 import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, listRows, slideSteps } from '../ui/phone/layout';
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
 import { BUBBLE, bubbleWindow, bubbles, bufferingText, cameraView, chatRows, homeTiles, mapRows, noteDetail, reelState, signalAt, statusBar, upiRows, visibleReels, type HomeTile, type ReelState } from '../ui/phone/viewModel';
-import { JODI_PROFILES, REELS } from '../data';
+import { DISTRICTS, JODI_PROFILES, REELS } from '../data';
 import type { ReelClip } from '../utils/types';
 import { hudLayout, hudScale } from '../ui/hud/layout';
 import { attachGamepad, PAD } from '../ui/kit/gamepad';
@@ -159,7 +159,7 @@ export class PhoneScene extends Phaser.Scene {
 
   open(): void {
     const world = this.world();
-    if (this.phase !== 'closed' || !world?.canOpenOverlay()) return;
+    if (this.phase !== 'closed' || !world?.canOpenOverlay() || !world.allowsOverlays()) return;
     this.phase = 'moving';
     this.route = { app: 'home' };
     this.focusId = null;
@@ -233,6 +233,9 @@ export class PhoneScene extends Phaser.Scene {
   private placeButton(): void {
     const b = button();
     this.button.setPosition(b.x, b.y).setScale(b.k);
+    // Not your phone in someone else's life (Ravi in the corridor, ADR-138).
+    const district = useGameStore.getState().activeDistrict;
+    this.button.setVisible(!(district && DISTRICTS[district]?.hud === 'minimal'));
   }
 
   private refreshButton(): void {

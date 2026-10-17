@@ -1,0 +1,15 @@
+{
+  "id": "dlg_corridor_clipboard",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The night checklist, clipped by the airlock.) [x] Gown  [x] Mask  [x] Double gloves  [ ] Glove change at station B, before the slide room.",
+      "effect": {
+        "flags": {
+          "corridor_checklist_seen": true
+        }
+      }
+    }
+  }
+}

@@ -15,14 +15,14 @@ const POWER_CUT_ALPHA = 0.85;
  * never flickers (reduced motion changes nothing here).
  */
 export const nightLook: Behaviour = {
-  attach({ scene }) {
+  attach({ scene, district }) {
     const cam = scene.cameras.main;
     const shade = scene.add.rectangle(0, 0, cam.width, cam.height, color('world.night'), 0)
       .setOrigin(0).setScrollFactor(0).setDepth(LAYER_DEPTH[LAYERS.fx]).setBlendMode('MULTIPLY');
     const update = () => {
       const s = useGameStore.getState();
-      const depth = nightDepth(s.clock.minute);
-      const a = depth * (s.flags.power_cut ? POWER_CUT_ALPHA : NIGHT_ALPHA);
+      // A place that is always at night, whatever your clock says (the corridor at 01:52, ADR-138): a fixed shade.
+      const a = district.nightTint ?? nightDepth(s.clock.minute) * (s.flags.power_cut ? POWER_CUT_ALPHA : NIGHT_ALPHA);
       if (Math.abs(shade.fillAlpha - a) > 0.01) shade.setFillStyle(color('world.night'), a);
     };
     update();

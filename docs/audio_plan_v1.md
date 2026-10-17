@@ -1,6 +1,6 @@
 # Audio plan v1 — the sound layer for Bangalore Times
 
-Status: **PLAN — waiting for the user's OK** (step 1 of the audio brief, 2026-10-17). Nothing below is built yet.
+Status: **PLAN — approved with the defaults** (the user, 2026-10-17: "Take your defaults and proceed."): §9 answers = base_night is your G–C–D and Ravi's signature is the APPA ringtone; `noise` = ADR-49 tiles; no ffmpeg yet (WAV placeholders); Kenney downloads asked again at A3; order = P19 (3.3) first, then A1. Nothing below is built yet.
 Extends, does not redesign: ADR-29 (state machine normal → drone → heartbeat → chase → relief, uncanny reuse, real Bangalore recordings), design system §audio (`a.bed.*`, `a.sting.*`, `a.ui.*`, `a.music.*`, crossfades 3 s approach / 5 s return), `grade(stability)` (drives audio too), ADR-63 settings (the sliders already exist: master, music, sfx, ambience, mute; Do Not Disturb), ADR-24 pacing tags, ADR-49 detection numbers, art_audio_direction §4–5 (sourcing, < 15 MB, OGG + M4A, loops ≤ 60 s).
 
 ---
@@ -191,7 +191,7 @@ Budget (per format — a browser downloads one of OGG or M4A, never both): beds 
 | A2 | Wire every built scene (0.1 → 3.2, plus 3.3 if built by then); stability bands + Act 4 states on one Act 4 test map (a copy of a pocket with `stability` sliders in the Playground). | your audit |
 | A3+ | Batches: Kenney packs → your recordings → Freesound CC0, each updating LICENSES.md and the tiers. | your audit per batch |
 | Tests (all steps) | manifest validation; state-machine transitions; bus volumes follow Settings; DND; noise feed values; positional falloff; no `sound.play` / `sound.add` / `new Audio(` outside `src/audio/` (a source lint test); every built scene has a bed. Existing tests stay green. Mobile smoke (unlock, background pause) stays blocked on T-018 like the rest. |
-| Docs | ADR-138 (tokens + manifest + licence rules), TASKS, MEMORY, AUDIT_LOG, ARCHITECTURE, CREDITS. |
+| Docs | ADR-139 (tokens + manifest + licence rules), TASKS, MEMORY, AUDIT_LOG, ARCHITECTURE, CREDITS. |
 
 ---
 

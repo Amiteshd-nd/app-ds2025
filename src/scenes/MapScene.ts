@@ -140,7 +140,7 @@ export class MapScene extends Phaser.Scene {
   open(fromOverlay = false): void {
     const world = this.world();
     if (this.phase !== 'closed' || !world) return;
-    if (!fromOverlay && !world.canOpenOverlay()) return;
+    if (!fromOverlay && (!world.canOpenOverlay() || !world.allowsOverlays())) return;
     this.phase = 'opening';
     if (!this.scene.isPaused(SCENE_KEYS.WORLD)) this.scene.pause(SCENE_KEYS.WORLD);
     useGameStore.getState().setOverlay('map');

@@ -1,0 +1,18 @@
+{
+  "id": "card_corridor_in",
+  "$comment": "Story 3.3 F1 (ADR-138): Ravi tells it; you play it. Into the corridor as Ravi — the clock of your own day doesn't move here.",
+  "panels": [
+    {
+      "title": "HIVR · CONTAINMENT CORRIDOR · THURSDAY 01:52",
+      "text": "Your first week in Bangalore. It was raining.",
+      "ms": 5200,
+      "setFlags": [
+        "corridor_started"
+      ]
+    }
+  ],
+  "then": {
+    "district": "hivr_corridor",
+    "spawn": "airlock"
+  }
+}

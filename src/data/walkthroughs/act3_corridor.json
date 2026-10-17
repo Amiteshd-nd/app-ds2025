@@ -1,0 +1,147 @@
+{
+  "scene": "act3_corridor",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act3_corridor + ward4 + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ward4",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "beat": "F1",
+      "do": "goto",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "interact_4",
+      "beat": "F1",
+      "do": "interact",
+      "target": "npc:npc_ravi_ward"
+    },
+    {
+      "id": "choose_5",
+      "beat": "F1",
+      "do": "choose",
+      "option": "tell"
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "corridor_started",
+      "timeout": 20200
+    },
+    {
+      "id": "wait_for_7",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hivr_corridor",
+      "timeout": 25200
+    },
+    {
+      "id": "goto_8",
+      "beat": "F2",
+      "do": "goto",
+      "target": "zone:clipboard_zone"
+    },
+    {
+      "id": "advance_9",
+      "beat": "F2",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_10",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "corridor_checklist_seen",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_11",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:call_zone"
+    },
+    {
+      "id": "choose_12",
+      "beat": "F3",
+      "do": "choose",
+      "option": "appa1"
+    },
+    {
+      "id": "wait_for_13",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "appa_answered",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_14",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:tray_zone"
+    },
+    {
+      "id": "advance_15",
+      "beat": "F3",
+      "do": "advance"
+    },
+    {
+      "id": "wait_for_16",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ant_seen",
+      "timeout": 51600
+    },
+    {
+      "id": "wait_for_17",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ward4",
+      "timeout": 56600
+    },
+    {
+      "id": "wait_for_18",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "tray_unsealed",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_19",
+      "beat": "F4",
+      "do": "expect",
+      "flag": "ant_seen",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_20",
+      "beat": "F4",
+      "do": "expect",
+      "flag": "vikram_locker_seen",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_21",
+      "do": "expect",
+      "flag": "act3_corridor_done",
+      "timeout": 3000
+    }
+  ]
+}

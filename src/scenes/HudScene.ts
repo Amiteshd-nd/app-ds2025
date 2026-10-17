@@ -259,12 +259,14 @@ export class HudScene extends Phaser.Scene {
     const store = useGameStore.getState();
     const prefs = settings();
 
+    // Someone else's life (Ravi in the corridor, ADR-138): only the objective — no clock, wallet or meters of yours.
+    const minimal = store.activeDistrict !== null && getDistrict(store.activeDistrict).hud === 'minimal';
     const line = objectiveLine(store.quests, QUESTS);
     if (line !== this.objective) { this.objective = line; this.objectiveUntil = now + motion('m.hud.objective.hold'); }
     const expanded = this.objective !== null && (!prefs.hud.objectiveAutoHide || now < this.objectiveUntil);
     const showCard = now < this.cardUntil && store.activeDistrict !== null;
     const fuelShown = store.flags.scooter_owned && (store.fuelContext || now < this.fuelUntil);
-    const meterList = meters(store.stats, prefs.hud.meters as 'auto' | 'always', fuelShown ? (store.counters[FUEL_COUNTER] ?? 0) : null);
+    const meterList = minimal ? [] : meters(store.stats, prefs.hud.meters as 'auto' | 'always', fuelShown ? (store.counters[FUEL_COUNTER] ?? 0) : null);
     const rows = stackRows({ objective: this.objective !== null, location: showCard, meters: meterList });
     const card = showCard ? locationCard(getDistrict(store.activeDistrict!).name, this.firstVisit, L.locationMaxTextW) : null;
     const objective = this.objective !== null ? objectiveText(this.objective, L.objective.maxTextW) : '';
@@ -280,7 +282,7 @@ export class HudScene extends Phaser.Scene {
     const timerX = L.right - timerW;
     const timerY = L.pad + L.plateH + L.stackGap;
     const walletY = timer ? timerY + L.plateH + L.stackGap : L.pad + L.plateH + L.stackGap;
-    const walletUp = (this.wallet && now < this.wallet.until) || prefs.hud.meters === 'always';
+    const walletUp = !minimal && ((this.wallet && now < this.wallet.until) || prefs.hud.meters === 'always');
     const wallet = walletUp ? walletView(store.stats.wallet, this.wallet && now < this.wallet.until ? this.wallet.moved : null) : null;
     const walletW = wallet ? 6 + measure(wallet.balance, true) + (wallet.tick ? 8 + measure(wallet.tick.text, true) : 0) + 7 : 0;
     const walletX = L.right - walletW;
@@ -312,8 +314,10 @@ export class HudScene extends Phaser.Scene {
           blockRow(g, L.pad + L.meter.blocksX, row.y + 5, row.meter.blocks, 5, { on: tone });
         }
       }
-      hudPlate(g, clockX, L.pad, clockW, L.plateH);
-      bitmap(g, sky, clockX + 6, L.pad + 6, hex('hud.star'));
+      if (!minimal) {
+        hudPlate(g, clockX, L.pad, clockW, L.plateH);
+        bitmap(g, sky, clockX + 6, L.pad + 6, hex('hud.star'));
+      }
       if (timer) {
         hudPlate(g, timerX, timerY, timerW, L.plateH);
         bitmap(g, ICONS.bus, timerX + 6, timerY + 5, hex('hud.star'));
@@ -342,7 +346,7 @@ export class HudScene extends Phaser.Scene {
         if (card.isNew) add([pxText(this, L.pad + 7 + measure(card.name, true) + 6 + 13, row.y + 6, 'NEW', { bold: true, tint: 'hud.plate', align: 'center' })]);
       }
     }
-    add(pxTextShadow(this, clockX + 6 + bitmapWidth(sky) + 5, L.pad + 6, clockText, { bold: true }));
+    if (!minimal) add(pxTextShadow(this, clockX + 6 + bitmapWidth(sky) + 5, L.pad + 6, clockText, { bold: true }));
     if (timer) add(pxTextShadow(this, timerX + 6 + bitmapWidth(ICONS.bus) + 5, timerY + 6, timer, { bold: true }));
     if (wallet) {
       const y = walletY + 6;

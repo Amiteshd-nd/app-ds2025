@@ -1,0 +1,41 @@
+{
+  "id": "dlg_appa_call",
+  "speaker": "Ravi",
+  "portrait": "npc_ravi",
+  "nodes": {
+    "start": {
+      "text": "(Halfway down the corridor, the phone in Ravi's pocket buzzes. The screen says APPA.)",
+      "choices": [
+        {
+          "text": "Answer",
+          "next": "appa1"
+        },
+        {
+          "text": "Ignore",
+          "next": "ignore",
+          "requiresFlag": "ravi_could_ignore",
+          "lockedText": "It's Appa."
+        }
+      ]
+    },
+    "appa1": {
+      "text": "Appa: Ravi? Sorry, sorry, I know it's late. Your Amma's in the hospital again - no, don't come, it's nothing, it's the sugar. I just wanted to hear you.",
+      "next": "appa2"
+    },
+    "appa2": {
+      "text": "Ravi: I'm at work, Appa. I'll call in the morning.",
+      "next": "appa3"
+    },
+    "appa3": {
+      "text": "Appa: Eat something. You sound thin. (The line stays open a second longer, as if he had one more thing to say.)",
+      "effect": {
+        "flags": {
+          "appa_answered": true
+        }
+      }
+    },
+    "ignore": {
+      "text": "(He lets it ring.)"
+    }
+  }
+}

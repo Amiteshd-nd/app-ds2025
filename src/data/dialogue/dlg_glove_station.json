@@ -1,0 +1,15 @@
+{
+  "id": "dlg_glove_station",
+  "speaker": "",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(Station B. Fresh gloves in the dispensers, the yellow bin, the sink. Your hands are shaking. After the tray.)",
+      "effect": {
+        "flags": {
+          "glove_station_refused": true
+        }
+      }
+    }
+  }
+}

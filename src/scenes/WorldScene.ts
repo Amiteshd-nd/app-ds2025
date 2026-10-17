@@ -76,6 +76,8 @@ export class WorldScene extends Phaser.Scene {
   private sleeping = false;
   /** A conversation is up on the HUD's dialogue card; the player is frozen. */
   private talking = false;
+  /** A card asked for by a conversation's effect ("Tell me."): it plays when the conversation closes (ADR-138). */
+  private pendingCard: string | null = null;
 
   constructor() {
     super(WorldScene.KEY);
@@ -87,6 +89,7 @@ export class WorldScene extends Phaser.Scene {
     this.leaving = false;
     this.sleeping = false;
     this.talking = false;
+    this.pendingCard = null;
 
     // getDistrict throws on an unknown id — a content bug, not a soft state.
     this.district = getDistrict(data.districtId);
@@ -113,7 +116,7 @@ export class WorldScene extends Phaser.Scene {
     const x = data.x ?? spawn?.x ?? this.map.widthInPixels / 2;
     const y = data.y ?? spawn?.y ?? this.map.heightInPixels / 2;
 
-    this.player = new Player(this, x, y, store.appearance.sheet);
+    this.player = new Player(this, x, y, this.district.playerSheet ?? store.appearance.sheet);
     this.player.walkScale = this.district.walkSpeed ?? 1;
     const body = this.player.body as Phaser.Physics.Arcade.Body;
     body.setBounce(0);
@@ -150,6 +153,7 @@ export class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.crowd.citizens);
 
     this.player.onInteract(() => this.tryInteract());
+    this.teardowns.push(gameEvents.on('card:requested', ({ cardId }) => { this.pendingCard = cardId; }));
 
     // Quests this place begins. start() refuses if already active or done, so
     // re-entering a district cannot restart a finished quest.
@@ -370,6 +374,9 @@ export class WorldScene extends Phaser.Scene {
     this.hud().openDialogue(dialogueId, {
       onClose: () => {
         this.talking = false;
+        const card = this.pendingCard;
+        this.pendingCard = null;
+        if (card) { this.dismissLeavers(); this.playCard(card); return; }
         this.time.delayedCall(80, () => { if (!this.talking && !this.leaving && !this.sleeping) this.player.setInteractionEnabled(true); });
         this.dismissLeavers();
       },
@@ -547,6 +554,11 @@ export class WorldScene extends Phaser.Scene {
   /** The phone (and later the map / pause menu) may open only while the player is free to act. */
   canOpenOverlay(): boolean {
     return !this.talking && !this.leaving && !this.sleeping && useGameStore.getState().overlay === null;
+  }
+
+  /** The phone and the map are yours — not in someone else's life (Ravi in the corridor, `hud: minimal`, ADR-138). */
+  allowsOverlays(): boolean {
+    return this.district.hud !== 'minimal';
   }
 
   /** Where the player stands, in tiles (feet), and which way they face — for the map's Area view (ADR-117). */

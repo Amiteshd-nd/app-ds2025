@@ -1,0 +1,64 @@
+{
+  "id": "q_act3_corridor",
+  "title": "The Corridor",
+  "description": "Ravi tells you about the night his father called.",
+  "chapter": 3,
+  "district": "ward4",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act3_ward4"
+  ],
+  "objectives": [
+    {
+      "id": "tell",
+      "text": "Ask Ravi",
+      "type": "flag",
+      "target": "corridor_started",
+      "destination": "ward4"
+    },
+    {
+      "id": "clipboard",
+      "text": "The checklist",
+      "type": "flag",
+      "target": "corridor_checklist_seen",
+      "destination": "hivr_corridor"
+    },
+    {
+      "id": "call",
+      "text": "Walk to the slide room",
+      "type": "flag",
+      "target": "appa_answered",
+      "destination": "hivr_corridor"
+    },
+    {
+      "id": "tray",
+      "text": "Put the tray away",
+      "type": "flag",
+      "target": "tray_unsealed",
+      "destination": "hivr_corridor"
+    },
+    {
+      "id": "ant",
+      "text": "...",
+      "type": "flag",
+      "target": "ant_seen",
+      "destination": "hivr_corridor"
+    },
+    {
+      "id": "locker",
+      "text": "...",
+      "type": "flag",
+      "target": "vikram_locker_seen",
+      "destination": "hivr_corridor"
+    }
+  ],
+  "rewards": {
+    "xp": 10,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act3_corridor_done"
+    ]
+  }
+}

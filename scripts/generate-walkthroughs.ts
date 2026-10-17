@@ -378,7 +378,25 @@ class Gen {
 
   // ── Conversations ────────────────────────────────────────────────────────
   setsFlag(node: Json | null, choice: Json | null, f: string): boolean {
-    return Boolean(node?.effect?.flags?.[f] === true || choice?.effect?.flags?.[f] === true);
+    if (node?.effect?.flags?.[f] === true || choice?.effect?.flags?.[f] === true) return true;
+    // A conversation that starts a card ("Tell me." → the corridor, ADR-138): the card's flags count.
+    return [node?.effect?.card, choice?.effect?.card].some((c) => typeof c === 'string' && this.cardSets({ action: 'card', card: c }).includes(f));
+  }
+
+  /** After a conversation that started a card: its flags land, then (for a landing) the next place loads. */
+  followCard(cardId: string): void {
+    const seq = cards.get(cardId) as CardSequence | undefined;
+    if (!seq) return;
+    const flags = Object.fromEntries([...this.known].map((k) => [k, true]));
+    const out = cardOutcome(seq, flags);
+    for (const g of out.clear) this.known.delete(g);
+    for (const g of out.set) this.known.add(g);
+    if (out.set[0]) this.push({ do: 'wait_for', ready: 'flag', flag: out.set[0], timeout: cardDuration(seq, flags) + 15000 });
+    if (seq.then) {
+      this.push({ do: 'wait_for', ready: 'scene_loaded', scene: seq.then.district, timeout: cardDuration(seq, flags) + 20000 });
+      this.district = seq.then.district; this.open = null; this.known.add(`visited:${seq.then.district}`);
+      if (seq.then.minute !== undefined) this.minute = seq.then.minute;
+    } else this.push({ do: 'wait_for', ready: 'free', timeout: cardDuration(seq, flags) + 10000 });
   }
 
   /** NPC refs standing in a district right now (requiresFlag / unlessFlag against known). */
@@ -443,7 +461,12 @@ class Gen {
   /** Emit the decisions of a path; the conversation stays open if it ends on a node with choices. */
   emitPath(dialogueId: string, path: { decisions: Array<{ node: string; option: string; cost: number; flags: string[] }>; end: string }): void {
     const dlg = dialogues.get(dialogueId)!;
-    const collect = (nodeId: string) => { for (const [k, v] of Object.entries(dlg.nodes[nodeId]?.effect?.flags ?? {})) if (v === true) this.known.add(k); };
+    const startedCards: string[] = [];
+    const collect = (nodeId: string) => {
+      for (const [k, v] of Object.entries(dlg.nodes[nodeId]?.effect?.flags ?? {})) if (v === true) this.known.add(k);
+      const card = dlg.nodes[nodeId]?.effect?.card;
+      if (typeof card === 'string') startedCards.push(card);
+    };
     collect(this.open?.node ?? this.entryNode(dlg));
     const endsOpen = (id: string) => Boolean(dlg.nodes[id]?.choices?.length || dlg.nodes[id]?.negotiate);
     if (!path.decisions.length && !endsOpen(path.end)) this.push({ do: 'advance' });
@@ -451,12 +474,18 @@ class Gen {
       this.push({ do: 'choose', option: d.option });
       this.wallet -= d.cost;
       for (const f of d.flags) this.known.add(f);
+      const choiceCard = ((dlg.nodes[d.node]?.choices ?? []) as Json[]).find((c) => c.next === d.option)?.effect?.card;
+      if (typeof choiceCard === 'string') startedCards.push(choiceCard);
       collect(d.option);
     }
     // Walk the auto-advancing tail: the drain in `choose` follows `next` until a choice or the end.
     let node = path.end;
+    // The line the path ends on counts too (its card, ADR-138) — unless a decision already collected it.
+    if (!path.decisions.some((d) => d.option === node) && node !== (this.open?.node ?? this.entryNode(dlg))) { const card = dlg.nodes[node]?.effect?.card; if (typeof card === 'string' && !startedCards.includes(card)) startedCards.push(card); }
     for (let guard = 0; guard < 20 && dlg.nodes[node]?.next && !dlg.nodes[node]?.choices?.length && !dlg.nodes[node]?.negotiate; guard++) { node = dlg.nodes[node].next; collect(node); }
     this.open = dlg.nodes[node]?.choices?.length || dlg.nodes[node]?.negotiate ? { dialogue: dialogueId, node } : null;
+    // A card plays when the conversation closes (ADR-138).
+    if (startedCards.length && !this.open) for (const c of startedCards) this.followCard(c);
   }
 
   closeConversation(): void {

@@ -211,7 +211,7 @@ describe('walkthrough validator', () => {
     expect(p.some((x) => x.includes('expects nothing'))).toBe(true);
     // After scene_loaded whitefield_street, the street's spawns resolve.
     expect(p.some((x) => x.includes('"spawn:bus_stop"'))).toBe(false);
-    expect(check({ scene: 'act3_corridor', steps: [{ do: 'wait', ms: 1 }] }, 'walkthroughs/act3_corridor.json').problems.some((x) => x.includes('STUB'))).toBe(true);
+    expect(check({ scene: 'act3_three_nights', steps: [{ do: 'wait', ms: 1 }] }, 'walkthroughs/act3_three_nights.json').problems.some((x) => x.includes('STUB'))).toBe(true);
     expect(check({ scene: 'act0_arrivals', steps: [{ do: 'set_flag', flag: 'x' }] }).warnings[0]).toContain('set_flag');
   });
 });

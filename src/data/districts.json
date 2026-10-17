@@ -1963,7 +1963,8 @@
       ]
     },
     "quests": [
-      "q_act3_ward4"
+      "q_act3_ward4",
+      "q_act3_corridor"
     ],
     "npcs": [
       {
@@ -2003,5 +2004,48 @@
         "dialogue": "dlg_ward_door"
       }
     ]
+  },
+  {
+    "id": "hivr_corridor",
+    "name": "HIVR, containment corridor",
+    "map": "hivr_corridor",
+    "defaultSpawn": "airlock",
+    "fadeMs": 400,
+    "playerSheet": "npc_ravi",
+    "hud": "minimal",
+    "signal": 2,
+    "unlock": {
+      "flags": [
+        "corridor_started"
+      ]
+    },
+    "quests": [
+      "q_act3_corridor"
+    ],
+    "triggers": [
+      {
+        "zone": "clipboard_zone",
+        "dialogue": "dlg_corridor_clipboard",
+        "unlessFlag": "corridor_checklist_seen"
+      },
+      {
+        "zone": "call_zone",
+        "dialogue": "dlg_appa_call",
+        "unlessFlag": "appa_answered"
+      },
+      {
+        "zone": "glove_zone",
+        "dialogue": "dlg_glove_station",
+        "requiresFlag": "appa_answered",
+        "unlessFlag": "glove_station_refused"
+      },
+      {
+        "zone": "tray_zone",
+        "dialogue": "dlg_slide_tray",
+        "requiresFlag": "appa_answered",
+        "unlessFlag": "tray_unsealed"
+      }
+    ],
+    "nightTint": 0.4
   }
 ]

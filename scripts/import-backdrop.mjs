@@ -29,6 +29,11 @@ const OUT = join(assets, 'backdrops');
 export const BACKDROPS = {
   skyline_whitefield: { width: 640, colour: 0 }, // palette entry 0 = the darkest ink
   still_hebbal_night: { width: 640, height: 360, still: true, colours: 32 }, // 3.1's ride card (ADR-136)
+  still_ant_1: { width: 640, height: 360, still: true, colours: 32 }, // 3.3's ant (ADR-138): the spore
+  still_ant_2: { width: 640, height: 360, still: true, colours: 32 }, // the climb
+  still_ant_3: { width: 640, height: 360, still: true, colours: 32 }, // the clamp
+  still_ant_4: { width: 640, height: 360, still: true, colours: 32 }, // the stalk
+  still_vikram_locker: { width: 640, height: 360, still: true, colours: 32 }, // the next morning
 };
 
 /** A still: cover-crop to width×height, then its own median-cut palette — no magenta, no alpha. */

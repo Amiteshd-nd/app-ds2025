@@ -133,3 +133,9 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 - Lying figures are character sheets named `*_bed` (one generated 3×4 grid split per person; `still` import skips stride synthesis); place their spawn so the head covers the bed's pillow, then check a zoomed snapshot.
 - A locked ward door is a conversation trigger on the exit zone, not an exit: an exit needs a city-map path, and there is nowhere to go yet.
 - After a re-import the dev server can serve the old tilemap (the page shows a red placeholder on black): restart the preview server, and ignore the console errors from that load.
+
+## 3.3 The Corridor (2026-10-17, P19, ADR-138)
+- `WorldScene.canOpenOverlay()` doubles as "the player is free" for Movie Mode (`state().free`): never put a place rule in it; overlays have `allowsOverlays()`.
+- Palette quantising warms cold greys (the corridor's blue-white came out beige): a district `nightTint` restores a cold look without re-art.
+- A conversation can start a card (`effect.card`); WorldScene plays it when the conversation closes. The generator follows it; the world validator follows NPC → dialogue → card → landing.
+- In the browser pane, synthetic `KeyboardEvent`s don't reach Phaser while the pane's RAF is paused; a real `computer` click/keypress does. A data edit with the dev server running can boot a second game instance ("Texture key already in use") — restart the preview server.
