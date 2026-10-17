@@ -382,8 +382,8 @@ export class WorldScene extends Phaser.Scene {
   private dismissLeavers(): void {
     const { flags } = useGameStore.getState();
     this.npcs = this.npcs.filter((npc) => {
-      const flag = npc.getData('unlessFlag') as string | undefined;
-      if (!flag || !flags[flag]) return true;
+      const leaveOn = (npc.getData('unlessFlag') as string[] | undefined) ?? [];
+      if (!leaveOn.some((f) => flags[f])) return true;
       this.tweens.add({ targets: npc, alpha: 0, duration: 600, onComplete: () => npc.destroy() });
       return false;
     });

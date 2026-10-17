@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 34,
+     "id": 36,
      "name": "tree_t1",
      "type": "above",
      "rotation": 0,
@@ -2658,7 +2658,7 @@
      ]
     },
     {
-     "id": 35,
+     "id": 37,
      "name": "tree_t2",
      "type": "above",
      "rotation": 0,
@@ -2676,7 +2676,7 @@
      ]
     },
     {
-     "id": 36,
+     "id": 38,
      "name": "tree_t3",
      "type": "above",
      "rotation": 0,
@@ -2694,7 +2694,7 @@
      ]
     },
     {
-     "id": 37,
+     "id": 39,
      "name": "tree_t4",
      "type": "above",
      "rotation": 0,
@@ -2712,7 +2712,7 @@
      ]
     },
     {
-     "id": 38,
+     "id": 40,
      "name": "tree_t5",
      "type": "above",
      "rotation": 0,
@@ -2730,7 +2730,7 @@
      ]
     },
     {
-     "id": 39,
+     "id": 41,
      "name": "tree_b1",
      "type": "above",
      "rotation": 0,
@@ -2748,7 +2748,7 @@
      ]
     },
     {
-     "id": 40,
+     "id": 42,
      "name": "tree_b2",
      "type": "above",
      "rotation": 0,
@@ -2766,7 +2766,7 @@
      ]
     },
     {
-     "id": 41,
+     "id": 43,
      "name": "tree_b3",
      "type": "above",
      "rotation": 0,
@@ -2784,7 +2784,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 44,
      "name": "tree_b4",
      "type": "above",
      "rotation": 0,
@@ -2802,7 +2802,7 @@
      ]
     },
     {
-     "id": 43,
+     "id": 45,
      "name": "tree_b5",
      "type": "above",
      "rotation": 0,
@@ -3709,7 +3709,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 19,
+     "id": 21,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3727,7 +3727,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 22,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3745,7 +3745,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 23,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3763,7 +3763,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 24,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3781,7 +3781,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 25,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3799,7 +3799,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 26,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3817,7 +3817,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 27,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3835,7 +3835,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 28,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3853,7 +3853,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 29,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3871,7 +3871,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 30,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3889,7 +3889,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 31,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3907,7 +3907,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 32,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3925,7 +3925,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 33,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3943,7 +3943,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 34,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -3961,7 +3961,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 35,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -5037,6 +5037,18 @@
     },
     {
      "id": 15,
+     "name": "kumar_spot",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 626,
+     "y": 352,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 16,
      "name": "main_road",
      "rotation": 0,
      "type": "",
@@ -5047,7 +5059,7 @@
      "height": 293
     },
     {
-     "id": 16,
+     "id": 17,
      "name": "lane_arrival",
      "rotation": 0,
      "type": "",
@@ -5058,7 +5070,7 @@
      "height": 60
     },
     {
-     "id": 17,
+     "id": 18,
      "name": "lane_mid",
      "rotation": 0,
      "type": "",
@@ -5069,7 +5081,7 @@
      "height": 53
     },
     {
-     "id": 18,
+     "id": 19,
      "name": "main_road_far",
      "rotation": 0,
      "type": "",
@@ -5078,6 +5090,17 @@
      "y": 225,
      "width": 42,
      "height": 293
+    },
+    {
+     "id": 20,
+     "name": "kumar_call",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 353,
+     "y": 353,
+     "width": 45,
+     "height": 75
     }
    ],
    "opacity": 1,
@@ -5088,7 +5111,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 44,
+ "nextobjectid": 46,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

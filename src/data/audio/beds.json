@@ -440,6 +440,26 @@
     }
    ]
   },
+  "tiffin_room": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    }
+   ],
+   "night": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.2
+    }
+   ]
+  },
   "hill_flat": {
    "surface": "tile",
    "music": false,

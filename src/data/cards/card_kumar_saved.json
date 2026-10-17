@@ -1,0 +1,29 @@
+{
+  "id": "card_kumar_saved",
+  "$comment": "4.3b: Kumar saved — he drives you to the tiffin room; the café becomes the base.",
+  "panels": [
+    {
+      "title": "INDIRANAGAR · 09:50",
+      "text": "Kumar drives with the door open, one hand over the horn he doesn't press.",
+      "ms": 4600
+    },
+    {
+      "title": "12TH MAIN · 10:05",
+      "text": "'Rameshwara? Forty years I've eaten there, saar.'",
+      "ms": 4200
+    },
+    {
+      "title": "THE TIFFIN ROOM · 10:10",
+      "text": "A shutter half down. An old man with a steel tumbler waves you under.",
+      "ms": 4600,
+      "setFlags": [
+        "base_cafe_set"
+      ]
+    }
+  ],
+  "then": {
+    "district": "tiffin_room",
+    "spawn": "shutter_in",
+    "minute": 610
+  }
+}

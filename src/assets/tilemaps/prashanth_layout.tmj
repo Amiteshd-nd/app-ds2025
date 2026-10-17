@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 23,
+     "id": 25,
      "name": "lamp",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 26,
      "name": "pole_west",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 27,
      "name": "pole_mid",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 28,
      "name": "pole_east",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 29,
      "name": "bin",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 30,
      "name": "dog",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 31,
      "name": "cart",
      "type": "cutout",
      "rotation": 0,
@@ -2941,7 +2941,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 32,
      "name": "neem",
      "type": "cutout",
      "rotation": 0,
@@ -2984,7 +2984,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 33,
      "name": "banana",
      "type": "cutout",
      "rotation": 0,
@@ -3027,7 +3027,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 34,
      "name": "corner_tree",
      "type": "cutout",
      "rotation": 0,
@@ -3070,7 +3070,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 35,
      "name": "pillar_left",
      "type": "cutout",
      "rotation": 0,
@@ -3113,7 +3113,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 36,
      "name": "pillar_right",
      "type": "cutout",
      "rotation": 0,
@@ -3156,7 +3156,7 @@
      ]
     },
     {
-     "id": 35,
+     "id": 37,
      "name": "corner_shrub",
      "type": "cutout",
      "rotation": 0,
@@ -3199,7 +3199,7 @@
      ]
     },
     {
-     "id": 36,
+     "id": 38,
      "name": "table_1",
      "type": "cutout",
      "rotation": 0,
@@ -3242,7 +3242,7 @@
      ]
     },
     {
-     "id": 37,
+     "id": 39,
      "name": "table_2",
      "type": "cutout",
      "rotation": 0,
@@ -3285,7 +3285,7 @@
      ]
     },
     {
-     "id": 38,
+     "id": 40,
      "name": "drum",
      "type": "cutout",
      "rotation": 0,
@@ -3328,7 +3328,7 @@
      ]
     },
     {
-     "id": 39,
+     "id": 41,
      "name": "scooter_1",
      "type": "cutout",
      "rotation": 0,
@@ -3371,7 +3371,7 @@
      ]
     },
     {
-     "id": 40,
+     "id": 42,
      "name": "scooter_2",
      "type": "cutout",
      "rotation": 0,
@@ -3414,7 +3414,7 @@
      ]
     },
     {
-     "id": 41,
+     "id": 43,
      "name": "pot_coliving_1",
      "type": "cutout",
      "rotation": 0,
@@ -3457,7 +3457,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 44,
      "name": "pot_coliving_2",
      "type": "cutout",
      "rotation": 0,
@@ -3500,7 +3500,7 @@
      ]
     },
     {
-     "id": 43,
+     "id": 45,
      "name": "corner_plant",
      "type": "cutout",
      "rotation": 0,
@@ -3543,7 +3543,7 @@
      ]
     },
     {
-     "id": 44,
+     "id": 46,
      "name": "stand_board",
      "type": "cutout",
      "rotation": 0,
@@ -4475,7 +4475,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 17,
+     "id": 19,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4493,7 +4493,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 20,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4511,7 +4511,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 21,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4529,7 +4529,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 22,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4547,7 +4547,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 23,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4565,7 +4565,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 24,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -5605,6 +5605,18 @@
     },
     {
      "id": 12,
+     "name": "raju_shut",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 225,
+     "y": 692,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 13,
      "name": "main_road",
      "rotation": 0,
      "type": "",
@@ -5615,7 +5627,7 @@
      "height": 30
     },
     {
-     "id": 13,
+     "id": 14,
      "name": "lane_arrival",
      "rotation": 0,
      "type": "",
@@ -5626,7 +5638,7 @@
      "height": 173
     },
     {
-     "id": 14,
+     "id": 15,
      "name": "gate10",
      "rotation": 0,
      "type": "",
@@ -5637,7 +5649,7 @@
      "height": 22
     },
     {
-     "id": 15,
+     "id": 16,
      "name": "ambient_area",
      "rotation": 0,
      "type": "",
@@ -5648,7 +5660,7 @@
      "height": 90
     },
     {
-     "id": 16,
+     "id": 17,
      "name": "auto_stand",
      "rotation": 0,
      "type": "",
@@ -5657,6 +5669,17 @@
      "y": 698,
      "width": 83,
      "height": 70
+    },
+    {
+     "id": 18,
+     "name": "raju_call",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 248,
+     "y": 375,
+     "width": 75,
+     "height": 38
     }
    ],
    "opacity": 1,
@@ -5667,7 +5690,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 45,
+ "nextobjectid": 47,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

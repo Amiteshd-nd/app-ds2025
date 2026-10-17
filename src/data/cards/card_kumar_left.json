@@ -1,0 +1,24 @@
+{
+  "id": "card_kumar_left",
+  "$comment": "4.3b: you walked on — his line ends; the café becomes the base.",
+  "panels": [
+    {
+      "title": "INDIRANAGAR · 10:00",
+      "text": "Nobody talks about the horn.",
+      "ms": 4200
+    },
+    {
+      "title": "THE TIFFIN ROOM · 10:40",
+      "text": "A shutter half down. An old man with a steel tumbler waves you under.",
+      "ms": 4600,
+      "setFlags": [
+        "base_cafe_set"
+      ]
+    }
+  ],
+  "then": {
+    "district": "tiffin_room",
+    "spawn": "shutter_in",
+    "minute": 640
+  }
+}

@@ -433,7 +433,7 @@ class Gen {
 
   /** NPC refs standing in a district right now (requiresFlag / unlessFlag against known). */
   npcsIn(districtId: string): Json[] {
-    return ((districts.get(districtId)?.npcs ?? []) as Json[]).filter((r) => (!r.requiresFlag || this.known.has(r.requiresFlag)) && !(r.unlessFlag && this.known.has(r.unlessFlag)));
+    return ((districts.get(districtId)?.npcs ?? []) as Json[]).filter((r) => (!r.requiresFlag || this.known.has(r.requiresFlag)) && ![r.unlessFlag ?? []].flat().some((u: string) => this.known.has(u)));
   }
 
   entryNode(dialogue: Json): string {
@@ -652,7 +652,7 @@ class Gen {
 
   /** Packs standing here now (their flag known). */
   livePacks(): Json[] {
-    return ((districts.get(this.district)?.infected?.packs ?? []) as Json[]).filter((p) => !p.requiresFlag || this.known.has(p.requiresFlag));
+    return ((districts.get(this.district)?.infected?.packs ?? []) as Json[]).filter((p) => (!p.requiresFlag || this.known.has(p.requiresFlag)) && !(p.unlessFlag && this.known.has(p.unlessFlag)));
   }
 
   /**

@@ -311,17 +311,20 @@
       {
         "id": "npc_crowd_selfie",
         "spawn": "crowd_a",
-        "requiresFlag": "metro_open"
+        "requiresFlag": "metro_open",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_crowd_filming",
         "spawn": "crowd_b",
-        "requiresFlag": "metro_open"
+        "requiresFlag": "metro_open",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_crowd_garland",
         "spawn": "crowd_c",
-        "requiresFlag": "metro_open"
+        "requiresFlag": "metro_open",
+        "unlessFlag": "act4"
       }
     ],
     "audioSources": [
@@ -419,40 +422,59 @@
       {
         "id": "npc_gate_owner",
         "spawn": "gate_owner",
-        "unlessFlag": "pg_token_paid"
+        "unlessFlag": [
+          "pg_token_paid",
+          "act4"
+        ]
       },
       {
         "id": "npc_neighbour_leela",
-        "spawn": "neighbour"
+        "spawn": "neighbour",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_shanthamma",
-        "spawn": "shanthamma"
+        "spawn": "shanthamma",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_coliving_rhea",
-        "spawn": "coliving_desk"
+        "spawn": "coliving_desk",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_darshini_raju",
-        "spawn": "darshini"
+        "spawn": "darshini",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_provision_basava",
-        "spawn": "provision"
+        "spawn": "provision",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_auto_meter",
-        "spawn": "auto_1"
+        "spawn": "auto_1",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_auto_fair",
-        "spawn": "auto_2"
+        "spawn": "auto_2",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_auto_kannada",
         "spawn": "auto_3",
-        "unlessFlag": "auto_kannada_left"
+        "unlessFlag": [
+          "auto_kannada_left",
+          "act4"
+        ]
+      },
+      {
+        "id": "npc_raju_shut",
+        "spawn": "raju_shut",
+        "requiresFlag": "act4",
+        "unlessFlag": "raju_decided"
       }
     ],
     "ambient": {
@@ -475,6 +497,12 @@
         "setFlags": [
           "pg_lane_found"
         ]
+      },
+      {
+        "zone": "raju_call",
+        "dialogue": "dlg_raju_trapped",
+        "requiresFlag": "raju_heard",
+        "unlessFlag": "raju_decided"
       }
     ],
     "exits": [
@@ -576,7 +604,39 @@
         "radius": 6,
         "kind": "machine"
       }
-    ]
+    ],
+    "act4Zones": [
+      {
+        "id": "front",
+        "rect": [
+          0,
+          20,
+          36,
+          4
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "darshini_pair",
+          "zone": "front",
+          "lead": [
+            10,
+            22
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_elder",
+            "crowd_homemaker"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "shanthamma_pg",
@@ -672,29 +732,36 @@
     "npcs": [
       {
         "id": "npc_office_guard",
-        "spawn": "guard"
+        "spawn": "guard",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_prakash",
         "spawn": "admin_desk",
-        "onlyAt": "day"
+        "onlyAt": "day",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_divya",
         "spawn": "lobby",
-        "onlyAt": "day"
+        "onlyAt": "day",
+        "unlessFlag": "act4"
       },
       {
         "id": "npc_sameer",
         "spawn": "gate_evening",
         "requiresFlag": "act1_first_day_done",
         "onlyAt": "day",
-        "unlessFlag": "sameer_sick"
+        "unlessFlag": [
+          "sameer_sick",
+          "act4"
+        ]
       },
       {
         "id": "npc_ravi",
         "spawn": "shuttle_bay",
-        "requiresFlag": "act1_first_day_done"
+        "requiresFlag": "act1_first_day_done",
+        "unlessFlag": "act4"
       }
     ],
     "ambient": {
@@ -731,7 +798,10 @@
           "ravi_night_trip"
         ],
         "requiresFlag": "ravi_called",
-        "unlessFlag": "ravi_night_trip"
+        "unlessFlag": [
+          "ravi_night_trip",
+          "act4"
+        ]
       },
       {
         "zone": "office_door",
@@ -745,7 +815,10 @@
         "zone": "office_arrival",
         "dialogue": "dlg_guard_salute",
         "requiresFlag": "bc_sealed",
-        "unlessFlag": "guard_salute_seen"
+        "unlessFlag": [
+          "guard_salute_seen",
+          "act4"
+        ]
       },
       {
         "zone": "office_door",
@@ -753,6 +826,18 @@
         "card": "card_orr_night",
         "requiresFlag": "hivr_assigned",
         "unlessFlag": "hivr_site_visit"
+      },
+      {
+        "zone": "office_arrival",
+        "dialogue": "dlg_office_return",
+        "requiresFlag": "act4",
+        "unlessFlag": "office_returned"
+      },
+      {
+        "zone": "office_door",
+        "dialogue": "search:office_server",
+        "requiresFlag": "act4",
+        "unlessFlag": "looted:office_server"
       }
     ],
     "exits": [
@@ -801,7 +886,41 @@
         "radius": 6,
         "kind": "machine"
       }
-    ]
+    ],
+    "act4Zones": [
+      {
+        "id": "bay",
+        "rect": [
+          20,
+          3,
+          16,
+          9
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "colleagues",
+          "zone": "bay",
+          "lead": [
+            27,
+            7
+          ],
+          "size": 3,
+          "sheets": [
+            "npc_prakash",
+            "crowd_techie",
+            "crowd_officegoer"
+          ],
+          "former": "npc_prakash",
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "ambedkar_nagar_hill",
@@ -847,7 +966,8 @@
       "q_act1_hill_flat",
       "q_act2_ravi_1am",
       "q_act4_the_hill",
-      "q_act4_hill_days"
+      "q_act4_hill_days",
+      "q_act4_cafe"
     ],
     "npcs": [
       {
@@ -878,7 +998,8 @@
       {
         "id": "npc_suresh",
         "spawn": "suresh_spot",
-        "requiresFlag": "act4"
+        "requiresFlag": "act4",
+        "unlessFlag": "base_cafe_set"
       },
       {
         "id": "npc_karthik",
@@ -900,7 +1021,8 @@
       {
         "id": "npc_deepa",
         "spawn": "deepa_spot",
-        "requiresFlag": "deepa_back"
+        "requiresFlag": "deepa_back",
+        "unlessFlag": "base_cafe_set"
       }
     ],
     "ambient": {
@@ -956,6 +1078,12 @@
         "card": "card_walk_hebbal",
         "requiresFlag": "deepa_asked",
         "unlessFlag": "looted:ward4_cabinet"
+      },
+      {
+        "zone": "walk_out",
+        "action": "card",
+        "card": "card_walk_west",
+        "requiresFlag": "base_hill_done"
       }
     ],
     "exits": [
@@ -1478,6 +1606,118 @@
       "requiresFlag": "hill_base_set",
       "lampFailsOnNight": 4
     }
+  },
+  {
+    "id": "tiffin_room",
+    "name": "Rameshwara Tiffin Room, Indiranagar",
+    "map": "tiffin_room",
+    "defaultSpawn": "shutter_in",
+    "fadeMs": 300,
+    "signal": 0,
+    "unlock": {
+      "flags": [
+        "base_cafe_set"
+      ]
+    },
+    "realworld": {
+      "parent": "indiranagar_lane"
+    },
+    "quests": [
+      "q_act4_cafe"
+    ],
+    "npcs": [
+      {
+        "id": "npc_uncle",
+        "spawn": "uncle_spot"
+      },
+      {
+        "id": "npc_suresh",
+        "spawn": "suresh_spot"
+      },
+      {
+        "id": "npc_deepa",
+        "spawn": "deepa_spot",
+        "requiresFlag": "deepa_medicine"
+      },
+      {
+        "id": "npc_kumar",
+        "spawn": "kumar_spot",
+        "requiresFlag": "kumar_saved"
+      },
+      {
+        "id": "npc_raju_cafe",
+        "spawn": "raju_spot",
+        "requiresFlag": "raju_saved"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "mat_zone",
+        "action": "sleep",
+        "requiresFlag": "base_cafe_set",
+        "once": false
+      },
+      {
+        "zone": "stock_zone",
+        "dialogue": "base:tiffin_room",
+        "requiresFlag": "base_cafe_set",
+        "once": false
+      },
+      {
+        "zone": "bench_zone",
+        "dialogue": "craft:bench",
+        "requiresFlag": "base_cafe_set",
+        "once": false
+      },
+      {
+        "zone": "kitchen_zone",
+        "dialogue": "search:cafe_kitchen",
+        "requiresFlag": "base_cafe_set",
+        "unlessFlag": "looted:cafe_kitchen"
+      },
+      {
+        "zone": "shutter_zone",
+        "action": "card",
+        "card": "card_run_whitefield",
+        "requiresFlag": "cafe_day5",
+        "unlessFlag": "raju_decided"
+      }
+    ],
+    "base": {
+      "spawn": "shutter_in",
+      "uv": [
+        {
+          "at": [
+            6,
+            1
+          ],
+          "radius": 3
+        }
+      ],
+      "requiresFlag": "base_cafe_set",
+      "lampFailsOnNight": 3
+    },
+    "behaviours": [
+      "sleepEvents"
+    ],
+    "sleepEvents": [
+      {
+        "after": "base_cafe_set",
+        "nights": 1,
+        "set": [
+          "cafe_day5"
+        ],
+        "toast": "Act 4 · day 5",
+        "icon": "news"
+      },
+      {
+        "after": "base_lamp_failed:tiffin_room",
+        "set": [
+          "cafe_turned"
+        ],
+        "card": "card_cafe_dark"
+      }
+    ]
   },
   {
     "id": "bus_interior",
@@ -3006,7 +3246,8 @@
     "liveArrivals": true,
     "failCard": "card_lane_caught",
     "quests": [
-      "q_act4_five_oclock"
+      "q_act4_five_oclock",
+      "q_act4_cafe"
     ],
     "npcs": [
       {
@@ -3062,6 +3303,12 @@
         "spawn": "balcony_b4",
         "requiresFlag": "plates_out",
         "unlessFlag": "plates_stopped"
+      },
+      {
+        "id": "npc_kumar_trapped",
+        "spawn": "kumar_spot",
+        "requiresFlag": "base_hill_done",
+        "unlessFlag": "kumar_decided"
       }
     ],
     "triggers": [
@@ -3076,13 +3323,21 @@
         "zone": "main_road",
         "action": "card",
         "card": "card_walk_east",
-        "requiresFlag": "khaki_breaks"
+        "requiresFlag": "khaki_breaks",
+        "unlessFlag": "act4_five_done"
       },
       {
         "zone": "main_road_far",
         "action": "card",
         "card": "card_walk_east",
-        "requiresFlag": "khaki_breaks"
+        "requiresFlag": "khaki_breaks",
+        "unlessFlag": "act4_five_done"
+      },
+      {
+        "zone": "kumar_call",
+        "dialogue": "dlg_kumar_trapped",
+        "requiresFlag": "base_hill_done",
+        "unlessFlag": "kumar_decided"
       }
     ],
     "behaviours": [
@@ -3211,7 +3466,8 @@
           ],
           "requiresFlag": "khaki_breaks",
           "startMode": "alert",
-          "former": "npc_auto_driver"
+          "former": "npc_auto_driver",
+          "unlessFlag": "act4_five_done"
         },
         {
           "id": "walkers_top",
@@ -3226,7 +3482,8 @@
             "crowd_delivery"
           ],
           "requiresFlag": "plates_started",
-          "drawnTo": "plates_point"
+          "drawnTo": "plates_point",
+          "unlessFlag": "act4_five_done"
         },
         {
           "id": "walkers_bottom",
@@ -3241,7 +3498,25 @@
             "crowd_student"
           ],
           "requiresFlag": "plates_started",
-          "drawnTo": "plates_point"
+          "drawnTo": "plates_point",
+          "unlessFlag": "act4_five_done"
+        },
+        {
+          "id": "auto_pack",
+          "zone": "lane",
+          "lead": [
+            22,
+            11
+          ],
+          "size": 3,
+          "sheets": [
+            "crowd_delivery",
+            "crowd_hoodie",
+            "crowd_officegoer"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "base_hill_done",
+          "startMode": "idle"
         }
       ]
     },
@@ -3253,7 +3528,8 @@
         ],
         "radius": 2
       }
-    ]
+    ],
+    "failCardUntil": "act4_five_done"
   },
   {
     "id": "act4_bench",

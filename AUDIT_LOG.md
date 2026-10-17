@@ -401,3 +401,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Calls to confirm: NEED_TO_AUDIT #26.
 - Rule going forward: **in Act 4 the bot walks past anything that stands still; only a pack that can come for you makes a walk a flee.**
 
+### [P25 4.3b "The Tiffin Room" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.3b". ADR-153. B2 of the chain.
+- Built: the walk west, Kumar's rescue, the tiffin room (new interior, first try) with Uncle (new sheet, first try), the Whitefield run (the office's shuttle bay, the AMR-07 log), Raju's rescue, Deepa reading the log, the generator's last night; Acts 0–2's people cleared from the places Act 4 revisits; no strollers in Act 4; 8 new tests.
+- Verified: `node scripts/movie.mjs --scene act4_cafe` (41 steps); in the browser pane (Playground, scripted clock) the café renders with Uncle at the counter, Suresh, Raju and Kumar on the left, Deepa against the right wall.
+- Found on the way (fixed): Uncle stood as a green placeholder until `pnpm art` imported his sheet; a rescued Raju, then Deepa, stood in the one passage between the right-hand tables and sealed the way to the counter (the bot couldn't reach Uncle after the dark night); the validator didn't count a zone conversation's card as a way in.
+- Calls to confirm: NEED_TO_AUDIT #27.
+- Rule going forward: **an interior with tables has one or two passages — never stand an NPC in one; put people against walls.**
+

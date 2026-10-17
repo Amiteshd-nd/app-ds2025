@@ -21,7 +21,8 @@
     "spawn": "door",
     "after": [],
     "counters": {
-      "base_nights:hill_flat": 1
+      "base_nights:hill_flat": 1,
+      "act4_day": 1
     }
   },
   "cast": [

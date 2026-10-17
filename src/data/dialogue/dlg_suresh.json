@@ -4,6 +4,14 @@
   "portrait": "npc_suresh",
   "enter": [
     {
+      "flag": "cafe_turned",
+      "node": "cafe_dark"
+    },
+    {
+      "flag": "base_cafe_set",
+      "node": "cafe"
+    },
+    {
       "flag": "base_hill_done",
       "node": "moving"
     },
@@ -115,6 +123,12 @@
     },
     "moving": {
       "text": "First light. Take what you can carry. Eight things, not one more."
+    },
+    "cafe": {
+      "text": "(By the shutter, his keys in his lap.) Uncle's generator. Three nights, he says. Then we'll see."
+    },
+    "cafe_dark": {
+      "text": "Cubbon. The army's lamps. If they're still on."
     }
   }
 }

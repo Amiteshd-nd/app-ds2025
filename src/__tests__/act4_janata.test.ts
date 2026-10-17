@@ -65,7 +65,7 @@ describe('4.1 "Five O\'Clock" (ADR-148)', () => {
     expect(lane.behaviours).toContain('clockEvents');
     expect(lane.clockEvents!.map((e) => [e.at, e.set[0]])).toEqual([[1018, 'plates_out'], [1019, 'plates_started'], [1020, 'khaki_breaks'], [1021, 'plates_stopped']]);
     expect(lane.cueLoops![0]).toEqual(expect.objectContaining({ whileFlag: 'plates_started', untilFlag: 'plates_stopped' }));
-    expect(lane.npcs!.every((n) => n.requiresFlag === 'plates_out' && n.unlessFlag === 'plates_stopped')).toBe(true);
+    expect(lane.npcs!.filter((n) => n.id.startsWith('npc_balcony')).every((n) => n.requiresFlag === 'plates_out' && n.unlessFlag === 'plates_stopped')).toBe(true);
     expect(lane.liveArrivals).toBe(true);
   });
 
@@ -85,7 +85,9 @@ describe('4.1 "Five O\'Clock" (ADR-148)', () => {
   });
 
   it('the main road ends it: the walk card (or, caught, the lane\'s own card) lands at the foot of the hill at 21:30 (4.2)', () => {
-    expect(lane.triggers).toContainEqual({ zone: 'main_road', action: 'card', card: 'card_walk_east', requiresFlag: 'khaki_breaks' });
+    // Only that evening (4.3b walks the lane again, ADR-153).
+    expect(lane.triggers).toContainEqual({ zone: 'main_road', action: 'card', card: 'card_walk_east', requiresFlag: 'khaki_breaks', unlessFlag: 'act4_five_done' });
+    expect(lane.failCardUntil).toBe('act4_five_done');
     expect(CARDS.card_walk_east.then).toEqual({ district: 'ambedkar_nagar_hill', spawn: 'slope_base', minute: 1290 });
     expect(outcome(CARDS.card_walk_east, {}).set).toEqual(expect.arrayContaining(['first_run_done', 'act4_five_done']));
     expect(lane.failCard).toBe('card_lane_caught');

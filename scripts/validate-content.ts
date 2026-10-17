@@ -173,8 +173,8 @@ export function validateContent(
         continue;
       }
       if (!npcIds.has(ref.id)) add(where, `${d} places NPC "${ref.id}", which does not exist`);
-      if (ref.unlessFlag !== undefined && (typeof ref.unlessFlag !== 'string' || !ref.unlessFlag)) {
-        add(where, `${d} NPC "${ref.id}" unlessFlag must be a flag name`);
+      if (ref.unlessFlag !== undefined && ![ref.unlessFlag].flat().every((x: unknown) => typeof x === 'string' && x)) {
+        add(where, `${d} NPC "${ref.id}" unlessFlag must be a flag name (or a list of them)`);
       }
       if (ref.requiresFlag !== undefined && (typeof ref.requiresFlag !== 'string' || !ref.requiresFlag)) {
         add(where, `${d} NPC "${ref.id}" requiresFlag must be a flag name`);
@@ -737,6 +737,8 @@ export interface WorldInputs {
   cards?: Record<string, Json>;
   /** NPC id → the cards its conversation can start (`effect.card`, "Tell me." → the corridor, ADR-138): also a way there. */
   npcCards?: Record<string, string[]>;
+  /** Dialogue id → the cards it can start: a zone's conversation that ends on a card is a way there too (Kumar's horn, ADR-153). */
+  dialogueCards?: Record<string, string[]>;
 }
 
 export interface WorldReport {
@@ -1075,6 +1077,7 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
       const cardIds = [
         ...((current?.triggers ?? []) as Json[]).filter((t) => t.action === 'card').map((t) => t.card as string),
         ...((current?.npcs ?? []) as Json[]).flatMap((r) => world.npcCards?.[r.id] ?? []),
+        ...((current?.triggers ?? []) as Json[]).filter((t) => typeof t.dialogue === 'string').flatMap((t) => world.dialogueCards?.[t.dialogue] ?? []),
       ];
       const landings = cardIds.map((c) => world.cards?.[c]?.then?.district).filter((x): x is string => typeof x === 'string');
       const next = [...(current?.exits ?? []).map((e: Json) => e.to as string), ...(current?.metroStation ? stations : []), ...landings];
@@ -1610,7 +1613,7 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
     (rel) => existsSync(join(assetsDir, '_raw/audio', rel)),
   ));
 
-  const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])), npcCards });
+  const world = validateWorld(districts, { manifest, maps, sprites, cards: Object.fromEntries(cardFiles.map((f) => [f.json?.id, f.json])), npcCards, dialogueCards: Object.fromEntries(dialogue.map((f) => [f.json?.id, cardsOf(f.json)])) });
   problems.push(...world.problems);
   for (const w of world.warnings) console.warn(`  ⚠ ${w}`);
   const walkDir = join(dataDir, 'walkthroughs');

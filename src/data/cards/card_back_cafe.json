@@ -1,0 +1,28 @@
+{
+  "id": "card_back_cafe",
+  "$comment": "4.3b: from Raju's back window, home to the café at dusk.",
+  "panels": [
+    {
+      "title": "PRASHANTH LAYOUT · 14:20",
+      "text": "Raju climbs out through his back window with a sack of rice on his shoulder.",
+      "ms": 4600,
+      "ifFlag": "raju_saved"
+    },
+    {
+      "title": "PRASHANTH LAYOUT · 14:20",
+      "text": "You don't look back at the darshini.",
+      "ms": 4200,
+      "unlessFlag": "raju_saved"
+    },
+    {
+      "title": "THE TIFFIN ROOM · 18:20",
+      "text": "The shutter goes up a hand's width, then down behind you.",
+      "ms": 4400
+    }
+  ],
+  "then": {
+    "district": "tiffin_room",
+    "spawn": "shutter_in",
+    "minute": 1100
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 12x8, like Ward 4) — the Rameshwara Tiffin Room, Indiranagar (story 4.3b, ADR-153): the top wall band, the side walls and the bottom wall either side of the half-down shutter are `buildings`; the kitchen (stove, side shelf, tumbler shelf, generator, jerrycan), the serving counter, the water table, the eight tables with their stools, the basin, the buckets and the bedding piles are blocks. The shutter is closed to feet (runs leave on a card). The sleeping mats bottom-right are the bed; the counter's left end is the stock shelf; a table on the left is the bench; the kitchen floor is searched. Uncle stands by the water table, Deepa against the right wall (the passage between the right-hand tables stays open); Raju, Suresh and Kumar on the open left (a body in the gap between the right-hand tables, or right beside Uncle, leaves nowhere to stand and talk to him), Suresh and Kumar on the open left.",
+  "name": "tiffin_room",
+  "cols": 12,
+  "rows": 8,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      95
+    ],
+    [
+      0,
+      0,
+      45,
+      1024
+    ],
+    [
+      1490,
+      0,
+      46,
+      1024
+    ],
+    [
+      0,
+      965,
+      1536,
+      59
+    ],
+    [
+      0,
+      735,
+      50,
+      289
+    ],
+    [
+      1490,
+      735,
+      46,
+      289
+    ]
+  ],
+  "blocks": [
+    [
+      75,
+      40,
+      245,
+      175
+    ],
+    [
+      45,
+      145,
+      80,
+      160
+    ],
+    [
+      355,
+      40,
+      145,
+      200
+    ],
+    [
+      345,
+      155,
+      100,
+      100
+    ],
+    [
+      455,
+      195,
+      45,
+      65
+    ],
+    [
+      515,
+      120,
+      685,
+      185
+    ],
+    [
+      1390,
+      100,
+      95,
+      145
+    ],
+    [
+      1450,
+      295,
+      40,
+      55
+    ],
+    [
+      40,
+      375,
+      120,
+      170
+    ],
+    [
+      405,
+      375,
+      175,
+      150
+    ],
+    [
+      680,
+      375,
+      180,
+      150
+    ],
+    [
+      965,
+      375,
+      185,
+      150
+    ],
+    [
+      1370,
+      375,
+      125,
+      155
+    ],
+    [
+      395,
+      590,
+      180,
+      140
+    ],
+    [
+      680,
+      590,
+      180,
+      140
+    ],
+    [
+      965,
+      590,
+      185,
+      140
+    ],
+    [
+      55,
+      765,
+      105,
+      95
+    ],
+    [
+      55,
+      885,
+      60,
+      80
+    ],
+    [
+      330,
+      805,
+      805,
+      170
+    ],
+    [
+      1330,
+      715,
+      160,
+      170
+    ],
+    [
+      1395,
+      890,
+      75,
+      90
+    ],
+    [
+      1465,
+      900,
+      35,
+      80
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "shutter_in",
+      "x": 620,
+      "y": 760
+    },
+    {
+      "name": "uncle_spot",
+      "x": 1260,
+      "y": 300
+    },
+    {
+      "name": "raju_spot",
+      "x": 190,
+      "y": 580
+    },
+    {
+      "name": "deepa_spot",
+      "x": 1430,
+      "y": 640
+    },
+    {
+      "name": "suresh_spot",
+      "x": 250,
+      "y": 460
+    },
+    {
+      "name": "kumar_spot",
+      "x": 270,
+      "y": 690
+    }
+  ],
+  "zones": [
+    {
+      "name": "mat_zone",
+      "x": 1160,
+      "y": 790,
+      "w": 160,
+      "h": 120
+    },
+    {
+      "name": "stock_zone",
+      "x": 560,
+      "y": 308,
+      "w": 120,
+      "h": 45
+    },
+    {
+      "name": "bench_zone",
+      "x": 300,
+      "y": 610,
+      "w": 80,
+      "h": 60
+    },
+    {
+      "name": "kitchen_zone",
+      "x": 140,
+      "y": 222,
+      "w": 180,
+      "h": 60
+    },
+    {
+      "name": "shutter_zone",
+      "x": 380,
+      "y": 786,
+      "w": 700,
+      "h": 18
+    }
+  ],
+  "sorted": [],
+  "above": []
+}

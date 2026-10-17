@@ -1,0 +1,283 @@
+{
+  "scene": "act4_cafe",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act4_cafe + ambedkar_nagar_hill + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ambedkar_nagar_hill",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "base_hill_done",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "G1",
+      "do": "goto",
+      "target": "zone:walk_out",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "G1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "indiranagar_lane",
+      "timeout": 43000
+    },
+    {
+      "id": "goto_6",
+      "beat": "G1",
+      "do": "goto",
+      "target": "zone:kumar_call",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_7",
+      "beat": "G1",
+      "do": "choose",
+      "option": "saved"
+    },
+    {
+      "id": "wait_for_8",
+      "beat": "G1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_cafe_set",
+      "timeout": 28400
+    },
+    {
+      "id": "wait_for_9",
+      "beat": "G1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "tiffin_room",
+      "timeout": 33400
+    },
+    {
+      "id": "wait_for_10",
+      "beat": "G1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "kumar_decided",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_11",
+      "beat": "G2",
+      "do": "goto",
+      "target": "npc:npc_uncle"
+    },
+    {
+      "id": "interact_12",
+      "beat": "G2",
+      "do": "interact",
+      "target": "npc:npc_uncle"
+    },
+    {
+      "id": "choose_13",
+      "beat": "G2",
+      "do": "choose",
+      "option": "diesel"
+    },
+    {
+      "id": "choose_14",
+      "beat": "G2",
+      "do": "choose",
+      "option": "bye"
+    },
+    {
+      "id": "sleep_15",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_16",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "cafe_day5",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_17",
+      "beat": "G3",
+      "do": "goto",
+      "target": "zone:shutter_zone"
+    },
+    {
+      "id": "wait_for_18",
+      "beat": "G3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "office_gate",
+      "timeout": 42600
+    },
+    {
+      "id": "goto_19",
+      "beat": "G3",
+      "do": "goto",
+      "target": "zone:office_door",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_20",
+      "beat": "G3",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_21",
+      "beat": "G3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:office_server",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_22",
+      "beat": "G4",
+      "do": "goto",
+      "target": "exit:walk_out",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_23",
+      "beat": "G4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "whitefield_street",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_24",
+      "beat": "G4",
+      "do": "goto",
+      "target": "exit:lane_zone"
+    },
+    {
+      "id": "wait_for_25",
+      "beat": "G4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "prashanth_layout",
+      "timeout": 20000
+    },
+    {
+      "id": "goto_26",
+      "beat": "G4",
+      "do": "goto",
+      "target": "zone:raju_call",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_27",
+      "beat": "G4",
+      "do": "choose",
+      "option": "saved"
+    },
+    {
+      "id": "wait_for_28",
+      "beat": "G4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "tiffin_room",
+      "timeout": 29000
+    },
+    {
+      "id": "wait_for_29",
+      "beat": "G4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "raju_decided",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_30",
+      "beat": "G5",
+      "do": "goto",
+      "target": "npc:npc_deepa",
+      "optional": true
+    },
+    {
+      "id": "interact_31",
+      "beat": "G5",
+      "do": "interact",
+      "target": "npc:npc_deepa",
+      "optional": true
+    },
+    {
+      "id": "choose_32",
+      "beat": "G5",
+      "do": "choose",
+      "option": "log",
+      "optional": true
+    },
+    {
+      "id": "sleep_33",
+      "beat": "G6",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_34",
+      "beat": "G6",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_35",
+      "beat": "G6",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_lamp_failed:tiffin_room",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_36",
+      "beat": "G6",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "cafe_turned",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_37",
+      "beat": "G6",
+      "do": "wait_for",
+      "ready": "free",
+      "timeout": 30000
+    },
+    {
+      "id": "goto_38",
+      "beat": "G6",
+      "do": "goto",
+      "target": "npc:npc_uncle"
+    },
+    {
+      "id": "interact_39",
+      "beat": "G6",
+      "do": "interact",
+      "target": "npc:npc_uncle"
+    },
+    {
+      "id": "choose_40",
+      "beat": "G6",
+      "do": "choose",
+      "option": "go"
+    },
+    {
+      "id": "expect_41",
+      "do": "expect",
+      "flag": "act4_cafe_done",
+      "timeout": 3000
+    }
+  ]
+}

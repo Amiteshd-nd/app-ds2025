@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles. Blocks trace where things MEET THE GROUND (gate bottoms, pole bases, bin, dog, cart wheels, table legs, scooters); air is never blocked. Occluders are what stands up in front of a character behind them (lamp, poles, canopies, gate pillars, cart). Main road x 0-110 runs the full height; lane y 470-645; Shanthamma's yard x 635-775 y 385-420 ends at the gate; bottom shops face south onto the front pavement y 940+, reached down the road and past the corner tree. Migrated to ADR-125: both house rows are `buildings`; poles, lamp, bin, cart, dog, trees, pillars, tables, drum, scooters and pots are sorted cut-outs with footprints; the lane's cables hang `above`.",
+  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles. Blocks trace where things MEET THE GROUND (gate bottoms, pole bases, bin, dog, cart wheels, table legs, scooters); air is never blocked. Occluders are what stands up in front of a character behind them (lamp, poles, canopies, gate pillars, cart). Main road x 0-110 runs the full height; lane y 470-645; Shanthamma's yard x 635-775 y 385-420 ends at the gate; bottom shops face south onto the front pavement y 940+, reached down the road and past the corner tree. Migrated to ADR-125: both house rows are `buildings`; poles, lamp, bin, cart, dog, trees, pillars, tables, drum, scooters and pots are sorted cut-outs with footprints; the lane's cables hang `above`. 4.3b (ADR-153): `raju_call`, the road behind the darshini — Raju's back window.",
   "name": "prashanth_layout",
   "cols": 36,
   "rows": 24,
@@ -60,6 +60,11 @@
       "name": "auto_3",
       "x": 55,
       "y": 880
+    },
+    {
+      "name": "raju_shut",
+      "x": 300,
+      "y": 945
     }
   ],
   "zones": [
@@ -97,6 +102,13 @@
       "y": 930,
       "w": 110,
       "h": 94
+    },
+    {
+      "name": "raju_call",
+      "x": 330,
+      "y": 500,
+      "w": 100,
+      "h": 50
     }
   ],
   "buildings": [

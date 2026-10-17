@@ -64,7 +64,7 @@ describe('four mornings of news (story 2.7, ADR-135)', () => {
 describe('the office and home', () => {
   it('Sameer coughs, disappears while sick, comes back pale', () => {
     const ref = DISTRICTS.office_gate.npcs!.find((n) => n.id === 'npc_sameer')!;
-    expect(ref.unlessFlag).toBe('sameer_sick');
+    expect([ref.unlessFlag].flat()).toContain('sameer_sick');
     const dm = DialogueManager.getInstance();
     store().setFlag('met_sameer', true);
     store().setFlag('bc_fever', true);
@@ -79,7 +79,7 @@ describe('the office and home', () => {
   it('the office door on the denial day sets the AMR-07 clue and Divya writes; the guard salutes once, on the sealed day', () => {
     const t = DISTRICTS.office_gate.triggers!;
     expect(t).toContainEqual({ zone: 'office_door', setFlags: ['clue_amr07'], requiresFlag: 'bc_denial', unlessFlag: 'clue_amr07' });
-    expect(t).toContainEqual({ zone: 'office_arrival', dialogue: 'dlg_guard_salute', requiresFlag: 'bc_sealed', unlessFlag: 'guard_salute_seen' });
+    expect(t).toContainEqual({ zone: 'office_arrival', dialogue: 'dlg_guard_salute', requiresFlag: 'bc_sealed', unlessFlag: ['guard_salute_seen', 'act4'] });
   });
 
   it('Amma\'s call closes Act 2 on the next sleep', () => {

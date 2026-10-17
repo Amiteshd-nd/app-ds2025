@@ -1,0 +1,48 @@
+{
+  "id": "dlg_raju_trapped",
+  "speaker": "Raju",
+  "portrait": "npc_darshini_raju",
+  "nodes": {
+    "start": {
+      "text": "(A voice through the darshini's back window.) Who's there? — Uncle sent you? Two of them at my counter since Tuesday. I can't reach the back door with them listening.",
+      "choices": [
+        {
+          "text": "Throw stones at the van up the road.",
+          "next": "saved",
+          "requiresItems": {
+            "stones": 1
+          },
+          "lockedText": "Nothing to throw",
+          "effect": {
+            "items_remove": {
+              "stones": 1
+            },
+            "flags": {
+              "raju_saved": true,
+              "raju_decided": true
+            },
+            "card": "card_back_cafe",
+            "cue": "a.sfx.world.glass_tap"
+          }
+        },
+        {
+          "text": "I can't, Raju.",
+          "next": "left",
+          "effect": {
+            "flags": {
+              "raju_left": true,
+              "raju_decided": true
+            },
+            "card": "card_back_cafe"
+          }
+        }
+      ]
+    },
+    "saved": {
+      "text": "(Stones on tin. The two at the counter turn their heads, then their bodies. A window opens.)"
+    },
+    "left": {
+      "text": "(Quiet from the window. Then: 'Tell Uncle I'm alright.')"
+    }
+  }
+}

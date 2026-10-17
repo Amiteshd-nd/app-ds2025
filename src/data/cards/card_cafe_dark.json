@@ -1,0 +1,16 @@
+{
+  "id": "card_cafe_dark",
+  "$comment": "4.3b: the café's generator runs dry on its third night (lampFailsOnNight).",
+  "panels": [
+    {
+      "title": "03:30",
+      "text": "The generator coughs twice and stops. The purple tube goes grey.",
+      "ms": 4400
+    },
+    {
+      "title": "04:00",
+      "text": "Something at the shutter. Uncle sits with his back against it until it's light.",
+      "ms": 4800
+    }
+  ]
+}

@@ -458,3 +458,20 @@ corepack pnpm dev
   - The walk there and back is told on cards (07:40 → 12:30 at the ward; 13:10 → 18:40 home), not played.
   - The Movie bot now **walks** wherever infected stand still. Its full stick used to run, and the noise woke the still pair on the hill. 4.2's walkthrough changed with it.
 
+## 27. 4.3b "The Tiffin Room": Kumar, Uncle's café, the office, Raju
+- **What:** the second base, days 4–7. You save Kumar (or don't), make Uncle's café home, go back to the office for the AMR-07 log, save Raju (or don't), Deepa reads the log, and the generator dies on night 3.
+- **Check:** in the Playground, open Act 4 → 4.3b The Tiffin Room (Play), or **▶ from here** to watch the bot.
+  - From the hill, step onto the road at the bottom left (the walk west).
+  - In the lane, walk toward the auto until Kumar shouts. Throw a tumbler, or keep walking.
+  - In the café, talk to Uncle and sleep on the mats. Walk to the shutter in the morning for the run.
+  - At ITPL, walk to the office door and search the server room. Leave on foot to Whitefield, then into Prashanth Layout, and walk to the road behind the darshini.
+  - Back in the café, give Deepa the log. Sleep twice; the generator dies. Talk to Uncle.
+- **Calls to confirm:**
+  - **The café:** a new generated interior, first try. Uncle's sprite is also new, first try. The name is "Rameshwara Tiffin Room" (the parody, ADR-47).
+  - **Kumar:** uses the existing auto driver's sprite (the one from the airport and 4.1's khaki shirt). Saving him costs a steel tumbler; Mani's store gave you two.
+  - **Raju:** saving him costs stones. If you walk away, he says "Tell Uncle I'm alright."
+  - **The office:** Prakash and two others stand at the shuttle bay, not at their desks; there's no office interior map. Divya and Sameer aren't there.
+  - **The log:** 14 March, 02:10, the readings go flat and the alarms are switched off, and it's your parser's output. That date is my invention; change it if the story wants another.
+  - **No strollers in Act 4:** under the curfew nobody wanders, only placed people. This also empties the hill's and Whitefield's background crowd.
+  - **Travel is told on cards:** the walk west, the run to Whitefield, and the way home from Raju's are all cards. Kumar's auto shows up only in the card text.
+

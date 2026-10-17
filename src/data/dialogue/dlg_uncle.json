@@ -1,0 +1,72 @@
+{
+  "id": "dlg_uncle",
+  "speaker": "Uncle",
+  "portrait": "npc_uncle",
+  "enter": [
+    {
+      "flag": "base_cafe_done",
+      "node": "go"
+    },
+    {
+      "flag": "cafe_turned",
+      "node": "dark"
+    },
+    {
+      "flag": "uncle_met",
+      "node": "again"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(An old man with a steel tumbler, behind the counter.) Come in, come in — under the shutter. Rameshwara Tiffin Room. Forty-one years. No idli today. Coffee, if the generator holds.",
+      "choices": [
+        {
+          "text": "How long will it hold?",
+          "next": "diesel"
+        }
+      ]
+    },
+    "diesel": {
+      "text": "Three nights. Maybe four, if nobody wants coffee.",
+      "next": "radio"
+    },
+    "radio": {
+      "text": "Raju from the Whitefield darshini rang the landline before it died. Shut in his own kitchen. Two of them at his counter. (He looks at you.) Someone young should go.",
+      "choices": [
+        {
+          "text": "(Nod.)",
+          "next": "bye",
+          "effect": {
+            "flags": {
+              "uncle_met": true,
+              "raju_heard": true
+            }
+          }
+        }
+      ]
+    },
+    "bye": {
+      "text": "Tomorrow, at first light. Noise helps — they go to noise."
+    },
+    "again": {
+      "text": "The generator. The shelf. Coffee at six."
+    },
+    "dark": {
+      "text": "(The generator is cold.) That was the last of the diesel. The army has lamps at Cubbon — the bandstand, they say. We go while we can still walk to it.",
+      "choices": [
+        {
+          "text": "(Pack.)",
+          "next": "go",
+          "effect": {
+            "flags": {
+              "base_cafe_done": true
+            }
+          }
+        }
+      ]
+    },
+    "go": {
+      "text": "Forty-one years. (He pulls the shutter down behind him, and locks it anyway.)"
+    }
+  }
+}

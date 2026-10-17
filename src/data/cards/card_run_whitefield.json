@@ -1,0 +1,33 @@
+{
+  "id": "card_run_whitefield",
+  "$comment": "4.3b: the Whitefield run from the café — Kumar's auto by the back roads if you saved him, on foot by the railway line if not; it lands at the ITPL gate.",
+  "panels": [
+    {
+      "title": "THE TIFFIN ROOM · 06:40",
+      "text": "Uncle hands you a tumbler of coffee and a list.",
+      "ms": 4000
+    },
+    {
+      "title": "SERVICE ROADS · 08:15",
+      "text": "Kumar takes roads you never knew were roads.",
+      "ms": 4400,
+      "ifFlag": "kumar_saved"
+    },
+    {
+      "title": "THE RAILWAY LINE · 08:15",
+      "text": "You walk the tracks. Nothing runs on them either.",
+      "ms": 4400,
+      "unlessFlag": "kumar_saved"
+    },
+    {
+      "title": "ITPL · 10:30",
+      "text": "The tech park's gate, open. Nobody on it.",
+      "ms": 4200
+    }
+  ],
+  "then": {
+    "district": "office_gate",
+    "spawn": "auto_drop",
+    "minute": 630
+  }
+}

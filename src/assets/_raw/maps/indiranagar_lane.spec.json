@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 \u2192 36x24) \u2014 an Indiranagar residential lane at five o'clock (story 4.1, ADR-148). The lane runs left \u2192 right: top pavement y 300\u2013410, tarmac y 410\u2013600, bottom pavement y 600\u2013690; the houses above and below are solid (their balconies are where the plate-bangers stand); two side lanes open off it (top-left x 320\u2013400, bottom-right x 1000\u20131070) \u2014 that is where they walk out from. Parked cars, the covered scooter, the auto with its flaps open and the tanker are blocks; tree trunks are blocks and the canopies hang above (you walk under them). The main road on the right edge is the way out; its median is solid. The neighbours stand at their front gates (top row) and on their rooftop terraces (bottom row): the balconies themselves are off-screen from the lane.",
+  "$comment": "Source-pixel spec (1536x1024 → 36x24) — an Indiranagar residential lane at five o'clock (story 4.1, ADR-148). The lane runs left → right: top pavement y 300–410, tarmac y 410–600, bottom pavement y 600–690; the houses above and below are solid (their balconies are where the plate-bangers stand); two side lanes open off it (top-left x 320–400, bottom-right x 1000–1070) — that is where they walk out from. Parked cars, the covered scooter, the auto with its flaps open and the tanker are blocks; tree trunks are blocks and the canopies hang above (you walk under them). The main road on the right edge is the way out; its median is solid. The neighbours stand at their front gates (top row) and on their rooftop terraces (bottom row): the balconies themselves are off-screen from the lane. 4.3b (ADR-153): Kumar beside his auto (the one drawn mid-lane), `kumar_call` nine tiles west of it — where you hear his horn.",
   "name": "indiranagar_lane",
   "cols": 36,
   "rows": 24,
@@ -168,6 +168,11 @@
       "name": "plates_point",
       "x": 700,
       "y": 360
+    },
+    {
+      "name": "kumar_spot",
+      "x": 835,
+      "y": 492
     }
   ],
   "zones": [
@@ -198,6 +203,13 @@
       "y": 300,
       "w": 56,
       "h": 390
+    },
+    {
+      "name": "kumar_call",
+      "x": 470,
+      "y": 470,
+      "w": 60,
+      "h": 100
     }
   ],
   "sorted": [],

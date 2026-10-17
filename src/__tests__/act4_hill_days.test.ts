@@ -41,7 +41,7 @@ describe('4.3 "Four Nights" — the hill base, days 1–4 (ADR-152)', () => {
   it('is built (P24) as the chain\'s first base; the stub keeps B2–B5', () => {
     expect(SCENES.act4_hill_days.status).toBe('P24');
     expect(SCENES.act4_base_chain.status).toBe('STUB');
-    expect(SCENES.act4_hill_days.entry).toEqual(expect.objectContaining({ from: 'act4_the_hill', counters: { 'base_nights:hill_flat': 1 } }));
+    expect(SCENES.act4_hill_days.entry).toEqual(expect.objectContaining({ from: 'act4_the_hill', counters: { 'base_nights:hill_flat': 1, act4_day: 1 } }));
     expect(QUESTS.q_act4_hill_days.prerequisite_quests).toEqual(['q_act4_the_hill']);
   });
 
@@ -130,7 +130,7 @@ describe('4.3 "Four Nights" — the hill base, days 1–4 (ADR-152)', () => {
   it('the hill after the dark night: Mani gone, the hill at "hot"', () => {
     expect(hill.npcs!.find((n) => n.id === 'npc_hill_chai')!.unlessFlag).toBe('hill_turned');
     expect(hill.npcs!.find((n) => n.id === 'npc_karthik')!.unlessFlag).toBe('karthik_gone');
-    expect(hill.npcs!.find((n) => n.id === 'npc_deepa')).toEqual({ id: 'npc_deepa', spawn: 'deepa_spot', requiresFlag: 'deepa_back' });
+    expect(hill.npcs!.find((n) => n.id === 'npc_deepa')).toEqual({ id: 'npc_deepa', spawn: 'deepa_spot', requiresFlag: 'deepa_back', unlessFlag: 'base_cafe_set' });
     store().setFlag('act4', true); store().setFlag('hill_turned', true);
     expect(grade(stabilityNow('ambedkar_nagar_hill'))).toBe(3);
     expect(DIALOGUE.dlg_hill_chai).toBeDefined();

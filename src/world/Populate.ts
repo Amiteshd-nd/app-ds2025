@@ -1,5 +1,5 @@
 import { isNight } from '../systems/night';
-import { gradeLook } from '../systems/stability';
+import { ACT4_FLAG, gradeLook } from '../systems/stability';
 import { stabilityNow } from '../systems/stabilityNow';
 import Phaser from 'phaser';
 import { hasDialogue, NPCS, OBJECTS } from '../data';
@@ -43,7 +43,7 @@ export function npcs(
   for (const ref of district.npcs ?? []) {
     if (only && !only(ref)) continue;
     // Gone for good once their flag is set (ADR-96) — the token man does not come back.
-    if (ref.unlessFlag && flags[ref.unlessFlag]) continue;
+    if ([ref.unlessFlag ?? []].flat().some((f) => flags[f])) continue;
     // Not here until their flag is set (ADR-121) — Sameer and Ravi appear at the gate after the workday.
     if (ref.requiresFlag && !flags[ref.requiresFlag]) continue;
     // Day and night (ADR-133): the office crowd is not at the gate at 1 AM.
@@ -76,7 +76,7 @@ export function npcs(
     sprite.setData('dialogueId', npc.dialogue);
     sprite.setData('tier', npc.tier);
     if (npc.breathing === false) sprite.setData('breathing', false);
-    if (ref.unlessFlag) sprite.setData('unlessFlag', ref.unlessFlag);
+    if (ref.unlessFlag) sprite.setData('unlessFlag', [ref.unlessFlag].flat());
     if (npc.tic === 'cough') cough(scene, sprite);
     if (bodies) {
       // Same feet box as the player (20×12 at 6,35): you bump into a person
@@ -246,8 +246,9 @@ export function wander(
     ? new Phaser.Geom.Rectangle(area.x ?? 0, area.y ?? 0, area.width, area.height)
     : new Phaser.Geom.Rectangle(0, 0, map.widthInPixels, map.heightInPixels);
 
-  // The grade thins the crowd (ADR-144): half out at "warning", nobody once the place has turned.
-  const people = gradeLook(stabilityNow(district.id)).people;
+  // The grade thins the crowd (ADR-144): half out at "warning", nobody once the place has turned. Under Act 4's
+  // curfew nobody strolls at all (ADR-153): the people who are out are placed, not wandering.
+  const people = useGameStore.getState().flags[ACT4_FLAG] ? 0 : gradeLook(stabilityNow(district.id)).people;
   const count = Math.round((isNight(useGameStore.getState().clock.minute) ? (ambient.nightCount ?? 0) : ambient.count) * people);
   for (let i = 0; i < count; i++) {
     // Stride the index so neighbouring spawns do not share a look.

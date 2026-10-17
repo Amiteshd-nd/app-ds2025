@@ -365,6 +365,20 @@
         "plates_point"
       ],
       "sop": true
+    },
+    "tiffin_room": {
+      "file": "tiffin_room.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "shutter_in",
+        "uncle_spot",
+        "mat_zone",
+        "stock_zone",
+        "shutter_zone"
+      ],
+      "sop": true
     }
   }
 }

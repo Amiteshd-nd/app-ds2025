@@ -1,0 +1,48 @@
+{
+  "id": "dlg_kumar_trapped",
+  "speaker": "Kumar",
+  "portrait": "npc_auto_driver",
+  "nodes": {
+    "start": {
+      "text": "(A horn: two short, one long. An auto stopped mid-lane, three of them leaning on it. Behind the windscreen, the driver from the airport stand.) Saar! Saar! Don't come close — make noise somewhere else!",
+      "choices": [
+        {
+          "text": "Throw the tumbler down the side lane.",
+          "next": "saved",
+          "requiresItems": {
+            "steel_tumbler": 1
+          },
+          "lockedText": "Nothing that clangs",
+          "effect": {
+            "items_remove": {
+              "steel_tumbler": 1
+            },
+            "flags": {
+              "kumar_saved": true,
+              "kumar_decided": true
+            },
+            "card": "card_kumar_saved",
+            "cue": "a.sfx.combat.hit_plate"
+          }
+        },
+        {
+          "text": "(Keep walking.)",
+          "next": "left",
+          "effect": {
+            "flags": {
+              "kumar_left": true,
+              "kumar_decided": true
+            },
+            "card": "card_kumar_left"
+          }
+        }
+      ]
+    },
+    "saved": {
+      "text": "(The tumbler bangs down the side lane. They turn, all three. The auto coughs, and comes.)"
+    },
+    "left": {
+      "text": "(The horn keeps going behind you. Then it doesn't.)"
+    }
+  }
+}

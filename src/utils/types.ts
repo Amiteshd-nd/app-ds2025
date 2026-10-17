@@ -270,8 +270,8 @@ export interface DistrictNpcRef {
   id: string;
   /** Object name in the map's spawn layer. */
   spawn: string;
-  /** The NPC is gone once this flag is set — the owner who took your token (ADR-96). */
-  unlessFlag?: string;
+  /** The NPC is gone once this flag is set — the owner who took your token (ADR-96). A list: once any is set (the office crowd in Act 4, ADR-153). */
+  unlessFlag?: string | string[];
   /** The NPC is here only once this flag is set — Sameer and Ravi at the gate after the workday (ADR-121). */
   requiresFlag?: string;
   /** Only by day or only by night (23:00–05:30) — the office crowd goes home (ADR-133). */
@@ -401,6 +401,8 @@ export interface DistrictDef {
   liveArrivals?: boolean;
   /** The card played when you fail forward here (default `card_fail_forward`, ADR-148). */
   failCard?: string;
+  /** Once this flag is set `failCard` no longer applies (the lane's 4.1 card, not on a later visit — ADR-153). */
+  failCardUntil?: string;
   /**
    * A base (Act 4 plan §3.9, ADR-149): once `act4` (and `requiresFlag`) is set, you can only sleep in bases; each
    * night here eats 1 food, 1 water and 1 fuel from the stock; the generator's fuel keeps `uv` lit (the infected never
@@ -479,6 +481,8 @@ export interface InfectedPack {
   evolved?: number;
   /** The pack is there only once this flag is set (the bench's presets; 4.1's run) — it appears the moment the flag is set. */
   requiresFlag?: string;
+  /** Gone for good once this flag is set — 4.1's lane packs after that evening (ADR-153). */
+  unlessFlag?: string;
   /** `alert`: it comes out already turning on you (the khaki shirt, 4.1); `idle`: it stands still until it sees you (the pair facing the wall, 4.2). */
   startMode?: 'alert' | 'idle';
   /** Lead start candidates (tiles): the nearest one that is further than you from `awayFrom` (the way out) — so a scripted run starts behind the player, never across the way out. */
@@ -560,7 +564,7 @@ export interface SceneComponent {
   pacing: string[];
   /** Where the scene starts; `after` names the beats that happen before this entry (their flags are prerequisite state in the Playground). */
   /** `counters`: what the scenes before leave on the counters (a base's nights, ADR-152) — the Playground and a solo bot run start there. */
-  entry?: { from: string; spawn: string; after?: string[]; counters?: Record<string, number> };
+  entry?: { from: string; spawn: string; after?: string[]; counters?: Record<string, number>; /** What the scenes before leave in the bag (Mani's tumblers for Kumar, ADR-153). */ inventory?: Record<string, number> };
   cast: Array<{ npc: string; tier: number; spawn?: string; schedule?: string; role?: string }>;
   objects?: Array<{ id: string; at: string; requires?: string | null }>;
   quests: string[];

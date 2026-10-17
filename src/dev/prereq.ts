@@ -107,7 +107,7 @@ export function buildPrereqState(
     flags,
     questsCompleted,
     stats: { ...defaults.stats },
-    inventory: [],
+    inventory: Object.entries(target.entry?.inventory ?? {}).flatMap(([id, n]) => Array<string>(n).fill(id)),
     counters: { ...(target.entry?.counters ?? {}) },
     clock: { day: defaults.clock.day, minute: parseTime(target.time) ?? defaults.clock.minute },
     reputation: 0,

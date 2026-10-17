@@ -166,6 +166,7 @@ export const act4Threat: Behaviour = {
         if (placed.has(p.id)) continue;
         if (lvl < (p.minLevel ?? 2)) continue;
         if (p.requiresFlag && !store().flags[p.requiresFlag]) continue;
+        if (p.unlessFlag && store().flags[p.unlessFlag]) continue;
         placed.add(p.id);
         const zone = zones.find((z) => z.def.id === p.zone);
         if (!zone) { console.error(`[act4Threat] pack "${p.id}" names zone "${p.zone}", not in act4Zones`); continue; }
@@ -239,11 +240,12 @@ export const act4Threat: Behaviour = {
       stats.adjust('stress', FAIL_FORWARD.stress);
       stats.adjust('health', FAIL_FORWARD.wakeHealth - store().stats.health);
       // A place with its own fail card tells the night itself (4.1's lane holds at the hill); otherwise a night passes here.
-      if (!district.failCard) TimeManager.getInstance().sleep();
+      const failCard = district.failCard && !(district.failCardUntil && store().flags[district.failCardUntil]) ? district.failCard : undefined;
+      if (!failCard) TimeManager.getInstance().sleep();
       // Home is the base you last woke in (ADR-149); the card's own landing until you have one.
       const home = Object.keys(store().flags).find((f) => f.startsWith('base_home:') && store().flags[f])?.slice('base_home:'.length);
       const homeDef = home ? DISTRICTS[home] : undefined;
-      playCard(district.failCard ?? 'card_fail_forward', !district.failCard && homeDef?.base ? { district: homeDef.id, spawn: homeDef.base.spawn } : undefined);
+      playCard(failCard ?? 'card_fail_forward', !failCard && homeDef?.base ? { district: homeDef.id, spawn: homeDef.base.spawn } : undefined);
     };
     const hurt = (inf: Infected, now: number) => {
       const kind = hitKind(lastHit, now);

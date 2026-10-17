@@ -1,0 +1,86 @@
+{
+  "id": "q_act4_cafe",
+  "title": "The Tiffin Room",
+  "description": "Get your people to Uncle's tiffin room, and do what the city asks of you from there.",
+  "chapter": 4,
+  "district": "tiffin_room",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_hill_days"
+  ],
+  "objectives": [
+    {
+      "id": "leave",
+      "text": "Leave the hill",
+      "type": "flag",
+      "target": "base_hill_done",
+      "destination": "ambedkar_nagar_hill"
+    },
+    {
+      "id": "kumar",
+      "text": "The horn",
+      "type": "flag",
+      "target": "kumar_decided",
+      "destination": "indiranagar_lane"
+    },
+    {
+      "id": "uncle",
+      "text": "Uncle",
+      "type": "flag",
+      "target": "uncle_met",
+      "destination": "tiffin_room"
+    },
+    {
+      "id": "night",
+      "text": "A night under the shutter",
+      "type": "flag",
+      "target": "cafe_day5",
+      "destination": "tiffin_room"
+    },
+    {
+      "id": "office",
+      "text": "The server room",
+      "type": "flag",
+      "target": "looted:office_server",
+      "destination": "office_gate"
+    },
+    {
+      "id": "raju",
+      "text": "Raju's back window",
+      "type": "flag",
+      "target": "raju_decided",
+      "destination": "prashanth_layout"
+    },
+    {
+      "id": "log",
+      "text": "Deepa reads it",
+      "type": "flag",
+      "target": "amr07_read",
+      "destination": "tiffin_room",
+      "optional": true
+    },
+    {
+      "id": "dark",
+      "text": "The generator",
+      "type": "flag",
+      "target": "cafe_turned",
+      "destination": "tiffin_room"
+    },
+    {
+      "id": "move",
+      "text": "Uncle",
+      "type": "flag",
+      "target": "base_cafe_done",
+      "destination": "tiffin_room"
+    }
+  ],
+  "rewards": {
+    "xp": 40,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_cafe_done"
+    ]
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "id": "act4_cafe",
+  "district": "ambedkar_nagar_hill",
+  "act": 4,
+  "seq": "4.3b",
+  "title": "The Tiffin Room",
+  "status": "P25",
+  "draft": "Built 2026-10-18 from the 4.3 'Base Chain' stub's B2 with its defaults ('take the defaults and build 4.3b'): Kumar trapped in his auto on the road west (save it with a thrown tumbler → he drives for you; walk on → his line ends), the Indiranagar café 'Rameshwara Tiffin Room' (parody, ADR-47) with Uncle as base 2 (days 4–7), the office return (ADR-44: colleagues infected at the shuttle bay, Prakash among them; the AMR-07 log from the server room — your parser's columns, read by Deepa), Raju's rescue at the Whitefield darshini, the generator running dry on its third night → Cubbon (B3, next phase).",
+  "time": "Act 4 day 4 06:10 → the morning of day 7",
+  "player_goal": "Get your people to Uncle's tiffin room, and do what the city asks of you from there.",
+  "design_goal": "The second base and the first real choices of the chain: two rescues paid for in items (a tumbler for Kumar, stones for Raju) or refused, and the first proof that the outbreak was known — in your own parser's output. The café is a lit island in a fallen district; the run goes back to Whitefield, where Acts 0–2 happened, now emptied by the curfew.",
+  "pacing": [
+    "Tense",
+    "Calm",
+    "Curious",
+    "Tense",
+    "Reward",
+    "Tense"
+  ],
+  "entry": {
+    "from": "act4_hill_days",
+    "spawn": "room3_out",
+    "after": [],
+    "inventory": {
+      "steel_tumbler": 2,
+      "stones": 2
+    },
+    "counters": {
+      "act4_day": 4,
+      "base_nights:hill_flat": 4
+    }
+  },
+  "cast": [
+    {
+      "npc": "npc_kumar_trapped",
+      "tier": 1,
+      "spawn": "kumar_spot",
+      "district": "indiranagar_lane",
+      "role": "KUMAR, the airport's Kannada auto driver, named at last: trapped in his auto, three of them leaning on it. A tumbler down the side lane frees him; he drives you to the café and on the runs."
+    },
+    {
+      "npc": "npc_uncle",
+      "tier": 3,
+      "spawn": "uncle_spot",
+      "district": "tiffin_room",
+      "role": "NEW. Uncle, sixties, forty-one years behind the counter: a generator with three nights of diesel, steel tumblers, a shutter that comes down. Sends you to Raju."
+    },
+    {
+      "npc": "npc_deepa",
+      "tier": 3,
+      "spawn": "deepa_spot",
+      "district": "tiffin_room",
+      "role": "Asks for the AMR-07 log from your office's server room; reads it: 14 March, 02:10 — the alarms switched off, the parser still logging."
+    },
+    {
+      "npc": "npc_raju_shut",
+      "tier": 1,
+      "spawn": "raju_shut",
+      "district": "prashanth_layout",
+      "role": "Raju (the Whitefield darshini, Act 0–1) shut in his own kitchen, two of them at his counter; stones on a van draw them off."
+    },
+    {
+      "npc": "npc_suresh",
+      "tier": 3,
+      "spawn": "suresh_spot",
+      "district": "tiffin_room",
+      "role": "By the shutter; Cubbon after the dark night."
+    }
+  ],
+  "quests": [
+    "q_act4_cafe"
+  ],
+  "beats": [
+    {
+      "id": "G1",
+      "pacing": "Tense",
+      "what": "First light: the walk west (a card) to Indiranagar; Kumar's horn — two short, one long. Throw a tumbler down the side lane (they turn, the auto comes) or keep walking. Either way, the tiffin room (a card).",
+      "interact": "dilemma (an item)",
+      "flag": "kumar_decided"
+    },
+    {
+      "id": "G2",
+      "pacing": "Calm",
+      "what": "The tiffin room: Uncle, the generator ('three nights'), Raju's call on the landline before it died. The café is the base: the mats are the bed, the counter the shelf, a table the bench, the kitchen searched.",
+      "interact": "dialogue + base",
+      "flag": "uncle_met"
+    },
+    {
+      "id": "G3",
+      "pacing": "Curious",
+      "what": "Day 5: the run to Whitefield (a card: Kumar's back roads, or the railway line on foot) — the ITPL gate open, the colleagues standing at the shuttle bay (Prakash's spectacles); the server room behind the lobby: the AMR-07 log.",
+      "interact": "investigate",
+      "flag": "looted:office_server"
+    },
+    {
+      "id": "G4",
+      "pacing": "Tense",
+      "what": "Prashanth Layout: Raju through the darshini's back window, two at his counter. Stones on a van up the road, or 'I can't, Raju.' Home at dusk (a card).",
+      "interact": "dilemma (an item)",
+      "flag": "raju_decided"
+    },
+    {
+      "id": "G5",
+      "pacing": "Reward",
+      "what": "Deepa reads the log: 14 March, 02:10, the readings flat, the alarms off — 'That's your parser.'",
+      "interact": "deliver",
+      "flag": "amr07_read"
+    },
+    {
+      "id": "G6",
+      "pacing": "Tense",
+      "what": "The third night the generator dies (a card); Uncle: the army's lamps at Cubbon. (Pack.)",
+      "interact": "sleep + card + dialogue",
+      "flag": "cafe_turned, base_cafe_done"
+    }
+  ],
+  "economy": [
+    {
+      "item": "a steel tumbler",
+      "price": 0,
+      "note": "Kumar's rescue"
+    },
+    {
+      "item": "stones",
+      "price": 0,
+      "note": "Raju's rescue"
+    }
+  ],
+  "exits": [
+    {
+      "zone": "walk_out (hill)",
+      "to": "indiranagar_lane",
+      "transit": "walk (card_walk_west)",
+      "note": "once Suresh has decided"
+    },
+    {
+      "zone": "shutter_zone",
+      "to": "office_gate",
+      "transit": "card_run_whitefield",
+      "note": "day 5"
+    },
+    {
+      "zone": "raju_call",
+      "to": "tiffin_room",
+      "transit": "card_back_cafe",
+      "note": "after Raju"
+    }
+  ],
+  "save_flags": [
+    "kumar_decided",
+    "base_cafe_set",
+    "uncle_met",
+    "raju_heard",
+    "cafe_day5",
+    "office_returned",
+    "looted:office_server",
+    "raju_decided",
+    "amr07_read",
+    "base_lamp_failed:tiffin_room",
+    "cafe_turned",
+    "base_cafe_done",
+    "act4_cafe_done"
+  ],
+  "assets_needed": [
+    "the tiffin room (generated interior, first try)",
+    "Uncle's sheet (generated, first try)"
+  ],
+  "acceptance": [
+    "the bot plays it from the hill to Uncle's decision",
+    "both rescues cost an item or are refused",
+    "nobody strolls under the curfew"
+  ],
+  "open_questions": []
+}

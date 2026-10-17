@@ -1,0 +1,10 @@
+{
+  "id": "dlg_kumar_cafe",
+  "speaker": "Kumar",
+  "portrait": "npc_auto_driver",
+  "nodes": {
+    "start": {
+      "text": "Auto's outside, saar. Half a tank. You say where, I'll find the road."
+    }
+  }
+}

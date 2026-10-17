@@ -1,0 +1,15 @@
+{
+  "id": "dlg_office_return",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(ITPL. The gate's open, the guard's chair empty. At the shuttle bay, people in lanyards stand in a line, very still, facing the road. One of them wears Prakash's spectacles.)",
+      "effect": {
+        "flags": {
+          "office_returned": true
+        }
+      }
+    }
+  }
+}

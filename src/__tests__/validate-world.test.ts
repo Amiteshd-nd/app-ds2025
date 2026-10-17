@@ -24,7 +24,9 @@ const realWorld = (): WorldInputs => {
   const npcs = readdirSync(npcDir).filter((f) => f.endsWith('.json')).flatMap((f) => JSON.parse(readFileSync(join(npcDir, f), 'utf8')) as Array<{ id: string; dialogue?: string }>);
   const cardsOf = (d: { nodes?: Record<string, { effect?: { card?: string }; choices?: Array<{ effect?: { card?: string } }> }> } | undefined) => Object.values(d?.nodes ?? {}).flatMap((n) => [n, ...(n.choices ?? [])]).map((x) => x.effect?.card).filter((c): c is string => typeof c === 'string');
   const npcCards = Object.fromEntries(npcs.map((n) => [n.id, cardsOf(n.dialogue ? dialogues[n.dialogue] : undefined)]));
-  return { manifest, maps: maps as WorldInputs['maps'], sprites, cards, npcCards };
+  // A zone's conversation that ends on a card is a way there too (Kumar's horn → the tiffin room, ADR-153).
+  const dialogueCards = Object.fromEntries(Object.entries(dialogues).map(([id, d]) => [id, cardsOf(d as Parameters<typeof cardsOf>[0])]));
+  return { manifest, maps: maps as WorldInputs['maps'], sprites, cards, npcCards, dialogueCards };
 };
 
 const realDistricts = () => JSON.parse(readFileSync(join(dataDir, 'districts.json'), 'utf8'));

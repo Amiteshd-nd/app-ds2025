@@ -1,0 +1,26 @@
+{
+  "id": "card_walk_west",
+  "$comment": "Story 4.3b (ADR-153): leaving the hill at first light; the walk west to Indiranagar, where Kumar's horn is.",
+  "panels": [
+    {
+      "title": "AMBEDKAR NAGAR · 06:10",
+      "text": "Suresh locks his door and doesn't look back.",
+      "ms": 4200
+    },
+    {
+      "title": "OLD AIRPORT ROAD · 08:30",
+      "text": "Nobody on the road but you, your people, and the crows.",
+      "ms": 4400
+    },
+    {
+      "title": "INDIRANAGAR · 09:40",
+      "text": "A horn, somewhere ahead. Two short, one long.",
+      "ms": 4400
+    }
+  ],
+  "then": {
+    "district": "indiranagar_lane",
+    "spawn": "lane_top",
+    "minute": 580
+  }
+}

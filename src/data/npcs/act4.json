@@ -122,5 +122,41 @@
     "dialogue": "dlg_deepa",
     "sheet": "npc_deepa",
     "voice": "adult_f"
+  },
+  {
+    "id": "npc_uncle",
+    "name": "Uncle",
+    "tier": 3,
+    "dialogue": "dlg_uncle",
+    "sheet": "npc_uncle",
+    "voice": "elder"
+  },
+  {
+    "id": "npc_kumar_trapped",
+    "name": "Kumar",
+    "tier": 1,
+    "sheet": "npc_auto_driver"
+  },
+  {
+    "id": "npc_kumar",
+    "name": "Kumar",
+    "tier": 3,
+    "dialogue": "dlg_kumar_cafe",
+    "sheet": "npc_auto_driver",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_raju_shut",
+    "name": "Raju",
+    "tier": 1,
+    "sheet": "npc_darshini_raju"
+  },
+  {
+    "id": "npc_raju_cafe",
+    "name": "Raju",
+    "tier": 2,
+    "dialogue": "dlg_raju_cafe",
+    "sheet": "npc_darshini_raju",
+    "voice": "adult_m"
   }
 ]

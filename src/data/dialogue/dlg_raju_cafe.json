@@ -1,0 +1,10 @@
+{
+  "id": "dlg_raju_cafe",
+  "speaker": "Raju",
+  "portrait": "npc_darshini_raju",
+  "nodes": {
+    "start": {
+      "text": "(A sack of rice beside him.) I owe you a dosa. When there's a dosa again."
+    }
+  }
+}

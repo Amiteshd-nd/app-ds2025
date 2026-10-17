@@ -4,6 +4,14 @@
   "portrait": "npc_deepa",
   "enter": [
     {
+      "flag": "amr07_read",
+      "node": "log_after"
+    },
+    {
+      "flag": "base_cafe_set",
+      "node": "cafe"
+    },
+    {
       "flag": "deepa_medicine",
       "node": "after"
     },
@@ -80,6 +88,45 @@
     },
     "after": {
       "text": "(Paler. Sitting up.) Still me. For now."
+    },
+    "cafe": {
+      "text": "(On a stool, the strip in her fist.) AMR-07 — our lab's sensors. The telemetry went to your office's servers. If the server room still has the raw log, it shows when the readings went wrong. Before anyone said a word.",
+      "choices": [
+        {
+          "text": "(Give her the log.)",
+          "next": "log",
+          "requiresItems": {
+            "amr07_log": 1
+          },
+          "lockedText": "You don't have it",
+          "effect": {
+            "items_remove": {
+              "amr07_log": 1
+            },
+            "flags": {
+              "amr07_read": true
+            }
+          }
+        },
+        {
+          "text": "I'll look.",
+          "next": "look",
+          "effect": {
+            "flags": {
+              "deepa_log_asked": true
+            }
+          }
+        }
+      ]
+    },
+    "look": {
+      "text": "ITPL. The server room behind the lobby. Printouts, if the power held."
+    },
+    "log": {
+      "text": "(She runs a finger down the columns.) Fourteenth of March, 02:10. The readings go flat — someone switched the alarms off. The parser kept logging anyway. (She looks up.) That's your parser."
+    },
+    "log_after": {
+      "text": "Fourteenth of March. Someone knew."
     }
   }
 }

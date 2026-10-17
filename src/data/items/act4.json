@@ -208,5 +208,15 @@
     "stackable": false,
     "act4_value": 0,
     "tradeable": false
+  },
+  {
+    "id": "amr07_log",
+    "name": "AMR-07 log",
+    "description": "A stack of telemetry printouts from the server room. March. Your parser's columns.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
   }
 ]
