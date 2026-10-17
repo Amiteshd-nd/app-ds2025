@@ -179,7 +179,7 @@ export function objects(
       if (want && !have) {
         const at = findObject(map, def.spawnLayer, ref.at);
         if (!at) { console.error(`[Populate] object "${ref.id}" wants spawn "${ref.at}", which is not in the map`); return; }
-        const item = add(ref.id, Math.round((at.x ?? 0) / tile), Math.round((at.y ?? 0) / tile));
+        const item = ref.exact ? add(ref.id, (at.x ?? 0) / tile, (at.y ?? 0) / tile) : add(ref.id, Math.round((at.x ?? 0) / tile), Math.round((at.y ?? 0) / tile));
         if (item) byRef.set(i, item);
       } else if (!want && have) {
         have.destroy();

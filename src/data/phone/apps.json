@@ -1,7 +1,7 @@
 [
   { "id": "maps", "name": "Maps", "icon": "maps", "order": 1, "dock": true, "unlock": "divya_called", "hint": "Divya will point you somewhere first." },
   { "id": "chats", "name": "Chats", "icon": "chats", "order": 2, "dock": true },
-  { "id": "upi", "name": "UPI", "icon": "upi", "order": 3, "dock": true },
+  { "id": "upi", "name": "UPI", "icon": "upi", "order": 3, "dock": true, "noticeIf": { "flag": "wn_server_busy", "text": "Server busy. Try again later." } },
   { "id": "camera", "name": "Camera", "icon": "camera", "order": 4, "dock": true, "unlock": "city_moments_taught", "hint": "Some places are worth a photo. You'll know." },
   { "id": "call", "name": "Calls", "icon": "call", "order": 5, "unlock": "divya_called", "hint": "Nobody has called yet." },
   { "id": "contacts", "name": "Contacts", "icon": "contacts", "order": 6 },

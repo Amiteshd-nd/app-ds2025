@@ -1,0 +1,118 @@
+{
+  "scene": "act3_three_nights",
+  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act3_three_nights + ward4 + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "ward4",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "goto_3",
+      "beat": "F1",
+      "do": "goto",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "interact_4",
+      "beat": "F1",
+      "do": "interact",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "advance_5",
+      "beat": "F1",
+      "do": "advance"
+    },
+    {
+      "id": "sleep_6",
+      "beat": "F2",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_7",
+      "beat": "F2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "wn_curfew",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_8",
+      "beat": "F3",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_9",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "wn_amma",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_10",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:ward_middle"
+    },
+    {
+      "id": "choose_11",
+      "beat": "F3",
+      "do": "choose",
+      "option": "soon"
+    },
+    {
+      "id": "wait_for_12",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "amma_home_answered",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_13",
+      "beat": "F4",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_14",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ravi_gone",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_15",
+      "beat": "F4",
+      "do": "goto",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "interact_16",
+      "beat": "F4",
+      "do": "interact",
+      "target": "npc:npc_ward_nurse"
+    },
+    {
+      "id": "advance_17",
+      "beat": "F4",
+      "do": "advance"
+    },
+    {
+      "id": "expect_18",
+      "do": "expect",
+      "flag": "act3_three_nights_done",
+      "timeout": 3000
+    }
+  ]
+}

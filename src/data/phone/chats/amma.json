@@ -51,6 +51,13 @@
       "text": "Where are you? Your phone rang and rang. Call me.",
       "after": "ward_woke",
       "critical": true
+    },
+    {
+      "id": "amma_come_home",
+      "from": "them",
+      "text": "Come home. Please. Your father is asking.",
+      "after": "wn_amma",
+      "critical": true
     }
   ]
 }

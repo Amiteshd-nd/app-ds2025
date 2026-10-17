@@ -3,5 +3,6 @@
   { "id": "news_denial", "date": "WEEK 2", "source": "Metro Edition", "headline": "HIVR calls leak rumours 'baseless'", "body": "Project Amrita is purely agricultural, says director Dr. Meera Krishnamurthy. 'We grow better crops, not stories.'", "after": "bc_denial" },
   { "id": "news_sealed", "date": "WEEK 3", "source": "City Desk", "headline": "Ward sealed at Hebbal General", "body": "Families wait outside overnight. Hospital cites 'acute viral encephalitis' and asks for calm.", "after": "bc_sealed" },
   { "id": "news_schools", "date": "WEEK 4", "source": "North Bengaluru", "headline": "Yelahanka schools shut 'as a precaution'", "body": "Several staff members fell ill. Parents told to keep children home 'for a few days'.", "after": "bc_schools" },
-  { "id": "news_second_ward", "date": "WEEK 5", "source": "North Bengaluru", "headline": "Hebbal: second ward closed", "body": "Officials say the situation is under control. Visitors asked to stay away 'for now'.", "after": "act3_started" }
+  { "id": "news_second_ward", "date": "WEEK 5", "source": "North Bengaluru", "headline": "Hebbal: second ward closed", "body": "Officials say the situation is under control. Visitors asked to stay away 'for now'.", "after": "act3_started" },
+  { "id": "news_curfew", "date": "WEEK 6", "source": "City Desk", "headline": "BBMP announces night curfew, 10 PM to 6 AM", "body": "\"A precaution,\" says the commissioner. Hospitals in the north of the city stop taking visitors.", "after": "wn_curfew" }
 ]

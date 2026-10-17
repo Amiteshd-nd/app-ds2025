@@ -1,0 +1,24 @@
+[
+  {
+    "id": "STRIPPED_BED",
+    "label": "Ravi's bed, stripped",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 2,
+    "backgroundTiles": 2,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "ward_props_01"
+  },
+  {
+    "id": "IV_FLOOR",
+    "label": "An IV stand on the floor, its line trailing",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 1,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "ward_props_02"
+  }
+]

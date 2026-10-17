@@ -233,6 +233,17 @@ export function validateContent(
       if (e.toast) drawable(where, `${d} sleepEvent toast`, e.toast);
     }
     if (district.sleepEvents?.length && !(district.behaviours ?? []).includes('sleepEvents')) add(where, `${d} has sleepEvents but not the "sleepEvents" behaviour`);
+    // ADR-142: the countdown plate, signal and stability by flag.
+    if (district.countdown) {
+      const c = district.countdown;
+      if (typeof c.after !== 'string' || !(Number.isInteger(c.nights) && c.nights > 0) || typeof c.label !== 'string') add(where, `${d} countdown needs after (a flag), nights (> 0) and a label`);
+      else drawable(where, `${d} countdown label`, c.label);
+      if (!(district.behaviours ?? []).includes('countdown')) add(where, `${d} has a countdown but not the "countdown" behaviour`);
+      const b = district.behaviours ?? [];
+      if (b.includes('countdown') && b.indexOf('sleepEvents') > b.indexOf('countdown')) add(where, `${d} lists "countdown" before "sleepEvents" — the plate would redraw before the night counter moves`);
+    }
+    for (const s of district.signalIf ?? []) if (typeof s.flag !== 'string' || !(Number.isInteger(s.bars) && s.bars >= 0 && s.bars <= 4)) add(where, `${d} signalIf needs a flag and bars 0–4`);
+    for (const s of district.stabilityIf ?? []) if (typeof s.flag !== 'string' || !(typeof s.stability === 'number' && s.stability >= 0 && s.stability <= 100)) add(where, `${d} stabilityIf needs a flag and a stability 0–100`);
     for (const trigger of district.triggers ?? []) {
       if (!trigger.zone) add(where, `${d} has a trigger without a zone`);
       if (trigger.action !== undefined && !['sleep', 'workday', 'rhythm', 'card'].includes(trigger.action)) add(where, `${d} trigger "${trigger.zone}" has unknown action "${trigger.action}" (sleep | workday | rhythm | card)`);
@@ -539,6 +550,10 @@ export function validateContent(
     if (app.dock !== undefined && typeof app.dock !== 'boolean') add('phone/apps.json', `app "${app.id}" dock must be true or false`);
     drawable('phone/apps.json', `app "${app.id}" name`, app.name);
     drawable('phone/apps.json', `app "${app.id}" hint`, app.hint);
+    if (app.noticeIf !== undefined) {
+      if (typeof app.noticeIf?.flag !== 'string' || typeof app.noticeIf?.text !== 'string') add('phone/apps.json', `app "${app.id}" noticeIf needs a flag and a text`);
+      else drawable('phone/apps.json', `app "${app.id}" notice`, app.noticeIf.text);
+    }
   }
   // Home screen: 4 dock slots, a 4×3 grid (ADR-114).
   const docked = (phone.apps ?? []).filter((a) => a.dock).length;

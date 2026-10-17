@@ -1,0 +1,39 @@
+{
+  "id": "dlg_amma_come_home",
+  "speaker": "Amma",
+  "portrait": "npc_placeholder",
+  "nodes": {
+    "start": {
+      "text": "(The phone, one bar, Amma's voice breaking up.) Come home. Please. Your father is asking. He never asks.",
+      "effect": {
+        "cue": "a.phone.ringtone"
+      },
+      "choices": [
+        {
+          "text": "Soon, Amma. When they let me out.",
+          "next": "soon"
+        },
+        {
+          "text": "I'm fine, Amma. Eat something.",
+          "next": "fine"
+        }
+      ]
+    },
+    "soon": {
+      "text": "Soon. Okay. Soon. (The line drops.)",
+      "effect": {
+        "flags": {
+          "amma_home_answered": true
+        }
+      }
+    },
+    "fine": {
+      "text": "You're telling me to eat? (A laugh that isn't one. The line drops.)",
+      "effect": {
+        "flags": {
+          "amma_home_answered": true
+        }
+      }
+    }
+  }
+}

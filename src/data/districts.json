@@ -2336,7 +2336,8 @@
     },
     "quests": [
       "q_act3_ward4",
-      "q_act3_corridor"
+      "q_act3_corridor",
+      "q_act3_three_nights"
     ],
     "npcs": [
       {
@@ -2345,7 +2346,8 @@
       },
       {
         "id": "npc_ravi_ward",
-        "spawn": "ravi_bed"
+        "spawn": "ravi_bed",
+        "unlessFlag": "ravi_gone"
       },
       {
         "id": "npc_patient_old",
@@ -2353,13 +2355,15 @@
       },
       {
         "id": "npc_patient_woman",
-        "spawn": "patient_woman"
+        "spawn": "patient_woman",
+        "unlessFlag": "woman_gone"
       }
     ],
     "triggers": [
       {
         "zone": "sealed_zone",
-        "dialogue": "dlg_sealed_door"
+        "dialogue": "dlg_sealed_door",
+        "unlessFlag": "door_quiet"
       },
       {
         "zone": "tv_zone",
@@ -2374,6 +2378,23 @@
       {
         "zone": "ward_exit",
         "dialogue": "dlg_ward_door"
+      },
+      {
+        "zone": "sealed_zone",
+        "dialogue": "dlg_sealed_quiet",
+        "requiresFlag": "door_quiet"
+      },
+      {
+        "zone": "bed_zone",
+        "action": "sleep",
+        "requiresFlag": "ward_nights_started",
+        "once": false
+      },
+      {
+        "zone": "ward_middle",
+        "dialogue": "dlg_amma_come_home",
+        "requiresFlag": "wn_amma",
+        "unlessFlag": "amma_home_answered"
       }
     ],
     "audioSources": [
@@ -2382,6 +2403,77 @@
         "token": "a.sfx.npc.crowd_murmur",
         "radius": 4,
         "kind": "machine"
+      }
+    ],
+    "objects": [
+      {
+        "id": "STRIPPED_BED",
+        "at": "stripped_bed",
+        "requiresFlag": "ravi_gone",
+        "exact": true
+      },
+      {
+        "id": "IV_FLOOR",
+        "at": "iv_floor",
+        "requiresFlag": "ravi_gone",
+        "exact": true
+      }
+    ],
+    "behaviours": [
+      "sleepEvents",
+      "countdown"
+    ],
+    "sleepEvents": [
+      {
+        "after": "ward_nights_started",
+        "nights": 1,
+        "set": [
+          "wn_curfew"
+        ],
+        "toast": "News: Night curfew, 10 PM to 6 AM",
+        "icon": "news"
+      },
+      {
+        "after": "ward_nights_started",
+        "nights": 2,
+        "set": [
+          "wn_amma",
+          "wn_server_busy",
+          "woman_gone",
+          "door_quiet"
+        ]
+      },
+      {
+        "after": "ward_nights_started",
+        "nights": 3,
+        "set": [
+          "ravi_gone"
+        ]
+      }
+    ],
+    "countdown": {
+      "after": "ward_nights_started",
+      "nights": 3,
+      "label": "Discharge"
+    },
+    "signalIf": [
+      {
+        "flag": "ravi_gone",
+        "bars": 0
+      }
+    ],
+    "stabilityIf": [
+      {
+        "flag": "wn_curfew",
+        "stability": 75
+      },
+      {
+        "flag": "wn_amma",
+        "stability": 55
+      },
+      {
+        "flag": "ravi_gone",
+        "stability": 45
       }
     ]
   },

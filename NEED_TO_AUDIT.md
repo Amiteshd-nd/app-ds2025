@@ -31,6 +31,7 @@ corepack pnpm movie
 | 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | local commit, not pushed | waiting |
 | 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | local commit, not pushed | waiting |
 | 13 | Audio A3 batch 1 · Kenney's real sounds replace 60 placeholders (ADR-141) | 2026-10-17 | local commit, not pushed | waiting |
+| 14 | P20 · 3.4 "Three Nights, Again" (ADR-142) | 2026-10-17 | local commit, not pushed | waiting |
 | 13 | HUD settings gear + Playground mute/volume (ADR-141) | 2026-10-17 | local, not committed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
@@ -199,4 +200,17 @@ corepack pnpm dev
   - The money sounds are casino chips.
   - The title, UPI and ringtone jingles stay ours (original).
 - **Still needed from you:** the 20 recordings (`docs/audio_plan_v1.md` §5.4). Optionally, ffmpeg (`brew install ffmpeg`) to shrink the files.
+
+## 14. 3.4 "Three Nights, Again"
+- **What:** the first week at the hotel, played backwards. Three nights in the ward with the hotel's countdown plate ("Discharge · 3 nights"); each morning the world is quieter.
+- **Check:** in the Playground, pick Act 3 → 3.4 (it starts in the ward at 18:30).
+  - Talk to Sister Lalitha: "Three nights…", and the plate appears.
+  - Sleep in your bed (the zone at its foot). Morning 1: News has the curfew, the TV ticker matches, and Ravi says they took his phone.
+  - Sleep again. Morning 2: Amma's message, then her call as you step into the aisle (two kind answers). The woman's bed is empty, the isolation door no longer taps, Ravi coughs, UPI says "Server busy", and the ward sounds thinner (fewer horns, distant sirens).
+  - Sleep again. Morning 3: "Discharge · today", no signal, and Ravi's bed is stripped with the IV line on the floor. The nurse says "Moved. Another ward. Don't ask me which."
+- **Calls to confirm:**
+  - Amma calls as you leave the bed, not the moment you wake.
+  - "Server busy" is a banner only; payments still work.
+  - The ward's sound stops at "warning" (no deeper) in this act.
+  - The stripped bed's stripes look pale.
 

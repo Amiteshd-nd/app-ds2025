@@ -15,7 +15,7 @@ import { measure, rupees, truncate, wrap } from '../ui/kit/text';
 import { APP, HOME, LIST, PHONE, POP_OFFSETS, SAFE_BOTTOM, dockCell, gridCell, listRows, slideSteps } from '../ui/phone/layout';
 import { paintDockBand, paintFrame, paintStatusIcons, paintWallpaper, STATUS_ICONS, WALLPAPER } from '../ui/phone/paint';
 import { BUBBLE, bubbleWindow, bubbles, bufferingText, cameraView, chatRows, homeTiles, mapRows, noteDetail, reelState, signalAt, statusBar, upiRows, visibleReels, type HomeTile, type ReelState } from '../ui/phone/viewModel';
-import { DISTRICTS, JODI_PROFILES, REELS } from '../data';
+import { DISTRICTS, JODI_PROFILES, PHONE_APPS, REELS } from '../data';
 import type { ReelClip } from '../utils/types';
 import { hudLayout, hudScale } from '../ui/hud/layout';
 import { attachGamepad, PAD } from '../ui/kit/gamepad';
@@ -666,6 +666,9 @@ export class PhoneScene extends Phaser.Scene {
     this.drawChrome('upi', 'NAMMA PAY', 'upi', 'phone.accent.upi');
     const { balance, transactions } = PhoneManager.getInstance().upi();
     const mid = PHONE.screen.w / 2;
+    // "Server busy." (story 3.4, ADR-142): a banner while its flag is set; payments still go through.
+    const notice = PHONE_APPS.find((a) => a.id === 'upi')?.noticeIf;
+    if (notice && useGameStore.getState().flags[notice.flag]) this.text(mid, 44, notice.text, 'phone.accent.alert', { align: 'center' });
     this.text(mid, 56, 'BALANCE', 'phone.lcd.mid', { align: 'center' });
     this.text(mid, 68, rupees(Math.max(0, balance)), 'phone.lcd.ink', { k: 2, align: 'center' });
     this.text(12, 96, 'RECENT', 'phone.lcd.mid');

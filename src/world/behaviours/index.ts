@@ -49,6 +49,7 @@ import { metroOpening } from './metroOpening';
 import { guitarNights } from './guitarNights';
 import { sleepEvents } from './sleepEvents';
 import { nightLook } from './nightLook';
+import { countdown } from './countdown';
 
 /** Registry by name — add here AND in names.ts (a test keeps them equal). */
 export const BEHAVIOURS: Record<string, Behaviour> = {
@@ -69,6 +70,7 @@ export const BEHAVIOURS: Record<string, Behaviour> = {
   guitarNights,
   sleepEvents,
   nightLook,
+  countdown,
 };
 
 /**

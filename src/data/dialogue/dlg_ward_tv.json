@@ -11,6 +11,18 @@
         },
         "cue": "a.sfx.world.tv_on"
       }
+    },
+    "curfew": {
+      "text": "(The ticker has changed: NIGHT CURFEW 10 PM - 6 AM - BBMP: \"A PRECAUTION\" - STAY INDOORS AFTER DARK.)",
+      "effect": {
+        "cue": "a.sfx.world.tv_on"
+      }
     }
-  }
+  },
+  "enter": [
+    {
+      "flag": "wn_curfew",
+      "node": "curfew"
+    }
+  ]
 }

@@ -1,0 +1,64 @@
+{
+  "id": "q_act3_three_nights",
+  "title": "Three Nights, Again",
+  "description": "Three nights in Ward 4, then the doctor signs.",
+  "chapter": 3,
+  "district": "ward4",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act3_corridor"
+  ],
+  "objectives": [
+    {
+      "id": "start",
+      "text": "Talk to Sister Lalitha",
+      "type": "flag",
+      "target": "ward_nights_started",
+      "destination": "ward4"
+    },
+    {
+      "id": "night1",
+      "text": "Sleep",
+      "type": "flag",
+      "target": "wn_curfew",
+      "destination": "ward4"
+    },
+    {
+      "id": "night2",
+      "text": "Sleep",
+      "type": "flag",
+      "target": "wn_amma",
+      "destination": "ward4"
+    },
+    {
+      "id": "amma",
+      "text": "Amma",
+      "type": "flag",
+      "target": "amma_home_answered",
+      "destination": "ward4"
+    },
+    {
+      "id": "night3",
+      "text": "Sleep",
+      "type": "flag",
+      "target": "ravi_gone",
+      "destination": "ward4"
+    },
+    {
+      "id": "ravi",
+      "text": "Ask about Ravi",
+      "type": "flag",
+      "target": "nurse_ravi_moved",
+      "destination": "ward4"
+    }
+  ],
+  "rewards": {
+    "xp": 10,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act3_three_nights_done"
+    ]
+  }
+}

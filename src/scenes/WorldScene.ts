@@ -404,6 +404,8 @@ export class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeOut(FADE_MS, 0, 0, 0);
     this.cameras.main.once('camerafadeoutcomplete', () => {
       TimeManager.getInstance().sleep();
+      // Someone who left in the night (Ravi's bed on morning 3) is gone when the lights come up.
+      this.dismissLeavers();
       this.persist();
       this.cameras.main.fadeEffect.reset();
       this.cameras.main.fadeIn(FADE_MS, 0, 0, 0);

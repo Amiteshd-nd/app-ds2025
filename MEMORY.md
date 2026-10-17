@@ -154,3 +154,8 @@ See `docs/design/bangalore_rpg_unfinished_business.md` and the *(proposed)* rows
 ## Audio A3 batch 1 (2026-10-17, ADR-141)
 - No ffmpeg on this Mac and none installed: compressed audio is decoded in headless Chromium (`scripts/audio/decode-browser.mjs`, playwright-core) → `prepare()` → 16-bit WAV. Check every npm dependency's own dependencies' licences — `@wasm-audio-decoders/ogg-vorbis` pulls LGPL `codec-parser`.
 - Kenney packs: the zips stay in the scratchpad; only used files go to `src/assets/_raw/audio/kenney/<pack>/` with `License.txt`.
+
+## 3.4 Three Nights, Again (2026-10-17, P20, ADR-142)
+- A trigger whose `requiresFlag` is unset still counts the entry (the watcher latches until you step out): a zone that becomes live while the player stands in it never fires. Keep such zones away from where the player waits (a bed).
+- `countdown` reads sleepEvents' `nights_since:<after>` counter: list `sleepEvents` before `countdown` (validated).
+- Objects snap to tiles unless `exact: true` (top-left at the spawn's point: game y = source y × scale − 17).

@@ -47,6 +47,9 @@ export function homeTiles(apps: AppView[], unread: number): { grid: HomeTile[]; 
 export function signalAt(districtId: string | null, override: number | null = useGameStore.getState().signalOverride): number {
   if (override !== null && override !== undefined) return Math.max(0, Math.min(4, override));
   let d = districtId ? DISTRICTS[districtId] : undefined;
+  const flags = useGameStore.getState().flags;
+  const byFlag = (d?.signalIf ?? []).filter((s) => flags[s.flag]).pop();
+  if (byFlag) return Math.max(0, Math.min(4, byFlag.bars));
   for (let i = 0; d && i < 5; i++) {
     if (d.signal !== undefined) return Math.max(0, Math.min(4, d.signal));
     d = d.realworld && 'parent' in d.realworld ? DISTRICTS[d.realworld.parent] : undefined;

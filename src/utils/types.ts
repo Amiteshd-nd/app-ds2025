@@ -283,6 +283,8 @@ export interface DistrictObjectRef {
   unlessFlag?: string;
   /** Every one of these flags must be set — a bookshelf both bought and assembled (ADR-132). */
   requiresFlags?: string[];
+  /** Placed at the spawn's exact pixel (not snapped to the tile grid) — over a bed drawn in the map (ADR-142). */
+  exact?: boolean;
 }
 
 /** Ambient crowd: random-walk bots drawn from a pool of sprite sheets. */
@@ -363,6 +365,12 @@ export interface DistrictDef {
   playerSheet?: string;
   /** `minimal`: the HUD shows only the objective — no clock, wallet, meters, phone or map (it isn't your life; ADR-138). */
   hud?: 'minimal';
+  /** The hotel's night plate as data (ADR-142): once `after` is set, the HUD shows `label · N nights` left (the `countdown` behaviour). */
+  countdown?: { after: string; nights: number; label: string };
+  /** Signal bars by flag, the last set one wins over `signal` (the ward's signal dies, ADR-142). */
+  signalIf?: Array<{ flag: string; bars: number }>;
+  /** This place's stability by flag, the last set one wins (default 100) — the ward thins night by night (ADR-142); Act 4's grade() later. */
+  stabilityIf?: Array<{ flag: string; stability: number }>;
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
   nightTint?: number;
   /** Sounds that come from a spot (ADR-139): a looping token fades with distance; a one-shot repeats every `every` [min, max] seconds. `at` = a spawn/zone in the map. */
@@ -648,6 +656,8 @@ export interface PhoneApp {
   hint?: string;
   /** Gone from the phone once this flag is set — Jodi uninstalls itself (ADR-134). */
   until?: string;
+  /** A banner inside the app while a flag is set — UPI's "Server busy" (ADR-142). */
+  noticeIf?: { flag: string; text: string };
 }
 
 export interface ChatMessage {

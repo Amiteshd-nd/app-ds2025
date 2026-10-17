@@ -630,6 +630,10 @@
     {
      "bed": "ward",
      "gain": 1
+    },
+    {
+     "bed": "city_traffic",
+     "gain": 0.3
     }
    ],
    "night": [

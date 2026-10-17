@@ -166,7 +166,7 @@ export class AudioSystem {
     this.wasChasing = chaseActive;
     return {
       districtId: s.activeDistrict, transit: this.transit, workday: this.workday, minute: s.clock.minute,
-      stability: this.debug.stability ?? 100, pacing: this.pacing(), chaseActive, reliefMs: Math.max(0, this.reliefUntil - this.now),
+      stability: this.debug.stability ?? this.stabilityHere(), pacing: this.pacing(), chaseActive, reliefMs: Math.max(0, this.reliefUntil - this.now),
       nearestInfected: this.debug.nearestInfected ?? null, stress: s.stats.stress,
     };
   }
@@ -174,6 +174,13 @@ export class AudioSystem {
   /** Where this place's sounds come from — the Playground's speaker icons. */
   sourcesView(): Array<{ token: string; x: number; y: number; radius: number; kind?: string; loop: boolean }> {
     return this.sources.map((s) => ({ token: s.token, x: s.x, y: s.y, radius: s.radius * TILE_SIZE, kind: s.kind, loop: Boolean(s.live) }));
+  }
+
+  /** This place's stability from its data (`stabilityIf`, the last set flag wins), else 100. */
+  private stabilityHere(): number {
+    const s = useGameStore.getState();
+    const d = s.activeDistrict ? getDistrict(s.activeDistrict) : null;
+    return (d?.stabilityIf ?? []).filter((x) => s.flags[x.flag]).pop()?.stability ?? 100;
   }
 
   /** Playground test bench: Act 4's inputs (stability, a chase, an infected's distance) before Act 4 exists. */

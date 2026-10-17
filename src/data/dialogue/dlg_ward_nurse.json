@@ -4,6 +4,22 @@
   "portrait": "npc_nurse",
   "enter": [
     {
+      "flag": "ravi_gone",
+      "node": "moved"
+    },
+    {
+      "flag": "wn_curfew",
+      "node": "busy"
+    },
+    {
+      "flag": "ward_nights_started",
+      "node": "nights_again"
+    },
+    {
+      "flag": "act3_corridor_done",
+      "node": "three_nights"
+    },
+    {
       "flag": "nurse_ward_met",
       "node": "again"
     },
@@ -52,6 +68,28 @@
     },
     "again": {
       "text": "Red line. Idli. Rest. In that order."
+    },
+    "three_nights": {
+      "text": "(Sister Lalitha, at her desk, doesn't look up.) Three nights. Then the doctor signs. Thursday. Sleep, if you can.",
+      "effect": {
+        "flags": {
+          "ward_nights_started": true
+        }
+      }
+    },
+    "nights_again": {
+      "text": "Sleep. Thursday."
+    },
+    "busy": {
+      "text": "(She's writing fast.) Eleven beds, one of me, and now a curfew. Eat your idli. Don't ask me anything."
+    },
+    "moved": {
+      "text": "(Before you ask.) Moved. Another ward. Don't ask me which.",
+      "effect": {
+        "flags": {
+          "nurse_ravi_moved": true
+        }
+      }
     }
   }
 }

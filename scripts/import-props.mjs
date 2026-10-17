@@ -37,6 +37,8 @@ export const SHEETS = {
   ikea_props: { cols: 3, rows: 2, height: 30, heights: [28, 16, 38, 40, 40, 22] },
   // 2.6 The App (P15, ADR-134): four profile-card portraits for the Jodi phone screen.
   jodi_portraits: { cols: 2, rows: 2, height: 56 },
+  // 3.4 Three Nights, Again (P20, ADR-142): Ravi's stripped bed · the IV stand on the floor, its line trailing.
+  ward_props: { cols: 2, rows: 1, height: 30, heights: [66, 30] },
 };
 
 const keyMagenta = (d) => {

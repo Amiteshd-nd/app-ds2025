@@ -4,6 +4,14 @@
   "portrait": "npc_ravi",
   "enter": [
     {
+      "flag": "wn_amma",
+      "node": "cough"
+    },
+    {
+      "flag": "wn_curfew",
+      "node": "phone_taken"
+    },
+    {
       "flag": "act3_corridor_done",
       "node": "after"
     },
@@ -108,6 +116,12 @@
     },
     "rest": {
       "text": "(He nods, and closes his eyes.)"
+    },
+    "phone_taken": {
+      "text": "(Ravi, staring at the ceiling.) They took my phone. For tests, they said. Appa will be calling."
+    },
+    "cough": {
+      "text": "(Asleep. A cough he didn't have before — dry, three times, then nothing.)"
     }
   }
 }
