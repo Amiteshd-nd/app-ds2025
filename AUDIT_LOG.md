@@ -487,3 +487,7 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Not pushed: pushing still waits for "approved, push". ADR-161 lives on branch `polish-adr161` until the other chat's ADR-160 (bus boarding, its own audit) is committed on `main` and the branch merges.
 - Still waiting on the user: #1–15 (Movie Mode steps 3–4, the Acts 0–3 audits).
 
+### [#1–15 — approved as built] — 2026-10-18
+- Decision: "approve #1–15 as built" — Movie Mode steps 3–4 (ADR-128…130) and the Acts 0–3 audits, every call kept as built. With #16–34 earlier today, **everything in NEED_TO_AUDIT is approved**; nothing waits for an audit.
+- Not pushed: pushing still waits for "approved, push"; ADR-161 and these records live on branch `polish-adr161` until it merges into `main` (after the other chat's ADR-160 commit).
+

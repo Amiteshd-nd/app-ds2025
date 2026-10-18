@@ -4,13 +4,13 @@ Updated: 2026-10-18 (after the Act 4 polish, ADR-161 — on branch `polish-adr16
 ## 0. Where we are — in one breath
 Bangalore Times (working title in the docs: NAMMA OUTBREAK). **The whole game is built and playable end to end:** Acts 0–3 (22 scenes) + all of Act 4 (4.0 Janata → 4.6 The Tunnel, 10 more scenes) — from the airport (0.1) to three endings and the "My Bangalore" end card. `corepack pnpm movie --twice` plays **all 32 scenes headless: 32/32 green, identical 777-step trace** (~45 min wall time for both runs). 706 tests, validate, typecheck and build all green. **The user's infected spec is complete** (ADR-159: twitch frames, seeded asymmetry, photophobia path costs, the Host — 48×64, Playground bench only).
 - **Git:** `main` is **19 commits ahead of origin, NOT pushed** (`git log --oneline origin/main..HEAD`). **Push only when the user says "approved, push".** **Another chat was working in this folder at the same time** (bus boarding, ADR-160: `Exits.ts`, `WorldScene.ts`, `busSchedule.ts`, `behaviours/index.ts`, the Whitefield street map, a `board` field in `types.ts` / `districts.json` / `validate-content.ts`) — its edits were left uncommitted for that chat; ADR-159 was committed alone (tested in a clean worktree under `scripts/.work/`).
-- **Audit status:** P0–P11 + Movie Mode step 2 approved long ago; **#16–34 (all of Act 4, the infected spec, the polish) approved as built on 2026-10-18.** Still waiting: #1–15 (Movie Mode steps 3–4, the Acts 0–3 audits) in `NEED_TO_AUDIT.md`. Nothing is pushed until "approved, push".
+- **Audit status:** everything approved — P0–P11 and Movie Mode step 2 long ago; **#1–34 approved as built on 2026-10-18.** Nothing waits for an audit. Nothing is pushed until "approved, push".
 
 ## 1. The very next step
 **ADR-161 (Act 4 polish) is committed on branch `polish-adr161`** (worktree `scripts/.work/polish`, gitignored), not on `main`: another chat had uncommitted ADR-160 (bus boarding) edits in the same files (HudScene, WorldScene, the Cubbon map, districts.json, types.ts, validate-content.ts, the docs). Once that chat commits on `main`, merge: `git merge polish-adr161` from `main`. Expect conflicts only where both appended (DECISIONS / AUDIT_LOG / NEED_TO_AUDIT / TASKS / ARCHITECTURE rows: keep both, ADR-160 before 161) and possibly districts.json / types.ts / validate-content.ts (different fields: keep both). After merging: `corepack pnpm build` + `pnpm movie --twice`, then `git worktree remove scripts/.work/polish`.
 
 The question to ask:
-> #16–34 are approved as built (2026-10-18). Left: #1–15 (Movie Mode steps 3–4 and the Acts 0–3 audits) in `NEED_TO_AUDIT.md`, the merge of this branch, and "approved, push".
+> Every audit item (#1–34) is approved as built (2026-10-18). Left: merge this branch into `main` (after the other chat's ADR-160 commit), then "approved, push".
 
 Default if "take the defaults" / "proceed": nothing big is left in the plan's polish list; the remaining items need the user (touch-button references, audio recordings, where the Host lives, T-039 real places, T-018 mobile toolchains). Ask rather than invent work.
 

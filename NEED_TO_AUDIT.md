@@ -18,38 +18,23 @@ corepack pnpm movie
 
 | # | Item | Built | Where it is | Status |
 |---|---|---|---|---|
-| 1 | Movie Mode step 3: walkthroughs generated for every scene, the full movie | 2026-10-17 | on GitHub | waiting |
-| 2 | Movie Mode step 4: headless `pnpm movie`, two runs must match | 2026-10-17 | on GitHub | waiting |
-| 3 | P12 · 2.3 "Guitar" (ADR-131) | 2026-10-17 | on GitHub | waiting |
-| 4 | P13 · 2.4 "IKEA Run" (ADR-132) | 2026-10-17 | on GitHub | waiting |
-| 5 | P14 · 2.5 "Ravi, 1 AM" (ADR-133) | 2026-10-17 | on GitHub | waiting |
-| 6 | P15 · 2.6 "The App" (ADR-134) | 2026-10-17 | on GitHub | waiting |
-| 7 | P16 · 2.7 "Breadcrumbs" (ADR-135), Act 2 complete | 2026-10-17 | on GitHub | waiting |
-| 8 | P17 · 3.1 "Outer Ring Road" (ADR-136), Act 3 opens | 2026-10-17 | on GitHub | waiting |
-| 9 | P18 · 3.2 "Ward 4" (ADR-137) | 2026-10-17 | on GitHub | waiting |
-| 10 | P19 · 3.3 "The Corridor" (ADR-138) | 2026-10-17 | on GitHub | waiting |
-| 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | on GitHub | waiting |
-| 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | on GitHub | waiting |
-| 13 | Audio A3 batch 1 · Kenney's real sounds replace 60 placeholders (ADR-141b) | 2026-10-17 | on GitHub | waiting |
-| 14 | P20 · 3.4 "Three Nights, Again" (ADR-142) | 2026-10-17 | on GitHub | waiting |
-| 15 | P21 · 3.5 "Discharge" (ADR-143) — Act 3 complete | 2026-10-17 | on GitHub | waiting |
 | 13a | HUD settings gear + Playground mute/volume (ADR-141a) | 2026-10-17 | on GitHub | waiting |
 
-Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed; **#16–34 (all of Act 4, the infected spec, the polish) approved as built on 2026-10-18** — every call kept as built.
+Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed; **#1–34 approved as built on 2026-10-18** (#16–34 first, then #1–15: Movie Mode steps 3–4 and the Acts 0–3 audits) — every call kept as built. Nothing is waiting.
 
 ---
 
-## 1. Movie Mode step 3: every scene as a walkthrough
+## 1. Movie Mode step 3: every scene as a walkthrough — approved as built 2026-10-18
 - **What:** `scripts/generate-walkthroughs.ts` writes a bot script for every built scene from its quest, places and dialogue. ▶ PLAY plays them all in story order through the real game.
 - **Check:** ▶ PLAY in the Playground bar, then open **Report** to see every step, why it was taken, and screenshots of failures.
 - **Calls to confirm:** the bot never cheats (no `set_flag`); it haggles like a careful player (Shanthamma ₹14,300, the hill flat ₹19,900); a few optional flags stay unplayed on purpose (`scooter_ridden`).
 
-## 2. Movie Mode step 4: the headless run
+## 2. Movie Mode step 4: the headless run — approved as built 2026-10-18
 - **What:** `corepack pnpm movie` plays every scene in a hidden browser and exits with an error if any scene fails. `--twice` plays everything twice in fresh pages and checks both runs match exactly. `--scene <id>` starts from one scene.
 - **Check:** `corepack pnpm movie --scene act3_ward4` takes about 2 minutes. The latest full double run gave 20/20 with an identical 463-step trace.
 - **Calls to confirm:** each scene's starting state comes from the Playground's prerequisites, not from the scene before it, so a scene can run alone. Starting from a beat doesn't complete earlier objectives.
 
-## 3. 2.3 "Guitar"
+## 3. 2.3 "Guitar" — approved as built 2026-10-18
 - **Check:** it starts on Church Street. Find the shop between the two pots (owner behind the counter, ₹6,500, chord chart), tip the busker (₹10 makes the G lesson easier), take the 335-E home. In the flat, step in front of the guitar for the rhythm lane (E / Space / tap STRUM), one lesson a night. After D, the clip for Ananya.
 - **Calls to confirm:**
   - The shop is 12×8 tiles, smaller than other interiors so the counter stays in reach.
@@ -58,7 +43,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The lesson card is plain, with no guitar picture.
   - The guitar on your back isn't drawn.
 
-## 4. 2.4 "IKEA Run"
+## 4. 2.4 "IKEA Run" — approved as built 2026-10-18
 - **Check:** it starts at Majestic.
   - Walk the uncle to the Green Line stairs, then take the coach.
   - At Hyggeland: the tags, the café, and the aisle. A fifth box says "Not enough space".
@@ -72,7 +57,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - Sameer's "Typical." line (for forgetting the shoe rack) isn't in.
   - The staff, café and tills share one sprite.
 
-## 5. 2.5 "Ravi, 1 AM"
+## 5. 2.5 "Ravi, 1 AM" — approved as built 2026-10-18
 - **Check:** it starts in the flat at 00:50 during a power cut.
   - The night auto from the hill road costs ₹160, and the bus says "Last bus left at 11".
   - The office gate is in moonlight blue.
@@ -84,7 +69,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - Ravi stands rather than sits.
   - The crowd is empty everywhere at night.
 
-## 6. 2.6 "The App"
+## 6. 2.6 "The App" — approved as built 2026-10-18
 - **Check:** it starts in the flat at 10:00.
   - On the phone, Jodi: NOPE on all four profiles ends it, LIKE on Tanvi is a match.
   - Bus to Whitefield, then **Maps (M) → tap Church Street → METRO** to the café (pay ₹480, ₹240, or she pays).
@@ -95,7 +80,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The portraits are in colour on the green phone screen.
   - Ananya stands near the bandstand, not on it.
 
-## 7. 2.7 "Breadcrumbs" (Act 2 ends)
+## 7. 2.7 "Breadcrumbs" (Act 2 ends) — approved as built 2026-10-18
 - **Check:** it starts in the flat at 21:00.
   - Each sleep adds a News headline and a Reel.
   - Day 2: Sameer is absent and Divya texts about AMR-07. Day 3: the guard salutes nobody. Day 4: Sameer is back.
@@ -105,7 +90,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The rice argument is a Reel.
   - The headlines say four weeks, but only four in-game days pass.
 
-## 8. 3.1 "Outer Ring Road" (Act 3 opens)
+## 8. 3.1 "Outer Ring Road" (Act 3 opens) — approved as built 2026-10-18
 - **Check:** to see the title card, play 2.7's last sleep: a big FEVER with "ACT 3" small under it, then Divya's text and a fifth headline. The scene itself starts at the office gate at 09:20.
   - Talk to Divya, then walk into the office door. The card sequence plays (E / tap = next panel): the HIVR day, the AMR-07 overwrite at 02:14 by `night_ops`, the Hebbal junction picture, the cut (one white frame, none if your device asks for reduced motion), the ambulance fragments (green lanyard, APPA), "Ravi.", and it lands in the ward.
   - To see Sameer's bike instead of your scooter, set `scooter_owned` off in the Playground's inspector.
@@ -116,7 +101,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The HIVR day costs no food and adds no stress.
 - **Fixed on the way:** Divya's late-day-one message blocked all her later messages for players who were on time.
 
-## 9. 3.2 "Ward 4"
+## 9. 3.2 "Ward 4" — approved as built 2026-10-18
 - **Check:** it starts in the ward at 10:20, or play 3.1 to its end.
   - You walk slower and can't run.
   - The phone has messages from Amma, Sameer and Divya.
@@ -131,7 +116,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The three Ravi talks can be done back to back.
   - The ward boy is text, not a character on screen.
 
-## 10. 3.3 "The Corridor"
+## 10. 3.3 "The Corridor" — approved as built 2026-10-18
 - **Check:** it starts in the ward at 11:00.
   - Ravi → "Tell me." → the HIVR corridor as Ravi, with only the objective on screen.
   - The clipboard by the airlock. Appa's call as you cross the middle ("Ignore" greyed out: "It's Appa."). The glove station refuses.
@@ -142,7 +127,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - I wrote the ant captions myself.
   - The corridor has a fixed night shade to keep its cold light.
 
-## 11. Audio A1: the game has sound
+## 11. Audio A1: the game has sound — approved as built 2026-10-18
 - **What:** every sound is a named token (224 of them) with an original placeholder generated in the repo. They sound like 8-bit placeholders until your recordings and CC0 files replace them.
   - Every place plays a layered "bed" of city sounds by time of day.
   - Music sits under the city: calm by day, a warmer tune in the evening, none at night or in rooms and buses unless the mood turns.
@@ -163,7 +148,7 @@ corepack pnpm dev
   - Offline, a sound plays only after it has played once online.
 - **Your homework for later steps:** the recording list in `docs/audio_plan_v1.md` §5.4 (20 short recordings). Also: install ffmpeg, and OK the Kenney downloads when we reach A3.
 
-## 12. Audio A2: every scene, footstep areas, the Act 4 test bench
+## 12. Audio A2: every scene, footstep areas, the Act 4 test bench — approved as built 2026-10-18
 - **What:**
   - **Sounds from a spot in 19 of 21 places:** the Darshini's plates and dosa tawa, a pressure cooker, the hill chai stall, the ice-cream bell, the busker, metro gates, the coach doors, the ward TV, the corridor's fume hood.
   - **Footsteps follow the ground:** pavement versus road on Whitefield, and gravel paths, grass and stone in Cubbon.
@@ -192,7 +177,7 @@ corepack pnpm dev
   - A 16px gap between the gear and the phone; the clock moved left to make room.
   - The gear stays visible in the corridor.
 
-## 13. Audio A3 batch 1: the first real sounds (Kenney, CC0)
+## 13. Audio A3 batch 1: the first real sounds (Kenney, CC0) — approved as built 2026-10-18
 - **What:** 60 sounds are now real recordings from Kenney's free packs: menus, phone, HUD, footsteps on six surfaces, doors, plates, coins and cash, pickups, and the Act 4 combat sounds. Background beds, music, vehicles and voices are still placeholders until your recordings and Freesound files arrive.
 - **Check:** play anything and listen to the menus, phone and footsteps. In the Playground's Audio node, the token list shows `final · CC0` for these.
 - **Calls to confirm:**
@@ -202,7 +187,7 @@ corepack pnpm dev
   - The title, UPI and ringtone jingles stay ours (original).
 - **Still needed from you:** the 20 recordings (`docs/audio_plan_v1.md` §5.4). Optionally, ffmpeg (`brew install ffmpeg`) to shrink the files.
 
-## 14. 3.4 "Three Nights, Again"
+## 14. 3.4 "Three Nights, Again" — approved as built 2026-10-18
 - **What:** the first week at the hotel, played backwards. Three nights in the ward with the hotel's countdown plate ("Discharge · 3 nights"); each morning the world is quieter.
 - **Check:** in the Playground, pick Act 3 → 3.4 (it starts in the ward at 18:30).
   - Talk to Sister Lalitha: "Three nights…", and the plate appears.
@@ -215,7 +200,7 @@ corepack pnpm dev
   - The ward's sound stops at "warning" (no deeper) in this act.
   - The stripped bed's stripes look pale.
 
-## 15. 3.5 "Discharge" (Act 3 ends)
+## 15. 3.5 "Discharge" (Act 3 ends) — approved as built 2026-10-18
 - **What:** the ward lets you go too easily, and nobody explains anything.
 - **Check:** in the Playground, pick Act 3 → 3.5 (it starts on the discharge morning).
   - Talk to Sister Lalitha: "Doctor signed at six. You're done." Then "Go home. Stay inside. Don't make noise after five." Ask "Why five?"; she only looks at the isolation door.
