@@ -1,0 +1,90 @@
+{
+  "scene": "act4_tunnel",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act4_tunnel + glass_house + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "glass_house",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "act4_ravi_done",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "F1",
+      "do": "goto",
+      "target": "zone:house_out"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "tunnel_in",
+      "timeout": 28200
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "purple_tunnel",
+      "timeout": 33200
+    },
+    {
+      "id": "goto_7",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:majestic_steps",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_8",
+      "beat": "F3",
+      "do": "choose",
+      "option": "go"
+    },
+    {
+      "id": "wait_for_9",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ending_evacuate",
+      "timeout": 40400
+    },
+    {
+      "id": "wait_for_10",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "MyBangaloreScene",
+      "timeout": 35400
+    },
+    {
+      "id": "wait_for_11",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "game_complete",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_12",
+      "do": "expect",
+      "flag": "act4_done",
+      "timeout": 3000
+    }
+  ]
+}

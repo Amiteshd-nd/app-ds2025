@@ -25,7 +25,7 @@ describe('4.3e "The Glass House" — the last base and the table (ADR-156)', () 
   it('is built (P28); every base of the chain is now its own scene, and 4.5 / 4.6 start from here', () => {
     expect(SCENES.act4_lalbagh).toEqual(expect.objectContaining({ status: 'P28', seq: '4.3e' }));
     expect(SCENES.act4_ravi.entry!.from).toBe('act4_lalbagh');
-    expect(SCENES.act4_tunnel.entry!.after).toContain('base_lalbagh_set');
+    expect(SCENES.act4_tunnel.entry!.from).toBe('act4_ravi');
     expect(QUESTS.q_act4_lalbagh.on_complete!.set_flags).toContain('base_chain_done');
     expect(panelsFor(CARDS.card_walk_lalbagh, {}).flatMap((p) => p.setFlags ?? [])).toContain('base_lalbagh_set');
     expect(DISTRICTS.palace_grounds.triggers).toContainEqual({ zone: 'palace_run_gate', action: 'card', card: 'card_walk_lalbagh', requiresFlag: 'base_palace_done' });

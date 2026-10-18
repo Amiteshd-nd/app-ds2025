@@ -72,7 +72,8 @@ async function waitFor(d: MovieDriver, step: Extract<Step, { do: 'wait_for' }>, 
     case 'scene_loaded': {
       // Loaded = the world is up in the right district and the player is free — or already in a conversation the
       // arrival zone opened (Amma's call at the flat door); the next steps advance it.
-      const r = await until(d, ctx, () => { const s = d.state(); return s.activeScene === 'WorldScene' && (!step.scene || s.district === step.scene) && (s.free || s.dialogueOpen); }, deadline);
+      // A scene that isn't a place (the end card, ADR-158) is loaded when it is the active scene.
+      const r = await until(d, ctx, () => { const s = d.state(); return (s.activeScene === 'WorldScene' && (!step.scene || s.district === step.scene) && (s.free || s.dialogueOpen)) || (Boolean(step.scene) && s.activeScene === step.scene); }, deadline);
       return outcome(r, `timeout:scene_loaded${step.scene ? `:${step.scene}` : ''} (at ${d.state().district ?? 'nowhere'})`) ?? ok();
     }
     case 'free': return outcome(await until(d, ctx, () => d.state().free, deadline), 'timeout:free') ?? ok();

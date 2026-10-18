@@ -530,3 +530,17 @@ corepack pnpm dev
   - **The voice note is a line of text in Chats.** No audio plays.
   - **The bot now sits with Ravi in 2.5.** It used to send him home, which would have put the full playthrough in Yelahanka while a solo start of 4.5 went to HIVR. It's an optional step in 2.5's quest, so players still choose freely.
 
+## 32. 4.6 "The Tunnel": the ending
+- **What:** the last night. The Purple Line from Cubbon Park to Majestic, then your choice from the table as one of three ending cards (Evacuate, Hold, Ground Zero), then the "My Bangalore" card (your run in numbers, SHARE, TITLE).
+- **Check:** in the Playground, open Act 4 → 4.6 The Tunnel (Play). Walk to the barricade at the glass house, walk the tunnel west, step onto Majestic's platform. To see the other endings, start 4.6 with path_fight or path_hold set instead of path_evacuate.
+- **Calls to confirm:**
+  - **The three endings** play as cards.
+    - Evacuate: you lose the group if you didn't back Karthik at the fire. Deepa always stays behind.
+    - Hold: Suresh stays outside at the gate.
+    - Ground Zero: Ravi opens the inner door if you went to him at HIVR. Otherwise his ID gets you past the last checkpoint, or Meera's card alone opens it.
+  - **Rathore's "low trust"** is read as not backing Karthik at the Cubbon fire. There's no separate trust score for Rathore.
+  - **"My Bangalore"** is lines of text on black, made with the existing HUD look (no new art). SHARE sends a picture of the card. There's no photo collage, and nothing is said about PGs rejected (the game doesn't count that).
+  - **The tunnel is drained of colour** because it's graded ground zero, which also greys the red emergency lights. I can exempt it if you want the red.
+  - **The full playthrough ends in Evacuate.** The bot chose "We get out." at the table.
+  - **After TITLE there's no New Game+.** You start a new game from the title as usual.
+

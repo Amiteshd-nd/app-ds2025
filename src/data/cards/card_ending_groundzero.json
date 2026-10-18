@@ -1,0 +1,57 @@
+{
+  "id": "card_ending_groundzero",
+  "$comment": "Story 4.6 (ADR-158): GROUND ZERO — Priya's way; north under HIVR with the Pulse Gun. Ravi's state changes the last door; Deepa's reading of the log changes what you find.",
+  "end": "credits",
+  "panels": [
+    {
+      "title": "UNDER HEBBAL · 04:20",
+      "text": "North on foot with Priya. The tunnel ends in a service door with HIVR's logo scratched off.",
+      "ms": 4800
+    },
+    {
+      "title": "THE INNER DOOR",
+      "text": "Ravi is there with Meera's card. 'I'll open it. You close it.'",
+      "ms": 5000,
+      "ifFlag": "ravi_met_hivr"
+    },
+    {
+      "title": "THE INNER DOOR",
+      "text": "Meera's card opens it. Nobody holds it for you.",
+      "ms": 4600,
+      "ifFlag": "meera_keycard",
+      "unlessFlag": "ravi_met_hivr"
+    },
+    {
+      "title": "THE INNER DOOR",
+      "text": "Ravi's ID gets you past the last checkpoint. The rest you force.",
+      "ms": 4800,
+      "ifFlag": "ravi_met_home"
+    },
+    {
+      "title": "THE SOURCE",
+      "text": "Tanks of grey culture under a dead purple light. Priya: 'Twenty charges.' You use four.",
+      "ms": 5400
+    },
+    {
+      "title": "THE SOURCE",
+      "text": "On the screen above the tanks, the AMR-07 log Deepa read: 14 March, 02:10. Someone left it open.",
+      "ms": 5200,
+      "ifFlag": "amr07_read"
+    },
+    {
+      "title": "HEBBAL · DAWN",
+      "text": "The city doesn't cheer. It just gets quiet.",
+      "ms": 5200
+    },
+    {
+      "style": "title",
+      "title": "GROUND ZERO",
+      "text": "You ended it where it started.",
+      "ms": 5200,
+      "setFlags": [
+        "ending_groundzero",
+        "game_complete"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "dlg_majestic_steps",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "path_fight",
+      "node": "fight"
+    },
+    {
+      "flag": "path_hold",
+      "node": "hold"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Majestic. The platform where an old man once lost his way. Up those steps, the railway station — and Rathore's trucks, if they're real.)",
+      "choices": [
+        {
+          "text": "(Up the steps.)",
+          "next": "go",
+          "effect": {
+            "card": "card_ending_evacuate"
+          }
+        }
+      ]
+    },
+    "fight": {
+      "text": "(Majestic. The tunnel north runs on under HIVR. Priya checks the gun's charges by feel.)",
+      "choices": [
+        {
+          "text": "(North.)",
+          "next": "go",
+          "effect": {
+            "card": "card_ending_groundzero"
+          }
+        }
+      ]
+    },
+    "hold": {
+      "text": "(Majestic. Far enough to know the trucks are a rumour. Suresh turns the group round.)",
+      "choices": [
+        {
+          "text": "(Back to Lalbagh.)",
+          "next": "go",
+          "effect": {
+            "card": "card_ending_hold"
+          }
+        }
+      ]
+    },
+    "go": {
+      "text": "(Nobody speaks.)"
+    }
+  }
+}

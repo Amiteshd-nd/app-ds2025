@@ -1,0 +1,43 @@
+{
+  "id": "q_act4_tunnel",
+  "title": "The Tunnel",
+  "description": "Get your people through the tunnel to where you chose to go.",
+  "chapter": 4,
+  "district": "purple_tunnel",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_ravi"
+  ],
+  "objectives": [
+    {
+      "id": "ravi",
+      "text": "Back from Ravi",
+      "type": "flag",
+      "target": "act4_ravi_done",
+      "destination": "glass_house"
+    },
+    {
+      "id": "in",
+      "text": "Down onto the tracks",
+      "type": "flag",
+      "target": "tunnel_in",
+      "destination": "purple_tunnel"
+    },
+    {
+      "id": "end",
+      "text": "Majestic",
+      "type": "flag",
+      "target": "game_complete",
+      "destination": "purple_tunnel"
+    }
+  ],
+  "rewards": {
+    "xp": 60,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_done"
+    ]
+  }
+}

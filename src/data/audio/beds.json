@@ -520,6 +520,22 @@
     }
    ]
   },
+  "purple_tunnel": {
+   "surface": "concrete",
+   "music": false,
+   "day": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.7
+    }
+   ],
+   "night": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.7
+    }
+   ]
+  },
   "tiffin_room": {
    "surface": "tile",
    "music": false,

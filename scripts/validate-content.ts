@@ -1277,7 +1277,8 @@ export function validateWalkthroughs(
         case 'wait_for':
           if (!WALKTHROUGH_READY.includes(step.ready)) add(`${where} ready must be one of ${WALKTHROUGH_READY.join(', ')}`);
           if (step.scene !== undefined) {
-            if (!districtById.has(step.scene)) add(`${where} waits for district "${step.scene}", which does not exist`);
+            // A place, or the one scene that is not a place (the end card, ADR-158).
+            if (!districtById.has(step.scene) && step.scene !== 'MyBangaloreScene') add(`${where} waits for district "${step.scene}", which does not exist`);
             else { district = step.scene; objects = objectsOf(district); }
           }
           break;
@@ -1463,14 +1464,20 @@ export function validateCards(files: JsonFile[], districts: Json[], stills: Set<
     });
     flagList(where, 'setFlags', json.setFlags); flagList(where, 'clearFlags', json.clearFlags);
     if (json.clockAt !== undefined && !(Number.isInteger(json.clockAt) && json.clockAt >= 0 && json.clockAt < 24 * 60)) problems.push(`${where}: clockAt must be a minute of the day`);
-    if (json.end !== undefined && !['world', 'hold'].includes(json.end)) problems.push(`${where}: end must be world or hold`);
+    if (json.end !== undefined && !['world', 'hold', 'credits'].includes(json.end)) problems.push(`${where}: end must be world, hold or credits`);
+    // The game's last card (ADR-158): it ends the game, so it lands nowhere and sets game_complete on a panel everyone sees.
+    if (json.end === 'credits') {
+      if (json.then !== undefined) problems.push(`${where}: a credits card lands nowhere (no then)`);
+      const seen = (json.panels as Json[]).filter((p) => !p.ifFlag && !p.unlessFlag).flatMap((p) => p.setFlags ?? []);
+      if (!seen.includes('game_complete')) problems.push(`${where}: a credits card sets game_complete on a panel everyone sees`);
+    }
     if (json.then !== undefined) {
       const t = json.then;
       if (!districts.some((d) => d.id === t?.district) || typeof t?.spawn !== 'string') problems.push(`${where}: then must name a district that exists and a spawn`);
       if (t?.minute !== undefined && !(Number.isInteger(t.minute) && t.minute >= 0 && t.minute < 24 * 60)) problems.push(`${where}: then.minute must be a minute of the day`);
     }
     const last = json.panels[json.panels.length - 1];
-    if (json.end === 'hold' && (last?.ifFlag || last?.unlessFlag)) problems.push(`${where}: a sequence that holds must end on a panel everyone sees`);
+    if ((json.end === 'hold' || json.end === 'credits') && (last?.ifFlag || last?.unlessFlag)) problems.push(`${where}: a sequence that holds or ends the game must end on a panel everyone sees`);
   }
   for (const d of districts) {
     for (const t of d.triggers ?? []) if (t.action === 'card' && t.card && !ids.has(t.card)) problems.push(`districts.json: district "${d.id}" trigger "${t.zone}" names card "${t.card}", which does not exist`);

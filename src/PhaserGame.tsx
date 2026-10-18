@@ -14,6 +14,7 @@ import MenuScene from './scenes/MenuScene';
 import WorkdayScene from './scenes/WorkdayScene';
 import RhythmScene from './scenes/RhythmScene';
 import CardScene from './scenes/CardScene';
+import MyBangaloreScene from './scenes/MyBangaloreScene';
 import { GAME_HEIGHT, GAME_WIDTH, SCENE_KEYS } from './utils/constants';
 
 export interface PhaserGameProps {
@@ -71,7 +72,7 @@ const PhaserGame = ({ startScene = SCENE_KEYS.TITLE, startDistrict, touchControl
       // Places are not scenes: every district renders through WorldScene.
       // Gamepads: one input map for every device (ADR-88/119).
       input: { gamepad: true },
-      scene: [BootScene, TitleScene, CharacterSelectScene, WorldScene, GradeScene, TransitScene, WorkdayScene, RhythmScene, CardScene, HudScene, PhoneScene, MapScene, MenuScene, OrientationScene],
+      scene: [BootScene, TitleScene, CharacterSelectScene, WorldScene, GradeScene, TransitScene, WorkdayScene, RhythmScene, CardScene, HudScene, PhoneScene, MapScene, MenuScene, MyBangaloreScene, OrientationScene],
     });
 
     gameRef.current = game;

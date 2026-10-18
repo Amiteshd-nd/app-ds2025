@@ -45,8 +45,9 @@ export interface CardSequence {
   /**
    * `world` (default): the sequence ends and the world fades back in.
    * `hold`: the last panel stays — the story continues in a scene not built yet (3.1 → 3.2 Ward 4).
+   * `credits`: the game is over — the world gives way to the "My Bangalore" card (story 4.6, ADR-158).
    */
-  end?: 'world' | 'hold';
+  end?: 'world' | 'hold' | 'credits';
   /** Land somewhere when it ends — the crash card ends in Ward 4 the next morning (story 3.2, ADR-137). Wins over `end`. */
   then?: CardLanding;
 }

@@ -252,6 +252,8 @@ export const SCENE_KEYS = Object.freeze({
   RHYTHM: 'RhythmScene',
   /** Card sequences (story 3.1, ADR-136): text panels over a still — a day off-screen, a told ride, an act title. */
   CARD: 'CardScene',
+  /** The "My Bangalore" end card (story 4.6, ADR-158): the run in numbers, SHARE, then the title. */
+  MY_BANGALORE: 'MyBangaloreScene',
   /** "Rotate your phone" over everything while a touch device is held in portrait (mobile foundation rule 4). */
   ORIENTATION: 'OrientationScene',
 });

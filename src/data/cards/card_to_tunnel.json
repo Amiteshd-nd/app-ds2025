@@ -1,0 +1,30 @@
+{
+  "id": "card_to_tunnel",
+  "$comment": "Story 4.6 (ADR-158): the last night — from the glass house down into the Purple Line at Cubbon Park.",
+  "panels": [
+    {
+      "title": "THE GLASS HOUSE · 23:30",
+      "text": "Everyone you kept, in a line, in the dark.",
+      "ms": 4000
+    },
+    {
+      "title": "CUBBON PARK STATION · 00:40",
+      "text": "The army's lamps on the platform. A soldier lifts the barrier and doesn't look at your faces.",
+      "ms": 4600
+    },
+    {
+      "title": "THE PURPLE LINE · 00:55",
+      "text": "You climb down onto the tracks. The line you watched them build. West.",
+      "ms": 4600,
+      "setFlags": [
+        "tunnel_in"
+      ]
+    }
+  ],
+  "then": {
+    "district": "purple_tunnel",
+    "spawn": "tunnel_east",
+    "minute": 55,
+    "nextDay": true
+  }
+}

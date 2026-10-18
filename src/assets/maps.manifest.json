@@ -428,6 +428,17 @@
         "room_door"
       ],
       "sop": true
+    },
+    "purple_tunnel": {
+      "file": "purple_tunnel.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "tunnel_east",
+        "majestic_steps"
+      ],
+      "sop": true
     }
   }
 }

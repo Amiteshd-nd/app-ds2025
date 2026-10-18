@@ -1,0 +1,101 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 36x24) — the Purple Line tunnel west from Cubbon Park to Majestic (story 4.6, ADR-158). The tunnel runs right → left: the upper track, the central walkway with its yellow line, the stalled train on the lower track (a block), the lower track under it. The cable-tray walls top and bottom are `buildings`, except the two cross-passages in the bottom wall (the still ones wait in them) and the maintenance alcove in the top wall (its lockers are a block). At the far left, Majestic's platform: the steps up are blocks; the platform edge is where the group's choice plays. You come in out of the dark at the right end of the walkway.",
+  "name": "purple_tunnel",
+  "cols": 36,
+  "rows": 24,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      60
+    ],
+    [
+      115,
+      60,
+      615,
+      135
+    ],
+    [
+      990,
+      60,
+      546,
+      135
+    ],
+    [
+      0,
+      775,
+      390,
+      249
+    ],
+    [
+      480,
+      775,
+      620,
+      249
+    ],
+    [
+      1200,
+      775,
+      336,
+      249
+    ],
+    [
+      390,
+      940,
+      90,
+      84
+    ],
+    [
+      1100,
+      940,
+      100,
+      84
+    ]
+  ],
+  "blocks": [
+    [
+      760,
+      75,
+      215,
+      110
+    ],
+    [
+      0,
+      60,
+      65,
+      130
+    ],
+    [
+      0,
+      640,
+      65,
+      130
+    ],
+    [
+      135,
+      515,
+      1290,
+      160
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "tunnel_east",
+      "x": 1430,
+      "y": 450
+    }
+  ],
+  "zones": [
+    {
+      "name": "majestic_steps",
+      "x": 20,
+      "y": 380,
+      "w": 80,
+      "h": 140
+    }
+  ],
+  "sorted": [],
+  "above": []
+}

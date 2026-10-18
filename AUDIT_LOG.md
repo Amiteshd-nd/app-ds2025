@@ -440,3 +440,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Calls to confirm: NEED_TO_AUDIT #31.
 - Rule going forward: **when a later scene branches on an earlier choice, the bot's earlier choice and the solo prereq must agree — make the bot's path an explicit (optional) objective.**
 
+### [P30 4.6 "The Tunnel" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.6". ADR-158. The game now runs from the airport (0.1) to the end card.
+- Built: the Purple Line tunnel (new map, first try), the split at Majestic, three ending cards, `MyBangaloreScene` + `systems/myBangalore`, credits cards in the engine, the validator, the generator and the bot; 5 new tests.
+- Verified: `node scripts/movie.mjs --scene act4_tunnel` (12 steps → the Evacuate card → the end card); in the browser pane the tunnel renders (dark, the walkway, the stalled train) and the planner reaches Majestic's steps; the end card renders its lines and the two plates.
+- Found on the way (fixed): after a credits card there is no world to be "free" in — the bot waits for the end card scene instead; "0 people" / "₹0 on chai" read badly — singular and none have their own lines.
+- Calls to confirm: NEED_TO_AUDIT #32.
+- Rule going forward: **an ending is data: a credits card with `game_complete` on a panel everyone sees.**
+

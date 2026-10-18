@@ -1,38 +1,48 @@
 {
   "id": "act4_tunnel",
-  "district": "metro_tunnel",
+  "district": "glass_house",
   "act": 4,
   "seq": "4.6",
-  "title": "Tunnel",
-  "status": "STUB",
-  "draft": "Claude's draft 2026-10-17 from story_script_v1 §7 (4.end 'Tunnel': the metro tunnels, the last route; endings TBD, ADR-10), act4 doc §9 / ADR-52 proposed (three endings: Evacuate — side with Karthik and Rathore's convoy, Rathore may betray, Deepa left unless cured, city lost; Hold the hill — stay with Suresh's community, Suresh's sacrifice, no cure, people live; Ground Zero — side with Priya, Pulse Gun + Deepa's data, enter HIVR, needs all five runs, `ravi_supported` changes the final scene), chapter_board_merge §B3 (underground stations = military UV camps; elevated stations' shade = nests), landmarks doc §3.4 (a 'My Bangalore' end card, shareable), ADR-53 (honest trailer: only shipped endings shown).",
-  "time": "Act 4, the last night",
+  "title": "The Tunnel",
+  "status": "P30",
+  "draft": "Built 2026-10-18 from the 4.6 stub with its defaults ('take the defaults and build 4.6'): three endings (ADR-52 as proposed) — Evacuate (Karthik, Rathore's convoy; if you didn't back Karthik at the fire he takes you and leaves the others; Deepa stays — 'they don't take the bitten'), Hold (Suresh; back to the glass house; he stays at the gate with the generator — unavoidable), Ground Zero (Priya; north under HIVR with the Pulse Gun; Ravi's state changes the last door; Deepa's reading of the log is on the screen) — every ending goes through the tunnel and splits at Majestic, chosen at Lalbagh's table; each ending is a card; then the 'My Bangalore' card (the run in numbers, SHARE through the OS sheet), then the title (no New Game+). Ananya is with you unless strained (the card's people line). The tunnel: the Purple Line from Cubbon Park west (a generated map: twin tracks, the walkway, a stalled train, emergency lights), two still packs in the cross-passages.",
+  "time": "Act 4, the last night (00:55 → dawn)",
   "player_goal": "Get your people through the tunnel to where you chose to go.",
-  "design_goal": "The game's last route goes under the city the player watched being built in Acts 1–2 (the metro opened in 2.2). Dark, generator-lit, infected in the shade between stations. At Majestic the choice the group made at Lalbagh plays out. Each ending costs something; none is 'good'. Then the 'My Bangalore' card: days survived, PGs rejected, ₹ spent on chai.",
+  "design_goal": "The game's last route goes under the city the player watched being built in Acts 1–2 (the metro opened in 2.2). Dark, lit red, infected in the cross-passages. At Majestic the choice the group made at Lalbagh plays out. Each ending costs something; none is 'good'. Then the 'My Bangalore' card.",
   "pacing": [
     "Tense",
-    "Tense",
+    "Calm",
     "Reward"
   ],
   "entry": {
-    "from": "act4_base_chain",
-    "spawn": "cubbon_underground",
-    "after": [
-      "base_lalbagh_set"
-    ]
+    "from": "act4_ravi",
+    "spawn": "glass_doors",
+    "after": [],
+    "counters": {
+      "act4_day": 16
+    }
   },
   "cast": [
     {
-      "npc": "npc_suresh / npc_karthik / npc_priya / npc_deepa / npc_ananya / npc_kumar",
-      "tier": 3,
-      "spawn": "(the group, by who is alive and with you)",
-      "role": "Walk with you as companions (the `companion` behaviour)."
-    },
-    {
       "npc": "npc_rathore",
       "tier": 3,
-      "spawn": "majestic (Evacuate)",
-      "role": "The convoy at the railway station."
+      "spawn": "rathore_lh",
+      "district": "glass_house",
+      "role": "The convoy, in the Evacuate card."
+    },
+    {
+      "npc": "npc_suresh",
+      "tier": 3,
+      "spawn": "suresh_lh",
+      "district": "glass_house",
+      "role": "The gate, in the Hold card."
+    },
+    {
+      "npc": "npc_priya",
+      "tier": 3,
+      "spawn": "priya_lh",
+      "district": "glass_house",
+      "role": "North with you, in the Ground Zero card."
     }
   ],
   "quests": [
@@ -42,21 +52,21 @@
     {
       "id": "F1",
       "pacing": "Tense",
-      "what": "Cubbon Park underground station (an army UV camp): down onto the tracks. The Purple Line tunnel west: emergency lights, a stalled train you walk through (the coach from 2.2's first ride, the seat-for-elderly sign), infected in the dark between stations — stealth, noise, the Pulse Gun if you have it.",
-      "interact": "stealth/chase",
+      "what": "The last night: down at Cubbon Park station onto the tracks (a card); the Purple Line west in the dark, the stalled train, two still ones in the cross-passages — walk.",
+      "interact": "stealth",
       "flag": "tunnel_in"
     },
     {
       "id": "F2",
-      "pacing": "Tense",
-      "what": "Majestic interchange (2.4's lost uncle's platform): the group's choice plays. EVACUATE: Rathore's convoy at the railway station — if trust is low he leaves the group behind and takes you only. HOLD: back up and out to Lalbagh; Suresh stays at the gate with the generator so the rest get in. GROUND ZERO: north on foot with Priya to HIVR; the Pulse Gun and Deepa's data; Meera; the source. Ravi's state changes the last scene.",
+      "pacing": "Calm",
+      "what": "Majestic's platform: the table's choice plays — up to the trucks (Evacuate), north under HIVR (Ground Zero), or back to the glass house (Hold).",
       "interact": "ending branch",
-      "flag": "ending_*"
+      "flag": "ending_evacuate | ending_hold | ending_groundzero"
     },
     {
       "id": "F3",
       "pacing": "Reward",
-      "what": "The ending card (one per ending), then 'My Bangalore': a pixel collage of your City Moments + stats (days survived, PGs rejected, ₹ spent on chai, people you met) — shareable (Web Share via the platform layer).",
+      "what": "The ending card, then 'My Bangalore': days in the city, days it was shut, people you knew by name, ₹ on chai, City Moments, who came through with you — SHARE, or the title.",
       "interact": "card + share",
       "flag": "game_complete"
     }
@@ -64,9 +74,10 @@
   "economy": [],
   "exits": [
     {
-      "zone": "(ending)",
-      "to": "title / credits",
-      "transit": "card"
+      "zone": "house_out",
+      "to": "purple_tunnel",
+      "transit": "walk (card_to_tunnel)",
+      "note": "the last night"
     }
   ],
   "save_flags": [
@@ -74,24 +85,14 @@
     "ending_evacuate",
     "ending_hold",
     "ending_groundzero",
-    "game_complete"
+    "game_complete",
+    "act4_done"
   ],
   "assets_needed": [
-    "the metro tunnel pocket(s) (dark, emergency lights, a stalled coach — reuse metro_interior)",
-    "Majestic platform ruined (objects by flag)",
-    "three ending stills + cards",
-    "the 'My Bangalore' end card renderer",
-    "the HIVR source room (Ground Zero)"
+    "the Purple Line tunnel (generated, first try)"
   ],
   "acceptance": [
     "all three endings reachable; each a card; the end card renders and shares"
   ],
-  "open_questions": [
-    "THE ENDINGS (ADR-52, proposed): draft = three — Evacuate / Hold the hill / Ground Zero — as in the act4 doc. Accept three?",
-    "THE TUNNEL FOR ALL THREE: draft = every ending starts in the tunnel; they split at Majestic. Or the tunnel is the Ground Zero route only?",
-    "RATHORE'S BETRAYAL: draft = only in Evacuate, only if trust is low. Keep?",
-    "SURESH'S SACRIFICE: draft = in Hold, he stays at the gate. Can it be avoided?",
-    "ANANYA'S FATE: draft = with you if the relationship is resolved; otherwise a photo she left at the bandstand; never infected. Keep?",
-    "AFTER THE ENDING: draft = 'My Bangalore' card, then the title (no New Game+). Keep?"
-  ]
+  "open_questions": []
 }

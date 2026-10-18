@@ -1,0 +1,37 @@
+{
+  "id": "card_ending_hold",
+  "$comment": "Story 4.6 (ADR-158): HOLD — Suresh's way; back to the glass house. Suresh stays at the gate with the generator so the rest get in.",
+  "end": "credits",
+  "panels": [
+    {
+      "title": "THE PURPLE LINE · 03:30",
+      "text": "Back the way you came. Nobody says it was for nothing.",
+      "ms": 4400
+    },
+    {
+      "title": "LALBAGH · 05:10",
+      "text": "Something followed you out of the tunnel. Suresh hears it first.",
+      "ms": 4600
+    },
+    {
+      "title": "THE GATE",
+      "text": "'Go in. Somebody has to keep it running.' He sits by the generator with the shutter between you. He doesn't come in.",
+      "ms": 6000
+    },
+    {
+      "title": "SIX MONTHS LATER",
+      "text": "Orchids under purple lamps. Uncle makes coffee at six. The city outside is quiet in a way that isn't peace.",
+      "ms": 5600
+    },
+    {
+      "style": "title",
+      "title": "HOLD",
+      "text": "You held the glass house.",
+      "ms": 5200,
+      "setFlags": [
+        "ending_hold",
+        "game_complete"
+      ]
+    }
+  ]
+}

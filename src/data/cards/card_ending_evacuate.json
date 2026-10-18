@@ -1,0 +1,45 @@
+{
+  "id": "card_ending_evacuate",
+  "$comment": "Story 4.6 (ADR-158): EVACUATE — Karthik's way; Rathore's convoy at the railway station. If you didn't back Karthik at the fire, Rathore takes you and not the others.",
+  "end": "credits",
+  "panels": [
+    {
+      "title": "MAJESTIC · 03:10",
+      "text": "Up the dead escalators into the railway station. Three olive trucks, engines running, no lights.",
+      "ms": 4600
+    },
+    {
+      "title": "THE TRUCKS",
+      "text": "Rathore counts heads. Karthik first, then Uncle, then the rest of you. Nobody is left on the platform.",
+      "ms": 5200,
+      "ifFlag": "karthik_trust"
+    },
+    {
+      "title": "THE TRUCKS",
+      "text": "Rathore counts heads and stops at you. 'One more seat.' The others are still on the steps when the truck moves.",
+      "ms": 5600,
+      "unlessFlag": "karthik_trust"
+    },
+    {
+      "title": "THE TRUCKS",
+      "text": "Deepa stays at the gate. 'They don't take the bitten.' She says it before anyone else has to.",
+      "ms": 5200,
+      "ifFlag": "deepa_medicine"
+    },
+    {
+      "title": "YELAHANKA AIRBASE · DAWN",
+      "text": "Behind you, the city — purple in patches, then not at all.",
+      "ms": 5200
+    },
+    {
+      "style": "title",
+      "title": "EVACUATE",
+      "text": "You got out.",
+      "ms": 5200,
+      "setFlags": [
+        "ending_evacuate",
+        "game_complete"
+      ]
+    }
+  ]
+}

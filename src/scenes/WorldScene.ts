@@ -544,6 +544,13 @@ export class WorldScene extends Phaser.Scene {
       }
       this.persist();
       if (seq.end === 'hold') return;
+      // The game is over (ADR-158): the world, the HUD and the phone give way to the end card.
+      if (seq.end === 'credits') {
+        this.leaving = true;
+        for (const k of [SCENE_KEYS.CARD, SCENE_KEYS.HUD, SCENE_KEYS.PHONE, SCENE_KEYS.MAP, SCENE_KEYS.GRADE]) if (this.scene.isActive(k)) this.scene.stop(k);
+        this.scene.start(SCENE_KEYS.MY_BANGALORE);
+        return;
+      }
       this.scene.stop(SCENE_KEYS.CARD);
       this.talking = false;
       this.time.delayedCall(80, () => { if (!this.talking && !this.leaving && !this.sleeping) this.player.setInteractionEnabled(true); });

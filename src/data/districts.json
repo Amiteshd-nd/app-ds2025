@@ -2032,7 +2032,8 @@
     },
     "quests": [
       "q_act4_lalbagh",
-      "q_act4_ravi"
+      "q_act4_ravi",
+      "q_act4_tunnel"
     ],
     "npcs": [
       {
@@ -2110,6 +2111,13 @@
         "dialogue": "dlg_ravi_location",
         "requiresFlag": "ravi_msg",
         "unlessFlag": "ravi_trip_started"
+      },
+      {
+        "zone": "house_out",
+        "action": "card",
+        "card": "card_to_tunnel",
+        "requiresFlag": "act4_ravi_done",
+        "unlessFlag": "tunnel_in"
       }
     ],
     "base": {
@@ -2202,6 +2210,87 @@
         "unlessFlag": "act4_ravi_done"
       }
     ]
+  },
+  {
+    "id": "purple_tunnel",
+    "name": "The Purple Line, under the city",
+    "map": "purple_tunnel",
+    "defaultSpawn": "tunnel_east",
+    "fadeMs": 500,
+    "signal": 0,
+    "unlock": {
+      "flags": [
+        "tunnel_in"
+      ]
+    },
+    "realworld": {
+      "lat": 12.9763,
+      "lng": 77.5929,
+      "label": "Purple Line, Cubbon Park → Majestic"
+    },
+    "act4": {
+      "fallDay": 0,
+      "floor": 12
+    },
+    "quests": [
+      "q_act4_tunnel"
+    ],
+    "triggers": [
+      {
+        "zone": "majestic_steps",
+        "dialogue": "dlg_majestic_steps",
+        "requiresFlag": "tunnel_in",
+        "unlessFlag": "game_complete"
+      }
+    ],
+    "act4Zones": [
+      {
+        "id": "tunnel",
+        "rect": [
+          0,
+          4,
+          36,
+          19
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "passage_east",
+          "zone": "tunnel",
+          "lead": [
+            27,
+            20
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_officegoer",
+            "crowd_techie"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "tunnel_in",
+          "startMode": "idle"
+        },
+        {
+          "id": "passage_west",
+          "zone": "tunnel",
+          "lead": [
+            10,
+            20
+          ],
+          "size": 2,
+          "sheets": [
+            "crowd_student",
+            "crowd_delivery"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "tunnel_in",
+          "startMode": "idle"
+        }
+      ]
+    }
   },
   {
     "id": "bus_interior",
