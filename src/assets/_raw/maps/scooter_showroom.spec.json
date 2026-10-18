@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 → 36x24, 1.2 m/tile) — ITPL Main Road near Pattandur Agrahara (ADR-126): the viaduct and the four-lane road across the top (blocked), the pavement with a bus shelter, two gulmohars, a hoarding and an electric pole; below, a petrol bunk under a canopy (above), Noor's used two-wheeler showroom with its row of scooters on the forecourt, a tea stall and a bakery; a parked auto. Built on the render model: buildings / sorted with footprints / above.",
+  "$comment": "Source-pixel spec (1536x1024 → 36x24, 1.2 m/tile) — ITPL Main Road near Pattandur Agrahara (ADR-126): the viaduct and the four-lane road across the top (blocked), the pavement with a bus shelter, two gulmohars, a hoarding and an electric pole; below, a petrol bunk under a canopy (above), Noor's used two-wheeler showroom with its row of scooters on the forecourt, a tea stall and a bakery; a parked auto. Built on the render model: buildings / sorted with footprints / above. The 500-D back to Whitefield (ADR-162): you wait on the pavement in front of the bus shelter (`bus_out`); the bus keeps left — westbound in the service lane below the median — and pulls in to the kerb in front of the shelter.",
   "name": "scooter_showroom",
   "cols": 36,
   "rows": 24,
@@ -722,6 +722,21 @@
       "name": "road_east_in",
       "x": 1460,
       "y": 470
+    },
+    {
+      "name": "d500_in",
+      "x": 1700,
+      "y": 363
+    },
+    {
+      "name": "d500_halt",
+      "x": 1010,
+      "y": 363
+    },
+    {
+      "name": "d500_out",
+      "x": -160,
+      "y": 363
     }
   ],
   "zones": [
@@ -734,10 +749,10 @@
     },
     {
       "name": "bus_out",
-      "x": 940,
-      "y": 445,
-      "w": 150,
-      "h": 16
+      "x": 840,
+      "y": 345,
+      "w": 270,
+      "h": 50
     },
     {
       "name": "road_east",

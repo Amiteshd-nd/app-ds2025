@@ -695,10 +695,24 @@ class Gen {
         this.district = exit.to; this.open = null; this.known.add(`visited:${exit.to}`);
         return true;
       }
-      if (d.buses?.some((b: Json) => b.flag === exit.requiresFlag)) this.push({ do: 'wait_for', ready: 'flag', flag: exit.requiresFlag, timeout: 120000 });
-      else if (!this.known.has(exit.requiresFlag) && !this.flag(exit.requiresFlag, `${who} (the ${exit.transit} needs it)`)) return false;
+      const bus = d.buses?.find((b: Json) => b.flag === exit.requiresFlag);
+      if (bus) {
+        // A bus at the kerb (ADR-160/161): an interval bus is waited for, then walked to; an on-call one comes once
+        // you're at the stop. Standing there isn't boarding — E is.
+        if (!bus.onCall) this.push({ do: 'wait_for', ready: 'flag', flag: exit.requiresFlag, timeout: 120000 });
+        this.push(this.walkTo(`exit:${exit.zone}`));
+        if (bus.onCall) this.push({ do: 'wait_for', ready: 'flag', flag: exit.requiresFlag, timeout: 15000 });
+        this.push({ do: 'interact' });
+        return this.arrive(exit);
+      }
+      if (!this.known.has(exit.requiresFlag) && !this.flag(exit.requiresFlag, `${who} (the ${exit.transit} needs it)`)) return false;
     }
     this.push(this.walkTo(`exit:${exit.zone}`));
+    return this.arrive(exit);
+  }
+
+  /** Through the exit: the next place loads, the fare is paid. */
+  arrive(exit: Json): boolean {
     this.push({ do: 'wait_for', ready: 'scene_loaded', scene: exit.to, timeout: exit.transit === 'walk' ? 20000 : 60000 });
     if (exit.fare) this.wallet -= exit.fare;
     this.district = exit.to; this.open = null; this.known.add(`visited:${exit.to}`);

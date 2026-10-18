@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-122). The colony climbs in terraces: the bottom road (y 905-1024, x 0-1050) with the chai stall and furniture shop on its pavement; the stair-lane x 760-940 up to the upper lane (y 430-505, x 20-1290); the long stair x 1125-1280 up to the top walkway (y 100-200, x 760-1290). Three doors: room 1 (green, ground floor, beside the shop), room 2 (maroon, upper lane), room 3 (green, top walkway — the flat). Everything else is houses, walls and hedges. Migrated to ADR-125: every house, wall and hedge block is a `building`; the pole, the transformer, the chai tables and stools, the shop display and the pot are sorted cut-outs with footprints; the tin awning, the chai tarp and the slope cables hang `above`. Act 4 (story 4.2, ADR-150): the generator and the UV lamp post against the wall by the top door (the walkway in front stays clear), Suresh beside his door, Manju's table on the middle terrace by the stumps, Karthik by Manju's terrace (not on the narrow join of the mid path and the stairs), aunty's slippers at her door; `top_terrace` is the landing in front of the top room. 4.3 (the hill base, ADR-152): Deepa by the green door of room 1 on the wide bottom pavement (clear of the pot), Mani's stall store beside his stall, and `walk_out` — the walk to Hebbal — beside `road_out` (where the buses are refused).",
+  "$comment": "Source-pixel spec (1536x1024 render) → 36x24 tiles, 1.2 m/tile (ADR-122). The colony climbs in terraces: the bottom road (y 905-1024, x 0-1050) with the chai stall and furniture shop on its pavement; the stair-lane x 760-940 up to the upper lane (y 430-505, x 20-1290); the long stair x 1125-1280 up to the top walkway (y 100-200, x 760-1290). Three doors: room 1 (green, ground floor, beside the shop), room 2 (maroon, upper lane), room 3 (green, top walkway — the flat). Everything else is houses, walls and hedges. Migrated to ADR-125: every house, wall and hedge block is a `building`; the pole, the transformer, the chai tables and stools, the shop display and the pot are sorted cut-outs with footprints; the tin awning, the chai tarp and the slope cables hang `above`. Act 4 (story 4.2, ADR-150): the generator and the UV lamp post against the wall by the top door (the walkway in front stays clear), Suresh beside his door, Manju's table on the middle terrace by the stumps, Karthik by Manju's terrace (not on the narrow join of the mid path and the stairs), aunty's slippers at her door; `top_terrace` is the landing in front of the top room. 4.3 (the hill base, ADR-152): Deepa by the green door of room 1 on the wide bottom pavement (clear of the pot), Mani's stall store beside his stall, and `walk_out` — the walk to Hebbal — beside `road_out` (where the buses are refused). The 335-E (ADR-162): you wait at `road_out` on the pavement edge in front of the shop; the bus comes in along the bottom road from the west when you're there, stops below you (`e335_halt`, its bottom on the road), and turns round at the terminus to leave west. The night auto keeps the old road-out strip at the west edge (`auto_out`), so walking past the bus stop at night never hails it.",
   "name": "ambedkar_nagar_hill",
   "cols": 36,
   "rows": 24,
@@ -95,11 +95,33 @@
       "name": "deepa_spot",
       "x": 665,
       "y": 872
+    },
+    {
+      "name": "e335_in",
+      "x": -160,
+      "y": 1037
+    },
+    {
+      "name": "e335_halt",
+      "x": 360,
+      "y": 1037
+    },
+    {
+      "name": "e335_out",
+      "x": -160,
+      "y": 1037
     }
   ],
   "zones": [
     {
       "name": "road_out",
+      "x": 190,
+      "y": 880,
+      "w": 330,
+      "h": 70
+    },
+    {
+      "name": "auto_out",
       "x": 0,
       "y": 905,
       "w": 40,

@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 render) -> 36x24 tiles, 1.2 m/tile (ADR-124). Cubbon Park compressed to one pocket: the State Central Library top-left (steps walkable, the regulars sit there), the bamboo grove down the left edge, the bandstand on its plinth in the middle (not walkable; photographed from the path south of it), the cycle shed + ice-cream cart on the right lawn, the red court building's corner top-right, the east gate on the right edge (the bus), and along the bottom the compound wall with a gate down to a pavement of three shops - the left one is the guitar shop. Migrated to ADR-125: the library, the court building, the shop row and the compound wall are `buildings`; trees (canopy + trunk), the bandstand (roof + plinth), lamps, benches, the cycle shed, the ice-cream cart, bin, tap, sign and gate pillars are sorted cut-outs with footprints; hedges, bushes, the bamboo grove and the road stay prop blocks. 4.3c (ADR-154): the army camp on the lamp line — the cot, the stock crate, the bench and the run gate east of the bandstand, Rathore and Priya by them; the group on the open lawns (west, by the fire circle; north by the bandstand); the noticeboard by the green board.",
+  "$comment": "Source-pixel spec (1536x1024 render) -> 36x24 tiles, 1.2 m/tile (ADR-124). Cubbon Park compressed to one pocket: the State Central Library top-left (steps walkable, the regulars sit there), the bamboo grove down the left edge, the bandstand on its plinth in the middle (not walkable; photographed from the path south of it), the cycle shed + ice-cream cart on the right lawn, the red court building's corner top-right, the east gate on the right edge (the bus), and along the bottom the compound wall with a gate down to a pavement of three shops - the left one is the guitar shop. Migrated to ADR-125: the library, the court building, the shop row and the compound wall are `buildings`; trees (canopy + trunk), the bandstand (roof + plinth), lamps, benches, the cycle shed, the ice-cream cart, bin, tap, sign and gate pillars are sorted cut-outs with footprints; hedges, bushes, the bamboo grove and the road stay prop blocks. 4.3c (ADR-154): the army camp on the lamp line — the cot, the stock crate, the bench and the run gate east of the bandstand, Rathore and Priya by them; the group on the open lawns (west, by the fire circle; north by the bandstand); the noticeboard by the green board. The 500-D home (ADR-162): the stop is on the pavement outside the south gate, right of the gate (`park_gate_bus`); the bus keeps left — eastbound in the near lane of the road along the bottom edge — and stops against the bollard line. The 500-D in from town drops you left of the gate (`bus_drop`), where `cubbon_arrival` greets you; the east gate is the park's way in on foot.",
   "name": "cubbon_park",
   "cols": 36,
   "rows": 24,
@@ -129,8 +129,8 @@
   "spawns": [
     {
       "name": "bus_drop",
-      "x": 1395,
-      "y": 480
+      "x": 650,
+      "y": 925
     },
     {
       "name": "cycle_rental",
@@ -236,22 +236,37 @@
       "name": "ananya_camp",
       "x": 560,
       "y": 300
+    },
+    {
+      "name": "d500_in",
+      "x": -160,
+      "y": 1044
+    },
+    {
+      "name": "d500_halt",
+      "x": 980,
+      "y": 1044
+    },
+    {
+      "name": "d500_out",
+      "x": 1700,
+      "y": 1044
     }
   ],
   "zones": [
     {
       "name": "cubbon_arrival",
-      "x": 1340,
-      "y": 430,
-      "w": 110,
-      "h": 100
+      "x": 560,
+      "y": 880,
+      "w": 200,
+      "h": 80
     },
     {
       "name": "park_gate_bus",
-      "x": 1470,
-      "y": 442,
-      "w": 66,
-      "h": 62
+      "x": 840,
+      "y": 880,
+      "w": 280,
+      "h": 70
     },
     {
       "name": "photo_bandstand",

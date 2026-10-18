@@ -91,13 +91,28 @@
       "id": "wait_for_14",
       "beat": "F3",
       "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_hill_335e_here",
+      "timeout": 15000,
+      "optional": true
+    },
+    {
+      "id": "interact_15",
+      "beat": "F3",
+      "do": "interact",
+      "optional": true
+    },
+    {
+      "id": "wait_for_16",
+      "beat": "F3",
+      "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "whitefield_street",
       "timeout": 60000,
       "optional": true
     },
     {
-      "id": "travel_15",
+      "id": "travel_17",
       "beat": "F3",
       "do": "travel",
       "to": "church_street",
@@ -105,7 +120,7 @@
       "optional": true
     },
     {
-      "id": "wait_for_16",
+      "id": "wait_for_18",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -114,42 +129,42 @@
       "optional": true
     },
     {
-      "id": "goto_17",
+      "id": "goto_19",
       "beat": "F3",
       "do": "goto",
       "target": "npc:npc_tanvi",
       "optional": true
     },
     {
-      "id": "interact_18",
+      "id": "interact_20",
       "beat": "F3",
       "do": "interact",
       "target": "npc:npc_tanvi",
       "optional": true
     },
     {
-      "id": "choose_19",
+      "id": "choose_21",
       "beat": "F3",
       "do": "choose",
       "option": "hill",
       "optional": true
     },
     {
-      "id": "choose_20",
+      "id": "choose_22",
       "beat": "F3",
       "do": "choose",
       "option": "gcd",
       "optional": true
     },
     {
-      "id": "choose_21",
+      "id": "choose_23",
       "beat": "F3",
       "do": "choose",
       "option": "bye",
       "optional": true
     },
     {
-      "id": "travel_22",
+      "id": "travel_24",
       "beat": "F4",
       "do": "travel",
       "to": "cubbon_park",
@@ -157,7 +172,7 @@
       "optional": true
     },
     {
-      "id": "wait_for_23",
+      "id": "wait_for_25",
       "beat": "F4",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -166,34 +181,34 @@
       "optional": true
     },
     {
-      "id": "goto_24",
+      "id": "goto_26",
       "beat": "F4",
       "do": "goto",
       "target": "npc:npc_ananya",
       "optional": true
     },
     {
-      "id": "interact_25",
+      "id": "interact_27",
       "beat": "F4",
       "do": "interact",
       "target": "npc:npc_ananya",
       "optional": true
     },
     {
-      "id": "choose_26",
+      "id": "choose_28",
       "beat": "F4",
       "do": "choose",
       "option": "truth",
       "optional": true
     },
     {
-      "id": "expect_27",
+      "id": "expect_29",
       "do": "expect",
       "flag": "app_settled",
       "timeout": 3000
     },
     {
-      "id": "expect_28",
+      "id": "expect_30",
       "do": "expect",
       "flag": "act2_app_done",
       "timeout": 3000

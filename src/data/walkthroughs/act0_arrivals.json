@@ -44,12 +44,23 @@
     {
       "id": "wait_for_7",
       "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_kia8_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_8",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_9",
+      "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "whitefield_street",
       "timeout": 60000
     },
     {
-      "id": "expect_8",
+      "id": "expect_10",
       "do": "expect",
       "flag": "act0_arrived",
       "timeout": 3000

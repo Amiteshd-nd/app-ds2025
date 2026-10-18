@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 → 36x24, 1.2 m/tile) — Church Street off MG Road (story 2.3, ADR-131): the shop row across the top is `buildings` (bookshop, café, the guitar shop with its door between two pots, the graffiti mural, a pastry shop); the café tables, book stands and pots are blocks; lamps, trees, benches and the right planter are `sorted` cut-outs; the MG Road station canopy and its side walls are solid, the stairs under it walkable (you come up them); the bus shelter's roof is solid, its bench a block, the road along the bottom blocked. 4.3c (ADR-154): `digital_front` (the Reliable Digital counter) and `street_back`.",
+  "$comment": "Source-pixel spec (1536x1024 → 36x24, 1.2 m/tile) — Church Street off MG Road (story 2.3, ADR-131): the shop row across the top is `buildings` (bookshop, café, the guitar shop with its door between two pots, the graffiti mural, a pastry shop); the café tables, book stands and pots are blocks; lamps, trees, benches and the right planter are `sorted` cut-outs; the MG Road station canopy and its side walls are solid, the stairs under it walkable (you come up them); the bus shelter's roof is solid, its bench a block, the road along the bottom blocked. 4.3c (ADR-154): `digital_front` (the Reliable Digital counter) and `street_back`. The 335-E home (ADR-162): you wait on the pavement edge in front of the bus shelter (`bus_stop`); the bus keeps left — eastbound in the near lane of the road along the bottom — and stops at the kerb below you.",
   "name": "church_street",
   "cols": 36,
   "rows": 24,
@@ -206,6 +206,21 @@
       "name": "cafe_table",
       "x": 480,
       "y": 398
+    },
+    {
+      "name": "e335_in",
+      "x": -160,
+      "y": 1003
+    },
+    {
+      "name": "e335_halt",
+      "x": 1240,
+      "y": 1003
+    },
+    {
+      "name": "e335_out",
+      "x": 1700,
+      "y": 1003
     }
   ],
   "zones": [
@@ -225,10 +240,10 @@
     },
     {
       "name": "bus_stop",
-      "x": 1100,
+      "x": 1090,
       "y": 845,
-      "w": 280,
-      "h": 30
+      "w": 300,
+      "h": 65
     },
     {
       "name": "ambient_area",

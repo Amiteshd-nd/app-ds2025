@@ -218,6 +218,7 @@ export function validateContent(
         add(where, `${d} exit "${exit.zone}" minutes must be a whole number of game minutes, 0–600`);
       }
       if (exit.onlyAt !== undefined && !['day', 'night'].includes(exit.onlyAt)) add(where, `${d} exit "${exit.zone}" onlyAt must be day or night`);
+      if (exit.board !== undefined && !['walk', 'interact'].includes(exit.board)) add(where, `${d} exit "${exit.zone}" board must be walk or interact`);
       if (exit.requiresFlag !== undefined && (typeof exit.requiresFlag !== 'string' || !exit.requiresFlag)) {
         add(where, `${d} exit "${exit.zone}" requiresFlag must be a flag name`);
       }
@@ -285,18 +286,34 @@ export function validateContent(
       if (!coords && !parent) add(where, `${d} realworld needs lat/lng or a parent district`);
     }
 
-    // Buses on an interval (ADR-123): the boarding exit must gate on the bus's flag.
-    const exitByZone = new Map<string, Json>((district.exits ?? []).map((e: Json) => [e.zone, e]));
+    // Buses (ADR-123, ADR-160/161): the boarding exit gates on the bus's flag and boards with E; every bus exit has a bus.
+    const exitByZone = new Map<string, Json>((district.exits ?? []).filter((e: Json) => e.transit === 'bus' || !(district.exits ?? []).some((o: Json) => o !== e && o.zone === e.zone && o.transit === 'bus')).map((e: Json) => [e.zone, e]));
     for (const bus of district.buses ?? []) {
       const b = `${d} bus "${bus.id ?? '?'}"`;
-      for (const k of ['id', 'label', 'zone', 'flag', 'from', 'stop', 'to']) if (typeof bus[k] !== 'string' || !bus[k]) add(where, `${b} needs a string ${k}`);
-      if (!(Number.isInteger(bus.every) && bus.every >= 10 && bus.every <= 600)) add(where, `${b} every must be 10–600 seconds`);
-      if (!(Number.isInteger(bus.dwell) && bus.dwell >= 3 && bus.dwell < (bus.every ?? 0))) add(where, `${b} dwell must be at least 3 seconds and shorter than every`);
+      for (const k of ['id', 'label', 'zone', 'flag']) if (typeof bus[k] !== 'string' || !bus[k]) add(where, `${b} needs a string ${k}`);
+      // Drawn (from → stop → to) or not at all (the airport coach, on-call only, ADR-162).
+      const route = ['from', 'stop', 'to'].filter((k) => bus[k] !== undefined);
+      for (const k of route) if (typeof bus[k] !== 'string' || !bus[k]) add(where, `${b} ${k} must be a spawn name`);
+      if (route.length && route.length < 3) add(where, `${b} needs all of from, stop and to, or none`);
+      if (bus.onCall !== undefined && bus.onCall !== true) add(where, `${b} onCall is true or absent`);
+      if (bus.onCall) {
+        if (bus.every !== undefined) add(where, `${b} is on call — it has no every`);
+        if (bus.dwell !== undefined && !(Number.isInteger(bus.dwell) && bus.dwell >= 1 && bus.dwell <= 60)) add(where, `${b} dwell (after you step away) must be 1–60 seconds`);
+      } else {
+        if (!route.length) add(where, `${b} runs on an interval, so it is drawn: it needs from, stop and to`);
+        if (!(Number.isInteger(bus.every) && bus.every >= 10 && bus.every <= 600)) add(where, `${b} every must be 10–600 seconds`);
+        if (!(Number.isInteger(bus.dwell) && bus.dwell >= 3 && bus.dwell < (bus.every ?? 0))) add(where, `${b} dwell must be at least 3 seconds and shorter than every`);
+      }
       const exit = exitByZone.get(bus.zone);
       if (!exit) add(where, `${b} zone "${bus.zone}" is not one of the district's exits`);
       else if (exit.requiresFlag !== bus.flag) add(where, `${b}: exit "${bus.zone}" must carry requiresFlag "${bus.flag}" so nobody boards without a bus`);
+      else if (exit.board !== 'interact') add(where, `${b}: exit "${bus.zone}" must be board "interact" — you wait on the footpath and press E at the doors (ADR-160)`);
+      else if (exit.transit !== 'bus') add(where, `${b}: exit "${bus.zone}" must be a bus`);
       if (bus.label) drawable(where, `${b} label`, bus.label);
       if (!(district.behaviours ?? []).includes('busSchedule')) add(where, `${d} lists buses but not the "busSchedule" behaviour`);
+    }
+    for (const exit of district.exits ?? []) {
+      if (exit.transit === 'bus' && !(district.buses ?? []).some((bus: Json) => bus.zone === exit.zone)) add(where, `${d} bus exit "${exit.zone}" has no bus in "buses" — you board a bus with E at its stop (ADR-162)`);
     }
     if (district.ride !== undefined) {
       const r = district.ride;

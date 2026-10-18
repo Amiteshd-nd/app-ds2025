@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 38,
+     "id": 42,
      "name": "pole",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 39,
+     "id": 43,
      "name": "transformer",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 40,
+     "id": 44,
      "name": "chai_table",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 41,
+     "id": 45,
      "name": "stools",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 42,
+     "id": 46,
      "name": "shop_display",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 43,
+     "id": 47,
      "name": "pot_room1",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 44,
+     "id": 48,
      "name": "awning",
      "type": "above",
      "rotation": 0,
@@ -2916,7 +2916,7 @@
      ]
     },
     {
-     "id": 45,
+     "id": 49,
      "name": "tarp",
      "type": "above",
      "rotation": 0,
@@ -3823,7 +3823,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 28,
+     "id": 32,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3841,7 +3841,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 33,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3859,7 +3859,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 34,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3877,7 +3877,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 35,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3895,7 +3895,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 36,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3913,7 +3913,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 37,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3931,7 +3931,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 38,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3949,7 +3949,7 @@
      ]
     },
     {
-     "id": 35,
+     "id": 39,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3967,7 +3967,7 @@
      ]
     },
     {
-     "id": 36,
+     "id": 40,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -3985,7 +3985,7 @@
      ]
     },
     {
-     "id": 37,
+     "id": 41,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -5109,7 +5109,54 @@
     },
     {
      "id": 19,
+     "name": "e335_in",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": -120,
+     "y": 761,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 20,
+     "name": "e335_halt",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 270,
+     "y": 761,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 21,
+     "name": "e335_out",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": -120,
+     "y": 761,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 22,
      "name": "road_out",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 143,
+     "y": 660,
+     "width": 247,
+     "height": 53
+    },
+    {
+     "id": 23,
+     "name": "auto_out",
      "rotation": 0,
      "type": "",
      "visible": true,
@@ -5119,7 +5166,7 @@
      "height": 89
     },
     {
-     "id": 20,
+     "id": 24,
      "name": "hill_arrival",
      "rotation": 0,
      "type": "",
@@ -5130,7 +5177,7 @@
      "height": 89
     },
     {
-     "id": 21,
+     "id": 25,
      "name": "room1_door",
      "rotation": 0,
      "type": "",
@@ -5141,7 +5188,7 @@
      "height": 42
     },
     {
-     "id": 22,
+     "id": 26,
      "name": "room2_door",
      "rotation": 0,
      "type": "",
@@ -5152,7 +5199,7 @@
      "height": 32
     },
     {
-     "id": 23,
+     "id": 27,
      "name": "room3_door",
      "rotation": 0,
      "type": "",
@@ -5163,7 +5210,7 @@
      "height": 42
     },
     {
-     "id": 24,
+     "id": 28,
      "name": "ambient_area",
      "rotation": 0,
      "type": "",
@@ -5174,7 +5221,7 @@
      "height": 56
     },
     {
-     "id": 25,
+     "id": 29,
      "name": "top_terrace",
      "rotation": 0,
      "type": "",
@@ -5185,7 +5232,7 @@
      "height": 37
     },
     {
-     "id": 26,
+     "id": 30,
      "name": "stall_store",
      "rotation": 0,
      "type": "",
@@ -5196,7 +5243,7 @@
      "height": 30
     },
     {
-     "id": 27,
+     "id": 31,
      "name": "walk_out",
      "rotation": 0,
      "type": "",
@@ -5215,7 +5262,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 46,
+ "nextobjectid": 50,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { gameEvents } from '../core/events';
 import { CONTACTS, DIALOGUE, DISTRICTS, NOTES, PHOTOS, QUESTS, SCENES } from '../data';
@@ -12,7 +14,7 @@ import { useGameStore } from '../store';
 import { cameraView, noteDetail } from '../ui/phone/viewModel';
 import { missingGlyphs } from '../ui/kit/text';
 import { BUS_DWELL_S, BUS_EVERY_S, CYCLE_FEE, GUITAR_PRICE, SAVE_VERSION, STARTING_WALLET } from '../utils/constants';
-import { busPhase, busTimerText } from '../world/behaviours/busSchedule';
+import { busPhase, busTimerText, onCallNext } from '../world/behaviours/busSchedule';
 import { rideTimerText } from '../world/behaviours/busRide';
 
 beforeEach(() => {
@@ -55,6 +57,48 @@ describe('the 500-D on an interval (story 1.5 F2, ADR-123)', () => {
     const interior = DISTRICTS.bus_interior;
     expect(interior.exits!.find((e) => e.zone === interior.ride!.exit)!.requiresFlag).toBe(interior.ride!.flag);
     expect(interior.behaviours).toContain('busRide');
+  });
+
+  it('pulls over at the bottom kerb; you board with E from the footpath beside it (ADR-160)', () => {
+    const street = DISTRICTS.whitefield_street;
+    const bus = street.buses![0];
+    expect(street.exits!.find((e) => e.zone === bus.zone)!.board).toBe('interact');
+    const streetMap = JSON.parse(readFileSync(join(__dirname, '../assets/tilemaps/whitefield_street.tmj'), 'utf8')) as { layers: Array<{ name: string; objects?: unknown[] }> };
+    const objects = (streetMap.layers.find((l) => l.name === 'spawns')!.objects ?? []) as Array<{ name: string; x: number; y: number; width: number; height: number }>;
+    const at = (name: string) => objects.find((o) => o.name === name)!;
+    const halt = at(bus.stop!), zone = at(bus.zone);
+    // The bottom lane is rows 11–12, the kerb row 13 (its lip drawn at the bottom), the footpath rows 14–16.
+    expect(halt.y).toBeGreaterThan(13 * 32);
+    expect(halt.y).toBeLessThan(14 * 32);
+    expect(zone.y).toBe(14 * 32);
+    expect(halt.x).toBeGreaterThan(zone.x);
+    expect(halt.x).toBeLessThan(zone.x + zone.width);
+    // It runs in the lane and pulls over to the kerb: in and out a little further up the road than the halt.
+    for (const lane of [at(bus.from!), at(bus.to!)]) { expect(lane.y).toBeGreaterThan(11 * 32); expect(lane.y).toBeLessThan(halt.y); }
+  });
+});
+
+describe('every bus is boarded with E at its stop (ADR-162)', () => {
+  it('every bus exit has a bus, gates on its flag and boards with E', () => {
+    for (const district of Object.values(DISTRICTS)) {
+      for (const exit of (district.exits ?? []).filter((e) => e.transit === 'bus')) {
+        const bus = district.buses?.find((b) => b.zone === exit.zone);
+        expect(bus, `${district.id} ${exit.zone}`).toBeDefined();
+        expect(exit.board).toBe('interact');
+        expect(exit.requiresFlag).toBe(bus!.flag);
+      }
+    }
+  });
+
+  it('an on-call bus comes when you are at the stop, stands while you stay, and leaves a few seconds after you walk off', () => {
+    expect(onCallNext('away', false, true, 0, 10, 4)).toBe('away');
+    expect(onCallNext('away', true, false, null, 10, 4)).toBe('away'); // night, Act 4: nothing comes
+    expect(onCallNext('away', true, true, null, 10, 4)).toBe('arriving');
+    expect(onCallNext('arriving', false, true, 9, 10, 4)).toBe('arriving'); // the pull-in finishes first
+    expect(onCallNext('here', true, true, null, 99, 4)).toBe('here');
+    expect(onCallNext('here', false, true, 10, 13, 4)).toBe('here');
+    expect(onCallNext('here', false, true, 10, 14, 4)).toBe('leaving');
+    expect(onCallNext('here', true, false, null, 14, 4)).toBe('leaving'); // 23:00 with you at the stop
   });
 });
 

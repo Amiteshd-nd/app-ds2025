@@ -17,8 +17,21 @@ export interface BehaviourContext {
   playerFree(): boolean;
   /** Leave the district through one of its exits, by zone name (the bus ride ending). */
   leave(exitZone: string): void;
+  /** Take an exit through its gates (the hour, the flag, the fare) — what E on a `board: interact` exit does. */
+  board(exitZone: string): void;
+  /** True while the player stands in this exit's zone. */
+  standingIn(exitZone: string): boolean;
+  /** Offer something to E besides the NPCs (the bus doors): the HUD bubble shows `verb` at `at()` while it isn't null. Returns the withdrawal. */
+  offer(offer: Offer): () => void;
   /** Play a card sequence over the world (ADR-136): the world holds until it ends. `landing` replaces its `then` (failing forward to your base, ADR-149). */
   playCard(cardId: string, landing?: CardLanding): void;
+}
+
+/** Something E can do that isn't a person: shown while `at()` gives a point (world px, the bubble's anchor). */
+export interface Offer {
+  verb: string;
+  at(): { x: number; y: number } | null;
+  act(): void;
 }
 
 /**

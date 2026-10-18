@@ -565,3 +565,30 @@ corepack pnpm dev
     - The Evolved never limp.
     - The Host chases at 0.55× your run, growls 0.9 s, hunts 12 s, and its blow costs −40 health and +35 stress.
   - **Reduced motion:** no standing twitches (the stutter stays); the eyes glow steadily.
+
+## 35. The 500-D: pulls over at the bottom kerb, board with E
+- **What:** the bus to Cubbon Park now drives in the bottom lane, pulls over to the bottom footpath at the stop by the bench, and you board by pressing E when "[E] BOARD" shows over its door (BOARD on the touch button).
+- **Check:** play to the Whitefield street after your first night in the hill flat (story 1.5). Wait on the bottom footpath, left of the trees, until the HUD says "500-D at the stop"; press E.
+- **Calls to confirm:**
+  - **It keeps left** (westbound in the bottom lane), so the door side faces the footpath.
+  - **Where you stand:** the whole footpath beside the bus (three tiles wide). Stepping off it hides BOARD.
+  - **Coming home from Cubbon** (and the other rides that land at "the stop") now drops you on the bottom footpath by the bench.
+  - **Before the 500-D is open in the story,** E says "Not this bus yet - find somewhere to live first."
+  - **The bus is still small** next to people (95×44 px art from the street props sheet). Redrawing it bigger is an art pass, not done here.
+  - **The other buses** now work this way too — see #36.
+
+## 36. Every bus: stand at the stop, the bus comes, E to board
+- **What:** all seven bus stops now work like the 500-D. A bus pulls in when you stand on the stop's footpath, "[E] BOARD" shows over its door, and it leaves a few seconds after you walk away. Only the 500-D to Cubbon keeps its timetable.
+- **Check:** in the Playground, ▶ a scene that takes a bus (act0_arrivals, act1_cubbon, act2_guitar, act2_ikea, act2_the_app, act2_breadcrumbs) and watch the bot stop, wait for the bus and press E. Or walk to a stop yourself.
+- **Calls to confirm:**
+  - **Buses come when you're at the stop** instead of on a timetable. A timetable at every stop would add a wait of up to 90 seconds to every ride.
+  - **Where the stops are:**
+    - Whitefield: the 335-E and the ITPL bus on the top footpath, between the trees.
+    - The hill: in front of the furniture shop. The bus turns round at the terminus.
+    - ITPL Main Road and Church Street: in front of their bus shelters.
+  - **Cubbon Park:** the bus stop is outside the south gate (right of it), and you now arrive by bus left of that gate, where the park greets you. You used to arrive at the east gate, which has no road.
+  - **The airport coach isn't drawn.** Its road runs top to bottom and the only bus art is a side view, so you stand at the coach bay and BOARD shows there. A coach seen from the front/back needs new art, and I'd want your reference images first.
+  - **The hill's night auto** keeps its old spot at the west edge of the road, so walking past the bus stop at night doesn't call it.
+  - **Night and Act 4:** standing at a stop says "Last bus left at 11…" or "Nothing runs…", and no bus comes.
+  - **A stop the story hasn't opened** says "You can't go there yet." when you press E.
+  - **Fixed on the way:** after your first change of place, the TALK prompt could turn invisible (the HUD reused an old label on a fresh, empty bubble). It shows every time now.

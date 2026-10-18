@@ -48,7 +48,9 @@
         "spawn": "bus_stop",
         "transit": "bus",
         "card": "Vayu Vajra KIA-8 → Whitefield · ₹250",
-        "fare": 250
+        "fare": 250,
+        "requiresFlag": "bus_kia8_here",
+        "board": "interact"
       }
     ],
     "triggers": [
@@ -60,6 +62,7 @@
       }
     ],
     "behaviours": [
+      "busSchedule",
       "beh_carousel"
     ],
     "ambient": {
@@ -128,6 +131,15 @@
         "kind": "machine",
         "uncanny": "a.uncanny.bus_bell_no_bus"
       }
+    ],
+    "buses": [
+      {
+        "id": "kia8",
+        "label": "KIA-8",
+        "zone": "zone_exit",
+        "flag": "bus_kia8_here",
+        "onCall": true
+      }
     ]
   },
   {
@@ -185,7 +197,9 @@
         "fare": 20,
         "minutes": 25,
         "card": "BMTC 335-E → Ambedkar Nagar · ₹20",
-        "farePerBox": 10
+        "farePerBox": 10,
+        "requiresFlag": "bus_wf_335e_here",
+        "board": "interact"
       },
       {
         "zone": "bus_500d",
@@ -196,7 +210,8 @@
         "minutes": 5,
         "card": "BMTC 500-D → Cubbon Park · ₹35",
         "requiresFlag": "bus_500d_here",
-        "lockedText": "500-D stops here. Wait for it - the clock is on the HUD."
+        "board": "interact",
+        "lockedText": "Not this bus yet - find somewhere to live first."
       },
       {
         "zone": "itpl_bus",
@@ -205,7 +220,9 @@
         "transit": "bus",
         "fare": 20,
         "minutes": 15,
-        "card": "BMTC 500-D → ITPL Main Road · ₹20"
+        "card": "BMTC 500-D → ITPL Main Road · ₹20",
+        "requiresFlag": "bus_wf_itpl_here",
+        "board": "interact"
       },
       {
         "zone": "station_stairs",
@@ -232,6 +249,28 @@
         "from": "bus_in",
         "stop": "bus_halt",
         "to": "bus_out",
+        "prop": "street_props_01"
+      },
+      {
+        "id": "wf_335e",
+        "label": "335-E",
+        "zone": "hill_bus",
+        "flag": "bus_wf_335e_here",
+        "onCall": true,
+        "from": "e335_in",
+        "stop": "e335_halt",
+        "to": "e335_out",
+        "prop": "street_props_01"
+      },
+      {
+        "id": "wf_itpl",
+        "label": "500-D",
+        "zone": "itpl_bus",
+        "flag": "bus_wf_itpl_here",
+        "onCall": true,
+        "from": "itpl_in",
+        "stop": "itpl_halt",
+        "to": "itpl_out",
         "prop": "street_props_01"
       }
     ],
@@ -1094,7 +1133,9 @@
         "transit": "bus",
         "fare": 20,
         "minutes": 25,
-        "card": "BMTC 335-E → Whitefield · ₹20"
+        "card": "BMTC 335-E → Whitefield · ₹20",
+        "requiresFlag": "bus_hill_335e_here",
+        "board": "interact"
       },
       {
         "zone": "room3_door",
@@ -1104,7 +1145,7 @@
         "lockedText": "Aunty's door. Make a deal with her first."
       },
       {
-        "zone": "road_out",
+        "zone": "auto_out",
         "to": "office_gate",
         "spawn": "auto_drop",
         "transit": "auto",
@@ -1115,6 +1156,7 @@
       }
     ],
     "behaviours": [
+      "busSchedule",
       "signalZones"
     ],
     "objects": [
@@ -1254,7 +1296,20 @@
           "startMode": "idle"
         }
       ]
-    }
+    },
+    "buses": [
+      {
+        "id": "hill_335e",
+        "label": "335-E",
+        "zone": "road_out",
+        "flag": "bus_hill_335e_here",
+        "onCall": true,
+        "from": "e335_in",
+        "stop": "e335_halt",
+        "to": "e335_out",
+        "prop": "street_props_01"
+      }
+    ]
   },
   {
     "id": "hill_flat",
@@ -2664,10 +2719,13 @@
         "transit": "bus",
         "fare": 35,
         "minutes": 50,
-        "card": "BMTC 500-D → Whitefield · ₹35"
+        "card": "BMTC 500-D → Whitefield · ₹35",
+        "requiresFlag": "bus_cubbon_500d_here",
+        "board": "interact"
       }
     ],
     "behaviours": [
+      "busSchedule",
       "photoSpots",
       "companion",
       "sleepEvents"
@@ -2785,6 +2843,19 @@
         "flag": "base_cubbon_set",
         "stability": 70
       }
+    ],
+    "buses": [
+      {
+        "id": "cubbon_500d",
+        "label": "500-D",
+        "zone": "park_gate_bus",
+        "flag": "bus_cubbon_500d_here",
+        "onCall": true,
+        "from": "d500_in",
+        "stop": "d500_halt",
+        "to": "d500_out",
+        "prop": "street_props_01"
+      }
     ]
   },
   {
@@ -2863,6 +2934,7 @@
       "bunk_zone"
     ],
     "behaviours": [
+      "busSchedule",
       "fuelSpots",
       "emi",
       "salaryCountdown"
@@ -2884,7 +2956,9 @@
         "transit": "bus",
         "fare": 20,
         "minutes": 15,
-        "card": "BMTC 500-D → Whitefield · ₹20"
+        "card": "BMTC 500-D → Whitefield · ₹20",
+        "requiresFlag": "bus_itpl_500d_here",
+        "board": "interact"
       },
       {
         "zone": "road_east",
@@ -2905,6 +2979,19 @@
         ],
         "radius": 9,
         "kind": "machine"
+      }
+    ],
+    "buses": [
+      {
+        "id": "itpl_500d",
+        "label": "500-D",
+        "zone": "bus_out",
+        "flag": "bus_itpl_500d_here",
+        "onCall": true,
+        "from": "d500_in",
+        "stop": "d500_halt",
+        "to": "d500_out",
+        "prop": "street_props_01"
       }
     ]
   },
@@ -3184,7 +3271,9 @@
         "transit": "bus",
         "fare": 35,
         "minutes": 55,
-        "card": "BMTC 335-E → Whitefield · ₹35"
+        "card": "BMTC 335-E → Whitefield · ₹35",
+        "requiresFlag": "bus_church_335e_here",
+        "board": "interact"
       }
     ],
     "realworld": {
@@ -3278,7 +3367,23 @@
           "startMode": "idle"
         }
       ]
-    }
+    },
+    "buses": [
+      {
+        "id": "church_335e",
+        "label": "335-E",
+        "zone": "bus_stop",
+        "flag": "bus_church_335e_here",
+        "onCall": true,
+        "from": "e335_in",
+        "stop": "e335_halt",
+        "to": "e335_out",
+        "prop": "street_props_01"
+      }
+    ],
+    "behaviours": [
+      "busSchedule"
+    ]
   },
   {
     "id": "guitar_shop",

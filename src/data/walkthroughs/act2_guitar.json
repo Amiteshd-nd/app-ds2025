@@ -110,18 +110,44 @@
       "id": "wait_for_17",
       "beat": "F3",
       "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_church_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_18",
+      "beat": "F3",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_19",
+      "beat": "F3",
+      "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "whitefield_street",
       "timeout": 60000
     },
     {
-      "id": "goto_18",
+      "id": "goto_20",
       "beat": "F3",
       "do": "goto",
       "target": "exit:hill_bus"
     },
     {
-      "id": "wait_for_19",
+      "id": "wait_for_21",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_wf_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_22",
+      "beat": "F3",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_23",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -129,13 +155,13 @@
       "timeout": 60000
     },
     {
-      "id": "goto_20",
+      "id": "goto_24",
       "beat": "F3",
       "do": "goto",
       "target": "exit:room3_door"
     },
     {
-      "id": "wait_for_21",
+      "id": "wait_for_25",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -143,46 +169,22 @@
       "timeout": 20000
     },
     {
-      "id": "goto_22",
-      "beat": "F3",
-      "do": "goto",
-      "target": "zone:guitar_zone"
-    },
-    {
-      "id": "rhythm_23",
-      "beat": "F3",
-      "do": "rhythm"
-    },
-    {
-      "id": "wait_for_24",
-      "beat": "F3",
-      "do": "wait_for",
-      "ready": "flag",
-      "flag": "chord_g",
-      "timeout": 6000
-    },
-    {
-      "id": "sleep_25",
-      "beat": "F4",
-      "do": "sleep"
-    },
-    {
       "id": "goto_26",
-      "beat": "F4",
+      "beat": "F3",
       "do": "goto",
       "target": "zone:guitar_zone"
     },
     {
       "id": "rhythm_27",
-      "beat": "F4",
+      "beat": "F3",
       "do": "rhythm"
     },
     {
       "id": "wait_for_28",
-      "beat": "F4",
+      "beat": "F3",
       "do": "wait_for",
       "ready": "flag",
-      "flag": "chord_c",
+      "flag": "chord_g",
       "timeout": 6000
     },
     {
@@ -206,17 +208,41 @@
       "beat": "F4",
       "do": "wait_for",
       "ready": "flag",
+      "flag": "chord_c",
+      "timeout": 6000
+    },
+    {
+      "id": "sleep_33",
+      "beat": "F4",
+      "do": "sleep"
+    },
+    {
+      "id": "goto_34",
+      "beat": "F4",
+      "do": "goto",
+      "target": "zone:guitar_zone"
+    },
+    {
+      "id": "rhythm_35",
+      "beat": "F4",
+      "do": "rhythm"
+    },
+    {
+      "id": "wait_for_36",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
       "flag": "chord_d",
       "timeout": 6000
     },
     {
-      "id": "choose_33",
+      "id": "choose_37",
       "beat": "F5",
       "do": "choose",
       "option": "sent"
     },
     {
-      "id": "expect_34",
+      "id": "expect_38",
       "do": "expect",
       "flag": "act2_guitar_done",
       "timeout": 3000

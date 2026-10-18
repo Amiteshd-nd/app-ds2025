@@ -464,3 +464,18 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way: the Host's raw had both side views' third frame facing the wrong way — the two cells are swapped in the raw before import (provenance notes it); the colour drain at ground zero greys its eyes (a call, with the tunnel's red lights).
 - Calls to confirm: NEED_TO_AUDIT #33.
 - Rule going forward: **a cost a path prefers is never a wall: photophobia lives in `Grid.cost`, so reachability (the validator, the bot) never changes; draw quirks from their own seeded stream so a new random never reshuffles a place's other rolls.**
+
+### [The 500-D boards with E at the bottom kerb — built, awaiting audit] — 2026-10-18
+- Correction (the user, testing story 1.5): "I'm unable to get in the bus." The walk-in stop was a strip of road above the bus that only fired on entry, so standing there before the bus came did nothing. ADR-160.
+- Built: interact exits (`board: interact`), behaviour offers to E (`offer`), BOARD over the bus door, the stop on the bottom footpath with the bus pulling over to the kerb, a toast when the 500-D is still story-locked; validator and walkthrough generator know interact exits; 1 new test.
+- Verified: in the browser pane the bus pulls over at the bottom kerb, `[E] BOARD` shows over its door only while you stand on the footpath beside it, and a real E keypress lands in `bus_interior` with `on_bus_500d` set; validate, typecheck and tests green.
+- Calls to confirm: NEED_TO_AUDIT #35.
+- Rule going forward: **a vehicle is boarded, never walked into: stand by it, see the verb over it, press E — the same prompt as talking to someone. A prompt that does nothing must say why.**
+
+### [Every bus boards with E — built, awaiting audit] — 2026-10-18
+- Decision: "yes, do the same for the other buses". ADR-162.
+- Built: on-call buses (`onCall`) at six stops on five maps, the airport coach bay as an undrawn stop, buses that keep left and mirror when driving east, the hill's night auto on its own zone, Cubbon's bus arrival moved to the south gate, night/Act 4/locked toasts for E stops, validator + walkthrough generator; 2 new tests (709 in all).
+- Verified: in the browser pane all seven stops bring a bus (2.5 s pull-in) and draw `[E] BOARD` — in one session, back to back; a real E keypress at Whitefield's ITPL stop paid ₹20 and landed on ITPL Main Road; E at a story-locked stop says "You can't go there yet."; `pnpm movie` 32/32.
+- Found on the way (fixed): the HUD rebuilt its prompt bubble empty on every scene start but kept the old label, so a prompt you'd already seen elsewhere ("[E] TALK", "[E] BOARD") was invisible in every later place.
+- Calls to confirm: NEED_TO_AUDIT #36.
+- Rule going forward: **every vehicle stop is a footpath zone + a bus that comes to it; a vehicle runs only when its exit does. A UI element rebuilt in `create()` resets every cache that describes it.**

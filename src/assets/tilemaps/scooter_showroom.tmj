@@ -2640,7 +2640,7 @@
    "name": "sorted",
    "objects": [
     {
-     "id": 19,
+     "id": 22,
      "name": "pump_left",
      "type": "cutout",
      "rotation": 0,
@@ -2683,7 +2683,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 23,
      "name": "pump_right",
      "type": "cutout",
      "rotation": 0,
@@ -2726,7 +2726,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 24,
      "name": "air_pump",
      "type": "cutout",
      "rotation": 0,
@@ -2769,7 +2769,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 25,
      "name": "scooter_row",
      "type": "cutout",
      "rotation": 0,
@@ -2812,7 +2812,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 26,
      "name": "plinth",
      "type": "cutout",
      "rotation": 0,
@@ -2855,7 +2855,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 27,
      "name": "pot_left",
      "type": "cutout",
      "rotation": 0,
@@ -2898,7 +2898,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 28,
      "name": "pot_right",
      "type": "cutout",
      "rotation": 0,
@@ -2941,7 +2941,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 29,
      "name": "tree_left",
      "type": "cutout",
      "rotation": 0,
@@ -2984,7 +2984,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 30,
      "name": "tree_right",
      "type": "cutout",
      "rotation": 0,
@@ -3027,7 +3027,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 31,
      "name": "shelter",
      "type": "cutout",
      "rotation": 0,
@@ -3070,7 +3070,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 32,
      "name": "bin",
      "type": "cutout",
      "rotation": 0,
@@ -3113,7 +3113,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 33,
      "name": "hoarding",
      "type": "cutout",
      "rotation": 0,
@@ -3156,7 +3156,7 @@
      ]
     },
     {
-     "id": 31,
+     "id": 34,
      "name": "epole",
      "type": "cutout",
      "rotation": 0,
@@ -3199,7 +3199,7 @@
      ]
     },
     {
-     "id": 32,
+     "id": 35,
      "name": "tea_stall",
      "type": "cutout",
      "rotation": 0,
@@ -3242,7 +3242,7 @@
      ]
     },
     {
-     "id": 33,
+     "id": 36,
      "name": "auto",
      "type": "cutout",
      "rotation": 0,
@@ -3285,7 +3285,7 @@
      ]
     },
     {
-     "id": 34,
+     "id": 37,
      "name": "bunk_canopy",
      "type": "above",
      "rotation": 0,
@@ -4192,7 +4192,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 11,
+     "id": 14,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4210,7 +4210,7 @@
      ]
     },
     {
-     "id": 12,
+     "id": 15,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4228,7 +4228,7 @@
      ]
     },
     {
-     "id": 13,
+     "id": 16,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4246,7 +4246,7 @@
      ]
     },
     {
-     "id": 14,
+     "id": 17,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -4264,7 +4264,7 @@
      ]
     },
     {
-     "id": 15,
+     "id": 18,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4282,7 +4282,7 @@
      ]
     },
     {
-     "id": 16,
+     "id": 19,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4300,7 +4300,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 20,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -4318,7 +4318,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 21,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -5286,6 +5286,42 @@
     },
     {
      "id": 6,
+     "name": "d500_in",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 1275,
+     "y": 255,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 7,
+     "name": "d500_halt",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 758,
+     "y": 255,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 8,
+     "name": "d500_out",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": -120,
+     "y": 255,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 9,
      "name": "showroom_arrival",
      "rotation": 0,
      "type": "",
@@ -5296,18 +5332,18 @@
      "height": 49
     },
     {
-     "id": 7,
+     "id": 10,
      "name": "bus_out",
      "rotation": 0,
      "type": "",
      "visible": true,
-     "x": 705,
-     "y": 334,
-     "width": 113,
-     "height": 12
+     "x": 630,
+     "y": 259,
+     "width": 203,
+     "height": 37
     },
     {
-     "id": 8,
+     "id": 11,
      "name": "road_east",
      "rotation": 0,
      "type": "",
@@ -5318,7 +5354,7 @@
      "height": 112
     },
     {
-     "id": 9,
+     "id": 12,
      "name": "bunk_zone",
      "rotation": 0,
      "type": "",
@@ -5329,7 +5365,7 @@
      "height": 248
     },
     {
-     "id": 10,
+     "id": 13,
      "name": "ambient_area",
      "rotation": 0,
      "type": "",
@@ -5348,7 +5384,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 35,
+ "nextobjectid": 38,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

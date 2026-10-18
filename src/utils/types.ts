@@ -331,6 +331,8 @@ export interface DistrictExit {
   farePerBox?: number;
   /** Runs only by day or only by night (23:00–05:30) — the hill's night auto (ADR-133). Buses never run at night. */
   onlyAt?: 'day' | 'night';
+  /** How you take it: `walk` (default) — stepping into the zone; `interact` — stand in the zone and press E (BOARD), the bus at the kerb (ADR-160). */
+  board?: 'walk' | 'interact';
 }
 
 /** A zone that announces itself on the bus (`zone:reached`) so quests can react. */
@@ -500,26 +502,32 @@ export interface InfectedPack {
 }
 
 /**
- * A bus on an interval (ADR-123). Every `every` real seconds the bus slides in
- * from spawn `from` to spawn `stop`, waits `dwell` seconds with `flag` set (the
- * boarding exit on `zone` carries `requiresFlag: flag`), then leaves to `to`.
+ * A bus you board with E (ADR-123, ADR-160/161). An interval bus (`every`)
+ * slides in from spawn `from` to spawn `stop` every `every` real seconds and
+ * waits `dwell` seconds with `flag` set (the boarding exit on `zone` carries
+ * `requiresFlag: flag` and `board: interact`), then leaves to `to`. An
+ * on-call bus (`onCall`) comes when you stand in `zone` and leaves `dwell`
+ * seconds after you step away. Without `from`/`stop`/`to` it is not drawn
+ * (on-call only): the doors are open while you stand at the stop.
  */
 export interface BusSchedule {
   id: string;
   /** "500-D" — what the HUD countdown and the toasts call it. */
   label: string;
-  /** The boarding exit's zone (an exit of this district). */
+  /** The boarding exit's zone (an exit of this district) — where you stand. */
   zone: string;
-  /** Flag that is true only while the bus stands at the stop. */
+  /** Flag that is true only while the doors are open. */
   flag: string;
-  /** Seconds between arrivals (real time, while the world runs). */
-  every: number;
-  /** Seconds the bus waits at the stop. */
-  dwell: number;
-  /** Spawn points (feet/centre) the bus sprite travels between. */
-  from: string;
-  stop: string;
-  to: string;
+  /** Comes when you're at the stop instead of on an interval (ADR-162). */
+  onCall?: boolean;
+  /** Seconds between arrivals (interval buses; real time, while the world runs). */
+  every?: number;
+  /** Seconds the bus waits at the stop (interval) / after you step away (on-call, default 4). */
+  dwell?: number;
+  /** Spawn points (bottom-centre) the bus sprite travels between; the art faces west and is mirrored driving east. */
+  from?: string;
+  stop?: string;
+  to?: string;
   /** Prop image key (src/assets/props) drawn as the bus; a plain block when absent. */
   prop?: string;
 }

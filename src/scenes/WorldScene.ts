@@ -19,7 +19,7 @@ import * as Exits from '../world/Exits';
 import * as Triggers from '../world/Triggers';
 import * as Shapes from '../world/Shapes';
 import { findObject } from '../world/Zones';
-import { BEHAVIOURS, CORE_BEHAVIOURS } from '../world/behaviours';
+import { BEHAVIOURS, CORE_BEHAVIOURS, type Offer } from '../world/behaviours';
 import { platform } from '../platform';
 import {
   CAMERA_DEADZONE_X,
@@ -82,6 +82,8 @@ export class WorldScene extends Phaser.Scene {
   private exits!: Exits.BoundExits;
   private triggers!: Triggers.BoundTriggers;
   private teardowns: Array<() => void> = [];
+  /** What E can do besides talk, from behaviours (the bus doors): checked before the NPCs. */
+  private offers: Offer[] = [];
   private leaving = false;
   private sleeping = false;
   /** A conversation is up on the HUD's dialogue card; the player is frozen. */
@@ -96,6 +98,7 @@ export class WorldScene extends Phaser.Scene {
   create(data: WorldSceneData): void {
     this.npcs = [];
     this.teardowns = [];
+    this.offers = [];
     this.leaving = false;
     this.sleeping = false;
     this.talking = false;
@@ -207,6 +210,9 @@ export class WorldScene extends Phaser.Scene {
           if (!exit) { console.error(`[WorldScene] district "${this.district.id}" has no exit on zone "${zone}"`); return; }
           this.leaveVia(exit);
         },
+        board: (zone) => this.exits.take(zone),
+        standingIn: (zone) => this.exits.standingIn(zone),
+        offer: (o) => { this.offers.push(o); return () => { this.offers = this.offers.filter((x) => x !== o); }; },
         playCard: (id, landing) => this.playCard(id, landing),
       });
       if (teardown) this.teardowns.push(teardown);
@@ -339,10 +345,18 @@ export class WorldScene extends Phaser.Scene {
    */
   nearestInteractable(): { x: number; y: number; verb: string } | null {
     if (this.talking || this.leaving || this.sleeping) return null;
+    const offer = this.liveOffer();
+    if (offer) return { ...offer.at, verb: offer.offer.verb };
     const npc = this.nearestNpc();
     if (npc && npc.getData('dialogueId')) return { x: npc.x, y: npc.y - npc.displayHeight / 2, verb: 'TALK' };
     // A hide spot under your feet (ADR-145): crouch to hide.
     if (playerState.onHideSpot && !playerState.crouching) return { x: this.player.x, y: this.player.y - this.player.displayHeight / 2, verb: 'HIDE' };
+    return null;
+  }
+
+  /** The first behaviour offer that is up right now (the bus doors open with you at the kerb), with where to show it. */
+  private liveOffer(): { offer: Offer; at: { x: number; y: number } } | null {
+    for (const offer of this.offers) { const at = offer.at(); if (at) return { offer, at }; }
     return null;
   }
 
@@ -354,9 +368,11 @@ export class WorldScene extends Phaser.Scene {
     return playerState.crouching ? 'STAND' : 'CROUCH';
   }
 
-  /** E / the touch button in the world: talk to the nearest NPC within reach; else hide on a hide spot; on touch in Act 4, crouch or stand. */
+  /** E / the touch button in the world: a behaviour offer first (BOARD the bus); else talk to the nearest NPC within reach; else hide on a hide spot; on touch in Act 4, crouch or stand. */
   private tryInteract(source: 'key' | 'touch' = 'key'): void {
     if (this.talking) return;
+    const offer = this.liveOffer();
+    if (offer) { offer.offer.act(); return; }
     const nearest = this.nearestNpc();
     if (!nearest || !nearest.getData('dialogueId')) {
       if (playerState.onHideSpot && !playerState.crouching) { this.player.setCrouching(true); return; }

@@ -267,18 +267,44 @@
       "id": "wait_for_45",
       "beat": "F5",
       "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_cubbon_500d_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_46",
+      "beat": "F5",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_47",
+      "beat": "F5",
+      "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "whitefield_street",
       "timeout": 60000
     },
     {
-      "id": "goto_46",
+      "id": "goto_48",
       "beat": "F5",
       "do": "goto",
       "target": "exit:hill_bus"
     },
     {
-      "id": "wait_for_47",
+      "id": "wait_for_49",
+      "beat": "F5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_wf_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_50",
+      "beat": "F5",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_51",
       "beat": "F5",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -286,13 +312,13 @@
       "timeout": 60000
     },
     {
-      "id": "goto_48",
+      "id": "goto_52",
       "beat": "F5",
       "do": "goto",
       "target": "exit:room3_door"
     },
     {
-      "id": "wait_for_49",
+      "id": "wait_for_53",
       "beat": "F5",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -300,18 +326,18 @@
       "timeout": 20000
     },
     {
-      "id": "goto_50",
+      "id": "goto_54",
       "beat": "F5",
       "do": "goto",
       "target": "zone:flat_arrival"
     },
     {
-      "id": "advance_51",
+      "id": "advance_55",
       "beat": "F5",
       "do": "advance"
     },
     {
-      "id": "wait_for_52",
+      "id": "wait_for_56",
       "beat": "F5",
       "do": "wait_for",
       "ready": "flag",
@@ -319,13 +345,13 @@
       "timeout": 6000
     },
     {
-      "id": "goto_53",
+      "id": "goto_57",
       "beat": "F6",
       "do": "goto",
       "target": "zone:bed"
     },
     {
-      "id": "wait_for_54",
+      "id": "wait_for_58",
       "beat": "F6",
       "do": "wait_for",
       "ready": "flag",
@@ -333,7 +359,7 @@
       "timeout": 6000
     },
     {
-      "id": "expect_55",
+      "id": "expect_59",
       "do": "expect",
       "flag": "act2_started",
       "timeout": 3000

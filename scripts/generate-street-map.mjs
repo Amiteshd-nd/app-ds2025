@@ -137,7 +137,7 @@ for (let x = 2; x < W - 4; x += 7) { put(above, x, TOP_BUILDING[1] + 1, 'awning_
 for (let x = 3; x < W - 2; x += 6) place('STREET_TREE', x, TOP_WALK[1] - 1);
 for (let x = 6; x < W - 2; x += 7) place('STREET_TREE', x, BOTTOM_WALK[0]);
 
-place('BENCH', 5, BOTTOM_WALK[1]);
+place('BENCH', 9, BOTTOM_WALK[1]); // the 500-D stop's bench
 place('BIN', 13, BOTTOM_WALK[1], { hueShift: 40 });
 place('BENCH', 21, BOTTOM_WALK[1], { hueShift: 200 });
 place('BIN', 27, BOTTOM_WALK[1]);
@@ -207,21 +207,32 @@ const map = {
         { id: 9, name: 'lane_zone', rotation: 0, type: '', visible: true, x: (W - 1) * T, y: TOP_WALK[0] * T, width: T, height: (TOP_WALK[1] - TOP_WALK[0] + 1) * T },
         // West end of the top pavement: the long walk to the ITPL gate (story 1.1, ADR-121) — free, forty minutes.
         { id: 10, name: 'office_walk', rotation: 0, type: '', visible: true, x: 0, y: TOP_WALK[0] * T, width: T, height: (TOP_WALK[1] - TOP_WALK[0] + 1) * T },
-        // The BMTC stop beside where the airport bus dropped you: 335-E to Ambedkar Nagar (story 1.4, ADR-122).
-        { id: 11, name: 'hill_bus', rotation: 0, type: '', visible: true, x: 1 * T, y: TOP_WALK[0] * T - 8, width: T + 16, height: 16 },
-        // BMTC 500-D to Cubbon Park (story 1.5, ADR-123): the kerb stop mid-way along the top pavement; the bus
-        // runs the top (westbound) lane, pulling in from the east edge, standing at bus_halt and leaving west.
-        { id: 12, name: 'bus_500d', rotation: 0, type: '', visible: true, x: 5 * T, y: KERB_TOP * T - 10, width: 3 * T, height: 20 },
-        { id: 13, name: 'bus_in', point: true, rotation: 0, type: '', visible: true, x: W * T + 80, y: (ROAD[0] + 2) * T - 6, width: 0, height: 0 },
-        { id: 14, name: 'bus_halt', point: true, rotation: 0, type: '', visible: true, x: 6.5 * T, y: (ROAD[0] + 2) * T - 6, width: 0, height: 0 },
-        { id: 15, name: 'bus_out', point: true, rotation: 0, type: '', visible: true, x: -120, y: (ROAD[0] + 2) * T - 6, width: 0, height: 0 },
+        // The BMTC stop near where the airport bus dropped you: 335-E to Ambedkar Nagar (story 1.4, ADR-122; ADR-162).
+        // You wait on the top footpath (and kerb) between the trees at x 3 and 9; the bus keeps left — eastbound in
+        // the top lane — coming in from the west edge when you're at the stop and leaving east.
+        { id: 11, name: 'hill_bus', rotation: 0, type: '', visible: true, x: 4 * T, y: (TOP_WALK[0] + 1) * T, width: 3 * T, height: (KERB_TOP - TOP_WALK[0]) * T },
+        { id: 33, name: 'e335_in', point: true, rotation: 0, type: '', visible: true, x: -120, y: ROAD[0] * T + 34, width: 0, height: 0 },
+        { id: 34, name: 'e335_halt', point: true, rotation: 0, type: '', visible: true, x: 5.5 * T, y: ROAD[0] * T + 34, width: 0, height: 0 },
+        { id: 35, name: 'e335_out', point: true, rotation: 0, type: '', visible: true, x: W * T + 80, y: ROAD[0] * T + 34, width: 0, height: 0 },
+        // BMTC 500-D to Cubbon Park (story 1.5, ADR-123; ADR-160): the bus keeps left — westbound in the bottom lane,
+        // drifting over from the lane to the bottom kerb as it pulls in (bus_halt: wheels on the kerb's lip, which the
+        // kerb tile draws at its bottom edge) and back out to the lane as it leaves west. You wait on the footpath
+        // beside it (bus_500d, the footpath's full depth, clear of the trees at x 6 and 13) and press E while the doors are open.
+        { id: 12, name: 'bus_500d', rotation: 0, type: '', visible: true, x: 8 * T, y: BOTTOM_WALK[0] * T, width: 3 * T, height: (BOTTOM_WALK[1] - BOTTOM_WALK[0] + 1) * T },
+        { id: 13, name: 'bus_in', point: true, rotation: 0, type: '', visible: true, x: W * T + 80, y: KERB_BOTTOM * T - 4, width: 0, height: 0 },
+        { id: 14, name: 'bus_halt', point: true, rotation: 0, type: '', visible: true, x: 9.5 * T, y: KERB_BOTTOM * T + 26, width: 0, height: 0 },
+        { id: 15, name: 'bus_out', point: true, rotation: 0, type: '', visible: true, x: -120, y: KERB_BOTTOM * T - 4, width: 0, height: 0 },
         // The metro station being built across the road (story 1.5 F1): barricade sheets on the bottom pavement's
         // east end, the sign read from the pavement in front of them.
         { id: 16, name: 'barricade_spot', point: true, rotation: 0, type: '', visible: true, x: 23 * T, y: (BOTTOM_WALK[0] + 1) * T, width: 0, height: 0 },
         { id: 17, name: 'pillar_spot', point: true, rotation: 0, type: '', visible: true, x: 26 * T, y: BOTTOM_WALK[0] * T, width: 0, height: 0 },
         { id: 18, name: 'metro_sign', rotation: 0, type: '', visible: true, x: 23 * T, y: (BOTTOM_WALK[0] + 2) * T, width: 3 * T, height: 24 },
-        // BMTC towards ITPL Main Road (story 2.1, ADR-126): the next bay along the top pavement's top edge.
-        { id: 20, name: 'itpl_bus', rotation: 0, type: '', visible: true, x: 4 * T, y: TOP_WALK[0] * T - 8, width: T + 16, height: 16 },
+        // BMTC towards ITPL Main Road (story 2.1, ADR-126; ADR-162): the next stop east on the top footpath, past the
+        // hotel and the scooter bay, the same eastbound lane.
+        { id: 20, name: 'itpl_bus', rotation: 0, type: '', visible: true, x: 11 * T, y: (TOP_WALK[0] + 1) * T, width: 3 * T, height: (KERB_TOP - TOP_WALK[0]) * T },
+        { id: 36, name: 'itpl_in', point: true, rotation: 0, type: '', visible: true, x: -120, y: ROAD[0] * T + 34, width: 0, height: 0 },
+        { id: 37, name: 'itpl_halt', point: true, rotation: 0, type: '', visible: true, x: 12.5 * T, y: ROAD[0] * T + 34, width: 0, height: 0 },
+        { id: 38, name: 'itpl_out', point: true, rotation: 0, type: '', visible: true, x: W * T + 80, y: ROAD[0] * T + 34, width: 0, height: 0 },
         // Where your scooter stands once you own one (ADR-126): by the kerb, east of the 500-D stop.
         { id: 21, name: 'scooter_park', point: true, rotation: 0, type: '', visible: true, x: 10 * T, y: TOP_WALK[1] * T, width: 0, height: 0 },
         // Opening day (story 2.2, ADR-127): the finished station mouth stands where the barricade was; its foot is the
@@ -238,8 +249,8 @@ const map = {
         { id: 30, name: 'crowd_a', point: true, rotation: 0, type: '', visible: true, x: 19 * T + 16, y: (BOTTOM_WALK[0] + 2) * T + 8, width: 0, height: 0 },
         { id: 31, name: 'crowd_b', point: true, rotation: 0, type: '', visible: true, x: 26 * T + 16, y: (BOTTOM_WALK[0] + 1) * T + 8, width: 0, height: 0 },
         { id: 32, name: 'crowd_c', point: true, rotation: 0, type: '', visible: true, x: 29 * T + 16, y: (BOTTOM_WALK[0] + 2) * T + 8, width: 0, height: 0 },
-        // Where the 500-D home drops you: the kerb by the stop.
-        { id: 19, name: 'cubbon_return', point: true, rotation: 0, type: '', visible: true, x: 6 * T + 16, y: TOP_WALK[1] * T + 8, width: 0, height: 0 },
+        // Where the 500-D home drops you: the footpath by the stop.
+        { id: 19, name: 'cubbon_return', point: true, rotation: 0, type: '', visible: true, x: 9 * T + 16, y: (BOTTOM_WALK[0] + 1) * T + 8, width: 0, height: 0 },
         // The walkable band (pavement, kerb, road) that ambient citizens stay inside.
         { id: 5, name: 'ambient_area', rotation: 0, type: '', visible: true, x: T, y: TOP_WALK[0] * T, width: (W - 2) * T, height: (BOTTOM_WALK[1] - TOP_WALK[0] + 1) * T },
       ],
@@ -285,5 +296,5 @@ writeFileSync(join(assets, 'tilemaps/whitefield_street.tmj'), `${JSON.stringify(
 const solid = collision.filter(Boolean).length;
 console.log(
   `✓ whitefield_street.tmj — ${W}x${H} tiles, ${solid} solid tiles, ` +
-    `${placed.length} placed objects, 32 spawn objects`,
+    `${placed.length} placed objects, 38 spawn objects`,
 );

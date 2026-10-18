@@ -68,7 +68,7 @@ describe('night (story 2.5, ADR-133)', () => {
   });
 
   it('the hill road and the office auto stand each carry a night-only auto; the office crowd goes home at night', () => {
-    expect(DISTRICTS.ambedkar_nagar_hill.exits).toContainEqual(expect.objectContaining({ zone: 'road_out', to: 'office_gate', transit: 'auto', onlyAt: 'night' }));
+    expect(DISTRICTS.ambedkar_nagar_hill.exits).toContainEqual(expect.objectContaining({ zone: 'auto_out', to: 'office_gate', transit: 'auto', onlyAt: 'night' }));
     const stand = DISTRICTS.office_gate.exits!.filter((e) => e.zone === 'auto_stand');
     expect(stand.map((e) => [e.to, e.onlyAt])).toEqual([['whitefield_street', 'day'], ['ambedkar_nagar_hill', 'night']]);
     const day = DISTRICTS.office_gate.npcs!.filter((n) => n.onlyAt === 'day').map((n) => n.id).sort();

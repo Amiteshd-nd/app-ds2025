@@ -40,7 +40,7 @@
       "id": "goto_6",
       "beat": "F2",
       "do": "goto",
-      "target": "exit:road_out"
+      "target": "exit:auto_out"
     },
     {
       "id": "wait_for_7",

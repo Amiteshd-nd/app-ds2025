@@ -1959,7 +1959,7 @@
      "id": 19,
      "name": "BENCH",
      "type": "BENCH",
-     "x": 160,
+     "x": 288,
      "y": 512,
      "width": 0,
      "height": 0,
@@ -4087,10 +4087,46 @@
      "rotation": 0,
      "type": "",
      "visible": true,
-     "x": 32,
-     "y": 152,
-     "width": 48,
-     "height": 16
+     "x": 128,
+     "y": 192,
+     "width": 96,
+     "height": 96
+    },
+    {
+     "id": 33,
+     "name": "e335_in",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": -120,
+     "y": 322,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 34,
+     "name": "e335_halt",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 176,
+     "y": 322,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 35,
+     "name": "e335_out",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 1040,
+     "y": 322,
+     "width": 0,
+     "height": 0
     },
     {
      "id": 12,
@@ -4098,10 +4134,10 @@
      "rotation": 0,
      "type": "",
      "visible": true,
-     "x": 160,
-     "y": 246,
+     "x": 256,
+     "y": 448,
      "width": 96,
-     "height": 20
+     "height": 96
     },
     {
      "id": 13,
@@ -4111,7 +4147,7 @@
      "type": "",
      "visible": true,
      "x": 1040,
-     "y": 346,
+     "y": 412,
      "width": 0,
      "height": 0
     },
@@ -4122,8 +4158,8 @@
      "rotation": 0,
      "type": "",
      "visible": true,
-     "x": 208,
-     "y": 346,
+     "x": 304,
+     "y": 442,
      "width": 0,
      "height": 0
     },
@@ -4135,7 +4171,7 @@
      "type": "",
      "visible": true,
      "x": -120,
-     "y": 346,
+     "y": 412,
      "width": 0,
      "height": 0
     },
@@ -4180,10 +4216,46 @@
      "rotation": 0,
      "type": "",
      "visible": true,
-     "x": 128,
-     "y": 152,
-     "width": 48,
-     "height": 16
+     "x": 352,
+     "y": 192,
+     "width": 96,
+     "height": 96
+    },
+    {
+     "id": 36,
+     "name": "itpl_in",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": -120,
+     "y": 322,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 37,
+     "name": "itpl_halt",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 400,
+     "y": 322,
+     "width": 0,
+     "height": 0
+    },
+    {
+     "id": 38,
+     "name": "itpl_out",
+     "point": true,
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 1040,
+     "y": 322,
+     "width": 0,
+     "height": 0
     },
     {
      "id": 21,
@@ -4334,8 +4406,8 @@
      "rotation": 0,
      "type": "",
      "visible": true,
-     "x": 208,
-     "y": 232,
+     "x": 304,
+     "y": 488,
      "width": 0,
      "height": 0
     },

@@ -94,11 +94,11 @@
   ],
   "exits": [
     {
-      "zone": "road_out",
+      "zone": "auto_out",
       "to": "office_gate",
       "spawn": "auto_drop",
       "transit": "auto",
-      "note": "ambedkar_nagar_hill; onlyAt night; ₹80 ×2 after midnight = ₹160; the hill bus on the same zone is closed at night"
+      "note": "ambedkar_nagar_hill; onlyAt night; ₹80 ×2 after midnight = ₹160; from the old road-out strip at the west edge (the bus stop is its own zone, ADR-162)"
     },
     {
       "zone": "auto_stand",

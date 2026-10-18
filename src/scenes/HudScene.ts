@@ -128,6 +128,8 @@ export class HudScene extends Phaser.Scene {
     this.chrome = this.add.image(0, 0, bake(this, 'hud:chrome', this.L.W, this.L.H, () => {})).setOrigin(0);
     this.texts = this.add.container(0, 0);
     this.bubble = this.add.container(0, 0).setVisible(false);
+    // A new, empty bubble: forget the last label, or a prompt seen in the last place ("[E] TALK") draws as nothing here.
+    this.bubbleKey = '';
     this.root = this.add.container(0, 0, [this.chrome, this.texts, this.bubble]).setScale(this.L.k);
     this.dialogue = new DialogueBox(this);
     if (this.touchMode()) this.buildControls();

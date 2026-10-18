@@ -65,18 +65,31 @@
       "id": "wait_for_10",
       "beat": "F2",
       "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_hill_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_11",
+      "beat": "F2",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_12",
+      "beat": "F2",
+      "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "whitefield_street",
       "timeout": 60000
     },
     {
-      "id": "goto_11",
+      "id": "goto_13",
       "beat": "F2",
       "do": "goto",
       "target": "exit:office_walk"
     },
     {
-      "id": "wait_for_12",
+      "id": "wait_for_14",
       "beat": "F2",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -84,13 +97,13 @@
       "timeout": 20000
     },
     {
-      "id": "goto_13",
+      "id": "goto_15",
       "beat": "F2",
       "do": "goto",
       "target": "zone:office_door"
     },
     {
-      "id": "wait_for_14",
+      "id": "wait_for_16",
       "beat": "F2",
       "do": "wait_for",
       "ready": "flag",
@@ -98,20 +111,20 @@
       "timeout": 6000
     },
     {
-      "id": "wait_for_15",
+      "id": "wait_for_17",
       "beat": "F2",
       "do": "wait_for",
       "ready": "free",
       "timeout": 20000
     },
     {
-      "id": "goto_16",
+      "id": "goto_18",
       "beat": "F3",
       "do": "goto",
       "target": "exit:auto_stand"
     },
     {
-      "id": "wait_for_17",
+      "id": "wait_for_19",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -119,13 +132,26 @@
       "timeout": 60000
     },
     {
-      "id": "goto_18",
+      "id": "goto_20",
       "beat": "F3",
       "do": "goto",
       "target": "exit:hill_bus"
     },
     {
-      "id": "wait_for_19",
+      "id": "wait_for_21",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_wf_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_22",
+      "beat": "F3",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_23",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -133,13 +159,13 @@
       "timeout": 60000
     },
     {
-      "id": "goto_20",
+      "id": "goto_24",
       "beat": "F3",
       "do": "goto",
       "target": "exit:room3_door"
     },
     {
-      "id": "wait_for_21",
+      "id": "wait_for_25",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -147,12 +173,12 @@
       "timeout": 20000
     },
     {
-      "id": "sleep_22",
+      "id": "sleep_26",
       "beat": "F3",
       "do": "sleep"
     },
     {
-      "id": "wait_for_23",
+      "id": "wait_for_27",
       "beat": "F3",
       "do": "wait_for",
       "ready": "flag",
@@ -160,13 +186,13 @@
       "timeout": 6000
     },
     {
-      "id": "goto_24",
+      "id": "goto_28",
       "beat": "F3",
       "do": "goto",
       "target": "exit:front_door"
     },
     {
-      "id": "wait_for_25",
+      "id": "wait_for_29",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -174,13 +200,26 @@
       "timeout": 20000
     },
     {
-      "id": "goto_26",
+      "id": "goto_30",
       "beat": "F3",
       "do": "goto",
       "target": "exit:road_out"
     },
     {
-      "id": "wait_for_27",
+      "id": "wait_for_31",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_hill_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_32",
+      "beat": "F3",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_33",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -188,13 +227,13 @@
       "timeout": 60000
     },
     {
-      "id": "goto_28",
+      "id": "goto_34",
       "beat": "F3",
       "do": "goto",
       "target": "exit:office_walk"
     },
     {
-      "id": "wait_for_29",
+      "id": "wait_for_35",
       "beat": "F3",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -202,18 +241,18 @@
       "timeout": 20000
     },
     {
-      "id": "goto_30",
+      "id": "goto_36",
       "beat": "F3",
       "do": "goto",
       "target": "zone:office_arrival"
     },
     {
-      "id": "advance_31",
+      "id": "advance_37",
       "beat": "F3",
       "do": "advance"
     },
     {
-      "id": "wait_for_32",
+      "id": "wait_for_38",
       "beat": "F3",
       "do": "wait_for",
       "ready": "flag",
@@ -221,13 +260,13 @@
       "timeout": 6000
     },
     {
-      "id": "goto_33",
+      "id": "goto_39",
       "beat": "F4",
       "do": "goto",
       "target": "exit:auto_stand"
     },
     {
-      "id": "wait_for_34",
+      "id": "wait_for_40",
       "beat": "F4",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -235,13 +274,26 @@
       "timeout": 60000
     },
     {
-      "id": "goto_35",
+      "id": "goto_41",
       "beat": "F4",
       "do": "goto",
       "target": "exit:hill_bus"
     },
     {
-      "id": "wait_for_36",
+      "id": "wait_for_42",
+      "beat": "F4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_wf_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_43",
+      "beat": "F4",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_44",
       "beat": "F4",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -249,13 +301,13 @@
       "timeout": 60000
     },
     {
-      "id": "goto_37",
+      "id": "goto_45",
       "beat": "F4",
       "do": "goto",
       "target": "exit:room3_door"
     },
     {
-      "id": "wait_for_38",
+      "id": "wait_for_46",
       "beat": "F4",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -263,12 +315,12 @@
       "timeout": 20000
     },
     {
-      "id": "sleep_39",
+      "id": "sleep_47",
       "beat": "F4",
       "do": "sleep"
     },
     {
-      "id": "wait_for_40",
+      "id": "wait_for_48",
       "beat": "F4",
       "do": "wait_for",
       "ready": "flag",
@@ -276,19 +328,19 @@
       "timeout": 6000
     },
     {
-      "id": "goto_41",
+      "id": "goto_49",
       "beat": "F5",
       "do": "goto",
       "target": "zone:flat_arrival"
     },
     {
-      "id": "choose_42",
+      "id": "choose_50",
       "beat": "F5",
       "do": "choose",
       "option": "bye"
     },
     {
-      "id": "wait_for_43",
+      "id": "wait_for_51",
       "beat": "F5",
       "do": "wait_for",
       "ready": "flag",
@@ -296,12 +348,12 @@
       "timeout": 6000
     },
     {
-      "id": "sleep_44",
+      "id": "sleep_52",
       "beat": "F5",
       "do": "sleep"
     },
     {
-      "id": "wait_for_45",
+      "id": "wait_for_53",
       "beat": "F5",
       "do": "wait_for",
       "ready": "flag",
@@ -309,14 +361,14 @@
       "timeout": 6000
     },
     {
-      "id": "wait_for_46",
+      "id": "wait_for_54",
       "beat": "F5",
       "do": "wait_for",
       "ready": "free",
       "timeout": 20000
     },
     {
-      "id": "expect_47",
+      "id": "expect_55",
       "do": "expect",
       "flag": "act2_breadcrumbs_done",
       "timeout": 3000

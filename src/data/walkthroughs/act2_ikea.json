@@ -210,18 +210,31 @@
       "id": "wait_for_32",
       "beat": "F6",
       "do": "wait_for",
+      "ready": "flag",
+      "flag": "bus_wf_335e_here",
+      "timeout": 15000
+    },
+    {
+      "id": "interact_33",
+      "beat": "F6",
+      "do": "interact"
+    },
+    {
+      "id": "wait_for_34",
+      "beat": "F6",
+      "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "ambedkar_nagar_hill",
       "timeout": 60000
     },
     {
-      "id": "goto_33",
+      "id": "goto_35",
       "beat": "F6",
       "do": "goto",
       "target": "exit:room3_door"
     },
     {
-      "id": "wait_for_34",
+      "id": "wait_for_36",
       "beat": "F6",
       "do": "wait_for",
       "ready": "scene_loaded",
@@ -229,19 +242,19 @@
       "timeout": 20000
     },
     {
-      "id": "goto_35",
+      "id": "goto_37",
       "beat": "F6",
       "do": "goto",
       "target": "zone:assembly_zone"
     },
     {
-      "id": "choose_36",
+      "id": "choose_38",
       "beat": "F6",
       "do": "choose",
       "option": "step3_table"
     },
     {
-      "id": "wait_for_37",
+      "id": "wait_for_39",
       "beat": "F6",
       "do": "wait_for",
       "ready": "flag",
@@ -249,7 +262,7 @@
       "timeout": 6000
     },
     {
-      "id": "expect_38",
+      "id": "expect_40",
       "do": "expect",
       "flag": "act2_ikea_done",
       "timeout": 3000
