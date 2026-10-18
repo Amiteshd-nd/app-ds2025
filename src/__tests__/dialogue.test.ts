@@ -27,11 +27,12 @@ describe('content registry', () => {
       'dlg_kid_mother', 'dlg_kumar_cafe', 'dlg_kumar_trapped', 'dlg_lost_kid', 'dlg_majestic_uncle',
       'dlg_majestic_uncle_thanks', 'dlg_manju', 'dlg_manju_act4', 'dlg_metro_ajji', 'dlg_metro_guard', 'dlg_metro_sign',
       'dlg_neighbour_leela', 'dlg_noor', 'dlg_office_guard', 'dlg_office_return', 'dlg_owner_aunty', 'dlg_pg_token',
-      'dlg_prakash', 'dlg_priya', 'dlg_provision', 'dlg_raju_cafe', 'dlg_raju_trapped', 'dlg_rathore', 'dlg_ravi_intro',
-      'dlg_ravi_ward', 'dlg_sameer_intro', 'dlg_sealed_door', 'dlg_sealed_open', 'dlg_sealed_quiet', 'dlg_shanthamma',
-      'dlg_slide_tray', 'dlg_slot_shop', 'dlg_suresh', 'dlg_tanvi', 'dlg_token_uncle', 'dlg_uncle', 'dlg_vikram',
-      'dlg_ward_door', 'dlg_ward_not_yet', 'dlg_ward_nurse', 'dlg_ward_patient_old', 'dlg_ward_patient_woman',
-      'dlg_ward_tray', 'dlg_ward_tv', 'receptionist', 'security_guard', 'shopkeeper',
+      'dlg_prakash', 'dlg_priya', 'dlg_provision', 'dlg_raju_cafe', 'dlg_raju_trapped', 'dlg_rathore', 'dlg_ravi_hivr',
+      'dlg_ravi_home', 'dlg_ravi_intro', 'dlg_ravi_location', 'dlg_ravi_ward', 'dlg_sameer_intro', 'dlg_sealed_door',
+      'dlg_sealed_open', 'dlg_sealed_quiet', 'dlg_shanthamma', 'dlg_slide_tray', 'dlg_slot_shop', 'dlg_suresh',
+      'dlg_tanvi', 'dlg_token_uncle', 'dlg_uncle', 'dlg_vikram', 'dlg_ward_door', 'dlg_ward_not_yet', 'dlg_ward_nurse',
+      'dlg_ward_patient_old', 'dlg_ward_patient_woman', 'dlg_ward_tray', 'dlg_ward_tv', 'receptionist',
+      'security_guard', 'shopkeeper',
     ]);
     expect(Object.keys(QUESTS)).toContain('q_act0_arrival');
     expect(Object.keys(ITEMS)).toContain('water_bottle');

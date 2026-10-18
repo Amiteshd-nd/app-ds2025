@@ -1,0 +1,24 @@
+{
+  "id": "card_ravi_back",
+  "$comment": "Story 4.5 (ADR-157): the way back to the glass house, from either.",
+  "panels": [
+    {
+      "title": "THE WAY BACK · 19:30",
+      "text": "Your phone buzzes once in your pocket. You don't look yet.",
+      "ms": 4200
+    },
+    {
+      "title": "THE GLASS HOUSE · 22:10",
+      "text": "Uncle has kept tea for you. It's cold. You drink it anyway.",
+      "ms": 4400,
+      "setFlags": [
+        "act4_ravi_done"
+      ]
+    }
+  ],
+  "then": {
+    "district": "glass_house",
+    "spawn": "glass_doors",
+    "minute": 1330
+  }
+}

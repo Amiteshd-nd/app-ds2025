@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 → 12x8; the airlock and the slide-room doorway come out ~32-38 px) — the HIVR containment corridor on the night of the breach (story 3.3, ADR-138): the top wall band (airlock, clipboard, the rain window, the glove station) and the slide room's back wall with its hood, bench and fridge are `buildings`; the glass partition is walls either side of its open doorway; the stool and the fridge are blocks; the bottom wall band with the handrail. You enter at the airlock as Ravi; the call comes as you cross the corridor's middle (a band you cannot walk around); the glove station refuses; the tray is under the hood. 4.3c (ADR-154): `airlock_back`.",
+  "$comment": "Source-pixel spec (1536x1024 → 12x8; the airlock and the slide-room doorway come out ~32-38 px) — the HIVR containment corridor on the night of the breach (story 3.3, ADR-138): the top wall band (airlock, clipboard, the rain window, the glove station) and the slide room's back wall with its hood, bench and fridge are `buildings`; the glass partition is walls either side of its open doorway; the stool and the fridge are blocks; the bottom wall band with the handrail. You enter at the airlock as Ravi; the call comes as you cross the corridor's middle (a band you cannot walk around); the glove station refuses; the tray is under the hood. 4.3c (ADR-154): `airlock_back`. 4.5 (ADR-157): Ravi in the corridor, Meera behind the lab glass (inside the lab's walls — seen, not reached).",
   "name": "hivr_corridor",
   "cols": 12,
   "rows": 8,
@@ -67,6 +67,16 @@
       "name": "airlock",
       "x": 100,
       "y": 440
+    },
+    {
+      "name": "ravi_hivr",
+      "x": 700,
+      "y": 600
+    },
+    {
+      "name": "meera_glass",
+      "x": 1150,
+      "y": 300
     }
   ],
   "zones": [

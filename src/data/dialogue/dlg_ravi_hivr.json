@@ -1,0 +1,45 @@
+{
+  "id": "dlg_ravi_hivr",
+  "speaker": "Ravi",
+  "portrait": "npc_ravi",
+  "enter": [
+    {
+      "flag": "ravi_met",
+      "node": "after"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Ravi, in a clean lab coat over the green lanyard. Thinner. Clear-eyed, for the first time since you met him.) You came. Sit. (He doesn't sit.)",
+      "next": "told"
+    },
+    "told": {
+      "text": "It was me. The tray, the glove. Appa called and I answered, and I didn't seal it. Meera found me in the ward after the corridor. She said: you know what you did. Help me undo it.",
+      "next": "meera"
+    },
+    "meera": {
+      "text": "(Through the lab glass, a woman in a white coat bends over a bench. She doesn't look up.) She wanted it to heal people. It still might, she says. Not the ones who've turned.",
+      "choices": [
+        {
+          "text": "(Take the card he holds out.)",
+          "next": "ask",
+          "effect": {
+            "items_add": {
+              "meera_keycard": 1
+            },
+            "flags": {
+              "ravi_met_hivr": true,
+              "ravi_met": true
+            }
+          }
+        }
+      ]
+    },
+    "ask": {
+      "text": "Her override. Every door under HIVR. (Then, quieter:) Tell Appa I picked up."
+    },
+    "after": {
+      "text": "Go before they change the guard."
+    }
+  }
+}

@@ -432,3 +432,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Calls to confirm: NEED_TO_AUDIT #30.
 - Rule going forward: **size an interior by who stands in it: check every person and spot is reachable with everyone present (the planner check in the pane), not only in the bot's own run.**
 
+### [P29 4.5 "Ravi" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.5". ADR-157.
+- Built: the message, the branching pin, the HIVR branch (the corridor, Meera behind the glass — new sheet), the Yelahanka branch (new room, his mother — new sheet), the voice note; 6 new tests.
+- Verified: `node scripts/movie.mjs --scene act4_ravi` (16 steps, the HIVR branch); in the browser pane the Yelahanka room renders (his mother on the cot, Ravi at the stove) and the planner reaches Ravi and the door.
+- Found on the way (fixed): the full run's bot had sent Ravi home in 2.5 while a solo start of 4.5 assumed he was supported — 2.5's quest gains an optional "stay with him" objective so both agree (the stub's default); a spawn named `door_*` is a door to the map validator; the chat font has no pin emoji.
+- Calls to confirm: NEED_TO_AUDIT #31.
+- Rule going forward: **when a later scene branches on an earlier choice, the bot's earlier choice and the solo prereq must agree — make the bot's path an explicit (optional) objective.**
+

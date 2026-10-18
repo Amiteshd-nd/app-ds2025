@@ -1,0 +1,112 @@
+{
+  "scene": "act4_ravi",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act4_ravi + glass_house + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "glass_house",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "ending_chosen",
+      "timeout": 3000
+    },
+    {
+      "id": "sleep_4",
+      "beat": "F1",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ravi_msg",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_6",
+      "beat": "F1",
+      "do": "goto",
+      "target": "zone:house_out"
+    },
+    {
+      "id": "choose_7",
+      "beat": "F1",
+      "do": "choose",
+      "option": "go"
+    },
+    {
+      "id": "wait_for_8",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "hivr_corridor",
+      "timeout": 28600
+    },
+    {
+      "id": "wait_for_9",
+      "beat": "F1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ravi_trip_started",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_10",
+      "beat": "F2",
+      "do": "goto",
+      "target": "npc:npc_ravi_hivr"
+    },
+    {
+      "id": "interact_11",
+      "beat": "F2",
+      "do": "interact",
+      "target": "npc:npc_ravi_hivr"
+    },
+    {
+      "id": "choose_12",
+      "beat": "F2",
+      "do": "choose",
+      "option": "ask"
+    },
+    {
+      "id": "goto_13",
+      "beat": "F3",
+      "do": "goto",
+      "target": "zone:airlock_back"
+    },
+    {
+      "id": "wait_for_14",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "act4_ravi_done",
+      "timeout": 23600
+    },
+    {
+      "id": "wait_for_15",
+      "beat": "F3",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "glass_house",
+      "timeout": 28600
+    },
+    {
+      "id": "expect_16",
+      "do": "expect",
+      "flag": "act4_ravi_complete",
+      "timeout": 3000
+    }
+  ]
+}

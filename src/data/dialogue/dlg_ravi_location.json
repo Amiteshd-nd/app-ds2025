@@ -1,0 +1,57 @@
+{
+  "id": "dlg_ravi_location",
+  "speaker": "You",
+  "portrait": "npc_placeholder",
+  "enter": [
+    {
+      "flag": "ravi_supported",
+      "node": "hivr"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Ravi's pin: a lane in Yelahanka, far north. Kumar could get you there before dark, if you go now.)",
+      "choices": [
+        {
+          "text": "(Go.)",
+          "next": "go",
+          "effect": {
+            "flags": {
+              "ravi_trip_started": true
+            },
+            "card": "card_to_yelahanka"
+          }
+        },
+        {
+          "text": "(Not yet.)",
+          "next": "wait"
+        }
+      ]
+    },
+    "hivr": {
+      "text": "(Ravi's pin: HIVR — the quarantine block, inside the army's line. Of all places.)",
+      "choices": [
+        {
+          "text": "(Go.)",
+          "next": "go",
+          "effect": {
+            "flags": {
+              "ravi_trip_started": true
+            },
+            "card": "card_to_hivr"
+          }
+        },
+        {
+          "text": "(Not yet.)",
+          "next": "wait"
+        }
+      ]
+    },
+    "go": {
+      "text": "(You tell Rathore you'll be back by night. He doesn't ask where.)"
+    },
+    "wait": {
+      "text": "(The pin stays on your screen.)"
+    }
+  }
+}

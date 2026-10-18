@@ -2031,7 +2031,8 @@
       "label": "Lalbagh glass house"
     },
     "quests": [
-      "q_act4_lalbagh"
+      "q_act4_lalbagh",
+      "q_act4_ravi"
     ],
     "npcs": [
       {
@@ -2103,6 +2104,12 @@
         "dialogue": "dlg_council",
         "requiresFlag": "council_called",
         "unlessFlag": "ending_chosen"
+      },
+      {
+        "zone": "house_out",
+        "dialogue": "dlg_ravi_location",
+        "requiresFlag": "ravi_msg",
+        "unlessFlag": "ravi_trip_started"
       }
     ],
     "base": {
@@ -2144,6 +2151,55 @@
         ],
         "toast": "Act 4 · day 15. Rathore has called everyone to the round table.",
         "icon": "news"
+      },
+      {
+        "after": "ending_chosen",
+        "nights": 1,
+        "set": [
+          "ravi_msg"
+        ],
+        "toast": "One bar of signal under the glass roof. Ravi: \"its ravi. dont reply.\"",
+        "icon": "chats"
+      }
+    ]
+  },
+  {
+    "id": "yelahanka_room",
+    "name": "A rented room, Yelahanka",
+    "map": "yelahanka_room",
+    "defaultSpawn": "room_arrive",
+    "fadeMs": 300,
+    "signal": 1,
+    "unlock": {
+      "flags": [
+        "ravi_trip_started"
+      ]
+    },
+    "realworld": {
+      "lat": 13.1007,
+      "lng": 77.5963,
+      "label": "Yelahanka"
+    },
+    "quests": [
+      "q_act4_ravi"
+    ],
+    "npcs": [
+      {
+        "id": "npc_ravi_home",
+        "spawn": "ravi_home"
+      },
+      {
+        "id": "npc_ravi_amma",
+        "spawn": "amma_cot"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "room_door",
+        "action": "card",
+        "card": "card_ravi_back",
+        "requiresFlag": "ravi_met",
+        "unlessFlag": "act4_ravi_done"
       }
     ]
   },
@@ -3841,7 +3897,8 @@
     },
     "quests": [
       "q_act3_corridor",
-      "q_act4_cubbon"
+      "q_act4_cubbon",
+      "q_act4_ravi"
     ],
     "triggers": [
       {
@@ -3890,6 +3947,13 @@
         "card": "card_back_cubbon",
         "requiresFlag": "looted:hivr_emitter",
         "unlessFlag": "supply_run_4"
+      },
+      {
+        "zone": "airlock_back",
+        "action": "card",
+        "card": "card_ravi_back",
+        "requiresFlag": "ravi_met",
+        "unlessFlag": "act4_ravi_done"
       }
     ],
     "nightTint": 0.4,
@@ -3930,10 +3994,23 @@
           ],
           "minLevel": 0,
           "requiresFlag": "act4",
-          "startMode": "idle"
+          "startMode": "idle",
+          "unlessFlag": "base_cubbon_done"
         }
       ]
-    }
+    },
+    "npcs": [
+      {
+        "id": "npc_ravi_hivr",
+        "spawn": "ravi_hivr",
+        "requiresFlag": "ravi_trip_started"
+      },
+      {
+        "id": "npc_meera",
+        "spawn": "meera_glass",
+        "requiresFlag": "ravi_trip_started"
+      }
+    ]
   },
   {
     "id": "hebbal_gate",

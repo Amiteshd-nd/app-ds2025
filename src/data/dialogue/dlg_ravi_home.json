@@ -1,0 +1,51 @@
+{
+  "id": "dlg_ravi_home",
+  "speaker": "Ravi",
+  "portrait": "npc_ravi",
+  "enter": [
+    {
+      "flag": "ravi_met",
+      "node": "after"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(His mother asleep on the cot. Ravi, in a vest, at a gas stove.) Don't wake her. (He makes tea without asking.) I walked out of quarantine. Nobody stopped me.",
+      "next": "tea"
+    },
+    "tea": {
+      "text": "(He won't talk about HIVR. He talks about her tablets, the landlord, the tea.) You were right not to stay that night. I wouldn't have.",
+      "choices": [
+        {
+          "text": "(Take the ID he puts on the table.)",
+          "next": "bye",
+          "effect": {
+            "items_add": {
+              "ravi_id": 1
+            },
+            "flags": {
+              "ravi_met_home": true,
+              "ravi_met": true
+            }
+          }
+        },
+        {
+          "text": "(Leave it.)",
+          "next": "bye",
+          "effect": {
+            "flags": {
+              "ravi_met_home": true,
+              "ravi_met": true
+            }
+          }
+        }
+      ]
+    },
+    "bye": {
+      "text": "(He holds the door.) Go. Before it's dark."
+    },
+    "after": {
+      "text": "(He puts a finger to his lips and nods at the cot.)"
+    }
+  }
+}

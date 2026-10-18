@@ -496,6 +496,30 @@
     }
    ]
   },
+  "yelahanka_room": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    },
+    {
+     "bed": "dogs_distant",
+     "gain": 0.2
+    }
+   ],
+   "night": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.6
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.3
+    }
+   ]
+  },
   "tiffin_room": {
    "surface": "tile",
    "music": false,

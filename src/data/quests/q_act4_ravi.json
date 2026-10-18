@@ -1,0 +1,56 @@
+{
+  "id": "q_act4_ravi",
+  "title": "Ravi",
+  "description": "Find Ravi.",
+  "chapter": 4,
+  "district": "glass_house",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_lalbagh"
+  ],
+  "objectives": [
+    {
+      "id": "table",
+      "text": "The round table",
+      "type": "flag",
+      "target": "ending_chosen",
+      "destination": "glass_house"
+    },
+    {
+      "id": "msg",
+      "text": "A message",
+      "type": "flag",
+      "target": "ravi_msg",
+      "destination": "glass_house"
+    },
+    {
+      "id": "go",
+      "text": "Ravi's pin",
+      "type": "flag",
+      "target": "ravi_trip_started",
+      "destination": "glass_house"
+    },
+    {
+      "id": "ravi",
+      "text": "Ravi",
+      "type": "flag",
+      "target": "ravi_met"
+    },
+    {
+      "id": "back",
+      "text": "Back to the glass house",
+      "type": "flag",
+      "target": "act4_ravi_done",
+      "destination": "glass_house"
+    }
+  ],
+  "rewards": {
+    "xp": 40,
+    "xp_branch": "soft_skills"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_ravi_complete"
+    ]
+  }
+}

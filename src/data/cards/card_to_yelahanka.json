@@ -1,0 +1,28 @@
+{
+  "id": "card_to_yelahanka",
+  "$comment": "Story 4.5 (ADR-157): Ravi's pin — not supported in 2.5: his mother's room in Yelahanka.",
+  "panels": [
+    {
+      "title": "BELLARY ROAD · 15:30",
+      "text": "Kumar drives with the lights off and the horn taped.",
+      "ms": 4200,
+      "ifFlag": "kumar_saved"
+    },
+    {
+      "title": "BELLARY ROAD · 15:30",
+      "text": "Fourteen kilometres. You don't count them.",
+      "ms": 4200,
+      "unlessFlag": "kumar_saved"
+    },
+    {
+      "title": "YELAHANKA · 17:40",
+      "text": "A pale blue door, half open. Two pairs of chappals outside.",
+      "ms": 4600
+    }
+  ],
+  "then": {
+    "district": "yelahanka_room",
+    "spawn": "room_arrive",
+    "minute": 1060
+  }
+}

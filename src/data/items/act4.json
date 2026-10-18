@@ -278,5 +278,25 @@
     "stackable": false,
     "act4_value": 0,
     "tradeable": false
+  },
+  {
+    "id": "meera_keycard",
+    "name": "Meera's keycard",
+    "description": "A white card on a red cord. Every door under HIVR, Ravi says.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
+  },
+  {
+    "id": "ravi_id",
+    "name": "Ravi's ID",
+    "description": "His HIVR contractor ID, the photo from his first week. It gets you through one checkpoint, he says.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
   }
 ]

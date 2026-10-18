@@ -520,3 +520,13 @@ corepack pnpm dev
   - **The table is your choice.** Trust from the Cubbon fire doesn't decide for you. The three paths are path_evacuate (Karthik), path_fight (Priya) and path_hold (Suresh).
   - **The base chain is complete** (4.3 to 4.3e). Its stub stays as the chain's design record. Next in the story are 4.5 (Ravi's message) and 4.6 (the tunnel), both still drafts.
 
+## 31. 4.5 "Ravi": the mirror
+- **What:** day 15–16. Ravi's message, then where he is depends on what you did for him in 2.5. HIVR with Meera if you supported him; his mother's room in Yelahanka if you sent him home. No fight. A voice note at the end.
+- **Check:** in the Playground, open Act 4 → 4.5 Ravi (Play). Sleep at the glass house, then walk to the barricade (left of the doors). To see the other branch, start 4.5 with `ravi_supported` off in the flags editor.
+- **Calls to confirm:**
+  - **New art,** all first try: Meera's sprite, Ravi's mother asleep on the cot, and the Yelahanka room.
+  - **HIVR** reuses the 3.3 corridor, now army-lit with no infected. Meera is seen once, through the lab glass, and doesn't speak.
+  - **What he gives you:** at HIVR, Meera's keycard ("every door under HIVR"); in Yelahanka, his ID ("one checkpoint"), if you take it. Both are meant for 4.6, the tunnel.
+  - **The voice note is a line of text in Chats.** No audio plays.
+  - **The bot now sits with Ravi in 2.5.** It used to send him home, which would have put the full playthrough in Yelahanka while a solo start of 4.5 went to HIVR. It's an optional step in 2.5's quest, so players still choose freely.
+

@@ -196,5 +196,34 @@
     "name": "Vikram",
     "tier": 1,
     "sheet": "npc_vikram"
+  },
+  {
+    "id": "npc_ravi_hivr",
+    "name": "Ravi",
+    "tier": 3,
+    "dialogue": "dlg_ravi_hivr",
+    "sheet": "npc_ravi",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_ravi_home",
+    "name": "Ravi",
+    "tier": 3,
+    "dialogue": "dlg_ravi_home",
+    "sheet": "npc_ravi",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_meera",
+    "name": "Dr. Meera Krishnamurthy",
+    "tier": 1,
+    "sheet": "npc_meera"
+  },
+  {
+    "id": "npc_ravi_amma",
+    "name": "Ravi's mother",
+    "tier": 1,
+    "sheet": "npc_ravi_amma_bed",
+    "breathing": false
   }
 ]

@@ -27,6 +27,20 @@
       "text": "thank you. dont tell anyone i cried. i'll pay you back after the processing finishes.",
       "after": "ravi_thanked",
       "optional": true
+    },
+    {
+      "id": "ravi_5",
+      "from": "them",
+      "text": "its ravi. dont reply. (a pin: a location)",
+      "after": "ravi_msg",
+      "critical": true
+    },
+    {
+      "id": "ravi_6",
+      "from": "them",
+      "text": "▶ voice note 0:04 — (a phone ringing: APPA. Then, his voice:) okay. okay.",
+      "after": "act4_ravi_done",
+      "critical": true
     }
   ]
 }

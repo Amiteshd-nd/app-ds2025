@@ -417,6 +417,17 @@
         "lh_cots"
       ],
       "sop": true
+    },
+    "yelahanka_room": {
+      "file": "yelahanka_room.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "room_arrive",
+        "room_door"
+      ],
+      "sop": true
     }
   }
 }

@@ -1,0 +1,111 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 7x5: the render is close up, so a single rented room comes out the size of one — the cot ~2.5 tiles long) — Ravi's mother's room in Yelahanka (story 4.5, ADR-157). The walls are `buildings` except the door gap in the bottom wall; the almirah, the cot (his mother lies on it), the kitchen shelf with the stove, the chair, the bucket and the open door leaf are blocks. Ravi stands by the stove side of the room; the way out is the step outside the door.",
+  "name": "yelahanka_room",
+  "cols": 7,
+  "rows": 5,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      195
+    ],
+    [
+      0,
+      0,
+      65,
+      870
+    ],
+    [
+      1475,
+      0,
+      61,
+      870
+    ],
+    [
+      0,
+      860,
+      640,
+      164
+    ],
+    [
+      1000,
+      860,
+      536,
+      164
+    ]
+  ],
+  "blocks": [
+    [
+      75,
+      10,
+      205,
+      275
+    ],
+    [
+      65,
+      285,
+      220,
+      555
+    ],
+    [
+      510,
+      325,
+      270,
+      190
+    ],
+    [
+      1285,
+      210,
+      190,
+      445
+    ],
+    [
+      1110,
+      610,
+      170,
+      230
+    ],
+    [
+      1345,
+      705,
+      125,
+      150
+    ],
+    [
+      905,
+      755,
+      95,
+      105
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "room_arrive",
+      "x": 780,
+      "y": 790
+    },
+    {
+      "name": "amma_cot",
+      "x": 175,
+      "y": 640
+    },
+    {
+      "name": "ravi_home",
+      "x": 1000,
+      "y": 420
+    }
+  ],
+  "zones": [
+    {
+      "name": "room_door",
+      "x": 650,
+      "y": 900,
+      "w": 250,
+      "h": 40
+    }
+  ],
+  "sorted": [],
+  "above": []
+}

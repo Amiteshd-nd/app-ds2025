@@ -30,6 +30,14 @@
       "destination": "office_gate"
     },
     {
+      "id": "sit",
+      "text": "Stay with him a while",
+      "type": "flag",
+      "target": "ravi_sat",
+      "destination": "office_gate",
+      "optional": true
+    },
+    {
       "id": "decide",
       "text": "Decide what kind of friend to be",
       "type": "flag",

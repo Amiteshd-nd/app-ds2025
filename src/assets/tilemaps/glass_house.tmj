@@ -776,7 +776,7 @@
    "name": "collision",
    "objects": [
     {
-     "id": 16,
+     "id": 17,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -794,7 +794,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 18,
      "name": "",
      "type": "building",
      "rotation": 0,
@@ -812,7 +812,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 19,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -830,7 +830,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 20,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -848,7 +848,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 21,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -866,7 +866,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 22,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -884,7 +884,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 23,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -902,7 +902,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 24,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -920,7 +920,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 25,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -938,7 +938,7 @@
      ]
     },
     {
-     "id": 25,
+     "id": 26,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -956,7 +956,7 @@
      ]
     },
     {
-     "id": 26,
+     "id": 27,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -974,7 +974,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 28,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -992,7 +992,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 29,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -1010,7 +1010,7 @@
      ]
     },
     {
-     "id": 29,
+     "id": 30,
      "name": "",
      "type": "prop",
      "rotation": 0,
@@ -1403,6 +1403,17 @@
      "y": 241,
      "width": 18,
      "height": 34
+    },
+    {
+     "id": 16,
+     "name": "house_out",
+     "rotation": 0,
+     "type": "",
+     "visible": true,
+     "x": 213,
+     "y": 296,
+     "width": 34,
+     "height": 10
     }
    ],
    "opacity": 1,
@@ -1413,7 +1424,7 @@
   }
  ],
  "nextlayerid": 9,
- "nextobjectid": 30,
+ "nextobjectid": 31,
  "orientation": "orthogonal",
  "renderorder": "right-down",
  "tiledversion": "1.11.0",

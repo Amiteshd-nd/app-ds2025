@@ -1,0 +1,21 @@
+{
+  "id": "card_to_hivr",
+  "$comment": "Story 4.5 (ADR-157): Ravi's pin — supported in 2.5: HIVR's quarantine block, inside the army's line.",
+  "panels": [
+    {
+      "title": "HEBBAL · 15:50",
+      "text": "The quarantine block is lit like a stadium.",
+      "ms": 4000
+    },
+    {
+      "title": "HIVR · 16:00",
+      "text": "A soldier checks your face against nothing and lets you through the airlock.",
+      "ms": 4600
+    }
+  ],
+  "then": {
+    "district": "hivr_corridor",
+    "spawn": "airlock",
+    "minute": 960
+  }
+}

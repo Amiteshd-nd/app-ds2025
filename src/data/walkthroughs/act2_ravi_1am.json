@@ -81,45 +81,51 @@
     {
       "id": "choose_13",
       "do": "choose",
-      "option": "left"
+      "option": "sat",
+      "optional": true
     },
     {
-      "id": "goto_14",
+      "id": "choose_14",
+      "do": "choose",
+      "option": "bye"
+    },
+    {
+      "id": "goto_15",
       "do": "goto",
       "target": "exit:auto_stand"
     },
     {
-      "id": "wait_for_15",
+      "id": "wait_for_16",
       "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "ambedkar_nagar_hill",
       "timeout": 60000
     },
     {
-      "id": "goto_16",
+      "id": "goto_17",
       "do": "goto",
       "target": "exit:room3_door"
     },
     {
-      "id": "wait_for_17",
+      "id": "wait_for_18",
       "do": "wait_for",
       "ready": "scene_loaded",
       "scene": "hill_flat",
       "timeout": 20000
     },
     {
-      "id": "sleep_18",
+      "id": "sleep_19",
       "do": "sleep"
     },
     {
-      "id": "wait_for_19",
+      "id": "wait_for_20",
       "do": "wait_for",
       "ready": "flag",
       "flag": "ravi_night_over",
       "timeout": 6000
     },
     {
-      "id": "expect_20",
+      "id": "expect_21",
       "do": "expect",
       "flag": "act2_ravi_done",
       "timeout": 3000

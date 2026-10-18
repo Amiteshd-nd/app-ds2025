@@ -1,5 +1,5 @@
 {
-  "$comment": "Source-pixel spec (1536x1024 → 16x11: a big room — ten people need the floor) — the Lalbagh glass house as the last base (story 4.3e, ADR-156): the glass-and-iron top band, the glass bottom band with the barricaded doors, the orchid tables under the grow-lamps, the greenery and fountain on the left, the fenced lamp room top-right, the workbench and locker, the council table with its chairs and stool, the cots, the crates and water cans and the potted plants are blocks. People stand on the open terracotta floor — never between the table and the greenery (the council spot is there), nor in the gap between the cots and the table's stool (the only way there from the doors). Everyone stands along an edge: the open middle (right of the table, and from the doors up to it) stays a passage.",
+  "$comment": "Source-pixel spec (1536x1024 → 16x11: a big room — ten people need the floor) — the Lalbagh glass house as the last base (story 4.3e, ADR-156): the glass-and-iron top band, the glass bottom band with the barricaded doors, the orchid tables under the grow-lamps, the greenery and fountain on the left, the fenced lamp room top-right, the workbench and locker, the council table with its chairs and stool, the cots, the crates and water cans and the potted plants are blocks. People stand on the open terracotta floor — never between the table and the greenery (the council spot is there), nor in the gap between the cots and the table's stool (the only way there from the doors). Everyone stands along an edge: the open middle (right of the table, and from the doors up to it) stays a passage. 4.5: `house_out`, beside the barricade — where a trip out starts.",
   "name": "glass_house",
   "cols": 16,
   "rows": 11,
@@ -177,6 +177,13 @@
       "y": 700,
       "w": 55,
       "h": 100
+    },
+    {
+      "name": "house_out",
+      "x": 640,
+      "y": 860,
+      "w": 100,
+      "h": 30
     }
   ],
   "sorted": [],
