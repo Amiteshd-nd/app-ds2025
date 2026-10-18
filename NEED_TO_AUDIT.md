@@ -34,19 +34,8 @@ corepack pnpm movie
 | 14 | P20 · 3.4 "Three Nights, Again" (ADR-142) | 2026-10-17 | on GitHub | waiting |
 | 15 | P21 · 3.5 "Discharge" (ADR-143) — Act 3 complete | 2026-10-17 | on GitHub | waiting |
 | 13a | HUD settings gear + Playground mute/volume (ADR-141a) | 2026-10-17 | on GitHub | waiting |
-| 16 | Act 4 S1 · the stability dial (ADR-144) | 2026-10-17 | local commit, not pushed | waiting |
-| 17 | Act 4 plan defaults you took (`docs/act4_systems_plan_v1.md` §8) | 2026-10-17 | local commit, not pushed | waiting |
-| 18 | Act 4 drafts 4.0 → 4.end (six stubs, your calls) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
-| 19 | Act 4 S2 · the run (ADR-145) | 2026-10-17 | local commit, not pushed | waiting |
-| 20 | Infected sprites step 1 · three bases (ADR-146) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
-| 21 | Infected step 2 (the recipe) + the Evolved (ADR-147) | 2026-10-17 | local commit, not pushed | waiting |
-| 22 | P22 · 4.0 "Janata" + 4.1 "Five O'Clock" (ADR-148) — Act 4 opens | 2026-10-17 | local commit, not pushed | waiting |
-| 23 | Act 4 S3 · the base (ADR-149) | 2026-10-17 | local commit, not pushed | waiting |
-| 24 | P23 · 4.2 "The Hill" (ADR-150) | 2026-10-18 | local commit, not pushed | waiting |
-| 34 | Act 4 polish: glows through the drain, the Pulse meter, fall frames, the Cubbon camp (ADR-161) | 2026-10-18 | branch `polish-adr161`, not merged | waiting |
-| 33 | The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host (ADR-159) | 2026-10-18 | local commit, not pushed | waiting |
 
-Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
+Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed; **#16–34 (all of Act 4, the infected spec, the polish) approved as built on 2026-10-18** — every call kept as built.
 
 ---
 
@@ -241,7 +230,7 @@ corepack pnpm dev
   - The slip comes on your second talk with the nurse that morning (after "Moved.").
   - Your cast stays on into Act 4.
 
-## 16. Act 4 S1: the stability dial
+## 16. Act 4 S1: the stability dial — approved as built 2026-10-18
 - **What:** every place has a stability (0–100) that falls day by day in Act 4, and one rule turns it into five levels that decide the look, the sound and how many people are out. Act 4 also makes hunger harsher.
 - **Check:** in the Playground, pick **Act 4 · stability dial**, then **▶ Open a map to look**.
   - Tick **Act 4 has begun** and slide **Day**: the list shows each place's stability and level. Re-open the map to see the crowd change (people are counted when a map opens).
@@ -254,7 +243,7 @@ corepack pnpm dev
   - The 3.4 ward now also looks a little paler on its last two nights (its sound was already "warning").
   - Harsh hunger: half a health point a minute at empty food; sleep gives 15 health and no free food. Nothing happens at 0 health yet (that comes with step S2).
 
-## 17. Act 4 plan: the defaults you took
+## 17. Act 4 plan: the defaults you took — approved as built 2026-10-18
 - **What:** you answered the plan's eight questions with "default". They're listed here so you can overturn any of them later. Full detail is in `docs/act4_systems_plan_v1.md` §7–8.
 - **Calls to confirm:**
   - **Build order:** a vertical slice. S1 the dial (built) → draft 4.0 → S2 the run → build 4.0 + 4.1 → S3 the base → 4.2. Fighting, the Pulse Gun, the cast's missions and the endings come after.
@@ -267,7 +256,7 @@ corepack pnpm dev
   - **References:** I need yours for the infected look and the touch buttons before step S2's art. Without them I'll show you options first.
   - **Engineering calls** (§7): the infected chase at 90 % of your run speed, crouch is the C key, water is an item (not a new stat), and Act 4 counts its own days from the hospital gate.
 
-## 18. Act 4 drafts: 4.0 → 4.end
+## 18. Act 4 drafts: 4.0 → 4.end — approved as built 2026-10-18
 - **What:** all six Act 4 scenes are drafted as stubs (`src/data/scenes/act4_*.json`), each with its beats, cast, places and the art it needs. Each question below has my default in its wording. When you've decided, say "take the defaults" or tell me what to change. Nothing here is built.
 - **Check:** the Playground tree, Act 4: each scene's inspector shows its draft. Or open the JSON files.
 - **Things in the drafts that are new, not from the design docs:** a constable checking your ID at the hospital gate, a milk van lift, Suresh back from Mysuru, Karthik already packing, Ravi's voice note "Okay. Okay.", and 'Rameshwara Tiffin Room' as the café's parody name.
@@ -315,7 +304,7 @@ corepack pnpm dev
   - **Ananya's fate:** draft = with you if the relationship is resolved; otherwise a photo she left at the bandstand; never infected. Keep?
   - **After the ending:** draft = 'My Bangalore' card, then the title (no New Game+). Keep?
 
-## 19. Act 4 S2: the run
+## 19. Act 4 S2: the run — approved as built 2026-10-18
 - **What:** in Act 4 you can now be chased. Running costs energy, C crouches, you can hide, the infected hunt by noise and sight, ambushes come out of cover, a touch hurts, and at 0 health you wake at the base instead of dying.
 - **Check:** in the Playground, pick **Act 4 · stability dial**, then **▶ Open the Act 4 test bench**. Tick **Show zones, cover, hide spots, paths and your detection ring** to see their areas (yellow), cover (orange), hide spots (blue), each infected's state (green wander, orange alert, red chase, yellow search) and your noise ring.
   - You start in the UV lamp's light (the blue disc), where they can't see you. Walk right toward the pack, then run (Shift): the energy pips appear under your meters.
@@ -331,7 +320,7 @@ corepack pnpm dev
   - Ambushers melt away after 30 seconds or when you leave their area.
   - Someone you knew hesitates only if you met them and your reputation is "Trusted Helper" or higher (the game doesn't have Hosa / Gothu / Namma yet).
 
-## 20. Infected sprites, step 1: the three bases
+## 20. Infected sprites, step 1: the three bases — approved as built 2026-10-18
 - **What:** your infected spec's step 1. An infected man, woman and elder in plain grey clothes, each with a lurching walk sheet (all five skin tones) and an action sheet (alert, lunge, stagger, in four directions). Nothing in the game uses them yet.
 - **Check:** open `docs/review/infected_bases_v1.png` (zoomed ×3, an existing crowd sprite on the left for scale).
 - **Calls to confirm (the look):**
@@ -350,7 +339,7 @@ corepack pnpm dev
      - Default: keep ADR-49 (your later board numbers). Or switch to the spec's?
   6. **Tools:** the spec names `tools/asset_pipe.py`, PixelLab and EasyStar. The repo uses Node `scripts/` (every pipeline), the Figma image generator (every sprite so far) and its own grid pathfinding (ADR-145). Default: keep ours.
 
-## 21. Infected step 2 (the recipe) and the Evolved
+## 21. Infected step 2 (the recipe) and the Evolved — approved as built 2026-10-18
 - **What:** people now turn in their own clothes, Fresh (almost human) or Degraded (grey, torn, stained, off balance), depending on how long ago the place fell. The Evolved are rare, faster than you, and make you bleed.
 - **Check:**
   - The sheets: `docs/review/infected_recipe_v1.png` (original / Fresh / Degraded for chai Anna, Prakash, the auto driver, four crowd people and a base) and `docs/review/infected_evolved_v1.png` (the Evolved man, woman and elder: prowl and shriek / swipe / snarl).
@@ -366,7 +355,7 @@ corepack pnpm dev
   - Not built yet: the red eye glow and blood drip, a separate wet shriek sound (it reuses the shriek), stun and the Pulse Gun's two-charge rule (with melee, S4), the Host (your call on its 48×64 size is still open: the default exception was taken).
   - Fixed on the way: in step S2, a chase along a straight line froze the infected in place. It's fixed and tested.
 
-## 22. 4.0 "Janata" and 4.1 "Five O'Clock" (Act 4 opens)
+## 22. 4.0 "Janata" and 4.1 "Five O'Clock" (Act 4 opens) — approved as built 2026-10-18
 - **What:** you walk out of the hospital into a shut city, cross it (told on a card), and reach an Indiranagar lane at five o'clock, where the plates call them out and you run.
 - **Check:** in the Playground, open Act 4 → 4.0 (Play), or play 3.5 to its end and walk out of the ward.
   - **4.0:**
@@ -390,7 +379,7 @@ corepack pnpm dev
   - Both places are fictional over real areas (Hebbal, Indiranagar). They have map pins but no real-street drawing (no OpenStreetMap fetch this time).
   - The bot plays both scenes and flees to the main road (in the full run it also buys water at the shutter).
 
-## 23. Act 4 S3: the base
+## 23. Act 4 S3: the base — approved as built 2026-10-18
 - **What:** in Act 4 you sleep only at a base. A base has a stock (food, water, fuel) that each night uses, a UV lamp kept lit by fuel, a bench for the four recipes, containers to search and a trader. Waking there makes it home.
 - **Check:** in the Playground, open **Act 4 · stability dial** → **▶ Open the base bench** (the hill flat as a base; you start with your laptop, two waters and a fuel can).
   - Search the kitchen (right), the shelf (top) and the bag by the boxes (bottom left). Each is found once.
@@ -408,7 +397,7 @@ corepack pnpm dev
     - Using items from the bag: eat, bandage, throw a noise maker or smoke bomb. That comes with S4.
     - Moving between bases.
 
-## 24. 4.2 "The Hill": the first base
+## 24. 4.2 "The Hill": the first base — approved as built 2026-10-18
 - **What:** you reach Ambedkar Nagar at 21:30. The hill has emptied; Suresh keeps the generator and a purple UV lamp at the top; UPI dies at Manju's table; your ransacked flat becomes the first base.
 - **Check:** in the Playground, open Act 4 → 4.2 (Play), or play 4.1 to the main road.
   - Talk to Mani at the bottom (his warning about the lower path).
@@ -426,7 +415,7 @@ corepack pnpm dev
   - Your laptop is in your office bag (a container), so it can go to Manju later (worth a food packet).
   - No bus or auto runs in Act 4 anywhere ("Nothing runs. The city is shut.").
 
-## 25. Act 4 S4 "your hands": fighting, throwing, the bag
+## 25. Act 4 S4 "your hands": fighting, throwing, the bag — approved as built 2026-10-18
 - **What:** in Act 4 you can fight back (only to stun, never to kill), throw things to pull or blind the infected, and your bag holds 8 kinds of things.
 - **Check:** in the Playground, open **Act 4 · stability dial → Your hands (S4) → Bench: armed**. Click the game first so it has the keyboard.
   - **SPACE** swings. You use the best thing you carry: the UV torch, then the cricket bat, then the kitchen knife. Without any, you shove. One you hit drops (dims) for 2 s, is knocked back, then comes at you faster for 5 s. A swing costs an energy pip and is loud, so the others hear it.
@@ -443,7 +432,7 @@ corepack pnpm dev
   - Sounds reuse existing tokens: the swing, a plate clang for the noise maker and knife, a pipe hit for the bat, distant glass for the smoke bomb.
   - The Pulse Gun (the only kill) and the Host stay later, as planned.
 
-## 26. 4.3 "Four Nights": the hill base, days 1–4
+## 26. 4.3 "Four Nights": the hill base, days 1–4 — approved as built 2026-10-18
 - **What:** the first base played over four days. You scavenge, Deepa comes back bitten, you make a medicine run into the ruined Ward 4, Karthik leaves, the lamp fails on night 4, and Suresh decides to move to Uncle's tiffin room in Indiranagar.
 - **Check:** in the Playground, open Act 4 → 4.3 Four Nights (Play), or **▶ from here** to watch the bot.
   - Talk to Suresh in the morning, then search Mani's store beside his stall.
@@ -460,7 +449,7 @@ corepack pnpm dev
   - The walk there and back is told on cards (07:40 → 12:30 at the ward; 13:10 → 18:40 home), not played.
   - The Movie bot now **walks** wherever infected stand still. Its full stick used to run, and the noise woke the still pair on the hill. 4.2's walkthrough changed with it.
 
-## 27. 4.3b "The Tiffin Room": Kumar, Uncle's café, the office, Raju
+## 27. 4.3b "The Tiffin Room": Kumar, Uncle's café, the office, Raju — approved as built 2026-10-18
 - **What:** the second base, days 4–7. You save Kumar (or don't), make Uncle's café home, go back to the office for the AMR-07 log, save Raju (or don't), Deepa reads the log, and the generator dies on night 3.
 - **Check:** in the Playground, open Act 4 → 4.3b The Tiffin Room (Play), or **▶ from here** to watch the bot.
   - From the hill, step onto the road at the bottom left (the walk west).
@@ -477,7 +466,7 @@ corepack pnpm dev
   - **No strollers in Act 4:** under the curfew nobody wanders, only placed people. This also empties the hill's and Whitefield's background crowd.
   - **Travel is told on cards:** the walk west, the run to Whitefield, and the way home from Raju's are all cards. Kumar's auto shows up only in the card text.
 
-## 28. 4.3c "The Line": Cubbon, Rathore's four runs, Priya, the fire
+## 28. 4.3c "The Line": Cubbon, Rathore's four runs, Priya, the fire — approved as built 2026-10-18
 - **What:** the third base, days 7–11. The army's lamp line at Cubbon, Major Rathore and his list, Priya, Ananya (or her photo), four supply runs, the argument at the fire, and the line cut on night 4.
 - **Check:** in the Playground, open Act 4 → 4.3c The Line (Play), or **▶ from here** to watch the bot (about 3 minutes).
   - From the café, walk to the shutter (the walk to Cubbon). Talk to Rathore, then Priya.
@@ -496,7 +485,7 @@ corepack pnpm dev
   - **The fire:** your answer sets karthik_trust, priya_trust or suresh_trust, for the endings.
   - **Run 5 and the Pulse Gun** are the Palace's, next phase.
 
-## 29. 4.3d "Twenty Charges": the Palace, the Pulse Gun, Malleswaram, Vikram
+## 29. 4.3d "Twenty Charges": the Palace, the Pulse Gun, Malleswaram, Vikram — approved as built 2026-10-18
 - **What:** the fourth base, days 11–14. The Palace grounds camp, the engineer and the Pulse Gun, run 5 into Malleswaram for the calibration drive, Vikram, and the lamp ring failing on night 3.
 - **Check:** in the Playground, open Act 4 → 4.3d Twenty Charges (Play), or **▶ from here**. To try the gun alone: **Act 4 · stability dial → Bench: the Pulse Gun (20 charges)**, click the game, then SPACE facing them.
 - **Calls to confirm:**
@@ -513,7 +502,7 @@ corepack pnpm dev
   - **Vikram** is a choice, not a fight: raise the gun (a charge) or leave him. The bot releases him.
   - **No Evolved at ground zero yet.** The three there stand still like everywhere else.
 
-## 30. 4.3e "The Glass House": the last base and the table
+## 30. 4.3e "The Glass House": the last base and the table — approved as built 2026-10-18
 - **What:** day 14–15. The Lalbagh glass house is the last base, with everyone you kept alive. Rathore calls the round table, and you choose the ending's direction: out, end it, or hold.
 - **Check:** in the Playground, open Act 4 → 4.3e The Glass House (Play). Walk to the gate at the Palace, sleep on a cot, then walk to the left side of the round table.
 - **Calls to confirm:**
@@ -522,7 +511,7 @@ corepack pnpm dev
   - **The table is your choice.** Trust from the Cubbon fire doesn't decide for you. The three paths are path_evacuate (Karthik), path_fight (Priya) and path_hold (Suresh).
   - **The base chain is complete** (4.3 to 4.3e). Its stub stays as the chain's design record. Next in the story are 4.5 (Ravi's message) and 4.6 (the tunnel), both still drafts.
 
-## 31. 4.5 "Ravi": the mirror
+## 31. 4.5 "Ravi": the mirror — approved as built 2026-10-18
 - **What:** day 15–16. Ravi's message, then where he is depends on what you did for him in 2.5. HIVR with Meera if you supported him; his mother's room in Yelahanka if you sent him home. No fight. A voice note at the end.
 - **Check:** in the Playground, open Act 4 → 4.5 Ravi (Play). Sleep at the glass house, then walk to the barricade (left of the doors). To see the other branch, start 4.5 with `ravi_supported` off in the flags editor.
 - **Calls to confirm:**
@@ -532,7 +521,7 @@ corepack pnpm dev
   - **The voice note is a line of text in Chats.** No audio plays.
   - **The bot now sits with Ravi in 2.5.** It used to send him home, which would have put the full playthrough in Yelahanka while a solo start of 4.5 went to HIVR. It's an optional step in 2.5's quest, so players still choose freely.
 
-## 32. 4.6 "The Tunnel": the ending
+## 32. 4.6 "The Tunnel": the ending — approved as built 2026-10-18
 - **What:** the last night. The Purple Line from Cubbon Park to Majestic, then your choice from the table as one of three ending cards (Evacuate, Hold, Ground Zero), then the "My Bangalore" card (your run in numbers, SHARE, TITLE).
 - **Check:** in the Playground, open Act 4 → 4.6 The Tunnel (Play). Walk to the barricade at the glass house, walk the tunnel west, step onto Majestic's platform. To see the other endings, start 4.6 with path_fight or path_hold set instead of path_evacuate.
 - **Calls to confirm:**
@@ -546,7 +535,7 @@ corepack pnpm dev
   - **The full playthrough ends in Evacuate.** The bot chose "We get out." at the table.
   - **After TITLE there's no New Game+.** You start a new game from the title as usual.
 
-## 33. The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host
+## 33. The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host — approved as built 2026-10-18
 - **What:** steps 3–6 of your infected spec.
   - **Twitches:** every infected body has three twitch frames (a head snap, a tilt, a shoulder hitch), baked from its own idle by the art pipeline (no new art). Standing, they twitch now and then: the Degraded every 2–5 s, the Fresh and the Evolved rarely. Mid-stride a twitch is a stutter instead.
   - **No two move alike:** each body draws its own pace, a limp (about half of them) and its own animation speed from a seed, so a pack never walks in step and a run still plays the same twice.
@@ -567,7 +556,7 @@ corepack pnpm dev
     - The Host chases at 0.55× your run, growls 0.9 s, hunts 12 s, and its blow costs −40 health and +35 stress.
   - **Reduced motion:** no standing twitches (the stutter stays); the eyes glow steadily.
 
-## 34. Act 4 polish: glows through the drain, the Pulse meter, fall frames, the Cubbon camp
+## 34. Act 4 polish: glows through the drain, the Pulse meter, fall frames, the Cubbon camp — approved as built 2026-10-18
 - **What:** your defaults from #33's calls, then the polish list.
   - **Your calls, as defaulted:**
     - No Host in the story yet.

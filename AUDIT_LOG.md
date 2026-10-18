@@ -480,3 +480,10 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way: another chat was editing the same folder (bus boarding, ADR-160) — this work lives on branch `polish-adr161` in a worktree under `scripts/.work/`; the first blue-tent spot (34,16) jammed it against the east gate — moved to (20,15).
 - Calls to confirm: NEED_TO_AUDIT #34.
 - Rule going forward: **a light that must survive a grade goes in the glow registry (GradeScene draws it), never as a world object; a prop pitched on open ground can sit at a tile, so a map being edited elsewhere needn't change.**
+
+### [Act 4 + the infected spec + the polish — approved as built] — 2026-10-18
+- Decision: "approve #16–34 as built" — the user signed off every item from Act 4 S1 (#16) to the polish (#34), each call kept as built (the defaults taken along the way stand).
+- Covers: ADR-144 … ADR-159 and ADR-161 (S1–S4 systems, the infected spec steps 1–6, every Act 4 scene 4.0 → 4.6, the endings and "My Bangalore", the polish).
+- Not pushed: pushing still waits for "approved, push". ADR-161 lives on branch `polish-adr161` until the other chat's ADR-160 (bus boarding, its own audit) is committed on `main` and the branch merges.
+- Still waiting on the user: #1–15 (Movie Mode steps 3–4, the Acts 0–3 audits).
+
