@@ -1,7 +1,10 @@
 import type Phaser from 'phaser';
 import { gradeLook, type GradeLook } from '../../systems/stability';
 import { stabilityNow } from '../../systems/stabilityNow';
-import { SCENE_KEYS } from '../../utils/constants';
+import { useGameStore } from '../../store';
+import { clearGlows, setGlows } from '../../systems/glows';
+import { color, type TokenName } from '../../ui/tokens';
+import { SCENE_KEYS, TILE_SIZE } from '../../utils/constants';
 import type { Behaviour } from './index';
 
 /** How often the place's stability is read again (it moves by the day, or by the Playground's dial). */
@@ -52,10 +55,22 @@ export const stabilityLook: Behaviour = {
       if (sinceGlitch >= GLITCH_EVERY_MS) { sinceGlitch = 0; cam.shake(GLITCH_MS, 0.004); }
     };
 
+    // The place's own lights (ADR-161): GradeScene draws them above the drain, so the tunnel's red stays red.
+    const lights = (district.glows ?? []).map((g) => ({ x: g.at[0] * TILE_SIZE, y: g.at[1] * TILE_SIZE, r: Math.max(1, Math.round(g.radius * TILE_SIZE * 0.35)), color: color(g.color as TokenName), pulseMs: g.pulseMs, flag: g.requiresFlag }));
+    let t = 0;
+    const glowTick = (_time: number, delta: number) => {
+      t += delta;
+      const flags = useGameStore.getState().flags;
+      setGlows('district', lights.filter((l) => !l.flag || flags[l.flag]).map((l) => ({ x: l.x, y: l.y, r: l.r, color: l.color, halo: 3, alpha: l.pulseMs && !reducedMotion ? 0.6 + 0.4 * Math.sin((t / l.pulseMs) * Math.PI * 2) : 0.85 })));
+    };
+
     update(0, READ_EVERY_MS);
     scene.events.on('update', update);
+    if (lights.length) { glowTick(0, 0); scene.events.on('update', glowTick); }
     return () => {
       scene.events.off('update', update);
+      scene.events.off('update', glowTick);
+      clearGlows('district');
       if (matrix) drop(matrix);
       scene.scene.stop(SCENE_KEYS.GRADE);
     };

@@ -26,6 +26,8 @@ export const HUD_GLYPHS = {
   fuel: ['.####..', '.#..#..', '.#..#.#', '.####.#', '.####.#', '.####.#', '.######'] as Bitmap,
   /** Energy pips while running in Act 4 (ADR-145): a runner mid-stride. */
   run: ['...##..', '...##..', '.####..', '#.##.#.', '..##...', '.#..#..', '#....#.'] as Bitmap,
+  /** The Pulse Gun's charges in Act 4 (ADR-161): the gun with its beam. */
+  pulse: ['......#', '####.#.', '######.', '####.#.', '.##...#', '.##....'] as Bitmap,
   bolt: ['...###.', '..###..', '.###...', '.######', '...###.', '..###..', '.###...'] as Bitmap,
   /** The dialogue cursor on the chosen pill. */
   cursor: ['#..', '##.', '###', '##.', '#..'] as Bitmap,

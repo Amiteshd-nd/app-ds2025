@@ -184,12 +184,49 @@ export async function twitchSheet(sheet) {
   return `${sheet}__twitch`;
 }
 
+/**
+ * Fall frames (ADR-161): what a Pulse hit does before the body lies still — per direction, from the idle frame:
+ *   F0 buckle  the legs give: everything above the waist drops a quarter of the leg's height, the legs squash under it
+ *   F1 kneel   down on the knees: half the leg's height gone
+ *   F2 slump   kneeling, the head drops forward (toward the facing in profile, into the chest from the front)
+ * Written as <sheet>__fall (same 3×4 layout). Pixels only move (palette-safe). The engine plays the three, then
+ * tips the slumped body onto its side.
+ */
+export async function fallSheet(sheet) {
+  const { data, info } = await sharp(join(assets, 'sprites', `${sheet}.png`)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const W = info.width, H = info.height, fw = W / COLS, fh = H / ROWS;
+  const out = Buffer.alloc(W * H * 4);
+  const DIRS = ['down', 'left', 'right', 'up'];
+  for (let row = 0; row < ROWS; row++) {
+    const line = linesOf(sheet)?.[DIRS[row]] ?? { head_y: Math.round(fh / 2), waist_y: Math.round(fh * 0.67) };
+    // The feet: the last opaque row of the idle frame.
+    let feet = 0;
+    for (let y = 0; y < fh; y++) for (let x = 0; x < fw; x++) if (data[((row * fh + y) * W + fw + x) * 4 + 3]) feet = y;
+    const waist = Math.min(line.waist_y, feet - 2), legs = feet - waist;
+    const head = [[0, 1], [-2, 0], [2, 0], [0, 1]][row];
+    [0.25, 0.5, 0.5].forEach((k, col) => {
+      const drop = Math.round(legs * k);
+      for (let y = 0; y <= feet; y++) for (let x = 0; x < fw; x++) {
+        let sx = x, sy;
+        if (y < waist + drop) sy = y - drop; // above the (lowered) waist: the upper body, dropped
+        else sy = waist + Math.round(((y - waist - drop) * legs) / Math.max(1, legs - drop)); // the legs, squashed
+        // The slump: the head (rows above the chin, now lowered) leans forward.
+        if (col === 2 && sy < line.head_y && y < line.head_y + drop + head[1]) { sx = x - head[0]; sy = sy - head[1]; }
+        if (sx < 0 || sy < 0 || sx >= fw || sy >= fh) continue;
+        data.copy(out, ((row * fh + y) * W + col * fw + x) * 4, ((row * fh + sy) * W + fw + sx) * 4, ((row * fh + sy) * W + fw + sx) * 4 + 4);
+      }
+    });
+  }
+  await sharp(out, { raw: { width: W, height: H, channels: 4 } }).png({ compressionLevel: 9 }).toFile(join(assets, 'sprites', `${sheet}__fall.png`));
+  return `${sheet}__fall`;
+}
+
 export async function runTwitch() {
   const dir = join(assets, 'sprites');
-  for (const f of readdirSync(dir)) if (f.endsWith('__twitch.png')) rmSync(join(dir, f));
+  for (const f of readdirSync(dir)) if (f.endsWith('__twitch.png') || f.endsWith('__fall.png')) rmSync(join(dir, f));
   const sheets = readdirSync(dir).filter((f) => f.endsWith('.png') && !f.includes('__')).map((f) => f.replace(/\.png$/, '')).filter((s) => TWITCHERS.test(s)).sort();
-  for (const s of sheets) await twitchSheet(s);
-  console.log(`✓ twitch frames — ${sheets.length} __twitch sheets`);
+  for (const s of sheets) { await twitchSheet(s); await fallSheet(s); }
+  console.log(`✓ twitch + fall frames — ${sheets.length} __twitch and __fall sheets`);
   return sheets;
 }
 

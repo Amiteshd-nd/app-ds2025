@@ -25,7 +25,7 @@ import { GAME_WIDTH, SCENE_KEYS } from '../utils/constants';
 import type { MenuScene } from './MenuScene';
 import { energy } from '../systems/energy';
 import { ACT4_FLAG } from '../systems/stability';
-import { readied } from '../systems/combat';
+import { COMBAT, readied } from '../systems/combat';
 import { InventoryManager } from '../systems/InventoryManager';
 import type { WorldScene } from './WorldScene';
 
@@ -142,7 +142,8 @@ export class HudScene extends Phaser.Scene {
     this.off.push(
       useGameStore.subscribe((s, prev) => {
         if (s.overlay !== prev.overlay) this.setHidden(s.overlay !== null);
-        if (s.quests !== prev.quests || s.clock !== prev.clock || s.stats !== prev.stats || s.flags !== prev.flags) this.render();
+        // Counters and the bag too: the Pulse meter follows every charge (ADR-161).
+        if (s.quests !== prev.quests || s.clock !== prev.clock || s.stats !== prev.stats || s.flags !== prev.flags || s.counters !== prev.counters || s.inventory !== prev.inventory) this.render();
       }),
       useSettings.subscribe(() => { this.rescale(); this.rebuildControls(); this.render(); }),
       (() => { const h = () => this.rebuildControls(); this.registry.events.on('changedata-touchControls', h); return () => this.registry.events.off('changedata-touchControls', h); })(),
@@ -288,7 +289,10 @@ export class HudScene extends Phaser.Scene {
     const fuelShown = store.flags.scooter_owned && (store.fuelContext || now < this.fuelUntil);
     const energyShown = Boolean(store.flags[ACT4_FLAG]) && (energy.shown > 0 || energy.pips < energy.max);
     this.energyKey = energyShown ? `${energy.pips}/${energy.max}` : '';
-    const meterList = minimal ? [] : meters(store.stats, prefs.hud.meters as 'auto' | 'always', fuelShown ? (store.counters[FUEL_COUNTER] ?? 0) : null, energyShown ? { pips: energy.pips, max: energy.max } : null);
+    // The Pulse Gun's charges (ADR-161): shown while you carry it in Act 4.
+    const pulseShown = Boolean(store.flags[ACT4_FLAG]) && store.inventory.includes(COMBAT.pulse.item);
+    const pulse = pulseShown ? { charges: store.counters[COMBAT.pulse.counter] ?? 0, full: COMBAT.pulse.charges, lowAt: COMBAT.pulse.lowAt } : null;
+    const meterList = minimal ? [] : meters(store.stats, prefs.hud.meters as 'auto' | 'always', fuelShown ? (store.counters[FUEL_COUNTER] ?? 0) : null, energyShown ? { pips: energy.pips, max: energy.max } : null, pulse);
     const rows = stackRows({ objective: this.objective !== null, location: showCard, meters: meterList });
     const card = showCard ? locationCard(getDistrict(store.activeDistrict!).name, this.firstVisit, L.locationMaxTextW) : null;
     const objective = this.objective !== null ? objectiveText(this.objective, L.objective.maxTextW) : '';

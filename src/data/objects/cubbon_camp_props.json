@@ -1,0 +1,68 @@
+[
+  {
+    "id": "CAMP_TENT_ORANGE",
+    "label": "A tent of orange tarpaulin, flap open",
+    "category": "structure",
+    "tilesWide": 2,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "cubbon_camp_props_01"
+  },
+  {
+    "id": "CAMP_TENT_BLUE",
+    "label": "A tent of blue tarpaulin, flap tied",
+    "category": "structure",
+    "tilesWide": 2,
+    "tilesTall": 2,
+    "backgroundTiles": 1,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "cubbon_camp_props_02"
+  },
+  {
+    "id": "CAMPFIRE",
+    "label": "A campfire in a ring of stones",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "cubbon_camp_props_03"
+  },
+  {
+    "id": "ARMY_COT",
+    "label": "A folding army cot with a grey blanket",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "cubbon_camp_props_04"
+  },
+  {
+    "id": "SUPPLY_CRATES",
+    "label": "Army supply crates, stacked",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "cubbon_camp_props_05"
+  },
+  {
+    "id": "WATER_DRUM_BLUE",
+    "label": "A blue water drum with a tumbler on the lid",
+    "category": "furniture",
+    "tilesWide": 1,
+    "tilesTall": 1,
+    "backgroundTiles": 0,
+    "solid": false,
+    "colorEditable": false,
+    "sprite": "cubbon_camp_props_06"
+  }
+]

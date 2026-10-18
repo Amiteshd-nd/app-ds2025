@@ -20,6 +20,7 @@ import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT, TEMPERAMENTS 
 import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
 import { ICON_NAMES } from '../src/ui/kit/icons.ts';
 import { bfs, buildGrid, cellAt, FEET_DY, overlapsZone, rectsFromTmj, zoneOf } from '../src/world/walkgrid.ts';
+const COLOUR_TOKENS = new Set(Object.keys(JSON.parse(readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../src/assets/_meta/tokens.json'), 'utf8')).tokens));
 const HOST_JSON = JSON.parse(readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../src/data/infected/host.json'), 'utf8')) as { places: string[] };
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -971,7 +972,11 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
     if (district.walkSpeed !== undefined && !(typeof district.walkSpeed === 'number' && district.walkSpeed > 0 && district.walkSpeed <= 1)) add(`${d} walkSpeed must be a share of normal speed (0–1]`);
     if (district.walkSpeedUnless !== undefined && (typeof district.walkSpeedUnless !== 'string' || district.walkSpeed === undefined)) add(`${d} walkSpeedUnless names the flag that ends a walkSpeed (and needs one)`);
     for (const ref of district.npcs ?? []) need(ref.spawn, `NPC "${ref.id}" spawn`);
-    for (const ref of district.objects ?? []) need(ref.at, `object "${ref.id}" spawn`);
+    // An object at a tile (ADR-161) must sit inside the map; one at a spawn needs the spawn.
+    for (const ref of district.objects ?? []) {
+      if (Array.isArray(ref.at)) { if (!(ref.at.length === 2 && ref.at.every((n: unknown) => Number.isInteger(n)) && ref.at[0] >= 0 && ref.at[1] >= 0 && ref.at[0] < (tmj.width ?? 0) && ref.at[1] < (tmj.height ?? 0))) add(`${d} object "${ref.id}" tile ${JSON.stringify(ref.at)} is not a whole tile inside the map`); }
+      else need(ref.at, `object "${ref.id}" spawn`);
+    }
     for (const trigger of district.triggers ?? []) need(trigger.zone, 'trigger zone');
     for (const bus of district.buses ?? []) for (const k of ['from', 'stop', 'to'] as const) need(bus[k], `bus "${bus.id}" ${k} spawn`);
     for (const spot of district.photoSpots ?? []) need(spot.zone, `photoSpot "${spot.photo}" zone`);
@@ -1043,6 +1048,13 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
         }
       }
       if ((((district.infected as Json)?.packs ?? []) as Json[]).filter((pk) => pk.host).length > 1) add(`${d} has more than one Host — one a place (infected doc §4, ADR-159)`);
+      // Glows (ADR-161): a point inside the map, a modest radius, a real colour token.
+      for (const gl of (district.glows ?? []) as Json[]) {
+        if (!inMap(gl.at) || !(typeof gl.radius === 'number' && gl.radius > 0 && gl.radius <= 6)) add(`${d} glow needs a point inside the map and a radius 0–6 tiles`);
+        if (!COLOUR_TOKENS.has(gl.color)) add(`${d} glow colour "${gl.color}" is not a colour token`);
+        if (gl.pulseMs !== undefined && !(typeof gl.pulseMs === 'number' && gl.pulseMs >= 300)) add(`${d} glow pulseMs must be ≥ 300`);
+        if (gl.requiresFlag !== undefined && (typeof gl.requiresFlag !== 'string' || !gl.requiresFlag)) add(`${d} glow requiresFlag must be a flag name`);
+      }
       for (const u of (district.uv ?? []) as Json[]) if (!inMap(u.at) || !(typeof u.radius === 'number' && u.radius > 0 && u.radius <= 12)) add(`${d} uv lamp needs a point inside the map and a radius 1–12 tiles`);
     }
 

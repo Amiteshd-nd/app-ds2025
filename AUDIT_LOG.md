@@ -464,3 +464,19 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way: the Host's raw had both side views' third frame facing the wrong way — the two cells are swapped in the raw before import (provenance notes it); the colour drain at ground zero greys its eyes (a call, with the tunnel's red lights).
 - Calls to confirm: NEED_TO_AUDIT #33.
 - Rule going forward: **a cost a path prefers is never a wall: photophobia lives in `Grid.cost`, so reachability (the validator, the bot) never changes; draw quirks from their own seeded stream so a new random never reshuffles a place's other rolls.**
+
+### [Act 4 polish — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults" — #33's calls defaulted, then HANDOFF's polish list. ADR-161.
+- Built:
+  - glows through the drain (registry + GradeScene; the tunnel's 8 lights from the map art's red blobs, the Host's eyes, the camp fire);
+  - the Pulse meter;
+  - 49 `__fall` sheets + the fall on a Pulse kill;
+  - the Cubbon camp (new prop sheet, first try; objects at tiles);
+  - 6 new tests (712 in all).
+- Verified in the browser pane (this branch on :6178):
+  - the tunnel's red lights stay red through the ground-zero drain;
+  - the camp renders with its glowing fire; the Pulse meter shows 6/10 blocks at 11 charges;
+  - every camp piece is placed; the fall animations exist for every infected sheet.
+- Found on the way: another chat was editing the same folder (bus boarding, ADR-160) — this work lives on branch `polish-adr161` in a worktree under `scripts/.work/`; the first blue-tent spot (34,16) jammed it against the east gate — moved to (20,15).
+- Calls to confirm: NEED_TO_AUDIT #34.
+- Rule going forward: **a light that must survive a grade goes in the glow registry (GradeScene draws it), never as a world object; a prop pitched on open ground can sit at a tile, so a map being edited elsewhere needn't change.**

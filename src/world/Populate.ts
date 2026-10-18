@@ -179,6 +179,8 @@ export function objects(
     (district.objects ?? []).forEach((ref, i) => {
       const want = due(ref, flags), have = byRef.get(i);
       if (want && !have) {
+        // A tile (ADR-161): placed there directly.
+        if (Array.isArray(ref.at)) { const item = add(ref.id, ref.at[0], ref.at[1]); if (item) byRef.set(i, item); return; }
         const at = findObject(map, def.spawnLayer, ref.at);
         if (!at) { console.error(`[Populate] object "${ref.id}" wants spawn "${ref.at}", which is not in the map`); return; }
         const item = ref.exact ? add(ref.id, (at.x ?? 0) / tile, (at.y ?? 0) / tile) : add(ref.id, Math.round((at.x ?? 0) / tile), Math.round((at.y ?? 0) / tile));

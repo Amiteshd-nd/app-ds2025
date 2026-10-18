@@ -2290,7 +2290,73 @@
           "startMode": "idle"
         }
       ]
-    }
+    },
+    "glows": [
+      {
+        "at": [
+          14.8,
+          2.9
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      },
+      {
+        "at": [
+          26.8,
+          3
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      },
+      {
+        "at": [
+          33.5,
+          3
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      },
+      {
+        "at": [
+          11.1,
+          14.7
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      },
+      {
+        "at": [
+          18.3,
+          14.7
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      },
+      {
+        "at": [
+          25.9,
+          14.7
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      },
+      {
+        "at": [
+          10.2,
+          19.1
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      },
+      {
+        "at": [
+          27,
+          19.1
+        ],
+        "radius": 0.5,
+        "color": "map.danger"
+      }
+    ]
   },
   {
     "id": "bus_interior",
@@ -2501,6 +2567,74 @@
       {
         "id": "DOG_STANDING",
         "at": "dog_c"
+      },
+      {
+        "id": "UV_LAMP_POST",
+        "at": [
+          33,
+          12
+        ],
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "UV_LAMP_POST",
+        "at": [
+          30,
+          16
+        ],
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "UV_LAMP_POST",
+        "at": [
+          24,
+          15
+        ],
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "CAMP_TENT_ORANGE",
+        "at": [
+          31,
+          16
+        ],
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "CAMP_TENT_BLUE",
+        "at": [
+          20,
+          15
+        ],
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "CAMPFIRE",
+        "at": [
+          29,
+          13
+        ],
+        "requiresFlag": "base_cubbon_set"
+      },
+      {
+        "id": "ARMY_COT",
+        "at": "camp_cot",
+        "requiresFlag": "base_cubbon_set",
+        "exact": true
+      },
+      {
+        "id": "SUPPLY_CRATES",
+        "at": "camp_stock",
+        "requiresFlag": "base_cubbon_set",
+        "exact": true
+      },
+      {
+        "id": "WATER_DRUM_BLUE",
+        "at": [
+          23,
+          12
+        ],
+        "requiresFlag": "base_cubbon_set"
       }
     ],
     "ambient": {
@@ -2784,6 +2918,18 @@
       {
         "flag": "base_cubbon_set",
         "stability": 70
+      }
+    ],
+    "glows": [
+      {
+        "at": [
+          29.5,
+          13.6
+        ],
+        "radius": 0.6,
+        "color": "sky.sun",
+        "pulseMs": 700,
+        "requiresFlag": "base_cubbon_set"
       }
     ]
   },

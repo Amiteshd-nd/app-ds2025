@@ -85,10 +85,10 @@ export function walletView(balance: number, moved: number | null): WalletView {
 
 // ── Meters ───────────────────────────────────────────────────────────────
 
-export type MeterId = 'health' | 'food' | 'stress' | 'fuel' | 'energy';
+export type MeterId = 'health' | 'food' | 'stress' | 'fuel' | 'energy' | 'pulse';
 export interface Meter {
   id: MeterId;
-  icon: Extract<HudGlyphName, 'heart' | 'bowl' | 'bolt' | 'fuel' | 'run'>;
+  icon: Extract<HudGlyphName, 'heart' | 'bowl' | 'bolt' | 'fuel' | 'run' | 'pulse'>;
   /** Filled blocks out of 5 (or out of `max`: energy pips, 3–8). */
   blocks: number;
   max?: number;
@@ -106,7 +106,10 @@ const blocksOf = (v: number): number => Math.max(0, Math.min(5, Math.ceil(v / 20
 /** Fuel bites at a fifth of a tank (ADR-126). */
 export const FUEL_BITES = 20;
 
-export function meters(stats: Pick<PlayerStats, 'health' | 'food' | 'stress'>, mode: 'auto' | 'always', fuel: number | null = null, energy: { pips: number; max: number } | null = null): Meter[] {
+/** The Pulse meter (ADR-161): ten blocks, two charges each (a full gun is 20); it bites at the gun's `lowAt`. */
+export const PULSE_BLOCKS = 10;
+
+export function meters(stats: Pick<PlayerStats, 'health' | 'food' | 'stress'>, mode: 'auto' | 'always', fuel: number | null = null, energy: { pips: number; max: number } | null = null, pulse: { charges: number; full: number; lowAt: number } | null = null): Meter[] {
   const out: Meter[] = [];
   if (mode === 'always' || stats.health < METER_SHOWS.health) out.push({ id: 'health', icon: 'heart', blocks: blocksOf(stats.health), critical: stats.health < METER_BITES.health });
   if (mode === 'always' || stats.food < METER_SHOWS.food) out.push({ id: 'food', icon: 'bowl', blocks: blocksOf(stats.food), critical: stats.food < METER_BITES.food });
@@ -115,6 +118,8 @@ export function meters(stats: Pick<PlayerStats, 'health' | 'food' | 'stress'>, m
   if (fuel !== null) out.push({ id: 'fuel', icon: 'fuel', blocks: blocksOf(fuel), critical: fuel < FUEL_BITES });
   // Energy pips show while you run or refill in Act 4 (ADR-145): one block per stamina pip.
   if (energy) out.push({ id: 'energy', icon: 'run', blocks: energy.pips, max: energy.max, critical: energy.pips <= 1 });
+  // The Pulse Gun's charges while you carry it in Act 4 (ADR-161): a part-used block still shows.
+  if (pulse) out.push({ id: 'pulse', icon: 'pulse', blocks: Math.min(PULSE_BLOCKS, Math.ceil((Math.max(0, pulse.charges) / pulse.full) * PULSE_BLOCKS)), max: PULSE_BLOCKS, critical: pulse.charges <= pulse.lowAt });
   return out;
 }
 

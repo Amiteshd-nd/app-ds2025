@@ -43,6 +43,7 @@ corepack pnpm movie
 | 22 | P22 · 4.0 "Janata" + 4.1 "Five O'Clock" (ADR-148) — Act 4 opens | 2026-10-17 | local commit, not pushed | waiting |
 | 23 | Act 4 S3 · the base (ADR-149) | 2026-10-17 | local commit, not pushed | waiting |
 | 24 | P23 · 4.2 "The Hill" (ADR-150) | 2026-10-18 | local commit, not pushed | waiting |
+| 34 | Act 4 polish: glows through the drain, the Pulse meter, fall frames, the Cubbon camp (ADR-161) | 2026-10-18 | branch `polish-adr161`, not merged | waiting |
 | 33 | The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host (ADR-159) | 2026-10-18 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
@@ -565,3 +566,25 @@ corepack pnpm dev
     - The Evolved never limp.
     - The Host chases at 0.55× your run, growls 0.9 s, hunts 12 s, and its blow costs −40 health and +35 stress.
   - **Reduced motion:** no standing twitches (the stutter stays); the eyes glow steadily.
+
+## 34. Act 4 polish: glows through the drain, the Pulse meter, fall frames, the Cubbon camp
+- **What:** your defaults from #33's calls, then the polish list.
+  - **Your calls, as defaulted:**
+    - No Host in the story yet.
+    - Glows keep their colour.
+    - The Host stays walk-only.
+  - **Glows through the drain:** lights now keep their colour when a place's grade greys it out: the tunnel's eight red emergency lights, the Host's eyes (they flare as it turns on you), and the camp's fire. A place lists its lights as data.
+  - **The Pulse meter:** while you carry the Pulse Gun in Act 4, a meter under your stats shows its charges. It has ten blocks of two charges each and turns red at 3 or fewer.
+  - **Fall frames:** a Pulse hit now makes the body buckle, kneel and slump (three frames baked from its own sprite, no new art), then tip onto its side, greyed.
+  - **The Cubbon camp:** two tarp tents, a campfire (glowing), an army cot, supply crates, a blue water drum, and a lamp post under each of the camp's three UV lamps. They appear once the camp is pitched (4.3c) and stay.
+- **Check:**
+  - Playground → Act 4 → 4.6 The Tunnel: the red lights.
+  - Playground → Act 4 · stability dial → ▶ Bench: the Host: the eyes, the meter (you carry the gun), and the fall (fire three times).
+  - Playground → Act 4 → 4.3c (Play): the camp by the bandstand.
+- **Calls to confirm:**
+  - **New art, first try:** the camp prop sheet (`src/assets/_raw/props/cubbon_camp_props.png`). The lamp posts reuse the hill's UV lamp post.
+  - **Placement:** the camp sits on open lawn by tile, not on new map spawns. Objects can now take a tile `[x, y]` as well as a spawn name, so the Cubbon map didn't change. The blue tent is west of the camp; the first spot jammed it against the east gate.
+  - **Not in the way:** the tents and the fire are drawn over the lawn but don't block. You and the bot walk through them, so no route changes.
+  - **The fall is derived**, a squash of the sprite. It reads at game size but is simpler than drawn frames. With reduced motion, the body goes straight to the slumped frame on its side.
+  - **Glows draw above everything in the world**, the way a light would. A sprite walking in front of one doesn't hide it.
+  - **This is on its own branch** (`polish-adr161`), because another chat was editing the same files (the HUD, the Cubbon map, the districts). It merges once that chat's work is committed.

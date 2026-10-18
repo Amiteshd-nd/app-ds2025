@@ -354,8 +354,8 @@ export function validateBreath(lines, sheets) {
       if (!ok) problems.push(`breath.json: "${base}" ${dir} needs integers 1 ≤ head_y < waist_y ≤ 46 (got ${d.head_y}/${d.waist_y})`);
     }
   }
-  for (const s of sheets.filter((x) => /__(breath|twitch)$/.test(x))) {
-    if (!characters.includes(s.replace(/__(breath|twitch)$/, ''))) problems.push(`sprites/${s}.png has no character sheet — stale derived frames`);
+  for (const s of sheets.filter((x) => /__(breath|twitch|fall)$/.test(x))) {
+    if (!characters.includes(s.replace(/__(breath|twitch|fall)$/, ''))) problems.push(`sprites/${s}.png has no character sheet — stale derived frames`);
   }
   return problems;
 }
