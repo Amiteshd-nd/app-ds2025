@@ -1,0 +1,16 @@
+{
+  "$comment": "The Host (infected doc §4, act4 doc §3–4, the user's infected spec step 6; ADR-159): the large class, one per source-adjacent place (HIVR, Hebbal, Malleswaram). Slow, can't be stunned or shoved, its body blocks a lane, and the Pulse Gun needs three charges (the first two only stop it for a second). Health 0–100, one heart = 20.",
+  "sheet": "inf_host",
+  "places": ["hebbal_gate", "ward4", "hivr_corridor", "malleswaram_lane"],
+  "wanderRatio": 0.3,
+  "chaseRunRatio": 0.55,
+  "growlMs": 900,
+  "chaseMs": 12000,
+  "searchMs": 5000,
+  "detectBonusTiles": 1,
+  "touchPx": 30,
+  "body": { "w": 30, "h": 16 },
+  "hit": { "health": -40, "stress": 35, "knockbackTiles": 2 },
+  "pulseCharges": 3,
+  "eyes": { "down": [[-5, -11], [4, -11]], "left": [[-11, -13]], "right": [[11, -13]], "up": [], "glowMs": 1400 }
+}

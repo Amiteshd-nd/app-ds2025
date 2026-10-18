@@ -1,0 +1,7 @@
+{
+  "$comment": "Photophobia as path costs (the user's infected spec step 5, ADR-159; infected doc §3: fungi hate UV, hosts are photophobic, by day they keep to the shade). UV light stays a wall (ADR-145); around it a halo costs more the nearer it gets, so they skirt a lamp wide instead of brushing its edge. Outdoors by day, open ground costs more than ground within a tile of a wall, a building or cover, so a wandering infected hugs the shade. Costs are added to a cell's step cost of 1. Nothing here changes what they can reach — only which way they prefer.",
+  "uvHaloTiles": 2,
+  "uvHaloCost": 3,
+  "sunCost": 0.8,
+  "shadeTiles": 1
+}

@@ -4565,7 +4565,7 @@
     "dev": true,
     "map": "whitefield_street",
     "defaultSpawn": "cubbon_return",
-    "$comment": "Dev bench for Act 4's run (ADR-145): the Whitefield street with one Fresh pack, ambush cover, two hide spots and a UV lamp. Opened from the Playground's Act 4 node; you start inside the lamp's light (safe); no exits lead here. Its stability is held at 50 (infected) once `act4` is set. Presets (ADR-147): `bench_evolved` adds a pack with one Evolved, `bench_flank` two lone Evolved for the flank test (both drop the street to 20 and need `base_cafe_set`).",
+    "$comment": "Dev bench for Act 4's run (ADR-145): the Whitefield street with one Fresh pack, ambush cover, two hide spots and a UV lamp. Opened from the Playground's Act 4 node; you start inside the lamp's light (safe); no exits lead here. Its stability is held at 50 (infected) once `act4` is set. Presets (ADR-147): `bench_evolved` adds a pack with one Evolved, `bench_flank` two lone Evolved for the flank test (both drop the street to 20 and need `base_cafe_set`); `bench_host` the Host in the middle of the street (ADR-159, ground zero: 15).",
     "stabilityIf": [
       {
         "flag": "act4",
@@ -4578,6 +4578,10 @@
       {
         "flag": "bench_flank",
         "stability": 20
+      },
+      {
+        "flag": "bench_host",
+        "stability": 15
       }
     ],
     "act4Zones": [
@@ -4695,6 +4699,20 @@
           ],
           "evolved": 1,
           "requiresFlag": "bench_flank"
+        },
+        {
+          "id": "bench_host",
+          "zone": "street",
+          "lead": [
+            17,
+            11
+          ],
+          "size": 1,
+          "sheets": [
+            "inf_host"
+          ],
+          "host": true,
+          "requiresFlag": "bench_host"
         }
       ]
     },

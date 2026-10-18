@@ -495,6 +495,8 @@ export interface InfectedPack {
   awayFrom?: string;
   /** A spawn name it walks toward while it doesn't see you (the balconies' noise, 4.1). */
   drawnTo?: string;
+  /** The Host (ADR-159): a pack of one, the large `inf_host` body — slow, can't be stunned or shoved, blocks the lane. Only near HIVR (`data/infected/host.json` places), one a place. */
+  host?: boolean;
 }
 
 /**

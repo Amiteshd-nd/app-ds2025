@@ -16,7 +16,7 @@
  *   node scripts/infected-recipe.mjs <sheet>    (one)
  */
 import sharp from 'sharp';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, rmSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { nearest, readGpl } from './art/quantize.mjs';
@@ -144,6 +144,55 @@ export async function infectSheet(sheet, stageName) {
   return `inf_${stageName}_${sheet}`;
 }
 
+/**
+ * Twitch frames (the user's infected spec step 3, ADR-159): three frames per direction baked from the idle
+ * frame, written as <sheet>__twitch (same 3×4 layout as the sheet, like __breath):
+ *   T0 snap   the head (rows above the breath line's head_y) jerks 1 px sideways (toward the facing in profile)
+ *   T1 tilt   the head 1 px the other way and 1 px down into the neck
+ *   T2 hitch  everything above the waist drops 1 px (a slump), the head 1 px sideways
+ * Pixels only move, never change colour, so the frames stay on the palette. The engine plays them as a quick
+ * one-shot while an infected stands still (seeded per body, `systems/infected.twitchGap`).
+ */
+const TWITCHERS = /^(inf_(fresh|degraded)_.+|inf_evolved_(male|female|elder)|inf_base_(male|female|elder)_\d|inf_host)$/;
+const LINES = JSON.parse(readFileSync(join(assets, '_raw/characters/breath.json'), 'utf8'));
+const linesOf = (sheet) => LINES[sheet] ?? LINES[sheet.replace(/^inf_(fresh|degraded)_/, '')] ?? LINES[sheet.replace(/_\d$/, '')] ?? null;
+
+export async function twitchSheet(sheet) {
+  const { data, info } = await sharp(join(assets, 'sprites', `${sheet}.png`)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const W = info.width, H = info.height, fw = W / COLS, fh = H / ROWS;
+  const out = Buffer.alloc(W * H * 4);
+  const DIRS = ['down', 'left', 'right', 'up'];
+  for (let row = 0; row < ROWS; row++) {
+    const line = linesOf(sheet)?.[DIRS[row]] ?? { head_y: Math.round(fh / 2), waist_y: Math.round(fh * 0.67) };
+    const side = row === 1 ? -1 : 1;
+    // [dx of the head, dy of the head, dy of the upper body] per twitch frame.
+    const moves = [[side, 0, 0], [-side, 1, 0], [side, 0, 1]];
+    moves.forEach(([hx, hy, by], col) => {
+      for (let y = 0; y < fh; y++) for (let x = 0; x < fw; x++) {
+        // Where this pixel comes from in the idle frame (column 1).
+        let sx = x, sy = y;
+        if (y < line.waist_y) sy = y - by;
+        if (sy < line.head_y + hy && y < line.head_y + hy) { sx = x - hx; sy = sy - hy; }
+        const o = ((row * fh + y) * W + col * fw + x) * 4;
+        if (sx < 0 || sy < 0 || sx >= fw || sy >= fh) continue;
+        const i = ((row * fh + sy) * W + fw + sx) * 4;
+        data.copy(out, o, i, i + 4);
+      }
+    });
+  }
+  await sharp(out, { raw: { width: W, height: H, channels: 4 } }).png({ compressionLevel: 9 }).toFile(join(assets, 'sprites', `${sheet}__twitch.png`));
+  return `${sheet}__twitch`;
+}
+
+export async function runTwitch() {
+  const dir = join(assets, 'sprites');
+  for (const f of readdirSync(dir)) if (f.endsWith('__twitch.png')) rmSync(join(dir, f));
+  const sheets = readdirSync(dir).filter((f) => f.endsWith('.png') && !f.includes('__')).map((f) => f.replace(/\.png$/, '')).filter((s) => TWITCHERS.test(s)).sort();
+  for (const s of sheets) await twitchSheet(s);
+  console.log(`✓ twitch frames — ${sheets.length} __twitch sheets`);
+  return sheets;
+}
+
 export async function runInfectedRecipe(only) {
   const cfg = JSON.parse(readFileSync(join(assets, '../data/infected/looks.json'), 'utf8'));
   const made = [];
@@ -151,6 +200,7 @@ export async function runInfectedRecipe(only) {
     if (only && s.sheet !== only) continue;
     for (const stage of cfg.stages) made.push(await infectSheet(s.sheet, stage));
   }
+  if (!only) await runTwitch();
   console.log(`✓ infected recipe — ${made.length} sheets (${cfg.stages.join(' + ')})`);
   return made;
 }

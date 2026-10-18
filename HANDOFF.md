@@ -1,16 +1,16 @@
 # HANDOFF — resume here (read right after CLAUDE.md)
-Updated: 2026-10-18, end of a very long session (the context window filled up; the user starts a new chat).
+Updated: 2026-10-18 (after the infected spec's last steps, ADR-159).
 
 ## 0. Where we are — in one breath
-Bangalore Times (working title in the docs: NAMMA OUTBREAK). **The whole game is built and playable end to end:** Acts 0–3 (22 scenes) + all of Act 4 (4.0 Janata → 4.6 The Tunnel, 10 more scenes) — from the airport (0.1) to three endings and the "My Bangalore" end card. `corepack pnpm movie --twice` plays **all 32 scenes headless: 32/32 green, identical 777-step trace** (~45 min wall time for both runs). 693 tests, validate, typecheck and build all green.
-- **Git:** `main` is **17 commits ahead of origin, NOT pushed** (`git log --oneline origin/main..HEAD`: from "Act 4 systems plan v1" to "P30: 4.6 The Tunnel"). Working tree clean. **Push only when the user says "approved, push".**
-- **Audit status:** P0–P11 + Movie Mode step 2 approved long ago. Everything since — Acts 0–3 audits (#1–15) and every Act 4 build (#16–32) — **awaits the user's audit in `NEED_TO_AUDIT.md`** (546 lines; each item: what, how to check, calls to confirm).
+Bangalore Times (working title in the docs: NAMMA OUTBREAK). **The whole game is built and playable end to end:** Acts 0–3 (22 scenes) + all of Act 4 (4.0 Janata → 4.6 The Tunnel, 10 more scenes) — from the airport (0.1) to three endings and the "My Bangalore" end card. `corepack pnpm movie --twice` plays **all 32 scenes headless: 32/32 green, identical 777-step trace** (~45 min wall time for both runs). 706 tests, validate, typecheck and build all green. **The user's infected spec is complete** (ADR-159: twitch frames, seeded asymmetry, photophobia path costs, the Host — 48×64, Playground bench only).
+- **Git:** `main` is **19 commits ahead of origin, NOT pushed** (`git log --oneline origin/main..HEAD`). **Push only when the user says "approved, push".** **Another chat was working in this folder at the same time** (bus boarding, ADR-160: `Exits.ts`, `WorldScene.ts`, `busSchedule.ts`, `behaviours/index.ts`, the Whitefield street map, a `board` field in `types.ts` / `districts.json` / `validate-content.ts`) — its edits were left uncommitted for that chat; ADR-159 was committed alone (tested in a clean worktree under `scripts/.work/`).
+- **Audit status:** P0–P11 + Movie Mode step 2 approved long ago. Everything since — Acts 0–3 audits (#1–15), every Act 4 build (#16–32) and the infected spec's last steps (#33) — **awaits the user's audit in `NEED_TO_AUDIT.md`** (each item: what, how to check, calls to confirm).
 
 ## 1. The very next step
-The user's last message: *"The context window is full. Create the handoff file. We'll start it in next chat in the next session."* The question left open at the end of the session (ask it again, briefly):
-> Act 4 is done and everything since S1 waits for your audit in `NEED_TO_AUDIT.md` (#16–32). Shall we start the audit, or should I first finish the rest of your infected spec (twitch frames, photophobia, the Host)? Nothing is pushed until "approved, push".
+The infected spec's leftovers are built (ADR-159, NEED_TO_AUDIT #33). The question to ask:
+> Everything since S1 waits for your audit in `NEED_TO_AUDIT.md` (#16–33). Shall we start the audit? Open calls from #33: where the Host lives in the story (default: none yet; your doc's idea is the HIVR guard at Hebbal's gate), and whether glows (its eyes, the tunnel's red lights) should escape ground zero's colour drain.
 
-Default if the user says "take the defaults" / "proceed": **the infected spec's leftovers** (the user's pasted spec, steps 3–6: twitch frames, seeded asymmetry, photophobia path costs, the Host 48×64 — its size is NEED_TO_AUDIT #20's open call — and a Playground Host preset), then stop for audit. Other candidates from the calls to confirm: a Pulse charges HUD meter, infected fall frames, camp prop sheet for Cubbon, touch-button references (the plan asked the user for them; S4 went ahead with the action button's plate), exempting the tunnel from the ground-zero colour drain.
+Default if the user says "take the defaults" / "proceed": polish from the calls to confirm — exempt glows from the ground-zero drain (the Host's eyes, the tunnel's lights), a Pulse charges HUD meter, infected fall frames, the Cubbon camp's prop sheet — then stop for audit. Touch-button references are still the user's to give.
 
 ### Act 4 as built (ADR-144 … ADR-158; scenes in `src/data/scenes/act4_*.json`)
 | Seq | Scene | ADR | NEED_TO_AUDIT |
@@ -25,6 +25,7 @@ Default if the user says "take the defaults" / "proceed": **the infected spec's 
 | 4.3e | `act4_lalbagh` (B5: the glass house, the round table → `path_*`) | 156 | #30 |
 | 4.5 | `act4_ravi` (HIVR with Meera / Yelahanka with his mother) | 157 | #31 |
 | 4.6 | `act4_tunnel` (the Purple Line, 3 ending cards, `MyBangaloreScene`) | 158 | #32 |
+| — | Infected spec steps 3–6 (twitches, asymmetry, photophobia, the Host) | 159 | #33 |
 `act4_base_chain` (seq 4.3z) stays as the chain's design STUB/record. There is no 4.4.
 
 ## 2. Resume protocol
@@ -58,7 +59,7 @@ Draft (`src/data/scenes/<id>.json`, `status: "STUB"`, a `draft` note with source
 The audits: `NEED_TO_AUDIT.md` #1–32 (each with calls to confirm). The infected spec's remaining steps (and the Host's size). Touch-button references. Audio homework: recordings, Freesound downloads. T-039 real places for the airport kerb and hotel street. T-018 mobile toolchains (mobile smoke tests blocked). The unfinished-business doc (names, co-op, monetization). The Purple Line reads blue-violet in world art.
 
 ## 8. Debt not to forget
-Act 4: no fall frames (bodies lie rotated + greyed); Pulse charges shown only in the bag and as a toast; the Cubbon camp has no drawn tents/lamp poles (glows only); voice note is text; endings are cards; "My Bangalore" is text (no collage, no PG count); runs reuse earlier maps (no telecom tower, no HIVR outer campus); no Evolved placed in any story scene yet; the tunnel's red lights drained by the ground-zero grade. Act 3: scooter EMI/fuel after the crash; the HIVR day costs nothing; the ward boy is text. Audio placeholders. Older: T-027, T-021, T-015, T-040–T-042, T-051. Movie Mode: no scooter RIDE step; the bot plays one path (sits with Ravi, likes Tanvi, "We get out." at the table, backs Karthik at the fire) — other paths are covered by tests.
+Act 4: no fall frames (bodies lie rotated + greyed); the Host has no action poses and sits on the bench only; its eye glow (and the Evolved's, still unbuilt) is drained at ground zero; Pulse charges shown only in the bag and as a toast; the Cubbon camp has no drawn tents/lamp poles (glows only); voice note is text; endings are cards; "My Bangalore" is text (no collage, no PG count); runs reuse earlier maps (no telecom tower, no HIVR outer campus); no Evolved placed in any story scene yet; the tunnel's red lights drained by the ground-zero grade. Act 3: scooter EMI/fuel after the crash; the HIVR day costs nothing; the ward boy is text. Audio placeholders. Older: T-027, T-021, T-015, T-040–T-042, T-051. Movie Mode: no scooter RIDE step; the bot plays one path (sits with Ravi, likes Tanvi, "We get out." at the table, backs Karthik at the fire) — other paths are covered by tests.
 
 ## 9. Rules learned the hard way (also in MEMORY.md / AUDIT_LOG)
 - A trigger whose `requiresFlag` is unset still counts the entry: a zone that becomes live while the player stands in it never fires — keep such zones away from where the player waits.
@@ -75,3 +76,4 @@ Act 4: no fall frames (bodies lie rotated + greyed); Pulse charges shown only in
 - **Scene JSON ships in the game bundle:** no dev words in it ("Movie Mode" fails the dist check). A spawn named `door_*` is a door to the map validator (32×48). The UI font has no emoji.
 - **Pacing (ADR-24):** two Tense beats need a Calm between them (the validator checks).
 - Long council/dialogue chains: the bot's `choose` has a 10 s budget to drain lines — keep chains to two lines before a choice.
+- **Two chats, one folder:** another session may edit this repo while you work (a Vite reload kills a movie run). Before a commit, compare `git status` with what you changed; commit only your hunks (`git apply --cached`), and run the movie in a clean worktree under `scripts/.work/` (gitignored, `node_modules` symlinked).

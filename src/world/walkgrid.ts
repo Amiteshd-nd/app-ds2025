@@ -21,6 +21,8 @@ export interface Grid {
   rows: number;
   cell: number;
   blocked: Uint8Array;
+  /** Extra cost to step onto a cell (the infected's photophobia, ADR-159); absent = every free cell costs 1. */
+  cost?: Float32Array;
 }
 
 /** Mark every cell whose feet box would overlap a rect. */
@@ -144,7 +146,7 @@ export function astar(grid: Grid, start: number, goal: (index: number) => boolea
       if (nx < 0 || ny < 0 || nx >= grid.cols || ny >= grid.rows) continue;
       const m = ny * grid.cols + nx;
       if (closed[m] || grid.blocked[m]) continue;
-      const cost = g[k] + 1;
+      const cost = g[k] + 1 + (grid.cost ? grid.cost[m] : 0);
       if (cost < g[m]) { g[m] = cost; from[m] = k; f[m] = cost + h(m); push(m); }
     }
   }

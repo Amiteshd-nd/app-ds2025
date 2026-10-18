@@ -2,12 +2,20 @@ import { PLAYER_RUN_SPEED, PLAYER_SPEED, TILE_SIZE } from '../utils/constants';
 import { NOISE } from './noise';
 import EVOLVED_JSON from '../data/infected/evolved.json';
 import COMBAT_JSON from '../data/infected/combat.json';
+import QUIRKS_JSON from '../data/infected/quirks.json';
+import LIGHT_JSON from '../data/infected/light.json';
+import HOST_JSON from '../data/infected/host.json';
 
 /** The Evolved tier's numbers (the user's addendum §2b, ADR-147) — data, not code. */
 export const EVOLVED = EVOLVED_JSON;
 
-/** Fresh (0–2 days since the place fell) and Degraded (3+) share the numbers above; the Evolved are their own. */
-export type Tier = 'fresh' | 'degraded' | 'evolved';
+/** Seeded asymmetry and twitches, photophobia's path costs, and the Host (the user's infected spec steps 3–6, ADR-159). */
+export const QUIRKS = QUIRKS_JSON;
+export const LIGHT = LIGHT_JSON;
+export const HOST = HOST_JSON;
+
+/** Fresh (0–2 days since the place fell) and Degraded (3+) share the numbers above; the Evolved and the Host are their own. */
+export type Tier = 'fresh' | 'degraded' | 'evolved' | 'host';
 
 /**
  * The infected's mind — pure (infected doc §1–2, act4 doc §4, ADR-31/49,
@@ -75,7 +83,7 @@ export const brain = (mode: InfectedMode = 'wander', namma = false, tier: Tier =
 
 /** Detection radius in px: your noise in tiles (never under crouch's 2 — standing still close up still counts), +2 at night. */
 export const detectRadius = (noiseTiles: number, night: boolean, tier: Tier = 'degraded'): number =>
-  (Math.max(noiseTiles, NOISE.crouch) + (night ? INFECTED.nightTiles : 0) + (tier === 'evolved' ? EVOLVED.detectBonusTiles : 0)) * TILE_SIZE;
+  (Math.max(noiseTiles, NOISE.crouch) + (night ? INFECTED.nightTiles : 0) + (tier === 'evolved' ? EVOLVED.detectBonusTiles : tier === 'host' ? HOST.detectBonusTiles : 0)) * TILE_SIZE;
 
 /** Sees you: in line of sight, inside the radius, and you are neither hidden nor in UV light. */
 export function detects(distPx: number, noiseTiles: number, night: boolean, los: boolean, hidden: boolean, inUV: boolean, tier: Tier = 'degraded'): boolean {
@@ -86,9 +94,41 @@ export function detects(distPx: number, noiseTiles: number, night: boolean, los:
 export const hears = (distPx: number, noiseTiles: number, night: boolean, hidden: boolean, tier: Tier = 'degraded'): boolean =>
   !hidden && noiseTiles > 0 && distPx <= (tier === 'evolved' ? Math.max(EVOLVED.hearTiles, noiseTiles) : noiseTiles + (night ? INFECTED.nightTiles : 0)) * TILE_SIZE;
 
-/** Chase speed by tier: Fresh/Degraded 0.9× your run (you can outrun them); Evolved 1.1× (1.2× at night) — you can't, in the open. */
+/** Chase speed by tier: Fresh/Degraded 0.9× your run (you can outrun them); Evolved 1.1× (1.2× at night) — you can't, in the open; the Host 0.55× (slow — it blocks, it doesn't hunt). */
 export const chaseSpeed = (tier: Tier, night: boolean): number =>
-  tier === 'evolved' ? PLAYER_RUN_SPEED * (night ? EVOLVED.nightRunRatio : EVOLVED.chaseRunRatio) : INFECTED.chaseSpeed * (night ? INFECTED.nightSpeed : 1);
+  tier === 'evolved' ? PLAYER_RUN_SPEED * (night ? EVOLVED.nightRunRatio : EVOLVED.chaseRunRatio)
+  : tier === 'host' ? PLAYER_RUN_SPEED * HOST.chaseRunRatio * (night ? INFECTED.nightSpeed : 1)
+  : INFECTED.chaseSpeed * (night ? INFECTED.nightSpeed : 1);
+
+/** How long a tier growls, chases and searches (ms). */
+const growlOf = (t: Tier) => (t === 'evolved' ? EVOLVED.growlMs : t === 'host' ? HOST.growlMs : INFECTED.growlMs);
+const chaseOf = (t: Tier) => (t === 'host' ? HOST.chaseMs : INFECTED.chaseMs);
+const searchOf = (t: Tier) => (t === 'evolved' ? EVOLVED.searchMs : t === 'host' ? HOST.searchMs : INFECTED.searchMs);
+const wanderOf = (t: Tier) => (t === 'host' ? HOST.wanderRatio * PLAYER_SPEED : INFECTED.wanderSpeed);
+
+/**
+ * One body's own way of moving (spec step 4, ADR-159), drawn once from its seed: a wander pace, a chase pace that
+ * never beats its tier's (you can still outrun the Fresh), maybe a limp (speed dips twice a second or so), its
+ * animation rate, and the phase of all of it — so a pack never moves in step.
+ */
+export interface Quirks { wander: number; chase: number; limp: number; limpHz: number; phase: number; anim: number }
+
+const span = (r: readonly number[], u: number) => r[0] + (r[1] - r[0]) * u;
+
+export function quirksFor(rng: () => number): Quirks {
+  const q = QUIRKS;
+  const wander = span(q.speed.wander, rng()), chase = span(q.speed.chase, rng());
+  const limps = rng() < q.limp.chance;
+  const limp = limps ? span(q.limp.depth, rng()) : 0, limpHz = span(q.limp.hz, rng());
+  return { wander, chase, limp, limpHz, phase: rng() * Math.PI * 2, anim: span(q.anim, rng()) };
+}
+
+/** This body's speed factor at a moment: its limp dips the pace once a stride (0..1, never above 1). */
+export const gait = (q: Quirks, ms: number): number =>
+  q.limp ? 1 - q.limp * (0.5 + 0.5 * Math.sin(q.phase + (ms / 1000) * Math.PI * 2 * q.limpHz)) : 1;
+
+/** Milliseconds to its next twitch (spec step 3): the Degraded often, the Fresh and the Evolved rarely. */
+export const twitchGap = (tier: Tier, rng: () => number): number => span(QUIRKS.twitch.everyMs[tier], rng());
 
 /**
  * May an Evolved appear here (addendum §2b)? Only where stability is under 25, only once the base chain has
@@ -147,7 +187,7 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
       if (!b.target && b.t >= b.pause) b.target = stroll();
       break;
     case 'alert': {
-      const wait = (b.tier === 'evolved' ? EVOLVED.growlMs : INFECTED.growlMs) + (b.namma && !b.hesitated ? INFECTED.hesitateMs : 0);
+      const wait = growlOf(b.tier) + (b.namma && !b.hesitated ? INFECTED.hesitateMs : 0);
       if (b.t >= wait) { b.hesitated = true; enter(b, 'chase'); b.chaseT = 0; b.lastSeen = s.player; }
       break;
     }
@@ -156,12 +196,12 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
       if (s.sees) b.lastSeen = s.player;
       else if (lure) b.lastSeen = lure;
       b.target = b.lastSeen;
-      if (b.chaseT >= INFECTED.chaseMs || (!s.sees && s.atTarget)) { enter(b, 'search'); b.target = null; }
+      if (b.chaseT >= chaseOf(b.tier) || (!s.sees && s.atTarget)) { enter(b, 'search'); b.target = null; }
       break;
     case 'search':
       if (s.sees) { toAlert(); break; }
       if (lure) { b.target = lure; break; }
-      if (b.t >= (b.tier === 'evolved' ? EVOLVED.searchMs : INFECTED.searchMs)) { enter(b, 'wander'); b.target = null; b.pause = 0; break; }
+      if (b.t >= searchOf(b.tier)) { enter(b, 'wander'); b.target = null; b.pause = 0; break; }
       if (!b.target || s.atTarget) b.target = stroll();
       break;
     case 'recover':
@@ -174,8 +214,8 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
   }
 
   const speed = b.mode === 'chase' ? chaseSpeed(b.tier, s.night) * (b.angry > 0 ? COMBAT_JSON.stunned.angrySpeed : 1)
-    : b.mode === 'wander' ? INFECTED.wanderSpeed * night
-    : b.mode === 'search' ? INFECTED.wanderSpeed * 1.5 * night
+    : b.mode === 'wander' ? wanderOf(b.tier) * night
+    : b.mode === 'search' ? wanderOf(b.tier) * 1.5 * night
     : 0;
   return { speed, target: speed > 0 ? b.target : null, growled };
 }
@@ -183,5 +223,5 @@ export function think(b: InfectedBrain, s: Senses, rng: () => number, stroll: ()
 /** It touched you: it stands for a second (your window), then the chase goes on. */
 export function struck(b: InfectedBrain): void { enter(b, 'recover'); b.target = null; }
 
-/** Your swing landed (ADR-48/151): down for `ms` — not dead — then up and angry. */
-export function stun(b: InfectedBrain, ms: number): void { enter(b, 'stunned'); b.stunMs = ms; b.target = null; b.hesitated = true; }
+/** Your swing landed (ADR-48/151): down for `ms` — not dead — then up and angry. The Host can't be stunned (act4 doc §4). */
+export function stun(b: InfectedBrain, ms: number): void { if (b.tier === 'host') return; enter(b, 'stunned'); b.stunMs = ms; b.target = null; b.hesitated = true; }

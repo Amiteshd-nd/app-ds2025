@@ -2684,5 +2684,27 @@
       "waist_y": 32,
       "enabled": false
     }
+  },
+  "inf_host": {
+    "down": {
+      "head_y": 18,
+      "waist_y": 36,
+      "enabled": false
+    },
+    "left": {
+      "head_y": 18,
+      "waist_y": 36,
+      "enabled": false
+    },
+    "right": {
+      "head_y": 18,
+      "waist_y": 36,
+      "enabled": false
+    },
+    "up": {
+      "head_y": 18,
+      "waist_y": 36,
+      "enabled": false
+    }
   }
 }

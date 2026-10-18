@@ -24,6 +24,11 @@ const palettePath = join(assetsDir, '_meta', 'palette.gpl');
 /** Character sheet contract: 3 columns × 4 rows of 32×48 frames (stride, idle, opposite stride). */
 export const SHEET_WIDTH = 96;
 export const SHEET_HEIGHT = 192;
+/**
+ * The one large character class (ADR-159, golden rule 5's only exception): the Host, 48×64 frames on a
+ * 144×256 sheet. Only `inf_host*` sheets (and their derived `__` frames) may be large.
+ */
+export const LARGE_SHEET = Object.freeze({ pattern: /^inf_host/, width: 144, height: 256 });
 
 /**
  * Palette conformance (design system §10, ADR-61): every opaque pixel of a
@@ -48,15 +53,17 @@ export function offPaletteColours(rgba, palette) {
  * Check every PNG in a directory: size (sprites only) and palette. Returns
  * { problems, warnings }; `strict` decides which list a palette miss lands in.
  */
-export async function validateImages({ dir, palette, label, expectSize, strict }) {
+export async function validateImages({ dir, palette, label, expectSize, strict, large }) {
   const problems = [];
   const warnings = [];
   if (!existsSync(dir)) return { problems, warnings };
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.png')).sort()) {
     const image = sharp(join(dir, file)).ensureAlpha();
     const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
-    if (expectSize && (info.width !== expectSize[0] || info.height !== expectSize[1])) {
-      problems.push(`${label}/${file}: is ${info.width}x${info.height}, expected ${expectSize[0]}x${expectSize[1]} (3 columns x 4 rows of 32x48 frames)`);
+    const big = large && large.pattern.test(file);
+    const want = big ? [large.width, large.height] : expectSize;
+    if (want && (info.width !== want[0] || info.height !== want[1])) {
+      problems.push(`${label}/${file}: is ${info.width}x${info.height}, expected ${want[0]}x${want[1]} (3 columns x 4 rows of ${big ? '48x64' : '32x48'} frames)`);
     }
     const off = offPaletteColours(data, palette);
     if (off.length) {
@@ -347,8 +354,8 @@ export function validateBreath(lines, sheets) {
       if (!ok) problems.push(`breath.json: "${base}" ${dir} needs integers 1 ≤ head_y < waist_y ≤ 46 (got ${d.head_y}/${d.waist_y})`);
     }
   }
-  for (const s of sheets.filter((x) => x.endsWith('__breath'))) {
-    if (!characters.includes(s.replace(/__breath$/, ''))) problems.push(`sprites/${s}.png has no character sheet — stale breath frames`);
+  for (const s of sheets.filter((x) => /__(breath|twitch)$/.test(x))) {
+    if (!characters.includes(s.replace(/__(breath|twitch)$/, ''))) problems.push(`sprites/${s}.png has no character sheet — stale derived frames`);
   }
   return problems;
 }
@@ -360,7 +367,7 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   const warnings = runWarnings({ manifest, mapsDir });
 
   const palette = readGpl(readFileSync(palettePath, 'utf8'));
-  const sprites = await validateImages({ dir: spritesDir, palette, label: 'sprites', expectSize: [SHEET_WIDTH, SHEET_HEIGHT], strict: true });
+  const sprites = await validateImages({ dir: spritesDir, palette, label: 'sprites', expectSize: [SHEET_WIDTH, SHEET_HEIGHT], strict: true, large: LARGE_SHEET });
   const tilesets = await validateImages({ dir: tilesetsDir, palette, label: 'tilesets', strict: false });
   problems.push(...sprites.problems, ...tilesets.problems);
   const breathPath = join(assetsDir, '_raw/characters/breath.json');

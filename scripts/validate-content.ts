@@ -20,6 +20,7 @@ import { NPC_TIERS, QUEST_TYPES, SKILL_TIER_NAMES, START_DISTRICT, TEMPERAMENTS 
 import { BEHAVIOUR_NAMES } from '../src/world/behaviours/names.ts';
 import { ICON_NAMES } from '../src/ui/kit/icons.ts';
 import { bfs, buildGrid, cellAt, FEET_DY, overlapsZone, rectsFromTmj, zoneOf } from '../src/world/walkgrid.ts';
+const HOST_JSON = JSON.parse(readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../src/data/infected/host.json'), 'utf8')) as { places: string[] };
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, '../src/data');
@@ -1034,7 +1035,14 @@ export function validateWorld(districts: Json[], world: WorldInputs): WorldRepor
         if (pk.size !== undefined && !(Number.isInteger(pk.size) && pk.size >= 1 && pk.size <= 5)) add(`${d} infected pack "${pk.id}" size must be 1–5`);
         if (pk.evolved !== undefined && !(pk.evolved === 0 || pk.evolved === 1)) add(`${d} infected pack "${pk.id}" evolved must be 0 or 1 (one Evolved a pack, ADR-147)`);
         if (pk.requiresFlag !== undefined && (typeof pk.requiresFlag !== 'string' || !pk.requiresFlag)) add(`${d} infected pack "${pk.id}" requiresFlag must be a flag name`);
+        // The Host (ADR-159): a pack of one, never Evolved, only near HIVR (host.json places) or on a dev bench.
+        if (pk.host !== undefined) {
+          if (pk.host !== true) add(`${d} infected pack "${pk.id}" host must be true or absent`);
+          if ((pk.size ?? 1) !== 1 || pk.evolved) add(`${d} infected pack "${pk.id}" is a Host: a pack of one, never Evolved (ADR-159)`);
+          if (!district.dev && !HOST_JSON.places.includes(String(district.id))) add(`${d} infected pack "${pk.id}": the Host lives only near HIVR (${HOST_JSON.places.join(', ')}) — infected doc §4`);
+        }
       }
+      if ((((district.infected as Json)?.packs ?? []) as Json[]).filter((pk) => pk.host).length > 1) add(`${d} has more than one Host — one a place (infected doc §4, ADR-159)`);
       for (const u of (district.uv ?? []) as Json[]) if (!inMap(u.at) || !(typeof u.radius === 'number' && u.radius > 0 && u.radius <= 12)) add(`${d} uv lamp needs a point inside the map and a radius 1–12 tiles`);
     }
 

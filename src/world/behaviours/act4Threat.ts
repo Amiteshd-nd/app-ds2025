@@ -6,7 +6,7 @@ import { ITEMS } from '../../data';
 import { useGameStore } from '../../store';
 import { ENCOUNTER, ambushSize, pickCover, rolls } from '../../systems/encounters';
 import { FAIL_FORWARD, HARM, hitKind, itemsLost, startBleed, tickBleed, type Bleed } from '../../systems/harm';
-import { EVOLVED, INFECTED, brain, detects, evolvedAllowed, hears, struck, stun, think, type InfectedBrain, type Point, type Tier } from '../../systems/infected';
+import { EVOLVED, HOST, INFECTED, LIGHT, QUIRKS, brain, detects, evolvedAllowed, gait, hears, quirksFor, struck, stun, think, twitchGap, type InfectedBrain, type Point, type Quirks, type Tier } from '../../systems/infected';
 import { COMBAT, field, knockback, lureFor, pulseTarget, smokeBlocks, stunFor, swingHits } from '../../systems/combat';
 import { DISTRICTS } from '../../data';
 import { STOCK } from '../../systems/trade';
@@ -26,7 +26,7 @@ import { TimeManager } from '../../systems/TimeManager';
 import { color } from '../../ui/tokens';
 import { FEET_BOX, TILE_SIZE } from '../../utils/constants';
 import type { Act4Zone, InfectedPack } from '../../utils/types';
-import { navOf, withDiscs, type Nav } from '../nav';
+import { navOf, withDiscs, withLight, type Nav } from '../nav';
 import { astar, cellAt, cellCentre, corners, FEET_DY, lineFree, nearestFree, smooth, type Grid } from '../walkgrid';
 import type { Behaviour } from './index';
 
@@ -34,6 +34,8 @@ import type { Behaviour } from './index';
 const REPLAN_MS = 500;
 /** Within this many px of a target = arrived. */
 const ARRIVE_PX = 8;
+/** The Host's feet centre sits this far under its sprite's centre (48×64 frame, shoes at y=58; ADR-159). */
+const HOST_FEET_DY = 24;
 /** A former NPC's name shows faintly within this many tiles (ADR-34). */
 const NAME_TILES = 2;
 
@@ -63,6 +65,14 @@ interface Infected {
   pulsed?: number;
   /** A knockback in flight: this velocity until then (ADR-151). */
   shove: { vx: number; vy: number; until: number } | null;
+  /** Its own pace, limp and animation rate (ADR-159). */
+  quirks: Quirks;
+  /** When it next twitches (ms, this place's clock). */
+  twitchAt: number;
+  /** A twitch mid-stride: it stutters until then. */
+  stutter: number;
+  /** The Host's glowing eyes. */
+  eyes: Phaser.GameObjects.Arc[];
 }
 
 interface Rect { x: number; y: number; w: number; h: number }
@@ -101,6 +111,10 @@ export const act4Threat: Behaviour = {
     const store = () => useGameStore.getState();
     const day = act4DayOf(store());
     const rng = mulberry32(seedOf(`${district.id}:${day ?? store().counters[ACT4_DAY] ?? 0}`));
+    // Each body's quirks and twitches draw from their own stream, so they never shift the place's other rolls (ADR-159).
+    const qrng = mulberry32(seedOf(`${district.id}:${day ?? store().counters[ACT4_DAY] ?? 0}:quirks`));
+    // Out in the open by day, the sun is UV too (infected doc §3): indoors there is only shade.
+    const outdoors = !(district.realworld && 'parent' in district.realworld);
     const level = grade(stabilityNow(district.id));
     const zones: ZoneRt[] = zonesDef.map((z) => ({
       def: z,
@@ -119,6 +133,7 @@ export const act4Threat: Behaviour = {
 
     let nav: Nav | null = null;
     let infGrid: Grid | null = null;
+    let sunLit = false;
     const infected: Infected[] = [];
     const playerFeet = (): Point => { const b = player.body as Phaser.Physics.Arcade.Body; return [b.center.x, b.center.y]; };
     const feetOf = (s: Body): Point => [s.body.center.x, s.body.center.y];
@@ -129,6 +144,7 @@ export const act4Threat: Behaviour = {
     const stage: 'fresh' | 'degraded' = def && day !== null ? (stageFor(day - def.fallDay) === 'fresh' ? 'fresh' : 'degraded') : 'degraded';
     const bodyOf = (source: string): 'male' | 'female' | 'elder' => (LOOKS.sources.find((x) => x.sheet === source)?.body as 'male' | 'female' | 'elder' | undefined) ?? (/female/.test(source) ? 'female' : /elder/.test(source) ? 'elder' : 'male');
     const lookFor = (source: string, tier: Tier): { sheet: string; tinted: boolean } => {
+      if (tier === 'host') return { sheet: scene.textures.exists(HOST.sheet) ? HOST.sheet : '__DEFAULT', tinted: !scene.textures.exists(HOST.sheet) };
       const want = tier === 'evolved' ? `inf_evolved_${bodyOf(source)}` : source.startsWith('inf_evolved_') ? source : `inf_${tier}_${source}`;
       if (scene.textures.exists(want)) return { sheet: want, tinted: false };
       return { sheet: scene.textures.exists(source) ? source : '__DEFAULT', tinted: true };
@@ -144,10 +160,21 @@ export const act4Threat: Behaviour = {
       const free = nearestFree(nav!.walk, cellAt(nav!.walk, at[0], at[1]), 6);
       const [fx, fy] = free >= 0 ? cellCentre(nav!.walk, free) : at;
       const look = lookFor(source, tier);
-      const sprite = scene.add.sprite(fx, fy - FEET_DY, look.sheet) as Body;
+      const host = tier === 'host';
+      // The Host's 48×64 frame (ADR-159): a wider feet box, its centre 24 px under the sprite's (shoes at y=58).
+      const sprite = scene.add.sprite(fx, fy - (host ? HOST_FEET_DY : FEET_DY), look.sheet) as Body;
       scene.physics.add.existing(sprite);
-      sprite.body.setSize(FEET_BOX.w, FEET_BOX.h);
-      sprite.body.setOffset(FEET_BOX.offsetX, FEET_BOX.offsetY);
+      if (host) {
+        sprite.body.setSize(HOST.body.w, HOST.body.h);
+        sprite.body.setOffset((sprite.width - HOST.body.w) / 2, sprite.height / 2 + HOST_FEET_DY - HOST.body.h / 2);
+        // Its body blocks a lane: you can't push past it (infected doc §4).
+        sprite.body.setImmovable(true);
+        sprite.body.pushable = false;
+        scene.physics.add.collider(player, sprite);
+      } else {
+        sprite.body.setSize(FEET_BOX.w, FEET_BOX.h);
+        sprite.body.setOffset(FEET_BOX.offsetX, FEET_BOX.offsetY);
+      }
       // No derived sheet yet (a person the recipe hasn't reached): the old grey tint stands in.
       if (look.tinted) sprite.setTint(color('infected.skin'));
       const namma = Boolean(former && store().met.includes(former) && ReputationManager.getInstance().tier >= 2);
@@ -156,7 +183,11 @@ export const act4Threat: Behaviour = {
       const b = brain(mode, namma, tier);
       // Coming out already turning on you (the khaki shirt): it growls as it appears.
       if (mode === 'alert') { b.lastSeen = playerFeet(); gameEvents.emit('audio:cue', { token: 'a.sfx.infected.shriek', at: { x: fx, y: fy } }); }
-      infected.push({ sprite, brain: b, zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: mode === 'alert' && actionsFor(look.sheet) ? [0, now + INFECTED.growlMs] : null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name, drawnTo, shove: null });
+      const quirks = quirksFor(qrng);
+      // The Evolved prowl smoothly (no limp); the Host is heavy (its own, slower stride).
+      if (tier === 'evolved') quirks.limp = 0;
+      const eyes = host ? [0, 1].map(() => scene.add.circle(fx, fy, 1, color('map.danger'), 1).setBlendMode('ADD').setVisible(false)) : [];
+      infected.push({ sprite, brain: b, zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: mode === 'alert' && actionsFor(look.sheet) ? [0, now + INFECTED.growlMs] : null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name, drawnTo, shove: null, quirks, twitchAt: now + twitchGap(tier, qrng), stutter: -1, eyes });
     };
 
     const placed = new Set<string>();
@@ -193,7 +224,7 @@ export const act4Threat: Behaviour = {
           evolvedInPack += 1; evolvedHere += 1; return true;
         };
         const drawn = p.drawnTo ? pointOf(p.drawnTo) : null;
-        spawn(lead, p.sheets[0], zone, p.id, true, p.startMode ?? 'wander', false, p.former, evolvedSlot(0) ? 'evolved' : stage, drawn);
+        spawn(lead, p.sheets[0], zone, p.id, true, p.startMode ?? 'wander', false, p.former, p.host ? 'host' : evolvedSlot(0) ? 'evolved' : stage, drawn);
         for (let i = 1; i < size; i++) {
           const a = (i / Math.max(1, size - 1)) * Math.PI * 2;
           spawn([lead[0] + Math.cos(a) * TILE_SIZE * 1.5, lead[1] + Math.sin(a) * TILE_SIZE * 1.5], p.sheets[i % p.sheets.length], zone, p.id, false, drawn ? 'wander' : (p.startMode ?? 'idle'), false, undefined, evolvedSlot(i) ? 'evolved' : stage, drawn);
@@ -253,17 +284,21 @@ export const act4Threat: Behaviour = {
       const kind = hitKind(lastHit, now);
       lastHit = now;
       const h = HARM[kind];
-      const evolved = inf.brain.tier === 'evolved';
+      const evolved = inf.brain.tier === 'evolved', host = inf.brain.tier === 'host';
       // The Evolved's double swipe (addendum §2b): two hearts, stress ×2, a tile of knockback, and bleeding.
-      StatsManager.getInstance().adjust('health', evolved ? EVOLVED.hit.health : h.health);
-      StatsManager.getInstance().adjust('stress', evolved ? EVOLVED.hit.stress : h.stress);
+      // The Host's blow (ADR-159): two hearts and two tiles of knockback — it throws you, it doesn't cut you.
+      const big = evolved ? EVOLVED.hit : host ? HOST.hit : null;
+      StatsManager.getInstance().adjust('health', big ? big.health : h.health);
+      StatsManager.getInstance().adjust('stress', big ? big.stress : h.stress);
       if (evolved) {
         bleed = startBleed(now, EVOLVED.bleed);
         stressRed = true;
         gameEvents.emit('ui:toast', { text: 'Bleeding. Get to the light.' });
+      }
+      if (big) {
         const [ix, iy] = feetOf(inf.sprite), [px0, py0] = playerFeet();
         const len = Math.hypot(px0 - ix, py0 - iy) || 1;
-        const to: Point = [px0 + ((px0 - ix) / len) * EVOLVED.hit.knockbackTiles * TILE_SIZE, py0 + ((py0 - iy) / len) * EVOLVED.hit.knockbackTiles * TILE_SIZE];
+        const to: Point = [px0 + ((px0 - ix) / len) * big.knockbackTiles * TILE_SIZE, py0 + ((py0 - iy) / len) * big.knockbackTiles * TILE_SIZE];
         const cell = nearestFree(nav!.walk, cellAt(nav!.walk, to[0], to[1]), 2);
         if (cell >= 0) { const [cx, cy] = cellCentre(nav!.walk, cell); player.setPosition(cx, cy - FEET_DY); (player.body as Phaser.Physics.Arcade.Body).reset(player.x, player.y); }
       }
@@ -306,13 +341,21 @@ export const act4Threat: Behaviour = {
     // ── Your hands (ADR-151) ───────────────────────────────────────────────
     // A swing stuns whoever is in reach ahead of you, nearest first: down, knocked back, then up and angry.
     const fallen: Body[] = [];
+    let hostShrugged = false;
     const offHit = gameEvents.on('act4:hit', ({ from, facing, weapon }) => {
       if (!nav) return;
       for (const i of swingHits(from, facing, weapon, infected.map((x) => feetOf(x.sprite)))) {
         const inf = infected[i];
+        const f0 = feetOf(inf.sprite);
+        // The Host can't be stunned or shoved (act4 doc §4): the swing just lands on it.
+        if (inf.brain.tier === 'host') {
+          gameEvents.emit('audio:cue', { token: weapon.cue, at: { x: f0[0], y: f0[1] } });
+          if (!hostShrugged) { hostShrugged = true; gameEvents.emit('ui:toast', { text: "It doesn't even flinch." }); }
+          continue;
+        }
         const ms = stunFor(weapon, inf.brain.tier === 'evolved');
         stun(inf.brain, ms);
-        const f = feetOf(inf.sprite), to = knockback(from, f, weapon.knockbackTiles), push = 150;
+        const f = f0, to = knockback(from, f, weapon.knockbackTiles), push = 150;
         inf.shove = weapon.knockbackTiles > 0 ? { vx: ((to[0] - f[0]) * 1000) / push, vy: ((to[1] - f[1]) * 1000) / push, until: now + push } : null;
         inf.pose = inf.actions ? [2, now + ms] : null;
         gameEvents.emit('audio:cue', { token: weapon.cue, at: { x: f[0], y: f[1] } });
@@ -327,6 +370,13 @@ export const act4Threat: Behaviour = {
       if (i < 0) return;
       const inf = infected[i];
       const f = feetOf(inf.sprite);
+      // The Host takes three (ADR-159): the first two only stop it for a second.
+      if (inf.brain.tier === 'host' && (inf.pulsed ?? 0) + 1 < HOST.pulseCharges) {
+        inf.pulsed = (inf.pulsed ?? 0) + 1;
+        struck(inf.brain);
+        gameEvents.emit('audio:cue', { token: 'a.sfx.infected.stun', at: { x: f[0], y: f[1] } });
+        return;
+      }
       if (inf.brain.tier === 'evolved' && inf.brain.mode === 'chase' && (inf.pulsed ?? 0) + 1 < EVOLVED.pulseChargesMidSprint) {
         inf.pulsed = (inf.pulsed ?? 0) + 1;
         stun(inf.brain, EVOLVED.stunMs);
@@ -340,6 +390,7 @@ export const act4Threat: Behaviour = {
       inf.sprite.body.enable = false;
       inf.sprite.anims.stop();
       inf.name?.destroy();
+      for (const e of inf.eyes) e.destroy();
       // Down where it stood: on its side, greyed (no fall frames yet).
       inf.sprite.setTint(color('infected.skin')).setAlpha(0.8);
       if (reducedMotion) inf.sprite.setAngle(90);
@@ -361,9 +412,12 @@ export const act4Threat: Behaviour = {
       now += delta;
       if (!nav) {
         nav = navOf(scene, map, MAPS[district.map]?.collisionLayer);
-        infGrid = withDiscs(nav.walk, uvs);
         placePacks();
       }
+      // Photophobia (ADR-159): lamps cost a wide berth, and outdoors by day the open sun costs more than shade.
+      // Built once, and again when day turns to night or back.
+      const sunNow = outdoors && !isNight(store().clock.minute);
+      if (!infGrid || sunNow !== sunLit) { sunLit = sunNow; infGrid = withLight(withDiscs(nav.walk, uvs), nav.sight, uvs, sunNow, LIGHT, TILE_SIZE); }
       const free = playerFree() && !failing;
       const p = playerFeet();
       const night = isNight(store().clock.minute);
@@ -374,7 +428,7 @@ export const act4Threat: Behaviour = {
       // Ambush over: you left its zone, or 30 s passed — the ambushers melt back into cover.
       if (ambushUntil > 0 && (now > ambushUntil || !infected.some((i) => i.ambush && pz === i.zone))) {
         ambushUntil = -1;
-        for (const inf of infected.filter((i) => i.ambush)) { inf.sprite.destroy(); inf.name?.destroy(); }
+        for (const inf of infected.filter((i) => i.ambush)) { inf.sprite.destroy(); inf.name?.destroy(); inf.eyes.forEach((e) => e.destroy()); }
         infected.splice(0, infected.length, ...infected.filter((i) => !i.ambush));
       }
 
@@ -397,6 +451,9 @@ export const act4Threat: Behaviour = {
           if (inf.lead) growlingPacks.add(inf.pack);
           gameEvents.emit('audio:cue', { token: 'a.sfx.infected.shriek', at: { x: f[0], y: f[1] } });
           if (inf.actions) inf.pose = [0, now + (tier === 'evolved' ? EVOLVED.growlMs : INFECTED.growlMs)];
+          // The Host's eyes flare as it turns on you.
+          for (const e of inf.eyes) e.setScale(2);
+          if (inf.eyes.length) scene.time.delayedCall(HOST.growlMs, () => inf.eyes.forEach((e) => e.active && e.setScale(1)));
           // The Evolved's telegraph: a one-frame red flash, so you can bail.
           if (tier === 'evolved') scene.cameras.main.flash(34, 150, 20, 20);
         }
@@ -421,6 +478,9 @@ export const act4Threat: Behaviour = {
             if (len > off * 1.5) target = [p[0] + (-dy / len) * off * side, p[1] + (dx / len) * off * side];
           }
         }
+        // Its own pace (ADR-159): a seeded wander/chase factor, a limp that dips once a stride, a stutter when it twitches mid-step.
+        const q = inf.quirks;
+        intent.speed *= (inf.brain.mode === 'chase' ? q.chase : q.wander) * gait(q, now) * (now < inf.stutter ? QUIRKS.twitch.stutterSpeed : 1);
         if (inf.shove && now < inf.shove.until) inf.sprite.body.setVelocity(inf.shove.vx, inf.shove.vy);
         else if (target && intent.speed > 0) {
           inf.shove = null;
@@ -445,19 +505,40 @@ export const act4Threat: Behaviour = {
           inf.sprite.setTexture(inf.actions, row * 3 + inf.pose[0]);
         } else {
           if (inf.pose) { inf.pose = null; inf.sprite.setTexture(inf.sheet); }
-          const anim = `${inf.sheet}-${v.length() > 1 ? 'walk' : 'idle'}-${v.length() > 1 ? dir : 'down'}`;
-          if (scene.anims.exists(anim) && inf.sprite.anims.currentAnim?.key !== anim) inf.sprite.play(anim);
+          const moving = v.length() > 1;
+          // A twitch (the user's spec step 3, ADR-159): standing, a one-shot head snap / tilt / hitch; mid-stride, a stutter.
+          const awake = !['stunned', 'idle'].includes(inf.brain.mode);
+          if (awake && now >= inf.twitchAt) {
+            inf.twitchAt = now + twitchGap(tier, qrng);
+            const tw = `${inf.sheet}-twitch-${facing}`;
+            if (moving) inf.stutter = now + QUIRKS.twitch.stutterMs;
+            else if (!reducedMotion && scene.anims.exists(tw)) inf.sprite.play(tw);
+          }
+          const twitching = !moving && inf.sprite.anims.isPlaying && /-twitch-/.test(inf.sprite.anims.currentAnim?.key ?? '');
+          const anim = `${inf.sheet}-${moving ? 'walk' : 'idle'}-${moving ? dir : 'down'}`;
+          if (!twitching && scene.anims.exists(anim) && inf.sprite.anims.currentAnim?.key !== anim) inf.sprite.play(anim);
         }
-        // Fresh walk at the normal rate; Degraded twitch at +50 % (ADR-28); the Evolved prowl smoothly.
-        inf.sprite.anims.timeScale = tier === 'degraded' ? 1.5 : 1;
+        // Fresh walk at the normal rate; Degraded twitch at +50 % (ADR-28); the Evolved prowl smoothly; the Host lumbers.
+        // Each body's own rate on top (ADR-159), so a pack's feet never fall in step.
+        inf.sprite.anims.timeScale = (tier === 'degraded' ? 1.5 : tier === 'host' ? 0.7 : 1) * inf.quirks.anim;
         // Down (stunned): its stagger pose where it has one; everyone dims a little.
         inf.sprite.setAlpha(inf.brain.mode === 'stunned' ? 0.7 : 1);
         inf.sprite.setDepth(depthForZY(feetY(inf.sprite)));
         inf.name?.setPosition(inf.sprite.x, inf.sprite.y - 30).setAlpha(d <= NAME_TILES * TILE_SIZE ? 0.5 : 0);
+        // The Host's eyes glow (infected doc §4): two dots on its face, none from behind; a slow pulse (steady with reduced motion).
+        if (inf.eyes.length) {
+          const at = (HOST.eyes as unknown as Record<string, number[][]>)[facing] ?? [];
+          const pulse = reducedMotion ? 0.8 : 0.55 + 0.45 * Math.sin((now / HOST.eyes.glowMs) * Math.PI * 2);
+          inf.eyes.forEach((e, k) => {
+            const o = at[k];
+            e.setVisible(Boolean(o) && inf.brain.mode !== 'stunned');
+            if (o) e.setPosition(inf.sprite.x + o[0], inf.sprite.y + o[1]).setAlpha(pulse).setDepth(inf.sprite.depth + 0.001);
+          });
+        }
 
         // A touch.
         // One second of grace after any hit, from anyone: a crowd can't land three touches at once.
-        if (free && inf.brain.mode === 'chase' && d <= INFECTED.touchPx && !playerState.hidden && (lastHit === null || now - lastHit >= INFECTED.recoverMs)) hurt(inf, now);
+        if (free && inf.brain.mode === 'chase' && d <= (tier === 'host' ? HOST.touchPx : INFECTED.touchPx) && !playerState.hidden && (lastHit === null || now - lastHit >= INFECTED.recoverMs)) hurt(inf, now);
 
         if (['alert', 'chase', 'recover'].includes(inf.brain.mode)) chasing = true;
         nearest = Math.min(nearest, d);
@@ -514,7 +595,7 @@ export const act4Threat: Behaviour = {
       resetThreat();
       threatDebug.modes = [];
       playerState.onHideSpot = false;
-      for (const inf of infected) { inf.sprite.destroy(); inf.name?.destroy(); }
+      for (const inf of infected) { inf.sprite.destroy(); inf.name?.destroy(); inf.eyes.forEach((e) => e.destroy()); }
       glow.destroy();
       debug.destroy();
     };

@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import {
   GAME_HEIGHT,
   GAME_WIDTH,
+  LARGE_FRAME,
+  LARGE_SHEET,
   SCENE_KEYS,
   SPRITE_HEIGHT,
   SPRITE_WIDTH,
@@ -9,6 +11,7 @@ import {
 } from '../utils/constants';
 import { BACKDROP_URLS, FONT_URLS, OVERLAY_URLS, PROP_URLS, SPRITE_URLS, TILESET_URLS, TITLE_URLS } from '../assets';
 import { motion } from '../ui/tokens';
+import QUIRKS from '../data/infected/quirks.json';
 import { STREET_FRAMES_KEY } from '../entities/PlacedObject';
 import { MAPS } from '../assets/maps';
 import { useGameStore } from '../store';
@@ -53,11 +56,12 @@ export class BootScene extends Phaser.Scene {
       console.error(`[BootScene] failed to load "${file.key}" from ${file.url}`);
     });
 
-    // Every character sheet: 96×192 = 3 columns × 4 rows of 32×48 frames.
+    // Every character sheet: 96×192 = 3 columns × 4 rows of 32×48 frames — the Host's 144×256 of 48×64 (ADR-159).
     for (const [key, url] of Object.entries(SPRITE_URLS)) {
+      const large = LARGE_SHEET.test(key);
       this.load.spritesheet(key, url, {
-        frameWidth: SPRITE_WIDTH,
-        frameHeight: SPRITE_HEIGHT,
+        frameWidth: large ? LARGE_FRAME.w : SPRITE_WIDTH,
+        frameHeight: large ? LARGE_FRAME.h : SPRITE_HEIGHT,
       });
     }
 
@@ -271,6 +275,26 @@ export class BootScene extends Phaser.Scene {
             key: idleKey,
             frames: [{ key: sheet, frame: start + 1 }],
             frameRate: 1,
+          });
+        }
+
+        // Twitch (ADR-159): <sheet>__twitch holds a head snap, a tilt and a hitch per row, played once and back to
+        // the idle frame — the infected stand still wrongly. Holds from data/infected/quirks.json.
+        const twitch = `${sheet}__twitch`;
+        const twitchKey = `${sheet}-twitch-${dir}`;
+        if (this.textures.exists(twitch) && !this.anims.exists(twitchKey)) {
+          const row = start / 3;
+          const ms = QUIRKS.twitch.framesMs;
+          this.anims.create({
+            key: twitchKey,
+            frames: [
+              { key: twitch, frame: row * 3, duration: ms[0] },
+              { key: twitch, frame: row * 3 + 1, duration: ms[1] },
+              { key: sheet, frame: start + 1, duration: ms[2] },
+              { key: twitch, frame: row * 3 + 2, duration: ms[3] },
+              { key: sheet, frame: start + 1, duration: 1 },
+            ],
+            frameRate: 1000,
           });
         }
 

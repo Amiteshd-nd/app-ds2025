@@ -448,3 +448,19 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Calls to confirm: NEED_TO_AUDIT #32.
 - Rule going forward: **an ending is data: a credits card with `game_complete` on a panel everyone sees.**
 
+### [The infected spec steps 3–6 — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults" — HANDOFF's default (the infected spec's leftovers). ADR-159.
+- Built:
+  - twitch frames (49 `__twitch` sheets, derived);
+  - seeded asymmetry (pace, limp, animation rate);
+  - photophobia path costs (UV halo, sun vs shade);
+  - the Host: new sheet, first try; the one 48×64 class; can't be stunned or shoved; blocks; 3 Pulse charges; glowing eyes;
+  - the bench preset;
+  - 13 new tests (706 in all).
+- Verified:
+  - in the browser pane, the Host loads as 48×64 frames and spawns on the bench with its 30×16 feet box;
+  - walking into it stops you at its edge; its blow cost 40 health and 35 stress and threw you back;
+  - the twitch animations exist for every infected sheet.
+- Found on the way: the Host's raw had both side views' third frame facing the wrong way — the two cells are swapped in the raw before import (provenance notes it); the colour drain at ground zero greys its eyes (a call, with the tunnel's red lights).
+- Calls to confirm: NEED_TO_AUDIT #33.
+- Rule going forward: **a cost a path prefers is never a wall: photophobia lives in `Grid.cost`, so reachability (the validator, the bot) never changes; draw quirks from their own seeded stream so a new random never reshuffles a place's other rolls.**

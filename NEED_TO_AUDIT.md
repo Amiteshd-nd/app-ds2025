@@ -43,6 +43,7 @@ corepack pnpm movie
 | 22 | P22 · 4.0 "Janata" + 4.1 "Five O'Clock" (ADR-148) — Act 4 opens | 2026-10-17 | local commit, not pushed | waiting |
 | 23 | Act 4 S3 · the base (ADR-149) | 2026-10-17 | local commit, not pushed | waiting |
 | 24 | P23 · 4.2 "The Hill" (ADR-150) | 2026-10-18 | local commit, not pushed | waiting |
+| 33 | The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host (ADR-159) | 2026-10-18 | local commit, not pushed | waiting |
 
 Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
 
@@ -544,3 +545,23 @@ corepack pnpm dev
   - **The full playthrough ends in Evacuate.** The bot chose "We get out." at the table.
   - **After TITLE there's no New Game+.** You start a new game from the title as usual.
 
+## 33. The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host
+- **What:** steps 3–6 of your infected spec.
+  - **Twitches:** every infected body has three twitch frames (a head snap, a tilt, a shoulder hitch), baked from its own idle by the art pipeline (no new art). Standing, they twitch now and then: the Degraded every 2–5 s, the Fresh and the Evolved rarely. Mid-stride a twitch is a stutter instead.
+  - **No two move alike:** each body draws its own pace, a limp (about half of them) and its own animation speed from a seed, so a pack never walks in step and a run still plays the same twice.
+  - **Light-shy:** UV lamps were already walls; now they also skirt a lamp by two tiles. Outdoors by day, open ground costs them more than ground beside a wall or cover, so they keep to the shade. At night and indoors, only the lamps count.
+  - **The Host:** a huge infected security guard with a fungal mantle and glowing eyes, the one 48×64 character. Slow (you can walk away from it), it can't be stunned or shoved, its body blocks the lane, a blow costs two hearts and throws you two tiles, and the Pulse Gun takes three charges.
+- **Check:**
+  - Open the Playground, then **Act 4 · stability dial → ▶ Bench: the Host**. You carry the bat and the Pulse Gun. Swing at it ("It doesn't even flinch."), try to walk through it, or shoot it three times.
+  - Any bench preset shows the twitches and the uneven gaits; stand still near a pack and watch.
+  - Review boards: the Host sheet at `src/assets/sprites/inf_host.png`, twitch frames at `src/assets/sprites/*__twitch.png`.
+- **Calls to confirm:**
+  - **The Host's size:** I took #20's default, one large class (48×64) for `inf_host*` only, with the validator and the importer taught it. Golden rule 5 still holds for everyone else.
+  - **New art, first try:** the Host's walk sheet. The generator drew the last frame of both side views facing the wrong way, so I swapped those two cells in the raw before import. It has no action poses (alert, swipe): it uses its walk and the twitch.
+  - **Its eyes are two in-engine dots.** At ground zero (where it lives) the colour drain greys them, like the tunnel's red lights. Exempt glows from the drain?
+  - **Where it appears:** only the bench for now. The validator allows it only in Hebbal's gate, Ward 4, the HIVR corridor and Malleswaram's lane, one per place. Default for later: none in the story yet; placing one would change those scenes' runs. Say where you want it (your doc's idea: the HIVR guard who waved Ravi through, at Hebbal's gate).
+  - **Numbers** (all in `src/data/infected/quirks.json`, `light.json`, `host.json`):
+    - A chase never runs faster than its tier: the Fresh and the Degraded stay outrunnable.
+    - The Evolved never limp.
+    - The Host chases at 0.55× your run, growls 0.9 s, hunts 12 s, and its blow costs −40 health and +35 stress.
+  - **Reduced motion:** no standing twitches (the stutter stays); the eyes glow steadily.

@@ -11,6 +11,9 @@ export const TILE_SIZE = 32; // 20 tiles wide × 11.25 tall visible
 // Character sprites are one tile wide and one and a half tall.
 export const SPRITE_WIDTH = 32;
 export const SPRITE_HEIGHT = 48;
+/** The one large character class (ADR-159): the Host's sheets (`inf_host*`) are 48×64 frames. */
+export const LARGE_SHEET = /^inf_host/;
+export const LARGE_FRAME = Object.freeze({ w: 48, h: 64 });
 
 // --- Movement --------------------------------------------------------------
 export const PLAYER_SPEED = 120; // pixels/second

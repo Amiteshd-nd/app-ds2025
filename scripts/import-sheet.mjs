@@ -43,6 +43,12 @@ export const FRAME_H = 48;
 export const BASELINE = 42;
 /** Figure height in the frame; leaves 2px of headroom above a 40px-tall chibi. */
 export const FIGURE_H = 40;
+/**
+ * The one exception to 32×48 (ADR-159, NEED_TO_AUDIT #20 call 4): the Host is a large character — 48×64 frames,
+ * a 144×256 sheet, shoes at y=58, a 56 px figure. Only sheets named `inf_host*` are large (the validator holds it).
+ */
+export const LARGE = Object.freeze({ w: 48, h: 64, baseline: 58, figure: 56 });
+export const isLarge = (name) => /^inf_host/.test(name);
 const COLS = 3, ROWS = 4;
 const OUT_COLS = [0, 1, 2]; // stride, idle, opposite stride
 /** Two strides closer than this (fraction of differing pixels) do not alternate. */
@@ -85,7 +91,9 @@ const isShadow = (r, g, b) => {
   return sat < 0.18 && val > 0.28 && val < 0.85;
 };
 
-export async function importSheet(rawPath, name, { skins = false, still = false } = {}) {
+export async function importSheet(rawPath, name, { skins = false, still = false, large = isLarge(name) } = {}) {
+  // The large class (the Host, ADR-159): 48×64 frames, the same 3×4 layout, shoes 6 px above the frame's foot.
+  const { w: FW, h: FH, baseline: BL, figure: FIG } = large ? LARGE : { w: FRAME_W, h: FRAME_H, baseline: BASELINE, figure: FIGURE_H };
   const { data, info } = await sharp(rawPath).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const W = info.width, H = info.height;
   const px = (x, y) => { const i = (y * W + x) * 4; return [data[i], data[i + 1], data[i + 2], data[i + 3]]; };
@@ -163,7 +171,7 @@ export async function importSheet(rawPath, name, { skins = false, still = false 
   // All frames of a row share one scale (the tallest figure sets it) so the
   // walk does not pulse in size; all rows share it too, so turning does not.
   const tallest = Math.max(...cells.map((c) => c.box.h));
-  const scale = FIGURE_H / tallest;
+  const scale = FIG / tallest;
   const heights = cells.map((c) => c.box.h);
 
   const frames = [];
@@ -172,19 +180,19 @@ export async function importSheet(rawPath, name, { skins = false, still = false 
     const h = Math.max(1, Math.round(cell.box.h * scale));
     const small = await sharp(cell.buf, { raw: { width: cell.w, height: cell.h, channels: 4 } })
       .extract({ left: cell.box.x, top: cell.box.y, width: cell.box.w, height: cell.box.h })
-      .resize(Math.min(w, FRAME_W), Math.min(h, FRAME_H - 2), { kernel: 'lanczos3', fit: 'inside' })
+      .resize(Math.min(w, FW), Math.min(h, FH - 2), { kernel: 'lanczos3', fit: 'inside' })
       .raw().toBuffer({ resolveWithObject: true });
     frames.push({ ...cell, small: small.data, sw: small.info.width, sh: small.info.height });
   }
 
   // Quantise + place. Skin pixels are tagged by band (lit/base/shade) BEFORE
   // quantisation so the tone variants can remap them cleanly afterwards.
-  const sheetW = FRAME_W * OUT_COLS.length, sheetH = FRAME_H * 4;
+  const sheetW = FW * OUT_COLS.length, sheetH = FH * 4;
   const base = Buffer.alloc(sheetW * sheetH * 4);
   const skinTag = new Uint8Array(sheetW * sheetH); // 0 none, 1 lit, 2 base, 3 shade
   for (const f of frames) {
-    const ox = Math.round((FRAME_W - f.sw) / 2);
-    const oy = BASELINE - f.sh;
+    const ox = Math.round((FW - f.sw) / 2);
+    const oy = BL - f.sh;
     OUT_COLS.forEach((srcCol, outCol) => {
       if (srcCol !== f.c) return;
       for (let y = 0; y < f.sh; y++) for (let x = 0; x < f.sw; x++) {
@@ -192,7 +200,7 @@ export async function importSheet(rawPath, name, { skins = false, still = false 
         const a = f.small[i + 3];
         if (a < 128) continue;
         const r = f.small[i], g = f.small[i + 1], b = f.small[i + 2];
-        const sx = outCol * FRAME_W + ox + x, sy = f.r * FRAME_H + oy + y;
+        const sx = outCol * FW + ox + x, sy = f.r * FH + oy + y;
         if (sx < 0 || sy < 0 || sx >= sheetW || sy >= sheetH) continue;
         const idx = nearest(PALETTE, r, g, b);
         const o = (sy * sheetW + sx) * 4;
@@ -208,11 +216,11 @@ export async function importSheet(rawPath, name, { skins = false, still = false 
 
   // Stride alternation check per row; synthesise when the generator repeated itself.
   const synthesised = [];
-  const frameAt = (col, row) => ({ x0: col * FRAME_W, y0: row * FRAME_H });
+  const frameAt = (col, row) => ({ x0: col * FW, y0: row * FH });
   for (let row = 0; row < ROWS; row++) {
     const a = frameAt(0, row), b = frameAt(2, row);
     let differ = 0, opaque = 0;
-    for (let y = 0; y < FRAME_H; y++) for (let x = 0; x < FRAME_W; x++) {
+    for (let y = 0; y < FH; y++) for (let x = 0; x < FW; x++) {
       const ia = ((a.y0 + y) * sheetW + a.x0 + x) * 4, ib = ((b.y0 + y) * sheetW + b.x0 + x) * 4;
       const oa = base[ia + 3] > 0, ob = base[ib + 3] > 0;
       if (oa || ob) opaque++;
@@ -222,15 +230,15 @@ export async function importSheet(rawPath, name, { skins = false, still = false 
     if (still || opaque === 0 || differ / opaque >= STRIDE_MIN_DIFF) continue;
 
     // Copy stride A into C, then mirror its leg band about the figure centre.
-    let minX = FRAME_W, maxX = -1;
-    for (let y = 0; y < FRAME_H; y++) for (let x = 0; x < FRAME_W; x++) {
+    let minX = FW, maxX = -1;
+    for (let y = 0; y < FH; y++) for (let x = 0; x < FW; x++) {
       if (base[((a.y0 + y) * sheetW + a.x0 + x) * 4 + 3] > 0) { if (x < minX) minX = x; if (x > maxX) maxX = x; }
     }
-    const hipY = BASELINE - Math.round(FIGURE_H * (1 - HIP_FRACTION));
-    for (let y = 0; y < FRAME_H; y++) for (let x = 0; x < FRAME_W; x++) {
+    const hipY = BL - Math.round(FIG * (1 - HIP_FRACTION));
+    for (let y = 0; y < FH; y++) for (let x = 0; x < FW; x++) {
       const srcX = y >= hipY ? minX + maxX - x : x;
       const ib = ((b.y0 + y) * sheetW + b.x0 + x) * 4;
-      if (srcX < 0 || srcX >= FRAME_W) { base[ib + 3] = 0; skinTag[(b.y0 + y) * sheetW + b.x0 + x] = 0; continue; }
+      if (srcX < 0 || srcX >= FW) { base[ib + 3] = 0; skinTag[(b.y0 + y) * sheetW + b.x0 + x] = 0; continue; }
       const ia = ((a.y0 + y) * sheetW + a.x0 + srcX) * 4;
       base.copy(base, ib, ia, ia + 4);
       skinTag[(b.y0 + y) * sheetW + b.x0 + x] = skinTag[(a.y0 + y) * sheetW + a.x0 + srcX];
@@ -263,7 +271,7 @@ export async function importSheet(rawPath, name, { skins = false, still = false 
   }
   const skinPx = skinTag.reduce((n, t) => n + (t ? 1 : 0), 0);
   console.log(
-    `✓ ${written.join(', ')} — scale ${scale.toFixed(3)} (cell heights ${Math.min(...heights)}–${Math.max(...heights)}px), figure ${FIGURE_H}px, ${skinPx} skin px tagged` +
+    `✓ ${written.join(', ')} — scale ${scale.toFixed(3)} (cell heights ${Math.min(...heights)}–${Math.max(...heights)}px), figure ${FIG}px, ${skinPx} skin px tagged` +
       (synthesised.length ? `; opposite stride synthesised for: ${synthesised.join(', ')}` : '; both strides drawn'),
   );
   return written;
