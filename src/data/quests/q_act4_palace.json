@@ -1,0 +1,92 @@
+{
+  "id": "q_act4_palace",
+  "title": "Twenty Charges",
+  "description": "At the Palace grounds: the engineer's gun, the fifth thing from Malleswaram, and a man in a yellow raincoat.",
+  "chapter": 4,
+  "district": "palace_grounds",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_cubbon"
+  ],
+  "objectives": [
+    {
+      "id": "leave",
+      "text": "Leave Cubbon",
+      "type": "flag",
+      "target": "base_cubbon_done",
+      "destination": "cubbon_park"
+    },
+    {
+      "id": "palace",
+      "text": "The Palace grounds",
+      "type": "flag",
+      "target": "base_palace_set",
+      "destination": "palace_grounds"
+    },
+    {
+      "id": "engineer",
+      "text": "The engineer",
+      "type": "flag",
+      "target": "engineer_met",
+      "destination": "palace_grounds"
+    },
+    {
+      "id": "built",
+      "text": "One night",
+      "type": "flag",
+      "target": "pulse_built",
+      "destination": "palace_grounds"
+    },
+    {
+      "id": "gun",
+      "text": "The Pulse Gun",
+      "type": "flag",
+      "target": "pulse_received",
+      "destination": "palace_grounds"
+    },
+    {
+      "id": "drive",
+      "text": "Dr. Krishnamurthy's house",
+      "type": "flag",
+      "target": "looted:krishnamurthy_house",
+      "destination": "malleswaram_lane"
+    },
+    {
+      "id": "vikram",
+      "text": "The yellow raincoat",
+      "type": "flag",
+      "target": "vikram_decided",
+      "destination": "malleswaram_lane"
+    },
+    {
+      "id": "calibrate",
+      "text": "The engineer",
+      "type": "flag",
+      "target": "supply_run_5",
+      "destination": "palace_grounds"
+    },
+    {
+      "id": "dark",
+      "text": "The lamp ring",
+      "type": "flag",
+      "target": "palace_turned",
+      "destination": "palace_grounds"
+    },
+    {
+      "id": "move",
+      "text": "Rathore",
+      "type": "flag",
+      "target": "base_palace_done",
+      "destination": "palace_grounds"
+    }
+  ],
+  "rewards": {
+    "xp": 50,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_palace_done"
+    ]
+  }
+}

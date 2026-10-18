@@ -1,0 +1,29 @@
+{
+  "id": "card_walk_palace",
+  "$comment": "Story 4.3d (ADR-155): from the cut line at Cubbon to the Palace grounds.",
+  "panels": [
+    {
+      "title": "CUBBON PARK · 07:00",
+      "text": "The bandstand without its lamps is just a bandstand.",
+      "ms": 3800
+    },
+    {
+      "title": "PALACE ROAD · 09:00",
+      "text": "Rathore walks in the middle of the road. So does everyone.",
+      "ms": 4200
+    },
+    {
+      "title": "BANGALORE PALACE · 10:30",
+      "text": "A granite front, lit windows, a ring of purple lamps on the lawn.",
+      "ms": 4600,
+      "setFlags": [
+        "base_palace_set"
+      ]
+    }
+  ],
+  "then": {
+    "district": "palace_grounds",
+    "spawn": "palace_gate",
+    "minute": 630
+  }
+}

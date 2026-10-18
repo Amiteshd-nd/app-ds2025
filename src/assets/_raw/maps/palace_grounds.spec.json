@@ -1,0 +1,369 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 36x24) — the Bangalore Palace grounds as the army's last shelter on the line (story 4.3d, ADR-155). The granite front along the top and the trees round the edges are `buildings`; the gate at the bottom right is closed to feet (arrivals come by card and stand inside it). The camp on the lawn — four tents, the truck, the crates, the generator trailer, the water tanker and its barrels, the sandbag walls, two benches, the engineer's bench under its tarp, the lamp poles' bases and the island's tree — are blocks. The engineer stands in front of his bench; the group on the open lawn in front of the tents; Rathore by the truck; the cot in front of the first tent; the run gate just inside the gate.",
+  "name": "palace_grounds",
+  "cols": 36,
+  "rows": 24,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      195
+    ],
+    [
+      0,
+      195,
+      105,
+      650
+    ],
+    [
+      1470,
+      195,
+      66,
+      625
+    ],
+    [
+      0,
+      840,
+      1240,
+      184
+    ],
+    [
+      1470,
+      820,
+      66,
+      204
+    ]
+  ],
+  "blocks": [
+    [
+      110,
+      345,
+      580,
+      145
+    ],
+    [
+      710,
+      295,
+      195,
+      105
+    ],
+    [
+      710,
+      425,
+      55,
+      75
+    ],
+    [
+      545,
+      500,
+      130,
+      40
+    ],
+    [
+      800,
+      485,
+      150,
+      90
+    ],
+    [
+      90,
+      525,
+      190,
+      110
+    ],
+    [
+      255,
+      575,
+      30,
+      55
+    ],
+    [
+      65,
+      545,
+      30,
+      95
+    ],
+    [
+      100,
+      640,
+      110,
+      30
+    ],
+    [
+      185,
+      650,
+      25,
+      100
+    ],
+    [
+      365,
+      585,
+      125,
+      25
+    ],
+    [
+      365,
+      640,
+      125,
+      25
+    ],
+    [
+      710,
+      575,
+      180,
+      115
+    ],
+    [
+      890,
+      600,
+      55,
+      90
+    ],
+    [
+      890,
+      700,
+      60,
+      30
+    ],
+    [
+      970,
+      645,
+      50,
+      65
+    ],
+    [
+      1020,
+      625,
+      30,
+      80
+    ],
+    [
+      1030,
+      690,
+      150,
+      30
+    ],
+    [
+      1155,
+      700,
+      30,
+      80
+    ],
+    [
+      1080,
+      710,
+      85,
+      70
+    ],
+    [
+      1385,
+      615,
+      30,
+      130
+    ],
+    [
+      1410,
+      610,
+      60,
+      30
+    ],
+    [
+      1230,
+      395,
+      40,
+      40
+    ],
+    [
+      245,
+      805,
+      130,
+      30
+    ],
+    [
+      775,
+      805,
+      215,
+      30
+    ],
+    [
+      1235,
+      815,
+      45,
+      135
+    ],
+    [
+      1440,
+      815,
+      45,
+      135
+    ],
+    [
+      1280,
+      830,
+      160,
+      110
+    ],
+    [
+      265,
+      300,
+      20,
+      20
+    ],
+    [
+      525,
+      300,
+      20,
+      20
+    ],
+    [
+      900,
+      305,
+      20,
+      20
+    ],
+    [
+      965,
+      485,
+      20,
+      20
+    ],
+    [
+      1050,
+      620,
+      20,
+      20
+    ],
+    [
+      1440,
+      300,
+      20,
+      20
+    ],
+    [
+      1455,
+      550,
+      20,
+      20
+    ],
+    [
+      185,
+      810,
+      25,
+      20
+    ],
+    [
+      400,
+      810,
+      20,
+      20
+    ],
+    [
+      740,
+      815,
+      20,
+      20
+    ],
+    [
+      1005,
+      815,
+      20,
+      20
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "palace_gate",
+      "x": 1360,
+      "y": 730
+    },
+    {
+      "name": "camp_spot",
+      "x": 600,
+      "y": 560
+    },
+    {
+      "name": "engineer_spot",
+      "x": 800,
+      "y": 712
+    },
+    {
+      "name": "rathore_palace",
+      "x": 960,
+      "y": 340
+    },
+    {
+      "name": "priya_palace",
+      "x": 300,
+      "y": 520
+    },
+    {
+      "name": "karthik_palace",
+      "x": 420,
+      "y": 520
+    },
+    {
+      "name": "uncle_palace",
+      "x": 560,
+      "y": 570
+    },
+    {
+      "name": "suresh_palace",
+      "x": 480,
+      "y": 700
+    },
+    {
+      "name": "deepa_palace",
+      "x": 300,
+      "y": 700
+    },
+    {
+      "name": "kumar_palace",
+      "x": 650,
+      "y": 770
+    },
+    {
+      "name": "raju_palace",
+      "x": 560,
+      "y": 760
+    },
+    {
+      "name": "ananya_palace",
+      "x": 1200,
+      "y": 240
+    }
+  ],
+  "zones": [
+    {
+      "name": "palace_cot",
+      "x": 180,
+      "y": 495,
+      "w": 90,
+      "h": 28
+    },
+    {
+      "name": "palace_stock",
+      "x": 700,
+      "y": 505,
+      "w": 60,
+      "h": 30
+    },
+    {
+      "name": "palace_bench",
+      "x": 390,
+      "y": 612,
+      "w": 80,
+      "h": 25
+    },
+    {
+      "name": "palace_run_gate",
+      "x": 1290,
+      "y": 790,
+      "w": 140,
+      "h": 25
+    }
+  ],
+  "sorted": [],
+  "above": []
+}

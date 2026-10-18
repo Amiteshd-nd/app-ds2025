@@ -258,5 +258,25 @@
     "stackable": false,
     "act4_value": 0,
     "tradeable": false
+  },
+  {
+    "id": "pulse_gun",
+    "name": "Pulse Gun",
+    "description": "A UV tube in a pipe, a battery pack, a trigger from a drill. Twenty charges. One each.",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
+  },
+  {
+    "id": "calibration_data",
+    "name": "Calibration drive",
+    "description": "A hard drive labelled in pencil: 'AMR cal. — do not wipe.'",
+    "icon": "item_placeholder",
+    "type": "key_item",
+    "stackable": false,
+    "act4_value": 0,
+    "tradeable": false
   }
 ]

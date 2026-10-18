@@ -31,7 +31,7 @@ describe('4.3c "The Line" — Cubbon, Rathore\'s runs, the fire (ADR-154)', () =
 
   it('is built (P26); the stub keeps the Palace and Lalbagh (4.3d)', () => {
     expect(SCENES.act4_cubbon).toEqual(expect.objectContaining({ status: 'P26', seq: '4.3c' }));
-    expect(SCENES.act4_base_chain.seq).toBe('4.3d');
+    expect(SCENES.act4_base_chain.status).toBe('STUB');
     expect(CARDS.card_walk_cubbon.then).toEqual({ district: 'cubbon_park', spawn: 'bus_drop', minute: 630 });
     expect(panelsFor(CARDS.card_walk_cubbon, {}).flatMap((p) => p.setFlags ?? [])).toContain('base_cubbon_set');
   });
@@ -90,7 +90,7 @@ describe('4.3c "The Line" — Cubbon, Rathore\'s runs, the fire (ADR-154)', () =
   });
 
   it('Ananya is at the camp unless 2.6 left you strained — then her photo on the noticeboard', () => {
-    expect(cubbon.npcs!.find((n) => n.id === 'npc_ananya_camp')).toEqual(expect.objectContaining({ requiresFlag: 'base_cubbon_set', unlessFlag: 'ananya_strained' }));
+    expect(cubbon.npcs!.find((n) => n.id === 'npc_ananya_camp')).toEqual(expect.objectContaining({ requiresFlag: 'base_cubbon_set', unlessFlag: ['ananya_strained', 'base_palace_set'] }));
     expect(cubbon.triggers).toContainEqual({ zone: 'ananya_board', dialogue: 'dlg_ananya_photo', requiresFlag: 'ananya_strained', unlessFlag: 'ananya_photo_seen' });
     store().setFlag('base_cubbon_set', true);
     expect(DialogueManager.getInstance().start('dlg_ananya_photo').text).toContain('Went with the first trucks');
@@ -100,7 +100,7 @@ describe('4.3c "The Line" — Cubbon, Rathore\'s runs, the fire (ADR-154)', () =
     expect(DISTRICTS.hivr_corridor.ownSelfAfter).toBe('act4');
     // Everyone placed before Act 4 leaves with it; the camp's people arrive with the camp.
     for (const id of ['cubbon_park', 'majestic_interchange', 'church_street']) {
-      for (const n of DISTRICTS[id].npcs!.filter((x) => x.requiresFlag !== 'base_cubbon_set')) expect([n.unlessFlag].flat(), `${id}/${n.id}`).toContain('act4');
+      for (const n of DISTRICTS[id].npcs!.filter((x) => ![x.unlessFlag].flat().includes('base_palace_set'))) expect([n.unlessFlag].flat(), `${id}/${n.id}`).toContain('act4');
     }
     for (const n of DISTRICTS.hebbal_gate.npcs!) expect([n.unlessFlag].flat()).toContain('act4_janata_done');
   });

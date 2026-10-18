@@ -147,6 +147,7 @@ export class StatsManager {
       const store = useGameStore.getState();
       for (const [c, n] of Object.entries(effect.counters)) store.setCounter(c, Math.max(0, (store.counters[c] ?? 0) + n));
     }
+    if (effect.counters_set) for (const [c, n] of Object.entries(effect.counters_set)) useGameStore.getState().setCounter(c, n);
     if (effect.item_use && !InventoryManager.getInstance().use(effect.item_use)) console.warn(`[StatsManager] could not use "${effect.item_use}"`);
     if (effect.item_remove) {
       const removed = InventoryManager.getInstance().remove(effect.item_remove);

@@ -18,7 +18,7 @@ export const BAG_DIALOGUE = 'bag:';
  * the bag says which. In Act 4 the header counts the 8 slots; key items ride
  * free. Pure: no store, no engine.
  */
-export function bagDialogue(inventory: string[], flags: Record<string, boolean>, items: Record<string, ItemDef>): DialogueFile {
+export function bagDialogue(inventory: string[], flags: Record<string, boolean>, items: Record<string, ItemDef>, counters: Record<string, number> = {}): DialogueFile {
   const act4 = Boolean(flags.act4);
   const counts = new Map<string, number>();
   for (const id of inventory) counts.set(id, (counts.get(id) ?? 0) + 1);
@@ -28,7 +28,9 @@ export function bagDialogue(inventory: string[], flags: Record<string, boolean>,
   const hand = act4 ? weaponFor(carried) : null;
 
   const head = kinds.length ? (act4 ? `Your bag: ${kinds.length} of ${COMBAT.bag.slots} slots.` : 'Your bag.') : 'Your bag is empty.';
-  const extra = keys.length ? ` Plus ${keys.map((k) => items[k].name).join(', ')}, which ${keys.length === 1 ? 'takes' : 'take'} no slot.` : '';
+  // The Pulse Gun shows its charges (ADR-155).
+  const keyName = (k: string) => (k === COMBAT.pulse.item ? `${items[k].name} (${counters[COMBAT.pulse.counter] ?? 0} charges)` : items[k].name);
+  const extra = keys.length ? ` Plus ${keys.map(keyName).join(', ')}, which ${keys.length === 1 ? 'takes' : 'take'} no slot.` : '';
   const label = (id: string) => {
     const n = counts.get(id)!;
     const tags = [flags[readyFlag(id)] && act4 && COMBAT.throws[id] ? 'ready' : '', hand?.id === id ? 'in hand' : ''].filter(Boolean);

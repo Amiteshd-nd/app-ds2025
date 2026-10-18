@@ -1,0 +1,27 @@
+{
+  "id": "card_run_malleswaram",
+  "$comment": "4.3d: run 5, into ground zero with the gun.",
+  "panels": [
+    {
+      "title": "THE PALACE · 07:30",
+      "text": "The gun is heavier than it looks. Twenty, Sathish said. Count them.",
+      "ms": 4200
+    },
+    {
+      "title": "SAMPIGE ROAD · 09:20",
+      "text": "Priya: 'Don't waste them on the slow ones.'",
+      "ms": 4000,
+      "ifFlag": "priya_met"
+    },
+    {
+      "title": "MALLESWARAM · 10:00",
+      "text": "Ground zero. Nobody has swept the leaves since March.",
+      "ms": 4600
+    }
+  ],
+  "then": {
+    "district": "malleswaram_lane",
+    "spawn": "lane_east",
+    "minute": 600
+  }
+}

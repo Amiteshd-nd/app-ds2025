@@ -222,7 +222,7 @@ describe('the touch hands and the wiring', () => {
     bad.throws.brick = { kind: 'lure', rangeTiles: 4, ms: 1000, pullTiles: 4, cue: 'a.sfx.combat.swing' };
     bad.weapons.cricket_bat.stunMs = 60000;
     const items = [{ file: 'act4.json', basename: 'act4', json: Object.values(ITEMS) }];
-    const tokens = new Set(['a.sfx.combat.swing', 'a.sfx.combat.block', 'a.sfx.combat.hit_plate', 'a.sfx.combat.hit_pipe', 'a.sfx.world.torch_click', 'a.sfx.pulse.glass_break_distant', 'a.sfx.world.glass_tap']);
+    const tokens = new Set(['a.sfx.combat.swing', 'a.sfx.combat.block', 'a.sfx.combat.hit_plate', 'a.sfx.combat.hit_pipe', 'a.sfx.world.torch_click', 'a.sfx.pulse.glass_break_distant', 'a.sfx.world.glass_tap', 'a.sfx.combat.pulse_fire', 'a.sfx.combat.pulse_empty', 'a.sfx.infected.fall']);
     expect(validateCombat(COMBAT_JSON, items, tokens)).toEqual([]);
     const p = validateCombat(bad, items, tokens);
     expect(p.some((x) => x.includes('"brick"'))).toBe(true);

@@ -494,3 +494,20 @@ corepack pnpm dev
   - **The fire:** your answer sets karthik_trust, priya_trust or suresh_trust, for the endings.
   - **Run 5 and the Pulse Gun** are the Palace's, next phase.
 
+## 29. 4.3d "Twenty Charges": the Palace, the Pulse Gun, Malleswaram, Vikram
+- **What:** the fourth base, days 11–14. The Palace grounds camp, the engineer and the Pulse Gun, run 5 into Malleswaram for the calibration drive, Vikram, and the lamp ring failing on night 3.
+- **Check:** in the Playground, open Act 4 → 4.3d Twenty Charges (Play), or **▶ from here**. To try the gun alone: **Act 4 · stability dial → Bench: the Pulse Gun (20 charges)**, click the game, then SPACE facing them.
+- **Calls to confirm:**
+  - **New art,** all first try: the Palace grounds (the camp is drawn in), the Malleswaram lane, and Vikram in his yellow raincoat.
+  - **The engineer** is Sathish, the HIVR courier with the cold box from the airport, reusing his sprite.
+  - **The gun** works as follows:
+    - Twenty charges, and SPACE fires instead of swinging.
+    - Range 6 tiles, a narrow beam, and the first one in line falls.
+    - A sprinting Evolved takes two shots.
+    - Empty, it clicks once and you swing again.
+    - Bodies stay where they fall: on their side, greyed, no fall animation yet.
+    - **The charge count shows only in the bag and as a toast at 3 or fewer.** There's no HUD meter.
+  - **It's built from four parts.** The fifth (the calibration) is what lets it be refilled. The draft said the gun needs all five.
+  - **Vikram** is a choice, not a fight: raise the gun (a charge) or leave him. The bot releases him.
+  - **No Evolved at ground zero yet.** The three there stand still like everywhere else.
+

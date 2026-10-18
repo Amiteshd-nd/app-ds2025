@@ -1,0 +1,21 @@
+{
+  "id": "card_back_palace",
+  "$comment": "4.3d: home from Malleswaram with the drive.",
+  "panels": [
+    {
+      "title": "MALLESWARAM · 12:40",
+      "text": "The drive in your shirt pocket, against your chest.",
+      "ms": 4000
+    },
+    {
+      "title": "THE PALACE · 17:30",
+      "text": "The lamps on the lawn are already on.",
+      "ms": 4000
+    }
+  ],
+  "then": {
+    "district": "palace_grounds",
+    "spawn": "palace_gate",
+    "minute": 1050
+  }
+}

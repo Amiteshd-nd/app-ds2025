@@ -440,6 +440,38 @@
     }
    ]
   },
+  "palace_grounds": {
+   "surface": "grass",
+   "music": false,
+   "day": [
+    {
+     "bed": "birds_crows",
+     "gain": 0.5
+    }
+   ],
+   "night": [
+    {
+     "bed": "crickets",
+     "gain": 0.4
+    }
+   ]
+  },
+  "malleswaram_lane": {
+   "surface": "asphalt",
+   "music": false,
+   "day": [
+    {
+     "bed": "birds_crows",
+     "gain": 0.5
+    }
+   ],
+   "night": [
+    {
+     "bed": "crickets",
+     "gain": 0.4
+    }
+   ]
+  },
   "tiffin_room": {
    "surface": "tile",
    "music": false,

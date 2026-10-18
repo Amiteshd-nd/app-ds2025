@@ -417,3 +417,10 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Calls to confirm: NEED_TO_AUDIT #28.
 - Rule going forward: **a revisited place in Act 4 lists who leaves with `act4` and which triggers stay quiet — check every NPC and trigger, not only the ones you touch.**
 
+### [P27 4.3d "Twenty Charges" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.3d". ADR-155. B4 of the chain.
+- Built: the Palace grounds and a Malleswaram lane (new maps, first try), Vikram (new sheet, first try), Sathish and the Pulse Gun, run 5, Vikram's choice, the lamp ring failing; 7 new tests.
+- Verified: `node scripts/movie.mjs --scene act4_palace` passed first time (36 steps); in the browser pane (scripted clock, the Pulse Gun bench) one SPACE dropped the nearest infected (on its side, greyed, no body), the counter went 20 → 19, and the shot's noise woke the other two.
+- Calls to confirm: NEED_TO_AUDIT #29.
+- Rule going forward: **a weapon that kills is data (`combat.json` `pulse`) with a counter you can see; every charge is spent by a deliberate press.**
+

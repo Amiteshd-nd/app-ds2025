@@ -1,0 +1,84 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 36x24) — a Malleswaram lane at ground zero (story 4.3d, ADR-155). The lane runs left → right (y 390–570); everything above it (Dr. Krishnamurthy's bungalow behind its wall, the trees, the houses) and below it (the yellow PG, the shrine, the provision shop, the trees) is `buildings`, except the bungalow's open gate and garden path up to its verandah steps. The two fallen scooters are blocks. Vikram stands on the lane's lower edge in front of his PG; you call to him from the middle of the lane. Arrivals come in at the east end; the way back is the east edge.",
+  "name": "malleswaram_lane",
+  "cols": 36,
+  "rows": 24,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      740,
+      390
+    ],
+    [
+      840,
+      0,
+      696,
+      390
+    ],
+    [
+      0,
+      570,
+      1536,
+      454
+    ],
+    [
+      740,
+      0,
+      100,
+      250
+    ]
+  ],
+  "blocks": [
+    [
+      365,
+      425,
+      95,
+      60
+    ],
+    [
+      1185,
+      450,
+      95,
+      60
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "lane_east",
+      "x": 1440,
+      "y": 480
+    },
+    {
+      "name": "vikram_spot",
+      "x": 620,
+      "y": 555
+    }
+  ],
+  "zones": [
+    {
+      "name": "house_door",
+      "x": 760,
+      "y": 255,
+      "w": 70,
+      "h": 45
+    },
+    {
+      "name": "vikram_call",
+      "x": 590,
+      "y": 430,
+      "w": 80,
+      "h": 40
+    },
+    {
+      "name": "lane_back",
+      "x": 1490,
+      "y": 420,
+      "w": 40,
+      "h": 140
+    }
+  ],
+  "sorted": [],
+  "above": []
+}

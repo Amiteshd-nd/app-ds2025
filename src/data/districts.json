@@ -1732,6 +1732,269 @@
     ]
   },
   {
+    "id": "palace_grounds",
+    "name": "Bangalore Palace grounds",
+    "map": "palace_grounds",
+    "defaultSpawn": "palace_gate",
+    "fadeMs": 400,
+    "signal": 1,
+    "unlock": {
+      "flags": [
+        "base_palace_set"
+      ]
+    },
+    "realworld": {
+      "lat": 12.9987,
+      "lng": 77.592,
+      "label": "Bangalore Palace grounds"
+    },
+    "quests": [
+      "q_act4_palace"
+    ],
+    "npcs": [
+      {
+        "id": "npc_engineer",
+        "spawn": "engineer_spot"
+      },
+      {
+        "id": "npc_rathore",
+        "spawn": "rathore_palace"
+      },
+      {
+        "id": "npc_priya",
+        "spawn": "priya_palace"
+      },
+      {
+        "id": "npc_karthik",
+        "spawn": "karthik_palace"
+      },
+      {
+        "id": "npc_uncle",
+        "spawn": "uncle_palace"
+      },
+      {
+        "id": "npc_suresh",
+        "spawn": "suresh_palace"
+      },
+      {
+        "id": "npc_deepa",
+        "spawn": "deepa_palace",
+        "requiresFlag": "deepa_medicine"
+      },
+      {
+        "id": "npc_kumar",
+        "spawn": "kumar_palace",
+        "requiresFlag": "kumar_saved"
+      },
+      {
+        "id": "npc_raju_cafe",
+        "spawn": "raju_palace",
+        "requiresFlag": "raju_saved"
+      },
+      {
+        "id": "npc_ananya_camp",
+        "spawn": "ananya_palace",
+        "unlessFlag": "ananya_strained"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "palace_cot",
+        "action": "sleep",
+        "requiresFlag": "base_palace_set",
+        "once": false
+      },
+      {
+        "zone": "palace_stock",
+        "dialogue": "base:palace_grounds",
+        "requiresFlag": "base_palace_set",
+        "once": false
+      },
+      {
+        "zone": "palace_bench",
+        "dialogue": "craft:bench",
+        "requiresFlag": "base_palace_set",
+        "once": false
+      },
+      {
+        "zone": "palace_run_gate",
+        "action": "card",
+        "card": "card_run_malleswaram",
+        "requiresFlag": "pulse_received",
+        "unlessFlag": "looted:krishnamurthy_house"
+      }
+    ],
+    "base": {
+      "spawn": "camp_spot",
+      "uv": [
+        {
+          "at": [
+            6,
+            7
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            12,
+            7
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            21,
+            7
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            23,
+            11
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            25,
+            14
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            5,
+            18
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            10,
+            18
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            18,
+            18
+          ],
+          "radius": 3
+        }
+      ],
+      "requiresFlag": "base_palace_set",
+      "lampFailsOnNight": 3
+    },
+    "behaviours": [
+      "sleepEvents"
+    ],
+    "sleepEvents": [
+      {
+        "after": "base_palace_set",
+        "nights": 1,
+        "set": [
+          "pulse_built"
+        ],
+        "toast": "Sathish didn't sleep. The tarp is lit."
+      },
+      {
+        "after": "base_lamp_failed:palace_grounds",
+        "set": [
+          "palace_turned"
+        ],
+        "card": "card_palace_dark"
+      }
+    ]
+  },
+  {
+    "id": "malleswaram_lane",
+    "name": "Malleswaram · a lane",
+    "map": "malleswaram_lane",
+    "defaultSpawn": "lane_east",
+    "fadeMs": 400,
+    "signal": 0,
+    "unlock": {
+      "flags": [
+        "pulse_received"
+      ]
+    },
+    "realworld": {
+      "lat": 13.0035,
+      "lng": 77.5709,
+      "label": "Malleswaram"
+    },
+    "act4": {
+      "fallDay": 0,
+      "floor": 5
+    },
+    "quests": [
+      "q_act4_palace"
+    ],
+    "npcs": [
+      {
+        "id": "npc_vikram",
+        "spawn": "vikram_spot",
+        "unlessFlag": "vikram_released"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "house_door",
+        "dialogue": "search:krishnamurthy_house",
+        "requiresFlag": "pulse_received",
+        "unlessFlag": "looted:krishnamurthy_house"
+      },
+      {
+        "zone": "vikram_call",
+        "dialogue": "dlg_vikram",
+        "requiresFlag": "pulse_received",
+        "unlessFlag": "vikram_decided"
+      },
+      {
+        "zone": "lane_back",
+        "action": "card",
+        "card": "card_back_palace",
+        "requiresFlag": "looted:krishnamurthy_house",
+        "unlessFlag": "supply_run_5"
+      }
+    ],
+    "act4Zones": [
+      {
+        "id": "west",
+        "rect": [
+          0,
+          9,
+          14,
+          5
+        ],
+        "encounterRate": 0
+      }
+    ],
+    "infected": {
+      "packs": [
+        {
+          "id": "ground_zero",
+          "zone": "west",
+          "lead": [
+            4,
+            11
+          ],
+          "size": 3,
+          "sheets": [
+            "crowd_elder",
+            "crowd_student",
+            "crowd_homemaker"
+          ],
+          "minLevel": 0,
+          "requiresFlag": "act4",
+          "startMode": "idle"
+        }
+      ]
+    }
+  },
+  {
     "id": "bus_interior",
     "name": "BMTC 500-D",
     "map": "bus_interior",
@@ -1825,7 +2088,8 @@
       "q_act1_cubbon",
       "q_act2_metro_opens",
       "q_act2_the_app",
-      "q_act4_cubbon"
+      "q_act4_cubbon",
+      "q_act4_palace"
     ],
     "npcs": [
       {
@@ -1872,48 +2136,59 @@
       {
         "id": "npc_rathore",
         "spawn": "rathore_spot",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "base_cubbon_set",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_priya",
         "spawn": "priya_spot",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "base_cubbon_set",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_karthik",
         "spawn": "karthik_camp",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "base_cubbon_set",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_uncle",
         "spawn": "uncle_camp",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "base_cubbon_set",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_suresh",
         "spawn": "suresh_camp",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "base_cubbon_set",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_deepa",
         "spawn": "deepa_camp",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "deepa_medicine",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_kumar",
         "spawn": "kumar_camp",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "kumar_saved",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_raju_cafe",
         "spawn": "raju_camp",
-        "requiresFlag": "base_cubbon_set"
+        "requiresFlag": "raju_saved",
+        "unlessFlag": "base_palace_set"
       },
       {
         "id": "npc_ananya_camp",
         "spawn": "ananya_camp",
         "requiresFlag": "base_cubbon_set",
-        "unlessFlag": "ananya_strained"
+        "unlessFlag": [
+          "ananya_strained",
+          "base_palace_set"
+        ]
       }
     ],
     "objects": [
@@ -2075,6 +2350,12 @@
         "dialogue": "dlg_ananya_photo",
         "requiresFlag": "ananya_strained",
         "unlessFlag": "ananya_photo_seen"
+      },
+      {
+        "zone": "run_gate",
+        "action": "card",
+        "card": "card_walk_palace",
+        "requiresFlag": "base_cubbon_done"
       }
     ],
     "exits": [

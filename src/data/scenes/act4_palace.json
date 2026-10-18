@@ -1,0 +1,159 @@
+{
+  "id": "act4_palace",
+  "district": "cubbon_park",
+  "act": 4,
+  "seq": "4.3d",
+  "title": "Twenty Charges",
+  "status": "P27",
+  "draft": "Built 2026-10-18 from the 4.3 'Base Chain' stub's B4 with its defaults ('take the defaults and build 4.3d'): the Bangalore Palace grounds as base 4 (days 11–14), the engineer assembling the Pulse Gun overnight (20 charges; refilled only at a powered base — once the calibration is in), run 5 into Malleswaram (ground zero): Dr. Krishnamurthy's calibration drive and Vikram — patient zero, in his raincoat, at his PG. The Palace's lamp ring fails on its third night → Lalbagh (B5, next phase). The engineer is the HIVR courier from the airport (Act 0), named Sathish.",
+  "time": "Act 4 day 11 07:00 → the morning of day 14",
+  "player_goal": "At the Palace grounds: the engineer's gun, the fifth thing from Malleswaram, and a man in a yellow raincoat.",
+  "design_goal": "The survivor becomes armed — barely: twenty charges, counted, and the first one most players will spend is on someone with a name. Malleswaram is the outbreak's first lane; Vikram is a person before he is a target. The camp finally looks like a camp.",
+  "pacing": [
+    "Calm",
+    "Curious",
+    "Calm",
+    "Tense",
+    "Engaged",
+    "Calm",
+    "Tense"
+  ],
+  "entry": {
+    "from": "act4_cubbon",
+    "spawn": "camp_spot",
+    "after": [],
+    "counters": {
+      "act4_day": 11,
+      "base_nights:cubbon_park": 4
+    }
+  },
+  "cast": [
+    {
+      "npc": "npc_engineer",
+      "tier": 3,
+      "spawn": "engineer_spot",
+      "district": "palace_grounds",
+      "role": "NEW (named). Sathish — the HIVR courier with the cold box at the airport (Act 0), now Rathore's engineer: builds the Pulse Gun overnight; refills it once he has the calibration."
+    },
+    {
+      "npc": "npc_rathore",
+      "tier": 3,
+      "spawn": "rathore_palace",
+      "district": "palace_grounds",
+      "role": "Sends you to Malleswaram; after the dark night, Lalbagh."
+    },
+    {
+      "npc": "npc_vikram",
+      "tier": 1,
+      "spawn": "vikram_spot",
+      "district": "malleswaram_lane",
+      "role": "NEW. Vikram, Deepa's shift partner, patient zero: in his yellow raincoat outside his PG, facing his own window. Release him (a charge) or leave him."
+    }
+  ],
+  "quests": [
+    "q_act4_palace"
+  ],
+  "beats": [
+    {
+      "id": "I1",
+      "pacing": "Calm",
+      "what": "The walk from the dead line at Cubbon to the Palace grounds: a ring of purple lamps on the lawn, tents, a truck, a generator, an engineer's bench under a tarp.",
+      "interact": "card",
+      "flag": "base_palace_set"
+    },
+    {
+      "id": "I2",
+      "pacing": "Curious",
+      "what": "Sathish under the tarp: 'You saw me at the airport, didn't you. The cold box.' Give me tonight.",
+      "interact": "dialogue",
+      "flag": "engineer_met"
+    },
+    {
+      "id": "I3",
+      "pacing": "Calm",
+      "what": "Morning: the Pulse Gun — twenty charges, one each; without the calibration it can't be refilled.",
+      "interact": "dialogue",
+      "flag": "pulse_received"
+    },
+    {
+      "id": "I4",
+      "pacing": "Tense",
+      "what": "Run 5: Malleswaram, ground zero — three still at the west end; Dr. Krishnamurthy's study off the verandah: the calibration drive.",
+      "interact": "run",
+      "flag": "looted:krishnamurthy_house"
+    },
+    {
+      "id": "I5",
+      "pacing": "Engaged",
+      "what": "Vikram in his yellow raincoat outside his PG, facing his window. Raise the gun (a charge), or leave him.",
+      "interact": "choice",
+      "flag": "vikram_decided"
+    },
+    {
+      "id": "I6",
+      "pacing": "Calm",
+      "what": "Home at dusk; Sathish plugs the drive in: now the generator can refill the gun.",
+      "interact": "deliver",
+      "flag": "supply_run_5"
+    },
+    {
+      "id": "I7",
+      "pacing": "Tense",
+      "what": "The third night the lamp ring fails (a card); Rathore: the glass house at Lalbagh.",
+      "interact": "sleep + card + dialogue",
+      "flag": "palace_turned, base_palace_done"
+    }
+  ],
+  "economy": [
+    {
+      "item": "a Pulse Gun charge",
+      "price": 0,
+      "note": "20 to a gun; refilled by the engineer once calibrated"
+    }
+  ],
+  "exits": [
+    {
+      "zone": "run_gate",
+      "to": "palace_grounds",
+      "transit": "walk (card_walk_palace)",
+      "note": "from Cubbon"
+    },
+    {
+      "zone": "palace_run_gate",
+      "to": "malleswaram_lane",
+      "transit": "walk (card_run_malleswaram)",
+      "note": "run 5"
+    },
+    {
+      "zone": "lane_back",
+      "to": "palace_grounds",
+      "transit": "walk (card_back_palace)",
+      "note": "home"
+    }
+  ],
+  "save_flags": [
+    "base_palace_set",
+    "engineer_met",
+    "pulse_built",
+    "pulse_received",
+    "looted:krishnamurthy_house",
+    "vikram_decided",
+    "supply_run_5",
+    "pulse_calibrated",
+    "base_lamp_failed:palace_grounds",
+    "palace_turned",
+    "base_palace_done",
+    "act4_palace_done"
+  ],
+  "assets_needed": [
+    "the Palace grounds (generated, first try)",
+    "a Malleswaram lane (generated, first try)",
+    "Vikram's sheet (generated, first try)"
+  ],
+  "acceptance": [
+    "the bot plays it from Cubbon to Rathore's decision",
+    "the gun fires, counts down and kills in the Playground",
+    "Vikram can be released or left"
+  ],
+  "open_questions": []
+}

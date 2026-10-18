@@ -98,6 +98,8 @@ export interface StatEffect {
   items_remove?: Record<string, number>;
   /** Store counters moved by these amounts (the base's stock, ADR-149). */
   counters?: Record<string, number>;
+  /** Store counters set to these values (the engineer refills the Pulse Gun, ADR-155). */
+  counters_set?: Record<string, number>;
   /** Flags to set (true) or clear (false) — e.g. hotel_checked_in on the receptionist's line. */
   flags?: Record<string, boolean>;
   /** Reputation earned here, credited to the current district and the total (refusing the token scam). */

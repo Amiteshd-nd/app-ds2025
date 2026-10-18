@@ -1,6 +1,6 @@
 {
   "scene": "act1_pg_exit",
-  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act1_pg_exit + prashanth_layout + the prereq state",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act1_pg_exit + prashanth_layout + the prereq state",
   "seed": 7,
   "steps": [
     {

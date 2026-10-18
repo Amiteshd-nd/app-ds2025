@@ -180,7 +180,7 @@ export const LOOT: Record<string, Loot> = (lootJson as unknown as { loot: Record
  */
 export function virtualDialogue(id: string, counters: Record<string, number> = {}, carried: { inventory: string[]; flags: Record<string, boolean> } = { inventory: [], flags: {} }): DialogueFile | null {
   if (id === 'craft:bench') return craftDialogue(RECIPES, ITEMS);
-  if (id === BAG_DIALOGUE) return bagDialogue(carried.inventory, carried.flags, ITEMS);
+  if (id === BAG_DIALOGUE) return bagDialogue(carried.inventory, carried.flags, ITEMS, counters);
   const kind = id.slice(0, id.indexOf(':')), key = id.slice(id.indexOf(':') + 1);
   if (kind === 'trade' && TRADERS[key]) return tradeDialogue(id, TRADERS[key], ITEMS);
   if (kind === 'search' && LOOT[key]) return searchDialogue(id, key, LOOT[key], ITEMS);

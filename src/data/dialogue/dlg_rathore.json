@@ -4,6 +4,18 @@
   "portrait": "npc_rathore",
   "enter": [
     {
+      "flag": "base_palace_done",
+      "node": "go_lalbagh"
+    },
+    {
+      "flag": "palace_turned",
+      "node": "palace_cut"
+    },
+    {
+      "flag": "base_palace_set",
+      "node": "palace"
+    },
+    {
       "flag": "base_cubbon_done",
       "node": "go"
     },
@@ -142,6 +154,26 @@
     },
     "go": {
       "text": "Palace grounds. Walk in the middle of the road."
+    },
+    "palace": {
+      "text": "The engineer's under the tarp. He has four of the five. The fifth is a scientist's hard drive in Malleswaram — ground zero. Take his gun when he gives it to you. Use it there, not here."
+    },
+    "palace_cut": {
+      "text": "(The ring of lamps is dark; the big generator ticks as it cools.) That's the last diesel on this side of the city. Lalbagh — the glass house. The botanists built a lamp room for their orchids. We go now.",
+      "choices": [
+        {
+          "text": "(Go.)",
+          "next": "go_lalbagh",
+          "effect": {
+            "flags": {
+              "base_palace_done": true
+            }
+          }
+        }
+      ]
+    },
+    "go_lalbagh": {
+      "text": "Lalbagh. The middle of the road."
     }
   }
 }

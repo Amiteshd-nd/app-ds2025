@@ -7,7 +7,7 @@ import { useGameStore } from '../../store';
 import { ENCOUNTER, ambushSize, pickCover, rolls } from '../../systems/encounters';
 import { FAIL_FORWARD, HARM, hitKind, itemsLost, startBleed, tickBleed, type Bleed } from '../../systems/harm';
 import { EVOLVED, INFECTED, brain, detects, evolvedAllowed, hears, struck, stun, think, type InfectedBrain, type Point, type Tier } from '../../systems/infected';
-import { field, knockback, lureFor, smokeBlocks, stunFor, swingHits } from '../../systems/combat';
+import { COMBAT, field, knockback, lureFor, pulseTarget, smokeBlocks, stunFor, swingHits } from '../../systems/combat';
 import { DISTRICTS } from '../../data';
 import { STOCK } from '../../systems/trade';
 import { baseActive } from './act4Base';
@@ -59,6 +59,8 @@ interface Infected {
   /** A noise it walks toward while it doesn't see you (the balconies). */
   drawnTo: Point | null;
   name: Phaser.GameObjects.Text | null;
+  /** Pulse hits taken (a sprinting Evolved needs two, ADR-155). */
+  pulsed?: number;
   /** A knockback in flight: this velocity until then (ADR-151). */
   shove: { vx: number; vy: number; until: number } | null;
 }
@@ -303,6 +305,7 @@ export const act4Threat: Behaviour = {
 
     // ── Your hands (ADR-151) ───────────────────────────────────────────────
     // A swing stuns whoever is in reach ahead of you, nearest first: down, knocked back, then up and angry.
+    const fallen: Body[] = [];
     const offHit = gameEvents.on('act4:hit', ({ from, facing, weapon }) => {
       if (!nav) return;
       for (const i of swingHits(from, facing, weapon, infected.map((x) => feetOf(x.sprite)))) {
@@ -315,6 +318,33 @@ export const act4Threat: Behaviour = {
         gameEvents.emit('audio:cue', { token: weapon.cue, at: { x: f[0], y: f[1] } });
         gameEvents.emit('audio:cue', { token: 'a.sfx.infected.stun', at: { x: f[0], y: f[1] } });
       }
+    });
+    // A Pulse Gun shot (ADR-155): the first in line falls and stays down — a body, not a threat. A sprinting
+    // Evolved takes two: the first only staggers it.
+    const offPulse = gameEvents.on('act4:pulse', ({ from, facing }) => {
+      if (!nav) return;
+      const i = pulseTarget(from, facing, infected.map((x) => feetOf(x.sprite)), (a, b) => lineFree(nav!.sight, a, b) && !smokeBlocks(a, b, field.clouds, field.now));
+      if (i < 0) return;
+      const inf = infected[i];
+      const f = feetOf(inf.sprite);
+      if (inf.brain.tier === 'evolved' && inf.brain.mode === 'chase' && (inf.pulsed ?? 0) + 1 < EVOLVED.pulseChargesMidSprint) {
+        inf.pulsed = (inf.pulsed ?? 0) + 1;
+        stun(inf.brain, EVOLVED.stunMs);
+        if (inf.actions) inf.pose = [2, now + EVOLVED.stunMs];
+        gameEvents.emit('audio:cue', { token: 'a.sfx.infected.stun', at: { x: f[0], y: f[1] } });
+        return;
+      }
+      infected.splice(i, 1);
+      gameEvents.emit('audio:cue', { token: COMBAT.pulse.fallCue, at: { x: f[0], y: f[1] } });
+      inf.sprite.body.setVelocity(0, 0);
+      inf.sprite.body.enable = false;
+      inf.sprite.anims.stop();
+      inf.name?.destroy();
+      // Down where it stood: on its side, greyed (no fall frames yet).
+      inf.sprite.setTint(color('infected.skin')).setAlpha(0.8);
+      if (reducedMotion) inf.sprite.setAngle(90);
+      else scene.tweens.add({ targets: inf.sprite, angle: 90, y: inf.sprite.y + 10, duration: 260 });
+      fallen.push(inf.sprite);
     });
     // A bandage or a medkit stops a bleed.
     const offUsed = gameEvents.on('item:used', ({ itemId }) => {
@@ -475,7 +505,9 @@ export const act4Threat: Behaviour = {
       offStep();
       offFlag();
       offHit();
+      offPulse();
       offUsed();
+      for (const s of fallen) s.destroy();
       // On shutdown Phaser has already dropped the physics world.
       if (scene.physics?.world) scene.physics.world.timeScale = 1;
       scene.tweens.timeScale = 1;

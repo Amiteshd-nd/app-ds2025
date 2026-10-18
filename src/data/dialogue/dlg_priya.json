@@ -4,6 +4,10 @@
   "portrait": "npc_priya",
   "enter": [
     {
+      "flag": "base_palace_set",
+      "node": "palace"
+    },
+    {
       "flag": "priya_met",
       "node": "again"
     }
@@ -41,6 +45,9 @@
     },
     "again": {
       "text": "Left, right, nobody runs."
+    },
+    "palace": {
+      "text": "Twenty charges. HIVR has more than twenty of them."
     }
   }
 }

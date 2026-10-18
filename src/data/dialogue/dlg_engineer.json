@@ -1,0 +1,116 @@
+{
+  "id": "dlg_engineer",
+  "speaker": "Sathish",
+  "portrait": "npc_hivr_courier",
+  "enter": [
+    {
+      "flag": "pulse_calibrated",
+      "node": "ready"
+    },
+    {
+      "flag": "pulse_received",
+      "node": "waiting"
+    },
+    {
+      "flag": "pulse_built",
+      "node": "gun"
+    },
+    {
+      "flag": "engineer_met",
+      "node": "tonight"
+    }
+  ],
+  "nodes": {
+    "start": {
+      "text": "(Under the tarp, a man with a teal lanyard and burnt fingertips.) You saw me at the airport, didn't you. The cold box. I carried their samples for a year. (He doesn't look up.) Give me tonight.",
+      "effect": {
+        "flags": {
+          "engineer_met": true
+        }
+      }
+    },
+    "tonight": {
+      "text": "Tonight. Go and sleep."
+    },
+    "gun": {
+      "text": "(A UV tube in a steel pipe, a battery pack, a trigger off a drill.) Twenty charges. One each. Point it, don't wave it.",
+      "choices": [
+        {
+          "text": "(Take it.)",
+          "next": "taken",
+          "effect": {
+            "items_add": {
+              "pulse_gun": 1
+            },
+            "counters_set": {
+              "pulse_charges": 20
+            },
+            "flags": {
+              "pulse_received": true
+            }
+          }
+        }
+      ]
+    },
+    "taken": {
+      "text": "Without the calibration it drinks itself dry — I can't refill it. Dr. Krishnamurthy kept the numbers at home. Malleswaram."
+    },
+    "waiting": {
+      "text": "The drive. Malleswaram.",
+      "choices": [
+        {
+          "text": "(Give him the drive.)",
+          "next": "calibrated",
+          "requiresItems": {
+            "calibration_data": 1
+          },
+          "lockedText": "You don't have it",
+          "effect": {
+            "items_remove": {
+              "calibration_data": 1
+            },
+            "flags": {
+              "pulse_calibrated": true,
+              "supply_run_5": true
+            }
+          }
+        },
+        {
+          "text": "Later.",
+          "next": "later"
+        }
+      ]
+    },
+    "later": {
+      "text": "Count your charges."
+    },
+    "calibrated": {
+      "text": "(He plugs it in. Numbers run.) There. Now the generator can fill it. Bring it to me when it's low."
+    },
+    "ready": {
+      "text": "Low?",
+      "choices": [
+        {
+          "text": "(Recharge it.)",
+          "next": "charged",
+          "requiresItems": {
+            "pulse_gun": 1
+          },
+          "effect": {
+            "counters_set": {
+              "pulse_charges": 20
+            },
+            "cue": "a.sfx.combat.pulse_charge"
+          }
+        },
+        {
+          "text": "Not yet.",
+          "next": "later"
+        }
+      ]
+    },
+    "charged": {
+      "text": "Twenty. Don't make me count them for you."
+    }
+  }
+}

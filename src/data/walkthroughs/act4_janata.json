@@ -1,6 +1,6 @@
 {
   "scene": "act4_janata",
-  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act4_janata + hebbal_gate + the prereq state",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act4_janata + hebbal_gate + the prereq state",
   "seed": 7,
   "steps": [
     {

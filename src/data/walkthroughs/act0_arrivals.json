@@ -1,6 +1,6 @@
 {
   "scene": "act0_arrivals",
-  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act0_arrival + airport + the prereq state",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act0_arrival + airport + the prereq state",
   "seed": 7,
   "notes": [
     "q_act0_arrival/talk_anna: satisfied by q_act0_arrival/buy_chai's conversation"

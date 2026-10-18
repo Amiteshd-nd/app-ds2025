@@ -4,6 +4,10 @@
   "portrait": "npc_suresh",
   "enter": [
     {
+      "flag": "base_palace_set",
+      "node": "palace"
+    },
+    {
       "flag": "base_cubbon_set",
       "node": "camp"
     },
@@ -136,6 +140,9 @@
     },
     "camp": {
       "text": "Hold. That's all I know how to do."
+    },
+    "palace": {
+      "text": "A palace. (He almost laughs.) My father sold peanuts at that gate."
     }
   }
 }

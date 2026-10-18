@@ -27,7 +27,7 @@ const dataDir = resolve(here, '../src/data');
 const ENTRY_NODE = 'start';
 const ITEM_TYPES = ['consumable', 'key_item', 'gift', 'equipment'];
 /** Keys a StatEffect may carry (utils/types.ts). `money`/`energy` are the retired names. */
-const EFFECT_KEYS = ['card', 'cue', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes', 'items_add', 'items_remove', 'counters', 'item_use'];
+const EFFECT_KEYS = ['card', 'cue', 'health', 'food', 'stress', 'stamina', 'battery', 'wallet', 'xp', 'xp_branch', 'item_add', 'item_remove', 'flags', 'reputation', 'relationship', 'fuel', 'carry', 'carry_clear', 'minutes', 'items_add', 'items_remove', 'counters', 'item_use', 'counters_set'];
 const RELATIONSHIP_STATES = ['met', 'warm', 'strained', 'resolved', 'lost'];
 const NPC_TICS = ['cough'];
 const TRANSIT_KINDS = ['walk', 'bus', 'metro', 'scooter', 'cab', 'auto'];
@@ -1347,6 +1347,14 @@ export function validateCombat(combat: Json, itemFiles: JsonFile[], audioTokens:
   for (const k of ['cooldownMs', 'energyPips', 'arcDeg', 'showMs']) if (!pos(combat?.swing?.[k])) problems.push(`combat.json: swing.${k} must be > 0`);
   for (const k of ['angryMs', 'angrySpeed', 'evolvedStunScale']) if (!pos(combat?.stunned?.[k])) problems.push(`combat.json: stunned.${k} must be > 0`);
   if (!(Number.isInteger(combat?.bag?.slots) && combat.bag.slots >= 4 && combat.bag.slots <= 20)) problems.push('combat.json: bag.slots must be a whole number 4–20');
+  // The Pulse Gun (ADR-155): a key item (never lost, never a slot), whole charges, its three cues.
+  const gun = combat?.pulse;
+  if (gun) {
+    if (items.get(gun.item)?.type !== 'key_item') problems.push(`combat.json: pulse.item "${gun.item}" must be a key item`);
+    for (const k of ['charges', 'rangeTiles', 'arcDeg', 'noiseTiles']) if (!pos(gun[k])) problems.push(`combat.json: pulse.${k} must be > 0`);
+    if (!Number.isInteger(gun.charges)) problems.push('combat.json: pulse.charges must be whole');
+    for (const k of ['cue', 'emptyCue', 'fallCue']) cue(`pulse.${k}`, gun[k]);
+  }
   return problems;
 }
 

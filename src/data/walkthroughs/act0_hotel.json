@@ -1,6 +1,6 @@
 {
   "scene": "act0_hotel",
-  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act0_hotel + whitefield_hotel + the prereq state",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act0_hotel + whitefield_hotel + the prereq state",
   "seed": 7,
   "steps": [
     {

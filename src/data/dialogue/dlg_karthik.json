@@ -34,9 +34,16 @@
     },
     "camp": {
       "text": "Told you. Vidhana Soudha. They say trucks will run from the Palace soon."
+    },
+    "palace": {
+      "text": "Trucks. Every night. One of them is ours, if you'd only say so."
     }
   },
   "enter": [
+    {
+      "flag": "base_palace_set",
+      "node": "palace"
+    },
     {
       "flag": "base_cubbon_set",
       "node": "camp"

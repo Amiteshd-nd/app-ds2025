@@ -1,6 +1,6 @@
 {
   "scene": "act3_three_nights",
-  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act3_three_nights + ward4 + the prereq state",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act3_three_nights + ward4 + the prereq state",
   "seed": 7,
   "steps": [
     {

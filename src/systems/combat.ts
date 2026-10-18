@@ -25,6 +25,7 @@ export const COMBAT = COMBAT_JSON as unknown as {
   stunned: { angryMs: number; angrySpeed: number; evolvedStunScale: number };
   throws: Record<string, Throwable>;
   bag: { slots: number };
+  pulse: { item: string; counter: string; charges: number; rangeTiles: number; arcDeg: number; noiseTiles: number; lowAt: number; cue: string; emptyCue: string; fallCue: string };
 };
 
 /** The flag that marks the item readied to throw (one at a time). */
@@ -124,3 +125,20 @@ export function lureFor(p: Point, lures: Lure[], now: number): Point | null {
 export const field: { now: number; clouds: Cloud[]; lures: Lure[] } = { now: 0, clouds: [], lures: [] };
 
 export function resetField(): void { field.now = 0; field.clouds = []; field.lures = []; }
+
+/**
+ * Who a Pulse Gun shot hits (ADR-155): the nearest target inside the narrow arc ahead and the gun's range whose line
+ * is clear (`clear` checks a segment), or -1. One beam, one body.
+ */
+export function pulseTarget(from: Point, facing: Direction, targets: Point[], clear: (a: Point, b: Point) => boolean): number {
+  const [ux, uy] = unitOf(facing);
+  const range = COMBAT.pulse.rangeTiles * TILE_SIZE;
+  const cosHalf = Math.cos(((COMBAT.pulse.arcDeg / 2) * Math.PI) / 180);
+  let best = -1, bestD = Infinity;
+  targets.forEach((t, i) => {
+    const dx = t[0] - from[0], dy = t[1] - from[1], d = Math.hypot(dx, dy);
+    if (d > range || d < 1 || (dx * ux + dy * uy) / d < cosHalf || d >= bestD || !clear(from, t)) return;
+    best = i; bestD = d;
+  });
+  return best;
+}

@@ -182,5 +182,19 @@
     "dialogue": "dlg_ananya_camp",
     "sheet": "npc_ananya",
     "voice": "adult_f"
+  },
+  {
+    "id": "npc_engineer",
+    "name": "Sathish",
+    "tier": 3,
+    "dialogue": "dlg_engineer",
+    "sheet": "npc_hivr_courier",
+    "voice": "adult_m"
+  },
+  {
+    "id": "npc_vikram",
+    "name": "Vikram",
+    "tier": 1,
+    "sheet": "npc_vikram"
   }
 ]

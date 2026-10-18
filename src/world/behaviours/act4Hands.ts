@@ -21,6 +21,8 @@ import type { Behaviour } from './index';
  *   SPACE / HIT   swing the best weapon you carry (or shove): it costs an
  *                 energy pip, stands you up, and is loud (fighting is heard 12
  *                 tiles away, ADR-49). `act4:hit` tells the infected.
+ *                 Carrying the Pulse Gun with charge (ADR-155), SPACE fires it
+ *                 instead: a charge, a purple beam, `act4:pulse`. Empty, it swings.
  *   Q / THROW     throw the item readied in the bag ahead of you, to the first
  *                 wall: a lure sounds where it lands; smoke hangs there.
  *
@@ -42,8 +44,29 @@ export const act4Hands: Behaviour = {
     const smoke = scene.add.graphics().setDepth(depthForZY(100000) - 2);
     const live = (): boolean => Boolean(store().flags[ACT4_FLAG]) && playerFree();
 
+    let toldEmpty = false;
     const offSwing = gameEvents.on('player:swing', ({ facing }) => {
       if (!live() || cooldown > 0) return;
+      // The Pulse Gun (ADR-155): one charge, one beam; no energy — the gun does the work.
+      const gun = COMBAT.pulse;
+      if (carried(gun.item)) {
+        const charges = store().counters[gun.counter] ?? 0;
+        if (charges > 0) {
+          cooldown = COMBAT.swing.cooldownMs;
+          store().setCounter(gun.counter, charges - 1);
+          feedNoise(gun.noiseTiles);
+          gameEvents.emit('audio:cue', { token: gun.cue });
+          const from = feet();
+          gameEvents.emit('act4:pulse', { from, facing });
+          const [ux, uy] = unitOf(facing), len = gun.rangeTiles * TILE_SIZE;
+          fx.clear().lineStyle(3, color('accent.uv'), 0.9).lineBetween(from[0], from[1] - 14, from[0] + ux * len, from[1] - 14 + uy * len);
+          scene.time.delayedCall(COMBAT.swing.showMs, () => fx.clear());
+          if (charges - 1 <= gun.lowAt) gameEvents.emit('ui:toast', { text: charges - 1 ? `Pulse: ${charges - 1} left.` : 'Pulse: empty. The engineer can recharge it.' });
+          return;
+        }
+        // Empty: a click once, then your hands again.
+        if (!toldEmpty) { toldEmpty = true; gameEvents.emit('audio:cue', { token: gun.emptyCue }); gameEvents.emit('ui:toast', { text: 'Click. Empty.' }); }
+      }
       if (!spendPips(COMBAT.swing.energyPips)) return;
       cooldown = COMBAT.swing.cooldownMs;
       const weapon = weaponFor(carried);

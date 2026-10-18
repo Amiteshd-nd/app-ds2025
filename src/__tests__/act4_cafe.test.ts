@@ -37,7 +37,7 @@ describe('4.3b "The Tiffin Room" — the chain\'s second base (ADR-153)', () => 
 
   it('is built (P25) between the hill and the stub (now 4.3c: Cubbon, the Palace, Lalbagh)', () => {
     expect(SCENES.act4_cafe).toEqual(expect.objectContaining({ status: 'P25', seq: '4.3b' }));
-    expect(SCENES.act4_base_chain).toEqual(expect.objectContaining({ status: 'STUB', seq: '4.3d' }));
+    expect(SCENES.act4_base_chain).toEqual(expect.objectContaining({ status: 'STUB' }));
     const s = buildPrereqState('act4_cafe', Object.values(SCENES) as SceneComponent[], { stats: store().stats, clock: { day: 1, minute: 420 } });
     expect(s.inventory.filter((i) => i === 'steel_tumbler')).toHaveLength(2);
     expect(s.counters.act4_day).toBe(4);

@@ -1,0 +1,21 @@
+{
+  "id": "card_palace_dark",
+  "$comment": "4.3d: the Palace's lamp ring fails on its third night (lampFailsOnNight).",
+  "panels": [
+    {
+      "title": "01:30",
+      "text": "The big generator coughs. The ring of lamps goes out a pole at a time.",
+      "ms": 4400
+    },
+    {
+      "title": "03:00",
+      "text": "A truck leaves without lights. Nobody says whose.",
+      "ms": 4000
+    },
+    {
+      "title": "06:00",
+      "text": "Rathore has the map open on the truck's bonnet.",
+      "ms": 4000
+    }
+  ]
+}

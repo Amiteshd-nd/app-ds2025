@@ -48,6 +48,8 @@ export interface GameEvents {
   'player:throw': { facing: Direction };
   /** A swing went out (act4Hands → act4Threat): who is in reach is stunned. */
   'act4:hit': { from: [number, number]; facing: Direction; weapon: Weapon };
+  /** A Pulse Gun shot went out (act4Hands → act4Threat): the first in line falls (ADR-155). */
+  'act4:pulse': { from: [number, number]; facing: Direction };
   /** I / TAB / the BAG plate: open the bag. */
   'ui:bag': Record<string, never>;
   /** One step of the dialogue typewriter; `voice` = the speaker's bleep (adult_m / adult_f / elder / kid), else a type tick. */

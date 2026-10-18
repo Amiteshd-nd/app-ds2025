@@ -96,6 +96,12 @@
       "items": {
         "uv_emitter_parts": 1
       }
+    },
+    "krishnamurthy_house": {
+      "label": "Dr. Krishnamurthy's study, off the verandah: a hard drive labelled in pencil",
+      "items": {
+        "calibration_data": 1
+      }
     }
   }
 }

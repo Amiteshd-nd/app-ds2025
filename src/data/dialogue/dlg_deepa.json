@@ -4,6 +4,10 @@
   "portrait": "npc_deepa",
   "enter": [
     {
+      "flag": "base_palace_set",
+      "node": "palace"
+    },
+    {
       "flag": "amr07_read",
       "node": "log_after"
     },
@@ -127,6 +131,9 @@
     },
     "log_after": {
       "text": "Fourteenth of March. Someone knew."
+    },
+    "palace": {
+      "text": "Vikram's PG is two lanes from the scientist's house. If you see him — (she stops)."
     }
   }
 }

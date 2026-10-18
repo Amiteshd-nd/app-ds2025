@@ -1,6 +1,6 @@
 {
   "scene": "act2_metro_opens",
-  "generated": "generated 2026-10-17 by scripts/generate-walkthroughs.ts from q_act2_metro_opens + metro_station + entry.after F1",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act2_metro_opens + metro_station + entry.after F1",
   "seed": 7,
   "steps": [
     {

@@ -1,0 +1,46 @@
+{
+  "id": "dlg_vikram",
+  "speaker": "Vikram",
+  "portrait": "npc_vikram",
+  "nodes": {
+    "start": {
+      "text": "(Outside the yellow PG, a man in a yellow raincoat sways, facing his own window. A teal lanyard, the card blank with rain. Deepa said his name once: Vikram. Her shift partner. The first.)",
+      "choices": [
+        {
+          "text": "(Raise the Pulse Gun.)",
+          "next": "released",
+          "requiresItems": {
+            "pulse_gun": 1
+          },
+          "lockedText": "You have nothing that would do it",
+          "effect": {
+            "counters": {
+              "pulse_charges": -1
+            },
+            "flags": {
+              "vikram_released": true,
+              "vikram_decided": true
+            },
+            "cue": "a.sfx.combat.pulse_fire"
+          }
+        },
+        {
+          "text": "(Leave him at his window.)",
+          "next": "left",
+          "effect": {
+            "flags": {
+              "vikram_left": true,
+              "vikram_decided": true
+            }
+          }
+        }
+      ]
+    },
+    "released": {
+      "text": "(A purple flash. He folds down slowly, like someone sitting. The raincoat settles over him.)"
+    },
+    "left": {
+      "text": "(You walk on. He doesn't turn.)"
+    }
+  }
+}

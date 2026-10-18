@@ -4,6 +4,10 @@
   "portrait": "npc_uncle",
   "enter": [
     {
+      "flag": "base_palace_set",
+      "node": "palace"
+    },
+    {
       "flag": "base_cubbon_set",
       "node": "camp"
     },
@@ -74,6 +78,9 @@
     },
     "camp": {
       "text": "(A borrowed army kettle.) Coffee. Not as good. Don't tell them."
+    },
+    "palace": {
+      "text": "They have a coffee machine in the officers' tent. Don't tell anyone I said it's better."
     }
   }
 }

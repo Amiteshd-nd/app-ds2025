@@ -1,0 +1,239 @@
+{
+  "scene": "act4_palace",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act4_palace + cubbon_park + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "cubbon_park",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "base_cubbon_done",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "I1",
+      "do": "goto",
+      "target": "zone:run_gate"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "I1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_palace_set",
+      "timeout": 27600
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "I1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "palace_grounds",
+      "timeout": 32600
+    },
+    {
+      "id": "goto_7",
+      "beat": "I2",
+      "do": "goto",
+      "target": "npc:npc_engineer"
+    },
+    {
+      "id": "interact_8",
+      "beat": "I2",
+      "do": "interact",
+      "target": "npc:npc_engineer"
+    },
+    {
+      "id": "advance_9",
+      "beat": "I2",
+      "do": "advance"
+    },
+    {
+      "id": "sleep_10",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_11",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "pulse_built",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_12",
+      "beat": "I3",
+      "do": "goto",
+      "target": "npc:npc_engineer"
+    },
+    {
+      "id": "interact_13",
+      "beat": "I3",
+      "do": "interact",
+      "target": "npc:npc_engineer"
+    },
+    {
+      "id": "choose_14",
+      "beat": "I3",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "goto_15",
+      "beat": "I4",
+      "do": "goto",
+      "target": "zone:palace_run_gate"
+    },
+    {
+      "id": "wait_for_16",
+      "beat": "I4",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "malleswaram_lane",
+      "timeout": 38800
+    },
+    {
+      "id": "goto_17",
+      "beat": "I4",
+      "do": "goto",
+      "target": "zone:house_door",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_18",
+      "beat": "I4",
+      "do": "choose",
+      "option": "taken"
+    },
+    {
+      "id": "wait_for_19",
+      "beat": "I4",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "looted:krishnamurthy_house",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_20",
+      "beat": "I5",
+      "do": "goto",
+      "target": "zone:vikram_call",
+      "pace": "walk"
+    },
+    {
+      "id": "choose_21",
+      "beat": "I5",
+      "do": "choose",
+      "option": "released"
+    },
+    {
+      "id": "wait_for_22",
+      "beat": "I5",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "vikram_decided",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_23",
+      "beat": "I6",
+      "do": "goto",
+      "target": "zone:lane_back",
+      "pace": "walk"
+    },
+    {
+      "id": "wait_for_24",
+      "beat": "I6",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "palace_grounds",
+      "timeout": 38000
+    },
+    {
+      "id": "goto_25",
+      "beat": "I6",
+      "do": "goto",
+      "target": "npc:npc_engineer"
+    },
+    {
+      "id": "interact_26",
+      "beat": "I6",
+      "do": "interact",
+      "target": "npc:npc_engineer"
+    },
+    {
+      "id": "choose_27",
+      "beat": "I6",
+      "do": "choose",
+      "option": "calibrated"
+    },
+    {
+      "id": "sleep_28",
+      "beat": "I7",
+      "do": "sleep"
+    },
+    {
+      "id": "sleep_29",
+      "beat": "I7",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_30",
+      "beat": "I7",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_lamp_failed:palace_grounds",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_31",
+      "beat": "I7",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "palace_turned",
+      "timeout": 6000
+    },
+    {
+      "id": "wait_for_32",
+      "beat": "I7",
+      "do": "wait_for",
+      "ready": "free",
+      "timeout": 30000
+    },
+    {
+      "id": "goto_33",
+      "beat": "I7",
+      "do": "goto",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "interact_34",
+      "beat": "I7",
+      "do": "interact",
+      "target": "npc:npc_rathore"
+    },
+    {
+      "id": "choose_35",
+      "beat": "I7",
+      "do": "choose",
+      "option": "go_lalbagh"
+    },
+    {
+      "id": "expect_36",
+      "do": "expect",
+      "flag": "act4_palace_done",
+      "timeout": 3000
+    }
+  ]
+}

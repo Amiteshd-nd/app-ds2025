@@ -379,6 +379,32 @@
         "shutter_zone"
       ],
       "sop": true
+    },
+    "palace_grounds": {
+      "file": "palace_grounds.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "palace_gate",
+        "camp_spot",
+        "palace_cot",
+        "palace_run_gate"
+      ],
+      "sop": true
+    },
+    "malleswaram_lane": {
+      "file": "malleswaram_lane.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "lane_east",
+        "house_door",
+        "vikram_call",
+        "lane_back"
+      ],
+      "sop": true
     }
   }
 }
