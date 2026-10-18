@@ -21,6 +21,7 @@ import { mulberry32, seedOf } from '../../systems/rng';
 import { ACT4_DAY, ACT4_FLAG, GRADES, act4DayOf, act4DefOf, grade, stageFor } from '../../systems/stability';
 import { stabilityNow } from '../../systems/stabilityNow';
 import { StatsManager } from '../../systems/StatsManager';
+import { clearGlows, setGlows, type Glow } from '../../systems/glows';
 import { resetThreat, threat, threatDebug } from '../../systems/threat';
 import { TimeManager } from '../../systems/TimeManager';
 import { color } from '../../ui/tokens';
@@ -71,8 +72,9 @@ interface Infected {
   twitchAt: number;
   /** A twitch mid-stride: it stutters until then. */
   stutter: number;
-  /** The Host's glowing eyes. */
-  eyes: Phaser.GameObjects.Arc[];
+  /** The Host's glowing eyes (drawn above the drain by GradeScene, ADR-161); they flare until this time. */
+  eyes: boolean;
+  eyeFlare: number;
 }
 
 interface Rect { x: number; y: number; w: number; h: number }
@@ -186,8 +188,7 @@ export const act4Threat: Behaviour = {
       const quirks = quirksFor(qrng);
       // The Evolved prowl smoothly (no limp); the Host is heavy (its own, slower stride).
       if (tier === 'evolved') quirks.limp = 0;
-      const eyes = host ? [0, 1].map(() => scene.add.circle(fx, fy, 1, color('map.danger'), 1).setBlendMode('ADD').setVisible(false)) : [];
-      infected.push({ sprite, brain: b, zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: mode === 'alert' && actionsFor(look.sheet) ? [0, now + INFECTED.growlMs] : null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name, drawnTo, shove: null, quirks, twitchAt: now + twitchGap(tier, qrng), stutter: -1, eyes });
+      infected.push({ sprite, brain: b, zone, sheet: look.sheet, actions: actionsFor(look.sheet), pose: mode === 'alert' && actionsFor(look.sheet) ? [0, now + INFECTED.growlMs] : null, pack, lead, path: [], planned: -Infinity, plannedFor: null, ambush, closest: Infinity, name, drawnTo, shove: null, quirks, twitchAt: now + twitchGap(tier, qrng), stutter: -1, eyes: host, eyeFlare: -1 });
     };
 
     const placed = new Set<string>();
@@ -388,13 +389,21 @@ export const act4Threat: Behaviour = {
       gameEvents.emit('audio:cue', { token: COMBAT.pulse.fallCue, at: { x: f[0], y: f[1] } });
       inf.sprite.body.setVelocity(0, 0);
       inf.sprite.body.enable = false;
-      inf.sprite.anims.stop();
       inf.name?.destroy();
-      for (const e of inf.eyes) e.destroy();
-      // Down where it stood: on its side, greyed (no fall frames yet).
-      inf.sprite.setTint(color('infected.skin')).setAlpha(0.8);
-      if (reducedMotion) inf.sprite.setAngle(90);
-      else scene.tweens.add({ targets: inf.sprite, angle: 90, y: inf.sprite.y + 10, duration: 260 });
+      // Down where it stood (ADR-161): it buckles, kneels and slumps (its __fall frames), then tips onto its side, greyed.
+      const toward = Math.abs(f[0] - from[0]) > Math.abs(f[1] - from[1]) ? (f[0] < from[0] ? 'right' : 'left') : f[1] < from[1] ? 'down' : 'up';
+      const fallAnim = `${inf.sheet}-fall-${toward}`;
+      const tip = () => {
+        inf.sprite.setTint(color('infected.skin')).setAlpha(0.8);
+        if (reducedMotion) inf.sprite.setAngle(90);
+        else scene.tweens.add({ targets: inf.sprite, angle: 90, y: inf.sprite.y + 10, duration: 220 });
+      };
+      if (scene.anims.exists(fallAnim) && !reducedMotion) { inf.sprite.play(fallAnim); inf.sprite.once(`animationcomplete-${fallAnim}`, tip); }
+      else {
+        inf.sprite.anims.stop();
+        if (scene.anims.exists(fallAnim)) inf.sprite.setTexture(`${inf.sheet}__fall`, ['down', 'left', 'right', 'up'].indexOf(toward) * 3 + 2);
+        tip();
+      }
       fallen.push(inf.sprite);
     });
     // A bandage or a medkit stops a bleed.
@@ -428,11 +437,12 @@ export const act4Threat: Behaviour = {
       // Ambush over: you left its zone, or 30 s passed — the ambushers melt back into cover.
       if (ambushUntil > 0 && (now > ambushUntil || !infected.some((i) => i.ambush && pz === i.zone))) {
         ambushUntil = -1;
-        for (const inf of infected.filter((i) => i.ambush)) { inf.sprite.destroy(); inf.name?.destroy(); inf.eyes.forEach((e) => e.destroy()); }
+        for (const inf of infected.filter((i) => i.ambush)) { inf.sprite.destroy(); inf.name?.destroy(); }
         infected.splice(0, infected.length, ...infected.filter((i) => !i.ambush));
       }
 
       let chasing = false, nearest = Infinity;
+      const eyeGlows: Glow[] = [];
       const growlingPacks = new Set<string>();
       for (const inf of infected) {
         const f = feetOf(inf.sprite);
@@ -452,8 +462,7 @@ export const act4Threat: Behaviour = {
           gameEvents.emit('audio:cue', { token: 'a.sfx.infected.shriek', at: { x: f[0], y: f[1] } });
           if (inf.actions) inf.pose = [0, now + (tier === 'evolved' ? EVOLVED.growlMs : INFECTED.growlMs)];
           // The Host's eyes flare as it turns on you.
-          for (const e of inf.eyes) e.setScale(2);
-          if (inf.eyes.length) scene.time.delayedCall(HOST.growlMs, () => inf.eyes.forEach((e) => e.active && e.setScale(1)));
+          if (inf.eyes) inf.eyeFlare = now + HOST.growlMs;
           // The Evolved's telegraph: a one-frame red flash, so you can bail.
           if (tier === 'evolved') scene.cameras.main.flash(34, 150, 20, 20);
         }
@@ -526,14 +535,11 @@ export const act4Threat: Behaviour = {
         inf.sprite.setDepth(depthForZY(feetY(inf.sprite)));
         inf.name?.setPosition(inf.sprite.x, inf.sprite.y - 30).setAlpha(d <= NAME_TILES * TILE_SIZE ? 0.5 : 0);
         // The Host's eyes glow (infected doc §4): two dots on its face, none from behind; a slow pulse (steady with reduced motion).
-        if (inf.eyes.length) {
+        if (inf.eyes && inf.brain.mode !== 'stunned') {
           const at = (HOST.eyes as unknown as Record<string, number[][]>)[facing] ?? [];
           const pulse = reducedMotion ? 0.8 : 0.55 + 0.45 * Math.sin((now / HOST.eyes.glowMs) * Math.PI * 2);
-          inf.eyes.forEach((e, k) => {
-            const o = at[k];
-            e.setVisible(Boolean(o) && inf.brain.mode !== 'stunned');
-            if (o) e.setPosition(inf.sprite.x + o[0], inf.sprite.y + o[1]).setAlpha(pulse).setDepth(inf.sprite.depth + 0.001);
-          });
+          const flare = now < inf.eyeFlare;
+          for (const o of at) eyeGlows.push({ x: inf.sprite.x + o[0], y: inf.sprite.y + o[1], r: flare ? 2 : 1, color: color('map.danger'), alpha: flare ? 1 : pulse, halo: flare ? 1 : 0 });
         }
 
         // A touch.
@@ -565,6 +571,7 @@ export const act4Threat: Behaviour = {
       threat.nearestTiles = infected.length ? Math.round((nearest / TILE_SIZE) * 10) / 10 : null;
       threat.count = infected.length;
       threat.positions = infected.map((i) => feetOf(i.sprite));
+      setGlows('host-eyes', eyeGlows);
 
       debug.clear();
       if (threatDebug.draw) {
@@ -595,7 +602,8 @@ export const act4Threat: Behaviour = {
       resetThreat();
       threatDebug.modes = [];
       playerState.onHideSpot = false;
-      for (const inf of infected) { inf.sprite.destroy(); inf.name?.destroy(); inf.eyes.forEach((e) => e.destroy()); }
+      for (const inf of infected) { inf.sprite.destroy(); inf.name?.destroy(); }
+      clearGlows('host-eyes');
       glow.destroy();
       debug.destroy();
     };

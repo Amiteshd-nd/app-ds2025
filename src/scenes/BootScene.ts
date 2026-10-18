@@ -298,6 +298,18 @@ export class BootScene extends Phaser.Scene {
           });
         }
 
+        // Fall (ADR-161): <sheet>__fall — buckle, kneel, slump — played once when the Pulse Gun drops a body.
+        const fall = `${sheet}__fall`;
+        const fallKey = `${sheet}-fall-${dir}`;
+        if (this.textures.exists(fall) && !this.anims.exists(fallKey)) {
+          const row = start / 3;
+          this.anims.create({
+            key: fallKey,
+            frames: QUIRKS.fallMs.map((duration, k) => ({ key: fall, frame: row * 3 + k, duration })),
+            frameRate: 1000,
+          });
+        }
+
         // Breathing (ADR-107): F0 is this sheet's idle; F1–F3 are baked into
         // <sheet>__breath (same row, columns 0–2). Per-frame holds come from
         // motion tokens; frameRate 1000 makes the base step ~1 ms so the

@@ -284,8 +284,8 @@ export interface DistrictNpcRef {
 export interface DistrictObjectRef {
   /** ObjectDef id. */
   id: string;
-  /** Spawn object name to place it at. */
-  at: string;
+  /** Spawn object name to place it at — or a tile `[x, y]` (ADR-161: a camp pitched on open lawn, no map edit). */
+  at: string | [number, number];
   /** Item the player must hold for the object to exist — a delivered table, say. */
   requires?: string;
   /** Flag that must be set for the object to exist — the cot once bought (ADR-122). */
@@ -417,6 +417,8 @@ export interface DistrictDef {
   base?: { spawn: string; uv: Array<{ at: [number, number]; radius: number }>; lampFailsOnNight?: number; requiresFlag?: string };
   /** UV lamps (ADR-33/145): infected never come within `radius` tiles; you can't be seen inside it and ambushes never roll. */
   uv?: Array<{ at: [number, number]; radius: number; /** Lit only once this flag is set (Act 4's lamps, ADR-150). */ requiresFlag?: string; /** From this flag on it burns only while the base's stock has fuel (Suresh's generator, ADR-150). */ fuelAfter?: string }>;
+  /** Lights that keep their colour through the grade's drain (ADR-161): tiles (fractions allowed), a radius in tiles, a colour token; `pulseMs` breathes it (steady with reduced motion). Drawn by GradeScene. */
+  glows?: Array<{ at: [number, number]; radius: number; color: string; pulseMs?: number; /** Lit only once this flag is set (the camp's fire). */ requiresFlag?: string }>;
   /** A fixed night-blue shade (0–1) regardless of the clock — a lit lab at 01:52 (ADR-138); `nightLook` uses it. */
   nightTint?: number;
   /** Sounds that come from a spot (ADR-139): a looping token fades with distance; a one-shot repeats every `every` [min, max] seconds. `at` = a spawn/zone in the map. */

@@ -18,48 +18,25 @@ corepack pnpm movie
 
 | # | Item | Built | Where it is | Status |
 |---|---|---|---|---|
-| 1 | Movie Mode step 3: walkthroughs generated for every scene, the full movie | 2026-10-17 | on GitHub | waiting |
-| 2 | Movie Mode step 4: headless `pnpm movie`, two runs must match | 2026-10-17 | on GitHub | waiting |
-| 3 | P12 · 2.3 "Guitar" (ADR-131) | 2026-10-17 | on GitHub | waiting |
-| 4 | P13 · 2.4 "IKEA Run" (ADR-132) | 2026-10-17 | on GitHub | waiting |
-| 5 | P14 · 2.5 "Ravi, 1 AM" (ADR-133) | 2026-10-17 | on GitHub | waiting |
-| 6 | P15 · 2.6 "The App" (ADR-134) | 2026-10-17 | on GitHub | waiting |
-| 7 | P16 · 2.7 "Breadcrumbs" (ADR-135), Act 2 complete | 2026-10-17 | on GitHub | waiting |
-| 8 | P17 · 3.1 "Outer Ring Road" (ADR-136), Act 3 opens | 2026-10-17 | on GitHub | waiting |
-| 9 | P18 · 3.2 "Ward 4" (ADR-137) | 2026-10-17 | on GitHub | waiting |
-| 10 | P19 · 3.3 "The Corridor" (ADR-138) | 2026-10-17 | on GitHub | waiting |
-| 11 | Audio A1 · the sound system plus Act 0, airport → bus (ADR-139) | 2026-10-17 | on GitHub | waiting |
-| 12 | Audio A2 · every scene, footstep areas, the Act 4 test bench (ADR-140) | 2026-10-17 | on GitHub | waiting |
-| 13 | Audio A3 batch 1 · Kenney's real sounds replace 60 placeholders (ADR-141b) | 2026-10-17 | on GitHub | waiting |
-| 14 | P20 · 3.4 "Three Nights, Again" (ADR-142) | 2026-10-17 | on GitHub | waiting |
-| 15 | P21 · 3.5 "Discharge" (ADR-143) — Act 3 complete | 2026-10-17 | on GitHub | waiting |
 | 13a | HUD settings gear + Playground mute/volume (ADR-141a) | 2026-10-17 | on GitHub | waiting |
-| 16 | Act 4 S1 · the stability dial (ADR-144) | 2026-10-17 | local commit, not pushed | waiting |
-| 17 | Act 4 plan defaults you took (`docs/act4_systems_plan_v1.md` §8) | 2026-10-17 | local commit, not pushed | waiting |
-| 18 | Act 4 drafts 4.0 → 4.end (six stubs, your calls) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
-| 19 | Act 4 S2 · the run (ADR-145) | 2026-10-17 | local commit, not pushed | waiting |
-| 20 | Infected sprites step 1 · three bases (ADR-146) — defaults taken | 2026-10-17 | local commit, not pushed | waiting |
-| 21 | Infected step 2 (the recipe) + the Evolved (ADR-147) | 2026-10-17 | local commit, not pushed | waiting |
-| 22 | P22 · 4.0 "Janata" + 4.1 "Five O'Clock" (ADR-148) — Act 4 opens | 2026-10-17 | local commit, not pushed | waiting |
-| 23 | Act 4 S3 · the base (ADR-149) | 2026-10-17 | local commit, not pushed | waiting |
-| 24 | P23 · 4.2 "The Hill" (ADR-150) | 2026-10-18 | local commit, not pushed | waiting |
-| 33 | The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host (ADR-159) | 2026-10-18 | local commit, not pushed | waiting |
+| 35 | The 500-D: pulls over at the bottom kerb, board with E (ADR-160) | 2026-10-18 | local commit, not pushed | waiting |
+| 36 | Every bus: stand at the stop, the bus comes, E to board (ADR-162) | 2026-10-18 | local commit, not pushed | waiting |
 
-Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed.
+Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed; **#1–34 approved as built on 2026-10-18** (#16–34 first, then #1–15: Movie Mode steps 3–4 and the Acts 0–3 audits) — every call kept as built. Still waiting: 13a (not covered by "#1–15") and the bus chat's #35–36.
 
 ---
 
-## 1. Movie Mode step 3: every scene as a walkthrough
+## 1. Movie Mode step 3: every scene as a walkthrough — approved as built 2026-10-18
 - **What:** `scripts/generate-walkthroughs.ts` writes a bot script for every built scene from its quest, places and dialogue. ▶ PLAY plays them all in story order through the real game.
 - **Check:** ▶ PLAY in the Playground bar, then open **Report** to see every step, why it was taken, and screenshots of failures.
 - **Calls to confirm:** the bot never cheats (no `set_flag`); it haggles like a careful player (Shanthamma ₹14,300, the hill flat ₹19,900); a few optional flags stay unplayed on purpose (`scooter_ridden`).
 
-## 2. Movie Mode step 4: the headless run
+## 2. Movie Mode step 4: the headless run — approved as built 2026-10-18
 - **What:** `corepack pnpm movie` plays every scene in a hidden browser and exits with an error if any scene fails. `--twice` plays everything twice in fresh pages and checks both runs match exactly. `--scene <id>` starts from one scene.
 - **Check:** `corepack pnpm movie --scene act3_ward4` takes about 2 minutes. The latest full double run gave 20/20 with an identical 463-step trace.
 - **Calls to confirm:** each scene's starting state comes from the Playground's prerequisites, not from the scene before it, so a scene can run alone. Starting from a beat doesn't complete earlier objectives.
 
-## 3. 2.3 "Guitar"
+## 3. 2.3 "Guitar" — approved as built 2026-10-18
 - **Check:** it starts on Church Street. Find the shop between the two pots (owner behind the counter, ₹6,500, chord chart), tip the busker (₹10 makes the G lesson easier), take the 335-E home. In the flat, step in front of the guitar for the rhythm lane (E / Space / tap STRUM), one lesson a night. After D, the clip for Ananya.
 - **Calls to confirm:**
   - The shop is 12×8 tiles, smaller than other interiors so the counter stays in reach.
@@ -68,7 +45,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The lesson card is plain, with no guitar picture.
   - The guitar on your back isn't drawn.
 
-## 4. 2.4 "IKEA Run"
+## 4. 2.4 "IKEA Run" — approved as built 2026-10-18
 - **Check:** it starts at Majestic.
   - Walk the uncle to the Green Line stairs, then take the coach.
   - At Hyggeland: the tags, the café, and the aisle. A fifth box says "Not enough space".
@@ -82,7 +59,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - Sameer's "Typical." line (for forgetting the shoe rack) isn't in.
   - The staff, café and tills share one sprite.
 
-## 5. 2.5 "Ravi, 1 AM"
+## 5. 2.5 "Ravi, 1 AM" — approved as built 2026-10-18
 - **Check:** it starts in the flat at 00:50 during a power cut.
   - The night auto from the hill road costs ₹160, and the bus says "Last bus left at 11".
   - The office gate is in moonlight blue.
@@ -94,7 +71,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - Ravi stands rather than sits.
   - The crowd is empty everywhere at night.
 
-## 6. 2.6 "The App"
+## 6. 2.6 "The App" — approved as built 2026-10-18
 - **Check:** it starts in the flat at 10:00.
   - On the phone, Jodi: NOPE on all four profiles ends it, LIKE on Tanvi is a match.
   - Bus to Whitefield, then **Maps (M) → tap Church Street → METRO** to the café (pay ₹480, ₹240, or she pays).
@@ -105,7 +82,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The portraits are in colour on the green phone screen.
   - Ananya stands near the bandstand, not on it.
 
-## 7. 2.7 "Breadcrumbs" (Act 2 ends)
+## 7. 2.7 "Breadcrumbs" (Act 2 ends) — approved as built 2026-10-18
 - **Check:** it starts in the flat at 21:00.
   - Each sleep adds a News headline and a Reel.
   - Day 2: Sameer is absent and Divya texts about AMR-07. Day 3: the guard salutes nobody. Day 4: Sameer is back.
@@ -115,7 +92,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The rice argument is a Reel.
   - The headlines say four weeks, but only four in-game days pass.
 
-## 8. 3.1 "Outer Ring Road" (Act 3 opens)
+## 8. 3.1 "Outer Ring Road" (Act 3 opens) — approved as built 2026-10-18
 - **Check:** to see the title card, play 2.7's last sleep: a big FEVER with "ACT 3" small under it, then Divya's text and a fifth headline. The scene itself starts at the office gate at 09:20.
   - Talk to Divya, then walk into the office door. The card sequence plays (E / tap = next panel): the HIVR day, the AMR-07 overwrite at 02:14 by `night_ops`, the Hebbal junction picture, the cut (one white frame, none if your device asks for reduced motion), the ambulance fragments (green lanyard, APPA), "Ravi.", and it lands in the ward.
   - To see Sameer's bike instead of your scooter, set `scooter_owned` off in the Playground's inspector.
@@ -126,7 +103,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The HIVR day costs no food and adds no stress.
 - **Fixed on the way:** Divya's late-day-one message blocked all her later messages for players who were on time.
 
-## 9. 3.2 "Ward 4"
+## 9. 3.2 "Ward 4" — approved as built 2026-10-18
 - **Check:** it starts in the ward at 10:20, or play 3.1 to its end.
   - You walk slower and can't run.
   - The phone has messages from Amma, Sameer and Divya.
@@ -141,7 +118,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - The three Ravi talks can be done back to back.
   - The ward boy is text, not a character on screen.
 
-## 10. 3.3 "The Corridor"
+## 10. 3.3 "The Corridor" — approved as built 2026-10-18
 - **Check:** it starts in the ward at 11:00.
   - Ravi → "Tell me." → the HIVR corridor as Ravi, with only the objective on screen.
   - The clipboard by the airlock. Appa's call as you cross the middle ("Ignore" greyed out: "It's Appa."). The glove station refuses.
@@ -152,7 +129,7 @@ Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3
   - I wrote the ant captions myself.
   - The corridor has a fixed night shade to keep its cold light.
 
-## 11. Audio A1: the game has sound
+## 11. Audio A1: the game has sound — approved as built 2026-10-18
 - **What:** every sound is a named token (224 of them) with an original placeholder generated in the repo. They sound like 8-bit placeholders until your recordings and CC0 files replace them.
   - Every place plays a layered "bed" of city sounds by time of day.
   - Music sits under the city: calm by day, a warmer tune in the evening, none at night or in rooms and buses unless the mood turns.
@@ -173,7 +150,7 @@ corepack pnpm dev
   - Offline, a sound plays only after it has played once online.
 - **Your homework for later steps:** the recording list in `docs/audio_plan_v1.md` §5.4 (20 short recordings). Also: install ffmpeg, and OK the Kenney downloads when we reach A3.
 
-## 12. Audio A2: every scene, footstep areas, the Act 4 test bench
+## 12. Audio A2: every scene, footstep areas, the Act 4 test bench — approved as built 2026-10-18
 - **What:**
   - **Sounds from a spot in 19 of 21 places:** the Darshini's plates and dosa tawa, a pressure cooker, the hill chai stall, the ice-cream bell, the busker, metro gates, the coach doors, the ward TV, the corridor's fume hood.
   - **Footsteps follow the ground:** pavement versus road on Whitefield, and gravel paths, grass and stone in Cubbon.
@@ -202,7 +179,7 @@ corepack pnpm dev
   - A 16px gap between the gear and the phone; the clock moved left to make room.
   - The gear stays visible in the corridor.
 
-## 13. Audio A3 batch 1: the first real sounds (Kenney, CC0)
+## 13. Audio A3 batch 1: the first real sounds (Kenney, CC0) — approved as built 2026-10-18
 - **What:** 60 sounds are now real recordings from Kenney's free packs: menus, phone, HUD, footsteps on six surfaces, doors, plates, coins and cash, pickups, and the Act 4 combat sounds. Background beds, music, vehicles and voices are still placeholders until your recordings and Freesound files arrive.
 - **Check:** play anything and listen to the menus, phone and footsteps. In the Playground's Audio node, the token list shows `final · CC0` for these.
 - **Calls to confirm:**
@@ -212,7 +189,7 @@ corepack pnpm dev
   - The title, UPI and ringtone jingles stay ours (original).
 - **Still needed from you:** the 20 recordings (`docs/audio_plan_v1.md` §5.4). Optionally, ffmpeg (`brew install ffmpeg`) to shrink the files.
 
-## 14. 3.4 "Three Nights, Again"
+## 14. 3.4 "Three Nights, Again" — approved as built 2026-10-18
 - **What:** the first week at the hotel, played backwards. Three nights in the ward with the hotel's countdown plate ("Discharge · 3 nights"); each morning the world is quieter.
 - **Check:** in the Playground, pick Act 3 → 3.4 (it starts in the ward at 18:30).
   - Talk to Sister Lalitha: "Three nights…", and the plate appears.
@@ -225,7 +202,7 @@ corepack pnpm dev
   - The ward's sound stops at "warning" (no deeper) in this act.
   - The stripped bed's stripes look pale.
 
-## 15. 3.5 "Discharge" (Act 3 ends)
+## 15. 3.5 "Discharge" (Act 3 ends) — approved as built 2026-10-18
 - **What:** the ward lets you go too easily, and nobody explains anything.
 - **Check:** in the Playground, pick Act 3 → 3.5 (it starts on the discharge morning).
   - Talk to Sister Lalitha: "Doctor signed at six. You're done." Then "Go home. Stay inside. Don't make noise after five." Ask "Why five?"; she only looks at the isolation door.
@@ -240,7 +217,7 @@ corepack pnpm dev
   - The slip comes on your second talk with the nurse that morning (after "Moved.").
   - Your cast stays on into Act 4.
 
-## 16. Act 4 S1: the stability dial
+## 16. Act 4 S1: the stability dial — approved as built 2026-10-18
 - **What:** every place has a stability (0–100) that falls day by day in Act 4, and one rule turns it into five levels that decide the look, the sound and how many people are out. Act 4 also makes hunger harsher.
 - **Check:** in the Playground, pick **Act 4 · stability dial**, then **▶ Open a map to look**.
   - Tick **Act 4 has begun** and slide **Day**: the list shows each place's stability and level. Re-open the map to see the crowd change (people are counted when a map opens).
@@ -253,7 +230,7 @@ corepack pnpm dev
   - The 3.4 ward now also looks a little paler on its last two nights (its sound was already "warning").
   - Harsh hunger: half a health point a minute at empty food; sleep gives 15 health and no free food. Nothing happens at 0 health yet (that comes with step S2).
 
-## 17. Act 4 plan: the defaults you took
+## 17. Act 4 plan: the defaults you took — approved as built 2026-10-18
 - **What:** you answered the plan's eight questions with "default". They're listed here so you can overturn any of them later. Full detail is in `docs/act4_systems_plan_v1.md` §7–8.
 - **Calls to confirm:**
   - **Build order:** a vertical slice. S1 the dial (built) → draft 4.0 → S2 the run → build 4.0 + 4.1 → S3 the base → 4.2. Fighting, the Pulse Gun, the cast's missions and the endings come after.
@@ -266,7 +243,7 @@ corepack pnpm dev
   - **References:** I need yours for the infected look and the touch buttons before step S2's art. Without them I'll show you options first.
   - **Engineering calls** (§7): the infected chase at 90 % of your run speed, crouch is the C key, water is an item (not a new stat), and Act 4 counts its own days from the hospital gate.
 
-## 18. Act 4 drafts: 4.0 → 4.end
+## 18. Act 4 drafts: 4.0 → 4.end — approved as built 2026-10-18
 - **What:** all six Act 4 scenes are drafted as stubs (`src/data/scenes/act4_*.json`), each with its beats, cast, places and the art it needs. Each question below has my default in its wording. When you've decided, say "take the defaults" or tell me what to change. Nothing here is built.
 - **Check:** the Playground tree, Act 4: each scene's inspector shows its draft. Or open the JSON files.
 - **Things in the drafts that are new, not from the design docs:** a constable checking your ID at the hospital gate, a milk van lift, Suresh back from Mysuru, Karthik already packing, Ravi's voice note "Okay. Okay.", and 'Rameshwara Tiffin Room' as the café's parody name.
@@ -314,7 +291,7 @@ corepack pnpm dev
   - **Ananya's fate:** draft = with you if the relationship is resolved; otherwise a photo she left at the bandstand; never infected. Keep?
   - **After the ending:** draft = 'My Bangalore' card, then the title (no New Game+). Keep?
 
-## 19. Act 4 S2: the run
+## 19. Act 4 S2: the run — approved as built 2026-10-18
 - **What:** in Act 4 you can now be chased. Running costs energy, C crouches, you can hide, the infected hunt by noise and sight, ambushes come out of cover, a touch hurts, and at 0 health you wake at the base instead of dying.
 - **Check:** in the Playground, pick **Act 4 · stability dial**, then **▶ Open the Act 4 test bench**. Tick **Show zones, cover, hide spots, paths and your detection ring** to see their areas (yellow), cover (orange), hide spots (blue), each infected's state (green wander, orange alert, red chase, yellow search) and your noise ring.
   - You start in the UV lamp's light (the blue disc), where they can't see you. Walk right toward the pack, then run (Shift): the energy pips appear under your meters.
@@ -330,7 +307,7 @@ corepack pnpm dev
   - Ambushers melt away after 30 seconds or when you leave their area.
   - Someone you knew hesitates only if you met them and your reputation is "Trusted Helper" or higher (the game doesn't have Hosa / Gothu / Namma yet).
 
-## 20. Infected sprites, step 1: the three bases
+## 20. Infected sprites, step 1: the three bases — approved as built 2026-10-18
 - **What:** your infected spec's step 1. An infected man, woman and elder in plain grey clothes, each with a lurching walk sheet (all five skin tones) and an action sheet (alert, lunge, stagger, in four directions). Nothing in the game uses them yet.
 - **Check:** open `docs/review/infected_bases_v1.png` (zoomed ×3, an existing crowd sprite on the left for scale).
 - **Calls to confirm (the look):**
@@ -349,7 +326,7 @@ corepack pnpm dev
      - Default: keep ADR-49 (your later board numbers). Or switch to the spec's?
   6. **Tools:** the spec names `tools/asset_pipe.py`, PixelLab and EasyStar. The repo uses Node `scripts/` (every pipeline), the Figma image generator (every sprite so far) and its own grid pathfinding (ADR-145). Default: keep ours.
 
-## 21. Infected step 2 (the recipe) and the Evolved
+## 21. Infected step 2 (the recipe) and the Evolved — approved as built 2026-10-18
 - **What:** people now turn in their own clothes, Fresh (almost human) or Degraded (grey, torn, stained, off balance), depending on how long ago the place fell. The Evolved are rare, faster than you, and make you bleed.
 - **Check:**
   - The sheets: `docs/review/infected_recipe_v1.png` (original / Fresh / Degraded for chai Anna, Prakash, the auto driver, four crowd people and a base) and `docs/review/infected_evolved_v1.png` (the Evolved man, woman and elder: prowl and shriek / swipe / snarl).
@@ -365,7 +342,7 @@ corepack pnpm dev
   - Not built yet: the red eye glow and blood drip, a separate wet shriek sound (it reuses the shriek), stun and the Pulse Gun's two-charge rule (with melee, S4), the Host (your call on its 48×64 size is still open: the default exception was taken).
   - Fixed on the way: in step S2, a chase along a straight line froze the infected in place. It's fixed and tested.
 
-## 22. 4.0 "Janata" and 4.1 "Five O'Clock" (Act 4 opens)
+## 22. 4.0 "Janata" and 4.1 "Five O'Clock" (Act 4 opens) — approved as built 2026-10-18
 - **What:** you walk out of the hospital into a shut city, cross it (told on a card), and reach an Indiranagar lane at five o'clock, where the plates call them out and you run.
 - **Check:** in the Playground, open Act 4 → 4.0 (Play), or play 3.5 to its end and walk out of the ward.
   - **4.0:**
@@ -389,7 +366,7 @@ corepack pnpm dev
   - Both places are fictional over real areas (Hebbal, Indiranagar). They have map pins but no real-street drawing (no OpenStreetMap fetch this time).
   - The bot plays both scenes and flees to the main road (in the full run it also buys water at the shutter).
 
-## 23. Act 4 S3: the base
+## 23. Act 4 S3: the base — approved as built 2026-10-18
 - **What:** in Act 4 you sleep only at a base. A base has a stock (food, water, fuel) that each night uses, a UV lamp kept lit by fuel, a bench for the four recipes, containers to search and a trader. Waking there makes it home.
 - **Check:** in the Playground, open **Act 4 · stability dial** → **▶ Open the base bench** (the hill flat as a base; you start with your laptop, two waters and a fuel can).
   - Search the kitchen (right), the shelf (top) and the bag by the boxes (bottom left). Each is found once.
@@ -407,7 +384,7 @@ corepack pnpm dev
     - Using items from the bag: eat, bandage, throw a noise maker or smoke bomb. That comes with S4.
     - Moving between bases.
 
-## 24. 4.2 "The Hill": the first base
+## 24. 4.2 "The Hill": the first base — approved as built 2026-10-18
 - **What:** you reach Ambedkar Nagar at 21:30. The hill has emptied; Suresh keeps the generator and a purple UV lamp at the top; UPI dies at Manju's table; your ransacked flat becomes the first base.
 - **Check:** in the Playground, open Act 4 → 4.2 (Play), or play 4.1 to the main road.
   - Talk to Mani at the bottom (his warning about the lower path).
@@ -425,7 +402,7 @@ corepack pnpm dev
   - Your laptop is in your office bag (a container), so it can go to Manju later (worth a food packet).
   - No bus or auto runs in Act 4 anywhere ("Nothing runs. The city is shut.").
 
-## 25. Act 4 S4 "your hands": fighting, throwing, the bag
+## 25. Act 4 S4 "your hands": fighting, throwing, the bag — approved as built 2026-10-18
 - **What:** in Act 4 you can fight back (only to stun, never to kill), throw things to pull or blind the infected, and your bag holds 8 kinds of things.
 - **Check:** in the Playground, open **Act 4 · stability dial → Your hands (S4) → Bench: armed**. Click the game first so it has the keyboard.
   - **SPACE** swings. You use the best thing you carry: the UV torch, then the cricket bat, then the kitchen knife. Without any, you shove. One you hit drops (dims) for 2 s, is knocked back, then comes at you faster for 5 s. A swing costs an energy pip and is loud, so the others hear it.
@@ -442,7 +419,7 @@ corepack pnpm dev
   - Sounds reuse existing tokens: the swing, a plate clang for the noise maker and knife, a pipe hit for the bat, distant glass for the smoke bomb.
   - The Pulse Gun (the only kill) and the Host stay later, as planned.
 
-## 26. 4.3 "Four Nights": the hill base, days 1–4
+## 26. 4.3 "Four Nights": the hill base, days 1–4 — approved as built 2026-10-18
 - **What:** the first base played over four days. You scavenge, Deepa comes back bitten, you make a medicine run into the ruined Ward 4, Karthik leaves, the lamp fails on night 4, and Suresh decides to move to Uncle's tiffin room in Indiranagar.
 - **Check:** in the Playground, open Act 4 → 4.3 Four Nights (Play), or **▶ from here** to watch the bot.
   - Talk to Suresh in the morning, then search Mani's store beside his stall.
@@ -459,7 +436,7 @@ corepack pnpm dev
   - The walk there and back is told on cards (07:40 → 12:30 at the ward; 13:10 → 18:40 home), not played.
   - The Movie bot now **walks** wherever infected stand still. Its full stick used to run, and the noise woke the still pair on the hill. 4.2's walkthrough changed with it.
 
-## 27. 4.3b "The Tiffin Room": Kumar, Uncle's café, the office, Raju
+## 27. 4.3b "The Tiffin Room": Kumar, Uncle's café, the office, Raju — approved as built 2026-10-18
 - **What:** the second base, days 4–7. You save Kumar (or don't), make Uncle's café home, go back to the office for the AMR-07 log, save Raju (or don't), Deepa reads the log, and the generator dies on night 3.
 - **Check:** in the Playground, open Act 4 → 4.3b The Tiffin Room (Play), or **▶ from here** to watch the bot.
   - From the hill, step onto the road at the bottom left (the walk west).
@@ -476,7 +453,7 @@ corepack pnpm dev
   - **No strollers in Act 4:** under the curfew nobody wanders, only placed people. This also empties the hill's and Whitefield's background crowd.
   - **Travel is told on cards:** the walk west, the run to Whitefield, and the way home from Raju's are all cards. Kumar's auto shows up only in the card text.
 
-## 28. 4.3c "The Line": Cubbon, Rathore's four runs, Priya, the fire
+## 28. 4.3c "The Line": Cubbon, Rathore's four runs, Priya, the fire — approved as built 2026-10-18
 - **What:** the third base, days 7–11. The army's lamp line at Cubbon, Major Rathore and his list, Priya, Ananya (or her photo), four supply runs, the argument at the fire, and the line cut on night 4.
 - **Check:** in the Playground, open Act 4 → 4.3c The Line (Play), or **▶ from here** to watch the bot (about 3 minutes).
   - From the café, walk to the shutter (the walk to Cubbon). Talk to Rathore, then Priya.
@@ -495,7 +472,7 @@ corepack pnpm dev
   - **The fire:** your answer sets karthik_trust, priya_trust or suresh_trust, for the endings.
   - **Run 5 and the Pulse Gun** are the Palace's, next phase.
 
-## 29. 4.3d "Twenty Charges": the Palace, the Pulse Gun, Malleswaram, Vikram
+## 29. 4.3d "Twenty Charges": the Palace, the Pulse Gun, Malleswaram, Vikram — approved as built 2026-10-18
 - **What:** the fourth base, days 11–14. The Palace grounds camp, the engineer and the Pulse Gun, run 5 into Malleswaram for the calibration drive, Vikram, and the lamp ring failing on night 3.
 - **Check:** in the Playground, open Act 4 → 4.3d Twenty Charges (Play), or **▶ from here**. To try the gun alone: **Act 4 · stability dial → Bench: the Pulse Gun (20 charges)**, click the game, then SPACE facing them.
 - **Calls to confirm:**
@@ -512,7 +489,7 @@ corepack pnpm dev
   - **Vikram** is a choice, not a fight: raise the gun (a charge) or leave him. The bot releases him.
   - **No Evolved at ground zero yet.** The three there stand still like everywhere else.
 
-## 30. 4.3e "The Glass House": the last base and the table
+## 30. 4.3e "The Glass House": the last base and the table — approved as built 2026-10-18
 - **What:** day 14–15. The Lalbagh glass house is the last base, with everyone you kept alive. Rathore calls the round table, and you choose the ending's direction: out, end it, or hold.
 - **Check:** in the Playground, open Act 4 → 4.3e The Glass House (Play). Walk to the gate at the Palace, sleep on a cot, then walk to the left side of the round table.
 - **Calls to confirm:**
@@ -521,7 +498,7 @@ corepack pnpm dev
   - **The table is your choice.** Trust from the Cubbon fire doesn't decide for you. The three paths are path_evacuate (Karthik), path_fight (Priya) and path_hold (Suresh).
   - **The base chain is complete** (4.3 to 4.3e). Its stub stays as the chain's design record. Next in the story are 4.5 (Ravi's message) and 4.6 (the tunnel), both still drafts.
 
-## 31. 4.5 "Ravi": the mirror
+## 31. 4.5 "Ravi": the mirror — approved as built 2026-10-18
 - **What:** day 15–16. Ravi's message, then where he is depends on what you did for him in 2.5. HIVR with Meera if you supported him; his mother's room in Yelahanka if you sent him home. No fight. A voice note at the end.
 - **Check:** in the Playground, open Act 4 → 4.5 Ravi (Play). Sleep at the glass house, then walk to the barricade (left of the doors). To see the other branch, start 4.5 with `ravi_supported` off in the flags editor.
 - **Calls to confirm:**
@@ -531,7 +508,7 @@ corepack pnpm dev
   - **The voice note is a line of text in Chats.** No audio plays.
   - **The bot now sits with Ravi in 2.5.** It used to send him home, which would have put the full playthrough in Yelahanka while a solo start of 4.5 went to HIVR. It's an optional step in 2.5's quest, so players still choose freely.
 
-## 32. 4.6 "The Tunnel": the ending
+## 32. 4.6 "The Tunnel": the ending — approved as built 2026-10-18
 - **What:** the last night. The Purple Line from Cubbon Park to Majestic, then your choice from the table as one of three ending cards (Evacuate, Hold, Ground Zero), then the "My Bangalore" card (your run in numbers, SHARE, TITLE).
 - **Check:** in the Playground, open Act 4 → 4.6 The Tunnel (Play). Walk to the barricade at the glass house, walk the tunnel west, step onto Majestic's platform. To see the other endings, start 4.6 with path_fight or path_hold set instead of path_evacuate.
 - **Calls to confirm:**
@@ -545,7 +522,7 @@ corepack pnpm dev
   - **The full playthrough ends in Evacuate.** The bot chose "We get out." at the table.
   - **After TITLE there's no New Game+.** You start a new game from the title as usual.
 
-## 33. The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host
+## 33. The infected spec's last steps: twitches, uneven gaits, light-shy paths, the Host — approved as built 2026-10-18
 - **What:** steps 3–6 of your infected spec.
   - **Twitches:** every infected body has three twitch frames (a head snap, a tilt, a shoulder hitch), baked from its own idle by the art pipeline (no new art). Standing, they twitch now and then: the Degraded every 2–5 s, the Fresh and the Evolved rarely. Mid-stride a twitch is a stutter instead.
   - **No two move alike:** each body draws its own pace, a limp (about half of them) and its own animation speed from a seed, so a pack never walks in step and a run still plays the same twice.
@@ -565,6 +542,28 @@ corepack pnpm dev
     - The Evolved never limp.
     - The Host chases at 0.55× your run, growls 0.9 s, hunts 12 s, and its blow costs −40 health and +35 stress.
   - **Reduced motion:** no standing twitches (the stutter stays); the eyes glow steadily.
+
+## 34. Act 4 polish: glows through the drain, the Pulse meter, fall frames, the Cubbon camp — approved as built 2026-10-18
+- **What:** your defaults from #33's calls, then the polish list.
+  - **Your calls, as defaulted:**
+    - No Host in the story yet.
+    - Glows keep their colour.
+    - The Host stays walk-only.
+  - **Glows through the drain:** lights now keep their colour when a place's grade greys it out: the tunnel's eight red emergency lights, the Host's eyes (they flare as it turns on you), and the camp's fire. A place lists its lights as data.
+  - **The Pulse meter:** while you carry the Pulse Gun in Act 4, a meter under your stats shows its charges. It has ten blocks of two charges each and turns red at 3 or fewer.
+  - **Fall frames:** a Pulse hit now makes the body buckle, kneel and slump (three frames baked from its own sprite, no new art), then tip onto its side, greyed.
+  - **The Cubbon camp:** two tarp tents, a campfire (glowing), an army cot, supply crates, a blue water drum, and a lamp post under each of the camp's three UV lamps. They appear once the camp is pitched (4.3c) and stay.
+- **Check:**
+  - Playground → Act 4 → 4.6 The Tunnel: the red lights.
+  - Playground → Act 4 · stability dial → ▶ Bench: the Host: the eyes, the meter (you carry the gun), and the fall (fire three times).
+  - Playground → Act 4 → 4.3c (Play): the camp by the bandstand.
+- **Calls to confirm:**
+  - **New art, first try:** the camp prop sheet (`src/assets/_raw/props/cubbon_camp_props.png`). The lamp posts reuse the hill's UV lamp post.
+  - **Placement:** the camp sits on open lawn by tile, not on new map spawns. Objects can now take a tile `[x, y]` as well as a spawn name, so the Cubbon map didn't change. The blue tent is west of the camp; the first spot jammed it against the east gate.
+  - **Not in the way:** the tents and the fire are drawn over the lawn but don't block. You and the bot walk through them, so no route changes.
+  - **The fall is derived**, a squash of the sprite. It reads at game size but is simpler than drawn frames. With reduced motion, the body goes straight to the slumped frame on its side.
+  - **Glows draw above everything in the world**, the way a light would. A sprite walking in front of one doesn't hide it.
+  - **This is on its own branch** (`polish-adr161`), because another chat was editing the same files (the HUD, the Cubbon map, the districts). It merges once that chat's work is committed.
 
 ## 35. The 500-D: pulls over at the bottom kerb, board with E
 - **What:** the bus to Cubbon Park now drives in the bottom lane, pulls over to the bottom footpath at the stop by the bench, and you board by pressing E when "[E] BOARD" shows over its door (BOARD on the touch button).

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { useGameStore } from '../store';
+import { allGlows } from '../systems/glows';
 import { gradeLook, type GradeLook } from '../systems/stability';
 import { stabilityNow } from '../systems/stabilityNow';
 import { GRID, color } from '../ui/tokens';
@@ -23,6 +24,8 @@ export class GradeScene extends Phaser.Scene {
   static readonly KEY = SCENE_KEYS.GRADE;
 
   private edges!: Phaser.GameObjects.Graphics;
+  /** Lights that escape the drain (ADR-161), redrawn every frame under the edges. */
+  private glows!: Phaser.GameObjects.Graphics;
   private shown: GradeLook | null = null;
   private sinceRead = READ_EVERY_MS;
 
@@ -32,6 +35,7 @@ export class GradeScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setRoundPixels(true);
+    this.glows = this.add.graphics().setBlendMode(Phaser.BlendModes.ADD);
     this.edges = this.add.graphics();
     this.shown = null;
     this.sinceRead = READ_EVERY_MS;
@@ -47,7 +51,28 @@ export class GradeScene extends Phaser.Scene {
     }
     // The world camera's fade (its black's alpha is public in Phaser, not in its typings).
     const fade = this.scene.get(SCENE_KEYS.WORLD)?.cameras?.main?.fadeEffect as (Phaser.Cameras.Scene2D.Effects.Fade & { alpha: number }) | undefined;
-    this.edges.setAlpha(fade && (fade.isRunning || fade.isComplete) ? 1 - fade.alpha : 1);
+    const shown = fade && (fade.isRunning || fade.isComplete) ? 1 - fade.alpha : 1;
+    this.edges.setAlpha(shown);
+    this.drawGlows(shown);
+  }
+
+  /** Every registered glow in screen space: a hard core and stepped halo rings (pixel art, no smooth gradient). */
+  private drawGlows(shown: number): void {
+    this.glows.clear();
+    const cam = this.scene.get(SCENE_KEYS.WORLD)?.cameras?.main;
+    if (!cam || shown <= 0) return;
+    const z = cam.zoom, v = cam.worldView;
+    for (const g of allGlows()) {
+      const x = Math.round((g.x - v.x) * z), y = Math.round((g.y - v.y) * z), r = Math.max(1, Math.round(g.r * z));
+      if (x < -r * 4 || y < -r * 4 || x > GAME_WIDTH + r * 4 || y > GAME_HEIGHT + r * 4) continue;
+      for (let i = g.halo; i >= 1; i--) {
+        this.glows.fillStyle(g.color, g.alpha * shown * 0.12 * (g.halo - i + 1) / g.halo);
+        this.glows.fillCircle(x, y, r + i * r);
+      }
+      this.glows.fillStyle(g.color, g.alpha * shown);
+      if (g.halo === 0) this.glows.fillRect(x - Math.floor(r / 2), y - Math.floor(r / 2), r, r);
+      else this.glows.fillCircle(x, y, r);
+    }
   }
 
   private draw(look: GradeLook): void {

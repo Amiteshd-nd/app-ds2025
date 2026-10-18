@@ -43,6 +43,8 @@ export const SHEETS = {
   discharge_props: { cols: 2, rows: 1, height: 22, heights: [42, 22] },
   // 4.2 The Hill (P23, ADR-150): the colony's generator · its UV lamp post · Manju's trading table · a ransacked heap · a knocked-over chair · aunty's slippers.
   hill_act4_props: { cols: 3, rows: 2, height: 30, heights: [30, 66, 30, 26, 24, 10] },
+  // 4.3c The Line's camp at Cubbon (ADR-161): an orange tarp tent · a blue tarp tent · a campfire in stones · an army cot · army supply crates · a blue water drum.
+  cubbon_camp_props: { cols: 3, rows: 2, height: 30, heights: [46, 46, 22, 34, 30, 32] },
 };
 
 const keyMagenta = (d) => {

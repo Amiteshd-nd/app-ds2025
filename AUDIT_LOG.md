@@ -479,3 +479,30 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Found on the way (fixed): the HUD rebuilt its prompt bubble empty on every scene start but kept the old label, so a prompt you'd already seen elsewhere ("[E] TALK", "[E] BOARD") was invisible in every later place.
 - Calls to confirm: NEED_TO_AUDIT #36.
 - Rule going forward: **every vehicle stop is a footpath zone + a bus that comes to it; a vehicle runs only when its exit does. A UI element rebuilt in `create()` resets every cache that describes it.**
+
+### [Act 4 polish — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults" — #33's calls defaulted, then HANDOFF's polish list. ADR-161.
+- Built:
+  - glows through the drain (registry + GradeScene; the tunnel's 8 lights from the map art's red blobs, the Host's eyes, the camp fire);
+  - the Pulse meter;
+  - 49 `__fall` sheets + the fall on a Pulse kill;
+  - the Cubbon camp (new prop sheet, first try; objects at tiles);
+  - 6 new tests (712 in all).
+- Verified in the browser pane (this branch on :6178):
+  - the tunnel's red lights stay red through the ground-zero drain;
+  - the camp renders with its glowing fire; the Pulse meter shows 6/10 blocks at 11 charges;
+  - every camp piece is placed; the fall animations exist for every infected sheet.
+- Found on the way: another chat was editing the same folder (bus boarding, ADR-160) — this work lives on branch `polish-adr161` in a worktree under `scripts/.work/`; the first blue-tent spot (34,16) jammed it against the east gate — moved to (20,15).
+- Calls to confirm: NEED_TO_AUDIT #34.
+- Rule going forward: **a light that must survive a grade goes in the glow registry (GradeScene draws it), never as a world object; a prop pitched on open ground can sit at a tile, so a map being edited elsewhere needn't change.**
+
+### [Act 4 + the infected spec + the polish — approved as built] — 2026-10-18
+- Decision: "approve #16–34 as built" — the user signed off every item from Act 4 S1 (#16) to the polish (#34), each call kept as built (the defaults taken along the way stand).
+- Covers: ADR-144 … ADR-159 and ADR-161 (S1–S4 systems, the infected spec steps 1–6, every Act 4 scene 4.0 → 4.6, the endings and "My Bangalore", the polish).
+- Not pushed: pushing still waits for "approved, push". ADR-161 lives on branch `polish-adr161` until the other chat's ADR-160 (bus boarding, its own audit) is committed on `main` and the branch merges.
+- Still waiting on the user: #1–15 (Movie Mode steps 3–4, the Acts 0–3 audits).
+
+### [#1–15 — approved as built] — 2026-10-18
+- Decision: "approve #1–15 as built" — Movie Mode steps 3–4 (ADR-128…130) and the Acts 0–3 audits, every call kept as built. With #16–34 earlier today, **everything in NEED_TO_AUDIT is approved**; nothing waits for an audit.
+- Not pushed: pushing still waits for "approved, push"; ADR-161 and these records live on branch `polish-adr161` until it merges into `main` (after the other chat's ADR-160 commit).
+
