@@ -4,6 +4,10 @@
   "portrait": "npc_deepa",
   "enter": [
     {
+      "flag": "base_lalbagh_set",
+      "node": "lalbagh"
+    },
+    {
       "flag": "base_palace_set",
       "node": "palace"
     },
@@ -134,6 +138,9 @@
     },
     "palace": {
       "text": "Vikram's PG is two lanes from the scientist's house. If you see him — (she stops)."
+    },
+    "lalbagh": {
+      "text": "The plants don't get it. Nothing here gets it. (She almost likes that.)"
     }
   }
 }

@@ -424,3 +424,11 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Calls to confirm: NEED_TO_AUDIT #29.
 - Rule going forward: **a weapon that kills is data (`combat.json` `pulse`) with a counter you can see; every charge is spent by a deliberate press.**
 
+### [P28 4.3e "The Glass House" — built, awaiting audit] — 2026-10-18
+- Decision: "take the defaults and build 4.3e". ADR-156. B5, the end of the chain.
+- Built: the walk to Lalbagh, the glass house (new interior, first try), everyone you kept, the table; 5 new tests.
+- Verified: `node scripts/movie.mjs --scene act4_lalbagh` (13 steps); in the browser pane, with every optional person present, the bot's planner reaches every person and every spot.
+- Found on the way (fixed): at 12×8 the ten people walled off half the room (and one sealed the only way to the table) — re-imported at 16×11, everyone along an edge; four long council lines in a row ran past the bot's 10 s budget — tightened to two.
+- Calls to confirm: NEED_TO_AUDIT #30.
+- Rule going forward: **size an interior by who stands in it: check every person and spot is reachable with everyone present (the planner check in the pane), not only in the bot's own run.**
+

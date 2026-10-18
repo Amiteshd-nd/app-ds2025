@@ -1,0 +1,112 @@
+{
+  "id": "act4_lalbagh",
+  "district": "palace_grounds",
+  "act": 4,
+  "seq": "4.3e",
+  "title": "The Glass House",
+  "status": "P28",
+  "draft": "Built 2026-10-18 from the 4.3 'Base Chain' stub's B5 with its defaults ('take the defaults and build 4.3e'): the Lalbagh glass house — barricaded glass, UV-lit — as the last base (its lamp never fails: the botanists' generator and lamp room), and the round table where the group decides the ending axis (Karthik: out by the trucks; Priya: end it through the tunnel under HIVR; Suresh: hold). 4.5 (Ravi's message on the glass roof) and 4.6 (the tunnel) start from here. With B5 built the chain stub is fully split into 4.3–4.3e.",
+  "time": "Act 4 day 14 06:30 → the morning of day 15",
+  "player_goal": "Reach the last base, and decide with the others what the end looks like.",
+  "design_goal": "The breath before the ending: a base that doesn't fail, everyone you kept alive in one room, and the first time the game asks what you want rather than what you need. The three voices have been planted since the hill (Karthik), Cubbon (Priya) and the hill (Suresh); the fire at Cubbon recorded who you leaned to; the table makes it a decision.",
+  "pacing": [
+    "Calm",
+    "Reward",
+    "Engaged"
+  ],
+  "entry": {
+    "from": "act4_palace",
+    "spawn": "camp_spot",
+    "after": [],
+    "counters": {
+      "act4_day": 14,
+      "base_nights:palace_grounds": 3
+    }
+  },
+  "cast": [
+    {
+      "npc": "npc_rathore",
+      "tier": 3,
+      "spawn": "rathore_lh",
+      "district": "glass_house",
+      "role": "Calls the table; gives up the decision."
+    },
+    {
+      "npc": "npc_priya",
+      "tier": 3,
+      "spawn": "priya_lh",
+      "district": "glass_house",
+      "role": "End it: the tunnel under HIVR."
+    },
+    {
+      "npc": "npc_karthik",
+      "tier": 2,
+      "spawn": "karthik_lh",
+      "district": "glass_house",
+      "role": "Get out: the trucks from Yelahanka."
+    },
+    {
+      "npc": "npc_suresh",
+      "tier": 3,
+      "spawn": "suresh_lh",
+      "district": "glass_house",
+      "role": "Hold: the glass house."
+    }
+  ],
+  "quests": [
+    "q_act4_lalbagh"
+  ],
+  "beats": [
+    {
+      "id": "J1",
+      "pacing": "Calm",
+      "what": "The walk from the dark Palace to Lalbagh (a card): the glass house, planks across the doors, a purple glow inside. Everyone you kept is here.",
+      "interact": "card + base",
+      "flag": "base_lalbagh_set"
+    },
+    {
+      "id": "J2",
+      "pacing": "Reward",
+      "what": "A night under glass that doesn't end in a failed lamp: the botanists' generator holds.",
+      "interact": "sleep",
+      "flag": "council_called"
+    },
+    {
+      "id": "J3",
+      "pacing": "Engaged",
+      "what": "The round table: Rathore lays out three ways and gives the decision to you — out, end it, or hold.",
+      "interact": "choice",
+      "flag": "ending_chosen"
+    }
+  ],
+  "economy": [
+    {
+      "item": "a base night",
+      "price": 0,
+      "note": "the same stock; the lamp never fails here"
+    }
+  ],
+  "exits": [
+    {
+      "zone": "palace_run_gate",
+      "to": "glass_house",
+      "transit": "walk (card_walk_lalbagh)",
+      "note": "from the Palace"
+    }
+  ],
+  "save_flags": [
+    "base_lalbagh_set",
+    "council_called",
+    "ending_chosen",
+    "act4_lalbagh_done",
+    "base_chain_done"
+  ],
+  "assets_needed": [
+    "the glass house (generated interior, first try)"
+  ],
+  "acceptance": [
+    "the bot plays it from the Palace to the table",
+    "the decision sets one path flag"
+  ],
+  "open_questions": []
+}

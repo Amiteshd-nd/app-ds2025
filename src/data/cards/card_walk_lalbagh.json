@@ -1,0 +1,29 @@
+{
+  "id": "card_walk_lalbagh",
+  "$comment": "Story 4.3e (ADR-156): from the dark Palace ring to the Lalbagh glass house, the last base.",
+  "panels": [
+    {
+      "title": "THE PALACE · 06:30",
+      "text": "The truck that left in the night doesn't come back.",
+      "ms": 4000
+    },
+    {
+      "title": "LALBAGH WEST GATE · 09:10",
+      "text": "Rock, lawns, the old bandstand. Nothing moves but the crows.",
+      "ms": 4400
+    },
+    {
+      "title": "THE GLASS HOUSE · 09:40",
+      "text": "Iron, glass, planks across the doors, and inside, a purple glow.",
+      "ms": 4600,
+      "setFlags": [
+        "base_lalbagh_set"
+      ]
+    }
+  ],
+  "then": {
+    "district": "glass_house",
+    "spawn": "glass_doors",
+    "minute": 580
+  }
+}

@@ -4,6 +4,10 @@
   "portrait": "npc_priya",
   "enter": [
     {
+      "flag": "base_lalbagh_set",
+      "node": "lalbagh"
+    },
+    {
       "flag": "base_palace_set",
       "node": "palace"
     },
@@ -48,6 +52,9 @@
     },
     "palace": {
       "text": "Twenty charges. HIVR has more than twenty of them."
+    },
+    "lalbagh": {
+      "text": "The Purple Line runs under HIVR. Did you know that? I do."
     }
   }
 }

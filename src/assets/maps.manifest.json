@@ -405,6 +405,18 @@
         "lane_back"
       ],
       "sop": true
+    },
+    "glass_house": {
+      "file": "glass_house.tmj",
+      "collisionLayer": "collision",
+      "spawnLayer": "spawns",
+      "sortedLayer": "sorted",
+      "requiredSpawns": [
+        "glass_doors",
+        "council",
+        "lh_cots"
+      ],
+      "sop": true
     }
   }
 }

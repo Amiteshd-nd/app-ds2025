@@ -1749,52 +1749,65 @@
       "label": "Bangalore Palace grounds"
     },
     "quests": [
-      "q_act4_palace"
+      "q_act4_palace",
+      "q_act4_lalbagh"
     ],
     "npcs": [
       {
         "id": "npc_engineer",
-        "spawn": "engineer_spot"
+        "spawn": "engineer_spot",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_rathore",
-        "spawn": "rathore_palace"
+        "spawn": "rathore_palace",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_priya",
-        "spawn": "priya_palace"
+        "spawn": "priya_palace",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_karthik",
-        "spawn": "karthik_palace"
+        "spawn": "karthik_palace",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_uncle",
-        "spawn": "uncle_palace"
+        "spawn": "uncle_palace",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_suresh",
-        "spawn": "suresh_palace"
+        "spawn": "suresh_palace",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_deepa",
         "spawn": "deepa_palace",
-        "requiresFlag": "deepa_medicine"
+        "requiresFlag": "deepa_medicine",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_kumar",
         "spawn": "kumar_palace",
-        "requiresFlag": "kumar_saved"
+        "requiresFlag": "kumar_saved",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_raju_cafe",
         "spawn": "raju_palace",
-        "requiresFlag": "raju_saved"
+        "requiresFlag": "raju_saved",
+        "unlessFlag": "base_lalbagh_set"
       },
       {
         "id": "npc_ananya_camp",
         "spawn": "ananya_palace",
-        "unlessFlag": "ananya_strained"
+        "unlessFlag": [
+          "ananya_strained",
+          "base_lalbagh_set"
+        ]
       }
     ],
     "triggers": [
@@ -1822,6 +1835,12 @@
         "card": "card_run_malleswaram",
         "requiresFlag": "pulse_received",
         "unlessFlag": "looted:krishnamurthy_house"
+      },
+      {
+        "zone": "palace_run_gate",
+        "action": "card",
+        "card": "card_walk_lalbagh",
+        "requiresFlag": "base_palace_done"
       }
     ],
     "base": {
@@ -1993,6 +2012,140 @@
         }
       ]
     }
+  },
+  {
+    "id": "glass_house",
+    "name": "The glass house, Lalbagh",
+    "map": "glass_house",
+    "defaultSpawn": "glass_doors",
+    "fadeMs": 300,
+    "signal": 1,
+    "unlock": {
+      "flags": [
+        "base_lalbagh_set"
+      ]
+    },
+    "realworld": {
+      "lat": 12.9507,
+      "lng": 77.5848,
+      "label": "Lalbagh glass house"
+    },
+    "quests": [
+      "q_act4_lalbagh"
+    ],
+    "npcs": [
+      {
+        "id": "npc_rathore",
+        "spawn": "rathore_lh"
+      },
+      {
+        "id": "npc_engineer",
+        "spawn": "engineer_lh"
+      },
+      {
+        "id": "npc_priya",
+        "spawn": "priya_lh"
+      },
+      {
+        "id": "npc_karthik",
+        "spawn": "karthik_lh"
+      },
+      {
+        "id": "npc_uncle",
+        "spawn": "uncle_lh"
+      },
+      {
+        "id": "npc_suresh",
+        "spawn": "suresh_lh"
+      },
+      {
+        "id": "npc_deepa",
+        "spawn": "deepa_lh",
+        "requiresFlag": "deepa_medicine"
+      },
+      {
+        "id": "npc_kumar",
+        "spawn": "kumar_lh",
+        "requiresFlag": "kumar_saved"
+      },
+      {
+        "id": "npc_raju_cafe",
+        "spawn": "raju_lh",
+        "requiresFlag": "raju_saved"
+      },
+      {
+        "id": "npc_ananya_camp",
+        "spawn": "ananya_lh",
+        "unlessFlag": "ananya_strained"
+      }
+    ],
+    "triggers": [
+      {
+        "zone": "lh_cots",
+        "action": "sleep",
+        "requiresFlag": "base_lalbagh_set",
+        "once": false
+      },
+      {
+        "zone": "lh_stock",
+        "dialogue": "base:glass_house",
+        "requiresFlag": "base_lalbagh_set",
+        "once": false
+      },
+      {
+        "zone": "lh_bench",
+        "dialogue": "craft:bench",
+        "requiresFlag": "base_lalbagh_set",
+        "once": false
+      },
+      {
+        "zone": "council",
+        "dialogue": "dlg_council",
+        "requiresFlag": "council_called",
+        "unlessFlag": "ending_chosen"
+      }
+    ],
+    "base": {
+      "spawn": "glass_doors",
+      "uv": [
+        {
+          "at": [
+            7,
+            1
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            11,
+            1
+          ],
+          "radius": 3
+        },
+        {
+          "at": [
+            14,
+            2
+          ],
+          "radius": 3
+        }
+      ],
+      "requiresFlag": "base_lalbagh_set"
+    },
+    "behaviours": [
+      "sleepEvents"
+    ],
+    "sleepEvents": [
+      {
+        "after": "base_lalbagh_set",
+        "nights": 1,
+        "set": [
+          "council_called"
+        ],
+        "toast": "Act 4 · day 15. Rathore has called everyone to the round table.",
+        "icon": "news"
+      }
+    ]
   },
   {
     "id": "bus_interior",

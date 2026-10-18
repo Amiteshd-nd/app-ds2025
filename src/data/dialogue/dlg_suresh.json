@@ -4,6 +4,10 @@
   "portrait": "npc_suresh",
   "enter": [
     {
+      "flag": "base_lalbagh_set",
+      "node": "lalbagh"
+    },
+    {
       "flag": "base_palace_set",
       "node": "palace"
     },
@@ -143,6 +147,9 @@
     },
     "palace": {
       "text": "A palace. (He almost laughs.) My father sold peanuts at that gate."
+    },
+    "lalbagh": {
+      "text": "Orchids. (He shakes his head.) My wife would have known all their names."
     }
   }
 }

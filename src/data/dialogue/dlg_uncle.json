@@ -4,6 +4,10 @@
   "portrait": "npc_uncle",
   "enter": [
     {
+      "flag": "base_lalbagh_set",
+      "node": "lalbagh"
+    },
+    {
       "flag": "base_palace_set",
       "node": "palace"
     },
@@ -81,6 +85,9 @@
     },
     "palace": {
       "text": "They have a coffee machine in the officers' tent. Don't tell anyone I said it's better."
+    },
+    "lalbagh": {
+      "text": "There's a tap that still runs. Coffee tomorrow. Real coffee."
     }
   }
 }

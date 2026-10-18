@@ -1,0 +1,51 @@
+{
+  "id": "q_act4_lalbagh",
+  "title": "The Glass House",
+  "description": "Reach the last base, and decide with the others what the end looks like.",
+  "chapter": 4,
+  "district": "glass_house",
+  "type": "investigation",
+  "prerequisite_quests": [
+    "q_act4_palace"
+  ],
+  "objectives": [
+    {
+      "id": "leave",
+      "text": "Leave the Palace",
+      "type": "flag",
+      "target": "base_palace_done",
+      "destination": "palace_grounds"
+    },
+    {
+      "id": "house",
+      "text": "The glass house",
+      "type": "flag",
+      "target": "base_lalbagh_set",
+      "destination": "glass_house"
+    },
+    {
+      "id": "night",
+      "text": "A night under glass",
+      "type": "flag",
+      "target": "council_called",
+      "destination": "glass_house"
+    },
+    {
+      "id": "table",
+      "text": "The round table",
+      "type": "flag",
+      "target": "ending_chosen",
+      "destination": "glass_house"
+    }
+  ],
+  "rewards": {
+    "xp": 40,
+    "xp_branch": "city_survival"
+  },
+  "on_complete": {
+    "set_flags": [
+      "act4_lalbagh_done",
+      "base_chain_done"
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "scene": "act4_lalbagh",
+  "generated": "generated 2026-10-18 by scripts/generate-walkthroughs.ts from q_act4_lalbagh + palace_grounds + the prereq state",
+  "seed": 7,
+  "steps": [
+    {
+      "id": "wait_for_1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "palace_grounds",
+      "timeout": 15000
+    },
+    {
+      "id": "wait_2",
+      "do": "wait",
+      "ms": 400
+    },
+    {
+      "id": "expect_3",
+      "do": "expect",
+      "flag": "base_palace_done",
+      "timeout": 3000
+    },
+    {
+      "id": "goto_4",
+      "beat": "J1",
+      "do": "goto",
+      "target": "zone:palace_run_gate"
+    },
+    {
+      "id": "wait_for_5",
+      "beat": "J1",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "base_lalbagh_set",
+      "timeout": 28000
+    },
+    {
+      "id": "wait_for_6",
+      "beat": "J1",
+      "do": "wait_for",
+      "ready": "scene_loaded",
+      "scene": "glass_house",
+      "timeout": 33000
+    },
+    {
+      "id": "sleep_7",
+      "beat": "J2",
+      "do": "sleep"
+    },
+    {
+      "id": "wait_for_8",
+      "beat": "J2",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "council_called",
+      "timeout": 6000
+    },
+    {
+      "id": "goto_9",
+      "beat": "J3",
+      "do": "goto",
+      "target": "zone:council"
+    },
+    {
+      "id": "choose_10",
+      "beat": "J3",
+      "do": "choose",
+      "option": "out"
+    },
+    {
+      "id": "wait_for_11",
+      "beat": "J3",
+      "do": "wait_for",
+      "ready": "flag",
+      "flag": "ending_chosen",
+      "timeout": 6000
+    },
+    {
+      "id": "expect_12",
+      "do": "expect",
+      "flag": "act4_lalbagh_done",
+      "timeout": 3000
+    },
+    {
+      "id": "expect_13",
+      "do": "expect",
+      "flag": "base_chain_done",
+      "timeout": 3000
+    }
+  ]
+}

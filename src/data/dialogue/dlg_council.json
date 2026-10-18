@@ -1,0 +1,55 @@
+{
+  "id": "dlg_council",
+  "speaker": "Rathore",
+  "portrait": "npc_rathore",
+  "nodes": {
+    "start": {
+      "text": "(The map on the round table.) Karthik: trucks north from Yelahanka — out. Priya: the old Purple Line runs under HIVR — end it there. Suresh: the glass house holds — stay.",
+      "next": "ask"
+    },
+    "ask": {
+      "text": "(Rathore folds his hands.) Thirty years of orders. Not this one. (They all look at you.)",
+      "choices": [
+        {
+          "text": "We get out.",
+          "next": "out",
+          "effect": {
+            "flags": {
+              "path_evacuate": true,
+              "ending_chosen": true
+            }
+          }
+        },
+        {
+          "text": "We end it.",
+          "next": "end",
+          "effect": {
+            "flags": {
+              "path_fight": true,
+              "ending_chosen": true
+            }
+          }
+        },
+        {
+          "text": "We hold here.",
+          "next": "stay",
+          "effect": {
+            "flags": {
+              "path_hold": true,
+              "ending_chosen": true
+            }
+          }
+        }
+      ]
+    },
+    "out": {
+      "text": "Karthik lets out a breath he's been holding since the hill. Priya looks at the map and says nothing."
+    },
+    "end": {
+      "text": "Priya puts the taped bat on the table, on HIVR. Karthik looks at the door."
+    },
+    "stay": {
+      "text": "Suresh nods once. Uncle puts the kettle on. Priya goes to the lamp room and doesn't come back for a while."
+    }
+  }
+}

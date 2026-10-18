@@ -472,6 +472,30 @@
     }
    ]
   },
+  "glass_house": {
+   "surface": "tile",
+   "music": false,
+   "day": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.5
+    },
+    {
+     "bed": "birds_crows",
+     "gain": 0.2
+    }
+   ],
+   "night": [
+    {
+     "bed": "silence_room_tone",
+     "gain": 0.5
+    },
+    {
+     "bed": "crickets",
+     "gain": 0.4
+    }
+   ]
+  },
   "tiffin_room": {
    "surface": "tile",
    "music": false,

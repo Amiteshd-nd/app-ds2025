@@ -511,3 +511,12 @@ corepack pnpm dev
   - **Vikram** is a choice, not a fight: raise the gun (a charge) or leave him. The bot releases him.
   - **No Evolved at ground zero yet.** The three there stand still like everywhere else.
 
+## 30. 4.3e "The Glass House": the last base and the table
+- **What:** day 14–15. The Lalbagh glass house is the last base, with everyone you kept alive. Rathore calls the round table, and you choose the ending's direction: out, end it, or hold.
+- **Check:** in the Playground, open Act 4 → 4.3e The Glass House (Play). Walk to the gate at the Palace, sleep on a cot, then walk to the left side of the round table.
+- **Calls to confirm:**
+  - **New art:** the glass house interior, first try. It's imported larger than other rooms (16×11) so ten people fit.
+  - **Its lamp never fails.** It's the last base.
+  - **The table is your choice.** Trust from the Cubbon fire doesn't decide for you. The three paths are path_evacuate (Karthik), path_fight (Priya) and path_hold (Suresh).
+  - **The base chain is complete** (4.3 to 4.3e). Its stub stays as the chain's design record. Next in the story are 4.5 (Ravi's message) and 4.6 (the tunnel), both still drafts.
+

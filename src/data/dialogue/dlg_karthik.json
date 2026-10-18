@@ -37,9 +37,16 @@
     },
     "palace": {
       "text": "Trucks. Every night. One of them is ours, if you'd only say so."
+    },
+    "lalbagh": {
+      "text": "The trucks go from Yelahanka. That's all I'm going to say. Again."
     }
   },
   "enter": [
+    {
+      "flag": "base_lalbagh_set",
+      "node": "lalbagh"
+    },
     {
       "flag": "base_palace_set",
       "node": "palace"

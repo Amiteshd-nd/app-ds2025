@@ -1,0 +1,184 @@
+{
+  "$comment": "Source-pixel spec (1536x1024 → 16x11: a big room — ten people need the floor) — the Lalbagh glass house as the last base (story 4.3e, ADR-156): the glass-and-iron top band, the glass bottom band with the barricaded doors, the orchid tables under the grow-lamps, the greenery and fountain on the left, the fenced lamp room top-right, the workbench and locker, the council table with its chairs and stool, the cots, the crates and water cans and the potted plants are blocks. People stand on the open terracotta floor — never between the table and the greenery (the council spot is there), nor in the gap between the cots and the table's stool (the only way there from the doors). Everyone stands along an edge: the open middle (right of the table, and from the doors up to it) stays a passage.",
+  "name": "glass_house",
+  "cols": 16,
+  "rows": 11,
+  "units": "px",
+  "buildings": [
+    [
+      0,
+      0,
+      1536,
+      95
+    ],
+    [
+      0,
+      895,
+      1536,
+      129
+    ]
+  ],
+  "blocks": [
+    [
+      425,
+      85,
+      320,
+      145
+    ],
+    [
+      800,
+      85,
+      345,
+      145
+    ],
+    [
+      0,
+      95,
+      450,
+      545
+    ],
+    [
+      1235,
+      70,
+      301,
+      320
+    ],
+    [
+      1235,
+      385,
+      225,
+      145
+    ],
+    [
+      1460,
+      410,
+      60,
+      180
+    ],
+    [
+      620,
+      320,
+      330,
+      280
+    ],
+    [
+      755,
+      590,
+      45,
+      55
+    ],
+    [
+      75,
+      690,
+      505,
+      180
+    ],
+    [
+      1160,
+      625,
+      376,
+      270
+    ],
+    [
+      1080,
+      770,
+      75,
+      120
+    ],
+    [
+      0,
+      640,
+      60,
+      255
+    ]
+  ],
+  "spawns": [
+    {
+      "name": "glass_doors",
+      "x": 770,
+      "y": 820
+    },
+    {
+      "name": "rathore_lh",
+      "x": 1000,
+      "y": 260
+    },
+    {
+      "name": "engineer_lh",
+      "x": 1185,
+      "y": 540
+    },
+    {
+      "name": "priya_lh",
+      "x": 490,
+      "y": 280
+    },
+    {
+      "name": "karthik_lh",
+      "x": 680,
+      "y": 860
+    },
+    {
+      "name": "uncle_lh",
+      "x": 1120,
+      "y": 700
+    },
+    {
+      "name": "suresh_lh",
+      "x": 985,
+      "y": 560
+    },
+    {
+      "name": "deepa_lh",
+      "x": 1190,
+      "y": 420
+    },
+    {
+      "name": "kumar_lh",
+      "x": 880,
+      "y": 860
+    },
+    {
+      "name": "raju_lh",
+      "x": 960,
+      "y": 860
+    },
+    {
+      "name": "ananya_lh",
+      "x": 1180,
+      "y": 260
+    }
+  ],
+  "zones": [
+    {
+      "name": "council",
+      "x": 520,
+      "y": 420,
+      "w": 70,
+      "h": 80
+    },
+    {
+      "name": "lh_stock",
+      "x": 1180,
+      "y": 598,
+      "w": 70,
+      "h": 22
+    },
+    {
+      "name": "lh_bench",
+      "x": 1300,
+      "y": 540,
+      "w": 90,
+      "h": 22
+    },
+    {
+      "name": "lh_cots",
+      "x": 585,
+      "y": 700,
+      "w": 55,
+      "h": 100
+    }
+  ],
+  "sorted": [],
+  "above": []
+}
