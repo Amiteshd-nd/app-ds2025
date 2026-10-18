@@ -506,3 +506,7 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Decision: "approve #1–15 as built" — Movie Mode steps 3–4 (ADR-128…130) and the Acts 0–3 audits, every call kept as built. With #16–34 earlier today, **everything in NEED_TO_AUDIT is approved**; nothing waits for an audit.
 - Not pushed: pushing still waits for "approved, push"; ADR-161 and these records live on branch `polish-adr161` until it merges into `main` (after the other chat's ADR-160 commit).
 
+### [13a and #35–36 — approved as built; everything pushed] — 2026-10-18
+- Decision: "approve 13a and #35–36 as built", then "approved, push". 13a: the HUD settings gear + Playground mute/volume (ADR-141a). #35–36: the bus chat's bus boarding (ADR-160 the 500-D, ADR-162 every bus). Every NEED_TO_AUDIT item is now approved.
+- Before the push: the merged main (ADR-159, ADR-160/162, ADR-161 + the approvals) — validate, typecheck, build, 715 tests, `pnpm movie --twice` 32/32 with an identical 799-step trace.
+

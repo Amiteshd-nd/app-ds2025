@@ -3,14 +3,14 @@ Updated: 2026-10-18 (after the Act 4 polish ADR-161, the audits #1–34, and mer
 
 ## 0. Where we are — in one breath
 Bangalore Times (working title in the docs: NAMMA OUTBREAK). **The whole game is built and playable end to end:** Acts 0–3 (22 scenes) + all of Act 4 (4.0 Janata → 4.6 The Tunnel, 10 more scenes) — from the airport (0.1) to three endings and the "My Bangalore" end card. `corepack pnpm movie --twice` plays **all 32 scenes headless: 32/32 green, identical 777-step trace** (~45 min wall time for both runs). 706 tests, validate, typecheck and build all green. **The user's infected spec is complete** (ADR-159: twitch frames, seeded asymmetry, photophobia path costs, the Host — 48×64, Playground bench only).
-- **Git:** `main` holds everything, **NOT pushed** (`git log --oneline origin/main..HEAD`). **Push only when the user says "approved, push".** Two chats worked in this folder on 2026-10-18 (this one: ADR-159/161; "Bus boarding issue": ADR-160/162); their work met in a merge commit.
-- **Audit status:** P0–P11 and Movie Mode step 2 long ago; **#1–34 approved as built on 2026-10-18.** Still waiting: **13a** (the HUD settings gear + Playground mute, ADR-141a — not covered by "#1–15") and the bus chat's **#35–36** (ADR-160 / ADR-162, committed ahead of audit at the user's request). Nothing is pushed until "approved, push".
+- **Git:** `main` pushed to origin on 2026-10-18 ("approved, push") — everything through the merge of the two chats' work and the audit records. From here, local commits again wait for "approved, push".
+- **Audit status:** everything approved — P0–P11 long ago; #1–34, 13a and #35–36 approved as built on 2026-10-18. Nothing waits for an audit.
 
 ## 1. The very next step
 **Everything is on `main`** (merged 2026-10-18): ADR-159, the bus chat's ADR-160/162 (commit 0dd6693, committed ahead of its audit at the user's request), and the polish branch (ADR-161 + the approvals of #1–34). Nothing is pushed.
 
 The question to ask:
-> #1–34 are approved as built (2026-10-18) and the polish branch is merged into `main`. Left for the user: audit 13a and #35–36 (bus boarding), then "approved, push".
+> Everything is built, approved and pushed. What next? Only the user's items remain: touch-button references, audio recordings (§5.4) / Freesound downloads, where the Host lives in the story, T-039 real places, T-018 mobile toolchains (then the mobile smoke tests), the unfinished-business doc.
 
 Default if "take the defaults" / "proceed": nothing big is left in the plan's polish list; the remaining items need the user (touch-button references, audio recordings, where the Host lives, T-039 real places, T-018 mobile toolchains). Ask rather than invent work.
 

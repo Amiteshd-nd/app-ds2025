@@ -18,11 +18,8 @@ corepack pnpm movie
 
 | # | Item | Built | Where it is | Status |
 |---|---|---|---|---|
-| 13a | HUD settings gear + Playground mute/volume (ADR-141a) | 2026-10-17 | on GitHub | waiting |
-| 35 | The 500-D: pulls over at the bottom kerb, board with E (ADR-160) | 2026-10-18 | local commit, not pushed | waiting |
-| 36 | Every bus: stand at the stop, the bus comes, E to board (ADR-162) | 2026-10-18 | local commit, not pushed | waiting |
 
-Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed; **#1–34 approved as built on 2026-10-18** (#16–34 first, then #1–15: Movie Mode steps 3–4 and the Acts 0–3 audits) — every call kept as built. Still waiting: 13a (not covered by "#1–15") and the bus chat's #35–36.
+Already approved (not listed above): P0–P11, Movie Mode plan and step 2, the 3.2 hill-flat re-scale, the ceiling fans removed; **#1–34 approved as built on 2026-10-18** (#16–34 first, then #1–15: Movie Mode steps 3–4 and the Acts 0–3 audits) — every call kept as built; then 13a and #35–36 (bus boarding, ADR-160/162) the same day. **Nothing is waiting.**
 
 ---
 
@@ -171,7 +168,7 @@ corepack pnpm dev
   - The "uncanny" chai whistle is the real one, slightly flat, with a long gap.
   - Cubbon's path areas are rectangles over curved paths, so a few steps at the curves sound wrong.
 
-## 13a. HUD settings gear + Playground mute/volume
+## 13a. HUD settings gear + Playground mute/volume — approved as built 2026-10-18
 - **What:** a gear on the HUD, top-right just left of the phone button, that pauses the game into the menu (Settings is one tap further). In the Playground toolbar: 🔊/🔇 mute, and − / + master volume in steps of 10.
 - **Check:** in the Playground, play any scene and tap the gear (try **Accessibility → Larger text** too, and 3.3 "The Corridor", where the clock is hidden but the gear stays). Use 🔊 − + in the toolbar and open **Settings → Audio** in the pause menu: it shows the same values.
 - **Calls to confirm:**
@@ -565,7 +562,7 @@ corepack pnpm dev
   - **Glows draw above everything in the world**, the way a light would. A sprite walking in front of one doesn't hide it.
   - **This is on its own branch** (`polish-adr161`), because another chat was editing the same files (the HUD, the Cubbon map, the districts). It merges once that chat's work is committed.
 
-## 35. The 500-D: pulls over at the bottom kerb, board with E
+## 35. The 500-D: pulls over at the bottom kerb, board with E — approved as built 2026-10-18
 - **What:** the bus to Cubbon Park now drives in the bottom lane, pulls over to the bottom footpath at the stop by the bench, and you board by pressing E when "[E] BOARD" shows over its door (BOARD on the touch button).
 - **Check:** play to the Whitefield street after your first night in the hill flat (story 1.5). Wait on the bottom footpath, left of the trees, until the HUD says "500-D at the stop"; press E.
 - **Calls to confirm:**
@@ -576,7 +573,7 @@ corepack pnpm dev
   - **The bus is still small** next to people (95×44 px art from the street props sheet). Redrawing it bigger is an art pass, not done here.
   - **The other buses** now work this way too — see #36.
 
-## 36. Every bus: stand at the stop, the bus comes, E to board
+## 36. Every bus: stand at the stop, the bus comes, E to board — approved as built 2026-10-18
 - **What:** all seven bus stops now work like the 500-D. A bus pulls in when you stand on the stop's footpath, "[E] BOARD" shows over its door, and it leaves a few seconds after you walk away. Only the 500-D to Cubbon keeps its timetable.
 - **Check:** in the Playground, ▶ a scene that takes a bus (act0_arrivals, act1_cubbon, act2_guitar, act2_ikea, act2_the_app, act2_breadcrumbs) and watch the bot stop, wait for the bus and press E. Or walk to a stop yourself.
 - **Calls to confirm:**
