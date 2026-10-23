@@ -60,6 +60,7 @@ Draft (`src/data/scenes/<id>.json`, `status: "STUB"`, a `draft` note with source
 - Snapshots: `g.renderer.snapshot(cb)` → crop on a canvas → `'#'.repeat(150000) + dataURL` → decode the tool-results file with a small Python script. Judge tints by pixel values.
 
 ## 7. Open items the user owns
+**Decided 2026-10-23 (ADR-163…167):** free + cosmetics + labelled sponsor spots (free-text hall chat paid later); the town hall (random ~50-player halls, preset phrases, act cards; no live co-op); 16+; no tracking at launch; playtest 5–8 small-town movers before release; honest slow-burn trailer; pillars frozen at release; pitch site after playtests. Next tasks: T-083 playtest kit, T-084 monetization plan, T-085 town hall plan, T-086 trailer.
 The audits: `NEED_TO_AUDIT.md` #1–32 (each with calls to confirm). The infected spec's remaining steps (and the Host's size). Touch-button references. Audio homework: recordings, Freesound downloads. T-039 real places for the airport kerb and hotel street. T-018 mobile toolchains (mobile smoke tests blocked). The unfinished-business doc (names, co-op, monetization). The Purple Line reads blue-violet in world art.
 
 ## 8. Debt not to forget

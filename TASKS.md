@@ -89,6 +89,10 @@ Task ids `T-###`, never reused. One line each; detail lives in `docs/design/`.
 ## Gates
 Audit after EVERY phase (`AUDIT_LOG.md`). Ask for references before visual work (ADR-30). Don't build ahead of an audit. Mobile smoke test at every gate. Tests green before and after every change.
 
+- [ ] T-083 Release prep (ADR-166): the playtest kit — a web build of Acts 0–1, a play script, a short feedback form; the user recruits 5–8 small-town movers. Then the design pillars on one page for sign-off before the first public release
+- [ ] T-084 Monetization (ADR-163): cosmetics (what's sold, a pipeline, a store behind `src/platform/`) and sponsor spots (City Pulse wall/shopfront slots, labelled, fading in Act 4) — plan first, for the user's OK
+- [ ] T-085 The town hall (ADR-164): a plan first — realtime rooms of ~50 with random bucketing, anonymous sessions, the hall interior, preset phrases + stickers, act-card exchange; free-text chat (paid) later with filter, report, block, mute
+- [ ] T-086 Honest trailer + store page (ADR-166, ADR-53): in-engine capture of shipped features, city first; after the playtest. The pitch website after that
 - [ ] T-036 Act 4 map overlay (red dither where stability < 40, green spread fog, ☠ rows) — needs district `stability` + `grade()` (ADR-105)
 - [ ] T-037 City Pulse `?` rumour icons on the map once rumours exist (shown only after the player has heard them)
 - [x] T-071 P22 = 4.0 "Janata" + 4.1 "Five O'Clock" — **built 2026-10-17 (ADR-148): the hospital gate, the shut city, the phone's dead network, the walk card, the Indiranagar lane at five o'clock (neighbours, plates, the lane turning, the khaki shirt), the run to the main road, holding at the hill — approved as built 2026-10-18.** Next: S3 the base (plan §6), then 4.2 The Hill

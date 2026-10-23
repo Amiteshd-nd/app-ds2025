@@ -510,3 +510,9 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Decision: "approve 13a and #35–36 as built", then "approved, push". 13a: the HUD settings gear + Playground mute/volume (ADR-141a). #35–36: the bus chat's bus boarding (ADR-160 the 500-D, ADR-162 every bus). Every NEED_TO_AUDIT item is now approved.
 - Before the push: the merged main (ADR-159, ADR-160/162, ADR-161 + the approvals) — validate, typecheck, build, 715 tests, `pnpm movie --twice` 32/32 with an identical 799-step trace.
 
+### [The open decisions — closed] — 2026-10-23
+- Decision: the user went through `bangalore_rpg_unfinished_business.md`'s open decisions. Recorded as ADR-163 (money: free + cosmetics + labelled sponsor spots; free-text chat paid later), ADR-164 (the town hall: random ~50-player halls, preset phrases + stickers, act cards; no live co-op), ADR-165 (16+, no tracking at launch), ADR-166 (playtest, honest trailer, pillars frozen at release, pitch site later), ADR-167 (the items the build settled, confirmed).
+- Drift guard: ADR-56 is superseded twice (heatmap placement → fixed spots; consented tracking → none); ADR-41 is extended by the town hall; ADR-53 accepted; ADR-08 confirmed. The design doc itself is left as written (settled docs are reference); DECISIONS holds the answers.
+- New tasks: T-083 (playtest kit + pillars), T-084 (monetization plan), T-085 (town hall plan), T-086 (trailer + store page, then the pitch site).
+- Rule going forward: **nothing sold may touch balance or Act 4 items; nothing about play leaves the device unless a new ADR says so.**
+
