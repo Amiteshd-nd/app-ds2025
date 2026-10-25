@@ -516,3 +516,7 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - New tasks: T-083 (playtest kit + pillars), T-084 (monetization plan), T-085 (town hall plan), T-086 (trailer + store page, then the pitch site).
 - Rule going forward: **nothing sold may touch balance or Act 4 items; nothing about play leaves the device unless a new ADR says so.**
 
+### [A retention idea considered and set aside — ADR-170] — 2026-10-25
+- Decision: the user proposed a sunk-cost "guilt-to-quit" design (early easy badges and cards to hook, then harder levels so leaving feels like a loss) and, after discussing the conflict with ADR-42/43, chose not to build it now for ethical reasons; it is recorded so the journey is on file and may be revisited only through a new ADR.
+- Rule going forward: **an idea we decide against is logged as "considered, set aside", with why — never silently dropped.**
+
