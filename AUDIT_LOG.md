@@ -520,3 +520,8 @@ Every map re-authored into `buildings` / `sorted` (cut-outs with footprints) / `
 - Decision: the user proposed a sunk-cost "guilt-to-quit" design (early easy badges and cards to hook, then harder levels so leaving feels like a loss) and, after discussing the conflict with ADR-42/43, chose not to build it now for ethical reasons; it is recorded so the journey is on file and may be revisited only through a new ADR.
 - Rule going forward: **an idea we decide against is logged as "considered, set aside", with why — never silently dropped.**
 
+### [The presentation and the more-cities direction — ADR-172] — 2026-10-25
+- Built at the user's request: an 18-slide HTML presentation of the game (what it is, how it plays, city and houses, sprites, NPCs, the infected, bases and endings, game theory, why players come back — with ADR-170's set-aside idea and its disclaimer — players, the Town Hall, money, how it's built, the road ahead, decisions, more cities). Published as a private artifact (https://claude.ai/artifact/RBiyE3XV7yLL4GM2iRfhbh) and given to the user as a standalone HTML file for another repo; not stored in this repo.
+- Decision: the more-cities direction (Hyderabad, Mumbai, Kolkata, Chennai Times) recorded as ADR-172 — a direction after release, not a schedule.
+- Found on the way: the raw title logo carries its magenta key background — use the processed `src/assets/title/title_logo.png` anywhere outside the importer.
+
